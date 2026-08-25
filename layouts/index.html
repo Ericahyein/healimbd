@@ -1,116 +1,82 @@
 {{ define "main" }}
 
-<!-- 1. Hero Section -->
-<section class="hero-section" id="hero">
-  <div class="hero-bg-glow glow-1"></div>
-  <div class="hero-bg-glow glow-2"></div>
-  
-  <div class="container hero-container">
-    <div class="hero-content">
-      <div class="hero-pill-badge">
+<!-- 1. Hero Section with Tone-down Background Photo -->
+<section class="hero-photo-section" id="hero">
+  <div class="hero-photo-bg" style="background-image: url('{{ "images/hero-doctor.jpg" | relURL }}');"></div>
+  <div class="hero-photo-overlay"></div>
+
+  <div class="container hero-photo-container">
+    <div class="hero-photo-content text-center">
+      <div class="hero-tag-pill">
         <span class="pill-dot"></span>
-        <span>분당 정자역 한방신경정신과 & 두뇌클리닉</span>
+        <span>분당 정자역 한방신경정신과 · 소아청소년 두뇌클리닉</span>
       </div>
 
-      <h1 class="hero-title">
-        마음과 몸이 보내는 신호를 살펴<br>
-        <span class="text-gradient">증상의 원인부터 회복</span>까지 함께합니다.
+      <h1 class="hero-bold-title">
+        몸과 뇌, 마음을 함께 살피는<br>
+        <span class="hero-highlight">신경정신과 한방 진료</span>
       </h1>
 
-      <p class="hero-subtitle">
-        자율신경실조증·공황·불안·불면부터 소아청소년 틱장애·ADHD까지.<br>
-        몸과 뇌, 마음을 함께 살피고 개인별 원인을 찾아 <strong>스스로 조절하고 회복하는 힘</strong>을 키워갑니다.
+      <p class="hero-light-desc">
+        공황·불안·불면·자율신경실조증부터 틱장애·ADHD까지,<br>
+        증상 너머의 원인을 살피고 개인에 맞는 회복 과정을 설계합니다.
       </p>
 
-      <div class="hero-actions">
-        <a href="https://naver.me/xbARooIc" target="_blank" rel="noopener noreferrer" class="btn btn-hero-naver">
-          <span class="n-box">N</span>
-          <span>네이버 진료 예약하기</span>
+      <div class="hero-cta-buttons">
+        <button class="btn btn-hero-inquiry" id="btn-hero-inquiry" onclick="document.getElementById('inquiry-modal').classList.add('active'); document.body.style.overflow='hidden';">
+          <i class="ph-bold ph-chat-teardrop-dots"></i>
+          <span>진료 예약 및 상담 문의</span>
           <i class="ph-bold ph-arrow-right"></i>
+        </button>
+        <a href="https://naver.me/xbARooIc" target="_blank" rel="noopener noreferrer" class="btn btn-hero-naver-dark">
+          <span class="n-box">N</span>
+          <span>네이버 예약</span>
         </a>
-        <a href="http://pf.kakao.com/_NEUHT" target="_blank" rel="noopener noreferrer" class="btn btn-hero-kakao">
+        <a href="http://pf.kakao.com/_NEUHT" target="_blank" rel="noopener noreferrer" class="btn btn-hero-kakao-dark">
           <i class="ph-fill ph-chat-circle-dots"></i>
-          <span>카카오톡 1:1 상담하기</span>
+          <span>카카오톡 1:1 상담</span>
         </a>
-      </div>
-
-      <p class="hero-tip">
-        <i class="ph-bold ph-info"></i> 처음 방문하시나요? 증상에 맞는 맞춤 진료과정을 친절히 안내해드립니다.
-      </p>
-
-      <!-- Quick Info Badges -->
-      <div class="hero-badges-grid">
-        <div class="hero-badge-card">
-          <div class="badge-icon-wrap moon">
-            <i class="ph-fill ph-moon-stars"></i>
-          </div>
-          <div class="badge-text-wrap">
-            <span class="badge-title">월·수 저녁 8시 야간진료</span>
-            <span class="badge-desc">퇴근 후에도 여유로운 진료</span>
-          </div>
-        </div>
-
-        <div class="hero-badge-card">
-          <div class="badge-icon-wrap sun">
-            <i class="ph-fill ph-sun"></i>
-          </div>
-          <div class="badge-text-wrap">
-            <span class="badge-title">공휴일 단축진료</span>
-            <span class="badge-desc">09:00 ~ 15:00 (점심시간 없음)</span>
-          </div>
-        </div>
-
-        <div class="hero-badge-card">
-          <div class="badge-icon-wrap train">
-            <i class="ph-bold ph-train"></i>
-          </div>
-          <div class="badge-text-wrap">
-            <span class="badge-title">정자역 3번 출구 도보 2분</span>
-            <span class="badge-desc">젤존타워 3차 (주차 완비)</span>
-          </div>
-        </div>
       </div>
     </div>
+  </div>
+</section>
 
-    <div class="hero-visual">
-      <div class="hero-card-glass">
-        <div class="glass-card-header">
-          <div class="card-status-indicator">
-            <span class="pulse-dot"></span>
-            <span>진료 안내 시스템</span>
+<!-- 1-2. Navy Info Bar (한의원 정보 네이비색 바) -->
+<section class="navy-info-bar">
+  <div class="container">
+    <div class="navy-info-grid">
+      <!-- Info 1: Hours -->
+      <div class="navy-info-item">
+        <div class="navy-info-icon"><i class="ph-fill ph-clock"></i></div>
+        <div class="navy-info-text">
+          <div class="navy-item-title">
+            <strong>월 · 수 저녁 8시 야간진료</strong>
+            <span class="navy-badge-holiday">토·공휴일 단축진료 (점심 없음)</span>
           </div>
-          <span class="tag-healim">해아림한의원 분당점</span>
+          <p>월·수 10:00~20:00 / 화·금 10:00~19:00 / 토·공휴 09:00~15:00</p>
         </div>
+      </div>
 
-        <div class="glass-card-body">
-          <div class="clinic-summary-box adult">
-            <div class="summary-icon"><i class="ph-bold ph-heartbeat"></i></div>
-            <div class="summary-info">
-              <h4>성인 마음·신경 클리닉</h4>
-              <p>공황장애 · 자율신경실조증 · 불면증 · 불안장애 · 우울증</p>
-            </div>
-            <a href="#adult-clinic" class="btn-summary-link"><i class="ph-bold ph-arrow-up-right"></i></a>
+      <!-- Info 2: Location -->
+      <div class="navy-info-item">
+        <div class="navy-info-icon"><i class="ph-fill ph-map-pin"></i></div>
+        <div class="navy-info-text">
+          <div class="navy-item-title">
+            <strong>정자역 3번 출구 도보 2분</strong>
+            <span class="navy-badge-parking">건물 내 주차 완비</span>
           </div>
+          <p>성남시 분당구 성남대로 331번길 3-3, 젤존타워 3차 405호</p>
+        </div>
+      </div>
 
-          <div class="clinic-summary-box child">
-            <div class="summary-icon"><i class="ph-bold ph-brain"></i></div>
-            <div class="summary-info">
-              <h4>소아청소년 두뇌·정서 클리닉</h4>
-              <p>틱장애 · ADHD · 소아불안 · 분리불안 · 학습집중력</p>
-            </div>
-            <a href="#child-clinic" class="btn-summary-link"><i class="ph-bold ph-arrow-up-right"></i></a>
+      <!-- Info 3: Call / Reservation -->
+      <div class="navy-info-item navy-info-call">
+        <div class="navy-info-icon phone"><i class="ph-fill ph-phone-call"></i></div>
+        <div class="navy-info-text">
+          <div class="navy-item-title">
+            <span>진료 예약 및 전화 상담</span>
           </div>
-
-          <div class="doctor-highlight-card">
-            <div class="doc-avatar">
-              <i class="ph-fill ph-user"></i>
-            </div>
-            <div class="doc-content">
-              <span class="doc-role">대표원장</span>
-              <strong class="doc-name">손지웅 원장</strong>
-              <p class="doc-quote">"스스로 회복하는 두뇌와 자율신경의 힘을 키웁니다"</p>
-            </div>
-          </div>
+          <a href="tel:031-716-8575" class="navy-phone-number">031-716-8575</a>
         </div>
       </div>
     </div>
