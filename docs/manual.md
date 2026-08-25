@@ -170,3 +170,29 @@ hugo --minify -d public
 
 ### 7.3 GitHub Pages 배포 확인
 * 코드가 `main` 브랜치에 푸시되면 GitHub Actions (`.github/workflows/deploy.yml`)가 자동으로 실행되어 수 분 내에 웹사이트가 업데이트됩니다.
+
+---
+
+## 8. 커스텀 도메인 (`healimbd.com`) 연결 가이드
+
+사용자 소유의 독립 도메인(`healimbd.com`)을 본 GitHub Pages 웹사이트에 연결하는 방법입니다.
+
+### 8.1 GitHub 리포지터리 설정
+1. GitHub 저장소(`https://github.com/Ericahyein/healimbd`) ➔ **Settings** ➔ **Pages** 이동
+2. **Custom domain** 입력창에 `healimbd.com` 입력 후 **Save** 클릭
+3. DNS 전파 완료 후 **Enforce HTTPS** (보안 SSL 인증서) 체크
+
+### 8.2 도메인 구매처(가비아, 후이즈, 호스팅케이알 등) DNS 설정
+도메인 관리 사이트의 **DNS 레코드 관리(DNS 설정)** 메뉴에서 아래 레코드를 추가합니다:
+
+1. **A 레코드 4개 추가** (Apex 도메인 `healimbd.com` 연결):
+   * 호스트/이름: `@` (또는 빈칸) / IP 주소:
+     * `185.199.108.153`
+     * `185.199.109.153`
+     * `185.199.110.153`
+     * `185.199.111.153`
+2. **CNAME 레코드 1개 추가** (`www.healimbd.com` 연결):
+   * 호스트/이름: `www`
+   * 값/데이터: `ericahyein.github.io`
+
+* DNS 설정 후 전파까지는 통상 10분~최대 1시간 소요되며, 이후 `https://healimbd.com`으로 바로 접속 가능합니다.

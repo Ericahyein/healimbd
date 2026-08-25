@@ -1,6 +1,6 @@
 # Hugo Configuration for Healim Bundang Clinic
 title: '해아림한의원 분당점'
-baseURL: 'https://healim-bundang.com/'
+baseURL: 'https://healimbd.com/'
 
 defaultContentLanguage: ko
 hasCJKLanguage: true
