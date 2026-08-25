@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>치료후기 게시판 | 해아림한의원 분당점</title>
-  <meta name="description" content="해아림한의원 분당점에서 치료받으신 환자분들의 자필 치료후기와 생생한 회복 이야기입니다.">
+  <title>치료사례 | 해아림한의원 분당점</title>
+  <meta name="description" content="해아림한의원 분당점의 실제 환자분들이 직접 전해주신 소중한 치료사례와 회복 이야기입니다.">
   <link rel="canonical" href="{{ .Permalink }}">
 
   <!-- Fonts (Pretendard & Outfit) -->
@@ -22,74 +22,74 @@
   {{ partial "header.html" . }}
 
   <main id="main-content">
-    <!-- Review Board Hero Banner -->
-    <section class="review-board-header">
+    <!-- Cases Board Header Banner -->
+    <section class="cases-page-header">
       <div class="container text-center">
-        <span class="section-tag">PATIENT REVIEWS</span>
-        <h1 class="review-board-title">치료후기 & 회복 스토리 게시판</h1>
-        <p class="review-board-desc">
-          환자분들과 가족분들이 직접 전해주신 소중한 자필 후기와 진솔한 치유 이야기입니다.<br>
-          스스로 회복하는 두뇌와 자율신경의 힘, 해아림이 함께 만들어갑니다.
+        <span class="cases-top-pill">CLINICAL CASES</span>
+        <h1 class="cases-main-title">치료사례 & 회복 스토리</h1>
+        <p class="cases-main-desc">
+          해아림한의원 분당점에서 치료받으신 환자분들의 솔직한 회복 이야기입니다.<br>
+          개인의 체질과 증상에 맞춘 근본 치료로 건강한 일상을 되찾아드립니다.
         </p>
       </div>
     </section>
 
-    <!-- Review Board List Section -->
-    <section class="section review-board-section">
+    <!-- Cases Board Main Section -->
+    <section class="section cases-board-section">
       <div class="container">
-        <!-- Review Filter Tabs -->
-        <div class="review-tab-nav">
-          <button class="review-tab-btn active" data-filter="all">전체 후기</button>
-          <button class="review-tab-btn" data-filter="adult">성인 공황·불안</button>
-          <button class="review-tab-btn" data-filter="sleep">수면·자율신경</button>
-          <button class="review-tab-btn" data-filter="child">소아 틱장애</button>
-          <button class="review-tab-btn" data-filter="adhd">소아청소년 ADHD</button>
+        <!-- Search and Category Filter Toolbar -->
+        <div class="cases-toolbar">
+          <!-- Category Tabs (healimsw.com style) -->
+          <div class="cases-category-tabs">
+            <button class="cases-tab-btn active" data-filter="all">전체보기</button>
+            <button class="cases-tab-btn" data-filter="panic">불안장애·공황장애</button>
+            <button class="cases-tab-btn" data-filter="autonomic">자율신경실조증</button>
+            <button class="cases-tab-btn" data-filter="tic-adhd">틱장애·ADHD</button>
+            <button class="cases-tab-btn" data-filter="sleep">만성 불면증</button>
+          </div>
+
+          <!-- Keyword Search Bar -->
+          <div class="cases-search-box">
+            <i class="ph-bold ph-magnifying-glass search-icon"></i>
+            <input type="text" id="cases-search-input" placeholder="증상, 질환명(예: 공황, 틱, 불면) 검색" aria-label="치료사례 검색">
+          </div>
         </div>
 
-        <!-- Review Posts Grid -->
-        <div class="review-board-grid">
+        <!-- Cases Grid (3-columns on desktop matching healimsw) -->
+        <div class="cases-grid-container" id="cases-grid">
           {{ range .Pages }}
-          <article class="review-board-card" data-category="{{ .Params.category }}">
-            <div class="review-card-thumb-wrap">
-              {{ if .Params.image }}
-              <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}" class="review-thumb-img" loading="lazy">
-              {{ else }}
-              <div class="review-thumb-placeholder">
-                <i class="ph-bold ph-newspaper"></i>
-                <span>자필 치료후기</span>
-              </div>
-              {{ end }}
-              <span class="review-thumb-badge {{ .Params.category }}">{{ .Params.category_name }}</span>
-            </div>
-
-            <div class="review-card-content">
-              <div class="review-meta-row">
-                <div class="review-stars-sm">
-                  <i class="ph-fill ph-star"></i>
-                  <i class="ph-fill ph-star"></i>
-                  <i class="ph-fill ph-star"></i>
-                  <i class="ph-fill ph-star"></i>
-                  <i class="ph-fill ph-star"></i>
+          <article class="healim-case-card" data-category="{{ .Params.category }}">
+            <a href="{{ .RelPermalink }}" class="case-card-anchor">
+              <div class="case-thumb-wrap">
+                {{ if .Params.image }}
+                <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}" class="case-thumb-img" loading="lazy">
+                {{ else }}
+                <div class="case-thumb-fallback">
+                  <i class="ph-bold ph-newspaper"></i>
+                  <span>해아림 치료사례</span>
                 </div>
-                <span class="review-date">{{ .Date.Format "2006.01.02" }}</span>
+                {{ end }}
+                <span class="case-tag-pill {{ .Params.category }}">{{ .Params.category_name }}</span>
               </div>
 
-              <h2 class="review-card-title">
-                <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-              </h2>
-
-              <p class="review-card-excerpt">{{ .Params.summary }}</p>
-
-              <div class="review-card-footer">
-                <div class="reviewer-badge-wrap">
-                  <span class="reviewer-badge-author">{{ .Params.author }}</span>
-                  <span class="reviewer-badge-info">{{ .Params.patient_info }}</span>
+              <div class="case-body-wrap">
+                <div class="case-meta-top">
+                  <span class="case-author-text">{{ .Params.author }}</span>
+                  <span class="case-date-text">{{ .Date.Format "2006.01.02" }}</span>
                 </div>
-                <a href="{{ .RelPermalink }}" class="btn-review-readmore">
-                  자세히 보기 <i class="ph-bold ph-arrow-right"></i>
-                </a>
+
+                <h2 class="case-title-text">
+                  {{ .Title }}
+                </h2>
+
+                <p class="case-summary-text">{{ .Params.summary }}</p>
+
+                <div class="case-footer-row">
+                  <span class="case-diag-badge"><i class="ph-bold ph-check"></i> {{ .Params.diagnosis }}</span>
+                  <span class="case-more-arrow">자세히 보기 <i class="ph-bold ph-arrow-right"></i></span>
+                </div>
               </div>
-            </div>
+            </a>
           </article>
           {{ end }}
         </div>

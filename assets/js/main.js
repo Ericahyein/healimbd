@@ -237,28 +237,57 @@ function initSmoothScroll() {
   });
 }
 
-// 7. Review Category Filter Tabs
+// 7. Case Category Filter Tabs & Live Search
 function initReviewTabs() {
-  const tabBtns = document.querySelectorAll('.review-tab-btn');
-  const reviewCards = document.querySelectorAll('.review-board-card');
+  const tabBtns = document.querySelectorAll('.cases-tab-btn, .review-tab-btn');
+  const caseCards = document.querySelectorAll('.healim-case-card, .review-board-card');
+  const searchInput = document.getElementById('cases-search-input');
 
-  if (tabBtns.length === 0 || reviewCards.length === 0) return;
+  if (tabBtns.length === 0 && caseCards.length === 0) return;
+
+  function filterCases() {
+    const activeTab = document.querySelector('.cases-tab-btn.active, .review-tab-btn.active');
+    const filter = activeTab ? activeTab.getAttribute('data-filter') : 'all';
+    const query = searchInput ? searchInput.value.trim().toLowerCase() : '';
+
+    caseCards.forEach(card => {
+      const category = card.getAttribute('data-category') || '';
+      const text = card.textContent.toLowerCase();
+
+      let matchCategory = false;
+      if (filter === 'all') {
+        matchCategory = true;
+      } else if (filter === 'tic-adhd') {
+        matchCategory = (category === 'tic' || category === 'adhd');
+      } else {
+        matchCategory = (category === filter);
+      }
+
+      let matchQuery = true;
+      if (query) {
+        matchQuery = text.includes(query);
+      }
+
+      if (matchCategory && matchQuery) {
+        card.style.display = 'flex';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
 
   tabBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       tabBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-
-      const filter = btn.getAttribute('data-filter');
-
-      reviewCards.forEach(card => {
-        const category = card.getAttribute('data-category');
-        if (filter === 'all' || category === filter) {
-          card.style.display = 'flex';
-        } else {
-          card.style.display = 'none';
-        }
-      });
+      filterCases();
     });
   });
+
+  if (searchInput) {
+    searchInput.addEventListener('input', () => {
+      filterCases();
+    });
+  }
 }
+

@@ -122,177 +122,129 @@
   </div>
 </section>
 
-<!-- 2. Reviews Section (치료후기 사진 게시판) -->
-<section class="section reviews-section" id="reviews">
+<!-- 2. Treatment Cases Section (치료사례 & 회복 스토리) -->
+<section class="section cases-home-section" id="reviews">
   <div class="container">
     <div class="section-header text-center">
-      <span class="section-tag">PATIENT REVIEWS</span>
-      <h2 class="section-title">마음과 몸을 되찾은 <strong>치료후기 & 회복 스토리</strong></h2>
-      <p class="section-desc">환자분들과 가족분들이 직접 전해주신 소중한 자필 후기와 진솔한 치유 이야기입니다.</p>
+      <span class="section-tag">CLINICAL CASES</span>
+      <h2 class="section-title">마음과 몸을 되찾은 <strong>치료사례 & 회복 스토리</strong></h2>
+      <p class="section-desc">해아림한의원 분당점에서 치료받으신 환자분들의 솔직한 회복 이야기입니다.</p>
     </div>
 
-    <!-- Review Board Gallery Grid -->
-    <div class="reviews-board-grid">
-      <!-- Review Card 1 -->
-      <article class="review-board-card" data-category="adult">
-        <a href="{{ "/reviews/panic-disorder-recovery/" | relURL }}" class="review-card-thumb-link">
-          <div class="review-card-thumb-wrap">
-            <img src="{{ "images/reviews/review-1.jpg" | relURL }}" alt="성인 공황불안 극복 자필후기" class="review-thumb-img" loading="lazy">
-            <span class="review-thumb-badge adult">성인 공황·불안</span>
+    <!-- Cases Card Grid (Healim Style 2x2 Grid) -->
+    <div class="cases-home-grid">
+      <!-- Case Card 1 -->
+      <article class="healim-case-card" data-category="tic">
+        <a href="{{ "/reviews/case-01-tic/" | relURL }}" class="case-card-anchor">
+          <div class="case-thumb-wrap">
+            <img src="{{ "images/reviews/case-01.svg" | relURL }}" alt="소아 틱장애 완화 치료사례" class="case-thumb-img" loading="lazy">
+            <span class="case-tag-pill tic">소아 틱장애</span>
+          </div>
+          <div class="case-body-wrap">
+            <div class="case-meta-top">
+              <span class="case-author-text">초등 3학년 학부모 이O진 님</span>
+              <span class="case-date-text">2026.08.25</span>
+            </div>
+            <h3 class="case-title-text">
+              "집중력이 좋아지고 틱 증상이 완화되면서 부모 역시 심리적으로 안정을 찾을 수 있었음"
+            </h3>
+            <p class="case-summary-text">
+              아이의 증상에 대해 세심하게 살펴주시고 치료과정 동안 지속적으로 관리해 주시는 점이 큰 힘이 되었습니다. 틱 증상이 완화되면서 집중력도 전보다 훨씬 좋아졌습니다.
+            </p>
+            <div class="case-footer-row">
+              <span class="case-diag-badge"><i class="ph-bold ph-check"></i> 복합 틱장애 (3개월 치료)</span>
+              <span class="case-more-arrow">자세히 보기 <i class="ph-bold ph-arrow-right"></i></span>
+            </div>
           </div>
         </a>
-        <div class="review-card-content">
-          <div class="review-meta-row">
-            <div class="review-stars-sm">
-              <i class="ph-fill ph-star"></i>
-              <i class="ph-fill ph-star"></i>
-              <i class="ph-fill ph-star"></i>
-              <i class="ph-fill ph-star"></i>
-              <i class="ph-fill ph-star"></i>
-            </div>
-            <span class="review-date">2026.08.20</span>
-          </div>
-          <h3 class="review-card-title">
-            <a href="{{ "/reviews/panic-disorder-recovery/" | relURL }}">"갑작스러운 공황 발작과 가슴 답답함, 3개월 치료로 편안한 출퇴근을 되찾았습니다."</a>
-          </h3>
-          <p class="review-card-excerpt">
-            검사상 이상은 없는데 운전 중이나 지하철에서 갑자기 숨이 막히고 식은땀이 나서 힘들었습니다. 
-            손지웅 원장님의 꼼꼼한 자율신경 검사와 맞춤 한약 치료를 받으면서 가슴 두근거림이 눈에 띄게 줄었습니다.
-          </p>
-          <div class="review-card-footer">
-            <div class="reviewer-badge-wrap">
-              <strong class="reviewer-badge-author">박O수 님</strong>
-              <span class="reviewer-badge-info">30대 직장인 · 공황장애 치료</span>
-            </div>
-            <a href="{{ "/reviews/panic-disorder-recovery/" | relURL }}" class="btn-review-readmore">
-              자세히 보기 <i class="ph-bold ph-arrow-right"></i>
-            </a>
-          </div>
-        </div>
       </article>
 
-      <!-- Review Card 2 -->
-      <article class="review-board-card" data-category="sleep">
-        <a href="{{ "/reviews/insomnia-recovery/" | relURL }}" class="review-card-thumb-link">
-          <div class="review-card-thumb-wrap">
-            <img src="{{ "images/reviews/review-2.jpg" | relURL }}" alt="만성 불면증 회복 자필후기" class="review-thumb-img" loading="lazy">
-            <span class="review-thumb-badge sleep">수면·자율신경</span>
+      <!-- Case Card 2 -->
+      <article class="healim-case-card" data-category="adhd">
+        <a href="{{ "/reviews/case-02-adhd/" | relURL }}" class="case-card-anchor">
+          <div class="case-thumb-wrap">
+            <img src="{{ "images/reviews/case-02.svg" | relURL }}" alt="소아청소년 ADHD 집중력 향상 치료사례" class="case-thumb-img" loading="lazy">
+            <span class="case-tag-pill adhd">소아청소년 ADHD</span>
+          </div>
+          <div class="case-body-wrap">
+            <div class="case-meta-top">
+              <span class="case-author-text">중학생 학부모 최O우 님</span>
+              <span class="case-date-text">2026.08.20</span>
+            </div>
+            <h3 class="case-title-text">
+              "아이의 우울해하고 너무 산만했던 모습이 많이 좋아져서 마음이 흐뭇합니다"
+            </h3>
+            <p class="case-summary-text">
+              수업 시간에 5분도 가만히 앉아있지 못하고 충동성이 높아 지적을 자주 받았습니다. 손원장님의 뉴로피드백 집중력 훈련과 한약 치료 후 태도가 몰라보게 차분해졌습니다.
+            </p>
+            <div class="case-footer-row">
+              <span class="case-diag-badge"><i class="ph-bold ph-check"></i> ADHD 주의집중 훈련 (3개월)</span>
+              <span class="case-more-arrow">자세히 보기 <i class="ph-bold ph-arrow-right"></i></span>
+            </div>
           </div>
         </a>
-        <div class="review-card-content">
-          <div class="review-meta-row">
-            <div class="review-stars-sm">
-              <i class="ph-fill ph-star"></i>
-              <i class="ph-fill ph-star"></i>
-              <i class="ph-fill ph-star"></i>
-              <i class="ph-fill ph-star"></i>
-              <i class="ph-fill ph-star"></i>
-            </div>
-            <span class="review-date">2026.08.15</span>
-          </div>
-          <h3 class="review-card-title">
-            <a href="{{ "/reviews/insomnia-recovery/" | relURL }}">"수면제 없이 자연스럽게 잠들고 아침에 개운하게 일어납니다."</a>
-          </h3>
-          <p class="review-card-excerpt">
-            잠자리에 들면 2~3시간씩 뒤척이고 자다 깨기를 반복해 늘 피로에 시달렸습니다. 
-            해아림에서 뇌신경 이완 치료와 체질에 맞춘 한약을 복용한 뒤, 잡념이 가라앉고 편안하게 숙면을 취하게 되었습니다.
-          </p>
-          <div class="review-card-footer">
-            <div class="reviewer-badge-wrap">
-              <strong class="reviewer-badge-author">김O영 님</strong>
-              <span class="reviewer-badge-info">40대 주부 · 불면증 치료</span>
-            </div>
-            <a href="{{ "/reviews/insomnia-recovery/" | relURL }}" class="btn-review-readmore">
-              자세히 보기 <i class="ph-bold ph-arrow-right"></i>
-            </a>
-          </div>
-        </div>
       </article>
 
-      <!-- Review Card 3 -->
-      <article class="review-board-card" data-category="child">
-        <a href="{{ "/reviews/child-tic-recovery/" | relURL }}" class="review-card-thumb-link">
-          <div class="review-card-thumb-wrap">
-            <img src="{{ "images/reviews/review-3.jpg" | relURL }}" alt="소아 틱장애 호전 자필후기" class="review-thumb-img" loading="lazy">
-            <span class="review-thumb-badge child">소아 틱장애</span>
+      <!-- Case Card 3 -->
+      <article class="healim-case-card" data-category="panic">
+        <a href="{{ "/reviews/case-03-panic/" | relURL }}" class="case-card-anchor">
+          <div class="case-thumb-wrap">
+            <img src="{{ "images/reviews/case-03.svg" | relURL }}" alt="공황불안장애 극복 치료사례" class="case-thumb-img" loading="lazy">
+            <span class="case-tag-pill panic">불안장애·공황장애</span>
+          </div>
+          <div class="case-body-wrap">
+            <div class="case-meta-top">
+              <span class="case-author-text">30대 직장인 박O수 님</span>
+              <span class="case-date-text">2026.08.15</span>
+            </div>
+            <h3 class="case-title-text">
+              "숨가쁘고, 손떨림, 호흡곤란 등의 증상이 개선되었으며 출퇴근이 편안해졌습니다"
+            </h3>
+            <p class="case-summary-text">
+              지하철이나 터널 운전 시 갑자기 숨이 막히고 심장이 터질 것 같아 응급실을 자주 찾았습니다. 손지웅 원장님의 자율신경 조절 한약과 뇌신경 이완 치료로 일상을 완전히 회복했습니다.
+            </p>
+            <div class="case-footer-row">
+              <span class="case-diag-badge"><i class="ph-bold ph-check"></i> 급성 공황장애 (3개월 치료)</span>
+              <span class="case-more-arrow">자세히 보기 <i class="ph-bold ph-arrow-right"></i></span>
+            </div>
           </div>
         </a>
-        <div class="review-card-content">
-          <div class="review-meta-row">
-            <div class="review-stars-sm">
-              <i class="ph-fill ph-star"></i>
-              <i class="ph-fill ph-star"></i>
-              <i class="ph-fill ph-star"></i>
-              <i class="ph-fill ph-star"></i>
-              <i class="ph-fill ph-star"></i>
-            </div>
-            <span class="review-date">2026.08.10</span>
-          </div>
-          <h3 class="review-card-title">
-            <a href="{{ "/reviews/child-tic-recovery/" | relURL }}">"초등 아이 눈 깜빡임과 킁킁거림이 편안해지고 학교생활이 즐거워졌어요."</a>
-          </h3>
-          <p class="review-card-excerpt">
-            새 학기가 되면서 틱 증상이 심해져 걱정이 많았는데, 
-            손원장님께서 아이 눈높이에 맞춰 부드럽게 무통 침과 뉴로피드백 치료를 해주셨습니다. 증상이 깨끗하게 호전되었습니다.
-          </p>
-          <div class="review-card-footer">
-            <div class="reviewer-badge-wrap">
-              <strong class="reviewer-badge-author">이O진 님</strong>
-              <span class="reviewer-badge-info">초등 3학년 학부모 · 틱장애 치료</span>
-            </div>
-            <a href="{{ "/reviews/child-tic-recovery/" | relURL }}" class="btn-review-readmore">
-              자세히 보기 <i class="ph-bold ph-arrow-right"></i>
-            </a>
-          </div>
-        </div>
       </article>
 
-      <!-- Review Card 4 -->
-      <article class="review-board-card" data-category="adhd">
-        <a href="{{ "/reviews/adhd-concentration-recovery/" | relURL }}" class="review-card-thumb-link">
-          <div class="review-card-thumb-wrap">
-            <img src="{{ "images/reviews/review-4.jpg" | relURL }}" alt="소아청소년 ADHD 집중력 호전 자필후기" class="review-thumb-img" loading="lazy">
-            <span class="review-thumb-badge adhd">소아청소년 ADHD</span>
+      <!-- Case Card 4 -->
+      <article class="healim-case-card" data-category="sleep">
+        <a href="{{ "/reviews/case-04-insomnia/" | relURL }}" class="case-card-anchor">
+          <div class="case-thumb-wrap">
+            <img src="{{ "images/reviews/case-04.svg" | relURL }}" alt="만성 불면증 극복 치료사례" class="case-thumb-img" loading="lazy">
+            <span class="case-tag-pill sleep">만성 불면증</span>
+          </div>
+          <div class="case-body-wrap">
+            <div class="case-meta-top">
+              <span class="case-author-text">40대 주부 김O영 님</span>
+              <span class="case-date-text">2026.08.10</span>
+            </div>
+            <h3 class="case-title-text">
+              "다른 사람들처럼 당연하고 평범한 하루를 보낼 수 있어서 감사합니다"
+            </h3>
+            <p class="case-summary-text">
+              매일 밤 2~3시간씩 뒤척이며 수면제에 의존하던 삶에서 벗어났습니다. 뇌파 안정 치료와 체질 한약 치료로 이제는 약 없이도 매일 밤 편안하게 숙면을 취하고 아침이 개운합니다.
+            </p>
+            <div class="case-footer-row">
+              <span class="case-diag-badge"><i class="ph-bold ph-check"></i> 만성 수면장애 (2.5개월 치료)</span>
+              <span class="case-more-arrow">자세히 보기 <i class="ph-bold ph-arrow-right"></i></span>
+            </div>
           </div>
         </a>
-        <div class="review-card-content">
-          <div class="review-meta-row">
-            <div class="review-stars-sm">
-              <i class="ph-fill ph-star"></i>
-              <i class="ph-fill ph-star"></i>
-              <i class="ph-fill ph-star"></i>
-              <i class="ph-fill ph-star"></i>
-              <i class="ph-fill ph-star"></i>
-            </div>
-            <span class="review-date">2026.08.05</span>
-          </div>
-          <h3 class="review-card-title">
-            <a href="{{ "/reviews/adhd-concentration-recovery/" | relURL }}">"산만함과 지적받던 아이, 주의집중력 훈련 후 수업 태도가 몰라보게 좋아졌습니다."</a>
-          </h3>
-          <p class="review-card-excerpt">
-            수업 시간에 5분도 가만히 앉아있지 못하고 충동성이 높아 학교에서 지적을 자주 받았습니다. 
-            손원장님의 정밀 두뇌 평가와 뉴로피드백 집중력 훈련을 통해 자기조절력이 크게 향상되었습니다.
-          </p>
-          <div class="review-card-footer">
-            <div class="reviewer-badge-wrap">
-              <strong class="reviewer-badge-author">최O우 학생 학부모</strong>
-              <span class="reviewer-badge-info">중등 학부모 · 집중력 훈련</span>
-            </div>
-            <a href="{{ "/reviews/adhd-concentration-recovery/" | relURL }}" class="btn-review-readmore">
-              자세히 보기 <i class="ph-bold ph-arrow-right"></i>
-            </a>
-          </div>
-        </div>
       </article>
     </div>
 
-    <!-- Review Board Action Buttons -->
-    <div class="reviews-cta-center">
+    <!-- Action Buttons -->
+    <div class="cases-cta-center">
       <a href="{{ "/reviews/" | relURL }}" class="btn btn-primary-board">
-        <i class="ph-bold ph-newspaper"></i> 치료후기 게시판 전체보기
+        <i class="ph-bold ph-newspaper"></i> 치료사례 게시판 전체보기
       </a>
       <a href="https://blog.naver.com/peaceful_one" target="_blank" rel="noopener noreferrer" class="btn btn-outline-reviews">
-        <i class="ph-bold ph-arrow-up-right"></i> 네이버 공식 블로그 후기 더보기
+        <i class="ph-bold ph-arrow-up-right"></i> 네이버 공식 블로그 사례 더보기
       </a>
     </div>
   </div>
