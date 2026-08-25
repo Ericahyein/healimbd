@@ -1,0 +1,839 @@
+{{ define "main" }}
+
+<!-- 1. Hero Section with Tone-down Background Photo -->
+<section class="hero-photo-section" id="hero">
+  <div class="hero-photo-bg" style="background-image: url('{{ "images/hero-doctor.jpg" | relURL }}');"></div>
+  <div class="hero-photo-overlay"></div>
+
+  <div class="container hero-photo-container">
+    <div class="hero-photo-content text-center">
+      <div class="hero-tag-pill">
+        <span class="pill-dot"></span>
+        <span>분당 정자역 한방신경정신과 · 소아청소년 두뇌클리닉</span>
+      </div>
+
+      <h1 class="hero-bold-title">
+        몸과 뇌, 마음을 함께 살피는<br>
+        <span class="hero-highlight">신경정신과 한방 진료</span>
+      </h1>
+
+      <p class="hero-light-desc">
+        공황·불안·불면·자율신경실조증부터 틱장애·ADHD까지,<br>
+        증상 너머의 원인을 살피고 개인에 맞는 회복 과정을 설계합니다.
+      </p>
+
+      <div class="hero-cta-buttons">
+        <button class="btn btn-hero-inquiry" id="btn-hero-inquiry" onclick="document.getElementById('inquiry-modal').classList.add('active'); document.body.style.overflow='hidden';">
+          <i class="ph-bold ph-chat-teardrop-dots"></i>
+          <span>진료 예약 및 상담 문의</span>
+          <i class="ph-bold ph-arrow-right"></i>
+        </button>
+        <a href="https://naver.me/xbARooIc" target="_blank" rel="noopener noreferrer" class="btn btn-hero-naver-dark">
+          <span class="n-box">N</span>
+          <span>네이버 예약</span>
+        </a>
+        <a href="http://pf.kakao.com/_NEUHT" target="_blank" rel="noopener noreferrer" class="btn btn-hero-kakao-dark">
+          <i class="ph-fill ph-chat-circle-dots"></i>
+          <span>카카오톡 1:1 상담</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 1-2. Navy Info Bar (한의원 정보 네이비색 바) -->
+<section class="navy-info-bar">
+  <div class="container">
+    <div class="navy-info-grid">
+      <!-- Info 1: Hours -->
+      <div class="navy-info-item">
+        <div class="navy-info-icon"><i class="ph-fill ph-clock"></i></div>
+        <div class="navy-info-text">
+          <div class="navy-item-title">
+            <strong>월 · 수 저녁 8시 야간진료</strong>
+            <span class="navy-badge-holiday">토·공휴일 단축진료 (점심 없음)</span>
+          </div>
+          <p>월·수 10:00~20:00 / 화·금 10:00~19:00 / 토·공휴 09:00~15:00</p>
+        </div>
+      </div>
+
+      <!-- Info 2: Location -->
+      <div class="navy-info-item">
+        <div class="navy-info-icon"><i class="ph-fill ph-map-pin"></i></div>
+        <div class="navy-info-text">
+          <div class="navy-item-title">
+            <strong>정자역 3번 출구 도보 2분</strong>
+            <span class="navy-badge-parking">건물 내 주차 완비</span>
+          </div>
+          <p>성남시 분당구 성남대로 331번길 3-3, 젤존타워 3차 405호</p>
+        </div>
+      </div>
+
+      <!-- Info 3: Call / Reservation -->
+      <div class="navy-info-item navy-info-call">
+        <div class="navy-info-icon phone"><i class="ph-fill ph-phone-call"></i></div>
+        <div class="navy-info-text">
+          <div class="navy-item-title">
+            <span>진료 예약 및 전화 상담</span>
+          </div>
+          <a href="tel:031-716-8575" class="navy-phone-number">031-716-8575</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. Reviews Section (치료후기) -->
+<section class="section reviews-section" id="reviews">
+  <div class="container">
+    <div class="section-header text-center">
+      <span class="section-tag">REVIEWS & STORIES</span>
+      <h2 class="section-title">마음과 몸을 되찾은 <strong>치료후기 & 회복 스토리</strong></h2>
+      <p class="section-desc">해아림한의원 분당점과 함께 스스로 조절하고 회복하는 힘을 되찾으신 분들의 이야기입니다.</p>
+    </div>
+
+    <div class="reviews-grid">
+      <!-- Review 1 -->
+      <div class="review-card">
+        <div class="review-card-header">
+          <div class="review-stars">
+            <i class="ph-fill ph-star"></i>
+            <i class="ph-fill ph-star"></i>
+            <i class="ph-fill ph-star"></i>
+            <i class="ph-fill ph-star"></i>
+            <i class="ph-fill ph-star"></i>
+          </div>
+          <span class="review-tag adult">성인 공황·불안 극복</span>
+        </div>
+        <h3 class="review-title">"갑작스러운 가슴 두근거림과 숨참이 사라지고, 다시 편안하게 출퇴근합니다."</h3>
+        <p class="review-body">
+          검사상 이상은 없는데 운전 중이나 지하철에서 갑자기 숨이 막히고 식은땀이 나서 힘들었습니다. 
+          손지웅 원장님의 꼼꼼한 자율신경 검사와 맞춤 한약 치료를 받으면서 가슴 두근거림이 눈에 띄게 줄었고, 
+          스스로 호흡을 조절할 수 있다는 자신감이 생겼습니다.
+        </p>
+        <div class="review-footer">
+          <div class="reviewer-info">
+            <span class="reviewer-name">박O수 님</span>
+            <span class="reviewer-meta">30대 직장인 · 공황장애 & 자율신경실조증 치료</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Review 2 -->
+      <div class="review-card">
+        <div class="review-card-header">
+          <div class="review-stars">
+            <i class="ph-fill ph-star"></i>
+            <i class="ph-fill ph-star"></i>
+            <i class="ph-fill ph-star"></i>
+            <i class="ph-fill ph-star"></i>
+            <i class="ph-fill ph-star"></i>
+          </div>
+          <span class="review-tag sleep">만성 불면증 회복</span>
+        </div>
+        <h3 class="review-title">"수면제 없이 자연스럽게 잠들고 아침에 개운하게 일어납니다."</h3>
+        <p class="review-body">
+          잠자리에 들면 2~3시간씩 뒤척이고 자다 깨기를 반복해 늘 피로에 시달렸습니다. 
+          해아림에서 뇌신경 이완 치료와 체질에 맞춘 한약을 복용한 뒤, 잡념이 가라앉고 편안하게 숙면을 취하게 되었습니다. 
+          약 의존 없이 수면 리듬을 회복해 너무 기쁩니다.
+        </p>
+        <div class="review-footer">
+          <div class="reviewer-info">
+            <span class="reviewer-name">김O영 님</span>
+            <span class="reviewer-meta">40대 주부 · 수면장애 & 만성피로 치료</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Review 3 -->
+      <div class="review-card">
+        <div class="review-card-header">
+          <div class="review-stars">
+            <i class="ph-fill ph-star"></i>
+            <i class="ph-fill ph-star"></i>
+            <i class="ph-fill ph-star"></i>
+            <i class="ph-fill ph-star"></i>
+            <i class="ph-fill ph-star"></i>
+          </div>
+          <span class="review-tag child">소아 틱장애·집중력 호전</span>
+        </div>
+        <h3 class="review-title">"아이의 눈 깜빡임과 킁킁거림이 편안해지고 수업 집중도 좋아졌어요."</h3>
+        <p class="review-body">
+          아이가 새 학기가 되면서 틱 증상이 심해져 걱정이 많았는데, 
+          손 원장님께서 아이 눈높이에 맞춰 부드럽게 무통 침과 뉴로피드백 훈련을 해주셨습니다. 
+          집에서의 양육 코칭도 큰 도움이 되었고, 지금은 증상 없이 학교생활을 즐겁게 하고 있습니다.
+        </p>
+        <div class="review-footer">
+          <div class="reviewer-info">
+            <span class="reviewer-name">이O진 님</span>
+            <span class="reviewer-meta">초등학생 학부모 · 틱장애 & 주의집중 훈련</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reviews-cta-center">
+      <a href="https://blog.naver.com/peaceful_one" target="_blank" rel="noopener noreferrer" class="btn btn-outline-reviews">
+        <i class="ph-bold ph-newspaper"></i> 공식 블로그에서 더 많은 회복 이야기 보기
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- 3. About Us Section (진료철학) -->
+<section class="section about-section" id="about">
+  <div class="container">
+    <div class="section-header text-center">
+      <span class="section-tag">PHILOSOPHY</span>
+      <h2 class="section-title">손지웅 대표원장의 <strong>진료 철학</strong></h2>
+      <p class="section-desc">몸과 마음, 두뇌의 불균형을 바로잡아 온전한 일상을 되찾아드립니다.</p>
+    </div>
+
+    <div class="about-grid">
+      <div class="about-doctor-card">
+        <div class="doc-profile-header">
+          <div class="doc-badge-pill">대표 의료진</div>
+          <h3 class="doc-full-name">손지웅 <span class="doc-title-sub">대표원장</span></h3>
+          <p class="doc-clinic-name">해아림한의원 분당점</p>
+        </div>
+
+        <div class="doc-quote-box">
+          <i class="ph-fill ph-quotes doc-quote-icon"></i>
+          <blockquote>
+            <strong>"증상 억제를 넘어, 스스로 회복하는 두뇌와 자율신경의 힘을 키웁니다."</strong>
+          </blockquote>
+        </div>
+
+        <div class="doc-greeting-text">
+          <p>안녕하세요. 해아림한의원 분당점 대표원장 손지웅입니다.</p>
+          <p>
+            몸의 원인을 알 수 없는 통증과 답답함, 마음에 찾아오는 불안과 잠 못 드는 밤, 
+            그리고 우리 아이의 갑작스러운 행동과 정서적 변화. 
+            이 모든 신호는 몸과 마음, 두뇌의 불균형에서 시작됩니다.
+          </p>
+          <p>
+            해아림한의원 분당점은 단지 현재의 증상을 누르는 것에 그치지 않고, 
+            몸과 마음이 스스로 조절 능력을 되찾아 건강하게 회복될 수 있도록 전 진료 과정을 세심하게 함께하겠습니다.
+          </p>
+        </div>
+
+        <div class="doc-card-actions">
+          <a href="https://naver.me/xbARooIc" target="_blank" rel="noopener noreferrer" class="btn btn-primary-sm">
+            <i class="ph-bold ph-calendar-check"></i> 손지웅 원장 진료 예약
+          </a>
+          <a href="https://blog.naver.com/peaceful_one" target="_blank" rel="noopener noreferrer" class="btn btn-outline-sm">
+            <i class="ph-bold ph-newspaper"></i> 원장 칼럼 보기
+          </a>
+        </div>
+      </div>
+
+      <div class="about-philosophy-col">
+        <h3 class="philosophy-title">해아림 분당점의 <strong>3대 진료 철학</strong></h3>
+        <p class="philosophy-subtitle">단순한 증상 완화가 아닌 지속 가능한 회복을 만듭니다.</p>
+
+        <div class="philosophy-cards">
+          <div class="philosophy-card">
+            <div class="philo-num">01</div>
+            <div class="philo-body">
+              <div class="philo-icon"><i class="ph-bold ph-magnifying-glass-plus"></i></div>
+              <h4>원인에 집중하는 진단</h4>
+              <p>표면적인 증상에 머무르지 않고 정서, 수면 패턴, 자율신경 및 뇌기능 상태를 종합적으로 세밀하게 살핍니다.</p>
+            </div>
+          </div>
+
+          <div class="philosophy-card">
+            <div class="philo-num">02</div>
+            <div class="philo-body">
+              <div class="philo-icon"><i class="ph-bold ph-sliders"></i></div>
+              <h4>개인별 1:1 맞춤 치료</h4>
+              <p>환자 개개인의 증상 경중, 체질적 특성, 연령 및 발달 단계에 꼭 맞춘 맞춤 한약·침구·두뇌훈련 프로그램을 구성합니다.</p>
+            </div>
+          </div>
+
+          <div class="philosophy-card">
+            <div class="philo-num">03</div>
+            <div class="philo-body">
+              <div class="philo-icon"><i class="ph-bold ph-house-line"></i></div>
+              <h4>일상 속 지속 가능한 회복</h4>
+              <p>치료실 밖에서도 스스로 안정 상태를 유지할 수 있도록 일상 대처법, 수면 및 스트레스 생활관리 코칭을 병행합니다.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. Clinics Section (진료과목) -->
+<div id="clinics">
+<section class="section clinic-section adult-bg" id="adult-clinic">
+  <div class="container">
+    <div class="section-header text-center">
+      <div class="clinic-badge adult-badge">
+        <i class="ph-bold ph-heartbeat"></i> ADULT CLINIC
+      </div>
+      <h2 class="section-title">성인 마음·신경 클리닉</h2>
+      <p class="section-desc">
+        원인을 알기 어려운 몸과 마음의 증상으로 힘든 성인(직장인, 주부, 수험생)을 위한 근본 조절 치료
+      </p>
+    </div>
+
+    <!-- Disease Tags -->
+    <div class="disease-tags-container">
+      <span class="disease-tag active">공황장애</span>
+      <span class="disease-tag active">불안장애</span>
+      <span class="disease-tag active">불면증</span>
+      <span class="disease-tag active">자율신경실조증</span>
+      <span class="disease-tag">우울증</span>
+      <span class="disease-tag">강박증</span>
+      <span class="disease-tag">다한증</span>
+      <span class="disease-tag">과민성대장증후군</span>
+    </div>
+
+    <div class="clinic-main-grid">
+      <!-- Left: Core Info & Process -->
+      <div class="clinic-info-card">
+        <div class="clinic-msg-banner">
+          <i class="ph-fill ph-shield-check msg-icon"></i>
+          <p>
+            <strong>"몸이 보내는 신호와 정서·수면·스트레스 상태를 함께 살펴, 몸과 마음이 다시 안정적으로 조절될 수 있도록 치료합니다."</strong>
+          </p>
+        </div>
+
+        <h4 class="clinic-sub-heading">성인 클리닉 체계적 진료 프로세스</h4>
+        <div class="clinic-steps-list">
+          <div class="clinic-step-item">
+            <div class="step-badge">1단계</div>
+            <div class="step-content">
+              <strong>내 증상 및 발생 요인 세밀 상담</strong>
+              <p>증상의 시작 시기, 악화 요인, 일상생활 영향도를 심층 확인합니다.</p>
+            </div>
+          </div>
+
+          <div class="clinic-step-item">
+            <div class="step-badge">2단계</div>
+            <div class="step-content">
+              <strong>자율신경 및 뇌기능 종합 검사</strong>
+              <p>스트레스 저항도, 자율신경 균형도, 뇌 활성도 및 수면 상태를 종합 측정합니다.</p>
+            </div>
+          </div>
+
+          <div class="clinic-step-item">
+            <div class="step-badge">3단계</div>
+            <div class="step-content">
+              <strong>개인별 1:1 맞춤 한방 치료 & 생활관리</strong>
+              <p>증상 억제가 아닌 뇌신경 안정을 돕는 맞춤 한약, 침 치료, 이완 훈련을 처방합니다.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="clinic-cta-row">
+          <a href="https://naver.me/xbARooIc" target="_blank" rel="noopener noreferrer" class="btn btn-primary-full">
+            <span class="n-icon">N</span> 성인 클리닉 네이버 예약
+          </a>
+          <a href="http://pf.kakao.com/_NEUHT" target="_blank" rel="noopener noreferrer" class="btn btn-kakao-full">
+            <i class="ph-fill ph-chat-circle-dots"></i> 카카오톡 증상 상담
+          </a>
+        </div>
+      </div>
+
+      <!-- Right: Interactive Self-Check -->
+      <div class="self-check-card" id="adult-self-check">
+        <div class="check-card-header">
+          <div class="check-icon-wrap"><i class="ph-bold ph-clipboard-text"></i></div>
+          <div>
+            <h3 class="check-title">성인 마음·신경 자가 체크</h3>
+            <p class="check-desc">해당되는 증상을 선택하시면 맞춤 진료 방향을 안내해드립니다.</p>
+          </div>
+        </div>
+
+        <div class="check-list">
+          <label class="check-item">
+            <input type="checkbox" class="self-checkbox adult-check" data-item="1">
+            <span class="custom-checkbox"></span>
+            <span class="check-label-text">이유 없이 가슴이 두근거리거나 숨이 답답하고 불안한가요?</span>
+          </label>
+
+          <label class="check-item">
+            <input type="checkbox" class="self-checkbox adult-check" data-item="2">
+            <span class="custom-checkbox"></span>
+            <span class="check-label-text">잠들기 어렵거나 자주 깨고, 깊은 잠을 못 자 피로가 쌓이나요?</span>
+          </label>
+
+          <label class="check-item">
+            <input type="checkbox" class="self-checkbox adult-check" data-item="3">
+            <span class="custom-checkbox"></span>
+            <span class="check-label-text">병원 검사상 이상은 없는데 어지럼·두통·소화불량·만성피로가 반복되나요?</span>
+          </label>
+        </div>
+
+        <div class="check-result-box" id="adult-result-box">
+          <div class="result-prompt">
+            <i class="ph-bold ph-hand-pointing"></i> 위 항목 중 해당되는 증상을 체크해 보세요.
+          </div>
+          <div class="result-active-content" style="display: none;">
+            <div class="result-score-badge"><span id="adult-checked-count">0</span>개 증상 선택됨</div>
+            <p class="result-feedback-text" id="adult-feedback-text">
+              자율신경계 불균형이나 뇌신경 피로 신호일 수 있습니다. 정확한 원인 파악을 위한 진단 상담을 권장합니다.
+            </p>
+            <a href="https://naver.me/xbARooIc" target="_blank" rel="noopener noreferrer" class="btn btn-accent-sm">
+              <i class="ph-bold ph-calendar-check"></i> 자가진단 결과로 예약하기
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. Clinic 2: Pediatric Clinic Section -->
+<section class="section clinic-section child-bg" id="child-clinic">
+  <div class="container">
+    <div class="section-header text-center">
+      <div class="clinic-badge child-badge">
+        <i class="ph-bold ph-baby"></i> PEDIATRIC CLINIC
+      </div>
+      <h2 class="section-title">소아청소년 두뇌·정서 클리닉</h2>
+      <p class="section-desc">
+        자녀의 틱, 집중력, 정서문제를 정확히 이해하고 치료하고 싶은 부모님을 위한 따뜻한 치유
+      </p>
+    </div>
+
+    <!-- Disease Tags -->
+    <div class="disease-tags-container">
+      <span class="disease-tag active-teal">틱장애</span>
+      <span class="disease-tag active-teal">ADHD</span>
+      <span class="disease-tag active-teal">소아불안</span>
+      <span class="disease-tag active-teal">분리불안</span>
+      <span class="disease-tag">학습집중력 저하</span>
+      <span class="disease-tag">정서 및 행동 문제</span>
+    </div>
+
+    <div class="clinic-main-grid">
+      <!-- Left: Interactive Self-Check for Parents -->
+      <div class="self-check-card" id="child-self-check">
+        <div class="check-card-header">
+          <div class="check-icon-wrap teal"><i class="ph-bold ph-clipboard-text"></i></div>
+          <div>
+            <h3 class="check-title">우리 아이 상태 알아보기</h3>
+            <p class="check-desc">최근 아이에게 나타난 변화를 체크해보세요.</p>
+          </div>
+        </div>
+
+        <div class="check-list">
+          <label class="check-item">
+            <input type="checkbox" class="self-checkbox child-check" data-item="1">
+            <span class="custom-checkbox teal"></span>
+            <span class="check-label-text">눈을 자주 깜빡이거나 코 킁킁거림, 이상한 소리를 반복해서 내나요?</span>
+          </label>
+
+          <label class="check-item">
+            <input type="checkbox" class="self-checkbox child-check" data-item="2">
+            <span class="custom-checkbox teal"></span>
+            <span class="check-label-text">한곳에 오래 집중하지 못하고 산만하며 충동적인 모습을 자주 보이나요?</span>
+          </label>
+
+          <label class="check-item">
+            <input type="checkbox" class="self-checkbox child-check" data-item="3">
+            <span class="custom-checkbox teal"></span>
+            <span class="check-label-text">사소한 일에도 걱정이 많고, 부모와 잠시 떨어지는 것도 극도로 힘들어하나요?</span>
+          </label>
+        </div>
+
+        <div class="check-result-box teal" id="child-result-box">
+          <div class="result-prompt">
+            <i class="ph-bold ph-hand-pointing"></i> 위 항목 중 우리 아이에게 해당하는 항목을 체크해보세요.
+          </div>
+          <div class="result-active-content" style="display: none;">
+            <div class="result-score-badge teal"><span id="child-checked-count">0</span>개 항목 체크됨</div>
+            <p class="result-feedback-text" id="child-feedback-text">
+              아이의 두뇌 발달 단계와 기질적 긴장도를 세심히 살펴 적절한 환경과 훈련으로 조절력을 키워줄 수 있습니다.
+            </p>
+            <a href="https://naver.me/xbARooIc" target="_blank" rel="noopener noreferrer" class="btn btn-teal-sm">
+              <i class="ph-bold ph-calendar-check"></i> 소아청소년 진료 예약하기
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Child Treatment Info -->
+      <div class="clinic-info-card teal-border">
+        <div class="clinic-msg-banner teal">
+          <i class="ph-fill ph-heart msg-icon"></i>
+          <p>
+            <strong>"아이의 발달 단계와 기질·정서적 특성을 세심하게 살펴, 스스로 집중하고 조절하며 성장하는 힘을 키워갑니다."</strong>
+          </p>
+        </div>
+
+        <h4 class="clinic-sub-heading">소아청소년 특화 맞춤 치료 프로그램</h4>
+        <div class="clinic-steps-list">
+          <div class="clinic-step-item">
+            <div class="step-badge teal">평가</div>
+            <div class="step-content">
+              <strong>아이를 다각도로 이해하는 정밀 평가</strong>
+              <p>증상뿐 아니라 발달 과정, 집중력·인지기능, 정서 상태와 생활환경까지 확인합니다.</p>
+            </div>
+          </div>
+
+          <div class="clinic-step-item">
+            <div class="step-badge teal">치료</div>
+            <div class="step-content">
+              <strong>부담 없는 순한 맞춤 한약 & 무통 침치료</strong>
+              <p>아이의 연령과 체질을 고려하여 복용이 편안한 한약과 통증 없는 부드러운 치료를 진행합니다.</p>
+            </div>
+          </div>
+
+          <div class="clinic-step-item">
+            <div class="step-badge teal">훈련</div>
+            <div class="step-content">
+              <strong>뉴로피드백 & 두뇌 조절력 훈련</strong>
+              <p>두뇌의 자기조절 능력을 높이는 비침습적 훈련을 단계별로 즐겁게 진행합니다.</p>
+            </div>
+          </div>
+
+          <div class="clinic-step-item">
+            <div class="step-badge teal">코칭</div>
+            <div class="step-content">
+              <strong>부모님과 함께하는 가정 생활관리 안내</strong>
+              <p>치료실에서 끝나지 않도록 가정 내 대처법과 양육 환경 가이드를 세심히 전해드립니다.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="clinic-cta-row">
+          <a href="https://naver.me/xbARooIc" target="_blank" rel="noopener noreferrer" class="btn btn-teal-full">
+            <span class="n-icon">N</span> 소아클리닉 네이버 예약
+          </a>
+          <a href="http://pf.kakao.com/_NEUHT" target="_blank" rel="noopener noreferrer" class="btn btn-kakao-full">
+            <i class="ph-fill ph-chat-circle-dots"></i> 카카오톡 부모 1:1 상담
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- 5. Medical Process Section -->
+<section class="section process-section" id="process">
+  <div class="container">
+    <div class="section-header text-center">
+      <span class="section-tag">MEDICAL PROCESS</span>
+      <h2 class="section-title">체계적인 4단계 진료 프로세스</h2>
+      <p class="section-desc">처음 방문부터 일상 속 회복까지, 모든 과정을 세심하고 투명하게 진행합니다.</p>
+    </div>
+
+    <div class="process-cards-grid">
+      <div class="process-card">
+        <div class="process-step-num">STEP 01</div>
+        <div class="process-icon-wrap"><i class="ph-bold ph-chats-circle"></i></div>
+        <h3>정밀 설문 & 진료 상담</h3>
+        <p>현재 가장 불편한 증상과 시작 시기, 수면·식습관, 스트레스 및 생활환경을 자세히 경청하고 확인합니다.</p>
+      </div>
+
+      <div class="process-card">
+        <div class="process-step-num">STEP 02</div>
+        <div class="process-icon-wrap"><i class="ph-bold ph-chart-line-up"></i></div>
+        <h3>다각도 원인 정밀 검사</h3>
+        <p>자율신경 균형 검사, 뇌기능 및 인지·정서 상태를 다각도로 평가하여 증상의 근본 원인을 입체적으로 분석합니다.</p>
+      </div>
+
+      <div class="process-card">
+        <div class="process-step-num">STEP 03</div>
+        <div class="process-icon-wrap"><i class="ph-bold ph-pill"></i></div>
+        <h3>1:1 맞춤 처방 & 훈련</h3>
+        <p>체질 맞춤 한약 처방, 자율신경 안정 침구요법, 뉴로피드백 등 개인별 상태에 최적화된 치료를 시행합니다.</p>
+      </div>
+
+      <div class="process-card">
+        <div class="process-step-num">STEP 04</div>
+        <div class="process-icon-wrap"><i class="ph-bold ph-shield-star"></i></div>
+        <h3>경과 확인 & 생활 코칭</h3>
+        <p>호전 경과를 정기적으로 체크하며, 일상 속 자가 조절을 돕는 생활습관 및 스트레스 대처 가이드를 코칭합니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. Doctor's Column & Official Blog -->
+<section class="section blog-section" id="blog">
+  <div class="container">
+    <div class="section-header text-center">
+      <span class="section-tag">DOCTOR COLUMN</span>
+      <h2 class="section-title">손지웅 원장의 마음·두뇌 치유 칼럼</h2>
+      <p class="section-desc">질환에 대한 올바른 정보와 치료 이야기를 공식 블로그에서 직접 확인해보세요.</p>
+    </div>
+
+    <div class="blog-cards-grid">
+      <a href="https://blog.naver.com/peaceful_one" target="_blank" rel="noopener noreferrer" class="blog-card">
+        <div class="blog-card-badge">성인 신경클리닉</div>
+        <h3 class="blog-card-title">공황장애와 자율신경실조증, 왜 몸에서 먼저 반응할까요?</h3>
+        <p class="blog-card-desc">검사상 이상은 없는데 가슴 두근거림과 호흡 곤란이 반복되는 이유, 자율신경계 조절력 회복 이야기.</p>
+        <span class="blog-card-link">칼럼 읽기 <i class="ph-bold ph-arrow-right"></i></span>
+      </a>
+
+      <a href="https://blog.naver.com/peaceful_one" target="_blank" rel="noopener noreferrer" class="blog-card">
+        <div class="blog-card-badge">소아청소년 두뇌</div>
+        <h3 class="blog-card-title">우리아이 틱장애와 ADHD, 억제가 아닌 조절력 강화가 핵심입니다</h3>
+        <p class="blog-card-desc">아이의 두뇌 발달 단계와 기질적 긴장을 이해하고 부모와 아이가 함께 편안해지는 한방 치료 방향.</p>
+        <span class="blog-card-link">칼럼 읽기 <i class="ph-bold ph-arrow-right"></i></span>
+      </a>
+
+      <a href="https://blog.naver.com/peaceful_one" target="_blank" rel="noopener noreferrer" class="blog-card">
+        <div class="blog-card-badge">수면·불안클리닉</div>
+        <h3 class="blog-card-title">잠들지 못하는 괴로움, 불면증의 근본 원인을 바로잡는 법</h3>
+        <p class="blog-card-desc">수면제에 의존하지 않고 스스로 자연스러운 수면 리듬을 회복할 수 있는 두뇌와 몸의 균형 치유법.</p>
+        <span class="blog-card-link">칼럼 읽기 <i class="ph-bold ph-arrow-right"></i></span>
+      </a>
+    </div>
+
+    <div class="blog-cta-center">
+      <a href="https://blog.naver.com/peaceful_one" target="_blank" rel="noopener noreferrer" class="btn btn-blog-main">
+        <i class="ph-bold ph-newspaper"></i> 해아림한의원 분당점 네이버 공식 블로그 바로가기
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- 7. FAQ Section -->
+<section class="section faq-section" id="faq">
+  <div class="container">
+    <div class="section-header text-center">
+      <span class="section-tag">FAQ</span>
+      <h2 class="section-title">자주 묻는 질문</h2>
+      <p class="section-desc">진료 전 환자분들과 부모님께서 가장 많이 궁금해하시는 질문들을 모았습니다.</p>
+    </div>
+
+    <div class="faq-accordion" id="faq-accordion">
+      <!-- Q1 -->
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span class="faq-q-badge">Q1</span>
+          <span class="faq-q-text">정신건강의학과 약을 복용 중인데 한방 치료를 함께 받을 수 있나요?</span>
+          <i class="ph-bold ph-caret-down faq-chevron"></i>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p>
+              현재 복용 중인 약의 종류와 복용 기간, 증상 상태를 확인한 뒤 한방 치료의 병행 여부를 판단합니다. 
+              복용 중인 약은 임의로 중단하거나 감량하지 않으며, 변경이 필요한 경우에는 처방 의료진과 충분히 상의하도록 안내합니다.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span class="faq-q-badge">Q2</span>
+          <span class="faq-q-text">치료 기간은 어느 정도 걸리나요?</span>
+          <i class="ph-bold ph-caret-down faq-chevron"></i>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p>
+              증상이 시작된 시기와 정도, 동반 증상, 생활환경 등에 따라 치료 기간은 달라질 수 있습니다. 
+              초기 진료와 검사를 통해 현재 상태를 확인한 후 예상 치료 과정과 내원 계획을 세밀하게 안내드립니다.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q3 -->
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span class="faq-q-badge">Q3</span>
+          <span class="faq-q-text">아이가 한약을 잘 먹지 못하면 어떻게 하나요?</span>
+          <i class="ph-bold ph-caret-down faq-chevron"></i>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p>
+              아이의 연령과 체질, 평소 복용 습관 등을 고려해 순하고 부담 없는 처방을 진행하며, 
+              복용이 어려운 경우에는 보호자와 상담하여 보다 편하게 복용할 수 있는 섭취 방법과 제형을 함께 안내합니다.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q4 -->
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span class="faq-q-badge">Q4</span>
+          <span class="faq-q-text">아이가 침 치료나 두뇌 훈련을 무서워하지 않을까요?</span>
+          <i class="ph-bold ph-caret-down faq-chevron"></i>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p>
+              아이의 연령과 긴장 정도를 고려해 치료 강도와 방법을 조절합니다. 
+              뉴로피드백과 같은 두뇌 훈련은 통증을 유발하는 방식이 아니며, 아이가 치료 환경에 편안하게 적응할 수 있도록 단계적으로 진행합니다.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q5 -->
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span class="faq-q-badge">Q5</span>
+          <span class="faq-q-text">처음 방문하면 어떤 검사와 상담을 받게 되나요?</span>
+          <i class="ph-bold ph-caret-down faq-chevron"></i>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p>
+              현재 가장 불편한 증상과 발생 과정, 수면·스트레스·생활습관 등을 자세히 확인하고, 
+              필요한 경우 자율신경·뇌기능·인지·정서 관련 검사를 함께 시행합니다. 검사 결과를 토대로 현재 상태와 치료 방향을 친절히 설명드립니다.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q6 -->
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span class="faq-q-badge">Q6</span>
+          <span class="faq-q-text">한약만 먹으면 되나요? 침이나 훈련도 꼭 해야 하나요?</span>
+          <i class="ph-bold ph-caret-down faq-chevron"></i>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p>
+              모든 치료를 동일하게 일률적으로 진행하지 않습니다. 
+              증상과 연령, 검사 결과에 따라 한약·침 치료·뉴로피드백·상담 등 꼭 필요한 치료를 개별적으로 최적화하여 구성합니다.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 8. Location & Hours Section -->
+<section class="section location-section" id="location">
+  <div class="container">
+    <div class="section-header text-center">
+      <span class="section-tag">LOCATION & HOURS</span>
+      <h2 class="section-title">오시는 길 & 진료시간</h2>
+      <p class="section-desc">정자역 3번 출구 도보 2분, 편안한 주차와 야간진료로 모십니다.</p>
+    </div>
+
+    <div class="location-grid">
+      <!-- Hours Card -->
+      <div class="location-card hours-card">
+        <div class="loc-card-header">
+          <div class="loc-icon-circle"><i class="ph-bold ph-clock"></i></div>
+          <h3 class="loc-card-title">진료시간 안내</h3>
+        </div>
+
+        <div class="hours-highlight-banner">
+          <div class="banner-badge"><i class="ph-fill ph-moon-stars"></i> 월·수 야간진료</div>
+          <p>바쁜 직장인과 학생을 위해 <strong>저녁 8시까지</strong> 야간 진료를 운영합니다.</p>
+        </div>
+
+        <table class="hours-table">
+          <tbody>
+            <tr class="highlight-row">
+              <th>월요일 · 수요일</th>
+              <td><strong>10:00 ~ 20:00</strong> <span class="badge-night-inline">야간진료</span></td>
+            </tr>
+            <tr>
+              <th>화요일 · 금요일</th>
+              <td>10:00 ~ 19:00</td>
+            </tr>
+            <tr class="highlight-row-holiday">
+              <th>토요일 · 공휴일</th>
+              <td><strong>09:00 ~ 15:00</strong> <span class="badge-holiday-inline">점심시간 없음</span></td>
+            </tr>
+            <tr class="sub-info-row">
+              <th>점심시간</th>
+              <td>13:00 ~ 14:00 (월/화/수/금 적용)</td>
+            </tr>
+            <tr class="closed-row">
+              <th>휴진일</th>
+              <td><strong>매주 목요일, 일요일</strong></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="quick-call-box">
+          <i class="ph-bold ph-phone-call"></i>
+          <div>
+            <span>진료 및 예약 문의</span>
+            <strong>031-716-8575</strong>
+          </div>
+          <a href="tel:031-716-8575" class="btn btn-call-sm">전화걸기</a>
+        </div>
+      </div>
+
+      <!-- Location & Transit Card -->
+      <div class="location-card map-info-card">
+        <div class="loc-card-header">
+          <div class="loc-icon-circle"><i class="ph-bold ph-map-pin"></i></div>
+          <h3 class="loc-card-title">오시는 길 & 주차</h3>
+        </div>
+
+        <div class="address-box">
+          <div class="addr-main">
+            <span class="addr-label">도로명 주소</span>
+            <strong class="addr-text">성남시 분당구 성남대로 331번길 3-3, 젤존타워 3차 405호</strong>
+          </div>
+        </div>
+
+        <div class="transit-info-list">
+          <div class="transit-item">
+            <div class="transit-icon subway"><i class="ph-bold ph-train"></i></div>
+            <div class="transit-text">
+              <strong>지하철 이용 시</strong>
+              <p>수인분당선 / 신분당선 <strong>정자역 3번 출구</strong> 나오셔서 도보 2분 거리 (젤존타워 3차 4층)</p>
+            </div>
+          </div>
+
+          <div class="transit-item">
+            <div class="transit-icon car"><i class="ph-bold ph-car"></i></div>
+            <div class="transit-text">
+              <strong>자가용 & 주차 안내</strong>
+              <p>젤존타워 3차 건물 내 지하주차장 이용 가능 (내원 시 무료 주차권을 지원해 드립니다.)</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="map-action-buttons">
+          <a href="https://map.naver.com/p/search/%ED%95%B4%EC%95%84%EB%A6%BC%ED%95%9C%EC%9D%98%EC%9B%90%20%EB%B6%84%EB%8B%B9%EC%A0%90" target="_blank" rel="noopener noreferrer" class="btn btn-naver-map">
+            <span class="n-icon">N</span> 네이버 지도 길찾기
+          </a>
+          <a href="https://map.kakao.com/link/search/%ED%95%B4%EC%95%84%EB%A6%BC%ED%95%9C%EC%9D%98%EC%9B%90%20%EB%B6%84%EB%8B%B9%EC%A0%90" target="_blank" rel="noopener noreferrer" class="btn btn-kakao-map">
+            <i class="ph-fill ph-map-pin"></i> 카카오맵 길찾기
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 9. Bottom Big CTA Banner -->
+<section class="bottom-cta-banner">
+  <div class="container text-center">
+    <h2 class="bottom-cta-title">
+      마음과 몸, 두뇌가 편안해지는 길<br>
+      <strong>해아림한의원 분당점</strong>이 함께하겠습니다.
+    </h2>
+    <p class="bottom-cta-desc">
+      초기 진료와 정밀 검사를 통해 스스로 회복하는 힘을 되찾으실 수 있도록 정성을 다합니다.
+    </p>
+    <div class="bottom-cta-buttons">
+      <a href="https://naver.me/xbARooIc" target="_blank" rel="noopener noreferrer" class="btn btn-bottom-naver">
+        <span class="n-box">N</span> 네이버 진료 예약하기
+      </a>
+      <a href="http://pf.kakao.com/_NEUHT" target="_blank" rel="noopener noreferrer" class="btn btn-bottom-kakao">
+        <i class="ph-fill ph-chat-circle-dots"></i> 카카오톡 1:1 상담하기
+      </a>
+      <a href="tel:031-716-8575" class="btn btn-bottom-phone">
+        <i class="ph-bold ph-phone-call"></i> 031-716-8575
+      </a>
+    </div>
+  </div>
+</section>
+
+{{ end }}
