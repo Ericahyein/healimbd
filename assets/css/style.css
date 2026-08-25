@@ -2919,7 +2919,7 @@ ul {
 }
 
 /* ==========================================================================
-   4. TREATMENTS (진료과목 - 통합 8대 핵심 진료과목 - 비비드 틸 & 로열 마린 톤)
+   4. TREATMENTS (진료과목 - 통합 8대 핵심 진료과목 - 비비드 틸 & 일러스트 카드)
    ========================================================================== */
 .treatments-home-section, .treatments-page-section {
   background: #F8FAFC;
@@ -2929,51 +2929,75 @@ ul {
 .treatments-unified-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 26px;
+  gap: 28px;
 }
 
 .treatment-card {
   background: white;
   border-radius: var(--radius-lg);
-  padding: 30px 28px;
   border: 1.5px solid #CBD5E1;
-  border-top: 4px solid #0D9488;
   box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
   display: flex;
   flex-direction: column;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .treatment-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 14px 34px rgba(13, 148, 136, 0.14);
+  transform: translateY(-6px);
+  box-shadow: 0 16px 36px rgba(13, 148, 136, 0.16);
   border-color: #0D9488;
 }
 
-.treatment-card-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 14px;
+/* Treatment Card Thumbnail Image */
+.treatment-thumb-wrap {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  overflow: hidden;
+  background: #F1F5F9;
 }
 
-.card-num-tag {
+.treatment-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.45s ease;
+}
+
+.treatment-card:hover .treatment-thumb-img {
+  transform: scale(1.06);
+}
+
+.treatment-thumb-wrap .card-num-tag {
+  position: absolute;
+  top: 14px;
+  left: 14px;
   font-family: 'Outfit', sans-serif;
-  font-size: 0.88rem;
+  font-size: 0.84rem;
   font-weight: 800;
-  padding: 4px 11px;
+  padding: 4px 12px;
   border-radius: 6px;
-  background: #F0FDF4;
-  color: #0D9488;
-  border: 1.5px solid rgba(13, 148, 136, 0.3);
-  flex-shrink: 0;
+  background: rgba(15, 23, 42, 0.88);
+  color: #5EEAD4;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Treatment Card Content Body */
+.treatment-card-body {
+  padding: 26px 26px 22px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 .treatment-name {
   font-size: 1.28rem;
   font-weight: 800;
   color: #0F172A;
-  margin: 0;
+  margin: 0 0 12px;
   letter-spacing: -0.3px;
   word-break: keep-all;
 }
@@ -3039,6 +3063,10 @@ ul {
 @media (max-width: 768px) {
   .treatments-unified-grid {
     grid-template-columns: 1fr;
+  }
+  
+  .treatment-thumb-wrap {
+    height: 190px;
   }
 }
 
