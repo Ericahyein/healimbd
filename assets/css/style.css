@@ -2168,7 +2168,7 @@ ul {
   color: #1B8FD1;
 }
 
-/* 3-Step Flow Grid */
+/* 3-Step Flow Grid (Unified Step 2 Theme for All Steps) */
 .clinical-steps-flow-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -2179,43 +2179,37 @@ ul {
 .flow-step-col {
   background: white;
   border-radius: var(--radius-lg);
-  border: 1px solid #E2E8F0;
+  border: 1px solid rgba(27, 143, 209, 0.35);
   overflow: hidden;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4px 18px rgba(27, 143, 209, 0.06);
   display: flex;
   flex-direction: column;
+  transition: all 0.3s ease;
 }
 
-.flow-step-col.active {
-  border-color: rgba(27, 143, 209, 0.4);
-  box-shadow: 0 8px 24px rgba(27, 143, 209, 0.08);
+.flow-step-col:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 28px rgba(27, 143, 209, 0.12);
+  border-color: #1B8FD1;
 }
 
 .flow-step-header {
-  background: #F8FAFC;
+  background: #EFF6FF;
   padding: 20px 24px;
-  border-bottom: 1px solid #E2E8F0;
+  border-bottom: 1px solid rgba(27, 143, 209, 0.2);
   display: flex;
   align-items: center;
   gap: 12px;
-}
-
-.flow-step-col.active .flow-step-header {
-  background: #EFF6FF;
 }
 
 .step-badge-tag {
   font-family: 'Outfit', sans-serif;
   font-size: 0.78rem;
   font-weight: 800;
-  background: #64748B;
+  background: #1B8FD1;
   color: white;
   padding: 3px 8px;
   border-radius: 4px;
-}
-
-.step-badge-tag.active {
-  background: #1B8FD1;
 }
 
 .flow-step-header h3 {
@@ -2243,8 +2237,8 @@ ul {
   font-family: 'Outfit', sans-serif;
   font-size: 0.95rem;
   font-weight: 800;
-  color: #64748B;
-  background: #F1F5F9;
+  color: #1B8FD1;
+  background: #EBF6FC;
   width: 28px;
   height: 28px;
   border-radius: 50%;
@@ -2253,11 +2247,7 @@ ul {
   justify-content: center;
   flex-shrink: 0;
   margin-top: 2px;
-}
-
-.sub-num.active {
-  background: #EBF6FC;
-  color: #1B8FD1;
+  border: 1px solid rgba(27, 143, 209, 0.2);
 }
 
 .flow-sub-item strong {
