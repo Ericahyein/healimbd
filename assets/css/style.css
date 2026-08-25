@@ -1943,432 +1943,365 @@ ul {
 }
 
 /* ==========================================================================
-   4. CLINIC SECTIONS (Adult & Child)
+   4. TREATMENTS (진료과목 - HEALIM ILSAN STYLE)
    ========================================================================== */
-.clinic-section.adult-bg {
-  background: linear-gradient(180deg, #F4F9FD 0%, #FFFFFF 100%);
+.treatments-home-section, .treatments-page-section {
+  background: #F8FAFC;
+  padding: 85px 0 95px;
 }
 
-.clinic-section.child-bg {
-  background: linear-gradient(180deg, #F0FBF8 0%, #FFFFFF 100%);
+.treatment-domain-block {
+  margin-bottom: 56px;
 }
 
-.clinic-badge {
+.domain-header-row {
+  margin-bottom: 26px;
+}
+
+.domain-badge {
   display: inline-flex;
   align-items: center;
   gap: 6px;
   font-family: 'Outfit', sans-serif;
-  font-size: 0.85rem;
-  font-weight: 700;
-  letter-spacing: 1px;
-  padding: 6px 14px;
-  border-radius: var(--radius-full);
-  margin-bottom: 12px;
-}
-
-.adult-badge {
-  background: var(--primary-light);
-  color: var(--primary);
-}
-
-.child-badge {
-  background: var(--secondary-light);
-  color: var(--secondary);
-}
-
-.disease-tags-container {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 40px;
-}
-
-.disease-tag {
-  background: white;
-  color: var(--text-body);
-  border: 1px solid var(--border-color);
-  font-size: 0.92rem;
-  font-weight: 600;
-  padding: 8px 18px;
-  border-radius: var(--radius-full);
-  box-shadow: var(--shadow-sm);
-  transition: var(--transition);
-}
-
-.disease-tag.active {
-  background: var(--primary);
-  color: white;
-  border-color: var(--primary);
-  box-shadow: 0 4px 12px var(--primary-glow);
-}
-
-.disease-tag.active-teal {
-  background: var(--secondary);
-  color: white;
-  border-color: var(--secondary);
-  box-shadow: 0 4px 12px var(--secondary-glow);
-}
-
-.clinic-main-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 36px;
-  align-items: start;
-}
-
-.clinic-info-card {
-  background: white;
-  border-radius: var(--radius-lg);
-  padding: 32px;
-  border: 1px solid var(--border-light);
-  box-shadow: var(--shadow-md);
-}
-
-.clinic-info-card.teal-border {
-  border-color: rgba(36, 181, 152, 0.2);
-}
-
-.clinic-msg-banner {
-  background: var(--primary-light);
-  border-radius: var(--radius-md);
-  padding: 16px 20px;
-  display: flex;
-  gap: 14px;
-  align-items: flex-start;
-  margin-bottom: 26px;
-}
-
-.clinic-msg-banner.teal {
-  background: var(--secondary-light);
-}
-
-.msg-icon {
-  font-size: 1.4rem;
-  color: var(--primary);
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-
-.clinic-msg-banner.teal .msg-icon {
-  color: var(--secondary);
-}
-
-.clinic-msg-banner p {
-  font-size: 0.95rem;
-  color: var(--text-dark);
-  line-height: 1.6;
-}
-
-.clinic-sub-heading {
-  font-size: 1.15rem;
-  margin-bottom: 18px;
-}
-
-.clinic-steps-list {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-bottom: 28px;
-}
-
-.clinic-step-item {
-  display: flex;
-  gap: 14px;
-  align-items: flex-start;
-}
-
-.step-badge {
-  background: var(--primary);
-  color: white;
-  font-size: 0.76rem;
-  font-weight: 700;
-  padding: 4px 10px;
-  border-radius: 6px;
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-
-.step-badge.teal {
-  background: var(--secondary);
-}
-
-.step-content strong {
-  display: block;
-  font-size: 0.98rem;
-  color: var(--text-dark);
-  margin-bottom: 2px;
-}
-
-.step-content p {
-  font-size: 0.88rem;
-  color: var(--text-muted);
-  line-height: 1.5;
-}
-
-.clinic-cta-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-/* Interactive Self-Check Cards */
-.self-check-card {
-  background: white;
-  border-radius: var(--radius-lg);
-  padding: 32px;
-  border: 2px solid var(--primary-light);
-  box-shadow: var(--shadow-lg);
-}
-
-.check-card-header {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 24px;
-  padding-bottom: 18px;
-  border-bottom: 1px solid var(--border-light);
-}
-
-.check-icon-wrap {
-  width: 52px;
-  height: 52px;
-  border-radius: 14px;
-  background: var(--primary-light);
-  color: var(--primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.6rem;
-  flex-shrink: 0;
-}
-
-.check-icon-wrap.teal {
-  background: var(--secondary-light);
-  color: var(--secondary);
-}
-
-.check-title {
-  font-size: 1.25rem;
-  margin-bottom: 4px;
-}
-
-.check-desc {
-  font-size: 0.88rem;
-  color: var(--text-muted);
-}
-
-.check-list {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  margin-bottom: 24px;
-}
-
-.check-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  padding: 14px 16px;
-  background: var(--bg-soft);
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border-color);
-  cursor: pointer;
-  transition: var(--transition);
-  user-select: none;
-}
-
-.check-item:hover {
-  background: white;
-  border-color: var(--primary);
-  box-shadow: var(--shadow-sm);
-}
-
-.self-checkbox {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-}
-
-.custom-checkbox {
-  width: 22px;
-  height: 22px;
-  border-radius: 6px;
-  border: 2px solid #CBD5E1;
-  background: white;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: var(--transition);
-  margin-top: 1px;
-}
-
-.custom-checkbox::after {
-  content: "✔";
-  font-size: 0.78rem;
-  color: white;
-  display: none;
-}
-
-.self-checkbox:checked + .custom-checkbox {
-  background: var(--primary);
-  border-color: var(--primary);
-}
-
-.self-checkbox:checked + .custom-checkbox.teal {
-  background: var(--secondary);
-  border-color: var(--secondary);
-}
-
-.self-checkbox:checked + .custom-checkbox::after {
-  display: block;
-}
-
-.check-label-text {
-  font-size: 0.94rem;
-  font-weight: 500;
-  color: var(--text-dark);
-  line-height: 1.5;
-}
-
-.check-result-box {
-  background: #F8FBFE;
-  border: 1.5px dashed var(--primary);
-  border-radius: var(--radius-md);
-  padding: 18px 20px;
-  text-align: center;
-}
-
-.check-result-box.teal {
-  background: #F2FBF8;
-  border-color: var(--secondary);
-}
-
-.result-prompt {
-  font-size: 0.92rem;
-  color: var(--text-muted);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.result-score-badge {
-  display: inline-block;
-  background: var(--primary);
-  color: white;
-  font-weight: 700;
-  font-size: 0.85rem;
-  padding: 4px 14px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  padding: 5px 14px;
   border-radius: var(--radius-full);
   margin-bottom: 10px;
 }
 
-.result-score-badge.teal {
-  background: var(--secondary);
+.domain-badge.teal {
+  background: #E8F8F5;
+  color: #24B598;
+  border: 1px solid rgba(36, 181, 152, 0.3);
 }
 
-.result-feedback-text {
+.domain-badge.blue {
+  background: #EBF6FC;
+  color: #1B8FD1;
+  border: 1px solid rgba(27, 143, 209, 0.3);
+}
+
+.domain-title {
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin-bottom: 8px;
+  letter-spacing: -0.4px;
+}
+
+.domain-desc {
+  font-size: 1rem;
+  color: #64748B;
+  line-height: 1.65;
+}
+
+.treatments-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 26px;
+}
+
+.treatments-cards-grid.four-cols {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.treatment-card {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: 32px 30px;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+}
+
+.treatment-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+  border-color: rgba(27, 143, 209, 0.35);
+}
+
+.treatment-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.card-num-tag {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 6px;
+}
+
+.card-num-tag.teal {
+  background: #E8F8F5;
+  color: #24B598;
+}
+
+.card-num-tag.blue {
+  background: #EBF6FC;
+  color: #1B8FD1;
+}
+
+.treatment-name {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin: 0;
+  letter-spacing: -0.3px;
+}
+
+.sub-tags-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.sub-tag {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #475569;
+  background: #F1F5F9;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+}
+
+.treatment-explanation {
   font-size: 0.95rem;
-  color: var(--text-dark);
-  font-weight: 600;
-  line-height: 1.6;
-  margin-bottom: 14px;
+  color: #475569;
+  line-height: 1.75;
+  margin-bottom: 22px;
+  flex: 1;
 }
 
-.btn-accent-sm {
-  background: var(--accent);
-  color: white;
-  padding: 10px 20px;
-  font-size: 0.92rem;
-  border-radius: var(--radius-md);
-}
-.btn-accent-sm:hover {
-  background: var(--accent-hover);
-  box-shadow: 0 4px 12px rgba(243, 170, 41, 0.35);
+.treatment-card-footer {
+  border-top: 1px solid #F1F5F9;
+  padding-top: 16px;
+  display: flex;
+  justify-content: flex-end;
 }
 
-.btn-teal-sm {
-  background: var(--secondary);
-  color: white;
-  padding: 10px 20px;
-  font-size: 0.92rem;
-  border-radius: var(--radius-md);
+.card-case-link {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #1B8FD1;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  text-decoration: none;
+  transition: transform 0.2s ease;
 }
-.btn-teal-sm:hover {
-  background: var(--secondary-hover);
-  box-shadow: 0 4px 12px var(--secondary-glow);
+
+.card-case-link:hover {
+  transform: translateX(3px);
+  color: #0284C7;
 }
 
 /* ==========================================================================
-   5. MEDICAL PROCESS SECTION
+   5. UNIFIED MEDICAL PROCESS & GUIDE (내원 진료과정 & 초진 안내)
    ========================================================================== */
 .process-section {
   background: white;
+  padding: 85px 0 95px;
 }
 
-.process-cards-grid {
+.unified-process-section {
+  padding-top: 20px;
+}
+
+/* Before Visit Cards (Pre-checks) */
+.before-visit-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  margin-bottom: 50px;
 }
 
-.process-card {
-  background: var(--bg-soft);
+.before-card {
+  background: #F8FAFC;
+  border-radius: var(--radius-md);
+  padding: 24px;
+  border: 1px solid #E2E8F0;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.before-num {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #1B8FD1;
+  background: white;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #CBD5E1;
+  flex-shrink: 0;
+}
+
+.before-body h4 {
+  font-size: 1.02rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin-bottom: 6px;
+}
+
+.before-body p {
+  font-size: 0.88rem;
+  color: #64748B;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.before-body p strong {
+  color: #1B8FD1;
+}
+
+/* 3-Step Flow Grid */
+.clinical-steps-flow-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+  margin-bottom: 48px;
+}
+
+.flow-step-col {
+  background: white;
   border-radius: var(--radius-lg);
-  padding: 30px 24px;
-  border: 1px solid var(--border-light);
-  position: relative;
-  transition: var(--transition);
+  border: 1px solid #E2E8F0;
+  overflow: hidden;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
   display: flex;
   flex-direction: column;
 }
 
-.process-card:hover {
-  background: white;
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
-  border-color: rgba(27, 143, 209, 0.3);
+.flow-step-col.active {
+  border-color: rgba(27, 143, 209, 0.4);
+  box-shadow: 0 8px 24px rgba(27, 143, 209, 0.08);
 }
 
-.process-step-num {
+.flow-step-header {
+  background: #F8FAFC;
+  padding: 20px 24px;
+  border-bottom: 1px solid #E2E8F0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.flow-step-col.active .flow-step-header {
+  background: #EFF6FF;
+}
+
+.step-badge-tag {
   font-family: 'Outfit', sans-serif;
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   font-weight: 800;
-  letter-spacing: 1px;
-  color: var(--primary);
-  background: var(--primary-light);
-  display: inline-block;
-  padding: 4px 10px;
+  background: #64748B;
+  color: white;
+  padding: 3px 8px;
   border-radius: 4px;
-  width: fit-content;
-  margin-bottom: 18px;
 }
 
-.process-icon-wrap {
-  width: 56px;
-  height: 56px;
-  border-radius: 16px;
-  background: white;
-  color: var(--primary);
-  font-size: 1.75rem;
+.step-badge-tag.active {
+  background: #1B8FD1;
+}
+
+.flow-step-header h3 {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin: 0;
+}
+
+.flow-step-box {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1;
+}
+
+.flow-sub-item {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.sub-num {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #64748B;
+  background: #F1F5F9;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: var(--shadow-sm);
-  margin-bottom: 20px;
+  flex-shrink: 0;
+  margin-top: 2px;
 }
 
-.process-card h3 {
-  font-size: 1.2rem;
-  margin-bottom: 10px;
+.sub-num.active {
+  background: #EBF6FC;
+  color: #1B8FD1;
 }
 
-.process-card p {
+.flow-sub-item strong {
+  display: block;
+  font-size: 0.98rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin-bottom: 4px;
+}
+
+.flow-sub-item p {
+  font-size: 0.88rem;
+  color: #64748B;
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* Process Bottom CTA Banner */
+.process-cta-banner {
+  background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+  color: white;
+  border-radius: var(--radius-lg);
+  padding: 34px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.process-cta-text h3 {
+  font-size: 1.3rem;
+  color: white;
+  margin-bottom: 6px;
+}
+
+.process-cta-text p {
   font-size: 0.92rem;
-  color: var(--text-muted);
-  line-height: 1.65;
+  color: #94A3B8;
+  margin: 0;
+}
+
+.process-cta-buttons {
+  display: flex;
+  gap: 12px;
+  flex-shrink: 0;
 }
 
 /* ==========================================================================

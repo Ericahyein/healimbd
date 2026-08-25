@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>진료과목 | 해아림한의원 분당점</title>
+  <meta name="description" content="해아림한의원 분당점의 실제 임상 진료과목(소아청소년 틱·ADHD, 성인 공황·불안·불면·자율신경) 및 통합 내원 진료과정 안내입니다.">
+  <link rel="canonical" href="{{ .Permalink }}">
+
+  <!-- Fonts (Pretendard & Outfit) -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+
+  <!-- Main Stylesheet -->
+  {{ $style := resources.Get "css/style.css" | resources.Minify }}
+  <link rel="stylesheet" href="{{ $style.RelPermalink }}">
+</head>
+<body>
+  {{ partial "header.html" . }}
+
+  <main id="main-content">
+    <!-- Treatments Header Banner -->
+    <section class="cases-page-header">
+      <div class="container text-center">
+        <span class="cases-top-pill">TREATMENTS</span>
+        <h1 class="cases-main-title">진료과목</h1>
+        <p class="cases-main-desc">
+          해아림한의원 분당점은 몸과 마음, 두뇌의 상호작용을 깊이 살피는 신경정신과 한방 진료를 시행합니다.<br>
+          소아청소년부터 성인까지, 증상의 원인을 진단하고 개인에 맞춘 회복 과정을 설계합니다.
+        </p>
+      </div>
+    </section>
+
+    <!-- Treatments Main Content Section (Ilsan Style) -->
+    <section class="section treatments-page-section">
+      <div class="container">
+
+        <!-- 1. 소아청소년 클리닉 (Pediatric & Adolescent Clinic) -->
+        <div class="treatment-domain-block">
+          <div class="domain-header-row">
+            <span class="domain-badge teal"><i class="ph-bold ph-baby"></i> PEDIATRIC & ADOLESCENT</span>
+            <h2 class="domain-title">소아청소년 두뇌·정서 클리닉</h2>
+            <p class="domain-desc">아이의 두뇌 발달 단계와 기질적 긴장도를 세심히 살펴 스스로 집중하고 조절하는 힘을 길러줍니다.</p>
+          </div>
+
+          <div class="treatments-cards-grid">
+            <!-- 틱장애 카드 -->
+            <article class="treatment-card">
+              <div class="treatment-card-header">
+                <span class="card-num-tag teal">01</span>
+                <h3 class="treatment-name">틱장애 · 뚜렛증후군</h3>
+              </div>
+              <div class="sub-tags-wrap">
+                <span class="sub-tag">운동틱</span>
+                <span class="sub-tag">음성틱</span>
+                <span class="sub-tag">근육틱</span>
+                <span class="sub-tag">복합틱</span>
+                <span class="sub-tag">성인틱</span>
+              </div>
+              <p class="treatment-explanation">
+                눈 깜빡임, 코 찡긋거림, 고개 흔들기, 킁킁거림 등 호전과 악화를 반복하는 제반 틱 증상은 만성화되기 전 적절한 치료 시기를 놓치지 않도록 아이 눈높이에 맞춘 부드러운 뇌신경 조절 치료를 진행합니다.
+              </p>
+              <div class="treatment-card-footer">
+                <a href="{{ "/reviews/?filter=tic-adhd" | relURL }}" class="card-case-link">관련 치료사례 보기 <i class="ph-bold ph-arrow-right"></i></a>
+              </div>
+            </article>
+
+            <!-- ADHD 카드 -->
+            <article class="treatment-card">
+              <div class="treatment-card-header">
+                <span class="card-num-tag teal">02</span>
+                <h3 class="treatment-name">주의집중력 (소아·성인 ADHD)</h3>
+              </div>
+              <div class="sub-tags-wrap">
+                <span class="sub-tag">소아·청소년 ADHD</span>
+                <span class="sub-tag">성인 ADHD</span>
+                <span class="sub-tag">주의력결핍</span>
+                <span class="sub-tag">과잉행동·충동성</span>
+              </div>
+              <p class="treatment-explanation">
+                주의력 결핍, 과잉행동, 충동성, 산만함 등의 증상으로 학교나 직장에서 어려움을 겪는 경우 QEEG 뇌파 검사, CAT 주의력 검사, 뉴로피드백 훈련 및 맞춤 한약을 통해 집중력 향상과 자기조절력 안정을 도모합니다.
+              </p>
+              <div class="treatment-card-footer">
+                <a href="{{ "/reviews/?filter=tic-adhd" | relURL }}" class="card-case-link">관련 치료사례 보기 <i class="ph-bold ph-arrow-right"></i></a>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- 2. 성인 마음·신경 클리닉 (Adult Mind & Neural Clinic) -->
+        <div class="treatment-domain-block">
+          <div class="domain-header-row">
+            <span class="domain-badge blue"><i class="ph-bold ph-heartbeat"></i> ADULT CLINIC</span>
+            <h2 class="domain-title">성인 마음·신경 클리닉</h2>
+            <p class="domain-desc">원인을 알기 어려운 몸과 마음의 불안, 불면, 자율신경계 과흥분을 진정시키고 삶의 균형을 되찾아드립니다.</p>
+          </div>
+
+          <div class="treatments-cards-grid four-cols">
+            <!-- 공황장애 카드 -->
+            <article class="treatment-card">
+              <div class="treatment-card-header">
+                <span class="card-num-tag blue">01</span>
+                <h3 class="treatment-name">공황장애</h3>
+              </div>
+              <div class="sub-tags-wrap">
+                <span class="sub-tag">공황발작</span>
+                <span class="sub-tag">예기불안</span>
+                <span class="sub-tag">광장공포증</span>
+                <span class="sub-tag">과호흡</span>
+              </div>
+              <p class="treatment-explanation">
+                갑작스러운 가슴 두근거림, 숨이 막히는 느낌, 질식감, 어지럼증을 동반한 극심한 공포가 반복되거나 치료 후에도 재발하는 경우 뇌신경과 자율신경의 근본적인 원인을 바로잡습니다.
+              </p>
+              <div class="treatment-card-footer">
+                <a href="{{ "/reviews/?filter=panic" | relURL }}" class="card-case-link">관련 치료사례 보기 <i class="ph-bold ph-arrow-right"></i></a>
+              </div>
+            </article>
+
+            <!-- 불안장애 카드 -->
+            <article class="treatment-card">
+              <div class="treatment-card-header">
+                <span class="card-num-tag blue">02</span>
+                <h3 class="treatment-name">불안장애 · 사회공포증</h3>
+              </div>
+              <div class="sub-tags-wrap">
+                <span class="sub-tag">범불안장애</span>
+                <span class="sub-tag">사회공포증</span>
+                <span class="sub-tag">대인기피증</span>
+                <span class="sub-tag">발표불안</span>
+              </div>
+              <p class="treatment-explanation">
+                이유 없이 반복되고 지속되는 불안, 만성적인 걱정, 긴장으로 나타나는 제반 신체 증상이나 사람들 앞에서 극도로 긴장하여 일상생활이 어려운 경우 전문적인 한방 신경치료를 진행합니다.
+              </p>
+              <div class="treatment-card-footer">
+                <a href="{{ "/reviews/?filter=panic" | relURL }}" class="card-case-link">관련 치료사례 보기 <i class="ph-bold ph-arrow-right"></i></a>
+              </div>
+            </article>
+
+            <!-- 불면증 카드 -->
+            <article class="treatment-card">
+              <div class="treatment-card-header">
+                <span class="card-num-tag blue">03</span>
+                <h3 class="treatment-name">수면 · 불면증</h3>
+              </div>
+              <div class="sub-tags-wrap">
+                <span class="sub-tag">입면장애</span>
+                <span class="sub-tag">수면유지장애</span>
+                <span class="sub-tag">조기각성</span>
+                <span class="sub-tag">수면제 단약</span>
+              </div>
+              <p class="treatment-explanation">
+                잠들기 어렵거나 자주 깨며 깊은 잠을 자지 못하는 만성 수면장애에 대해, 수면제 의존 없이 뇌파 안정과 생체리듬 회복을 통해 자연스러운 숙면을 취하도록 돕습니다.
+              </p>
+              <div class="treatment-card-footer">
+                <a href="{{ "/reviews/?filter=sleep" | relURL }}" class="card-case-link">관련 치료사례 보기 <i class="ph-bold ph-arrow-right"></i></a>
+              </div>
+            </article>
+
+            <!-- 자율신경실조증 카드 -->
+            <article class="treatment-card">
+              <div class="treatment-card-header">
+                <span class="card-num-tag blue">04</span>
+                <h3 class="treatment-name">자율신경실조증</h3>
+              </div>
+              <div class="sub-tags-wrap">
+                <span class="sub-tag">만성 두통</span>
+                <span class="sub-tag">어지럼증</span>
+                <span class="sub-tag">다한증</span>
+                <span class="sub-tag">만성소화장애</span>
+              </div>
+              <p class="treatment-explanation">
+                만성화된 스트레스와 자율신경계 이상으로 병원 검사상 이상은 없으나 반복되는 어지럼, 두통, 손발 다한증, 신경성 위염, 과민성장증후군 등 신체의 다양한 불균형 상태를 점검하고 치료합니다.
+              </p>
+              <div class="treatment-card-footer">
+                <a href="{{ "/reviews/?filter=autonomic" | relURL }}" class="card-case-link">관련 치료사례 보기 <i class="ph-bold ph-arrow-right"></i></a>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- 3. 통합 내원 진료 과정 (Medical Guide - 소아/성인 통일 안내) -->
+        <div class="unified-process-section" id="process-guide">
+          <div class="section-header text-center">
+            <span class="section-tag">MEDICAL PROCESS</span>
+            <h2 class="section-title">해아림한의원 <strong>내원 진료 과정 & 초진 안내</strong></h2>
+            <p class="section-desc">소아부터 성인까지, 처음 방문부터 일상 속 회복까지 모든 과정을 세심하고 투명하게 진행합니다.</p>
+          </div>
+
+          <!-- Before Visit Pre-checks (일산점 벤치마킹) -->
+          <div class="before-visit-grid">
+            <div class="before-card">
+              <div class="before-num">01</div>
+              <div class="before-body">
+                <h4>한의원에 문의 & 사전 예약</h4>
+                <p>전화(031-716-8575), 네이버 실시간 예약, 카카오톡 상담 중 편하신 방법으로 예약해 주세요. (예약 우선제 운영)</p>
+              </div>
+            </div>
+
+            <div class="before-card">
+              <div class="before-num">02</div>
+              <div class="before-body">
+                <h4>초진 진료 소요시간 확인</h4>
+                <p>초진 진료 소요시간은 <strong>총 1시간 30분 ~ 2시간</strong>입니다. (정밀 기계검사 및 심층 문진·상담 포함)</p>
+              </div>
+            </div>
+
+            <div class="before-card">
+              <div class="before-num">03</div>
+              <div class="before-body">
+                <h4>접수 마감 시간 확인</h4>
+                <p>정밀 검사 소요 시간이 있어, 초진 접수는 <strong>진료 마감 1시간 30분 전까지</strong> 내원해 주시기 바랍니다.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step-by-Step Clinical Process -->
+          <div class="clinical-steps-flow-grid">
+            <!-- STEP 1 -->
+            <div class="flow-step-col">
+              <div class="flow-step-header">
+                <span class="step-badge-tag">STEP 1</span>
+                <h3>내원 & 접수</h3>
+              </div>
+              <div class="flow-step-box">
+                <div class="flow-sub-item">
+                  <span class="sub-num">01</span>
+                  <div>
+                    <strong>사전 예약</strong>
+                    <p>내원 전 일정 조율 및 사전 상담</p>
+                  </div>
+                </div>
+                <div class="flow-sub-item">
+                  <span class="sub-num">02</span>
+                  <div>
+                    <strong>방문 및 접수</strong>
+                    <p>약속한 시간에 방문 후 문진표 작성</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- STEP 2 -->
+            <div class="flow-step-col active">
+              <div class="flow-step-header">
+                <span class="step-badge-tag active">STEP 2</span>
+                <h3>정밀 검사 & 진료</h3>
+              </div>
+              <div class="flow-step-box">
+                <div class="flow-sub-item">
+                  <span class="sub-num active">03</span>
+                  <div>
+                    <strong>다각도 정밀 검사</strong>
+                    <p>뇌파(QEEG), 자율신경(HRV), 심리 척도 검사</p>
+                  </div>
+                </div>
+                <div class="flow-sub-item">
+                  <span class="sub-num active">04</span>
+                  <div>
+                    <strong>원장실 1:1 심층 진료</strong>
+                    <p>손지웅 대표원장의 상세 문진·맥진 및 원인 분석</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- STEP 3 -->
+            <div class="flow-step-col">
+              <div class="flow-step-header">
+                <span class="step-badge-tag">STEP 3</span>
+                <h3>맞춤 치료 & 회복</h3>
+              </div>
+              <div class="flow-step-box">
+                <div class="flow-sub-item">
+                  <span class="sub-num">05</span>
+                  <div>
+                    <strong>치료 계획 확정</strong>
+                    <p>체질 맞춤 처방 및 두뇌 조절 훈련 설계</p>
+                  </div>
+                </div>
+                <div class="flow-sub-item">
+                  <span class="sub-num">06</span>
+                  <div>
+                    <strong>처방 탕약 안심 배송 & 관리</strong>
+                    <p>1~3일 내 신선 조제 한약 배송 및 경과 피드백</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Direct CTA Box -->
+          <div class="process-cta-banner">
+            <div class="process-cta-text">
+              <h3>편안한 마음으로 일상을 되찾으실 수 있도록 해아림이 함께합니다.</h3>
+              <p>초진은 충분한 검사와 심층 상담을 위해 예약제로 운영됩니다.</p>
+            </div>
+            <div class="process-cta-buttons">
+              <button class="btn btn-inquiry-header" onclick="document.getElementById('inquiry-modal').classList.add('active'); document.body.style.overflow='hidden';">
+                <i class="ph-bold ph-chat-teardrop-dots"></i> 빠른 상담 및 예약
+              </button>
+              <a href="https://naver.me/xbARooIc" target="_blank" rel="noopener noreferrer" class="btn btn-hero-naver-dark">
+                <span class="n-box">N</span> 네이버 실시간 예약
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  {{ partial "footer.html" . }}
+  {{ partial "floating_bar.html" . }}
+
+  <!-- Scripts -->
+  {{ $script := resources.Get "js/main.js" | resources.Minify }}
+  <script src="{{ $script.RelPermalink }}"></script>
+</body>
+</html>
