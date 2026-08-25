@@ -14,6 +14,7 @@
 | **ISSUE-04** | 브라우저 검증 | Playwright 서브에이전트 드라이버 다운로드 404 에러 | **해결 완료** | 2026-08-24 |
 | **ISSUE-05** | Git 배포 | 터미널 내 Git 미인식 및 자격 증명 창 미노출 현상 | **해결 완료** | 2026-08-25 |
 | **ISSUE-06** | 브랜딩/디자인 | 상단 브랜드 텍스트 색상 CI 미일치 (로고 텍스트 색상 요청) | **해결 완료** | 2026-08-24 |
+| **ISSUE-07** | CI/CD 배포 | GitHub Actions 내 Hugo 버전(v0.145.0) 불일치 빌드 에러 (`__html not defined`) | **해결 완료** | 2026-08-25 |
 
 ---
 
@@ -79,6 +80,16 @@
   - 공식 브랜드 로고 이미지(`media_1787561241392.png`) 내의 "해아림한의원" 폰트 색상은 고유의 슬레이트 차콜 그레이 색상임.
 * **해결 조치**:
   - 로고 원본 이미지에서 픽셀 컬러를 정밀 추출하여 고유 브랜드 색상 **`#515658`**를 도출하고, `.brand-logo-title` 및 `.drawer-title`의 색상을 `#515658`로 일괄 업데이트 완료.
+
+---
+
+### 📌 ISSUE-07: GitHub Actions 내 Hugo 버전 불일치로 인한 배포 빌드 에러
+* **현상**:
+  - GitHub Actions 자동 배포 실행 시 `Build with Hugo` 단계에서 `Module "github.com/HugoBlox/kit/modules/blox" is not compatible with this Hugo version: Min 0.158.0 extended` 및 `function "__html" not defined` 에러로 배포 실패.
+* **원인**:
+  - `.github/workflows/deploy.yml` 파일 내에 선언된 `HUGO_VERSION`이 `0.145.0`으로 고정되어 있어, 최신 Hugo Blox Kit(Min v0.158.0 필요)의 JSX 템플릿 컴파일을 지원하지 못함.
+* **해결 조치**:
+  - `.github/workflows/deploy.yml`의 `HUGO_VERSION`을 최신 호환 버전인 **`0.165.0`**으로 수정 및 푸시하여 GitHub Actions 빌드 통과.
 
 ---
 
