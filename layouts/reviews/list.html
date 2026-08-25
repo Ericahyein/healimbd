@@ -127,6 +127,9 @@
               <div class="case-thumb-wrap">
                 {{ if .Params.image }}
                 <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}" class="case-thumb-img" loading="lazy">
+                <div class="thumb-blur-notice">
+                  <span class="thumb-blur-pill"><i class="ph-bold ph-lock-key"></i> 자필 수기 원본 (인증 후 선명하게 열람)</span>
+                </div>
                 {{ else }}
                 <div class="case-thumb-fallback">
                   <i class="ph-bold ph-newspaper"></i>
@@ -134,7 +137,7 @@
                 </div>
                 {{ end }}
                 <span class="case-tag-pill {{ .Params.category }}">{{ .Params.category_name }}</span>
-                <span class="case-direct-badge">🏥 원내 직접 등록</span>
+                <span class="case-direct-badge">📝 자필 체험 수기</span>
               </div>
 
               <div class="case-body-wrap">
