@@ -15,6 +15,7 @@
 | **ISSUE-05** | Git 배포 | 터미널 내 Git 미인식 및 자격 증명 창 미노출 현상 | **해결 완료** | 2026-08-25 |
 | **ISSUE-06** | 브랜딩/디자인 | 상단 브랜드 텍스트 색상 CI 미일치 (로고 텍스트 색상 요청) | **해결 완료** | 2026-08-24 |
 | **ISSUE-07** | CI/CD 배포 | GitHub Actions 내 Hugo 버전(v0.145.0) 불일치 빌드 에러 (`__html not defined`) | **해결 완료** | 2026-08-25 |
+| **ISSUE-08** | GitHub Pages 경로 | GitHub Pages 서브디렉터리(`/healimbd/`) 배포 시 로고 이미지 경로 404 깨짐 | **해결 완료** | 2026-08-25 |
 
 ---
 
@@ -90,6 +91,16 @@
   - `.github/workflows/deploy.yml` 파일 내에 선언된 `HUGO_VERSION`이 `0.145.0`으로 고정되어 있어, 최신 Hugo Blox Kit(Min v0.158.0 필요)의 JSX 템플릿 컴파일을 지원하지 못함.
 * **해결 조치**:
   - `.github/workflows/deploy.yml`의 `HUGO_VERSION`을 최신 호환 버전인 **`0.165.0`**으로 수정 및 푸시하여 GitHub Actions 빌드 통과.
+
+---
+
+### 📌 ISSUE-08: GitHub Pages 서브디렉터리(`/healimbd/`) 배포 시 로고 이미지 경로 404 깨짐
+* **현상**:
+  - GitHub Pages(`https://ericahyein.github.io/healimbd/`) 접속 시 상단 헤더, 모바일 드로어, 팝업 모달 내의 로고 이미지가 깨져서 표시됨.
+* **원인**:
+  - 템플릿 마크업(`layouts/partials/header.html`)에서 이미지 경로가 절대 루트(`/images/logo.png`)로 하드코딩되어 있어, 서브디렉터리 저장소(`/healimbd/`)의 에셋 경로(`/healimbd/images/logo.png`)를 찾지 못함.
+* **해결 조치**:
+  - Hugo의 `relURL` 템플릿 함수(`{{ "images/logo.png" | relURL }}`)를 적용하여, 로컬 환경(`/`)과 GitHub Pages 서브경로(`/healimbd/`) 모두에서 이미지 경로가 동적으로 올바르게 매핑되도록 전면 수정 완료.
 
 ---
 
