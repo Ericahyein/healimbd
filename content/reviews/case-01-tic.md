@@ -13,13 +13,6 @@ image: "images/reviews/case-01-handwriting.png"
 summary: "7세 때 눈깜빡임으로 시작해 10세에 재발하며 킁킁거림, 찡그림, 머리 끄덕임, 몸 움직임으로 악화되었습니다. 해아림 맞춤 한약과 환약 치료 후 복합 증상이 완화되고 현재는 눈깜빡임도 거의 없이 호전되었습니다."
 ---
 
-### 📝 환자 보호자 작성 자필 체험 수기 원본
-<div class="handwriting-photo-container">
-  <img src="{{ "images/reviews/case-01-handwriting.png" | relURL }}" alt="해아림한의원 소아 틱장애 환자 보호자 자필 체험 수기 원본" class="handwriting-full-img" loading="lazy">
-</div>
-
----
-
 ### 1. 치료 받기 전 증상들로 인해 얼마나 힘들었는지 구체적으로 적어 주세요.
 > * **7세 때** 눈깜빡임으로 시작해 나아졌다가 **10세부터 재발함**.
 > * 눈깜빡임이 심해지고 증세가 다양하게 나타남 (**킁킁거림, 찡그림**).

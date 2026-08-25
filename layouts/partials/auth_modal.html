@@ -1,0 +1,127 @@
+<!-- Member Login & Registration Modal (의료법 준수 회원가입/로그인 모달) -->
+<div class="auth-modal" id="auth-modal" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title">
+  <div class="auth-modal-card">
+    <button class="auth-modal-close" id="auth-modal-close" aria-label="닫기" onclick="closeAuthModal()">
+      <i class="ph ph-x"></i>
+    </button>
+
+    <div class="auth-modal-header text-center">
+      <div class="auth-logo-badge">
+        <img src="{{ "images/logo.png" | relURL }}" alt="해아림 로고" width="40" height="40">
+      </div>
+      <h3 id="auth-modal-title" class="auth-modal-title">해아림한의원 분당점</h3>
+      <p class="auth-modal-notice">
+        <i class="ph-bold ph-shield-check"></i> 의료법 제56조에 의거하여 실제 환자분의 치료사례 및 자필 수기는 <strong>로그인 후 열람</strong>하실 수 있습니다.
+      </p>
+    </div>
+
+    <!-- Auth Tabs (로그인 / 회원가입) -->
+    <div class="auth-tabs">
+      <button class="auth-tab-btn active" id="tab-btn-login" onclick="switchAuthTab('login')">
+        <i class="ph-bold ph-sign-in"></i> 로그인
+      </button>
+      <button class="auth-tab-btn" id="tab-btn-signup" onclick="switchAuthTab('signup')">
+        <i class="ph-bold ph-user-plus"></i> 간편 회원가입
+      </button>
+    </div>
+
+    <!-- 1. Easy 1-Click Social Auth Buttons -->
+    <div class="social-auth-group">
+      <button type="button" class="btn-social-auth naver-auth" onclick="handleSocialLogin('naver')">
+        <span class="n-symbol-auth">N</span>
+        <span>네이버 아이디로 1초 간편 시작</span>
+      </button>
+      <button type="button" class="btn-social-auth kakao-auth" onclick="handleSocialLogin('kakao')">
+        <i class="ph-fill ph-chat-circle-dots"></i>
+        <span>카카오 계정으로 1초 간편 시작</span>
+      </button>
+    </div>
+
+    <div class="auth-divider">
+      <span>또는 아이디로 이용</span>
+    </div>
+
+    <!-- 2. Login Form Panel -->
+    <form class="auth-form" id="login-form" onsubmit="handleEmailLogin(event)">
+      <div class="auth-input-group">
+        <label for="login-email">아이디 또는 이메일</label>
+        <div class="input-with-icon">
+          <i class="ph-bold ph-user"></i>
+          <input type="text" id="login-email" placeholder="아이디 또는 이메일 입력" required autocomplete="username">
+        </div>
+      </div>
+
+      <div class="auth-input-group">
+        <label for="login-password">비밀번호</label>
+        <div class="input-with-icon">
+          <i class="ph-bold ph-lock-key"></i>
+          <input type="password" id="login-password" placeholder="비밀번호 입력" required autocomplete="current-password">
+        </div>
+      </div>
+
+      <div class="auth-form-options">
+        <label class="checkbox-label">
+          <input type="checkbox" id="remember-me" checked>
+          <span>로그인 상태 유지</span>
+        </label>
+      </div>
+
+      <button type="submit" class="btn btn-auth-submit">
+        <span>로그인하고 체험수기 열람하기</span>
+        <i class="ph-bold ph-arrow-right"></i>
+      </button>
+    </form>
+
+    <!-- 3. Sign-up Form Panel -->
+    <form class="auth-form" id="signup-form" style="display: none;" onsubmit="handleEmailSignup(event)">
+      <div class="auth-input-group">
+        <label for="signup-name">이름 (실명)</label>
+        <div class="input-with-icon">
+          <i class="ph-bold ph-user"></i>
+          <input type="text" id="signup-name" placeholder="홍길동" required autocomplete="name">
+        </div>
+      </div>
+
+      <div class="auth-input-group">
+        <label for="signup-phone">휴대폰 번호</label>
+        <div class="input-with-icon">
+          <i class="ph-bold ph-phone"></i>
+          <input type="tel" id="signup-phone" placeholder="010-1234-5678" required autocomplete="tel">
+        </div>
+      </div>
+
+      <div class="auth-input-group">
+        <label for="signup-email">아이디 (이메일)</label>
+        <div class="input-with-icon">
+          <i class="ph-bold ph-envelope-simple"></i>
+          <input type="email" id="signup-email" placeholder="example@naver.com" required autocomplete="username">
+        </div>
+      </div>
+
+      <div class="auth-input-group">
+        <label for="signup-password">비밀번호 (6자리 이상)</label>
+        <div class="input-with-icon">
+          <i class="ph-bold ph-lock-key"></i>
+          <input type="password" id="signup-password" placeholder="비밀번호 설정" minlength="6" required autocomplete="new-password">
+        </div>
+      </div>
+
+      <div class="auth-form-options">
+        <label class="checkbox-label">
+          <input type="checkbox" id="agree-terms" required checked>
+          <span>[필수] 개인정보 수집 및 의료정보 열람 동의</span>
+        </label>
+      </div>
+
+      <button type="submit" class="btn btn-auth-submit signup-submit">
+        <span>회원가입 완료 & 수기 열람</span>
+        <i class="ph-bold ph-check"></i>
+      </button>
+    </form>
+
+    <div class="auth-modal-footer text-center">
+      <p>가입 시 의료법 및 개인정보 보호법에 의거하여 안전하게 암호화 관리됩니다.</p>
+    </div>
+  </div>
+  <div class="auth-modal-overlay" onclick="closeAuthModal()"></div>
+</div>

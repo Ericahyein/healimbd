@@ -17,8 +17,20 @@
         </ul>
       </nav>
 
-      <!-- Header CTA (문의하기 단일 통합 버튼) -->
+      <!-- Header CTA & Member Login Group -->
       <div class="header-cta-group">
+        <!-- Member Login / Logged In State Container -->
+        <div class="header-auth-container" id="header-auth-container">
+          <button class="btn btn-header-login" id="btn-header-login" onclick="openAuthModal('login')" aria-label="로그인">
+            <i class="ph-bold ph-lock-key"></i>
+            <span>로그인</span>
+          </button>
+          <div class="header-user-badge" id="header-user-badge" style="display: none;">
+            <span class="user-greeting"><i class="ph-bold ph-user-circle-check"></i> <strong id="logged-user-name">회원</strong>님</span>
+            <button class="btn-logout-link" onclick="logoutUser()" title="로그아웃">로그아웃</button>
+          </div>
+        </div>
+
         <button class="btn btn-inquiry-header" id="btn-open-inquiry" aria-label="문의 및 예약창 열기">
           <i class="ph-bold ph-chat-teardrop-dots"></i>
           <span>문의하기</span>
@@ -45,6 +57,19 @@
       </button>
     </div>
 
+    <!-- Mobile Drawer Auth Bar -->
+    <div class="drawer-auth-bar" id="drawer-auth-bar">
+      <div id="drawer-guest-box">
+        <button class="btn btn-drawer-login" onclick="openAuthModal('login')">
+          <i class="ph-bold ph-lock-key"></i> 로그인 / 회원가입
+        </button>
+      </div>
+      <div id="drawer-user-box" style="display: none;">
+        <span class="drawer-user-name"><i class="ph-bold ph-user-circle-check"></i> <strong id="drawer-logged-user-name">회원</strong>님</span>
+        <button class="btn-drawer-logout" onclick="logoutUser()">로그아웃</button>
+      </div>
+    </div>
+
     <!-- Mobile Nav Links -->
     <ul class="mobile-nav-list">
       <li><a href="{{ "/#reviews" | relURL }}" class="mobile-nav-link"><i class="ph ph-star"></i> 치료사례</a></li>
@@ -62,6 +87,8 @@
   </div>
 
   <div class="mobile-drawer-overlay" id="drawer-overlay"></div>
+
+  {{ partial "auth_modal.html" . }}
 
   <!-- Inquiry Modal (문의하기 팝업 모달) -->
   <div class="inquiry-modal" id="inquiry-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">

@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollEffects();
   initSmoothScroll();
   initReviewTabs();
+  initAuth();
 });
 
 // 1. Mobile Menu Drawer
@@ -340,4 +341,185 @@ function initReviewTabs() {
     filterCases();
   }
 }
+
+// 8. Medical Law Member Auth System (로그인 / 회원가입 & 보호 콘텐츠 열람)
+function initAuth() {
+  const storedUser = localStorage.getItem('healim_auth_user');
+  if (storedUser) {
+    try {
+      const user = JSON.parse(storedUser);
+      updateAuthUI(user);
+    } catch (e) {
+      localStorage.removeItem('healim_auth_user');
+    }
+  } else {
+    updateAuthUI(null);
+  }
+}
+
+function openAuthModal(tab = 'login') {
+  const modal = document.getElementById('auth-modal');
+  if (!modal) return;
+  switchAuthTab(tab);
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeAuthModal() {
+  const modal = document.getElementById('auth-modal');
+  if (!modal) return;
+  modal.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function switchAuthTab(tab) {
+  const loginTabBtn = document.getElementById('tab-btn-login');
+  const signupTabBtn = document.getElementById('tab-btn-signup');
+  const loginForm = document.getElementById('login-form');
+  const signupForm = document.getElementById('signup-form');
+
+  if (tab === 'signup') {
+    if (loginTabBtn) loginTabBtn.classList.remove('active');
+    if (signupTabBtn) signupTabBtn.classList.add('active');
+    if (loginForm) loginForm.style.display = 'none';
+    if (signupForm) signupForm.style.display = 'block';
+  } else {
+    if (loginTabBtn) loginTabBtn.classList.add('active');
+    if (signupTabBtn) signupTabBtn.classList.remove('active');
+    if (loginForm) loginForm.style.display = 'block';
+    if (signupForm) signupForm.style.display = 'none';
+  }
+}
+
+function handleSocialLogin(provider) {
+  const providerName = provider === 'naver' ? '네이버' : '카카오';
+  const dummyUser = {
+    name: provider === 'naver' ? '네이버 인증회원' : '카카오 인증회원',
+    email: provider === 'naver' ? 'naver_user@naver.com' : 'kakao_user@kakao.com',
+    provider: provider,
+    loginAt: new Date().toISOString()
+  };
+
+  localStorage.setItem('healim_auth_user', JSON.stringify(dummyUser));
+  updateAuthUI(dummyUser);
+  closeAuthModal();
+  showAuthToast(`🎉 ${providerName} 간편 로그인 완료! 모든 치료사례와 자필 수기를 열람하실 수 있습니다.`);
+}
+
+function handleEmailLogin(e) {
+  e.preventDefault();
+  const emailInput = document.getElementById('login-email');
+  const email = emailInput ? emailInput.value.trim() : '회원';
+  const name = email.split('@')[0] || '회원';
+
+  const user = {
+    name: name,
+    email: email,
+    provider: 'email',
+    loginAt: new Date().toISOString()
+  };
+
+  localStorage.setItem('healim_auth_user', JSON.stringify(user));
+  updateAuthUI(user);
+  closeAuthModal();
+  showAuthToast(`🎉 ${name}님 환영합니다! 로그인되어 자필 수기를 열람하실 수 있습니다.`);
+}
+
+function handleEmailSignup(e) {
+  e.preventDefault();
+  const nameInput = document.getElementById('signup-name');
+  const emailInput = document.getElementById('signup-email');
+  const name = nameInput ? nameInput.value.trim() : '회원';
+  const email = emailInput ? emailInput.value.trim() : 'user@example.com';
+
+  const user = {
+    name: name,
+    email: email,
+    provider: 'signup',
+    loginAt: new Date().toISOString()
+  };
+
+  localStorage.setItem('healim_auth_user', JSON.stringify(user));
+  updateAuthUI(user);
+  closeAuthModal();
+  showAuthToast(`🎉 회원가입이 완료되었습니다! ${name}님 환영합니다.`);
+}
+
+function logoutUser() {
+  localStorage.removeItem('healim_auth_user');
+  updateAuthUI(null);
+  showAuthToast('로그아웃 되었습니다.');
+}
+
+function updateAuthUI(user) {
+  const headerLoginBtn = document.getElementById('btn-header-login');
+  const headerUserBadge = document.getElementById('header-user-badge');
+  const loggedUserName = document.getElementById('logged-user-name');
+
+  const drawerGuestBox = document.getElementById('drawer-guest-box');
+  const drawerUserBox = document.getElementById('drawer-user-box');
+  const drawerLoggedUserName = document.getElementById('drawer-logged-user-name');
+
+  const protectedWrapper = document.getElementById('case-protected-wrapper');
+  const unlockedBanner = document.getElementById('case-unlocked-banner');
+  const unlockedUserName = document.getElementById('unlocked-user-name');
+
+  if (user) {
+    // Header state
+    if (headerLoginBtn) headerLoginBtn.style.display = 'none';
+    if (headerUserBadge) headerUserBadge.style.display = 'inline-flex';
+    if (loggedUserName) loggedUserName.textContent = user.name;
+
+    // Mobile drawer state
+    if (drawerGuestBox) drawerGuestBox.style.display = 'none';
+    if (drawerUserBox) drawerUserBox.style.display = 'flex';
+    if (drawerLoggedUserName) drawerLoggedUserName.textContent = user.name;
+
+    // Protected case single page unlock
+    if (protectedWrapper) {
+      protectedWrapper.classList.remove('is-locked');
+    }
+    if (unlockedBanner) {
+      unlockedBanner.style.display = 'flex';
+    }
+    if (unlockedUserName) {
+      unlockedUserName.textContent = user.name;
+    }
+  } else {
+    // Header state
+    if (headerLoginBtn) headerLoginBtn.style.display = 'inline-flex';
+    if (headerUserBadge) headerUserBadge.style.display = 'none';
+
+    // Mobile drawer state
+    if (drawerGuestBox) drawerGuestBox.style.display = 'block';
+    if (drawerUserBox) drawerUserBox.style.display = 'none';
+
+    // Protected case single page lock
+    if (protectedWrapper) {
+      protectedWrapper.classList.add('is-locked');
+    }
+    if (unlockedBanner) {
+      unlockedBanner.style.display = 'none';
+    }
+  }
+}
+
+// Simple Toast Notification
+function showAuthToast(message) {
+  let toast = document.getElementById('auth-toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'auth-toast';
+    toast.className = 'auth-toast';
+    document.body.appendChild(toast);
+  }
+
+  toast.textContent = message;
+  toast.classList.add('show');
+
+  setTimeout(() => {
+    toast.classList.remove('show');
+  }, 3500);
+}
+
 
