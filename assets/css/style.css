@@ -528,12 +528,12 @@ ul {
   margin: auto;
   background: white;
   width: 100%;
-  max-width: 480px;
+  max-width: 530px;
   max-height: calc(100vh - 48px);
   overflow-y: auto;
   overscroll-behavior: contain;
   border-radius: var(--radius-lg);
-  padding: 28px 24px;
+  padding: 30px 28px;
   box-shadow: 0 24px 60px rgba(15, 23, 42, 0.3);
   animation: modalScaleIn 0.28s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -560,6 +560,7 @@ ul {
 .modal-title {
   font-size: 1.28rem;
   color: var(--text-dark);
+  word-break: keep-all;
 }
 
 .modal-title strong {
@@ -588,6 +589,7 @@ ul {
   font-size: 0.92rem;
   color: var(--text-muted);
   margin-bottom: 22px;
+  word-break: keep-all;
 }
 
 .modal-options {
@@ -662,18 +664,23 @@ ul {
 
 .opt-text {
   flex: 1;
+  min-width: 0;
 }
 
 .opt-title {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 8px;
-  margin-bottom: 2px;
+  margin-bottom: 3px;
+  flex-wrap: nowrap;
 }
 
 .opt-title strong {
-  font-size: 1.05rem;
+  font-size: 1.02rem;
   color: var(--text-dark);
+  white-space: nowrap;
+  word-break: keep-all;
 }
 
 .opt-tag {
@@ -683,6 +690,8 @@ ul {
   color: #039744;
   padding: 2px 7px;
   border-radius: 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .opt-tag.kakao-tag {
@@ -699,6 +708,7 @@ ul {
   font-size: 0.84rem;
   color: var(--text-muted);
   line-height: 1.4;
+  word-break: keep-all;
 }
 
 .opt-arrow {
