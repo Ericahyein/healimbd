@@ -2919,7 +2919,7 @@ ul {
 }
 
 /* ==========================================================================
-   4. TREATMENTS (진료과목 - 통합 8대 핵심 진료과목 - 해아림 로고 하모니 톤)
+   4. TREATMENTS (진료과목 - 통합 8대 핵심 진료과목 - 비비드 틸 & 로열 마린 톤)
    ========================================================================== */
 .treatments-home-section, .treatments-page-section {
   background: #F8FAFC;
@@ -2929,26 +2929,25 @@ ul {
 .treatments-unified-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
+  gap: 26px;
 }
 
 .treatment-card {
   background: white;
   border-radius: var(--radius-lg);
-  padding: 28px 28px;
-  border: 1.5px solid #E2E8F0;
-  border-top: 3.5px solid #E8A852;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.03);
+  padding: 30px 28px;
+  border: 1.5px solid #CBD5E1;
+  border-top: 4px solid #0D9488;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .treatment-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 28px rgba(232, 168, 82, 0.12);
-  border-color: #E8A852;
+  transform: translateY(-5px);
+  box-shadow: 0 14px 34px rgba(13, 148, 136, 0.14);
+  border-color: #0D9488;
 }
 
 .treatment-card-header {
@@ -2962,16 +2961,16 @@ ul {
   font-family: 'Outfit', sans-serif;
   font-size: 0.88rem;
   font-weight: 800;
-  padding: 4px 10px;
+  padding: 4px 11px;
   border-radius: 6px;
-  background: #FDF8F0;
-  color: #C27D23;
-  border: 1px solid rgba(232, 168, 82, 0.4);
+  background: #F0FDF4;
+  color: #0D9488;
+  border: 1.5px solid rgba(13, 148, 136, 0.3);
   flex-shrink: 0;
 }
 
 .treatment-name {
-  font-size: 1.25rem;
+  font-size: 1.28rem;
   font-weight: 800;
   color: #0F172A;
   margin: 0;
@@ -2982,25 +2981,35 @@ ul {
 .sub-tags-wrap {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 18px;
+  gap: 6px;
+  margin-bottom: 14px;
 }
 
 .sub-tag {
-  font-size: 0.84rem;
+  font-size: 0.82rem;
   font-weight: 700;
-  color: #475569;
-  background: #F8FAFC;
-  border: 1px solid #E2E8F0;
-  padding: 5px 12px;
+  color: #0F766E;
+  background: #F0FDFA;
+  border: 1px solid #CCFBF1;
+  padding: 4px 10px;
   border-radius: var(--radius-full);
   transition: all 0.2s ease;
 }
 
 .treatment-card:hover .sub-tag {
-  border-color: #ECD4B0;
-  background: #FDF8F0;
-  color: #8C5919;
+  border-color: #0D9488;
+  background: #0D9488;
+  color: white;
+}
+
+.treatment-explanation {
+  font-size: 0.94rem;
+  color: #475569;
+  line-height: 1.68;
+  margin-bottom: 20px;
+  flex: 1;
+  word-break: keep-all;
+  font-weight: 500;
 }
 
 .treatment-card-footer {
@@ -3014,7 +3023,7 @@ ul {
 .card-case-link {
   font-size: 0.88rem;
   font-weight: 800;
-  color: #C27D23;
+  color: #0D9488;
   display: inline-flex;
   align-items: center;
   gap: 4px;
@@ -3024,7 +3033,7 @@ ul {
 
 .card-case-link:hover {
   transform: translateX(4px);
-  color: #24B598;
+  color: #1B8FD1;
 }
 
 @media (max-width: 768px) {
