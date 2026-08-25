@@ -1,0 +1,14 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Hugo
+public/
+resources/_gen/
+.hugo_build.lock
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.gemini/
+*.log

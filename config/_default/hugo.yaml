@@ -1,0 +1,44 @@
+# Hugo Configuration for Healim Bundang Clinic
+title: '해아림한의원 분당점'
+baseURL: 'https://healim-bundang.com/'
+
+defaultContentLanguage: ko
+hasCJKLanguage: true
+defaultContentLanguageInSubdir: false
+removePathAccents: true
+
+summaryLength: 50
+enableEmoji: true
+enableRobotsTXT: true
+footnotereturnlinkcontents: <sup>^</sup>
+
+ignoreLogs:
+  - 'sections-none-/'
+
+outputs:
+  home: [HTML, RSS]
+  section: [HTML, RSS]
+
+security:
+  exec:
+    allow:
+      - '^(dart-)?sass$'
+      - '^go$'
+      - '^npx$'
+      - '^node$'
+      - '^npm$'
+      - '^pnpm$'
+      - '^tailwindcss$'
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+  tableOfContents:
+    startLevel: 2
+    endLevel: 3
+
+sitemap:
+  changefreq: weekly
+  priority: 0.8
+  filename: sitemap.xml

@@ -1,0 +1,16 @@
+main:
+  - name: 치료후기
+    url: '#reviews'
+    weight: 10
+  - name: 진료철학
+    url: '#about'
+    weight: 20
+  - name: 진료과목
+    url: '#clinics'
+    weight: 30
+  - name: 원장 칼럼
+    url: '#blog'
+    weight: 40
+  - name: 상담예약
+    url: '#location'
+    weight: 50

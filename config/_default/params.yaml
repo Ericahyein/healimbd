@@ -1,0 +1,35 @@
+# Brand & Site Parameters
+site_type: 'MedicalBusiness'
+name: '해아림한의원 분당점'
+description: '정자역 해아림한의원 분당점. 자율신경실조증, 공황장애, 불면증부터 소아청소년 틱장애, ADHD까지. 마음과 몸을 함께 살피는 근본 치료 (월/수 야간진료)'
+keywords: '분당한방신경정신과, 분당공황장애, 분당불면증, 분당자율신경실조증, 분당틱장애, 분당ADHD, 정자역한의원, 성남신경정신과한의원'
+
+header:
+  navbar:
+    enable: true
+    align: 'right'
+    show_logo: true
+    show_language: false
+    show_day_night: false
+    show_search: false
+
+footer:
+  copyright: '© 해아림한의원 분당점. All rights reserved.'
+
+clinic_info:
+  doctor: '손지웅 대표원장'
+  business_number: '657-98-00797'
+  phone: '031-716-8575'
+  address: '성남시 분당구 성남대로 331번길 3-3, 젤존타워 3차 405호'
+  subway: '수인분당선 / 신분당선 정자역 3번 출구 도보 2분'
+  parking: '젤존타워 3차 지하주차장 무료 주차 지원'
+  naver_booking_url: 'https://naver.me/xbARooIc'
+  kakao_chat_url: 'http://pf.kakao.com/_NEUHT'
+  blog_url: 'https://blog.naver.com/peaceful_one'
+
+theme:
+  colors:
+    primary: '#1B8FD1'
+    secondary: '#24B598'
+    accent: '#F3AA29'
+    text: '#3A4048'

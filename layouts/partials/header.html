@@ -1,0 +1,126 @@
+<header class="site-header" id="site-header">
+  <div class="header-main">
+    <div class="container header-main-inner">
+      <a href="/" class="brand-logo" aria-label="해아림한의원 분당점 홈으로">
+        <img src="/images/logo.png" alt="해아림 로고" class="brand-logo-img" width="46" height="46">
+        <span class="brand-logo-title">해아림한의원 분당점</span>
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="desktop-nav" aria-label="주요 메뉴">
+        <ul class="nav-list">
+          <li><a href="#reviews" class="nav-link">치료후기</a></li>
+          <li><a href="#about" class="nav-link">진료철학</a></li>
+          <li><a href="#clinics" class="nav-link">진료과목</a></li>
+          <li><a href="#blog" class="nav-link">원장 칼럼</a></li>
+          <li><a href="#location" class="nav-link">상담예약</a></li>
+        </ul>
+      </nav>
+
+      <!-- Header CTA (문의하기 단일 통합 버튼) -->
+      <div class="header-cta-group">
+        <button class="btn btn-inquiry-header" id="btn-open-inquiry" aria-label="문의 및 예약창 열기">
+          <i class="ph-bold ph-chat-teardrop-dots"></i>
+          <span>문의하기</span>
+        </button>
+        <!-- Mobile Menu Toggle Button -->
+        <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="메뉴 열기" aria-expanded="false">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Drawer Menu -->
+  <div class="mobile-drawer" id="mobile-drawer">
+    <div class="drawer-header">
+      <div class="drawer-logo-wrap">
+        <img src="/images/logo.png" alt="해아림 로고" class="drawer-logo-img" width="36" height="36">
+        <span class="drawer-title">해아림한의원 분당점</span>
+      </div>
+      <button class="drawer-close" id="drawer-close" aria-label="메뉴 닫기">
+        <i class="ph ph-x"></i>
+      </button>
+    </div>
+    <ul class="mobile-nav-list">
+      <li><a href="#reviews" class="mobile-nav-link"><i class="ph-bold ph-star-half"></i> 치료후기</a></li>
+      <li><a href="#about" class="mobile-nav-link"><i class="ph-bold ph-heartbeat"></i> 진료철학</a></li>
+      <li><a href="#clinics" class="mobile-nav-link"><i class="ph-bold ph-brain"></i> 진료과목</a></li>
+      <li><a href="#blog" class="mobile-nav-link"><i class="ph-bold ph-newspaper"></i> 원장 칼럼</a></li>
+      <li><a href="#location" class="mobile-nav-link"><i class="ph-bold ph-calendar-check"></i> 상담예약</a></li>
+    </ul>
+    <div class="drawer-ctas">
+      <button class="btn btn-inquiry-full" id="btn-drawer-inquiry">
+        <i class="ph-bold ph-chat-teardrop-dots"></i> 문의 및 예약하기
+      </button>
+    </div>
+  </div>
+  <div class="mobile-drawer-overlay" id="drawer-overlay"></div>
+
+  <!-- Inquiry Modal (문의하기 팝업 모달) -->
+  <div class="inquiry-modal" id="inquiry-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-header-title-wrap">
+          <img src="/images/logo.png" alt="해아림 로고" class="modal-logo-img" width="32" height="32">
+          <h3 id="modal-title" class="modal-title">해아림한의원 분당점 <strong>상담 및 예약</strong></h3>
+        </div>
+        <button class="modal-close" id="modal-close" aria-label="닫기">
+          <i class="ph ph-x"></i>
+        </button>
+      </div>
+
+      <p class="modal-subtitle">편리한 채널을 선택하시면 바로 상담 및 예약으로 연결됩니다.</p>
+
+      <div class="modal-options">
+        <!-- 1. Naver Booking -->
+        <a href="https://naver.me/xbARooIc" target="_blank" rel="noopener noreferrer" class="modal-opt-card opt-naver">
+          <div class="opt-icon naver-bg">
+            <span class="n-symbol-lg">N</span>
+          </div>
+          <div class="opt-text">
+            <div class="opt-title">
+              <strong>네이버 진료 예약</strong>
+              <span class="opt-tag">실시간 일정 선택</span>
+            </div>
+            <p class="opt-desc">원하시는 날짜와 시간을 선택하여 간편하게 예약하세요.</p>
+          </div>
+          <i class="ph-bold ph-arrow-right opt-arrow"></i>
+        </a>
+
+        <!-- 2. KakaoTalk Chat -->
+        <a href="http://pf.kakao.com/_NEUHT" target="_blank" rel="noopener noreferrer" class="modal-opt-card opt-kakao">
+          <div class="opt-icon kakao-bg">
+            <i class="ph-fill ph-chat-circle-dots"></i>
+          </div>
+          <div class="opt-text">
+            <div class="opt-title">
+              <strong>카카오톡 1:1 상담</strong>
+              <span class="opt-tag kakao-tag">친절한 실시간 상담</span>
+            </div>
+            <p class="opt-desc">증상 문의, 진료 과정, 진료시간을 1:1로 편하게 물어보세요.</p>
+          </div>
+          <i class="ph-bold ph-arrow-right opt-arrow"></i>
+        </a>
+
+        <!-- 3. Direct Phone -->
+        <a href="tel:031-716-8575" class="modal-opt-card opt-phone">
+          <div class="opt-icon phone-bg">
+            <i class="ph-bold ph-phone-call"></i>
+          </div>
+          <div class="opt-text">
+            <div class="opt-title">
+              <strong>전화 문의 (031-716-8575)</strong>
+              <span class="opt-tag phone-tag">대표번호 바로 연결</span>
+            </div>
+            <p class="opt-desc">월/수 야간진료(20시) 및 진료 일정 유선 안내</p>
+          </div>
+          <i class="ph-bold ph-arrow-right opt-arrow"></i>
+        </a>
+      </div>
+    </div>
+    <div class="modal-overlay" id="modal-overlay"></div>
+  </div>
+</header>

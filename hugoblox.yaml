@@ -1,0 +1,4 @@
+schema: 1.0.0
+engine:
+  name: hugo
+  version: ">=0.158.0"

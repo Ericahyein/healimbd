@@ -1,0 +1,16 @@
+{
+  "name": "healim-bundang-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "해아림한의원 분당점 공식 웹사이트",
+  "scripts": {
+    "dev": "hugo server --disableFastRender",
+    "build": "hugo --minify"
+  },
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.12",
+    "@tailwindcss/typography": "^0.5.10",
+    "preact": "^10.27.2",
+    "tailwindcss": "^4.1.12"
+  }
+}
