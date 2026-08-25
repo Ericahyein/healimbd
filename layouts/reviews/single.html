@@ -48,7 +48,7 @@
         </div>
 
         <!-- Featured Case Card Visual -->
-        {{ if .Params.image }}
+        {{ if and .Params.image (not (in .Params.image "handwriting")) }}
         <div class="case-single-img-wrap">
           <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}" class="case-single-img">
         </div>
