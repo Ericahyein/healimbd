@@ -1475,170 +1475,471 @@ ul {
 }
 
 /* ==========================================================================
-   3. ABOUT US SECTION (진료철학)
+   3. ABOUT US & CLINICAL PHILOSOPHY (진료철학 - HEALIM SUWON STYLE)
    ========================================================================== */
 .about-section {
   background: white;
+  padding: 85px 0 95px;
 }
 
-.about-grid {
+.about-hero-grid {
   display: grid;
-  grid-template-columns: 0.9fr 1.1fr;
+  grid-template-columns: 360px 1fr;
   gap: 40px;
-  align-items: stretch;
+  align-items: start;
 }
 
+/* Doctor Portrait Card */
 .about-doctor-card {
-  background: linear-gradient(180deg, #F8FBFE 0%, #FFFFFF 100%);
+  background: white;
   border-radius: var(--radius-lg);
-  border: 1px solid var(--border-light);
-  padding: 36px 32px;
-  box-shadow: var(--shadow-md);
-  display: flex;
-  flex-direction: column;
+  border: 1px solid #E2E8F0;
+  overflow: hidden;
+  box-shadow: 0 6px 24px rgba(15, 23, 42, 0.06);
 }
 
-.doc-profile-header {
-  margin-bottom: 20px;
+.doc-photo-frame {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  background: #F8FAFC;
+  overflow: hidden;
+  position: relative;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.doc-portrait-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transition: transform 0.4s ease;
+}
+
+.about-doctor-card:hover .doc-portrait-img {
+  transform: scale(1.02);
+}
+
+.doc-info-block {
+  padding: 24px;
 }
 
 .doc-badge-pill {
   display: inline-block;
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: var(--primary);
-  background: var(--primary-light);
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #1B8FD1;
+  background: #EBF6FC;
   padding: 4px 10px;
-  border-radius: 4px;
-  margin-bottom: 8px;
+  border-radius: var(--radius-full);
+  margin-bottom: 6px;
 }
 
 .doc-full-name {
-  font-size: 1.85rem;
+  font-size: 1.65rem;
   font-weight: 800;
-  letter-spacing: -0.5px;
+  color: #0F172A;
+  margin-bottom: 2px;
 }
 
 .doc-title-sub {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 600;
-  color: var(--text-muted);
-  margin-left: 6px;
+  color: #64748B;
 }
 
 .doc-clinic-name {
-  font-size: 0.92rem;
-  color: var(--text-muted);
-  font-weight: 500;
+  font-size: 0.88rem;
+  color: #64748B;
+  margin-bottom: 18px;
 }
 
-.doc-quote-box {
-  background: white;
-  border-left: 4px solid var(--primary);
+.doc-credentials-summary {
+  background: #F8FAFC;
   border-radius: var(--radius-sm);
-  padding: 16px 18px;
-  margin-bottom: 22px;
-  position: relative;
-  box-shadow: var(--shadow-sm);
+  padding: 16px;
+  border: 1px solid #E2E8F0;
 }
 
-.doc-quote-icon {
-  font-size: 1.6rem;
-  color: var(--primary-glow);
-  position: absolute;
-  top: 10px;
-  right: 14px;
-}
-
-.doc-quote-box blockquote {
-  font-size: 1.05rem;
-  color: var(--primary);
-  line-height: 1.5;
-}
-
-.doc-greeting-text {
-  font-size: 0.96rem;
-  color: var(--text-body);
-  line-height: 1.8;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-bottom: 28px;
-}
-
-.doc-card-actions {
-  display: flex;
-  gap: 12px;
-  margin-top: auto;
-  flex-wrap: wrap;
-}
-
-.about-philosophy-col {
-  display: flex;
-  flex-direction: column;
-}
-
-.philosophy-title {
-  font-size: 1.65rem;
-  margin-bottom: 6px;
-}
-
-.philosophy-subtitle {
-  font-size: 0.98rem;
-  color: var(--text-muted);
-  margin-bottom: 24px;
-}
-
-.philosophy-cards {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-.philosophy-card {
-  background: var(--bg-soft);
-  border-radius: var(--radius-md);
-  padding: 22px;
-  border: 1px solid var(--border-light);
-  display: flex;
-  gap: 18px;
-  transition: var(--transition);
-}
-
-.philosophy-card:hover {
-  background: white;
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
-  border-color: rgba(27, 143, 209, 0.25);
-}
-
-.philo-num {
-  font-family: 'Outfit', sans-serif;
-  font-size: 1.4rem;
+.cred-sub-title {
+  font-size: 0.88rem;
   font-weight: 800;
-  color: var(--primary);
-  opacity: 0.6;
+  color: #0F172A;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
-.philo-body {
-  flex: 1;
+.cred-summary-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.82rem;
+  color: #475569;
+  line-height: 1.7;
 }
 
-.philo-icon {
-  font-size: 1.5rem;
-  color: var(--primary);
+.cred-summary-list li strong {
+  color: #1B8FD1;
+}
+
+/* Philosophy Narrative Column */
+.about-story-col {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.story-greeting-banner {
+  background: #F8FAFC;
+  border-radius: var(--radius-md);
+  border-left: 4px solid #1B8FD1;
+  padding: 24px 28px;
+}
+
+.greeting-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #1B8FD1;
+  letter-spacing: 0.8px;
   margin-bottom: 8px;
 }
 
-.philo-body h4 {
-  font-size: 1.1rem;
+.greeting-lead-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #0F172A;
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+.greeting-lead-desc {
+  font-size: 0.98rem;
+  color: #475569;
+  line-height: 1.75;
+}
+
+.story-pillars-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.pillar-card {
+  background: white;
+  border-radius: var(--radius-md);
+  border: 1px solid #E2E8F0;
+  padding: 20px 24px;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+.pillar-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  border-color: rgba(27, 143, 209, 0.35);
+}
+
+.pillar-card.highlight {
+  background: #F0FDF9;
+  border-color: rgba(36, 181, 152, 0.35);
+}
+
+.pillar-num {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #1B8FD1;
+  flex-shrink: 0;
+}
+
+.pillar-card.highlight .pillar-num {
+  color: #24B598;
+}
+
+.pillar-content h4 {
+  font-size: 1.08rem;
+  font-weight: 800;
+  color: #0F172A;
   margin-bottom: 6px;
 }
 
-.philo-body p {
+.pillar-content p {
   font-size: 0.92rem;
-  color: var(--text-muted);
-  line-height: 1.65;
+  color: #475569;
+  line-height: 1.7;
+}
+
+.about-actions-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding-top: 6px;
+}
+
+/* Dedicated Philosophy Page (/philosophy/) */
+.philosophy-page-section {
+  padding: 60px 0 100px;
+  background: #F8FAFC;
+}
+
+.philo-hero-grid {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 44px;
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: 44px;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.05);
+  margin-bottom: 60px;
+}
+
+.philo-doctor-profile-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.philo-doc-photo-frame {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  background: #F1F5F9;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid #E2E8F0;
+  margin-bottom: 20px;
+}
+
+.philo-doc-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.philo-badge-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.philo-doc-badge {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #1B8FD1;
+  background: #EBF6FC;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+}
+
+.philo-clinic-badge {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #64748B;
+  background: #F1F5F9;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+}
+
+.philo-doc-name {
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin-bottom: 8px;
+}
+
+.philo-doc-quote {
+  font-size: 0.94rem;
+  font-weight: 600;
+  color: #1B8FD1;
+  line-height: 1.6;
+  margin-bottom: 22px;
+}
+
+.philo-credentials-box {
+  background: #F8FAFC;
+  border-radius: var(--radius-sm);
+  padding: 20px;
+  border: 1px solid #E2E8F0;
+}
+
+.cred-title {
+  font-size: 0.94rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cred-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.88rem;
+  color: #475569;
+  line-height: 1.8;
+}
+
+.cred-list li strong {
+  color: #1B8FD1;
+}
+
+.philo-greeting-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.greeting-main-title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #0F172A;
+  line-height: 1.45;
+  margin-bottom: 24px;
+}
+
+.greeting-main-title strong {
+  color: #1B8FD1;
+}
+
+.greeting-paragraphs {
+  font-size: 1.02rem;
+  line-height: 1.85;
+  color: #334155;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.greeting-signature {
+  margin-top: auto;
+  border-top: 1px solid #E2E8F0;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.greeting-signature span {
+  font-size: 0.88rem;
+  color: #64748B;
+}
+
+.greeting-signature strong {
+  font-size: 1.25rem;
+  color: #0F172A;
+}
+
+.greeting-signature em {
+  font-size: 0.92rem;
+  font-weight: normal;
+  color: #64748B;
+  font-style: normal;
+  margin-left: 6px;
+}
+
+/* 3 Core Story Pillars on Philosophy Page */
+.philo-stories-section {
+  margin-bottom: 60px;
+}
+
+.philo-story-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.philo-story-card {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: 34px 28px;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.philo-story-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 32px rgba(15, 23, 42, 0.08);
+  border-color: rgba(27, 143, 209, 0.4);
+}
+
+.philo-story-card.highlight {
+  border-top: 4px solid #24B598;
+}
+
+.story-num {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #1B8FD1;
+  margin-bottom: 12px;
+}
+
+.philo-story-card.highlight .story-num {
+  color: #24B598;
+}
+
+.story-icon-wrap {
+  font-size: 2rem;
+  color: #1B8FD1;
+  margin-bottom: 14px;
+}
+
+.philo-story-card.highlight .story-icon-wrap {
+  color: #24B598;
+}
+
+.story-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #0F172A;
+  line-height: 1.45;
+  margin-bottom: 14px;
+}
+
+.story-desc {
+  font-size: 0.94rem;
+  color: #475569;
+  line-height: 1.8;
+}
+
+.philo-cta-banner {
+  background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+  color: white;
+  border-radius: var(--radius-lg);
+  padding: 36px 44px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.philo-cta-text h3 {
+  font-size: 1.35rem;
+  color: white;
+  margin-bottom: 8px;
+}
+
+.philo-cta-text p {
+  font-size: 0.94rem;
+  color: #94A3B8;
+}
+
+.philo-cta-btns {
+  display: flex;
+  gap: 12px;
+  flex-shrink: 0;
 }
 
 /* ==========================================================================

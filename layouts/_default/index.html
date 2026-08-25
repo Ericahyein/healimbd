@@ -250,84 +250,91 @@
   </div>
 </section>
 
-<!-- 3. About Us Section (진료철학) -->
+<!-- 3. About Us Section (진료철학 - HEALIM STYLE) -->
 <section class="section about-section" id="about">
   <div class="container">
     <div class="section-header text-center">
-      <span class="section-tag">PHILOSOPHY</span>
+      <span class="section-tag">CLINICAL PHILOSOPHY</span>
       <h2 class="section-title">손지웅 대표원장의 <strong>진료 철학</strong></h2>
-      <p class="section-desc">몸과 마음, 두뇌의 불균형을 바로잡아 온전한 일상을 되찾아드립니다.</p>
+      <p class="section-desc">
+        "환자의 아픔을 먼저 겪어보았기에, 깊이 공감하고 경청합니다."<br>
+        몸과 마음, 두뇌의 연결을 살피고 온전한 삶의 균형을 되찾아드립니다.
+      </p>
     </div>
 
-    <div class="about-grid">
+    <div class="about-hero-grid">
+      <!-- Left: Doctor Profile & Credentials Card -->
       <div class="about-doctor-card">
-        <div class="doc-profile-header">
+        <div class="doc-photo-frame">
+          <img src="{{ "images/doctor-son.png" | relURL }}" alt="해아림한의원 분당점 손지웅 대표원장" class="doc-portrait-img">
+        </div>
+        <div class="doc-info-block">
           <div class="doc-badge-pill">대표 의료진</div>
           <h3 class="doc-full-name">손지웅 <span class="doc-title-sub">대표원장</span></h3>
           <p class="doc-clinic-name">해아림한의원 분당점</p>
-        </div>
-
-        <div class="doc-quote-box">
-          <i class="ph-fill ph-quotes doc-quote-icon"></i>
-          <blockquote>
-            <strong>"증상 억제를 넘어, 스스로 회복하는 두뇌와 자율신경의 힘을 키웁니다."</strong>
-          </blockquote>
-        </div>
-
-        <div class="doc-greeting-text">
-          <p>안녕하세요. 해아림한의원 분당점 대표원장 손지웅입니다.</p>
-          <p>
-            몸의 원인을 알 수 없는 통증과 답답함, 마음에 찾아오는 불안과 잠 못 드는 밤, 
-            그리고 우리 아이의 갑작스러운 행동과 정서적 변화. 
-            이 모든 신호는 몸과 마음, 두뇌의 불균형에서 시작됩니다.
-          </p>
-          <p>
-            해아림한의원 분당점은 단지 현재의 증상을 누르는 것에 그치지 않고, 
-            몸과 마음이 스스로 조절 능력을 되찾아 건강하게 회복될 수 있도록 전 진료 과정을 세심하게 함께하겠습니다.
-          </p>
-        </div>
-
-        <div class="doc-card-actions">
-          <a href="https://naver.me/xbARooIc" target="_blank" rel="noopener noreferrer" class="btn btn-primary-sm">
-            <i class="ph-bold ph-calendar-check"></i> 손지웅 원장 진료 예약
-          </a>
-          <a href="https://blog.naver.com/peaceful_one" target="_blank" rel="noopener noreferrer" class="btn btn-outline-sm">
-            <i class="ph-bold ph-newspaper"></i> 원장 칼럼 보기
-          </a>
+          
+          <div class="doc-credentials-summary">
+            <h4 class="cred-sub-title"><i class="ph-bold ph-certificate"></i> 약력 및 학술 활동</h4>
+            <ul class="cred-summary-list">
+              <li><strong>현)</strong> 해아림한의원 분당점 대표원장</li>
+              <li><strong>전)</strong> 해아림한의원 대구본점 진료원장</li>
+              <li><strong>전)</strong> 울진군 온정면 보건지소 한방진료과장</li>
+              <li>대구한의대학교 한의학과 졸업</li>
+              <li>대한한방신경정신과학회 정회원</li>
+              <li>대한한방두뇌신경의학회 정회원</li>
+              <li>대한한방소아과학회 정회원</li>
+            </ul>
+          </div>
         </div>
       </div>
 
-      <div class="about-philosophy-col">
-        <h3 class="philosophy-title">해아림 분당점의 <strong>3대 진료 철학</strong></h3>
-        <p class="philosophy-subtitle">단순한 증상 완화가 아닌 지속 가능한 회복을 만듭니다.</p>
+      <!-- Right: Philosophy & Story Narrative -->
+      <div class="about-story-col">
+        <div class="story-greeting-banner">
+          <div class="greeting-badge"><i class="ph-bold ph-hand-heart"></i> GREETING</div>
+          <h3 class="greeting-lead-title">
+            "따뜻한 공감과 경청으로 마음과 몸을 치유합니다."
+          </h3>
+          <p class="greeting-lead-desc">
+            저는 언제나 진료의 중심에 <strong>치유(Healing)와 온전한 공감</strong>을 둡니다. 
+            표면적인 증상 억제를 넘어, 환자 한 분 한 분의 삶의 이야기를 듣고 마음과 두뇌, 신체의 <strong>근본적인 자율조절력</strong>을 회복하도록 돕습니다.
+          </p>
+        </div>
 
-        <div class="philosophy-cards">
-          <div class="philosophy-card">
-            <div class="philo-num">01</div>
-            <div class="philo-body">
-              <div class="philo-icon"><i class="ph-bold ph-magnifying-glass-plus"></i></div>
-              <h4>원인에 집중하는 진단</h4>
-              <p>표면적인 증상에 머무르지 않고 정서, 수면 패턴, 자율신경 및 뇌기능 상태를 종합적으로 세밀하게 살핍니다.</p>
+        <!-- 3 Core Philosophy Pillars -->
+        <div class="story-pillars-grid">
+          <div class="pillar-card">
+            <div class="pillar-num">01</div>
+            <div class="pillar-content">
+              <h4>어린 시절의 따뜻한 기억이 만든 길</h4>
+              <p>어릴 적 잦은 잔병치레 속 할머니 손에 이끌려 찾은 한의원에서 만난 원장님의 따스한 맥 짚기에서 <strong>'한의사란 따뜻함이다'</strong>라는 신념을 품고 한의사의 길을 걷게 되었습니다.</p>
             </div>
           </div>
 
-          <div class="philosophy-card">
-            <div class="philo-num">02</div>
-            <div class="philo-body">
-              <div class="philo-icon"><i class="ph-bold ph-sliders"></i></div>
-              <h4>개인별 1:1 맞춤 치료</h4>
-              <p>환자 개개인의 증상 경중, 체질적 특성, 연령 및 발달 단계에 꼭 맞춘 맞춤 한약·침구·두뇌훈련 프로그램을 구성합니다.</p>
+          <div class="pillar-card highlight">
+            <div class="pillar-num">02</div>
+            <div class="pillar-content">
+              <h4>직접 겪은 시련과 '신체-정신 일체'의 깨달음</h4>
+              <p>대학 시절 큰 교통사고와 혼수상태, 기나긴 재활 속 불안과 우울을 겪으며 <strong>'몸과 마음은 깊이 연결되어 있다'</strong>는 것을 직접 체득하고 신경정신과 한의사가 되기로 결심했습니다.</p>
             </div>
           </div>
 
-          <div class="philosophy-card">
-            <div class="philo-num">03</div>
-            <div class="philo-body">
-              <div class="philo-icon"><i class="ph-bold ph-house-line"></i></div>
-              <h4>일상 속 지속 가능한 회복</h4>
-              <p>치료실 밖에서도 스스로 안정 상태를 유지할 수 있도록 일상 대처법, 수면 및 스트레스 생활관리 코칭을 병행합니다.</p>
+          <div class="pillar-card">
+            <div class="pillar-num">03</div>
+            <div class="pillar-content">
+              <h4>환자와 가족이 함께하는 전인적 회복</h4>
+              <p>틱장애·ADHD 아이를 둔 부모님의 죄책감부터 공황·불안 환자의 가족 부담까지 함께 보듬으며, <strong>증상 너머 삶의 희망과 온전한 균형</strong>을 되찾아드립니다.</p>
             </div>
           </div>
+        </div>
+
+        <div class="about-actions-row">
+          <a href="{{ "/philosophy/" | relURL }}" class="btn btn-primary-sm">
+            <i class="ph-bold ph-book-open"></i> 진료철학 이야기 전체보기
+          </a>
+          <a href="https://naver.me/xbARooIc" target="_blank" rel="noopener noreferrer" class="btn btn-outline-sm">
+            <i class="ph-bold ph-calendar-check"></i> 손지웅 원장 진료 예약
+          </a>
         </div>
       </div>
     </div>
