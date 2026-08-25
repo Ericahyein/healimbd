@@ -4,6 +4,7 @@ date: 2026-08-20
 author: "중학생 학부모 최O우 님"
 patient_info: "중학교 1학년 남아 (분당 정자동)"
 category: "adhd"
+review_type: "direct"
 category_name: "소아청소년 ADHD"
 diagnosis: "주의력결핍 과잉행동장애(ADHD) 및 학업 스트레스"
 duration: "3개월 치료"

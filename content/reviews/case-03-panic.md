@@ -4,6 +4,7 @@ date: 2026-08-15
 author: "30대 직장인 박O수 님"
 patient_info: "30대 남성 IT 직장인 (판교 근무)"
 category: "panic"
+review_type: "direct"
 category_name: "불안장애·공황장애"
 diagnosis: "급성 공황장애 및 과호흡 증후군"
 duration: "3개월 치료"

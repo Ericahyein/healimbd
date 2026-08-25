@@ -4,6 +4,7 @@ date: 2026-08-25
 author: "초등 3학년 학부모 이O진 님"
 patient_info: "초등학교 3학년 남아 (분당 수내동)"
 category: "tic"
+review_type: "direct"
 category_name: "소아 틱장애"
 diagnosis: "복합 틱장애 (운동틱·음성틱)"
 duration: "3개월 치료"

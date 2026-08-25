@@ -4,6 +4,7 @@ date: 2026-08-01
 author: "50대 자영업자 강O선 님"
 patient_info: "50대 여성 (분당 서현동)"
 category: "panic"
+review_type: "direct"
 category_name: "불안장애·공황장애"
 diagnosis: "범불안장애 및 화병(火病)"
 duration: "3개월 치료"

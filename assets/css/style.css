@@ -1220,29 +1220,80 @@ ul {
   background: #F8FAFC;
 }
 
+/* Dual Review Type Switcher (전체 / 원내 치료사례 / 네이버 후기) */
+.review-type-switcher {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.type-switch-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  color: #334155;
+  border: 1.5px solid #CBD5E1;
+  padding: 12px 24px;
+  border-radius: var(--radius-full);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.type-switch-btn:hover {
+  border-color: #1B8FD1;
+  color: #1B8FD1;
+  transform: translateY(-2px);
+}
+
+.type-switch-btn.active {
+  background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+  color: white;
+  border-color: #0F172A;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.25);
+}
+
+.n-pill-icon {
+  background: #03C75A;
+  color: white;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 900;
+  font-size: 0.72rem;
+  padding: 2px 5px;
+  border-radius: 3px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .cases-toolbar {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
   align-items: center;
-  margin-bottom: 48px;
+  margin-bottom: 44px;
 }
 
 .cases-category-tabs {
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: 8px;
   flex-wrap: wrap;
 }
 
 .cases-tab-btn {
   background: white;
-  color: #334155;
-  border: 1.5px solid #E2E8F0;
-  padding: 10px 22px;
+  color: #475569;
+  border: 1px solid #E2E8F0;
+  padding: 8px 18px;
   border-radius: var(--radius-full);
-  font-size: 0.96rem;
-  font-weight: 700;
+  font-size: 0.92rem;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.25s ease;
 }
@@ -1251,7 +1302,7 @@ ul {
   background: #1B8FD1;
   color: white;
   border-color: #1B8FD1;
-  box-shadow: 0 4px 14px rgba(27, 143, 209, 0.35);
+  box-shadow: 0 4px 12px rgba(27, 143, 209, 0.25);
 }
 
 .cases-search-box {
@@ -1291,6 +1342,190 @@ ul {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 28px;
+}
+
+/* Direct Case Badge */
+.case-direct-badge {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  background: rgba(15, 23, 42, 0.85);
+  color: #F8FAFC;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  backdrop-filter: blur(4px);
+}
+
+/* NAVER REVIEW CARD STYLES */
+.healim-case-card.naver-card-theme {
+  background: white;
+  border: 1.5px solid rgba(3, 199, 90, 0.35);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 4px 18px rgba(3, 199, 90, 0.06);
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+}
+
+.healim-case-card.naver-card-theme:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(3, 199, 90, 0.15);
+  border-color: #03C75A;
+}
+
+.naver-review-card-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.naver-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px dashed #E2E8F0;
+}
+
+.naver-badge-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.n-green-badge {
+  background: #03C75A;
+  color: white;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 900;
+  font-size: 0.75rem;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.n-badge-text {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #03C75A;
+}
+
+.naver-star-rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.naver-star-rating .stars {
+  color: #F59E0B;
+  font-size: 0.95rem;
+  letter-spacing: 1px;
+}
+
+.naver-star-rating .score {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 0.88rem;
+  color: #0F172A;
+}
+
+.naver-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  font-size: 0.82rem;
+  color: #64748B;
+  flex-wrap: wrap;
+}
+
+.naver-author-name {
+  font-weight: 700;
+  color: #334155;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.naver-sub-pill {
+  background: #EBF6FC;
+  color: #1B8FD1;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+.naver-review-title {
+  font-size: 1.12rem;
+  font-weight: 800;
+  color: #0F172A;
+  line-height: 1.5;
+  margin-bottom: 14px;
+  letter-spacing: -0.3px;
+}
+
+.naver-keyword-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.n-keyword-chip {
+  background: #F0FDF4;
+  color: #16A34A;
+  border: 1px solid rgba(22, 163, 74, 0.2);
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.naver-review-summary {
+  font-size: 0.92rem;
+  color: #475569;
+  line-height: 1.7;
+  margin-bottom: 20px;
+  flex: 1;
+}
+
+.naver-card-footer {
+  border-top: 1px solid #F1F5F9;
+  padding-top: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+}
+
+.naver-verified-status {
+  color: #03C75A;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.naver-direct-link {
+  color: #64748B;
+  font-weight: 700;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.2s ease;
+}
+
+.naver-direct-link:hover {
+  color: #03C75A;
 }
 
 /* Single Case Article Page */
@@ -1943,75 +2178,24 @@ ul {
 }
 
 /* ==========================================================================
-   4. TREATMENTS (진료과목 - HEALIM ILSAN STYLE)
+   4. TREATMENTS (진료과목 - 통합 8대 핵심 진료과목)
    ========================================================================== */
 .treatments-home-section, .treatments-page-section {
   background: #F8FAFC;
   padding: 85px 0 95px;
 }
 
-.treatment-domain-block {
-  margin-bottom: 56px;
-}
-
-.domain-header-row {
-  margin-bottom: 26px;
-}
-
-.domain-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-family: 'Outfit', sans-serif;
-  font-size: 0.82rem;
-  font-weight: 800;
-  letter-spacing: 0.8px;
-  padding: 5px 14px;
-  border-radius: var(--radius-full);
-  margin-bottom: 10px;
-}
-
-.domain-badge.teal {
-  background: #E8F8F5;
-  color: #24B598;
-  border: 1px solid rgba(36, 181, 152, 0.3);
-}
-
-.domain-badge.blue {
-  background: #EBF6FC;
-  color: #1B8FD1;
-  border: 1px solid rgba(27, 143, 209, 0.3);
-}
-
-.domain-title {
-  font-size: 1.85rem;
-  font-weight: 800;
-  color: #0F172A;
-  margin-bottom: 8px;
-  letter-spacing: -0.4px;
-}
-
-.domain-desc {
-  font-size: 1rem;
-  color: #64748B;
-  line-height: 1.65;
-}
-
-.treatments-cards-grid {
+.treatments-unified-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 26px;
-}
-
-.treatments-cards-grid.four-cols {
-  grid-template-columns: repeat(2, 1fr);
 }
 
 .treatment-card {
   background: white;
   border-radius: var(--radius-lg);
   padding: 32px 30px;
-  border: 1px solid #E2E8F0;
+  border: 1.5px solid #E2E8F0;
   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.03);
   display: flex;
   flex-direction: column;
@@ -2021,7 +2205,7 @@ ul {
 .treatment-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
-  border-color: rgba(27, 143, 209, 0.35);
+  border-color: #1B8FD1;
 }
 
 .treatment-card-header {
@@ -2037,16 +2221,9 @@ ul {
   font-weight: 800;
   padding: 3px 10px;
   border-radius: 6px;
-}
-
-.card-num-tag.teal {
-  background: #E8F8F5;
-  color: #24B598;
-}
-
-.card-num-tag.blue {
-  background: #EBF6FC;
+  background: #EFF6FF;
   color: #1B8FD1;
+  border: 1px solid rgba(27, 143, 209, 0.2);
 }
 
 .treatment-name {
@@ -3013,6 +3190,14 @@ ul {
    12. RESPONSIVE MEDIA QUERIES
    ========================================================================== */
 @media (max-width: 1024px) {
+  .cases-grid-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .treatments-unified-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .about-grid {
     grid-template-columns: 1fr;
   }
@@ -3044,6 +3229,24 @@ ul {
 }
 
 @media (max-width: 768px) {
+  .cases-grid-container {
+    grid-template-columns: 1fr;
+  }
+
+  .treatments-unified-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .review-type-switcher {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .type-switch-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
   .desktop-nav {
     display: none;
   }

@@ -4,6 +4,7 @@ date: 2026-08-10
 author: "40대 주부 김O영 님"
 patient_info: "40대 여성 (분당 이매동)"
 category: "sleep"
+review_type: "direct"
 category_name: "만성 불면증"
 diagnosis: "입면장애 및 만성 수면유지장애"
 duration: "2.5개월 치료"

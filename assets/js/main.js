@@ -237,38 +237,52 @@ function initSmoothScroll() {
   });
 }
 
-// 7. Case Category Filter Tabs & Live Search
+// 7. Case & Naver Review Filter Tabs & Live Search
 function initReviewTabs() {
-  const tabBtns = document.querySelectorAll('.cases-tab-btn, .review-tab-btn');
+  const typeBtns = document.querySelectorAll('.type-switch-btn');
+  const catBtns = document.querySelectorAll('.cases-tab-btn, .review-tab-btn');
   const caseCards = document.querySelectorAll('.healim-case-card, .review-board-card');
   const searchInput = document.getElementById('cases-search-input');
 
-  if (tabBtns.length === 0 && caseCards.length === 0) return;
+  if (caseCards.length === 0) return;
 
   function filterCases() {
-    const activeTab = document.querySelector('.cases-tab-btn.active, .review-tab-btn.active');
-    const filter = activeTab ? activeTab.getAttribute('data-filter') : 'all';
+    const activeTypeBtn = document.querySelector('.type-switch-btn.active');
+    const typeFilter = activeTypeBtn ? activeTypeBtn.getAttribute('data-type-filter') : 'all';
+
+    const activeCatBtn = document.querySelector('.cases-tab-btn.active, .review-tab-btn.active');
+    const catFilter = activeCatBtn ? activeCatBtn.getAttribute('data-filter') : 'all';
+
     const query = searchInput ? searchInput.value.trim().toLowerCase() : '';
 
     caseCards.forEach(card => {
-      const category = card.getAttribute('data-category') || '';
+      const cardType = card.getAttribute('data-review-type') || 'direct';
+      const cardCat = card.getAttribute('data-category') || '';
       const text = card.textContent.toLowerCase();
 
-      let matchCategory = false;
-      if (filter === 'all') {
-        matchCategory = true;
-      } else if (filter === 'tic-adhd') {
-        matchCategory = (category === 'tic' || category === 'adhd');
-      } else {
-        matchCategory = (category === filter);
+      // 1. Review Type Filter
+      let matchType = false;
+      if (typeFilter === 'all' || typeFilter === cardType) {
+        matchType = true;
       }
 
+      // 2. Category Filter
+      let matchCat = false;
+      if (catFilter === 'all') {
+        matchCat = true;
+      } else if (catFilter === 'tic-adhd') {
+        matchCat = (cardCat === 'tic' || cardCat === 'adhd');
+      } else {
+        matchCat = (cardCat === catFilter);
+      }
+
+      // 3. Search Query Filter
       let matchQuery = true;
       if (query) {
         matchQuery = text.includes(query);
       }
 
-      if (matchCategory && matchQuery) {
+      if (matchType && matchCat && matchQuery) {
         card.style.display = 'flex';
       } else {
         card.style.display = 'none';
@@ -276,18 +290,54 @@ function initReviewTabs() {
     });
   }
 
-  tabBtns.forEach(btn => {
+  // Type Switcher Click Handlers
+  typeBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-      tabBtns.forEach(b => b.classList.remove('active'));
+      typeBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       filterCases();
     });
   });
 
+  // Category Tab Click Handlers
+  catBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      catBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      filterCases();
+    });
+  });
+
+  // Search Input Handler
   if (searchInput) {
     searchInput.addEventListener('input', () => {
       filterCases();
     });
+  }
+
+  // Check URL params on initial load
+  const urlParams = new URLSearchParams(window.location.search);
+  const typeParam = urlParams.get('type');
+  const filterParam = urlParams.get('filter');
+
+  if (typeParam) {
+    const matchingTypeBtn = document.querySelector(`.type-switch-btn[data-type-filter="${typeParam}"]`);
+    if (matchingTypeBtn) {
+      typeBtns.forEach(b => b.classList.remove('active'));
+      matchingTypeBtn.classList.add('active');
+    }
+  }
+
+  if (filterParam) {
+    const matchingCatBtn = document.querySelector(`.cases-tab-btn[data-filter="${filterParam}"], .review-tab-btn[data-filter="${filterParam}"]`);
+    if (matchingCatBtn) {
+      catBtns.forEach(b => b.classList.remove('active'));
+      matchingCatBtn.classList.add('active');
+    }
+  }
+
+  if (typeParam || filterParam) {
+    filterCases();
   }
 }
 

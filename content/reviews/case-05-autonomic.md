@@ -4,6 +4,7 @@ date: 2026-08-05
 author: "20대 취업준비생 정O훈 님"
 patient_info: "20대 남성 (성남 분당구 야탑동)"
 category: "autonomic"
+review_type: "direct"
 category_name: "자율신경실조증"
 diagnosis: "자율신경실조증 및 신체화장애"
 duration: "2.5개월 치료"
