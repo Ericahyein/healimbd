@@ -1228,42 +1228,108 @@ ul {
   background: #F8FAFC;
 }
 
-/* Dual Review Type Switcher (전체 / 원내 치료사례 / 네이버 후기) */
-.review-type-switcher {
+/* Fast Section Jump Nav */
+.reviews-section-nav {
   display: flex;
   justify-content: center;
-  gap: 12px;
-  margin-bottom: 30px;
+  gap: 14px;
+  margin-top: 28px;
   flex-wrap: wrap;
 }
 
-.type-switch-btn {
+.btn-review-nav {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: white;
-  color: #334155;
-  border: 1.5px solid #CBD5E1;
-  padding: 12px 24px;
+  padding: 12px 26px;
   border-radius: var(--radius-full);
-  font-size: 1rem;
+  font-size: 0.98rem;
   font-weight: 700;
-  cursor: pointer;
+  text-decoration: none;
   transition: all 0.25s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
 }
 
-.type-switch-btn:hover {
-  border-color: #1B8FD1;
-  color: #1B8FD1;
-  transform: translateY(-2px);
-}
-
-.type-switch-btn.active {
-  background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+.btn-review-nav.direct-nav {
+  background: #0F172A;
   color: white;
-  border-color: #0F172A;
-  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.25);
+}
+
+.btn-review-nav.direct-nav:hover {
+  background: #1E293B;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.25);
+}
+
+.btn-review-nav.naver-nav {
+  background: #03C75A;
+  color: white;
+}
+
+.btn-review-nav.naver-nav:hover {
+  background: #02B351;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(3, 199, 90, 0.35);
+}
+
+/* Direct Cases Section */
+.direct-cases-section {
+  padding: 70px 0 80px;
+  background: #FFFFFF;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.direct-badge-pill {
+  background: #EFF6FF;
+  color: #1B8FD1;
+  border: 1px solid rgba(27, 143, 209, 0.3);
+}
+
+/* Naver Reviews Section (Unfiltered Continuous Stream) */
+.naver-reviews-section {
+  padding: 80px 0 100px;
+  background: #F8FAFC;
+}
+
+.naver-badge-pill {
+  background: #F0FDF4;
+  color: #03C75A;
+  border: 1px solid rgba(3, 199, 90, 0.3);
+}
+
+.naver-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 38px;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.naver-header-left {
+  max-width: 680px;
+}
+
+.btn-naver-full-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #03C75A;
+  color: white;
+  padding: 12px 22px;
+  border-radius: var(--radius-full);
+  font-size: 0.92rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 14px rgba(3, 199, 90, 0.25);
+  flex-shrink: 0;
+}
+
+.btn-naver-full-link:hover {
+  background: #02B351;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(3, 199, 90, 0.38);
 }
 
 .n-pill-icon {

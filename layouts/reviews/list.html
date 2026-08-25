@@ -31,29 +31,37 @@
           해아림한의원 분당점의 <strong>원내 직접 등록 임상 치료사례</strong>와 <strong>네이버 영수증 인증 실시간 후기</strong>를 투명하게 공개합니다.<br>
           개인의 체질과 증상에 맞춘 근본 치료로 건강한 일상을 되찾아드립니다.
         </p>
+
+        <!-- Fast Section Jump Buttons -->
+        <div class="reviews-section-nav">
+          <a href="#direct-cases-section" class="btn btn-review-nav direct-nav">
+            <i class="ph-bold ph-clipboard-text"></i>
+            <span>🏥 원내 치료사례 (질환별 검색)</span>
+          </a>
+          <a href="#naver-reviews-section" class="btn btn-review-nav naver-nav">
+            <span class="n-pill-icon">N</span>
+            <span>🟢 네이버 실시간 환자 후기 (전체 나열)</span>
+          </a>
+        </div>
       </div>
     </section>
 
-    <!-- Cases Board Main Section -->
-    <section class="section cases-board-section">
+    <!-- 1. DIRECT CLINICAL CASES SECTION (원내 직접 등록 치료사례 - 질환별 필터 적용) -->
+    <section class="section direct-cases-section" id="direct-cases-section">
       <div class="container">
         
-        <!-- Top Dual Review Type Switcher -->
-        <div class="review-type-switcher">
-          <button class="type-switch-btn active" data-type-filter="all">
-            <i class="ph-bold ph-squares-four"></i> 전체 후기 & 사례 보기
-          </button>
-          <button class="type-switch-btn" data-type-filter="direct">
-            <i class="ph-bold ph-clipboard-text"></i> 🏥 원내 치료사례 (직접 등록)
-          </button>
-          <button class="type-switch-btn" data-type-filter="naver">
-            <span class="n-pill-icon">N</span> 🟢 네이버 실시간 환자 후기
-          </button>
+        <div class="section-title-wrap text-center">
+          <div class="section-badge-pill direct-badge-pill">
+            <i class="ph-bold ph-shield-check"></i> 분당점 원내 직접 등록
+          </div>
+          <h2 class="section-main-title">임상 치료사례 & 자필 수기</h2>
+          <p class="section-desc">
+            질환별 증상 분석과 맞춤 한약·한방 치료를 통한 실제 호전 경과 및 환자 자필 체험 수기입니다.
+          </p>
         </div>
 
-        <!-- Search and Category Filter Toolbar -->
+        <!-- Disease Category Tabs & Search Toolbar -->
         <div class="cases-toolbar">
-          <!-- Category Tabs -->
           <div class="cases-category-tabs" id="category-tabs-container">
             <button class="cases-tab-btn active" data-filter="all">전체 질환</button>
             <button class="cases-tab-btn" data-filter="panic">불안·공황장애</button>
@@ -64,65 +72,18 @@
             <button class="cases-tab-btn" data-filter="ibs">과민성대장증후군</button>
           </div>
 
-          <!-- Keyword Search Bar -->
           <div class="cases-search-box">
             <i class="ph-bold ph-magnifying-glass search-icon"></i>
             <input type="text" id="cases-search-input" placeholder="증상, 질환명(예: 공황, 틱, 다한증, 불면) 검색" aria-label="치료사례 검색">
           </div>
         </div>
 
-        <!-- Cases Grid Container -->
-        <div class="cases-grid-container" id="cases-grid">
-          {{ range .Pages }}
-          {{ $isNaver := eq .Params.review_type "naver" }}
-          <article class="healim-case-card {{ if $isNaver }}naver-card-theme{{ end }}" 
+        <!-- Direct Clinical Cases Grid -->
+        <div class="cases-grid-container" id="direct-cases-grid">
+          {{ range where .Pages "Params.review_type" "direct" }}
+          <article class="healim-case-card" 
                    data-category="{{ .Params.category }}" 
-                   data-review-type="{{ if $isNaver }}naver{{ else }}direct{{ end }}">
-            
-            {{ if $isNaver }}
-            <!-- NAVER REVIEW CARD LAYOUT -->
-            <div class="naver-review-card-inner">
-              <div class="naver-card-header">
-                <div class="naver-badge-label">
-                  <span class="n-green-badge">N</span>
-                  <span class="n-badge-text">네이버 플레이스 방문자 인증</span>
-                </div>
-                <div class="naver-star-rating">
-                  <span class="stars">★★★★★</span>
-                  <span class="score">5.0</span>
-                </div>
-              </div>
-
-              <div class="naver-card-meta">
-                <span class="naver-author-name"><i class="ph-bold ph-user-circle"></i> {{ .Params.author }}</span>
-                <span class="naver-date-text">{{ .Date.Format "2006.01.02" }}</span>
-                <span class="case-tag-pill naver-sub-pill">{{ .Params.category_name }}</span>
-              </div>
-
-              <h2 class="naver-review-title">
-                "{{ .Title }}"
-              </h2>
-
-              {{ if .Params.naver_keywords }}
-              <div class="naver-keyword-chips">
-                {{ range .Params.naver_keywords }}
-                <span class="n-keyword-chip">#{{ . }}</span>
-                {{ end }}
-              </div>
-              {{ end }}
-
-              <p class="naver-review-summary">{{ .Params.summary }}</p>
-
-              <div class="naver-card-footer">
-                <span class="naver-verified-status"><i class="ph-bold ph-shield-check"></i> 영수증 / 예약 인증 완료</span>
-                <a href="https://map.naver.com/p/entry/place/1240708998" target="_blank" rel="noopener noreferrer" class="naver-direct-link">
-                  네이버 후기 원문 보기 <i class="ph-bold ph-arrow-up-right"></i>
-                </a>
-              </div>
-            </div>
-
-            {{ else }}
-            <!-- DIRECT CLINICAL CASE STUDY CARD LAYOUT -->
+                   data-review-type="direct">
             <a href="{{ .RelPermalink }}" class="case-card-anchor">
               <div class="case-thumb-wrap">
                 {{ if .Params.image }}
@@ -143,20 +104,92 @@
                   <span class="case-date-text">{{ .Date.Format "2006.01.02" }}</span>
                 </div>
 
-                <h2 class="case-title-text">
+                <h3 class="case-title-text">
                   {{ .Title }}
-                </h2>
+                </h3>
 
                 <p class="case-summary-text">{{ .Params.summary }}</p>
 
                 <div class="case-footer-row">
                   <span class="case-diag-badge"><i class="ph-bold ph-check"></i> {{ .Params.diagnosis }}</span>
-                  <span class="case-more-arrow">상세 코멘트 보기 <i class="ph-bold ph-arrow-right"></i></span>
+                  <span class="case-more-arrow">자필 수기 & 코멘트 보기 <i class="ph-bold ph-arrow-right"></i></span>
                 </div>
               </div>
             </a>
-            {{ end }}
+          </article>
+          {{ end }}
+        </div>
+      </div>
+    </section>
 
+    <!-- 2. NAVER REAL-TIME REVIEWS SECTION (네이버 실시간 환자 후기 - 필터 없이 전체 나열) -->
+    <section class="section naver-reviews-section" id="naver-reviews-section">
+      <div class="container">
+        
+        <div class="naver-section-header">
+          <div class="naver-header-left">
+            <div class="section-badge-pill naver-badge-pill">
+              <span class="n-symbol-auth">N</span> 네이버 플레이스 방문자 인증 5.0
+            </div>
+            <h2 class="section-main-title">네이버 실시간 환자 후기</h2>
+            <p class="section-desc">
+              네이버 예약을 통해 실제 진료를 받으신 환자분들의 100% 솔직한 영수증/예약 인증 리얼 리뷰를 있는 그대로 나열하여 공개합니다.
+            </p>
+          </div>
+          <div class="naver-header-right">
+            <a href="https://map.naver.com/p/entry/place/1240708998" target="_blank" rel="noopener noreferrer" class="btn btn-naver-full-link">
+              <span class="n-symbol-auth">N</span>
+              <span>네이버 플레이스 실시간 리뷰 전체보기</span>
+              <i class="ph-bold ph-arrow-up-right"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Naver Reviews Grid (Unfiltered Stream List) -->
+        <div class="cases-grid-container naver-stream-grid" id="naver-reviews-grid">
+          {{ range where .Pages "Params.review_type" "naver" }}
+          <article class="healim-case-card naver-card-theme" 
+                   data-category="{{ .Params.category }}" 
+                   data-review-type="naver">
+            <div class="naver-review-card-inner">
+              <div class="naver-card-header">
+                <div class="naver-badge-label">
+                  <span class="n-green-badge">N</span>
+                  <span class="n-badge-text">네이버 플레이스 방문자 인증</span>
+                </div>
+                <div class="naver-star-rating">
+                  <span class="stars">★★★★★</span>
+                  <span class="score">5.0</span>
+                </div>
+              </div>
+
+              <div class="naver-card-meta">
+                <span class="naver-author-name"><i class="ph-bold ph-user-circle"></i> {{ .Params.author }}</span>
+                <span class="naver-date-text">{{ .Date.Format "2006.01.02" }}</span>
+                <span class="case-tag-pill naver-sub-pill">{{ .Params.category_name }}</span>
+              </div>
+
+              <h3 class="naver-review-title">
+                "{{ .Title }}"
+              </h3>
+
+              {{ if .Params.naver_keywords }}
+              <div class="naver-keyword-chips">
+                {{ range .Params.naver_keywords }}
+                <span class="n-keyword-chip">#{{ . }}</span>
+                {{ end }}
+              </div>
+              {{ end }}
+
+              <p class="naver-review-summary">{{ .Params.summary }}</p>
+
+              <div class="naver-card-footer">
+                <span class="naver-verified-status"><i class="ph-bold ph-shield-check"></i> 영수증 / 예약 인증 완료</span>
+                <a href="https://map.naver.com/p/entry/place/1240708998" target="_blank" rel="noopener noreferrer" class="naver-direct-link">
+                  네이버 후기 원문 보기 <i class="ph-bold ph-arrow-up-right"></i>
+                </a>
+              </div>
+            </div>
           </article>
           {{ end }}
         </div>

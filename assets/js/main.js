@@ -240,34 +240,23 @@ function initSmoothScroll() {
 
 // 7. Case & Naver Review Filter Tabs & Live Search
 function initReviewTabs() {
-  const typeBtns = document.querySelectorAll('.type-switch-btn');
   const catBtns = document.querySelectorAll('.cases-tab-btn, .review-tab-btn');
-  const caseCards = document.querySelectorAll('.healim-case-card, .review-board-card');
+  const directCards = document.querySelectorAll('#direct-cases-grid .healim-case-card, .cases-home-grid .healim-case-card[data-review-type="direct"]');
+  const naverCards = document.querySelectorAll('#naver-reviews-grid .healim-case-card, .cases-home-grid .healim-case-card[data-review-type="naver"]');
   const searchInput = document.getElementById('cases-search-input');
 
-  if (caseCards.length === 0) return;
+  if (directCards.length === 0 && naverCards.length === 0) return;
 
-  function filterCases() {
-    const activeTypeBtn = document.querySelector('.type-switch-btn.active');
-    const typeFilter = activeTypeBtn ? activeTypeBtn.getAttribute('data-type-filter') : 'all';
-
+  function filterDirectCases() {
     const activeCatBtn = document.querySelector('.cases-tab-btn.active, .review-tab-btn.active');
     const catFilter = activeCatBtn ? activeCatBtn.getAttribute('data-filter') : 'all';
-
     const query = searchInput ? searchInput.value.trim().toLowerCase() : '';
 
-    caseCards.forEach(card => {
-      const cardType = card.getAttribute('data-review-type') || 'direct';
+    // Filter Direct Clinical Cases with disease categories
+    directCards.forEach(card => {
       const cardCat = card.getAttribute('data-category') || '';
       const text = card.textContent.toLowerCase();
 
-      // 1. Review Type Filter
-      let matchType = false;
-      if (typeFilter === 'all' || typeFilter === cardType) {
-        matchType = true;
-      }
-
-      // 2. Category Filter
       let matchCat = false;
       if (catFilter === 'all') {
         matchCat = true;
@@ -277,68 +266,56 @@ function initReviewTabs() {
         matchCat = (cardCat === catFilter);
       }
 
-      // 3. Search Query Filter
       let matchQuery = true;
       if (query) {
         matchQuery = text.includes(query);
       }
 
-      if (matchType && matchCat && matchQuery) {
+      if (matchCat && matchQuery) {
         card.style.display = 'flex';
       } else {
         card.style.display = 'none';
       }
     });
+
+    // Naver reviews are listed continuously, only filtered if user searches keywords
+    naverCards.forEach(card => {
+      const text = card.textContent.toLowerCase();
+      if (query) {
+        card.style.display = text.includes(query) ? 'flex' : 'none';
+      } else {
+        card.style.display = 'flex';
+      }
+    });
   }
 
-  // Type Switcher Click Handlers
-  typeBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      typeBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      filterCases();
-    });
-  });
-
-  // Category Tab Click Handlers
+  // Category Tab Click Handlers (Applied to direct clinical cases)
   catBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       catBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      filterCases();
+      filterDirectCases();
     });
   });
 
   // Search Input Handler
   if (searchInput) {
     searchInput.addEventListener('input', () => {
-      filterCases();
+      filterDirectCases();
     });
   }
 
   // Check URL params on initial load
   const urlParams = new URLSearchParams(window.location.search);
-  const typeParam = urlParams.get('type');
   const filterParam = urlParams.get('filter');
-
-  if (typeParam) {
-    const matchingTypeBtn = document.querySelector(`.type-switch-btn[data-type-filter="${typeParam}"]`);
-    if (matchingTypeBtn) {
-      typeBtns.forEach(b => b.classList.remove('active'));
-      matchingTypeBtn.classList.add('active');
-    }
-  }
 
   if (filterParam) {
     const matchingCatBtn = document.querySelector(`.cases-tab-btn[data-filter="${filterParam}"], .review-tab-btn[data-filter="${filterParam}"]`);
     if (matchingCatBtn) {
       catBtns.forEach(b => b.classList.remove('active'));
       matchingCatBtn.classList.add('active');
+      filterDirectCases();
     }
-  }
-
-  if (typeParam || filterParam) {
-    filterCases();
   }
 }
 
