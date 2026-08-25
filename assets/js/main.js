@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initFAQ();
   initScrollEffects();
   initSmoothScroll();
+  initReviewTabs();
 });
 
 // 1. Mobile Menu Drawer
@@ -232,6 +233,32 @@ function initSmoothScroll() {
           behavior: 'smooth'
         });
       }
+    });
+  });
+}
+
+// 7. Review Category Filter Tabs
+function initReviewTabs() {
+  const tabBtns = document.querySelectorAll('.review-tab-btn');
+  const reviewCards = document.querySelectorAll('.review-board-card');
+
+  if (tabBtns.length === 0 || reviewCards.length === 0) return;
+
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const filter = btn.getAttribute('data-filter');
+
+      reviewCards.forEach(card => {
+        const category = card.getAttribute('data-category');
+        if (filter === 'all' || category === filter) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
     });
   });
 }

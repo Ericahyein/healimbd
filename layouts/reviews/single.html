@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ .Title }} | 해아림한의원 분당점</title>
+  <meta name="description" content="{{ .Params.summary }}">
+  <link rel="canonical" href="{{ .Permalink }}">
+
+  <!-- Fonts (Pretendard & Outfit) -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+
+  <!-- Main Stylesheet -->
+  {{ $style := resources.Get "css/style.css" | resources.Minify }}
+  <link rel="stylesheet" href="{{ $style.RelPermalink }}">
+</head>
+<body>
+  {{ partial "header.html" . }}
+
+  <main id="main-content">
+    <article class="review-single-article">
+      <div class="container review-single-container">
+        <!-- Breadcrumb & Category -->
+        <div class="review-single-header">
+          <div class="review-single-tag-row">
+            <a href="{{ "/reviews/" | relURL }}" class="review-back-link"><i class="ph-bold ph-arrow-left"></i> 치료후기 목록으로</a>
+            <span class="review-thumb-badge {{ .Params.category }}">{{ .Params.category_name }}</span>
+          </div>
+
+          <h1 class="review-single-title">{{ .Title }}</h1>
+
+          <div class="review-single-meta">
+            <div class="reviewer-meta-left">
+              <strong>{{ .Params.author }}</strong>
+              <span>({{ .Params.patient_info }})</span>
+            </div>
+            <div class="reviewer-meta-right">
+              <span class="review-date-badge">{{ .Date.Format "2006년 01월 02일" }}</span>
+              <div class="review-stars-sm">
+                <i class="ph-fill ph-star"></i>
+                <i class="ph-fill ph-star"></i>
+                <i class="ph-fill ph-star"></i>
+                <i class="ph-fill ph-star"></i>
+                <i class="ph-fill ph-star"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Featured Review Photo Card -->
+        {{ if .Params.image }}
+        <div class="review-single-photo-box">
+          <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}" class="review-single-main-img">
+          <p class="review-photo-caption"><i class="ph-bold ph-check-circle"></i> 해아림한의원 분당점 환자 자필 치료후기 원본</p>
+        </div>
+        {{ end }}
+
+        <!-- Summary Quote Banner -->
+        <div class="review-single-summary-banner">
+          <i class="ph-fill ph-quotes review-quote-icon"></i>
+          <p>{{ .Params.summary }}</p>
+        </div>
+
+        <!-- Body Content -->
+        <div class="review-single-body">
+          {{ .Content }}
+        </div>
+
+        <!-- Consultation CTA Box -->
+        <div class="review-single-cta-box">
+          <div class="cta-box-text">
+            <h3>비슷한 증상으로 고민하고 계신가요?</h3>
+            <p>혼자 참지 마시고 손지웅 대표원장과 함께 몸과 뇌, 마음의 원인을 찾아보세요.</p>
+          </div>
+          <div class="cta-box-actions">
+            <button class="btn btn-inquiry-header" onclick="document.getElementById('inquiry-modal').classList.add('active'); document.body.style.overflow='hidden';">
+              <i class="ph-bold ph-chat-teardrop-dots"></i> 빠른 상담 및 예약
+            </button>
+            <a href="https://naver.me/xbARooIc" target="_blank" rel="noopener noreferrer" class="btn btn-hero-naver-dark">
+              <span class="n-box">N</span> 네이버 예약
+            </a>
+          </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="review-single-bottom-nav">
+          <a href="{{ "/reviews/" | relURL }}" class="btn btn-outline-sm">
+            <i class="ph-bold ph-list"></i> 전체 치료후기 목록 보기
+          </a>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  {{ partial "footer.html" . }}
+  {{ partial "floating_bar.html" . }}
+
+  <!-- Scripts -->
+  {{ $script := resources.Get "js/main.js" | resources.Minify }}
+  <script src="{{ $script.RelPermalink }}"></script>
+</body>
+</html>
