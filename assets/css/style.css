@@ -2926,27 +2926,22 @@ ul {
   padding: 85px 0 95px;
 }
 
-.treatments-home-section .section-tag {
-  background: #FDF8F0;
-  color: #C27D23;
-  border: 1px solid rgba(232, 168, 82, 0.35);
-}
-
 .treatments-unified-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 26px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
 }
 
 .treatment-card {
   background: white;
   border-radius: var(--radius-lg);
-  padding: 32px 30px;
+  padding: 24px 20px;
   border: 1.5px solid #E2E8F0;
   border-top: 3.5px solid #E8A852;
   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.03);
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -2959,27 +2954,30 @@ ul {
 .treatment-card-header {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 16px;
+  gap: 10px;
+  margin-bottom: 14px;
 }
 
 .card-num-tag {
   font-family: 'Outfit', sans-serif;
-  font-size: 0.88rem;
+  font-size: 0.82rem;
   font-weight: 800;
-  padding: 4px 11px;
+  padding: 3px 9px;
   border-radius: 6px;
   background: #FDF8F0;
   color: #C27D23;
   border: 1px solid rgba(232, 168, 82, 0.4);
+  flex-shrink: 0;
 }
 
 .treatment-name {
-  font-size: 1.35rem;
+  font-size: 1.12rem;
   font-weight: 800;
   color: #0F172A;
   margin: 0;
   letter-spacing: -0.3px;
+  line-height: 1.35;
+  word-break: keep-all;
 }
 
 .sub-tags-wrap {
@@ -2990,12 +2988,12 @@ ul {
 }
 
 .sub-tag {
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   font-weight: 700;
   color: #475569;
   background: #F8FAFC;
   border: 1px solid #E2E8F0;
-  padding: 4px 10px;
+  padding: 3px 8px;
   border-radius: var(--radius-full);
   transition: all 0.2s ease;
 }
@@ -3006,23 +3004,16 @@ ul {
   color: #8C5919;
 }
 
-.treatment-explanation {
-  font-size: 0.95rem;
-  color: #475569;
-  line-height: 1.75;
-  margin-bottom: 22px;
-  flex: 1;
-}
-
 .treatment-card-footer {
   border-top: 1px solid #F1F5F9;
-  padding-top: 16px;
+  padding-top: 12px;
   display: flex;
   justify-content: flex-end;
+  margin-top: auto;
 }
 
 .card-case-link {
-  font-size: 0.88rem;
+  font-size: 0.84rem;
   font-weight: 800;
   color: #C27D23;
   display: inline-flex;
@@ -3035,6 +3026,18 @@ ul {
 .card-case-link:hover {
   transform: translateX(4px);
   color: #24B598;
+}
+
+@media (max-width: 1024px) {
+  .treatments-unified-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .treatments-unified-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ==========================================================================
