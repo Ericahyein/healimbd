@@ -1,8 +1,8 @@
 <header class="site-header" id="site-header">
   <div class="header-main">
     <div class="container header-main-inner">
-      <a href="/" class="brand-logo" aria-label="해아림한의원 분당점 홈으로">
-        <img src="/images/logo.png" alt="해아림 로고" class="brand-logo-img" width="46" height="46">
+      <a href="{{ "/" | relURL }}" class="brand-logo" aria-label="해아림한의원 분당점 홈으로">
+        <img src="{{ "images/logo.png" | relURL }}" alt="해아림 로고" class="brand-logo-img" width="46" height="46">
         <span class="brand-logo-title">해아림한의원 분당점</span>
       </a>
 
@@ -37,26 +37,30 @@
   <div class="mobile-drawer" id="mobile-drawer">
     <div class="drawer-header">
       <div class="drawer-logo-wrap">
-        <img src="/images/logo.png" alt="해아림 로고" class="drawer-logo-img" width="36" height="36">
+        <img src="{{ "images/logo.png" | relURL }}" alt="해아림 로고" class="drawer-logo-img" width="36" height="36">
         <span class="drawer-title">해아림한의원 분당점</span>
       </div>
       <button class="drawer-close" id="drawer-close" aria-label="메뉴 닫기">
         <i class="ph ph-x"></i>
       </button>
     </div>
+
+    <!-- Mobile Nav Links -->
     <ul class="mobile-nav-list">
-      <li><a href="#reviews" class="mobile-nav-link"><i class="ph-bold ph-star-half"></i> 치료후기</a></li>
-      <li><a href="#about" class="mobile-nav-link"><i class="ph-bold ph-heartbeat"></i> 진료철학</a></li>
-      <li><a href="#clinics" class="mobile-nav-link"><i class="ph-bold ph-brain"></i> 진료과목</a></li>
-      <li><a href="#blog" class="mobile-nav-link"><i class="ph-bold ph-newspaper"></i> 원장 칼럼</a></li>
-      <li><a href="#location" class="mobile-nav-link"><i class="ph-bold ph-calendar-check"></i> 상담예약</a></li>
+      <li><a href="#reviews" class="mobile-nav-link"><i class="ph ph-star"></i> 치료후기</a></li>
+      <li><a href="#about" class="mobile-nav-link"><i class="ph ph-heart"></i> 진료철학</a></li>
+      <li><a href="#clinics" class="mobile-nav-link"><i class="ph ph-first-aid"></i> 진료과목</a></li>
+      <li><a href="#blog" class="mobile-nav-link"><i class="ph ph-article"></i> 원장 칼럼</a></li>
+      <li><a href="#location" class="mobile-nav-link"><i class="ph ph-map-pin"></i> 상담예약</a></li>
     </ul>
+
     <div class="drawer-ctas">
       <button class="btn btn-inquiry-full" id="btn-drawer-inquiry">
-        <i class="ph-bold ph-chat-teardrop-dots"></i> 문의 및 예약하기
+        <i class="ph-bold ph-chat-teardrop-dots"></i> 빠른 상담 및 예약
       </button>
     </div>
   </div>
+
   <div class="mobile-drawer-overlay" id="drawer-overlay"></div>
 
   <!-- Inquiry Modal (문의하기 팝업 모달) -->
@@ -64,7 +68,7 @@
     <div class="modal-card">
       <div class="modal-header">
         <div class="modal-header-title-wrap">
-          <img src="/images/logo.png" alt="해아림 로고" class="modal-logo-img" width="32" height="32">
+          <img src="{{ "images/logo.png" | relURL }}" alt="해아림 로고" class="modal-logo-img" width="32" height="32">
           <h3 id="modal-title" class="modal-title">해아림한의원 분당점 <strong>상담 및 예약</strong></h3>
         </div>
         <button class="modal-close" id="modal-close" aria-label="닫기">
