@@ -2960,7 +2960,7 @@ ul {
   transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   box-sizing: border-box;
   width: 100%;
-  min-height: 168px;
+  min-height: 180px;
 }
 
 .treatment-card:hover {
@@ -2981,8 +2981,8 @@ ul {
 /* Treatment Circular Photo Avatar - Large Crop Frame filling card height */
 .treatment-circle-wrap {
   position: relative;
-  width: 132px;
-  height: 132px;
+  width: 148px;
+  height: 148px;
   border-radius: 50%;
   padding: 3.5px;
   background: white;
@@ -4199,8 +4199,8 @@ html, body {
   }
 
   .treatment-circle-wrap {
-    width: 110px !important;
-    height: 110px !important;
+    width: 122px !important;
+    height: 122px !important;
     border-width: 3px !important;
   }
 
