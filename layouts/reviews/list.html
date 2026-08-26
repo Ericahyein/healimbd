@@ -46,22 +46,24 @@
       </div>
     </section>
 
-    <!-- 1. DIRECT CLINICAL CASES SECTION (원내 직접 등록 치료사례 - 질환별 필터 적용) -->
+    <!-- 1. DIRECT CLINICAL CASES SECTION -->
     <section class="section direct-cases-section" id="direct-cases-section">
       <div class="container">
         
-        <div class="section-title-wrap text-center">
-          <div class="section-badge-pill direct-badge-pill">
-            <i class="ph-bold ph-shield-check"></i> 분당점 원내 직접 등록
+        <!-- Stories of Real Recovery Header matching the user's reference image -->
+        <div class="recovery-story-header-wrap">
+          <div class="recovery-story-text-center">
+            <span class="story-tag-en">Stories of Real Recovery</span>
+            <h2 class="story-main-title">분당 해아림에서 시작된 <strong class="story-highlight">진짜 변화의 기록</strong></h2>
+            <p class="story-desc-text">
+              작은 변화부터 큰 회복까지, <strong>분당 해아림을 찾은 분들의 실제 치료 경험</strong>을 담았습니다.<br>
+              비슷한 고민을 가진 분들에게 조금이라도 도움이 되길 바랍니다.
+            </p>
           </div>
-          <h2 class="section-main-title">임상 치료사례 & 자필 수기</h2>
-          <p class="section-desc">
-            질환별 증상 분석과 맞춤 한약·한방 치료를 통한 실제 호전 경과 및 환자 자필 체험 수기입니다.
-          </p>
         </div>
 
-        <!-- Disease Category Tabs & Search Toolbar -->
-        <div class="cases-toolbar">
+        <!-- Disease Category Tabs Toolbar with subtle right-aligned '치료사례 등록하기' button -->
+        <div class="cases-toolbar-clean">
           <div class="cases-category-tabs" id="category-tabs-container">
             <button class="cases-tab-btn active" data-filter="all">전체 질환</button>
             <button class="cases-tab-btn" data-filter="panic">불안·공황장애</button>
@@ -72,13 +74,8 @@
             <button class="cases-tab-btn" data-filter="ibs">과민성대장증후군</button>
           </div>
 
-          <div class="cases-search-box">
-            <i class="ph-bold ph-magnifying-glass search-icon"></i>
-            <input type="text" id="cases-search-input" placeholder="증상, 질환명(예: 공황, 틱, 다한증, 불면) 검색" aria-label="치료사례 검색">
-          </div>
-
-          <button type="button" class="btn btn-admin-write" onclick="openAdminCaseWriter()">
-            <i class="ph-bold ph-pencil-simple-line"></i> <span>치료사례 직접 등록 (관리자)</span>
+          <button type="button" class="btn-subtle-write" onclick="openAdminCaseWriter()" title="치료사례 등록">
+            <i class="ph ph-plus-circle"></i> <span>치료사례 등록하기</span>
           </button>
         </div>
 

@@ -690,7 +690,7 @@ function renderCustomCasesToList() {
           <div class="case-thumb-wrap">
             <img src="${item.image}" alt="${item.title}" class="case-thumb-img" loading="lazy">
             <span class="case-tag-pill ${item.category}">${item.categoryName}</span>
-            <span class="case-direct-badge">📝 원내 직접 등록</span>
+            <span class="case-direct-badge">📝 임상 치료사례</span>
           </div>
           <div class="case-body-wrap">
             <div class="case-meta-top">
@@ -725,7 +725,7 @@ function renderCustomCasesToList() {
           <div class="case-thumb-wrap">
             <img src="${item.image}" alt="${item.title}" class="case-thumb-img" loading="lazy">
             <span class="case-tag-pill ${item.category}">${item.categoryName}</span>
-            <span class="case-direct-badge">📝 원내 직접 등록</span>
+            <span class="case-direct-badge">📝 임상 치료사례</span>
           </div>
           <div class="case-body-wrap">
             <div class="case-meta-top">
