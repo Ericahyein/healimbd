@@ -4092,8 +4092,20 @@ ul {
 
 .footer-top-inner {
   display: grid;
-  grid-template-columns: 1.2fr 0.9fr 0.9fr;
-  gap: 40px;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  max-width: 980px;
+  margin: 0 auto;
+  padding-bottom: 40px;
+  border-bottom: 1px solid #334155;
+}
+
+.footer-clean-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  max-width: 980px;
+  margin: 0 auto;
   padding-bottom: 40px;
   border-bottom: 1px solid #334155;
 }
