@@ -631,12 +631,10 @@ function removeCasePhoto() {
 function handleAdminCaseSubmit(e) {
   e.preventDefault();
   const cat = document.getElementById('case-input-category').value;
-  const title = document.getElementById('case-input-title').value.trim();
-  const author = document.getElementById('case-input-author').value.trim() || '해아림 분당점 내원 환자';
   const content = document.getElementById('case-input-content').value.trim();
 
-  if (!title || !content) {
-    alert('제목과 직접 작성한 본문 내용을 입력해주세요.');
+  if (!content) {
+    alert('직접 작성할 본문 내용을 입력해주세요.');
     return;
   }
 
@@ -645,12 +643,16 @@ function handleAdminCaseSubmit(e) {
     return;
   }
 
+  const catName = CATEGORY_NAME_MAP[cat] || '치료사례';
+  // Title can be the first sentence or category-based summary
+  const firstLine = content.split('\n')[0].replace(/^[#>\s*"]+/, '').trim();
+  const generatedTitle = firstLine.length > 5 ? (firstLine.slice(0, 45) + (firstLine.length > 45 ? '...' : '')) : `${catName} 임상 치료사례`;
+
   const newCase = {
     id: 'custom-' + Date.now(),
-    title: title,
+    title: generatedTitle,
     category: cat,
-    categoryName: CATEGORY_NAME_MAP[cat] || '기타 질환',
-    author: author,
+    categoryName: catName,
     date: new Date().toISOString().split('T')[0],
     image: currentUploadedImageDataUrl,
     content: content,
@@ -666,7 +668,7 @@ function handleAdminCaseSubmit(e) {
   document.getElementById('admin-case-write-form').reset();
   removeCasePhoto();
 
-  showAuthToast('🎉 원내 치료사례가 성공적으로 등록되었습니다!');
+  showAuthToast('🎉 치료사례가 성공적으로 등록되었습니다!');
   renderCustomCasesToList();
 }
 
@@ -688,19 +690,18 @@ function renderCustomCasesToList() {
       card.innerHTML = `
         <div class="case-card-anchor" style="cursor: pointer;" onclick="openCustomCaseReader('${item.id}')">
           <div class="case-thumb-wrap">
-            <img src="${item.image}" alt="${item.title}" class="case-thumb-img" loading="lazy">
+            <img src="${item.image}" alt="${item.categoryName} 치료사례" class="case-thumb-img" loading="lazy">
             <span class="case-tag-pill ${item.category}">${item.categoryName}</span>
             <span class="case-direct-badge">📝 임상 치료사례</span>
           </div>
           <div class="case-body-wrap">
             <div class="case-meta-top">
-              <span class="case-author-text">${item.author}</span>
               <span class="case-date-text">${item.date}</span>
             </div>
             <h3 class="case-title-text">"${item.title}"</h3>
             <p class="case-summary-text">${item.content}</p>
             <div class="case-footer-row">
-              <span class="case-diag-badge"><i class="ph-bold ph-seal-check"></i> ${item.categoryName}</span>
+              <span class="case-diag-badge"><i class="ph-bold ph-check"></i> ${item.categoryName}</span>
               <span class="case-more-arrow">자필 수기 전문 보기 <i class="ph-bold ph-arrow-right"></i></span>
             </div>
           </div>
@@ -723,19 +724,18 @@ function renderCustomCasesToList() {
       card.innerHTML = `
         <div class="case-card-anchor" style="cursor: pointer;" onclick="openCustomCaseReader('${item.id}')">
           <div class="case-thumb-wrap">
-            <img src="${item.image}" alt="${item.title}" class="case-thumb-img" loading="lazy">
+            <img src="${item.image}" alt="${item.categoryName} 치료사례" class="case-thumb-img" loading="lazy">
             <span class="case-tag-pill ${item.category}">${item.categoryName}</span>
             <span class="case-direct-badge">📝 임상 치료사례</span>
           </div>
           <div class="case-body-wrap">
             <div class="case-meta-top">
-              <span class="case-author-text">${item.author}</span>
               <span class="case-date-text">${item.date}</span>
             </div>
             <h3 class="case-title-text">"${item.title}"</h3>
             <p class="case-summary-text">${item.content}</p>
             <div class="case-footer-row">
-              <span class="case-diag-badge"><i class="ph-bold ph-seal-check"></i> ${item.categoryName}</span>
+              <span class="case-diag-badge"><i class="ph-bold ph-check"></i> ${item.categoryName}</span>
               <span class="case-more-arrow">자필 수기 전문 보기 <i class="ph-bold ph-arrow-right"></i></span>
             </div>
           </div>
@@ -755,7 +755,6 @@ function openCustomCaseReader(caseId) {
   const modal = document.getElementById('custom-case-reader-modal');
   const catEl = document.getElementById('custom-reader-category');
   const titleEl = document.getElementById('custom-case-reader-title');
-  const authorEl = document.getElementById('custom-reader-author');
   const dateEl = document.getElementById('custom-reader-date');
   const photoEl = document.getElementById('custom-reader-photo');
   const bodyEl = document.getElementById('custom-reader-body');
@@ -765,7 +764,6 @@ function openCustomCaseReader(caseId) {
     catEl.className = 'case-tag-pill ' + found.category;
   }
   if (titleEl) titleEl.textContent = found.title;
-  if (authorEl) authorEl.textContent = found.author;
   if (dateEl) dateEl.textContent = found.date;
   if (photoEl) photoEl.src = found.image;
   if (bodyEl) bodyEl.innerHTML = found.content.replace(/\n/g, '<br>');
@@ -800,16 +798,15 @@ function deleteCurrentCustomCase() {
 
 function downloadCaseMarkdown() {
   const cat = document.getElementById('case-input-category').value;
-  const title = document.getElementById('case-input-title').value.trim() || '치료사례';
-  const author = document.getElementById('case-input-author').value.trim() || '해아림 내원 환자';
   const content = document.getElementById('case-input-content').value.trim() || '';
   const dateStr = new Date().toISOString().split('T')[0];
   const catName = CATEGORY_NAME_MAP[cat] || '치료사례';
+  const firstLine = content.split('\n')[0].replace(/^[#>\s*"]+/, '').trim();
+  const title = firstLine.length > 5 ? firstLine.slice(0, 45) : `${catName} 임상 치료사례`;
 
   const mdContent = `---
 title: "${title}"
 date: ${dateStr}
-author: "${author}"
 category: "${cat}"
 category_name: "${catName}"
 review_type: "direct"

@@ -44,35 +44,23 @@
         <i class="ph ph-x"></i>
       </button>
     </div>
-    <p class="modal-subtitle">인위적인 AI 요약 없이, <strong>업로드한 사진</strong>과 <strong>직접 타이핑한 내용</strong>만 심플하게 출력됩니다.</p>
+    <p class="modal-subtitle"><strong>진료과목 선택</strong>, <strong>사진 첨부</strong>, <strong>본문 내용</strong> 3가지만 입력하시면 즉시 등록됩니다.</p>
 
     <form id="admin-case-write-form" onsubmit="handleAdminCaseSubmit(event)">
-      <div class="admin-form-grid">
-        <div class="form-group">
-          <label for="case-input-category">진료과목 (질환 분류) <span class="required">*</span></label>
-          <select id="case-input-category" required>
-            <option value="tic">소아 틱장애 · 뚜렛</option>
-            <option value="adhd">주의집중력 (소아·성인 ADHD)</option>
-            <option value="panic">공황장애</option>
-            <option value="anxiety">불안장애 · 사회공포증</option>
-            <option value="sleep">수면 · 불면증</option>
-            <option value="autonomic">자율신경실조증</option>
-            <option value="hyperhidrosis">다한증 (손발·전신·안면)</option>
-            <option value="ibs">과민성대장증후군</option>
-            <option value="syncope">미주신경성 실신</option>
-            <option value="etc">기타 신경정신 질환</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="case-input-author">작성자 / 환자 정보</label>
-          <input type="text" id="case-input-author" placeholder="예: 30대 직장인 박O수 님 / 환아 보호자">
-        </div>
-      </div>
-
       <div class="form-group">
-        <label for="case-input-title">치료사례 제목 <span class="required">*</span></label>
-        <input type="text" id="case-input-title" placeholder="예: 불면증으로 수면제 복용하던 것이 완전히 호전되었습니다" required>
+        <label for="case-input-category">진료과목 (질환 분류) <span class="required">*</span></label>
+        <select id="case-input-category" required>
+          <option value="tic">소아 틱장애 · 뚜렛</option>
+          <option value="adhd">주의집중력 (소아·성인 ADHD)</option>
+          <option value="panic">공황장애</option>
+          <option value="anxiety">불안장애 · 사회공포증</option>
+          <option value="sleep">수면 · 불면증</option>
+          <option value="autonomic">자율신경실조증</option>
+          <option value="hyperhidrosis">다한증 (손발·전신·안면)</option>
+          <option value="ibs">과민성대장증후군</option>
+          <option value="syncope">미주신경성 실신</option>
+          <option value="etc">기타 신경정신 질환</option>
+        </select>
       </div>
 
       <!-- Image Upload Area -->
@@ -114,7 +102,7 @@
     <div class="modal-header">
       <div class="modal-header-title-wrap">
         <span class="case-tag-pill" id="custom-reader-category">소아 틱장애</span>
-        <h3 id="custom-case-reader-title" class="modal-title">치료사례</h3>
+        <h3 id="custom-case-reader-title" class="modal-title">임상 치료사례</h3>
       </div>
       <button class="modal-close" onclick="closeCustomCaseReader()" aria-label="닫기">
         <i class="ph ph-x"></i>
@@ -122,7 +110,6 @@
     </div>
     
     <div class="case-reader-meta-bar">
-      <span id="custom-reader-author" class="reader-author">작성자</span>
       <span id="custom-reader-date" class="reader-date">2026.08.26</span>
     </div>
 
