@@ -101,20 +101,10 @@
 
               <div class="case-body-wrap">
                 <div class="case-meta-top">
-                  <span class="case-author-text">{{ .Params.author }}</span>
                   <span class="case-date-text">{{ .Date.Format "2006.01.02" }}</span>
                 </div>
 
-                <h3 class="case-title-text">
-                  {{ .Title }}
-                </h3>
-
                 <p class="case-summary-text">{{ .Params.summary }}</p>
-
-                <div class="case-footer-row">
-                  <span class="case-diag-badge"><i class="ph-bold ph-check"></i> {{ .Params.diagnosis }}</span>
-                  <span class="case-more-arrow">자필 수기 & 코멘트 보기 <i class="ph-bold ph-arrow-right"></i></span>
-                </div>
               </div>
             </a>
           </article>

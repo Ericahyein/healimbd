@@ -698,12 +698,7 @@ function renderCustomCasesToList() {
             <div class="case-meta-top">
               <span class="case-date-text">${item.date}</span>
             </div>
-            <h3 class="case-title-text">"${item.title}"</h3>
             <p class="case-summary-text">${item.content}</p>
-            <div class="case-footer-row">
-              <span class="case-diag-badge"><i class="ph-bold ph-check"></i> ${item.categoryName}</span>
-              <span class="case-more-arrow">자필 수기 전문 보기 <i class="ph-bold ph-arrow-right"></i></span>
-            </div>
           </div>
         </div>
       `;
@@ -732,12 +727,7 @@ function renderCustomCasesToList() {
             <div class="case-meta-top">
               <span class="case-date-text">${item.date}</span>
             </div>
-            <h3 class="case-title-text">"${item.title}"</h3>
             <p class="case-summary-text">${item.content}</p>
-            <div class="case-footer-row">
-              <span class="case-diag-badge"><i class="ph-bold ph-check"></i> ${item.categoryName}</span>
-              <span class="case-more-arrow">자필 수기 전문 보기 <i class="ph-bold ph-arrow-right"></i></span>
-            </div>
           </div>
         </div>
       `;
