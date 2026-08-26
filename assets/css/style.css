@@ -2916,11 +2916,23 @@ ul {
   padding-top: 6px;
 }
 
-/* Dedicated Philosophy Page (/philosophy/) */
 /* Dedicated Philosophy Page (/philosophy/) & Homepage Philosophy Section */
-.philosophy-page-section {
+.philosophy-page-section,
+.about-section {
   padding: 60px 0 100px;
   background: #F8FAFC;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+.pc-br {
+  display: inline;
+}
+
+@media (max-width: 768px) {
+  .pc-br {
+    display: none;
+  }
 }
 
 .philosophy-page-header {
@@ -2941,6 +2953,7 @@ ul {
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.05);
   margin-bottom: 50px;
   align-items: center;
+  word-break: keep-all;
 }
 
 .philo-hero-photo-wrap {
@@ -2993,6 +3006,7 @@ ul {
   font-weight: 800;
   color: #0F172A;
   margin-bottom: 6px;
+  letter-spacing: -0.02em;
 }
 
 .philo-hero-name span {
@@ -3008,6 +3022,8 @@ ul {
   color: #1B8FD1;
   line-height: 1.6;
   margin-bottom: 24px;
+  word-break: keep-all;
+  letter-spacing: -0.02em;
 }
 
 .philo-credentials-clean-box {
@@ -3034,6 +3050,7 @@ ul {
   font-size: 0.96rem;
   color: #334155;
   line-height: 2;
+  word-break: keep-all;
 }
 
 .cred-clean-list li strong {
@@ -3046,6 +3063,7 @@ ul {
   display: flex;
   flex-direction: column;
   gap: 40px;
+  word-break: keep-all;
 }
 
 .philo-story-greeting-block {
@@ -3055,6 +3073,7 @@ ul {
   border-radius: 18px;
   border: 1px solid #E2E8F0;
   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.03);
+  word-break: keep-all;
 }
 
 .story-hello {
@@ -3070,6 +3089,8 @@ ul {
   color: #0F172A;
   line-height: 1.5;
   margin: 0;
+  word-break: keep-all;
+  letter-spacing: -0.02em;
 }
 
 .story-hero-quote strong {
@@ -3083,6 +3104,7 @@ ul {
   padding: 48px;
   border: 1px solid #E2E8F0;
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.04);
+  word-break: keep-all;
 }
 
 .chapter-badge-wrap {
@@ -3109,6 +3131,8 @@ ul {
   color: #0F172A;
   line-height: 1.35;
   margin-bottom: 26px;
+  word-break: keep-all;
+  letter-spacing: -0.02em;
 }
 
 .chapter-content-grid {
@@ -3129,10 +3153,13 @@ ul {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  word-break: keep-all;
+  letter-spacing: -0.015em;
 }
 
 .chapter-text-col p {
   margin: 0;
+  word-break: keep-all;
 }
 
 .philo-quote-highlight {
@@ -3144,10 +3171,13 @@ ul {
   font-size: 1.08rem;
   font-weight: 600;
   line-height: 1.7;
+  word-break: keep-all;
+  letter-spacing: -0.02em;
 }
 
 .philo-quote-highlight p {
   margin: 0;
+  word-break: keep-all;
 }
 
 .chapter-img-card {
@@ -3179,6 +3209,7 @@ ul {
   flex-direction: column;
   gap: 12px;
   margin-top: 10px;
+  word-break: keep-all;
 }
 
 .family-care-title {
@@ -3189,6 +3220,7 @@ ul {
   align-items: center;
   gap: 8px;
   margin: 0;
+  word-break: keep-all;
 }
 
 .family-care-title i {
@@ -3202,6 +3234,7 @@ ul {
   padding: 48px;
   border: 1px solid #E2E8F0;
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.04);
+  word-break: keep-all;
 }
 
 .philo-scope-full-text {
@@ -3212,12 +3245,15 @@ ul {
   flex-direction: column;
   gap: 16px;
   margin-bottom: 36px;
+  word-break: keep-all;
+  letter-spacing: -0.015em;
 }
 
 .scope-lead-paragraph {
   font-size: 1.2rem;
   font-weight: 800;
   color: #0F172A;
+  word-break: keep-all;
 }
 
 .philo-final-quote-card {
@@ -3228,6 +3264,7 @@ ul {
   text-align: center;
   position: relative;
   box-shadow: 0 16px 40px rgba(15, 23, 42, 0.15);
+  word-break: keep-all;
 }
 
 .closing-quote-icon {
@@ -3242,6 +3279,8 @@ ul {
   color: #FFFFFF;
   line-height: 1.6;
   margin: 0 0 20px;
+  word-break: keep-all;
+  letter-spacing: -0.02em;
 }
 
 .closing-sub-text {
@@ -3250,6 +3289,8 @@ ul {
   line-height: 1.85;
   max-width: 820px;
   margin: 0 auto;
+  word-break: keep-all;
+  letter-spacing: -0.015em;
 }
 
 /* Bottom Contact CTA */
@@ -3260,6 +3301,7 @@ ul {
   padding: 44px;
   text-align: center;
   box-shadow: 0 12px 36px rgba(3, 105, 161, 0.22);
+  word-break: keep-all;
 }
 
 .cta-mini-tag {
@@ -3279,6 +3321,8 @@ ul {
   font-weight: 800;
   color: white;
   margin-bottom: 10px;
+  word-break: keep-all;
+  letter-spacing: -0.02em;
 }
 
 .cta-sub-desc {
@@ -3287,6 +3331,7 @@ ul {
   max-width: 680px;
   margin: 0 auto 28px;
   line-height: 1.6;
+  word-break: keep-all;
 }
 
 .philo-cta-buttons {
@@ -3360,42 +3405,166 @@ ul {
 @media (max-width: 992px) {
   .philo-doctor-profile-hero {
     grid-template-columns: 1fr;
-    gap: 30px;
-    padding: 30px;
+    gap: 26px;
+    padding: 30px 24px;
+    text-align: center;
+  }
+
+  .philo-hero-photo-wrap {
+    max-width: 240px;
+    margin: 0 auto;
+  }
+
+  .philo-badge-row {
+    justify-content: center;
+  }
+
+  .philo-hero-slogan {
+    margin-bottom: 20px;
+  }
+
+  .philo-credentials-clean-box {
+    text-align: left;
+    padding: 20px;
   }
 
   .chapter-content-grid,
   .philo-chapter-section.reverse .chapter-content-grid {
-    grid-template-columns: 1fr;
-    gap: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  /* Consistent mobile chapter order: Story text first, Clinical Photo second */
+  .chapter-text-col {
+    order: 1;
+    font-size: 1rem;
+    line-height: 1.85;
+  }
+
+  .chapter-photo-col {
+    order: 2;
+    width: 100%;
+  }
+
+  .chapter-img-card {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .chapter-img {
+    aspect-ratio: 16 / 10;
+    width: 100%;
+    height: auto;
+    max-height: 280px;
   }
 }
 
 @media (max-width: 640px) {
+  .philosophy-page-section,
+  .about-section {
+    padding: 40px 0 60px;
+  }
+
   .philo-doctor-profile-hero,
   .philo-chapter-section,
   .philo-scope-section {
-    padding: 28px 20px;
+    padding: 24px 18px;
+    border-radius: 16px;
+    margin-bottom: 24px;
   }
 
   .philo-hero-name {
-    font-size: 1.6rem;
+    font-size: 1.55rem;
   }
 
   .chapter-main-title {
-    font-size: 1.35rem;
+    font-size: 1.28rem;
+    line-height: 1.45;
+    margin-bottom: 18px;
   }
 
   .story-hero-quote {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
+    line-height: 1.6;
+  }
+
+  .story-hello {
+    font-size: 1.05rem;
+  }
+
+  .philo-story-greeting-block {
+    padding: 24px 16px;
+    margin: 10px 0 24px;
+  }
+
+  .chapter-text-col {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    gap: 14px;
+  }
+
+  .philo-quote-highlight {
+    padding: 14px 16px;
+    font-size: 0.95rem;
+    line-height: 1.65;
+  }
+
+  .family-care-subblock {
+    padding: 18px 16px;
+  }
+
+  .family-care-title {
+    font-size: 1.05rem;
+  }
+
+  .philo-scope-full-text {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+
+  .scope-lead-paragraph {
+    font-size: 1.08rem;
+  }
+
+  .philo-final-quote-card {
+    padding: 30px 18px;
+    border-radius: 16px;
+  }
+
+  .closing-quote-icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
   }
 
   .closing-quote-text {
-    font-size: 1.18rem;
+    font-size: 1.12rem;
+    line-height: 1.65;
+  }
+
+  .closing-sub-text {
+    font-size: 0.92rem;
+    line-height: 1.75;
+  }
+
+  .philo-contact-cta-banner {
+    padding: 30px 18px;
+    border-radius: 16px;
+  }
+
+  .cta-main-title {
+    font-size: 1.3rem;
+  }
+
+  .cta-sub-desc {
+    font-size: 0.92rem;
   }
 
   .philo-cta-buttons {
     flex-direction: column;
+    gap: 10px;
   }
 
   .btn-cta-naver,
@@ -3403,6 +3572,8 @@ ul {
   .btn-cta-tel {
     width: 100%;
     justify-content: center;
+    padding: 12px 18px;
+    font-size: 0.92rem;
   }
 }
 
