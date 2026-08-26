@@ -14,8 +14,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
 
-  <!-- Main Stylesheet -->
-  {{ $style := resources.Get "css/style.css" | resources.Minify }}
+  <!-- Main Stylesheet (Cache-Busting Fingerprinted) -->
+  {{ $style := resources.Get "css/style.css" | resources.Minify | resources.Fingerprint }}
   <link rel="stylesheet" href="{{ $style.RelPermalink }}">
 </head>
 <body>

@@ -4114,14 +4114,15 @@ html, body {
 
   /* Treatments Section Mobile */
   .treatments-unified-grid {
-    grid-template-columns: 1fr;
-    gap: 18px;
-    width: 100%;
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+    width: 100% !important;
   }
 
   .treatment-card {
-    padding: 22px 18px 18px;
-    width: 100%;
+    padding: 22px 18px 18px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
   }
 
   .treatment-card-top-row {
@@ -4130,9 +4131,9 @@ html, body {
   }
 
   .treatment-circle-wrap {
-    width: 76px;
-    height: 76px;
-    border-width: 2.5px;
+    width: 76px !important;
+    height: 76px !important;
+    border-width: 2.5px !important;
   }
 
   .card-num-badge {
@@ -4160,13 +4161,16 @@ html, body {
 
   /* Before-visit Pre-check Cards Mobile */
   .before-visit-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-    margin-bottom: 40px;
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+    margin-bottom: 36px !important;
+    width: 100% !important;
   }
 
   .before-card {
-    padding: 22px 18px;
+    padding: 22px 18px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
   }
 
   .before-card-title {
@@ -4175,6 +4179,87 @@ html, body {
 
   .before-card-desc {
     font-size: 0.9rem;
+  }
+
+  /* 3-Step Clinical Process Flow Grid Mobile */
+  .clinical-steps-flow-grid {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+    margin-bottom: 36px !important;
+    width: 100% !important;
+  }
+
+  .flow-step-col {
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .flow-step-header {
+    padding: 16px 18px !important;
+  }
+
+  .flow-step-box {
+    padding: 20px 18px !important;
+    gap: 16px !important;
+  }
+
+  .flow-sub-item {
+    gap: 12px !important;
+  }
+
+  .flow-sub-item strong {
+    font-size: 0.96rem !important;
+  }
+
+  .flow-sub-item p {
+    font-size: 0.88rem !important;
+    line-height: 1.55 !important;
+    word-break: keep-all !important;
+  }
+
+  /* Process Bottom Direct CTA Banner Mobile */
+  .process-cta-banner {
+    flex-direction: column !important;
+    padding: 28px 20px !important;
+    text-align: center !important;
+    gap: 20px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .process-cta-text {
+    width: 100% !important;
+    text-align: center !important;
+  }
+
+  .process-cta-text h3 {
+    font-size: 1.18rem !important;
+    line-height: 1.45 !important;
+    margin-bottom: 8px !important;
+    word-break: keep-all !important;
+  }
+
+  .process-cta-text p {
+    font-size: 0.88rem !important;
+    word-break: keep-all !important;
+  }
+
+  .process-cta-buttons {
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 10px !important;
+  }
+
+  .process-cta-buttons .btn, .process-cta-buttons a {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  /* Blog Cards Grid Mobile */
+  .blog-cards-grid {
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+    width: 100% !important;
   }
 
   .review-type-switcher {
@@ -4273,8 +4358,12 @@ html, body {
   }
 
   .floating-quick-bar {
-    bottom: 16px;
-    right: 16px;
+    bottom: 14px;
+    right: 14px;
+  }
+
+  .floating-group {
+    gap: 6px;
   }
 
   .floating-item .floating-text {
@@ -4282,26 +4371,34 @@ html, body {
   }
 
   .floating-item {
-    width: 44px;
-    height: 44px;
-    padding: 0;
-    justify-content: center;
-    border-radius: 50%;
+    width: 38px !important;
+    height: 38px !important;
+    padding: 0 !important;
+    justify-content: center !important;
+    border-radius: 50% !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+    font-size: 0.9rem !important;
+  }
+
+  .floating-top {
+    width: 38px !important;
+    height: 38px !important;
+    font-size: 0.9rem !important;
   }
 }
 
 @media (max-width: 480px) {
   .hero-bold-title {
-    font-size: 1.7rem;
+    font-size: 1.65rem;
   }
   
   .section-title {
-    font-size: 1.5rem;
+    font-size: 1.45rem;
   }
   
   .treatment-circle-wrap {
-    width: 68px;
-    height: 68px;
+    width: 66px !important;
+    height: 66px !important;
   }
   
   .treatment-name {
