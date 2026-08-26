@@ -3079,10 +3079,15 @@ ul {
 }
 
 /* ==========================================================================
-   2nd Row Accent Theme: Tone-downed Muted Warm Orange (2번째 줄 차분한 주황톤)
+   2nd Row Accent Theme: Tone-downed Muted Warm Orange (2번째 줄 차분한 주황톤 & 좌우 반전)
    ========================================================================== */
 .treatment-card.theme-warm-orange {
   border-top-color: #C87A3E;
+}
+
+/* Reverse Top Row: Disease Title on Left, Circular Image on Right */
+.treatment-card.theme-warm-orange .treatment-card-top {
+  flex-direction: row-reverse;
 }
 
 .treatment-card.theme-warm-orange .treatment-circle-wrap {
