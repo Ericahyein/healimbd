@@ -123,7 +123,7 @@
           <span class="philo-clinic-badge">해아림한의원 분당점</span>
         </div>
         <h3 class="philo-hero-name">손지웅 <span>대표원장</span></h3>
-        <p class="philo-hero-slogan">"환자의 아픔을 먼저 겪어보았기에, 진심으로 공감하고 경청합니다."</p>
+        <p class="philo-hero-slogan">"환자의 아픔을 먼저 겪어보았기에,<br class="mo-br"> 진심으로 공감하고 경청합니다."</p>
 
         <!-- Clean Credentials List -->
         <div class="philo-credentials-clean-box">
@@ -148,8 +148,8 @@
       <div class="philo-story-greeting-block">
         <p class="story-hello">안녕하세요.</p>
         <h3 class="story-hero-quote">
-          따뜻한 공감으로 환자를 치유하는,<br class="pc-br">
-          <strong>분당 해아림한의원 손지웅 대표원장</strong>입니다.
+          따뜻한 공감으로 환자를 치유하는,<br>
+          <strong>해아림한의원 분당점 손지웅 원장</strong>입니다.
         </h3>
       </div>
 
@@ -862,16 +862,17 @@
     </div>
 
     <!-- Action Buttons -->
-    <div class="cases-cta-center">
-      <a href="{{ "/reviews/" | relURL }}" class="btn btn-primary-board">
-        <i class="ph-bold ph-newspaper"></i> 치료사례 & 후기 게시판 전체보기
-      </a>
-      <button type="button" class="btn btn-subtle-write-home" onclick="openAdminCaseWriter()">
-        <i class="ph ph-plus-circle"></i> 치료사례 등록하기
-      </button>
-      <a href="https://map.naver.com/p/entry/place/1240708998" target="_blank" rel="noopener noreferrer" class="btn btn-outline-reviews">
-        <i class="ph-bold ph-arrow-up-right"></i> 네이버 실시간 리뷰 보기
-      </a>
+    <div class="cases-bottom-layout">
+      <div class="cases-naver-cta-center text-center">
+        <a href="https://map.naver.com/p/entry/place/1240708998" target="_blank" rel="noopener noreferrer" class="btn btn-naver-review-cta">
+          <span class="n-pill-icon">N</span> 네이버 실시간 리뷰 보기 <i class="ph-bold ph-arrow-up-right"></i>
+        </a>
+      </div>
+      <div class="cases-admin-write-wrap">
+        <button type="button" class="btn btn-case-write-bottom" onclick="openAdminCaseWriter()">
+          <i class="ph ph-plus-circle"></i> 치료사례 등록하기
+        </button>
+      </div>
     </div>
   </div>
 </section>
@@ -882,7 +883,7 @@
     <div class="section-header text-center">
       <span class="section-tag">DOCTOR COLUMN & CLINICAL BOARD</span>
       <h2 class="section-title">손지웅 대표원장의 <strong>마음·두뇌 치유 칼럼</strong></h2>
-      <p class="section-desc">질환별 발병 원인과 한방 치료 원리, 몸과 두뇌의 온전한 회복 이야기를 직접 연재합니다.</p>
+      <p class="section-desc">질환별 발병 원인과 한방 치료원리,<br>몸과 두뇌의 온전한 회복 이야기를 직접 연재합니다</p>
     </div>
 
     <!-- Category Tabs -->
@@ -1162,7 +1163,6 @@
     <div class="section-header text-center">
       <span class="section-tag">LOCATION & HOURS</span>
       <h2 class="section-title">오시는 길 & 진료시간</h2>
-      <p class="section-desc">정자역 3번 출구 도보 2분, 편안한 주차와 야간진료로 모십니다.</p>
     </div>
 
     <div class="location-grid">
