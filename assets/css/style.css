@@ -3921,11 +3921,47 @@ ul {
 .footer-hours-list li {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.footer-hour-title-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.badge-hour-night {
+  font-size: 0.74rem;
+  color: #5EEAD4;
+  font-weight: 700;
+}
+
+.badge-hour-normal {
+  font-size: 0.74rem;
+  color: #94A3B8;
+  font-weight: 600;
+}
+
+.badge-hour-holiday {
+  font-size: 0.74rem;
+  color: #FCA5A5;
+  font-weight: 700;
+}
+
+.footer-hour-time {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  white-space: nowrap;
+  color: white;
 }
 
 .footer-hours-list .lunch-time, .footer-hours-list .closed-day {
   color: #94A3B8;
   margin-top: 4px;
+  border-bottom: none;
+  padding: 3px 0;
 }
 
 .footer-hours-list .closed-day {
@@ -3948,9 +3984,15 @@ ul {
 }
 
 .footer-phone-highlight {
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   color: white;
-  margin-top: 8px;
+  margin-top: 10px;
+}
+
+.tel-nowrap {
+  white-space: nowrap !important;
+  word-break: keep-all !important;
+  display: inline-block;
 }
 
 .footer-bottom {
@@ -4228,12 +4270,18 @@ html, body {
     line-height: 1.58 !important;
   }
 
+  /* Utility break classes */
+  .hide-pc {
+    display: inline;
+  }
+
   /* Process Bottom Direct CTA Banner Mobile */
   .process-cta-banner {
+    display: flex !important;
     flex-direction: column !important;
-    padding: 28px 20px !important;
+    padding: 24px 18px !important;
     text-align: center !important;
-    gap: 20px !important;
+    gap: 18px !important;
     width: 100% !important;
     box-sizing: border-box !important;
   }
@@ -4244,15 +4292,18 @@ html, body {
   }
 
   .process-cta-text h3 {
-    font-size: 1.18rem !important;
-    line-height: 1.45 !important;
-    margin-bottom: 8px !important;
+    font-size: 1.15rem !important;
+    line-height: 1.5 !important;
+    margin: 0 0 8px !important;
     word-break: keep-all !important;
+    white-space: normal !important;
   }
 
   .process-cta-text p {
-    font-size: 0.88rem !important;
+    font-size: 0.86rem !important;
     word-break: keep-all !important;
+    line-height: 1.5 !important;
+    margin: 0 !important;
   }
 
   .process-cta-buttons {
@@ -4263,6 +4314,62 @@ html, body {
 
   .process-cta-buttons .btn, .process-cta-buttons a {
     width: 100% !important;
+    justify-content: center !important;
+  }
+
+  /* Location Hours Table Mobile */
+  .hours-table th {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    white-space: nowrap;
+    padding: 12px 10px;
+  }
+
+  .hours-table td {
+    padding: 12px 10px;
+    white-space: nowrap;
+  }
+
+  .badge-night-inline {
+    font-size: 0.72rem;
+    color: #0D9488;
+    background: #F0FDFA;
+    border: 1px solid #CCFBF1;
+    padding: 2px 6px;
+    border-radius: 4px;
+    display: inline-block;
+  }
+
+  .badge-holiday-inline {
+    font-size: 0.72rem;
+    color: #DC2626;
+    background: #FEF2F2;
+    border: 1px solid #FEE2E2;
+    padding: 2px 6px;
+    border-radius: 4px;
+    display: inline-block;
+  }
+
+  .lunch-note {
+    font-size: 0.78rem;
+    color: #64748B;
+    display: block;
+    margin-top: 2px;
+  }
+
+  /* Blog Banner Button Mobile */
+  .btn-blog-main {
+    font-size: 0.94rem !important;
+    padding: 14px 20px !important;
+    white-space: nowrap !important;
+    word-break: keep-all !important;
+    width: 100% !important;
+    max-width: 340px !important;
+    margin: 0 auto !important;
+    box-sizing: border-box !important;
+    display: inline-flex !important;
     justify-content: center !important;
   }
 
