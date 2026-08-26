@@ -1528,13 +1528,20 @@ ul {
   gap: 4px;
 }
 
-.naver-sub-pill {
-  background: #EBF6FC;
-  color: #1B8FD1;
-  font-size: 0.75rem;
-  font-weight: 700;
-  padding: 2px 8px;
-  border-radius: 12px;
+.naver-sub-pill,
+.naver-card-meta .case-tag-pill {
+  position: static !important;
+  display: inline-block !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  background: #EBF6FC !important;
+  color: #1B8FD1 !important;
+  font-size: 0.75rem !important;
+  font-weight: 700 !important;
+  padding: 2px 8px !important;
+  border-radius: 12px !important;
+  border: 1px solid rgba(27, 143, 209, 0.2) !important;
+  vertical-align: middle !important;
 }
 
 .naver-review-title {
