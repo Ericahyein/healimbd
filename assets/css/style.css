@@ -282,12 +282,54 @@ ul {
   display: block;
 }
 
-.brand-logo-title {
-  font-size: 1.55rem;
+.brand-text-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.brand-slogan-top {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: #5A6266;
+  letter-spacing: -0.4px;
+  line-height: 1.15;
+  margin-bottom: 2px;
+}
+
+.brand-main-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  line-height: 1.1;
+}
+
+.brand-name-main {
+  font-size: 1.48rem;
   font-weight: 800;
-  color: #515658;
-  letter-spacing: -0.6px;
+  color: #33383B;
+  letter-spacing: -0.8px;
+  line-height: 1;
+}
+
+.brand-branch-badge {
+  background: #1B8FD1;
+  color: #FFFFFF;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 5px;
+  letter-spacing: -0.3px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   line-height: 1.2;
+}
+
+.drawer-logo-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 /* Desktop Nav (Bigger font sizes) */
@@ -4782,8 +4824,22 @@ html, body {
     display: flex;
   }
 
-  .brand-logo-title {
+  .brand-logo-img {
+    width: 36px;
+    height: 36px;
+  }
+
+  .brand-slogan-top {
+    font-size: 0.68rem;
+  }
+
+  .brand-name-main {
     font-size: 1.25rem;
+  }
+
+  .brand-branch-badge {
+    font-size: 0.72rem;
+    padding: 1px 5px;
   }
 
   .hero-photo-section {
