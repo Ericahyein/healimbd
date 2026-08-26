@@ -3047,7 +3047,7 @@ ul {
 }
 
 .treatment-card:hover .treatment-name {
-  color: #0F172A;
+  color: #1B8FD1;
 }
 
 /* Treatment Tags Row (Aligned 1-line / wrapping below image) */
@@ -3063,356 +3063,67 @@ ul {
 .sub-tag {
   font-size: 0.78rem;
   font-weight: 700;
+  color: #0F766E;
+  background: #F0FDFA;
+  border: 1px solid #CCFBF1;
   padding: 4px 10px;
   border-radius: var(--radius-full);
   transition: all 0.25s ease;
   white-space: nowrap;
 }
 
+.treatment-card:hover .sub-tag {
+  border-color: #1B8FD1;
+  background: #1B8FD1;
+  color: white;
+}
+
 /* ==========================================================================
-   Harmonious Theme Palettes for 9 Unified Clinic Cards
+   2nd Row Accent Theme: Soft Warm Orange (2번째 줄 옅은 주황톤)
    ========================================================================== */
+.treatment-card.theme-warm-orange {
+  border-top-color: #F97316;
+}
 
-/* 01. Theme Teal (틱장애 · 뚜렛증후군) */
-.treatment-card.theme-teal {
-  border-top-color: #0D9488;
+.treatment-card.theme-warm-orange .treatment-circle-wrap {
+  border-color: #F97316;
+  box-shadow: 0 8px 22px rgba(249, 115, 22, 0.16);
 }
-.treatment-card.theme-teal .treatment-circle-wrap {
-  border-color: #0D9488;
-  box-shadow: 0 8px 22px rgba(13, 148, 136, 0.18);
+
+.treatment-card.theme-warm-orange .card-num-badge {
+  color: #FDBA74;
 }
-.treatment-card.theme-teal .card-num-badge {
-  color: #5EEAD4;
+
+.treatment-card.theme-warm-orange .sub-tag {
+  color: #C2410C;
+  background: #FFF7ED;
+  border: 1px solid #FFEDD5;
 }
-.treatment-card.theme-teal .sub-tag {
-  color: #0F766E;
-  background: #F0FDFA;
-  border: 1px solid #CCFBF1;
+
+.treatment-card.theme-warm-orange:hover {
+  border-color: #F97316 !important;
+  border-top-color: #F97316 !important;
+  box-shadow: 0 18px 38px rgba(249, 115, 22, 0.22);
 }
-.treatment-card.theme-teal:hover {
-  border-color: #0D9488 !important;
-  border-top-color: #0D9488 !important;
-  box-shadow: 0 18px 36px rgba(13, 148, 136, 0.22);
+
+.treatment-card.theme-warm-orange:hover .treatment-circle-wrap {
+  border-color: #F97316;
+  box-shadow: 0 10px 28px rgba(249, 115, 22, 0.3);
 }
-.treatment-card.theme-teal:hover .treatment-circle-wrap {
-  border-color: #0D9488;
-  box-shadow: 0 10px 28px rgba(13, 148, 136, 0.3);
-}
-.treatment-card.theme-teal:hover .card-num-badge {
-  background: #0D9488;
-  color: #ffffff;
-}
-.treatment-card.theme-teal:hover .treatment-name {
-  color: #0D9488;
-}
-.treatment-card.theme-teal:hover .sub-tag {
-  background: #0D9488;
-  border-color: #0D9488;
+
+.treatment-card.theme-warm-orange:hover .card-num-badge {
+  background: #F97316;
   color: #ffffff;
 }
 
-/* 02. Theme Amber (주의집중력 ADHD) */
-.treatment-card.theme-amber {
-  border-top-color: #D97706;
-}
-.treatment-card.theme-amber .treatment-circle-wrap {
-  border-color: #D97706;
-  box-shadow: 0 8px 22px rgba(217, 119, 6, 0.18);
-}
-.treatment-card.theme-amber .card-num-badge {
-  color: #FCD34D;
-}
-.treatment-card.theme-amber .sub-tag {
-  color: #B45309;
-  background: #FFFBEB;
-  border: 1px solid #FDE68A;
-}
-.treatment-card.theme-amber:hover {
-  border-color: #D97706 !important;
-  border-top-color: #D97706 !important;
-  box-shadow: 0 18px 36px rgba(217, 119, 6, 0.22);
-}
-.treatment-card.theme-amber:hover .treatment-circle-wrap {
-  border-color: #D97706;
-  box-shadow: 0 10px 28px rgba(217, 119, 6, 0.3);
-}
-.treatment-card.theme-amber:hover .card-num-badge {
-  background: #D97706;
-  color: #ffffff;
-}
-.treatment-card.theme-amber:hover .treatment-name {
-  color: #D97706;
-}
-.treatment-card.theme-amber:hover .sub-tag {
-  background: #D97706;
-  border-color: #D97706;
-  color: #ffffff;
+.treatment-card.theme-warm-orange:hover .treatment-name {
+  color: #EA580C;
 }
 
-/* 03. Theme Ocean Blue (공황장애) */
-.treatment-card.theme-blue {
-  border-top-color: #1B8FD1;
-}
-.treatment-card.theme-blue .treatment-circle-wrap {
-  border-color: #1B8FD1;
-  box-shadow: 0 8px 22px rgba(27, 143, 209, 0.2);
-}
-.treatment-card.theme-blue .card-num-badge {
-  color: #7DD3FC;
-}
-.treatment-card.theme-blue .sub-tag {
-  color: #0369A1;
-  background: #F0F9FF;
-  border: 1px solid #BAE6FD;
-}
-.treatment-card.theme-blue:hover {
-  border-color: #1B8FD1 !important;
-  border-top-color: #1B8FD1 !important;
-  box-shadow: 0 18px 36px rgba(27, 143, 209, 0.25);
-}
-.treatment-card.theme-blue:hover .treatment-circle-wrap {
-  border-color: #1B8FD1;
-  box-shadow: 0 10px 28px rgba(27, 143, 209, 0.3);
-}
-.treatment-card.theme-blue:hover .card-num-badge {
-  background: #1B8FD1;
-  color: #ffffff;
-}
-.treatment-card.theme-blue:hover .treatment-name {
-  color: #1B8FD1;
-}
-.treatment-card.theme-blue:hover .sub-tag {
-  background: #1B8FD1;
-  border-color: #1B8FD1;
-  color: #ffffff;
-}
-
-/* 04. Theme Sky (불안장애 · 사회공포증) */
-.treatment-card.theme-sky {
-  border-top-color: #0284C7;
-}
-.treatment-card.theme-sky .treatment-circle-wrap {
-  border-color: #0284C7;
-  box-shadow: 0 8px 22px rgba(2, 132, 199, 0.18);
-}
-.treatment-card.theme-sky .card-num-badge {
-  color: #38BDF8;
-}
-.treatment-card.theme-sky .sub-tag {
-  color: #0369A1;
-  background: #F0F9FF;
-  border: 1px solid #BAE6FD;
-}
-.treatment-card.theme-sky:hover {
-  border-color: #0284C7 !important;
-  border-top-color: #0284C7 !important;
-  box-shadow: 0 18px 36px rgba(2, 132, 199, 0.22);
-}
-.treatment-card.theme-sky:hover .treatment-circle-wrap {
-  border-color: #0284C7;
-  box-shadow: 0 10px 28px rgba(2, 132, 199, 0.3);
-}
-.treatment-card.theme-sky:hover .card-num-badge {
-  background: #0284C7;
-  color: #ffffff;
-}
-.treatment-card.theme-sky:hover .treatment-name {
-  color: #0284C7;
-}
-.treatment-card.theme-sky:hover .sub-tag {
-  background: #0284C7;
-  border-color: #0284C7;
-  color: #ffffff;
-}
-
-/* 05. Theme Indigo (수면 · 불면증) */
-.treatment-card.theme-indigo {
-  border-top-color: #6366F1;
-}
-.treatment-card.theme-indigo .treatment-circle-wrap {
-  border-color: #6366F1;
-  box-shadow: 0 8px 22px rgba(99, 102, 241, 0.2);
-}
-.treatment-card.theme-indigo .card-num-badge {
-  color: #A5B4FC;
-}
-.treatment-card.theme-indigo .sub-tag {
-  color: #4F46E5;
-  background: #EEF2FF;
-  border: 1px solid #C7D2FE;
-}
-.treatment-card.theme-indigo:hover {
-  border-color: #6366F1 !important;
-  border-top-color: #6366F1 !important;
-  box-shadow: 0 18px 36px rgba(99, 102, 241, 0.25);
-}
-.treatment-card.theme-indigo:hover .treatment-circle-wrap {
-  border-color: #6366F1;
-  box-shadow: 0 10px 28px rgba(99, 102, 241, 0.3);
-}
-.treatment-card.theme-indigo:hover .card-num-badge {
-  background: #6366F1;
-  color: #ffffff;
-}
-.treatment-card.theme-indigo:hover .treatment-name {
-  color: #6366F1;
-}
-.treatment-card.theme-indigo:hover .sub-tag {
-  background: #6366F1;
-  border-color: #6366F1;
-  color: #ffffff;
-}
-
-/* 06. Theme Emerald (자율신경실조증) */
-.treatment-card.theme-emerald {
-  border-top-color: #059669;
-}
-.treatment-card.theme-emerald .treatment-circle-wrap {
-  border-color: #059669;
-  box-shadow: 0 8px 22px rgba(5, 150, 105, 0.18);
-}
-.treatment-card.theme-emerald .card-num-badge {
-  color: #6EE7B7;
-}
-.treatment-card.theme-emerald .sub-tag {
-  color: #047857;
-  background: #ECFDF5;
-  border: 1px solid #A7F3D0;
-}
-.treatment-card.theme-emerald:hover {
-  border-color: #059669 !important;
-  border-top-color: #059669 !important;
-  box-shadow: 0 18px 36px rgba(5, 150, 105, 0.22);
-}
-.treatment-card.theme-emerald:hover .treatment-circle-wrap {
-  border-color: #059669;
-  box-shadow: 0 10px 28px rgba(5, 150, 105, 0.3);
-}
-.treatment-card.theme-emerald:hover .card-num-badge {
-  background: #059669;
-  color: #ffffff;
-}
-.treatment-card.theme-emerald:hover .treatment-name {
-  color: #059669;
-}
-.treatment-card.theme-emerald:hover .sub-tag {
-  background: #059669;
-  border-color: #059669;
-  color: #ffffff;
-}
-
-/* 07. Theme Aqua (다한증) */
-.treatment-card.theme-aqua {
-  border-top-color: #0EA5E9;
-}
-.treatment-card.theme-aqua .treatment-circle-wrap {
-  border-color: #0EA5E9;
-  box-shadow: 0 8px 22px rgba(14, 165, 233, 0.18);
-}
-.treatment-card.theme-aqua .card-num-badge {
-  color: #7DD3FC;
-}
-.treatment-card.theme-aqua .sub-tag {
-  color: #0284C7;
-  background: #F0F9FF;
-  border: 1px solid #BAE6FD;
-}
-.treatment-card.theme-aqua:hover {
-  border-color: #0EA5E9 !important;
-  border-top-color: #0EA5E9 !important;
-  box-shadow: 0 18px 36px rgba(14, 165, 233, 0.22);
-}
-.treatment-card.theme-aqua:hover .treatment-circle-wrap {
-  border-color: #0EA5E9;
-  box-shadow: 0 10px 28px rgba(14, 165, 233, 0.3);
-}
-.treatment-card.theme-aqua:hover .card-num-badge {
-  background: #0EA5E9;
-  color: #ffffff;
-}
-.treatment-card.theme-aqua:hover .treatment-name {
-  color: #0EA5E9;
-}
-.treatment-card.theme-aqua:hover .sub-tag {
-  background: #0EA5E9;
-  border-color: #0EA5E9;
-  color: #ffffff;
-}
-
-/* 08. Theme Coral (과민성대장증후군) */
-.treatment-card.theme-coral {
-  border-top-color: #E11D48;
-}
-.treatment-card.theme-coral .treatment-circle-wrap {
-  border-color: #E11D48;
-  box-shadow: 0 8px 22px rgba(225, 29, 72, 0.18);
-}
-.treatment-card.theme-coral .card-num-badge {
-  color: #FDA4AF;
-}
-.treatment-card.theme-coral .sub-tag {
-  color: #BE123C;
-  background: #FFF1F2;
-  border: 1px solid #FECDD3;
-}
-.treatment-card.theme-coral:hover {
-  border-color: #E11D48 !important;
-  border-top-color: #E11D48 !important;
-  box-shadow: 0 18px 36px rgba(225, 29, 72, 0.22);
-}
-.treatment-card.theme-coral:hover .treatment-circle-wrap {
-  border-color: #E11D48;
-  box-shadow: 0 10px 28px rgba(225, 29, 72, 0.3);
-}
-.treatment-card.theme-coral:hover .card-num-badge {
-  background: #E11D48;
-  color: #ffffff;
-}
-.treatment-card.theme-coral:hover .treatment-name {
-  color: #E11D48;
-}
-.treatment-card.theme-coral:hover .sub-tag {
-  background: #E11D48;
-  border-color: #E11D48;
-  color: #ffffff;
-}
-
-/* 09. Theme Royal Blue (미주신경성 실신) */
-.treatment-card.theme-royal {
-  border-top-color: #2563EB;
-}
-.treatment-card.theme-royal .treatment-circle-wrap {
-  border-color: #2563EB;
-  box-shadow: 0 8px 22px rgba(37, 99, 235, 0.18);
-}
-.treatment-card.theme-royal .card-num-badge {
-  color: #93C5FD;
-}
-.treatment-card.theme-royal .sub-tag {
-  color: #1D4ED8;
-  background: #EFF6FF;
-  border: 1px solid #BFDBFE;
-}
-.treatment-card.theme-royal:hover {
-  border-color: #2563EB !important;
-  border-top-color: #2563EB !important;
-  box-shadow: 0 18px 36px rgba(37, 99, 235, 0.22);
-}
-.treatment-card.theme-royal:hover .treatment-circle-wrap {
-  border-color: #2563EB;
-  box-shadow: 0 10px 28px rgba(37, 99, 235, 0.3);
-}
-.treatment-card.theme-royal:hover .card-num-badge {
-  background: #2563EB;
-  color: #ffffff;
-}
-.treatment-card.theme-royal:hover .treatment-name {
-  color: #2563EB;
-}
-.treatment-card.theme-royal:hover .sub-tag {
-  background: #2563EB;
-  border-color: #2563EB;
-  color: #ffffff;
+.treatment-card.theme-warm-orange:hover .sub-tag {
+  background: #F97316;
+  border-color: #F97316;
+  color: white;
 }
 
 /* ==========================================================================
