@@ -4467,6 +4467,24 @@ html, body {
     grid-template-columns: 1fr;
   }
 
+  /* Map Action Buttons Mobile - Full width 1-column stack without mid-text breaks */
+  .map-action-buttons {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+    width: 100% !important;
+  }
+
+  .btn-naver-map, .btn-kakao-map {
+    width: 100% !important;
+    padding: 14px 20px !important;
+    font-size: 0.98rem !important;
+    white-space: nowrap !important;
+    word-break: keep-all !important;
+    justify-content: center !important;
+    display: inline-flex !important;
+    box-sizing: border-box !important;
+  }
+
   .clinic-cta-row {
     grid-template-columns: 1fr;
   }
