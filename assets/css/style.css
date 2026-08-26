@@ -2964,22 +2964,22 @@ ul {
 /* Treatment Circular Photo Avatar */
 .treatment-circle-wrap {
   position: relative;
-  width: 92px;
-  height: 92px;
+  width: 112px;
+  height: 112px;
   border-radius: 50%;
   padding: 3px;
   background: white;
-  border: 3px solid #0D9488;
-  box-shadow: 0 6px 16px rgba(13, 148, 136, 0.18);
+  border: 3.5px solid #0D9488;
+  box-shadow: 0 8px 20px rgba(13, 148, 136, 0.2);
   flex-shrink: 0;
   overflow: visible;
-  transition: transform 0.35s ease, border-color 0.35s ease;
+  transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
 }
 
 .treatment-card:hover .treatment-circle-wrap {
-  transform: scale(1.06);
+  transform: scale(1.05);
   border-color: #1B8FD1;
-  box-shadow: 0 8px 22px rgba(27, 143, 209, 0.25);
+  box-shadow: 0 10px 26px rgba(27, 143, 209, 0.28);
 }
 
 .treatment-circle-img {
@@ -2992,17 +2992,17 @@ ul {
 
 .card-num-badge {
   position: absolute;
-  bottom: -4px;
-  right: -4px;
+  bottom: -2px;
+  right: -2px;
   font-family: 'Outfit', sans-serif;
-  font-size: 0.78rem;
+  font-size: 0.84rem;
   font-weight: 800;
-  padding: 2px 7px;
-  border-radius: 12px;
+  padding: 3px 8px;
+  border-radius: 14px;
   background: #0F172A;
   color: #5EEAD4;
-  border: 1.5px solid white;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  border: 2px solid white;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
   line-height: 1.2;
 }
 
@@ -4178,21 +4178,21 @@ html, body {
   }
 
   .treatment-card-top-row {
-    gap: 14px;
-    align-items: flex-start;
+    gap: 16px;
+    align-items: center;
   }
 
   .treatment-circle-wrap {
-    width: 76px !important;
-    height: 76px !important;
-    border-width: 2.5px !important;
+    width: 90px !important;
+    height: 90px !important;
+    border-width: 3px !important;
   }
 
   .card-num-badge {
-    font-size: 0.72rem;
-    padding: 1px 6px;
-    bottom: -3px;
-    right: -3px;
+    font-size: 0.76rem;
+    padding: 2px 7px;
+    bottom: -2px;
+    right: -2px;
   }
 
   .treatment-name {
@@ -4542,8 +4542,8 @@ html, body {
   }
   
   .treatment-circle-wrap {
-    width: 66px !important;
-    height: 66px !important;
+    width: 82px !important;
+    height: 82px !important;
   }
   
   .treatment-name {
