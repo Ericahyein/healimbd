@@ -3079,15 +3079,17 @@ ul {
 }
 
 /* ==========================================================================
-   2nd Row Accent Theme: Tone-downed Muted Warm Orange (2번째 줄 차분한 주황톤 & 좌우 반전)
+   2nd Row Layout: Reverse Top Row (질환명 좌측 / 원형 이미지 우측)
+   ========================================================================== */
+.treatment-card.reverse-card .treatment-card-top {
+  flex-direction: row-reverse;
+}
+
+/* ==========================================================================
+   Tone-downed Muted Warm Orange Accent (주의집중력, 불안장애, 자율신경실조증, 과민성대장증후군)
    ========================================================================== */
 .treatment-card.theme-warm-orange {
   border-top-color: #C87A3E;
-}
-
-/* Reverse Top Row: Disease Title on Left, Circular Image on Right */
-.treatment-card.theme-warm-orange .treatment-card-top {
-  flex-direction: row-reverse;
 }
 
 .treatment-card.theme-warm-orange .treatment-circle-wrap {
