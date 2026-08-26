@@ -526,24 +526,33 @@ function initAdminCaseWriter() {
 }
 
 function openAdminCaseWriter() {
-  const isAuth = sessionStorage.getItem('healim_admin_auth') === 'true';
-  if (isAuth) {
-    openAdminWriterModal();
-  } else {
-    openAdminAuthModal();
-  }
+  openAdminAuthModal('case');
 }
 
-function openAdminAuthModal() {
+function openAdminAuthModal(targetType = 'case') {
+  window.adminTargetModal = targetType;
   const modal = document.getElementById('admin-auth-modal');
+  const titleEl = document.getElementById('admin-auth-title');
+  const subEl = document.querySelector('#admin-auth-modal .modal-subtitle');
   const errEl = document.getElementById('admin-auth-error');
   const pwdInput = document.getElementById('admin-password-input');
+
+  if (targetType === 'column') {
+    if (titleEl) titleEl.innerHTML = '<strong>관리자 인증</strong> (원장 칼럼 직접 등록)';
+    if (subEl) subEl.textContent = '원장 칼럼을 직접 작성하고 썸네일을 등록하려면 관리자 비밀번호를 입력해주세요.';
+  } else {
+    if (titleEl) titleEl.innerHTML = '<strong>관리자 인증</strong> (치료사례 직접 등록)';
+    if (subEl) subEl.textContent = '치료사례를 직접 작성하고 사진을 업로드하려면 관리자 비밀번호를 입력해주세요.';
+  }
+
   if (errEl) errEl.style.display = 'none';
   if (pwdInput) pwdInput.value = '';
   if (modal) {
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
-    if (pwdInput) pwdInput.focus();
+    setTimeout(() => {
+      if (pwdInput) pwdInput.focus();
+    }, 100);
   }
 }
 
@@ -1014,14 +1023,7 @@ function initAdminColumnBoard() {
 }
 
 function openAdminColumnWriter() {
-  const isAuth = sessionStorage.getItem('healim_admin_auth') === 'true';
-  if (isAuth) {
-    openAdminColumnWriterModal();
-  } else {
-    // Open admin auth modal, upon success it will open column writer if set
-    window.adminTargetModal = 'column';
-    openAdminAuthModal();
-  }
+  openAdminAuthModal('column');
 }
 
 function openAdminColumnWriterModal() {
