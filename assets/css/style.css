@@ -5567,11 +5567,18 @@ html, body {
 }
 
 .btn-column-write-top,
+.blog-bottom-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 14px;
+}
+
 .btn-column-write-bottom {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 8px 16px;
+  padding: 8px 18px;
   border-radius: 8px;
   background: #F8FAFC;
   border: 1px solid #CBD5E1;
@@ -5582,7 +5589,6 @@ html, body {
   transition: all 0.2s ease;
 }
 
-.btn-column-write-top:hover,
 .btn-column-write-bottom:hover {
   background: #1B8FD1;
   color: #FFFFFF;
