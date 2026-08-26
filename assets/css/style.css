@@ -2952,15 +2952,14 @@ ul {
   border-radius: var(--radius-lg);
   border: 1.5px solid #CBD5E1;
   border-top: 4px solid #0D9488;
-  padding: 22px 20px;
+  padding: 20px 20px 18px;
   box-shadow: 0 4px 18px rgba(15, 23, 42, 0.04);
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   box-sizing: border-box;
   width: 100%;
-  min-height: 180px;
 }
 
 .treatment-card:hover {
@@ -2970,19 +2969,19 @@ ul {
   border-top-color: #1B8FD1 !important;
 }
 
-/* Treatment Card Body Flex (Left Big Circle Avatar + Right Content) */
-.treatment-card-body-flex {
+/* Treatment Card Top Row (Left Big Circle Avatar + Right Vertically Centered Title) */
+.treatment-card-top {
   display: flex;
   align-items: center;
   gap: 18px;
   width: 100%;
 }
 
-/* Treatment Circular Photo Avatar - Large Crop Frame filling card height */
+/* Treatment Circular Photo Avatar */
 .treatment-circle-wrap {
   position: relative;
-  width: 148px;
-  height: 148px;
+  width: 130px;
+  height: 130px;
   border-radius: 50%;
   padding: 3.5px;
   background: white;
@@ -3029,22 +3028,21 @@ ul {
   color: #ffffff;
 }
 
-.treatment-content-block {
+.treatment-title-wrap {
   flex: 1;
   min-width: 0;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  align-items: center;
 }
 
 .treatment-name {
-  font-size: 1.2rem;
+  font-size: 1.34rem;
   font-weight: 800;
   color: #0F172A;
-  margin: 0 0 10px;
-  letter-spacing: -0.3px;
+  margin: 0;
+  letter-spacing: -0.4px;
   word-break: keep-all;
-  line-height: 1.3;
+  line-height: 1.35;
   transition: color 0.3s ease;
 }
 
@@ -3052,20 +3050,23 @@ ul {
   color: #1B8FD1;
 }
 
-.sub-tags-wrap {
+/* Treatment Tags Row (Aligned 1-line / wrapping below image) */
+.treatment-tags-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 5px;
-  margin-bottom: 12px;
+  gap: 6px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid #F1F5F9;
 }
 
 .sub-tag {
-  font-size: 0.76rem;
+  font-size: 0.78rem;
   font-weight: 700;
   color: #0F766E;
   background: #F0FDFA;
   border: 1px solid #CCFBF1;
-  padding: 3px 8px;
+  padding: 4px 10px;
   border-radius: var(--radius-full);
   transition: all 0.2s ease;
   white-space: nowrap;
@@ -3075,23 +3076,6 @@ ul {
   border-color: #1B8FD1;
   background: #1B8FD1;
   color: white;
-}
-
-.card-case-link {
-  font-size: 0.84rem;
-  font-weight: 800;
-  color: #0D9488;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  text-decoration: none;
-  transition: transform 0.2s ease, color 0.2s ease;
-}
-
-.treatment-card:hover .card-case-link,
-.card-case-link:hover {
-  transform: translateX(4px);
-  color: #1B8FD1;
 }
 
 /* ==========================================================================
@@ -4190,17 +4174,16 @@ html, body {
     padding: 16px 14px !important;
     width: 100% !important;
     box-sizing: border-box !important;
-    min-height: auto !important;
   }
 
-  .treatment-card-body-flex {
+  .treatment-card-top {
     gap: 14px;
     align-items: center;
   }
 
   .treatment-circle-wrap {
-    width: 122px !important;
-    height: 122px !important;
+    width: 106px !important;
+    height: 106px !important;
     border-width: 3px !important;
   }
 
@@ -4212,13 +4195,18 @@ html, body {
   }
 
   .treatment-name {
-    font-size: 1.15rem;
-    margin-bottom: 6px;
+    font-size: 1.2rem !important;
+  }
+
+  .treatment-tags-row {
+    gap: 5px !important;
+    margin-top: 12px !important;
+    padding-top: 10px !important;
   }
 
   .sub-tag {
-    font-size: 0.75rem;
-    padding: 2px 7px;
+    font-size: 0.74rem;
+    padding: 3px 8px;
   }
 
   /* Before-visit Pre-check Cards Mobile */
