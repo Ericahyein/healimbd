@@ -1000,11 +1000,69 @@ ul {
   padding: 80px 0 90px;
 }
 
+/* Review Type Switcher Pill Tab Bar */
+.review-type-switcher {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 0 auto 36px;
+  flex-wrap: wrap;
+  max-width: 100%;
+}
+
+.type-switch-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border-radius: var(--radius-full);
+  background: white;
+  color: #334155;
+  font-size: 0.94rem;
+  font-weight: 700;
+  border: 1.5px solid #CBD5E1;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  text-decoration: none;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+}
+
+.type-switch-btn:hover {
+  border-color: #1B8FD1;
+  color: #1B8FD1;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(27, 143, 209, 0.16);
+}
+
+.type-switch-btn.active {
+  background: #0F172A;
+  color: #ffffff;
+  border-color: #0F172A;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.2);
+}
+
+.type-switch-btn .n-pill-icon {
+  background: #03C75A;
+  color: white;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 900;
+  font-size: 0.72rem;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
 .cases-home-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 28px;
   margin-bottom: 44px;
+  width: 100%;
 }
 
 /* Healim Case Card Component (Mirroring healimsw.com) */
@@ -1017,6 +1075,8 @@ ul {
   display: flex;
   flex-direction: column;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .healim-case-card:hover {
@@ -4162,8 +4222,10 @@ html, body {
 }
 
 @media (max-width: 1024px) {
+  .cases-home-grid,
   .cases-grid-container {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
+    gap: 20px;
   }
 
   .treatments-unified-grid {
@@ -4215,8 +4277,61 @@ html, body {
     box-sizing: border-box;
   }
 
+  /* Cases & Reviews Section Mobile Optimization */
+  .cases-home-grid,
   .cases-grid-container {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+    width: 100% !important;
+  }
+
+  .review-type-switcher {
+    gap: 8px !important;
+    margin-bottom: 24px !important;
+    flex-wrap: wrap !important;
+  }
+
+  .type-switch-btn {
+    padding: 8px 14px !important;
+    font-size: 0.84rem !important;
+    flex: 1 1 calc(50% - 8px);
+    justify-content: center;
+    box-sizing: border-box;
+  }
+
+  .type-switch-btn:first-child {
+    flex: 1 1 100%;
+  }
+
+  .healim-case-card {
+    width: 100% !important;
+    border-radius: 16px !important;
+  }
+
+  .healim-case-card.naver-card-theme {
+    padding: 20px 16px !important;
+  }
+
+  .case-body-wrap {
+    padding: 20px 16px !important;
+  }
+
+  .naver-review-title {
+    font-size: 1.05rem !important;
+    line-height: 1.45 !important;
+  }
+
+  .naver-badge-label {
+    white-space: nowrap !important;
+  }
+
+  .n-badge-text {
+    white-space: nowrap !important;
+  }
+
+  .naver-card-header {
+    flex-wrap: nowrap !important;
+    gap: 8px !important;
   }
 
   /* Treatments Section Mobile */
