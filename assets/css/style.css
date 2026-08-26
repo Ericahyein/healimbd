@@ -2928,9 +2928,16 @@ ul {
 
 .treatments-unified-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 26px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
   width: 100%;
+}
+
+@media (max-width: 1100px) and (min-width: 769px) {
+  .treatments-unified-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
 }
 
 .treatment-card {
@@ -2938,7 +2945,7 @@ ul {
   border-radius: var(--radius-lg);
   border: 1.5px solid #CBD5E1;
   border-top: 4px solid #0D9488;
-  padding: 26px 24px 20px;
+  padding: 24px 20px 18px;
   box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
   display: flex;
   flex-direction: column;
@@ -2959,17 +2966,17 @@ ul {
 .treatment-card-body-flex {
   display: flex;
   align-items: flex-start;
-  gap: 22px;
+  gap: 16px;
   flex: 1;
 }
 
 /* Treatment Circular Photo Avatar - Large Frame Extending Down to Description */
 .treatment-circle-wrap {
   position: relative;
-  width: 142px;
-  height: 142px;
+  width: 114px;
+  height: 114px;
   border-radius: 50%;
-  padding: 4px;
+  padding: 3.5px;
   background: white;
   border: 3.5px solid #0D9488;
   box-shadow: 0 8px 22px rgba(13, 148, 136, 0.2);
@@ -2994,12 +3001,12 @@ ul {
 
 .card-num-badge {
   position: absolute;
-  bottom: 0px;
-  right: 0px;
+  bottom: -1px;
+  right: -1px;
   font-family: 'Outfit', sans-serif;
-  font-size: 0.86rem;
+  font-size: 0.82rem;
   font-weight: 800;
-  padding: 3px 9px;
+  padding: 2px 8px;
   border-radius: 14px;
   background: #0F172A;
   color: #5EEAD4;
@@ -3022,10 +3029,10 @@ ul {
 }
 
 .treatment-name {
-  font-size: 1.24rem;
+  font-size: 1.15rem;
   font-weight: 800;
   color: #0F172A;
-  margin: 0 0 8px;
+  margin: 0 0 6px;
   letter-spacing: -0.3px;
   word-break: keep-all;
   line-height: 1.35;
@@ -3039,17 +3046,17 @@ ul {
 .sub-tags-wrap {
   display: flex;
   flex-wrap: wrap;
-  gap: 5px;
-  margin-bottom: 10px;
+  gap: 4px;
+  margin-bottom: 8px;
 }
 
 .sub-tag {
-  font-size: 0.78rem;
+  font-size: 0.74rem;
   font-weight: 700;
   color: #0F766E;
   background: #F0FDFA;
   border: 1px solid #CCFBF1;
-  padding: 3px 8px;
+  padding: 2px 7px;
   border-radius: var(--radius-full);
   transition: all 0.2s ease;
   white-space: nowrap;
@@ -3062,9 +3069,9 @@ ul {
 }
 
 .treatment-explanation {
-  font-size: 0.93rem;
+  font-size: 0.88rem;
   color: #475569;
-  line-height: 1.62;
+  line-height: 1.58;
   margin: 0;
   word-break: keep-all;
   font-weight: 500;
@@ -3072,14 +3079,14 @@ ul {
 
 .treatment-card-footer {
   border-top: 1px solid #F1F5F9;
-  padding-top: 12px;
-  margin-top: 14px;
+  padding-top: 10px;
+  margin-top: 12px;
   display: flex;
   justify-content: flex-end;
 }
 
 .card-case-link {
-  font-size: 0.86rem;
+  font-size: 0.84rem;
   font-weight: 800;
   color: #0D9488;
   display: inline-flex;
