@@ -5338,3 +5338,80 @@ html, body {
   }
 }
 
+/* Treatment Duration Range Styling */
+.duration-input-grid {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #F8FAFC;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1.5px solid #CBD5E1;
+}
+
+.duration-field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.duration-sublabel {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #64748B;
+}
+
+.duration-field input[type="date"] {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #CBD5E1;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  color: #0F172A;
+  background: white;
+  box-sizing: border-box;
+}
+
+.duration-divider {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #94A3B8;
+  padding-top: 14px;
+}
+
+.case-duration-text {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: #64748B;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #F1F5F9;
+  padding: 3px 10px;
+  border-radius: 6px;
+}
+
+.reader-duration {
+  font-size: 0.94rem;
+  font-weight: 700;
+  color: #1E293B;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+@media (max-width: 480px) {
+  .duration-input-grid {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .duration-divider {
+    display: none;
+  }
+}
+
+

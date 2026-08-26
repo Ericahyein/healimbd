@@ -7,7 +7,7 @@ category: "panic"
 review_type: "direct"
 category_name: "불안장애·공황장애"
 diagnosis: "급성 공황장애 및 과호흡 증후군"
-duration: "3개월 치료"
+duration: "2026.05.15 ~ 2026.08.15"
 rating: 5
 image: "images/reviews/case-03.jpg"
 summary: "지하철이나 터널 운전 시 갑자기 숨이 막히고 심장이 터질 것 같아 응급실을 자주 찾았습니다. 해아림 맞춤 한약 치료와 신경 이완 치료로 일상을 완전히 회복했습니다."

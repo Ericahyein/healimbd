@@ -101,7 +101,7 @@
 
               <div class="case-body-wrap">
                 <div class="case-meta-top">
-                  <span class="case-date-text">{{ .Date.Format "2006.01.02" }}</span>
+                  <span class="case-duration-text"><i class="ph-bold ph-calendar-blank"></i> 치료기간: {{ .Params.duration | default (.Date.Format "2006.01.02") }}</span>
                 </div>
 
                 <p class="case-summary-text">{{ .Params.summary }}</p>

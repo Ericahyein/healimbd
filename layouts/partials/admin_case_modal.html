@@ -63,6 +63,22 @@
         </select>
       </div>
 
+      <!-- Treatment Duration Range (치료기간: 시작일 ~ 종료일) -->
+      <div class="form-group">
+        <label>치료기간 (언제부터 언제까지) <span class="required">*</span></label>
+        <div class="duration-input-grid">
+          <div class="duration-field">
+            <span class="duration-sublabel">치료 시작</span>
+            <input type="date" id="case-input-start-date" required>
+          </div>
+          <span class="duration-divider">~</span>
+          <div class="duration-field">
+            <span class="duration-sublabel">치료 종료 (또는 현재)</span>
+            <input type="date" id="case-input-end-date" required>
+          </div>
+        </div>
+      </div>
+
       <!-- Image Upload Area -->
       <div class="form-group">
         <label>치료사례 사진 첨부 (자필 수기 / 진료 사진) <span class="required">*</span></label>
@@ -110,7 +126,7 @@
     </div>
     
     <div class="case-reader-meta-bar">
-      <span id="custom-reader-date" class="reader-date">2026.08.26</span>
+      <span class="reader-duration"><i class="ph-bold ph-calendar-blank"></i> <span id="custom-reader-duration">치료기간: 2026.04.10 ~ 2026.07.25</span></span>
     </div>
 
     <!-- 1. 업로드한 사진 -->

@@ -7,7 +7,7 @@ category: "adhd"
 review_type: "direct"
 category_name: "소아청소년 ADHD"
 diagnosis: "주의력결핍 과잉행동장애(ADHD) 및 학업 스트레스"
-duration: "3개월 치료"
+duration: "2026.05.02 ~ 2026.08.10"
 rating: 5
 image: "images/reviews/case-02.jpg"
 summary: "수업 시간에 5분도 가만히 앉아있지 못하고 충동성이 높아 학교에서 지적을 자주 받아 아이도 저도 지쳐있었습니다. 해아림 맞춤 한약 치료와 훈련을 통해 자기조절력이 크게 향상되었고, 몰라보게 차분해졌습니다."

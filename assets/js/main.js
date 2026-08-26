@@ -631,7 +631,14 @@ function removeCasePhoto() {
 function handleAdminCaseSubmit(e) {
   e.preventDefault();
   const cat = document.getElementById('case-input-category').value;
+  const startDate = document.getElementById('case-input-start-date').value;
+  const endDate = document.getElementById('case-input-end-date').value;
   const content = document.getElementById('case-input-content').value.trim();
+
+  if (!startDate || !endDate) {
+    alert('치료 시작일과 종료일을 입력해주세요.');
+    return;
+  }
 
   if (!content) {
     alert('직접 작성할 본문 내용을 입력해주세요.');
@@ -644,7 +651,7 @@ function handleAdminCaseSubmit(e) {
   }
 
   const catName = CATEGORY_NAME_MAP[cat] || '치료사례';
-  // Title can be the first sentence or category-based summary
+  const durationStr = `${startDate.replace(/-/g, '.')} ~ ${endDate.replace(/-/g, '.')}`;
   const firstLine = content.split('\n')[0].replace(/^[#>\s*"]+/, '').trim();
   const generatedTitle = firstLine.length > 5 ? (firstLine.slice(0, 45) + (firstLine.length > 45 ? '...' : '')) : `${catName} 임상 치료사례`;
 
@@ -653,6 +660,7 @@ function handleAdminCaseSubmit(e) {
     title: generatedTitle,
     category: cat,
     categoryName: catName,
+    duration: durationStr,
     date: new Date().toISOString().split('T')[0],
     image: currentUploadedImageDataUrl,
     content: content,
@@ -696,7 +704,7 @@ function renderCustomCasesToList() {
           </div>
           <div class="case-body-wrap">
             <div class="case-meta-top">
-              <span class="case-date-text">${item.date}</span>
+              <span class="case-duration-text"><i class="ph-bold ph-calendar-blank"></i> 치료기간: ${item.duration || item.date}</span>
             </div>
             <p class="case-summary-text">${item.content}</p>
           </div>
@@ -725,7 +733,7 @@ function renderCustomCasesToList() {
           </div>
           <div class="case-body-wrap">
             <div class="case-meta-top">
-              <span class="case-date-text">${item.date}</span>
+              <span class="case-duration-text"><i class="ph-bold ph-calendar-blank"></i> 치료기간: ${item.duration || item.date}</span>
             </div>
             <p class="case-summary-text">${item.content}</p>
           </div>
@@ -745,7 +753,7 @@ function openCustomCaseReader(caseId) {
   const modal = document.getElementById('custom-case-reader-modal');
   const catEl = document.getElementById('custom-reader-category');
   const titleEl = document.getElementById('custom-case-reader-title');
-  const dateEl = document.getElementById('custom-reader-date');
+  const durationEl = document.getElementById('custom-reader-duration');
   const photoEl = document.getElementById('custom-reader-photo');
   const bodyEl = document.getElementById('custom-reader-body');
 
@@ -754,7 +762,7 @@ function openCustomCaseReader(caseId) {
     catEl.className = 'case-tag-pill ' + found.category;
   }
   if (titleEl) titleEl.textContent = found.title;
-  if (dateEl) dateEl.textContent = found.date;
+  if (durationEl) durationEl.textContent = `치료기간: ${found.duration || found.date}`;
   if (photoEl) photoEl.src = found.image;
   if (bodyEl) bodyEl.innerHTML = found.content.replace(/\n/g, '<br>');
 
@@ -788,6 +796,9 @@ function deleteCurrentCustomCase() {
 
 function downloadCaseMarkdown() {
   const cat = document.getElementById('case-input-category').value;
+  const startDate = document.getElementById('case-input-start-date').value || '2026-01-01';
+  const endDate = document.getElementById('case-input-end-date').value || '2026-04-01';
+  const durationStr = `${startDate.replace(/-/g, '.')} ~ ${endDate.replace(/-/g, '.')}`;
   const content = document.getElementById('case-input-content').value.trim() || '';
   const dateStr = new Date().toISOString().split('T')[0];
   const catName = CATEGORY_NAME_MAP[cat] || '치료사례';
@@ -797,6 +808,7 @@ function downloadCaseMarkdown() {
   const mdContent = `---
 title: "${title}"
 date: ${dateStr}
+duration: "${durationStr}"
 category: "${cat}"
 category_name: "${catName}"
 review_type: "direct"
