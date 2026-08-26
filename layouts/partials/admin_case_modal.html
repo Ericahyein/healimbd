@@ -1,0 +1,147 @@
+<!-- Admin Auth Modal (비밀번호 확인 모달) -->
+<div class="admin-modal" id="admin-auth-modal" role="dialog" aria-modal="true" aria-labelledby="admin-auth-title">
+  <div class="modal-card admin-auth-card">
+    <div class="modal-header">
+      <div class="modal-header-title-wrap">
+        <div class="admin-badge-icon"><i class="ph-bold ph-lock-key"></i></div>
+        <h3 id="admin-auth-title" class="modal-title"><strong>관리자 인증</strong> (치료사례 직접 등록)</h3>
+      </div>
+      <button class="modal-close" onclick="closeAdminAuthModal()" aria-label="닫기">
+        <i class="ph ph-x"></i>
+      </button>
+    </div>
+    <p class="modal-subtitle">치료사례를 직접 작성하고 사진을 업로드하려면 관리자 비밀번호를 입력해주세요.</p>
+    
+    <form id="admin-auth-form" onsubmit="handleAdminAuthSubmit(event)">
+      <div class="form-group">
+        <label for="admin-password-input">관리자 비밀번호</label>
+        <div class="input-with-icon">
+          <i class="ph-bold ph-key"></i>
+          <input type="password" id="admin-password-input" placeholder="비밀번호 입력 (기본: healim1234)" required autocomplete="current-password">
+        </div>
+      </div>
+      <div id="admin-auth-error" class="admin-auth-error" style="display: none;">
+        <i class="ph-bold ph-warning-circle"></i> 비밀번호가 일치하지 않습니다. 다시 확인해주세요.
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" onclick="closeAdminAuthModal()">취소</button>
+        <button type="submit" class="btn btn-primary-admin">인증 및 글쓰기 열기 <i class="ph-bold ph-arrow-right"></i></button>
+      </div>
+    </form>
+  </div>
+  <div class="modal-overlay" onclick="closeAdminAuthModal()"></div>
+</div>
+
+<!-- Admin Case Writer Modal (원내 치료사례 직접 등록 에디터) -->
+<div class="admin-modal" id="admin-case-writer-modal" role="dialog" aria-modal="true" aria-labelledby="admin-writer-title">
+  <div class="modal-card admin-writer-card">
+    <div class="modal-header">
+      <div class="modal-header-title-wrap">
+        <div class="admin-badge-icon writer-icon"><i class="ph-bold ph-note-pencil"></i></div>
+        <h3 id="admin-writer-title" class="modal-title">원내 치료사례 <strong>직접 글쓰기</strong></h3>
+      </div>
+      <button class="modal-close" onclick="closeAdminWriterModal()" aria-label="닫기">
+        <i class="ph ph-x"></i>
+      </button>
+    </div>
+    <p class="modal-subtitle">인위적인 AI 요약 없이, <strong>업로드한 사진</strong>과 <strong>직접 타이핑한 내용</strong>만 심플하게 출력됩니다.</p>
+
+    <form id="admin-case-write-form" onsubmit="handleAdminCaseSubmit(event)">
+      <div class="admin-form-grid">
+        <div class="form-group">
+          <label for="case-input-category">진료과목 (질환 분류) <span class="required">*</span></label>
+          <select id="case-input-category" required>
+            <option value="tic">소아 틱장애 · 뚜렛</option>
+            <option value="adhd">주의집중력 (소아·성인 ADHD)</option>
+            <option value="panic">공황장애</option>
+            <option value="anxiety">불안장애 · 사회공포증</option>
+            <option value="sleep">수면 · 불면증</option>
+            <option value="autonomic">자율신경실조증</option>
+            <option value="hyperhidrosis">다한증 (손발·전신·안면)</option>
+            <option value="ibs">과민성대장증후군</option>
+            <option value="syncope">미주신경성 실신</option>
+            <option value="etc">기타 신경정신 질환</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="case-input-author">작성자 / 환자 정보</label>
+          <input type="text" id="case-input-author" placeholder="예: 30대 직장인 박O수 님 / 환아 보호자">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="case-input-title">치료사례 제목 <span class="required">*</span></label>
+        <input type="text" id="case-input-title" placeholder="예: 불면증으로 수면제 복용하던 것이 완전히 호전되었습니다" required>
+      </div>
+
+      <!-- Image Upload Area -->
+      <div class="form-group">
+        <label>치료사례 사진 첨부 (자필 수기 / 진료 사진) <span class="required">*</span></label>
+        <div class="case-photo-uploader" id="case-photo-dropzone">
+          <input type="file" id="case-photo-file-input" accept="image/*" onchange="handleCasePhotoSelect(event)" style="display: none;">
+          <div class="uploader-prompt" id="uploader-prompt" onclick="document.getElementById('case-photo-file-input').click()">
+            <i class="ph-bold ph-camera"></i>
+            <strong>사진 선택 또는 드래그하여 첨부</strong>
+            <span>스마트폰 앨범 / PC에서 자필 수기 사진 또는 진료 사진을 올려주세요 (JPG, PNG)</span>
+          </div>
+          <div class="uploader-preview" id="uploader-preview" style="display: none;">
+            <img id="case-preview-img" src="" alt="업로드 사진 미리보기">
+            <button type="button" class="btn-remove-photo" onclick="removeCasePhoto()"><i class="ph-bold ph-trash"></i> 사진 변경 / 삭제</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Typed Content Area -->
+      <div class="form-group">
+        <label for="case-input-content">직접 타이핑할 본문 내용 <span class="required">*</span></label>
+        <textarea id="case-input-content" rows="6" placeholder="환자분이 직접 작성하신 자필 수기 내용이나 치료 후기를 그대로 타이핑해 주세요. 입력하신 그대로 홈페이지에 깨끗하게 출력됩니다." required></textarea>
+      </div>
+
+      <div class="modal-actions writer-actions">
+        <button type="button" class="btn btn-secondary" onclick="closeAdminWriterModal()">취소</button>
+        <button type="button" class="btn btn-outline-download" onclick="downloadCaseMarkdown()"><i class="ph-bold ph-download-simple"></i> .md 파일 다운로드</button>
+        <button type="submit" class="btn btn-primary-admin"><i class="ph-bold ph-check"></i> 홈페이지에 즉시 등록하기</button>
+      </div>
+    </form>
+  </div>
+  <div class="modal-overlay" onclick="closeAdminWriterModal()"></div>
+</div>
+
+<!-- Dynamic Custom Case Reader Modal (직접 등록한 글 실시간 열람 모달) -->
+<div class="admin-modal" id="custom-case-reader-modal" role="dialog" aria-modal="true" aria-labelledby="custom-case-reader-title">
+  <div class="modal-card case-reader-card">
+    <div class="modal-header">
+      <div class="modal-header-title-wrap">
+        <span class="case-tag-pill" id="custom-reader-category">소아 틱장애</span>
+        <h3 id="custom-case-reader-title" class="modal-title">치료사례</h3>
+      </div>
+      <button class="modal-close" onclick="closeCustomCaseReader()" aria-label="닫기">
+        <i class="ph ph-x"></i>
+      </button>
+    </div>
+    
+    <div class="case-reader-meta-bar">
+      <span id="custom-reader-author" class="reader-author">작성자</span>
+      <span id="custom-reader-date" class="reader-date">2026.08.26</span>
+    </div>
+
+    <!-- 1. 업로드한 사진 -->
+    <div class="case-single-photo-box" id="custom-reader-photo-box">
+      <div class="photo-box-frame">
+        <img id="custom-reader-photo" src="" alt="치료사례 원본 사진" class="case-full-photo-img">
+      </div>
+    </div>
+
+    <!-- 2. 직접 타이핑한 본문 -->
+    <div class="case-typed-body" id="custom-reader-body">
+      본문 내용이 출력됩니다.
+    </div>
+
+    <div class="modal-actions reader-actions">
+      <button type="button" class="btn btn-danger-small" id="btn-delete-custom-case" onclick="deleteCurrentCustomCase()"><i class="ph-bold ph-trash"></i> 이 글 삭제 (관리자)</button>
+      <button type="button" class="btn btn-secondary" onclick="closeCustomCaseReader()">닫기</button>
+    </div>
+  </div>
+  <div class="modal-overlay" onclick="closeCustomCaseReader()"></div>
+</div>

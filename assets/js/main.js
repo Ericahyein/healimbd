@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initSmoothScroll();
   initReviewTabs();
   initAuth();
+  initAdminCaseWriter();
 });
 
 // 1. Mobile Menu Drawer
@@ -497,6 +498,338 @@ function showAuthToast(message) {
   setTimeout(() => {
     toast.classList.remove('show');
   }, 3500);
+}
+
+// ==========================================================================
+// 10. Admin Direct Case Writer & Reader (관리자 직접 글쓰기 및 사진 업로드 시스템)
+// ==========================================================================
+const ADMIN_MASTER_PIN = 'healim1234';
+let currentUploadedImageDataUrl = '';
+let currentOpenedCustomCaseId = null;
+
+const CATEGORY_NAME_MAP = {
+  tic: '소아 틱장애',
+  adhd: '소아·성인 ADHD',
+  panic: '공황장애',
+  anxiety: '불안장애·공포증',
+  sleep: '수면·불면증',
+  autonomic: '자율신경실조증',
+  hyperhidrosis: '다한증',
+  ibs: '과민성대장증후군',
+  syncope: '미주신경성 실신',
+  etc: '기타 신경정신'
+};
+
+function initAdminCaseWriter() {
+  renderCustomCasesToList();
+}
+
+function openAdminCaseWriter() {
+  const isAuth = sessionStorage.getItem('healim_admin_auth') === 'true';
+  if (isAuth) {
+    openAdminWriterModal();
+  } else {
+    openAdminAuthModal();
+  }
+}
+
+function openAdminAuthModal() {
+  const modal = document.getElementById('admin-auth-modal');
+  const errEl = document.getElementById('admin-auth-error');
+  const pwdInput = document.getElementById('admin-password-input');
+  if (errEl) errEl.style.display = 'none';
+  if (pwdInput) pwdInput.value = '';
+  if (modal) {
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    if (pwdInput) pwdInput.focus();
+  }
+}
+
+function closeAdminAuthModal() {
+  const modal = document.getElementById('admin-auth-modal');
+  if (modal) {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+}
+
+function handleAdminAuthSubmit(e) {
+  e.preventDefault();
+  const pwdInput = document.getElementById('admin-password-input');
+  const errEl = document.getElementById('admin-auth-error');
+  const enteredPwd = pwdInput ? pwdInput.value.trim() : '';
+
+  if (enteredPwd === ADMIN_MASTER_PIN) {
+    sessionStorage.setItem('healim_admin_auth', 'true');
+    closeAdminAuthModal();
+    showAuthToast('🔓 관리자 인증 성공! 치료사례 작성창이 열립니다.');
+    setTimeout(() => {
+      openAdminWriterModal();
+    }, 250);
+  } else {
+    if (errEl) errEl.style.display = 'flex';
+    if (pwdInput) {
+      pwdInput.classList.add('error');
+      pwdInput.focus();
+    }
+  }
+}
+
+function openAdminWriterModal() {
+  const modal = document.getElementById('admin-case-writer-modal');
+  if (modal) {
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function closeAdminWriterModal() {
+  const modal = document.getElementById('admin-case-writer-modal');
+  if (modal) {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+}
+
+function handleCasePhotoSelect(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  if (!file.type.startsWith('image/')) {
+    alert('이미지 파일(JPG, PNG 등)만 첨부할 수 있습니다.');
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = function(evt) {
+    currentUploadedImageDataUrl = evt.target.result;
+    const promptEl = document.getElementById('uploader-prompt');
+    const previewEl = document.getElementById('uploader-preview');
+    const imgEl = document.getElementById('case-preview-img');
+
+    if (imgEl) imgEl.src = currentUploadedImageDataUrl;
+    if (promptEl) promptEl.style.display = 'none';
+    if (previewEl) previewEl.style.display = 'flex';
+  };
+  reader.readAsDataURL(file);
+}
+
+function removeCasePhoto() {
+  currentUploadedImageDataUrl = '';
+  const fileInput = document.getElementById('case-photo-file-input');
+  const promptEl = document.getElementById('uploader-prompt');
+  const previewEl = document.getElementById('uploader-preview');
+  const imgEl = document.getElementById('case-preview-img');
+
+  if (fileInput) fileInput.value = '';
+  if (imgEl) imgEl.src = '';
+  if (promptEl) promptEl.style.display = 'flex';
+  if (previewEl) previewEl.style.display = 'none';
+}
+
+function handleAdminCaseSubmit(e) {
+  e.preventDefault();
+  const cat = document.getElementById('case-input-category').value;
+  const title = document.getElementById('case-input-title').value.trim();
+  const author = document.getElementById('case-input-author').value.trim() || '해아림 분당점 내원 환자';
+  const content = document.getElementById('case-input-content').value.trim();
+
+  if (!title || !content) {
+    alert('제목과 직접 작성한 본문 내용을 입력해주세요.');
+    return;
+  }
+
+  if (!currentUploadedImageDataUrl) {
+    alert('치료사례 사진(자필 수기 또는 진료 사진)을 첨부해주세요.');
+    return;
+  }
+
+  const newCase = {
+    id: 'custom-' + Date.now(),
+    title: title,
+    category: cat,
+    categoryName: CATEGORY_NAME_MAP[cat] || '기타 질환',
+    author: author,
+    date: new Date().toISOString().split('T')[0],
+    image: currentUploadedImageDataUrl,
+    content: content,
+    createdAt: Date.now()
+  };
+
+  const stored = JSON.parse(localStorage.getItem('healim_custom_cases') || '[]');
+  stored.unshift(newCase);
+  localStorage.setItem('healim_custom_cases', JSON.stringify(stored));
+
+  closeAdminWriterModal();
+  // Reset Form
+  document.getElementById('admin-case-write-form').reset();
+  removeCasePhoto();
+
+  showAuthToast('🎉 원내 치료사례가 성공적으로 등록되었습니다!');
+  renderCustomCasesToList();
+}
+
+function renderCustomCasesToList() {
+  const customCases = JSON.parse(localStorage.getItem('healim_custom_cases') || '[]');
+  if (!customCases.length) return;
+
+  // 1. Direct Cases Grid on /reviews/
+  const directGrid = document.getElementById('direct-cases-grid');
+  if (directGrid) {
+    directGrid.querySelectorAll('.injected-custom-case').forEach(el => el.remove());
+
+    customCases.slice().reverse().forEach(item => {
+      const card = document.createElement('article');
+      card.className = 'healim-case-card injected-custom-case';
+      card.setAttribute('data-category', item.category);
+      card.setAttribute('data-review-type', 'direct');
+
+      card.innerHTML = `
+        <div class="case-card-anchor" style="cursor: pointer;" onclick="openCustomCaseReader('${item.id}')">
+          <div class="case-thumb-wrap">
+            <img src="${item.image}" alt="${item.title}" class="case-thumb-img" loading="lazy">
+            <span class="case-tag-pill ${item.category}">${item.categoryName}</span>
+            <span class="case-direct-badge">📝 원내 직접 등록</span>
+          </div>
+          <div class="case-body-wrap">
+            <div class="case-meta-top">
+              <span class="case-author-text">${item.author}</span>
+              <span class="case-date-text">${item.date}</span>
+            </div>
+            <h3 class="case-title-text">"${item.title}"</h3>
+            <p class="case-summary-text">${item.content}</p>
+            <div class="case-footer-row">
+              <span class="case-diag-badge"><i class="ph-bold ph-seal-check"></i> ${item.categoryName}</span>
+              <span class="case-more-arrow">자필 수기 전문 보기 <i class="ph-bold ph-arrow-right"></i></span>
+            </div>
+          </div>
+        </div>
+      `;
+      directGrid.prepend(card);
+    });
+  }
+
+  // 2. Cases Home Grid on Homepage (#reviews)
+  const homeGrid = document.querySelector('.cases-home-grid');
+  if (homeGrid) {
+    homeGrid.querySelectorAll('.injected-custom-case').forEach(el => el.remove());
+
+    customCases.slice(0, 2).reverse().forEach(item => {
+      const card = document.createElement('article');
+      card.className = 'healim-case-card injected-custom-case';
+      card.setAttribute('data-category', item.category);
+
+      card.innerHTML = `
+        <div class="case-card-anchor" style="cursor: pointer;" onclick="openCustomCaseReader('${item.id}')">
+          <div class="case-thumb-wrap">
+            <img src="${item.image}" alt="${item.title}" class="case-thumb-img" loading="lazy">
+            <span class="case-tag-pill ${item.category}">${item.categoryName}</span>
+            <span class="case-direct-badge">📝 원내 직접 등록</span>
+          </div>
+          <div class="case-body-wrap">
+            <div class="case-meta-top">
+              <span class="case-author-text">${item.author}</span>
+              <span class="case-date-text">${item.date}</span>
+            </div>
+            <h3 class="case-title-text">"${item.title}"</h3>
+            <p class="case-summary-text">${item.content}</p>
+            <div class="case-footer-row">
+              <span class="case-diag-badge"><i class="ph-bold ph-seal-check"></i> ${item.categoryName}</span>
+              <span class="case-more-arrow">자필 수기 전문 보기 <i class="ph-bold ph-arrow-right"></i></span>
+            </div>
+          </div>
+        </div>
+      `;
+      homeGrid.prepend(card);
+    });
+  }
+}
+
+function openCustomCaseReader(caseId) {
+  const customCases = JSON.parse(localStorage.getItem('healim_custom_cases') || '[]');
+  const found = customCases.find(c => c.id === caseId);
+  if (!found) return;
+
+  currentOpenedCustomCaseId = caseId;
+  const modal = document.getElementById('custom-case-reader-modal');
+  const catEl = document.getElementById('custom-reader-category');
+  const titleEl = document.getElementById('custom-case-reader-title');
+  const authorEl = document.getElementById('custom-reader-author');
+  const dateEl = document.getElementById('custom-reader-date');
+  const photoEl = document.getElementById('custom-reader-photo');
+  const bodyEl = document.getElementById('custom-reader-body');
+
+  if (catEl) {
+    catEl.textContent = found.categoryName;
+    catEl.className = 'case-tag-pill ' + found.category;
+  }
+  if (titleEl) titleEl.textContent = found.title;
+  if (authorEl) authorEl.textContent = found.author;
+  if (dateEl) dateEl.textContent = found.date;
+  if (photoEl) photoEl.src = found.image;
+  if (bodyEl) bodyEl.innerHTML = found.content.replace(/\n/g, '<br>');
+
+  if (modal) {
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function closeCustomCaseReader() {
+  const modal = document.getElementById('custom-case-reader-modal');
+  currentOpenedCustomCaseId = null;
+  if (modal) {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+}
+
+function deleteCurrentCustomCase() {
+  if (!currentOpenedCustomCaseId) return;
+  if (!confirm('정말 이 치료사례를 삭제하시겠습니까?')) return;
+
+  let customCases = JSON.parse(localStorage.getItem('healim_custom_cases') || '[]');
+  customCases = customCases.filter(c => c.id !== currentOpenedCustomCaseId);
+  localStorage.setItem('healim_custom_cases', JSON.stringify(customCases));
+
+  closeCustomCaseReader();
+  showAuthToast('🗑️ 게시글이 삭제되었습니다.');
+  location.reload();
+}
+
+function downloadCaseMarkdown() {
+  const cat = document.getElementById('case-input-category').value;
+  const title = document.getElementById('case-input-title').value.trim() || '치료사례';
+  const author = document.getElementById('case-input-author').value.trim() || '해아림 내원 환자';
+  const content = document.getElementById('case-input-content').value.trim() || '';
+  const dateStr = new Date().toISOString().split('T')[0];
+  const catName = CATEGORY_NAME_MAP[cat] || '치료사례';
+
+  const mdContent = `---
+title: "${title}"
+date: ${dateStr}
+author: "${author}"
+category: "${cat}"
+category_name: "${catName}"
+review_type: "direct"
+rating: 5
+image: "images/reviews/${cat}-custom-${Date.now()}.jpg"
+summary: "${content.slice(0, 120)}..."
+---
+
+${content}
+`;
+
+  const blob = new Blob([mdContent], { type: 'text/markdown;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `case-${cat}-${dateStr}.md`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 }
 
 

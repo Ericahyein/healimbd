@@ -47,17 +47,11 @@
           </div>
         </div>
 
-        <!-- Diagnosis & Key Summary Box -->
-        <div class="case-summary-highlight">
-          <div class="highlight-badge"><i class="ph-bold ph-stethoscope"></i> 임상 치료 경과 요약</div>
-          <p class="highlight-text">{{ .Params.summary }}</p>
-        </div>
-
         <!-- Logged-in Member Unlock Banner (Visible when logged in) -->
         <div class="case-unlocked-banner" id="case-unlocked-banner" style="display: none;">
           <div class="unlocked-left">
             <i class="ph-bold ph-seal-check"></i>
-            <span><strong>인증 회원 로그인 완료:</strong> <span id="unlocked-user-name">회원</span>님, 자필 체험 수기 및 전문 처방 내역을 열람 중입니다.</span>
+            <span><strong>인증 회원 로그인 완료:</strong> <span id="unlocked-user-name">회원</span>님, 자필 체험 수기 및 등록 치료사례를 열람 중입니다.</span>
           </div>
           <button class="btn-logout-small" onclick="logoutUser()">로그아웃</button>
         </div>
@@ -65,25 +59,17 @@
         <!-- Protected Case Area (Blurred when not logged in) -->
         <div class="case-protected-wrapper is-locked" id="case-protected-wrapper">
           
-          <!-- Authentic Handwriting Photo Container (If handwriting image exists) -->
-          {{ if in .Params.image "handwriting" }}
-          <div class="handwriting-photo-container">
-            <div class="handwriting-header-bar">
-              <span class="handwriting-badge"><i class="ph-bold ph-pen-nib"></i> 환자 보호자 작성 자필 체험 수기 원본</span>
-              <span class="handwriting-secure-tag"><i class="ph-bold ph-shield-check"></i> 분당점 원본 검증 완료</span>
+          <!-- 1. 업로드한 사진 (Authentic Uploaded Photo) -->
+          {{ if .Params.image }}
+          <div class="case-single-photo-box">
+            <div class="photo-box-frame">
+              <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}" class="case-full-photo-img" loading="eager">
             </div>
-            <div class="handwriting-image-frame">
-              <img src="{{ .Params.image | relURL }}" alt="해아림한의원 소아 틱장애 환자 보호자 자필 체험 수기 원본" class="handwriting-full-img" loading="eager">
-            </div>
-          </div>
-          {{ else if .Params.image }}
-          <div class="case-single-img-wrap">
-            <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}" class="case-single-img" loading="lazy">
           </div>
           {{ end }}
 
-          <!-- Main Body Content -->
-          <div class="case-single-content">
+          <!-- 2. 직접 타이핑한 본문 내용 (Pure Typed Content) -->
+          <div class="case-typed-body">
             {{ .Content }}
           </div>
 
