@@ -1122,6 +1122,19 @@ function handleAdminColumnSubmit(e) {
   renderCustomColumns();
 }
 
+const CLINIC_THUMB_MAP = {
+  tic: 'images/clinics/tic.jpg',
+  adhd: 'images/clinics/adhd.jpg',
+  panic: 'images/clinics/panic.jpg',
+  anxiety: 'images/clinics/anxiety.jpg',
+  sleep: 'images/clinics/sleep.jpg',
+  autonomic: 'images/clinics/autonomic.jpg',
+  hyperhidrosis: 'images/clinics/hyperhidrosis.jpg',
+  ibs: 'images/clinics/ibs.jpg',
+  syncope: 'images/clinics/syncope.jpg',
+  general: 'images/clinics/autonomic.jpg'
+};
+
 function renderCustomColumns() {
   const grids = document.querySelectorAll('#column-cards-grid');
   if (!grids.length) return;
@@ -1142,16 +1155,23 @@ function renderCustomColumns() {
       card.setAttribute('data-category', col.category);
       card.onclick = () => openCustomColumnReader(col.id);
 
+      const colImg = col.image || CLINIC_THUMB_MAP[col.category] || 'images/clinics/autonomic.jpg';
+
       card.innerHTML = `
-        <div class="col-card-head">
+        <div class="col-thumb-wrap">
+          <img src="${colImg}" alt="${col.title}" class="col-thumb-img" loading="lazy">
           <span class="col-badge-pill ${col.category}">${col.categoryName}</span>
-          <span class="col-date-text">${col.date}</span>
         </div>
-        <h3 class="col-card-title">${col.title}</h3>
-        <p class="col-card-desc">${col.summary}</p>
-        <div class="col-card-footer">
-          <span class="col-author-label"><i class="ph-bold ph-user-circle"></i> ${col.author}</span>
-          <span class="col-read-more">칼럼 읽기 <i class="ph-bold ph-arrow-right"></i></span>
+        <div class="col-card-body">
+          <div class="col-meta-row">
+            <span class="col-date-text">${col.date}</span>
+          </div>
+          <h3 class="col-card-title">${col.title}</h3>
+          <p class="col-card-desc">${col.summary}</p>
+          <div class="col-card-footer">
+            <span class="col-author-label"><i class="ph-bold ph-user-circle"></i> ${col.author}</span>
+            <span class="col-read-more">칼럼 읽기 <i class="ph-bold ph-arrow-right"></i></span>
+          </div>
         </div>
       `;
       fragment.appendChild(card);
