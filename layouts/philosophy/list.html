@@ -22,14 +22,13 @@
   {{ partial "header.html" . }}
 
   <main id="main-content">
-    <!-- Philosophy Page Header Banner (healimsw.com style) -->
+    <!-- Philosophy Page Header Banner -->
     <section class="cases-page-header philosophy-page-header">
       <div class="container text-center">
         <span class="cases-top-pill">CLINICAL PHILOSOPHY</span>
         <h1 class="cases-main-title">진료철학</h1>
         <p class="cases-main-desc">
-          손지웅 원장은 이런 마음으로 진료합니다.<br>
-          분당 해아림한의원을 찾는 분들께 전하는 손지웅 대표원장의 이야기
+          손지웅 대표원장의 진솔한 마음과 치유 이야기
         </p>
       </div>
     </section>
@@ -38,320 +37,247 @@
     <section class="section philosophy-page-section">
       <div class="container">
         
-        <!-- 1. Top Profile & Greeting Hero Card -->
-        <div class="philo-hero-grid">
-          <!-- Left: Doctor Portrait & Credentials Card -->
-          <div class="philo-doctor-profile-card">
-            <div class="philo-doc-photo-frame">
-              <img src="{{ "images/doctor-son.png" | relURL }}" alt="해아림한의원 분당점 손지웅 대표원장" class="philo-doc-img">
-            </div>
-            <div class="philo-doc-info">
-              <div class="philo-badge-row">
-                <span class="philo-doc-badge">대표원장</span>
-                <span class="philo-clinic-badge">해아림한의원 분당점</span>
-              </div>
-              <h2 class="philo-doc-name">손지웅 <span>대표원장</span></h2>
-              <p class="philo-doc-quote">"환자의 아픔을 먼저 겪어보았기에, 진심으로 공감하고 경청합니다."</p>
-
-              <!-- Credentials List -->
-              <div class="philo-credentials-box">
-                <h4 class="cred-title"><i class="ph-bold ph-certificate"></i> 약력 및 학술 활동</h4>
-                <ul class="cred-list">
-                  <li><strong>현)</strong> 해아림한의원 분당점 대표원장</li>
-                  <li><strong>전)</strong> 해아림한의원 대구본점 진료원장</li>
-                  <li><strong>전)</strong> 울진군 온정면 보건지소 한방진료과장</li>
-                  <li>대구한의대학교 한의학과 졸업</li>
-                  <li>대한한방신경정신과학회 정회원</li>
-                  <li>대한한방두뇌신경의학회 정회원</li>
-                  <li>대한한방소아과학회 정회원</li>
-                </ul>
-              </div>
-            </div>
+        <!-- 1. Top Doctor Profile & Credentials Card (Clean Layout) -->
+        <div class="philo-doctor-profile-hero">
+          <div class="philo-hero-photo-wrap">
+            <img src="{{ "images/doctor-son.png" | relURL }}" alt="해아림한의원 분당점 손지웅 대표원장" class="philo-hero-photo">
           </div>
-
-          <!-- Right: Greeting & Core Narrative Message -->
-          <div class="philo-greeting-col">
-            <div class="greeting-badge"><i class="ph-bold ph-hand-heart"></i> Greeting</div>
-            <h3 class="greeting-main-title">
-              "안녕하세요.<br>
-              따뜻한 공감으로 환자를 치유하는,<br>
-              <strong>분당 해아림한의원 대표원장 손지웅</strong>입니다."
-            </h3>
-
-            <div class="greeting-paragraphs">
-              <p>
-                저는 언제나 진료의 중심에 <strong>치유(Healing)</strong>를 두고 있습니다.
-                단순히 겉으로 드러난 증상을 없애는 것이 아니라, 당신을 온전히 바라보고 마음과 몸의 <strong>근본적인 균형을 회복</strong>하는 데 집중합니다.
-              </p>
-              <p>
-                환자 한 분, 한 분이 겪는 통증과 불편함 뒤에는 저마다의 삶과 이야기가 있습니다. 
-                저는 그 삶의 맥락을 깊이 듣고 공감하며, 단편적인 처방이 아닌 <strong>개인 맞춤형 치료 계획</strong>을 세웁니다.
-              </p>
-              <p>
-                저에게 치료란 <strong>'잠깐의 안도감'</strong>을 넘어, <strong>일상 속에서 지속 가능한 회복을 만드는 과정</strong>입니다. 
-                진정한 치유는 마음의 평온이 회복될 때 비로소 시작되며, 저는 그 여정에 함께할 것을 약속드립니다.
-              </p>
-              <p class="greeting-intro-guide">
-                지금부터 <strong>제가 어떻게 한의사의 길을 걷게 되었는지, 왜 신경정신과 질환에 깊은 관심을 갖게 되었는지, 그리고 어떤 방식으로 치료의 방향을 세우는지</strong> 이야기해 드리려 합니다. 병원을 방문하시기 전에 한 번 읽어보시면 도움이 되실 것입니다.
-              </p>
+          <div class="philo-hero-bio-wrap">
+            <div class="philo-badge-row">
+              <span class="philo-doc-badge">대표원장</span>
+              <span class="philo-clinic-badge">해아림한의원 분당점</span>
             </div>
+            <h2 class="philo-hero-name">손지웅 <span>대표원장</span></h2>
+            <p class="philo-hero-slogan">"환자의 아픔을 먼저 겪어보았기에, 진심으로 공감하고 경청합니다."</p>
 
-            <div class="greeting-signature">
-              <span>대표원장</span>
-              <strong>손 지 웅 <em>드림</em></strong>
+            <!-- Clean Credentials List -->
+            <div class="philo-credentials-clean-box">
+              <h4 class="cred-title"><i class="ph-bold ph-certificate"></i> 약력 및 학술 활동</h4>
+              <ul class="cred-clean-list">
+                <li><strong>현)</strong> 해아림한의원 분당점 대표원장</li>
+                <li><strong>전)</strong> 해아림한의원 대구본점 진료원장</li>
+                <li><strong>전)</strong> 울진군 온정면 보건지소 한방진료과장</li>
+                <li>대구한의대학교 한의학과 졸업</li>
+                <li>대한한방신경정신과학회 정회원</li>
+                <li>대한한방두뇌신경의학회 정회원</li>
+                <li>대한한방소아과학회 정회원</li>
+              </ul>
             </div>
           </div>
         </div>
 
-        <!-- 2. Chapter 1: 어린 시절의 따뜻한 기억이 만든 길 (Image 1: Pulse) -->
-        <article class="philo-chapter-section">
-          <div class="chapter-badge-wrap">
-            <span class="chapter-num-pill">Story 01</span>
-            <span class="chapter-theme-tag">유년의 기억</span>
-          </div>
-          <h2 class="chapter-main-title">어린 시절의 따뜻한 기억이 만든 길</h2>
+        <!-- 2. Full Philosophy Narrative Stream (전체 스토리 처음부터 출력) -->
+        <div class="philo-full-narrative-stream">
           
-          <div class="chapter-quote-box">
-            <i class="ph-fill ph-quotes"></i>
-            <p>"어린 시절 만난 한의사 원장님의 크고 따스한 맥 짚기 — <strong>'한의사'란 '따뜻함'</strong>이라는 기억이 마음에 자리잡았습니다."</p>
+          <!-- Greeting Introduction Lead -->
+          <div class="philo-story-greeting-block">
+            <p class="story-hello">안녕하세요.</p>
+            <h3 class="story-hero-quote">
+              따뜻한 공감으로 환자를 치유하는,<br>
+              <strong>분당 해아림한의원 손지웅 대표원장</strong>입니다.
+            </h3>
           </div>
 
-          <div class="chapter-content-grid">
-            <div class="chapter-text-col">
-              <p>
-                한의사의 길을 걷게 된 이유를 떠올리면, 저의 어린 시절로 거슬러 올라가야 할 것 같습니다.
-              </p>
-              <p>
-                저는 초등학생 시절에 몸이 많이 약해서 여러 병원을 자주 다니며 지냈던 기억이 생생한데요. 감기부터 다양한 잔병치레로 늘 병원과 가까웠던 저에게, 의사 선생님은 그저 무표정하게 진단과 처방을 해주는 분들이었습니다.
-              </p>
-              <p>
-                그렇게 많은 병원을 다녀 보았지만, 별다른 차도는 없었죠. 그러던 어느 날, <strong>할머니 손에 이끌려 찾게 된 한의원에서 만난 한의사 원장님이 제 인생에 큰 전환점</strong>을 만들어 주셨습니다.
-              </p>
-              <p>
-                그때 만났던 원장님이 저를 손주처럼 따뜻하게 바라보시며 크고 따스한 손길로 제 맥을 짚어주시던 모습이 아직도 기억에 생생합니다. 긴 시간 한약을 복용하면서 건강을 되찾은 저에게 <strong>'한의사'란 '따뜻함'</strong>이라는 것이 마음 속에 자리잡게 되었습니다.
-              </p>
-              <p>
-                그 어린 시절의 기억은 저의 진로와 인생관을 만들어주었고, 이후 한의대 진학도 망설임 없이 결정하게 된 계기가 되었습니다.
-              </p>
+          <!-- Chapter 1: 어린 시절의 따뜻한 기억이 만든 길 (Image 1: Pulse) -->
+          <article class="philo-chapter-section">
+            <div class="chapter-badge-wrap">
+              <span class="chapter-num-pill">Story 01</span>
             </div>
-            <div class="chapter-photo-col">
-              <div class="chapter-img-card">
-                <img src="{{ "images/philosophy/philosophy-pulse.jpg" | relURL }}" alt="따스한 손길로 맥을 짚는 손지웅 대표원장 진료 모습" class="chapter-img" loading="lazy">
-                <div class="chapter-img-caption">
-                  <i class="ph-bold ph-hand-heart"></i> 따스한 손길로 환자의 맥을 짚으며 전인적인 균형을 살피는 진료
+            <h2 class="chapter-main-title">어린 시절의 따뜻한 기억이 만든 길</h2>
+
+            <div class="chapter-content-grid">
+              <div class="chapter-text-col">
+                <p>
+                  한의사의 길을 걷게 된 이유를 떠올리면, 저의 어린 시절로 거슬러 올라가야 할 것 같습니다.
+                </p>
+                <p>
+                  저는 초등학생 시절에 몸이 많이 약해서 여러 병원을 자주 다니며 지냈던 기억이 생생한데요. 감기부터 다양한 잔병치레로 늘 병원과 가까웠던 저에게, 의사 선생님은 그저 무표정하게 진단과 처방을 해주는 분들이었습니다.
+                </p>
+                <p>
+                  그렇게 많은 병원을 다녀 보았지만, 별다른 차도는 없었죠.
+                </p>
+                <p>
+                  그러던 어느 날,<br>
+                  할머니 손에 이끌려 찾게 된 한의원에서 만난 한의사 원장님이 제 인생에 큰 전환점을 만들어 주셨습니다.
+                </p>
+                <p>
+                  그때 만났던 원장님이 저를 손주처럼 따뜻하게 바라보시며 크고 따스한 손길로 제 맥을 짚어주시던 모습이 아직도 기억에 생생합니다.
+                </p>
+                <div class="philo-quote-highlight">
+                  <p>긴 시간 한약을 복용하면서 건강을 되찾은 저에게<br><strong>'한의사'란 '따뜻함'</strong>이라는 것이 마음 속에 자리잡게 되었습니다.</p>
+                </div>
+                <p>
+                  그 어린 시절의 기억은 저의 진로와 인생관을 만들어주었고, 이후 한의대 진학도 망설임 없이 결정하게 된 계기가 되었죠.
+                </p>
+              </div>
+              <div class="chapter-photo-col">
+                <div class="chapter-img-card">
+                  <img src="{{ "images/philosophy/philosophy-pulse.jpg" | relURL }}" alt="맥진 진료" class="chapter-img" loading="lazy">
                 </div>
               </div>
             </div>
-          </div>
-        </article>
+          </article>
 
-        <!-- 3. Chapter 2: 몸과 마음을 치유하는 한의학의 힘 (Image 2: Acupuncture) -->
-        <article class="philo-chapter-section reverse">
-          <div class="chapter-badge-wrap">
-            <span class="chapter-num-pill">Story 02</span>
-            <span class="chapter-theme-tag">시련과 극복</span>
-          </div>
-          <h2 class="chapter-main-title">몸과 마음을 치유하는 한의학의 힘</h2>
-          
-          <div class="chapter-quote-box">
-            <i class="ph-fill ph-quotes"></i>
-            <p>"<strong>몸과 마음이 깊이 연결되어 있다</strong> — 신체의 회복을 넘어선 진정한 치유에는 정신적인 안정이 필수적이었습니다."</p>
-          </div>
+          <!-- Chapter 2: 몸과 마음을 치유하는 한의학의 힘 (Image 2: Acupuncture) -->
+          <article class="philo-chapter-section reverse">
+            <div class="chapter-badge-wrap">
+              <span class="chapter-num-pill">Story 02</span>
+            </div>
+            <h2 class="chapter-main-title">몸과 마음을 치유하는 한의학의 힘</h2>
 
-          <div class="chapter-content-grid">
-            <div class="chapter-photo-col">
-              <div class="chapter-img-card">
-                <img src="{{ "images/philosophy/philosophy-acupuncture.jpg" | relURL }}" alt="신경계 긴장을 이완하는 맞춤 침구 치료" class="chapter-img" loading="lazy">
-                <div class="chapter-img-caption">
-                  <i class="ph-bold ph-sparkle"></i> 과열된 뇌신경계와 자율신경의 긴장을 완화하는 정밀 침구 치료
+            <div class="chapter-content-grid">
+              <div class="chapter-photo-col">
+                <div class="chapter-img-card">
+                  <img src="{{ "images/philosophy/philosophy-acupuncture.jpg" | relURL }}" alt="침구 치료" class="chapter-img" loading="lazy">
+                </div>
+              </div>
+              <div class="chapter-text-col">
+                <p>
+                  하지만 제 인생에 또 한 번 큰 시련이 닥쳐왔습니다.
+                </p>
+                <p>
+                  대학 2학년 시절, 큰 교통사고를 당하면서 한 달 간 혼수상태에 빠지게 되었고, 깨어난 후에도 제 몸은 여러 손상을 겪어 장기적인 회복이 필요한 상황이었습니다.
+                </p>
+                <p>
+                  휴학 후 재활치료에 전념해야 했고, 졸업은 동기들보다 늦어질 수밖에 없었습니다. 남보다 뒤처진다는 생각에 우울과 불안 속에서 무기력한 시간을 보내기도 했죠.
+                </p>
+                <p>
+                  복학 후, 후배들과 새 학기를 시작한 저는 어려움 속에서도 다시 스스로를 되찾아야 했습니다.
+                </p>
+                <p>
+                  이 때 정신과를 전문으로 진료하시던 선배님을 만나게 되었는데요. 그분은 제가 가진 불안과 고립감에 깊이 공감하며 진심 어린 조언과 상담을 해주셨습니다. 무엇보다도 제가 내면의 상처를 직면하고 치유할 수 있도록 도와주셨죠.
+                </p>
+                <p>
+                  선배님과의 상담을 통해 억눌렸던 감정들을 하나하나 꺼내어 볼 수 있었고, 스스로를 바라보는 시각도 조금씩 바뀌어 갔습니다.
+                </p>
+                <p>
+                  선배님의 상담과 한약 치료를 병행하면서 제 안의 불안과 무력감이 차츰 희미해졌을 쯤, 깨달았습니다.
+                </p>
+                <div class="philo-quote-highlight">
+                  <p><strong>"몸과 마음이 깊이 연결되어 있다"</strong></p>
+                </div>
+                <p>
+                  신체의 회복을 넘어선 진정한 치유에는 정신적인 안정이 필수적이었고, 그 마음의 회복이 몸의 활력으로도 이어지는 것을 경험하게 된 것이었죠.
+                </p>
+                <p>
+                  그 때 저는 <strong>'정신과 한의사'</strong>로서 환자분들의 마음의 병을 치유하는 길을 걷겠다고 결심하게 되었습니다. 제게 어려운 시기에 손을 내밀어주신 분들 덕분에 다시 일어설 수 있었듯이, 이제는 제가 그런 따스한 손길을 건네는 사람이 되고 싶습니다.
+                </p>
+              </div>
+            </div>
+          </article>
+
+          <!-- Chapter 3: 분당 해아림한의원의 진료 철학 (Image 3: Consult) -->
+          <article class="philo-chapter-section">
+            <div class="chapter-badge-wrap">
+              <span class="chapter-num-pill">Story 03</span>
+            </div>
+            <h2 class="chapter-main-title">분당 해아림한의원의 진료 철학</h2>
+
+            <div class="chapter-content-grid">
+              <div class="chapter-text-col">
+                <div class="philo-quote-highlight">
+                  <p>저의 진료철학은<br><strong>공감과 경청을 바탕으로 한 치유</strong>에 있습니다.</p>
+                </div>
+                <p>
+                  정신질환을 치료하기 위해서는 환자의 이야기에 깊이 귀 기울이고, 그분들의 고통을 진심으로 이해하려는 자세가 필수적입니다.
+                </p>
+                <p>
+                  어릴 적 절 따뜻하게 돌봐주셨던 한의사 원장님처럼,<br>
+                  저의 마음을 공감해주시던 선배님처럼,
+                </p>
+                <p>
+                  저도 환자분들에게 진심으로 다가가 그분들이 삶의 활력을 되찾도록 도우려고 합니다. 오랜 시간 혼자서 마음의 짐을 안고 살아오신 분들이라면, 그 무게를 조금이라도 덜어드리기 위해 저 역시 최선을 다할 것입니다.
+                </p>
+              </div>
+              <div class="chapter-photo-col">
+                <div class="chapter-img-card">
+                  <img src="{{ "images/philosophy/philosophy-consult.jpg" | relURL }}" alt="1:1 상담 진료" class="chapter-img" loading="lazy">
                 </div>
               </div>
             </div>
-            <div class="chapter-text-col">
-              <p>
-                하지만 제 인생에 또 한 번 큰 시련이 닥쳐왔습니다. 대학 2학년 시절, <strong>큰 교통사고를 당하면서 한 달간 혼수상태</strong>에 빠지게 되었고, 깨어난 후에도 제 몸은 여러 손상을 겪어 장기적인 회복이 필요한 상황이었습니다.
-              </p>
-              <p>
-                휴학 후 재활치료에 전념해야 했고, 졸업은 동기들보다 늦어질 수밖에 없었습니다. 남보다 뒤처진다는 생각에 우울과 불안 속에서 무기력한 시간을 보내기도 했죠.
-              </p>
-              <p>
-                복학 후, 후배들과 새 학기를 시작한 저는 어려움 속에서도 다시 스스로를 되찾아야 했습니다. 이 때 <strong>정신과를 전문으로 진료하시던 선배님</strong>을 만나게 되었는데요. 그분은 제가 가진 불안과 고립감에 깊이 공감하며 진심 어린 조언과 상담을 해주셨습니다. 무엇보다도 제가 내면의 상처를 직면하고 치유할 수 있도록 도와주셨죠.
-              </p>
-              <p>
-                선배님과의 상담을 통해 억눌렸던 감정들을 하나하나 꺼내어 볼 수 있었고, 스스로를 바라보는 시각도 조금씩 바뀌어 갔습니다. 선배님의 상담과 한약 치료를 병행하면서 제 안의 불안과 무력감이 차츰 희미해졌을 쯤, 깨달았습니다.
-              </p>
-              <p class="highlight-paragraph">
-                <strong>"몸과 마음이 깊이 연결되어 있다."</strong><br>
-                신체의 회복을 넘어선 진정한 치유에는 정신적인 안정이 필수적이었고, 그 마음의 회복이 몸의 활력으로도 이어지는 것을 경험하게 된 것이었습니다.
-              </p>
-              <p>
-                그 때 저는 <strong>'정신과 한의사'로서 환자분들의 마음의 병을 치유하는 길</strong>을 걷겠다고 결심하게 되었습니다. 제게 어려운 시기에 손을 내밀어주신 분들 덕분에 다시 일어설 수 있었듯이, 이제는 제가 그런 따스한 손길을 건네는 사람이 되고 싶습니다.
-              </p>
-            </div>
-          </div>
-        </article>
+          </article>
 
-        <!-- 4. Chapter 3: 분당 해아림한의원의 진료 철학 (Image 3: Consult) -->
-        <article class="philo-chapter-section">
-          <div class="chapter-badge-wrap">
-            <span class="chapter-num-pill">Story 03</span>
-            <span class="chapter-theme-tag">진료 철학</span>
-          </div>
-          <h2 class="chapter-main-title">공감과 경청을 바탕으로 한 치유</h2>
-          
-          <div class="chapter-quote-box">
-            <i class="ph-fill ph-quotes"></i>
-            <p>"어릴 적 절 돌봐주셨던 원장님처럼, 저의 마음에 공감해주시던 선배님처럼 환자분들의 짐을 덜어드리겠습니다."</p>
-          </div>
-
-          <div class="chapter-content-grid">
-            <div class="chapter-text-col">
-              <p class="lead-strong">
-                저의 진료철학은 <strong>공감과 경청을 바탕으로 한 치유</strong>에 있습니다.
-              </p>
-              <p>
-                정신질환을 치료하기 위해서는 환자의 이야기에 깊이 귀 기울이고, 그분들의 고통을 진심으로 이해하려는 자세가 필수적입니다.
-              </p>
-              <p>
-                어릴 적 절 따뜻하게 돌봐주셨던 한의사 원장님처럼, 저의 마음을 공감해주시던 선배님처럼, 저도 환자분들에게 진심으로 다가가 그분들이 삶의 활력을 되찾도록 도우려고 합니다.
-              </p>
-              <p>
-                오랜 시간 혼자서 마음의 짐을 안고 살아오신 분들이라면, 그 무게를 조금이라도 덜어드리기 위해 저 역시 최선을 다할 것입니다.
-              </p>
+          <!-- Chapter 4: '분당 해아림한의원'만이 할 수 있는 것 (Image 4: Neurofeedback) -->
+          <article class="philo-chapter-section reverse">
+            <div class="chapter-badge-wrap">
+              <span class="chapter-num-pill">Story 04</span>
             </div>
-            <div class="chapter-photo-col">
-              <div class="chapter-img-card">
-                <img src="{{ "images/philosophy/philosophy-consult.jpg" | relURL }}" alt="환자의 이야기에 깊이 귀 기울이는 1:1 심층 상담" class="chapter-img" loading="lazy">
-                <div class="chapter-img-caption">
-                  <i class="ph-bold ph-chat-centered-text"></i> 편안한 분위기 속에서 환자의 고통을 진심으로 경청하는 1:1 진료
+            <h2 class="chapter-main-title">'분당 해아림한의원'만이 할 수 있는 것</h2>
+
+            <div class="chapter-content-grid">
+              <div class="chapter-photo-col">
+                <div class="chapter-img-card">
+                  <img src="{{ "images/philosophy/philosophy-neurofeedback.jpg" | relURL }}" alt="두뇌 뇌파 검사 분석" class="chapter-img" loading="lazy">
+                </div>
+              </div>
+              <div class="chapter-text-col">
+                <p>
+                  분당 해아림한의원의 차별점은 바로 이러한 <strong>'극복의 경험'에서 나온 공감과 진심</strong>에 있습니다.
+                </p>
+                <p>
+                  저는 한때 깊은 좌절과 우울에 빠져 있었던 과거가 있었기에, 마음의 병으로 고통받는 분들의 고통을 남다르게 이해할 수 있습니다. 증상 치료와 함께 환자분들이 다시 삶의 희망을 품을 수 있도록 정신적, 신체적 회복을 모두 돕는 진료를 제공합니다.
+                </p>
+                <p>
+                  해아림한의원 네트워크의 각 지점 원장님들과 함께 연구하며, 치료 효과를 높이기 위한 노력도 멈추지 않고 있습니다.
+                </p>
+                <div class="family-care-subblock">
+                  <h4 class="family-care-title"><i class="ph-bold ph-heart"></i> 환자와 소중한 가족이 함께하는 치유 과정</h4>
+                  <p>
+                    신경정신과 질환은 환자뿐 아니라 그 가족들까지 함께 치유되어야 하는 과정입니다.
+                  </p>
+                  <p>
+                    어느 날은 틱장애를 겪는 아이를 데리고 찾아오신 부모님을 만난 적이 있습니다. 이야기를 나눠보면 자녀의 고통만큼이나 본인들의 죄책감과 무력감에 크게 시달리고 있었습니다.
+                  </p>
+                  <p>
+                    또 공황장애나 불안장애를 앓고 있는 성인 환자들 역시 본인의 증상뿐만 아니라 가족들에게 전해지는 영향으로 더욱 심리적 부담을 느끼기도 하죠.
+                  </p>
+                  <p>
+                    저는 환자와 그 주변 분들의 삶까지 치유해주는 진료를 지향하며, 환자와 함께 공감하고 성장하는 시간으로 큰 의미를 얻고 있습니다.
+                  </p>
                 </div>
               </div>
             </div>
-          </div>
-        </article>
+          </article>
 
-        <!-- 5. Chapter 4: '분당 해아림한의원'만이 할 수 있는 것 (Image 4: Neurofeedback) -->
-        <article class="philo-chapter-section reverse">
-          <div class="chapter-badge-wrap">
-            <span class="chapter-num-pill">Story 04</span>
-            <span class="chapter-theme-tag">차별화된 치유</span>
-          </div>
-          <h2 class="chapter-main-title">'분당 해아림한의원'만이 할 수 있는 것 — 환자와 가족이 함께하는 치유</h2>
-          
-          <div class="chapter-quote-box">
-            <i class="ph-fill ph-quotes"></i>
-            <p>"한 사람의 질환을 치료하는 것을 넘어, 환자와 소중한 가족의 일상 전체를 함께 치유합니다."</p>
-          </div>
-
-          <div class="chapter-content-grid">
-            <div class="chapter-photo-col">
-              <div class="chapter-img-card">
-                <img src="{{ "images/philosophy/philosophy-neurofeedback.jpg" | relURL }}" alt="정밀 뇌파 검사 분석 및 두뇌 훈련 상담" class="chapter-img" loading="lazy">
-                <div class="chapter-img-caption">
-                  <i class="ph-bold ph-brain"></i> 정밀 두뇌 검사 및 자율신경 분석을 바탕으로 체계적인 치료 계획 수립
-                </div>
-              </div>
+          <!-- Chapter 5: 삶의 균형을 되찾는 곳, 분당 해아림한의원 -->
+          <section class="philo-scope-section">
+            <div class="section-header text-center">
+              <span class="section-tag">CLINICAL SCOPE</span>
+              <h2 class="section-title">삶의 균형을 되찾는 곳, <strong>분당 해아림한의원</strong></h2>
             </div>
-            <div class="chapter-text-col">
-              <p>
-                분당 해아림한의원의 차별점은 바로 이러한 <strong>'극복의 경험'에서 나온 공감과 진심</strong>에 있습니다.
+
+            <div class="philo-scope-full-text">
+              <p class="scope-lead-paragraph">
+                저희 분당 해아림한의원은 신경정신과 질환을 중심으로 진료합니다.
               </p>
               <p>
-                저는 한때 깊은 좌절과 우울에 빠져 있었던 과거가 있었기에, 마음의 병으로 고통받는 분들의 고통을 남다르게 이해할 수 있습니다. 증상 치료와 함께 환자분들이 다시 삶의 희망을 품을 수 있도록 <strong>정신적, 신체적 회복을 모두 돕는 전인 진료</strong>를 제공합니다.
+                <strong>틱장애, ADHD, 공황장애, 불안장애, 불면증, 우울증, 강박증</strong> 등의 신경정신과 질환을 주로 대상으로 하고 있습니다.
               </p>
               <p>
-                해아림한의원 네트워크의 각 지점 원장님들과 함께 연구하며, 치료 효과를 높이기 위한 노력도 멈추지 않고 있습니다.
+                그 외에도 <strong>자율신경 실조증, 미주신경 실신, 두통, 어지러움, 소화불량, 다한증, 대소변 장애</strong> 등 환자분들이 겪고 계신 다양한 불편함도 함께 다루고 있습니다.
               </p>
               <p>
-                <strong>신경정신과 질환은 환자뿐 아니라 그 가족들까지 함께 치유되어야 하는 과정입니다.</strong>
-              </p>
-              <p>
-                어느 날은 틱장애를 겪는 아이를 데리고 찾아오신 부모님을 만난 적이 있습니다. 이야기를 나눠보면 자녀의 고통만큼이나 본인들의 죄책감과 무력감에 크게 시달리고 있었습니다.
-              </p>
-              <p>
-                또 공황장애나 불안장애를 앓고 있는 성인 환자들 역시 본인의 증상뿐만 아니라 가족들에게 전해지는 영향으로 더욱 심리적 부담을 느끼기도 하죠. 저는 환자와 그 주변 분들의 삶까지 치유해주는 진료를 지향하며, 환자와 함께 공감하고 성장하는 시간으로 큰 의미를 얻고 있습니다.
+                저 역시 유년시절 잔병치레가 많았던 만큼, 몸과 마음이 힘든 분들께 따뜻한 위로와 실질적인 도움을 드리고 싶습니다.
               </p>
             </div>
-          </div>
-        </article>
 
-        <!-- 6. Chapter 5: 삶의 균형을 되찾는 곳 & 진료 분야 -->
-        <section class="philo-scope-section">
-          <div class="section-header text-center">
-            <span class="section-tag">CLINICAL SCOPE</span>
-            <h2 class="section-title">삶의 균형을 되찾는 곳, <strong>분당 해아림한의원</strong></h2>
-            <p class="section-desc">저희 분당 해아림한의원은 신경정신과 질환을 중심으로 마음과 몸의 회복을 돕습니다.</p>
-          </div>
-
-          <div class="philo-scope-grid">
-            <div class="philo-scope-card">
-              <div class="scope-icon"><i class="ph-bold ph-eye"></i></div>
-              <h4>틱장애 · 뚜렛증후군</h4>
-              <p>소아 및 성인 운동틱, 음성틱, 복합 틱장애 뇌신경 조절 훈련</p>
+            <!-- Closing Warm Callout Box -->
+            <div class="philo-final-quote-card">
+              <div class="closing-quote-icon"><i class="ph-fill ph-quotes"></i></div>
+              <blockquote class="closing-quote-text">
+                "삶의 무게를 홀로 감당하기 어려울 때,<br>
+                누군가가 진심으로 귀 기울여주는 것만으로도 마음이 한결 가벼워질 수 있습니다."
+              </blockquote>
+              <p class="closing-sub-text">
+                제가 걷고 있는 길이 많은 분들에게 그러한 안식처가 되기를 바랍니다.<br>
+                감사합니다.
+              </p>
             </div>
+          </section>
 
-            <div class="philo-scope-card">
-              <div class="scope-icon"><i class="ph-bold ph-lightning"></i></div>
-              <h4>주의집중력 · ADHD</h4>
-              <p>산만함, 충동성, 학습 집중력 및 전두엽 자기통제력 회복</p>
-            </div>
+        </div>
 
-            <div class="philo-scope-card">
-              <div class="scope-icon"><i class="ph-bold ph-heartbeat"></i></div>
-              <h4>공황장애 · 광장공포증</h4>
-              <p>급성 공황발작, 숨참, 심장 두근거림, 자율신경 과흥분 완화</p>
-            </div>
-
-            <div class="philo-scope-card">
-              <div class="scope-icon"><i class="ph-bold ph-shield-warning"></i></div>
-              <h4>불안장애 · 사회공포증</h4>
-              <p>발표불안, 대인기피, 시선공포, 만성 긴장 및 예기불안 완화</p>
-            </div>
-
-            <div class="philo-scope-card">
-              <div class="scope-icon"><i class="ph-bold ph-moon-stars"></i></div>
-              <h4>수면 · 만성 불면증</h4>
-              <p>입면장애, 잦은 각성, 다몽증, 수면제 의존 없는 자연 수면 리듬</p>
-            </div>
-
-            <div class="philo-scope-card">
-              <div class="scope-icon"><i class="ph-bold ph-cloud-rain"></i></div>
-              <h4>우울증 · 강박증</h4>
-              <p>기분저하, 무기력, 반복적 강박사고 및 강박행동의 심신 치유</p>
-            </div>
-
-            <div class="philo-scope-card">
-              <div class="scope-icon"><i class="ph-bold ph-activity"></i></div>
-              <h4>자율신경실조증 · 실신</h4>
-              <p>원인 모를 두통, 어지럼증, 미주신경성 실신, 상열하한증</p>
-            </div>
-
-            <div class="philo-scope-card">
-              <div class="scope-icon"><i class="ph-bold ph-drop"></i></div>
-              <h4>다한증 · 과민성대장</h4>
-              <p>손발/안면 다한증, 신경성 소화불량, 만성 복통 및 배변 장애</p>
-            </div>
-          </div>
-
-          <!-- Closing Warm Callout Box -->
-          <div class="philo-closing-callout">
-            <div class="closing-quote-mark"><i class="ph-fill ph-quotes"></i></div>
-            <blockquote class="closing-quote-text">
-              "삶의 무게를 홀로 감당하기 어려울 때,<br>
-              누군가가 진심으로 귀 기울여주는 것만으로도 마음이 한결 가벼워질 수 있습니다."
-            </blockquote>
-            <p class="closing-desc">
-              저 역시 유년시절 잔병치레가 많았고 큰 사고의 시련을 겪었던 만큼, 몸과 마음이 힘든 분들께 따뜻한 위로와 실질적인 치유의 도움을 드리고 싶습니다.<br>
-              제가 걷고 있는 길이 많은 분들에게 그러한 편안한 안식처가 되기를 바랍니다.
-            </p>
-            <div class="closing-author">
-              <span>따뜻한 공감으로 환자를 치유하는</span>
-              <strong>분당 해아림한의원 대표원장 손지웅 올림</strong>
-            </div>
-          </div>
-        </section>
-
-        <!-- 7. Bottom Contact & Appointment CTA Banner -->
+        <!-- 3. Bottom Contact & Appointment CTA Banner -->
         <div class="philo-contact-cta-banner">
           <div class="philo-cta-inner">
             <span class="cta-mini-tag">CONTACT US</span>
