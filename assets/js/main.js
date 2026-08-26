@@ -628,15 +628,68 @@ function removeCasePhoto() {
   if (previewEl) previewEl.style.display = 'none';
 }
 
+function calculateDurationText(startMonthStr, endMonthStr) {
+  if (!startMonthStr || !endMonthStr) return '';
+  const [startYear, startMonth] = startMonthStr.split('-').map(Number);
+  const [endYear, endMonth] = endMonthStr.split('-').map(Number);
+
+  const totalMonths = (endYear - startYear) * 12 + (endMonth - startMonth) + 1;
+  if (totalMonths <= 0) {
+    return `${startYear}.${String(startMonth).padStart(2, '0')}`;
+  }
+
+  const years = Math.floor(totalMonths / 12);
+  const remainingMonths = totalMonths % 12;
+
+  let totalSpan = '';
+  if (years > 0 && remainingMonths > 0) {
+    totalSpan = `${years}년 ${remainingMonths}개월`;
+  } else if (years > 0) {
+    totalSpan = `${years}년`;
+  } else {
+    totalSpan = `${remainingMonths}개월`;
+  }
+
+  const formattedStart = `${startYear}.${String(startMonth).padStart(2, '0')}`;
+  const formattedEnd = `${endYear}.${String(endMonth).padStart(2, '0')}`;
+
+  return `${formattedStart} ~ ${formattedEnd} (총 ${totalSpan})`;
+}
+
+function updateDurationCalcPreview() {
+  const startMonthEl = document.getElementById('case-input-start-month');
+  const endMonthEl = document.getElementById('case-input-end-month');
+  const previewEl = document.getElementById('duration-calc-preview');
+  if (!startMonthEl || !endMonthEl || !previewEl) return;
+
+  const startVal = startMonthEl.value;
+  const endVal = endMonthEl.value;
+
+  if (startVal && endVal) {
+    const formatted = calculateDurationText(startVal, endVal);
+    const match = formatted.match(/\(총 [^)]+\)/);
+    if (match) {
+      previewEl.textContent = `✨ ${match[0].replace(/[()]/g, '')}`;
+      previewEl.classList.add('calculated');
+    } else {
+      previewEl.textContent = '총 기간 자동 계산';
+      previewEl.classList.remove('calculated');
+    }
+  } else {
+    previewEl.textContent = '총 기간 자동 계산';
+    previewEl.classList.remove('calculated');
+  }
+}
+
 function handleAdminCaseSubmit(e) {
   e.preventDefault();
   const cat = document.getElementById('case-input-category').value;
-  const startDate = document.getElementById('case-input-start-date').value;
-  const endDate = document.getElementById('case-input-end-date').value;
+  const startMonth = document.getElementById('case-input-start-month').value;
+  const endMonth = document.getElementById('case-input-end-month').value;
   const content = document.getElementById('case-input-content').value.trim();
 
-  if (!startDate || !endDate) {
-    alert('치료 시작일과 종료일을 입력해주세요.');
+  if (!startMonth || !endMonth) {
+    alert('치료 시작년월과 종료년월을 선택해주세요.');
     return;
   }
 
@@ -651,7 +704,7 @@ function handleAdminCaseSubmit(e) {
   }
 
   const catName = CATEGORY_NAME_MAP[cat] || '치료사례';
-  const durationStr = `${startDate.replace(/-/g, '.')} ~ ${endDate.replace(/-/g, '.')}`;
+  const durationStr = calculateDurationText(startMonth, endMonth);
   const firstLine = content.split('\n')[0].replace(/^[#>\s*"]+/, '').trim();
   const generatedTitle = firstLine.length > 5 ? (firstLine.slice(0, 45) + (firstLine.length > 45 ? '...' : '')) : `${catName} 임상 치료사례`;
 
@@ -675,6 +728,7 @@ function handleAdminCaseSubmit(e) {
   // Reset Form
   document.getElementById('admin-case-write-form').reset();
   removeCasePhoto();
+  updateDurationCalcPreview();
 
   showAuthToast('🎉 치료사례가 성공적으로 등록되었습니다!');
   renderCustomCasesToList();
@@ -796,9 +850,9 @@ function deleteCurrentCustomCase() {
 
 function downloadCaseMarkdown() {
   const cat = document.getElementById('case-input-category').value;
-  const startDate = document.getElementById('case-input-start-date').value || '2026-01-01';
-  const endDate = document.getElementById('case-input-end-date').value || '2026-04-01';
-  const durationStr = `${startDate.replace(/-/g, '.')} ~ ${endDate.replace(/-/g, '.')}`;
+  const startMonth = document.getElementById('case-input-start-month').value || '2026-01';
+  const endMonth = document.getElementById('case-input-end-month').value || '2026-04';
+  const durationStr = calculateDurationText(startMonth, endMonth);
   const content = document.getElementById('case-input-content').value.trim() || '';
   const dateStr = new Date().toISOString().split('T')[0];
   const catName = CATEGORY_NAME_MAP[cat] || '치료사례';

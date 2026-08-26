@@ -63,18 +63,21 @@
         </select>
       </div>
 
-      <!-- Treatment Duration Range (치료기간: 시작일 ~ 종료일) -->
+      <!-- Treatment Duration Range (치료기간: 시작년월 ~ 종료년월 및 총 기간 자동 계산) -->
       <div class="form-group">
-        <label>치료기간 (언제부터 언제까지) <span class="required">*</span></label>
+        <div class="duration-label-row">
+          <label>치료기간 (년·월 선택) <span class="required">*</span></label>
+          <span class="duration-calc-badge" id="duration-calc-preview">총 기간 자동 계산</span>
+        </div>
         <div class="duration-input-grid">
           <div class="duration-field">
-            <span class="duration-sublabel">치료 시작</span>
-            <input type="date" id="case-input-start-date" required>
+            <span class="duration-sublabel">치료 시작 (년·월)</span>
+            <input type="month" id="case-input-start-month" onchange="updateDurationCalcPreview()" required>
           </div>
           <span class="duration-divider">~</span>
           <div class="duration-field">
-            <span class="duration-sublabel">치료 종료 (또는 현재)</span>
-            <input type="date" id="case-input-end-date" required>
+            <span class="duration-sublabel">치료 종료 (년·월)</span>
+            <input type="month" id="case-input-end-month" onchange="updateDurationCalcPreview()" required>
           </div>
         </div>
       </div>

@@ -7,7 +7,7 @@ category: "tic"
 category_name: "소아 틱장애"
 review_type: "direct"
 diagnosis: "복합 틱장애 (운동틱·음성틱·근육틱)"
-duration: "2026.04.10 ~ 2026.07.25"
+duration: "2026.04 ~ 2026.07 (총 4개월)"
 rating: 5
 image: "images/reviews/case-01-handwriting.png"
 summary: "7세 때 눈깜빡임으로 시작해 10세에 재발하며 킁킁거림, 찡그림, 머리 끄덕임, 몸 움직임으로 악화되었습니다. 해아림 맞춤 한약과 환약 치료 후 복합 증상이 완화되고 현재는 눈깜빡임도 거의 없이 호전되었습니다."
