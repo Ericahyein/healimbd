@@ -4293,9 +4293,13 @@ html, body {
     line-height: 1.58 !important;
   }
 
-  /* Utility break classes */
+  /* Utility break & hide classes */
   .hide-pc {
     display: inline;
+  }
+
+  .hide-mobile, .hide-mb, #clinics .section-desc, .treatments-home-section .section-desc {
+    display: none !important;
   }
 
   /* Process Bottom Direct CTA Banner Mobile */
