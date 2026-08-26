@@ -1,0 +1,114 @@
+<!-- Admin Column Writer Modal (원장 칼럼 직접 등록 에디터) -->
+<div class="admin-modal" id="admin-column-writer-modal" role="dialog" aria-modal="true" aria-labelledby="admin-col-writer-title">
+  <div class="modal-card admin-writer-card">
+    <div class="modal-header">
+      <div class="modal-header-title-wrap">
+        <div class="admin-badge-icon writer-icon"><i class="ph-bold ph-article"></i></div>
+        <h3 id="admin-col-writer-title" class="modal-title">원장 칼럼 <strong>직접 글쓰기</strong></h3>
+      </div>
+      <button class="modal-close" onclick="closeAdminColumnWriterModal()" aria-label="닫기">
+        <i class="ph ph-x"></i>
+      </button>
+    </div>
+    <p class="modal-subtitle"><strong>질환 분류 선택</strong>, <strong>칼럼 제목</strong>, <strong>본문 내용</strong>을 입력하시면 홈페이지에 즉시 게시됩니다.</p>
+
+    <form id="admin-column-write-form" onsubmit="handleAdminColumnSubmit(event)">
+      <!-- 질환별 분류 -->
+      <div class="form-group">
+        <label for="column-input-category">질환별 분류 선택 <span class="required">*</span></label>
+        <select id="column-input-category" required>
+          <option value="tic">소아·성인 틱장애 · 뚜렛</option>
+          <option value="adhd">주의집중력 (소아·성인 ADHD)</option>
+          <option value="panic">공황장애</option>
+          <option value="anxiety">불안장애 · 사회공포증</option>
+          <option value="sleep">수면 · 만성 불면증</option>
+          <option value="autonomic">자율신경실조증</option>
+          <option value="hyperhidrosis">다한증 (손발·전신·안면)</option>
+          <option value="ibs">과민성대장증후군</option>
+          <option value="syncope">미주신경성 실신</option>
+          <option value="general">두뇌 · 한방 건강 이야기</option>
+        </select>
+      </div>
+
+      <!-- 칼럼 제목 -->
+      <div class="form-group">
+        <label for="column-input-title">칼럼 제목 <span class="required">*</span></label>
+        <input type="text" id="column-input-title" placeholder="환자분들이 이해하기 쉬운 명확한 칼럼 제목을 입력해주세요" required>
+      </div>
+
+      <!-- 작성일자 -->
+      <div class="form-group">
+        <label for="column-input-date">작성일자 <span class="required">*</span></label>
+        <input type="date" id="column-input-date" required>
+      </div>
+
+      <!-- 대표 사진 첨부 (선택) -->
+      <div class="form-group">
+        <label>칼럼 대표 사진 첨부 <span class="optional-tag">(선택)</span></label>
+        <div class="case-photo-uploader" id="col-photo-dropzone">
+          <input type="file" id="col-photo-file-input" accept="image/*" onchange="handleColumnPhotoSelect(event)" style="display: none;">
+          <div class="uploader-prompt" id="col-uploader-prompt" onclick="document.getElementById('col-photo-file-input').click()">
+            <i class="ph-bold ph-image"></i>
+            <strong>칼럼 대표 이미지 선택 또는 드래그</strong>
+            <span>질환 관련 도해, 진료 사진 등을 첨부할 수 있습니다 (JPG, PNG)</span>
+          </div>
+          <div class="uploader-preview" id="col-uploader-preview" style="display: none;">
+            <img id="col-preview-img" src="" alt="업로드 사진 미리보기">
+            <button type="button" class="btn-remove-photo" onclick="removeColumnPhoto()"><i class="ph-bold ph-trash"></i> 사진 변경 / 삭제</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 본문 내용 -->
+      <div class="form-group">
+        <label for="column-input-content">칼럼 본문 내용 <span class="required">*</span></label>
+        <textarea id="column-input-content" rows="9" placeholder="원장님의 의학 칼럼 본문을 자유롭게 작성해 주세요. 줄바꿈과 단락 구분이 홈페이지에 깔끔하게 반영됩니다." required></textarea>
+      </div>
+
+      <div class="modal-actions writer-actions">
+        <button type="button" class="btn btn-secondary" onclick="closeAdminColumnWriterModal()">취소</button>
+        <button type="button" class="btn btn-outline-download" onclick="downloadColumnMarkdown()"><i class="ph-bold ph-download-simple"></i> .md 파일 다운로드</button>
+        <button type="submit" class="btn btn-primary-admin"><i class="ph-bold ph-check"></i> 칼럼 게시판에 즉시 등록</button>
+      </div>
+    </form>
+  </div>
+  <div class="modal-overlay" onclick="closeAdminColumnWriterModal()"></div>
+</div>
+
+<!-- Dynamic Column Reader Modal (칼럼 전문 열람 모달) -->
+<div class="admin-modal" id="column-reader-modal" role="dialog" aria-modal="true" aria-labelledby="col-reader-title">
+  <div class="modal-card case-reader-card column-reader-card">
+    <div class="modal-header">
+      <div class="modal-header-title-wrap">
+        <span class="case-tag-pill" id="col-reader-category">공황장애</span>
+        <h3 id="col-reader-title" class="modal-title">칼럼 제목</h3>
+      </div>
+      <button class="modal-close" onclick="closeColumnReader()" aria-label="닫기">
+        <i class="ph ph-x"></i>
+      </button>
+    </div>
+    
+    <div class="case-reader-meta-bar">
+      <span class="reader-author"><i class="ph-bold ph-user-circle"></i> <span id="col-reader-author">손지웅 대표원장</span></span>
+      <span class="reader-date"><i class="ph-bold ph-calendar-blank"></i> <span id="col-reader-date">2026.08.26</span></span>
+    </div>
+
+    <!-- 1. 대표 사진 (있을 경우) -->
+    <div class="case-single-photo-box" id="col-reader-photo-box" style="display: none;">
+      <div class="photo-box-frame">
+        <img id="col-reader-photo" src="" alt="칼럼 대표 사진" class="case-full-photo-img">
+      </div>
+    </div>
+
+    <!-- 2. 본문 내용 -->
+    <div class="case-typed-body column-body-text" id="col-reader-body">
+      본문 내용이 출력됩니다.
+    </div>
+
+    <div class="modal-actions reader-actions">
+      <button type="button" class="btn btn-danger-small" id="btn-delete-custom-col" onclick="deleteCurrentCustomColumn()"><i class="ph-bold ph-trash"></i> 이 칼럼 삭제</button>
+      <button type="button" class="btn btn-secondary" onclick="closeColumnReader()">닫기</button>
+    </div>
+  </div>
+  <div class="modal-overlay" onclick="closeColumnReader()"></div>
+</div>

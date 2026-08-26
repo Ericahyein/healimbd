@@ -5517,4 +5517,230 @@ html, body {
   }
 }
 
+/* ==========================================================================
+   DOCTOR COLUMN BOARD & CLINICAL ESSAY STYLES
+   ========================================================================== */
+
+.column-board-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+
+.column-category-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.col-tab-btn {
+  padding: 8px 15px;
+  border-radius: 20px;
+  background: #F1F5F9;
+  border: 1px solid #E2E8F0;
+  color: #475569;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.col-tab-btn:hover {
+  background: #E2E8F0;
+  color: #0F172A;
+}
+
+.col-tab-btn.active {
+  background: #1E293B;
+  color: #FFFFFF;
+  border-color: #1E293B;
+  box-shadow: 0 2px 8px rgba(30, 41, 59, 0.2);
+}
+
+.column-admin-btn-wrap {
+  margin-left: auto;
+}
+
+.btn-column-write-top,
+.btn-column-write-bottom {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  background: #F8FAFC;
+  border: 1px solid #CBD5E1;
+  color: #475569;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-column-write-top:hover,
+.btn-column-write-bottom:hover {
+  background: #1B8FD1;
+  color: #FFFFFF;
+  border-color: #1B8FD1;
+  transform: translateY(-1px);
+}
+
+.column-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 36px;
+}
+
+.doctor-column-card {
+  display: flex;
+  flex-direction: column;
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 14px;
+  padding: 24px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  position: relative;
+}
+
+.doctor-column-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+  border-color: #CBD5E1;
+}
+
+.col-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.col-badge-pill {
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 6px;
+  background: #E0F2FE;
+  color: #0369A1;
+}
+
+.col-badge-pill.tic { background: #FEF3C7; color: #92400E; }
+.col-badge-pill.adhd { background: #FCE7F3; color: #9D174D; }
+.col-badge-pill.panic { background: #FEE2E2; color: #991B1B; }
+.col-badge-pill.anxiety { background: #EDE9FE; color: #5B21B6; }
+.col-badge-pill.sleep { background: #E0E7FF; color: #3730A3; }
+.col-badge-pill.autonomic { background: #CCFBF1; color: #115E59; }
+.col-badge-pill.hyperhidrosis { background: #E0F2FE; color: #075985; }
+.col-badge-pill.ibs { background: #FEF9C3; color: #854D0E; }
+.col-badge-pill.syncope { background: #FFE4E6; color: #9F1239; }
+.col-badge-pill.general { background: #F1F5F9; color: #475569; }
+
+.col-date-text {
+  font-size: 0.8rem;
+  color: #94A3B8;
+  font-weight: 500;
+}
+
+.col-card-title {
+  font-size: 1.12rem;
+  font-weight: 700;
+  color: #1E293B;
+  line-height: 1.45;
+  margin-bottom: 10px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.col-card-desc {
+  font-size: 0.92rem;
+  color: #64748B;
+  line-height: 1.6;
+  margin-bottom: 18px;
+  flex-grow: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.col-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 14px;
+  border-top: 1px solid #F1F5F9;
+}
+
+.col-author-label {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: #475569;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.col-read-more {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: #1B8FD1;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: transform 0.2s ease;
+}
+
+.doctor-column-card:hover .col-read-more {
+  transform: translateX(3px);
+}
+
+.column-body-text {
+  font-size: 1.02rem;
+  line-height: 1.85;
+  color: #334155;
+  padding: 20px 0;
+  white-space: pre-line;
+}
+
+.column-reader-card {
+  max-width: 760px;
+}
+
+@media (max-width: 992px) {
+  .column-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .column-cards-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .column-board-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .column-admin-btn-wrap {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .btn-column-write-top {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
 
