@@ -503,7 +503,7 @@ function showAuthToast(message) {
 // ==========================================================================
 // 10. Admin Direct Case Writer & Reader (관리자 직접 글쓰기 및 사진 업로드 시스템)
 // ==========================================================================
-const ADMIN_MASTER_PIN = 'healim1234';
+const ADMIN_MASTER_PIN = 'tmfltmfl11!';
 let currentUploadedImageDataUrl = '';
 let currentOpenedCustomCaseId = null;
 
