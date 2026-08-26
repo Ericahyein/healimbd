@@ -2919,7 +2919,7 @@ ul {
 }
 
 /* ==========================================================================
-   4. TREATMENTS (진료과목 - 통합 8대 핵심 진료과목 - 비비드 틸 & 일러스트 카드)
+   4. TREATMENTS (진료과목 - 통합 8대 핵심 진료과목 - 원형 포토 뱃지 & 비비드 틸 테마)
    ========================================================================== */
 .treatments-home-section, .treatments-page-section {
   background: #F8FAFC;
@@ -2929,95 +2929,114 @@ ul {
 .treatments-unified-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 28px;
+  gap: 26px;
+  width: 100%;
 }
 
 .treatment-card {
   background: white;
   border-radius: var(--radius-lg);
   border: 1.5px solid #CBD5E1;
+  border-top: 4px solid #0D9488;
+  padding: 26px 26px 22px;
   box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
   display: flex;
   flex-direction: column;
-  overflow: hidden;
   transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .treatment-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 16px 36px rgba(13, 148, 136, 0.16);
+  transform: translateY(-5px);
+  box-shadow: 0 16px 34px rgba(13, 148, 136, 0.16);
   border-color: #0D9488;
 }
 
-/* Treatment Card Thumbnail Image */
-.treatment-thumb-wrap {
-  position: relative;
-  width: 100%;
-  height: 220px;
-  overflow: hidden;
-  background: #F1F5F9;
+/* Treatment Card Top Row (Circle Photo + Title Block) */
+.treatment-card-top-row {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 16px;
 }
 
-.treatment-thumb-img {
+/* Treatment Circular Photo Avatar */
+.treatment-circle-wrap {
+  position: relative;
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+  padding: 3px;
+  background: white;
+  border: 3px solid #0D9488;
+  box-shadow: 0 6px 16px rgba(13, 148, 136, 0.18);
+  flex-shrink: 0;
+  overflow: visible;
+  transition: transform 0.35s ease, border-color 0.35s ease;
+}
+
+.treatment-card:hover .treatment-circle-wrap {
+  transform: scale(1.06);
+  border-color: #1B8FD1;
+  box-shadow: 0 8px 22px rgba(27, 143, 209, 0.25);
+}
+
+.treatment-circle-img {
   width: 100%;
   height: 100%;
+  border-radius: 50%;
   object-fit: cover;
-  transition: transform 0.45s ease;
+  display: block;
 }
 
-.treatment-card:hover .treatment-thumb-img {
-  transform: scale(1.06);
-}
-
-.treatment-thumb-wrap .card-num-tag {
+.card-num-badge {
   position: absolute;
-  top: 14px;
-  left: 14px;
+  bottom: -4px;
+  right: -4px;
   font-family: 'Outfit', sans-serif;
-  font-size: 0.84rem;
+  font-size: 0.78rem;
   font-weight: 800;
-  padding: 4px 12px;
-  border-radius: 6px;
-  background: rgba(15, 23, 42, 0.88);
+  padding: 2px 7px;
+  border-radius: 12px;
+  background: #0F172A;
   color: #5EEAD4;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(6px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  border: 1.5px solid white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  line-height: 1.2;
 }
 
-/* Treatment Card Content Body */
-.treatment-card-body {
-  padding: 26px 26px 22px;
-  display: flex;
-  flex-direction: column;
+.treatment-title-block {
   flex: 1;
+  min-width: 0;
 }
 
 .treatment-name {
-  font-size: 1.28rem;
+  font-size: 1.22rem;
   font-weight: 800;
   color: #0F172A;
-  margin: 0 0 12px;
+  margin: 0 0 8px;
   letter-spacing: -0.3px;
   word-break: keep-all;
+  line-height: 1.35;
 }
 
 .sub-tags-wrap {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 14px;
+  gap: 5px;
 }
 
 .sub-tag {
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   font-weight: 700;
   color: #0F766E;
   background: #F0FDFA;
   border: 1px solid #CCFBF1;
-  padding: 4px 10px;
+  padding: 3px 8px;
   border-radius: var(--radius-full);
   transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
 .treatment-card:hover .sub-tag {
@@ -3027,10 +3046,10 @@ ul {
 }
 
 .treatment-explanation {
-  font-size: 0.94rem;
+  font-size: 0.93rem;
   color: #475569;
-  line-height: 1.68;
-  margin-bottom: 20px;
+  line-height: 1.65;
+  margin-bottom: 18px;
   flex: 1;
   word-break: keep-all;
   font-weight: 500;
@@ -3038,14 +3057,14 @@ ul {
 
 .treatment-card-footer {
   border-top: 1px solid #F1F5F9;
-  padding-top: 14px;
+  padding-top: 12px;
   display: flex;
   justify-content: flex-end;
   margin-top: auto;
 }
 
 .card-case-link {
-  font-size: 0.88rem;
+  font-size: 0.86rem;
   font-weight: 800;
   color: #0D9488;
   display: inline-flex;
@@ -3058,16 +3077,6 @@ ul {
 .card-case-link:hover {
   transform: translateX(4px);
   color: #1B8FD1;
-}
-
-@media (max-width: 768px) {
-  .treatments-unified-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .treatment-thumb-wrap {
-    height: 190px;
-  }
 }
 
 /* ==========================================================================
@@ -4037,22 +4046,14 @@ ul {
   pointer-events: auto;
 }
 
-.n-badge {
-  background: white;
-  color: var(--naver-color);
-  font-size: 0.72rem;
-  font-weight: 900;
-  width: 18px;
-  height: 18px;
-  border-radius: 3px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+/* ==========================================================================
+   12. RESPONSIVE MEDIA QUERIES (완벽한 모바일 최적화 & 반응형 보정)
+   ========================================================================== */
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
 }
 
-/* ==========================================================================
-   12. RESPONSIVE MEDIA QUERIES
-   ========================================================================== */
 @media (max-width: 1024px) {
   .cases-grid-container {
     grid-template-columns: repeat(2, 1fr);
@@ -4060,6 +4061,12 @@ ul {
 
   .treatments-unified-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .before-visit-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
   }
 
   .about-grid {
@@ -4093,12 +4100,81 @@ ul {
 }
 
 @media (max-width: 768px) {
+  .container {
+    padding-left: 16px;
+    padding-right: 16px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
   .cases-grid-container {
     grid-template-columns: 1fr;
   }
 
+  /* Treatments Section Mobile */
   .treatments-unified-grid {
     grid-template-columns: 1fr;
+    gap: 18px;
+    width: 100%;
+  }
+
+  .treatment-card {
+    padding: 22px 18px 18px;
+    width: 100%;
+  }
+
+  .treatment-card-top-row {
+    gap: 14px;
+    align-items: flex-start;
+  }
+
+  .treatment-circle-wrap {
+    width: 76px;
+    height: 76px;
+    border-width: 2.5px;
+  }
+
+  .card-num-badge {
+    font-size: 0.72rem;
+    padding: 1px 6px;
+    bottom: -3px;
+    right: -3px;
+  }
+
+  .treatment-name {
+    font-size: 1.15rem;
+    margin-bottom: 6px;
+  }
+
+  .sub-tag {
+    font-size: 0.75rem;
+    padding: 2px 7px;
+  }
+
+  .treatment-explanation {
+    font-size: 0.9rem;
+    line-height: 1.62;
+    margin-bottom: 14px;
+  }
+
+  /* Before-visit Pre-check Cards Mobile */
+  .before-visit-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+
+  .before-card {
+    padding: 22px 18px;
+  }
+
+  .before-card-title {
+    font-size: 1.15rem;
+  }
+
+  .before-card-desc {
+    font-size: 0.9rem;
   }
 
   .review-type-switcher {
@@ -4181,7 +4257,7 @@ ul {
   }
 
   .section-title {
-    font-size: 1.75rem;
+    font-size: 1.65rem;
   }
 
   .process-cards-grid {
@@ -4193,7 +4269,7 @@ ul {
   }
 
   .bottom-cta-title {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
   }
 
   .floating-quick-bar {
@@ -4211,5 +4287,33 @@ ul {
     padding: 0;
     justify-content: center;
     border-radius: 50%;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-bold-title {
+    font-size: 1.7rem;
+  }
+  
+  .section-title {
+    font-size: 1.5rem;
+  }
+  
+  .treatment-circle-wrap {
+    width: 68px;
+    height: 68px;
+  }
+  
+  .treatment-name {
+    font-size: 1.08rem;
+  }
+  
+  .sub-tag {
+    font-size: 0.72rem;
+    padding: 2px 6px;
+  }
+  
+  .treatment-explanation {
+    font-size: 0.86rem;
   }
 }
