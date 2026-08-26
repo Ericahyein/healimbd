@@ -2929,9 +2929,16 @@ ul {
   display: inline;
 }
 
+.mo-br {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .pc-br {
     display: none;
+  }
+  .mo-br {
+    display: inline;
   }
 }
 
