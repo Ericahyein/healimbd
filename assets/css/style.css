@@ -3605,6 +3605,10 @@ ul {
 
 .hours-table td {
   color: var(--text-body);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
 }
 
 .highlight-row th, .highlight-row td {
@@ -3615,19 +3619,21 @@ ul {
 .badge-night-inline {
   background: #DBEAFE;
   color: #1E40AF;
-  font-size: 0.76rem;
+  font-size: 0.74rem;
   padding: 2px 6px;
   border-radius: 4px;
-  margin-left: 6px;
+  display: inline-block;
+  margin-top: 2px;
 }
 
 .badge-holiday-inline {
   background: #FEF3C7;
   color: #92400E;
-  font-size: 0.76rem;
+  font-size: 0.74rem;
   padding: 2px 6px;
   border-radius: 4px;
-  margin-left: 6px;
+  display: inline-block;
+  margin-top: 2px;
 }
 
 .sub-info-row th, .sub-info-row td {
@@ -3926,9 +3932,10 @@ ul {
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.footer-hour-title-wrap {
+.footer-hour-time-wrap {
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
   gap: 2px;
 }
 
@@ -4319,17 +4326,19 @@ html, body {
 
   /* Location Hours Table Mobile */
   .hours-table th {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
     white-space: nowrap;
     padding: 12px 10px;
+    vertical-align: top;
+    display: table-cell;
   }
 
   .hours-table td {
     padding: 12px 10px;
     white-space: nowrap;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
   }
 
   .badge-night-inline {
