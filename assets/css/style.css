@@ -3079,51 +3079,52 @@ ul {
 }
 
 /* ==========================================================================
-   2nd Row Accent Theme: Soft Warm Orange (2번째 줄 옅은 주황톤)
+   2nd Row Accent Theme: Tone-downed Muted Warm Orange (2번째 줄 차분한 주황톤)
    ========================================================================== */
 .treatment-card.theme-warm-orange {
-  border-top-color: #F97316;
+  border-top-color: #C87A3E;
 }
 
 .treatment-card.theme-warm-orange .treatment-circle-wrap {
-  border-color: #F97316;
-  box-shadow: 0 8px 22px rgba(249, 115, 22, 0.16);
+  border-color: #C87A3E;
+  box-shadow: 0 8px 22px rgba(200, 122, 62, 0.15);
 }
 
 .treatment-card.theme-warm-orange .card-num-badge {
-  color: #FDBA74;
+  color: #FCD34D;
 }
 
 .treatment-card.theme-warm-orange .sub-tag {
-  color: #C2410C;
-  background: #FFF7ED;
-  border: 1px solid #FFEDD5;
+  color: #9A3412;
+  background: #FFF8F3;
+  border: 1px solid #FADEC9;
 }
 
+/* Hover State: Exactly unified with all other cards (Signature Brand Blue #1B8FD1) */
 .treatment-card.theme-warm-orange:hover {
-  border-color: #F97316 !important;
-  border-top-color: #F97316 !important;
-  box-shadow: 0 18px 38px rgba(249, 115, 22, 0.22);
+  border-color: #1B8FD1 !important;
+  border-top-color: #1B8FD1 !important;
+  box-shadow: 0 18px 38px rgba(27, 143, 209, 0.22) !important;
 }
 
 .treatment-card.theme-warm-orange:hover .treatment-circle-wrap {
-  border-color: #F97316;
-  box-shadow: 0 10px 28px rgba(249, 115, 22, 0.3);
+  border-color: #1B8FD1 !important;
+  box-shadow: 0 10px 28px rgba(27, 143, 209, 0.3) !important;
 }
 
 .treatment-card.theme-warm-orange:hover .card-num-badge {
-  background: #F97316;
-  color: #ffffff;
+  background: #1B8FD1 !important;
+  color: #ffffff !important;
 }
 
 .treatment-card.theme-warm-orange:hover .treatment-name {
-  color: #EA580C;
+  color: #1B8FD1 !important;
 }
 
 .treatment-card.theme-warm-orange:hover .sub-tag {
-  background: #F97316;
-  border-color: #F97316;
-  color: white;
+  background: #1B8FD1 !important;
+  border-color: #1B8FD1 !important;
+  color: #ffffff !important;
 }
 
 /* ==========================================================================
