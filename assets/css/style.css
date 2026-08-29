@@ -3071,12 +3071,6 @@ ul {
   }
 }
 
-.philosophy-page-header {
-  background: linear-gradient(180deg, #F1F5F9 0%, #FFFFFF 100%);
-  border-bottom: 1px solid #E2E8F0;
-  padding: 60px 0 45px;
-}
-
 /* 1. Top Doctor Profile & Credentials Hero */
 .philo-doctor-profile-hero {
   display: grid;
