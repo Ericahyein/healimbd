@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>온라인문의 & 1:1 상담 | 해아림한의원 분당점</title>
+  <meta name="description" content="두뇌·신경정신 질환에 대한 궁금증을 남겨주시면 손지웅 대표원장이 직접 1:1로 성심성의껏 전문적인 한의학 답변을 드립니다.">
+  <link rel="canonical" href="{{ .Permalink }}">
+
+  <!-- Fonts (Pretendard & Outfit) -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+
+  <!-- Main Stylesheet (Cache-Busting Fingerprinted) -->
+  {{ $style := resources.Get "css/style.css" | resources.Minify | resources.Fingerprint }}
+  <link rel="stylesheet" href="{{ $style.RelPermalink }}">
+</head>
+<body class="inquiry-page-body">
+  {{ partial "header.html" . }}
+
+  <main id="main-content">
+    <!-- 1. Inquiry Page Header Banner -->
+    <section class="cases-page-header inquiry-header-banner">
+      <div class="container text-center">
+        <span class="cases-top-pill">1:1 ONLINE CONSULTATION & Q&A</span>
+        <h1 class="cases-main-title">온라인 상담 & 문의</h1>
+        <p class="cases-main-desc">
+          두뇌·마음·신경계 질환에 대한 모든 궁금증을 남겨주세요.<br>
+          <strong>손지웅 대표원장이 직접 1:1로</strong> 원인과 한방 치료 원리를 성심성의껏 답변해 드립니다.
+        </p>
+      </div>
+    </section>
+
+    <!-- 2. Q&A Board Main Section -->
+    <section class="section inquiry-board-section">
+      <div class="container">
+
+        <!-- Top Control Bar (Categories, Search, and Write Button) -->
+        <div class="inquiry-toolbar">
+          <div class="inquiry-category-tabs" id="inquiry-category-tabs">
+            <button type="button" class="inquiry-tab-btn active" data-category="all" onclick="filterInquiryCategory('all')">전체</button>
+            <button type="button" class="inquiry-tab-btn" data-category="brain" onclick="filterInquiryCategory('brain')">두뇌클리닉</button>
+            <button type="button" class="inquiry-tab-btn" data-category="mind" onclick="filterInquiryCategory('mind')">마음클리닉</button>
+            <button type="button" class="inquiry-tab-btn" data-category="body" onclick="filterInquiryCategory('body')">몸클리닉</button>
+            <button type="button" class="inquiry-tab-btn" data-category="etc" onclick="filterInquiryCategory('etc')">기타질환</button>
+          </div>
+
+          <div class="inquiry-action-group">
+            <div class="inquiry-search-box">
+              <i class="ph-bold ph-magnifying-glass"></i>
+              <input type="text" id="inquiry-search-input" placeholder="질환명, 상담 제목 검색..." onkeyup="handleInquirySearch(event)">
+            </div>
+            <button type="button" class="btn btn-inquiry-write-trigger" onclick="openInquiryWriteModal()">
+              <i class="ph-bold ph-pencil-simple-line"></i>
+              <span>상담글 작성하기</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Info Notice Strip -->
+        <div class="inquiry-notice-strip">
+          <div class="notice-icon"><i class="ph-fill ph-info"></i></div>
+          <div class="notice-text">
+            <strong>상담 안내:</strong> 개인정보 보호를 위해 비밀글로 작성하실 수 있으며, 비밀글은 작성자 본인(비밀번호 4자리 입력) 및 대표원장만 열람할 수 있습니다.
+          </div>
+        </div>
+
+        <!-- Q&A Table & Cards Container -->
+        <div class="inquiry-board-table-wrap">
+          <table class="inquiry-table" id="inquiry-table">
+            <thead>
+              <tr>
+                <th class="col-num">번호</th>
+                <th class="col-cat">상담과목</th>
+                <th class="col-title">상담 제목</th>
+                <th class="col-author">작성자</th>
+                <th class="col-info">지역/연령</th>
+                <th class="col-date">작성일</th>
+                <th class="col-status">상태</th>
+              </tr>
+            </thead>
+            <tbody id="inquiry-list-tbody">
+              <!-- Dynamically populated by JS (LocalStorage + Sample inquiries) -->
+            </tbody>
+          </table>
+
+          <!-- Empty State Container -->
+          <div class="inquiry-empty-state" id="inquiry-empty-state" style="display: none;">
+            <i class="ph-bold ph-chats-circle"></i>
+            <p>등록된 상담글이 없습니다. 첫 번째 상담글을 남겨보세요.</p>
+            <button type="button" class="btn btn-inquiry-write-trigger" onclick="openInquiryWriteModal()">상담글 작성하기</button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- ==========================================================================
+       MODAL 1: Consultation Write Modal (Form matching the uploaded screenshot)
+       ========================================================================== -->
+  <div class="inquiry-form-modal" id="inquiry-write-modal" role="dialog" aria-modal="true" aria-labelledby="inquiry-write-title">
+    <div class="inquiry-modal-card">
+      <div class="inquiry-modal-top">
+        <h3 id="inquiry-write-title" class="inquiry-modal-title"><i class="ph-bold ph-note-pencil"></i> 온라인 1:1 상담글 작성</h3>
+        <button type="button" class="modal-close-btn" onclick="closeInquiryWriteModal()" aria-label="닫기">
+          <i class="ph ph-x"></i>
+        </button>
+      </div>
+
+      <form id="inquiry-submit-form" onsubmit="handleInquirySubmit(event)">
+        <!-- Section 1: 지역 / 나이 / 성별 / 작성자 / 비밀번호 -->
+        <div class="form-block-section">
+          <div class="form-block-header">
+            <h4>지역 / 나이 / 성별 / 작성자</h4>
+          </div>
+          <div class="form-grid-row">
+            <div class="form-field-group">
+              <label for="inq-region">지역</label>
+              <input type="text" id="inq-region" placeholder="예) 서울 송파, 분당 정자" required>
+            </div>
+            <div class="form-field-group">
+              <label for="inq-age">나이</label>
+              <input type="number" id="inq-age" placeholder="예) 24" min="1" max="120" required>
+            </div>
+            <div class="form-field-group">
+              <label>성별</label>
+              <div class="radio-inline-group">
+                <label class="radio-label">
+                  <input type="radio" name="inq-gender" value="남" checked>
+                  <span>남</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="inq-gender" value="여">
+                  <span>여</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-grid-row mt-12">
+            <div class="form-field-group">
+              <label for="inq-author">작성자 (이름 또는 닉네임)</label>
+              <input type="text" id="inq-author" placeholder="예) 홍길동" required>
+            </div>
+            <div class="form-field-group">
+              <label for="inq-password">비밀번호 (4자리 숫자)</label>
+              <input type="password" id="inq-password" placeholder="본인 열람/수정용 4자리" maxlength="8" required>
+            </div>
+            <div class="form-field-group form-field-secret">
+              <label>공개 설정</label>
+              <label class="checkbox-label inq-secret-check">
+                <input type="checkbox" id="inq-is-secret" checked>
+                <span><i class="ph-bold ph-lock-key"></i> 비밀글로 등록 (본인과 원장님만 열람)</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 2: 상담과목 (질환별 라디오 그리드) -->
+        <div class="form-block-section">
+          <div class="form-block-header">
+            <h4>상담과목 선택</h4>
+          </div>
+
+          <!-- 두뇌클리닉 -->
+          <div class="clinic-category-box">
+            <div class="clinic-cat-title"><i class="ph-bold ph-brain"></i> 두뇌클리닉</div>
+            <div class="disease-radio-grid">
+              <label class="disease-radio"><input type="radio" name="inq-disease" value="틱장애" data-category="brain" checked><span>틱장애</span></label>
+              <label class="disease-radio"><input type="radio" name="inq-disease" value="ADHD" data-category="brain"><span>ADHD</span></label>
+              <label class="disease-radio"><input type="radio" name="inq-disease" value="아스퍼거" data-category="brain"><span>아스퍼거</span></label>
+              <label class="disease-radio"><input type="radio" name="inq-disease" value="시험불안증" data-category="brain"><span>시험불안증</span></label>
+              <label class="disease-radio"><input type="radio" name="inq-disease" value="어지럼증,두통" data-category="brain"><span>어지럼증,두통</span></label>
+              <label class="disease-radio"><input type="radio" name="inq-disease" value="안면근육경련" data-category="brain"><span>안면근육경련</span></label>
+              <label class="disease-radio"><input type="radio" name="inq-disease" value="자율신경실조증" data-category="brain"><span>자율신경실조증</span></label>
+              <label class="disease-radio"><input type="radio" name="inq-disease" value="집중력" data-category="brain"><span>집중력</span></label>
+            </div>
+          </div>
+
+          <!-- 마음클리닉 -->
+          <div class="clinic-category-box">
+            <div class="clinic-cat-title"><i class="ph-bold ph-heart"></i> 마음클리닉</div>
+            <div class="disease-radio-grid">
+              <label class="disease-radio"><input type="radio" name="inq-disease" value="불안장애" data-category="mind"><span>불안장애</span></label>
+              <label class="disease-radio"><input type="radio" name="inq-disease" value="공황장애" data-category="mind"><span>공황장애</span></label>
+              <label class="disease-radio"><input type="radio" name="inq-disease" value="불면증" data-category="mind"><span>불면증</span></label>
+              <label class="disease-radio"><input type="radio" name="inq-disease" value="강박증" data-category="mind"><span>강박증</span></label>
+              <label class="disease-radio"><input type="radio" name="inq-disease" value="대인기피증" data-category="mind"><span>대인기피증</span></label>
+              <label class="disease-radio"><input type="radio" name="inq-disease" value="우울증" data-category="mind"><span>우울증</span></label>
+              <label class="disease-radio"><input type="radio" name="inq-disease" value="다한증" data-category="mind"><span>다한증</span></label>
+              <label class="disease-radio"><input type="radio" name="inq-disease" value="하지불안증후군" data-category="mind"><span>하지불안증후군</span></label>
+              <label class="disease-radio"><input type="radio" name="inq-disease" value="과민성대장증후군" data-category="mind"><span>과민성대장증후군</span></label>
+              <label class="disease-radio"><input type="radio" name="inq-disease" value="담적병" data-category="mind"><span>담적병</span></label>
+            </div>
+          </div>
+
+          <!-- 몸클리닉 -->
+          <div class="clinic-category-box">
+            <div class="clinic-cat-title"><i class="ph-bold ph-user-focus"></i> 몸클리닉</div>
+            <div class="disease-radio-grid">
+              <label class="disease-radio"><input type="radio" name="inq-disease" value="키성장" data-category="body"><span>키성장</span></label>
+              <label class="disease-radio"><input type="radio" name="inq-disease" value="식욕부진" data-category="body"><span>식욕부진</span></label>
+              <label class="disease-radio"><input type="radio" name="inq-disease" value="야뇨증" data-category="body"><span>야뇨증</span></label>
+              <label class="disease-radio"><input type="radio" name="inq-disease" value="소아비만" data-category="body"><span>소아비만</span></label>
+              <label class="disease-radio"><input type="radio" name="inq-disease" value="만성피로 번아웃증후군" data-category="body"><span>만성피로 번아웃증후군</span></label>
+              <label class="disease-radio"><input type="radio" name="inq-disease" value="삼차신경통" data-category="body"><span>삼차신경통</span></label>
+              <label class="disease-radio"><input type="radio" name="inq-disease" value="교통사고" data-category="body"><span>교통사고</span></label>
+            </div>
+          </div>
+
+          <!-- 기타질환 -->
+          <div class="clinic-category-box">
+            <div class="clinic-cat-title"><i class="ph-bold ph-dots-three-circle"></i> 기타질환</div>
+            <div class="disease-radio-grid">
+              <label class="disease-radio"><input type="radio" name="inq-disease" value="기타질환" data-category="etc"><span>기타 두뇌·신경계 질환</span></label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 3: 상담내용 -->
+        <div class="form-block-section">
+          <div class="form-block-header">
+            <h4>상담내용</h4>
+          </div>
+          <div class="form-field-group mb-12">
+            <label for="inq-title">제목</label>
+            <input type="text" id="inq-title" placeholder="상담 제목을 입력해주세요" required>
+          </div>
+          <div class="form-field-group">
+            <label for="inq-content">내용</label>
+            <textarea id="inq-content" rows="6" placeholder="증상 발현 시기, 주요 불편 증상, 병원 치료 경험 등 상세한 내용을 적어주시면 더욱 정밀한 답변을 드릴 수 있습니다." required></textarea>
+          </div>
+        </div>
+
+        <!-- Section 4: 개인정보취급방침 동의 -->
+        <div class="form-block-section">
+          <div class="form-block-header">
+            <h4>개인정보취급방침 동의</h4>
+          </div>
+          <div class="privacy-terms-scroll">
+            <p>해아림한의원은 개인정보를 수집하지 않으며, 글쓴이가 본인이 쓴 글을 식별하기 위해 가상의 닉네임 등 최소한의 가상정보만을 수집합니다.</p>
+            <p>가상정보에 대한 의견수렴 및 불만처리의 정책을 담당하는 개인정보정책 담당 관리책임자를 원장으로 지정하고 있습니다.</p>
+            <p>해아림한의원은 귀하께서 문의글 작성 시 정보보호방침 또는 이용약관의 내용을 공지하여 동의 및 저장 버튼을 클릭하면 가상정보 수집에 대해 동의하신 것으로 간주합니다.</p>
+            <p><strong>수집 목적:</strong> 1:1 온라인 한의학 상담 답변 제공 및 본인 글 식별 관리</p>
+          </div>
+          <label class="checkbox-label mt-8">
+            <input type="checkbox" id="inq-agree-terms" required checked>
+            <span><strong>정보활용 방침에 동의합니다.</strong> (필수)</span>
+          </label>
+        </div>
+
+        <!-- Section 5: 하단 버튼 -->
+        <div class="inquiry-form-actions">
+          <button type="button" class="btn btn-inq-back" onclick="closeInquiryWriteModal()">돌아가기</button>
+          <button type="submit" class="btn btn-inq-submit">저장하기 (상담글 등록)</button>
+        </div>
+      </form>
+    </div>
+    <div class="inquiry-modal-overlay" onclick="closeInquiryWriteModal()"></div>
+  </div>
+
+
+  <!-- ==========================================================================
+       MODAL 2: Password Verification Modal (For Secret Posts)
+       ========================================================================== -->
+  <div class="inquiry-pwd-modal" id="inquiry-pwd-modal" role="dialog" aria-modal="true">
+    <div class="inquiry-pwd-card">
+      <button type="button" class="modal-close-btn" onclick="closeInquiryPwdModal()"><i class="ph ph-x"></i></button>
+      <div class="pwd-modal-icon"><i class="ph-bold ph-lock-key"></i></div>
+      <h3>비밀글 열람 인증</h3>
+      <p>작성 시 설정하신 <strong>비밀번호(4자리)</strong>를 입력해주세요.</p>
+      <form onsubmit="handleInquiryPwdSubmit(event)">
+        <input type="password" id="inq-verify-pwd-input" placeholder="비밀번호 입력" required autofocus>
+        <div class="pwd-error-msg" id="inq-pwd-error" style="display: none;">비밀번호가 일치하지 않습니다.</div>
+        <div class="pwd-btn-group">
+          <button type="button" class="btn btn-cancel" onclick="closeInquiryPwdModal()">취소</button>
+          <button type="submit" class="btn btn-confirm">확인</button>
+        </div>
+      </form>
+    </div>
+    <div class="inquiry-modal-overlay" onclick="closeInquiryPwdModal()"></div>
+  </div>
+
+
+  <!-- ==========================================================================
+       MODAL 3: Consultation Detail & Doctor Reply View Modal
+       ========================================================================== -->
+  <div class="inquiry-detail-modal" id="inquiry-detail-modal" role="dialog" aria-modal="true">
+    <div class="inquiry-detail-card">
+      <div class="inquiry-detail-header">
+        <div class="detail-badge-row">
+          <span class="detail-disease-tag" id="view-inq-disease">틱장애</span>
+          <span class="detail-status-tag" id="view-inq-status">답변완료</span>
+        </div>
+        <h2 class="detail-main-title" id="view-inq-title">상담 제목이 들어갑니다</h2>
+        <div class="detail-meta-info">
+          <span><i class="ph-bold ph-user"></i> <strong id="view-inq-author">홍길동</strong></span>
+          <span><i class="ph-bold ph-map-pin"></i> <span id="view-inq-region">분당</span> (<span id="view-inq-age">24</span>세/<span id="view-inq-gender">남</span>)</span>
+          <span><i class="ph-bold ph-calendar"></i> <span id="view-inq-date">2026.08.29</span></span>
+        </div>
+        <button type="button" class="modal-close-btn" onclick="closeInquiryDetailModal()"><i class="ph ph-x"></i></button>
+      </div>
+
+      <div class="inquiry-detail-body">
+        <!-- 1. Patient Question Box -->
+        <div class="inq-question-box">
+          <div class="box-label"><i class="ph-bold ph-question"></i> 상담 문의 내용</div>
+          <div class="question-content" id="view-inq-content">
+            문의 내용이 표시됩니다.
+          </div>
+        </div>
+
+        <!-- 2. Doctor Consultation Answer Box -->
+        <div class="inq-doctor-answer-box" id="view-doctor-answer-wrapper">
+          <div class="doctor-answer-header">
+            <div class="doc-badge-group">
+              <span class="doc-badge">해아림 대표원장</span>
+              <span class="doc-name">손지웅 원장의 <strong>전문 1:1 상담 답변</strong></span>
+            </div>
+            <span class="answer-date" id="view-answer-date">답변일: 2026.08.29</span>
+          </div>
+
+          <div class="doctor-answer-content" id="view-doctor-answer-content">
+            <!-- Answer text -->
+          </div>
+
+          <div class="doctor-answer-footer">
+            <p class="answer-notice">※ 본 답변은 환자분의 기재 내용을 토대로 작성된 한의학적 소견이며, 정확한 진단과 처방을 위해서는 원내 내원 정밀 진단(자율신경계·뇌파·체질 검사)을 권장합니다.</p>
+          </div>
+        </div>
+
+        <!-- 3. Unanswered Pending Box -->
+        <div class="inq-unanswered-box" id="view-unanswered-box" style="display: none;">
+          <div class="pending-icon"><i class="ph-bold ph-clock"></i></div>
+          <h4>손지웅 대표원장이 상담 내용을 확인 중입니다.</h4>
+          <p>빠른 시일 내에 성심성의껏 전문 답변을 등록해 드리겠습니다.</p>
+        </div>
+
+        <!-- 4. Admin Management Action Row (Visible only to Admin) -->
+        <div class="inquiry-admin-controls admin-only-btn" id="inquiry-admin-controls">
+          <button type="button" class="btn btn-admin-reply" onclick="openDoctorReplyEditorModal()">
+            <i class="ph-bold ph-chat-circle-dots"></i> <span id="admin-reply-btn-text">원장님 답변 작성하기</span>
+          </button>
+          <button type="button" class="btn btn-admin-delete" onclick="handleAdminDeleteInquiry()">
+            <i class="ph-bold ph-trash"></i> <span>상담글 삭제</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="inquiry-detail-footer">
+        <button type="button" class="btn btn-close-detail" onclick="closeInquiryDetailModal()">목록으로 돌아가기</button>
+      </div>
+    </div>
+    <div class="inquiry-modal-overlay" onclick="closeInquiryDetailModal()"></div>
+  </div>
+
+
+  <!-- ==========================================================================
+       MODAL 4: Doctor Reply Editor Modal (For Admin to compose/edit answer)
+       ========================================================================== -->
+  <div class="inquiry-reply-editor-modal" id="inquiry-reply-editor-modal" role="dialog" aria-modal="true">
+    <div class="inquiry-reply-card">
+      <div class="reply-card-header">
+        <h3><i class="ph-bold ph-stethoscope"></i> 손지웅 대표원장 답변 작성 / 수정</h3>
+        <button type="button" class="modal-close-btn" onclick="closeDoctorReplyEditorModal()"><i class="ph ph-x"></i></button>
+      </div>
+      <form onsubmit="handleDoctorReplySubmit(event)">
+        <div class="reply-target-summary" id="reply-target-summary">
+          <!-- Question Title Summary -->
+        </div>
+        <div class="form-field-group">
+          <label for="doctor-reply-textarea">답변 본문 내용</label>
+          <textarea id="doctor-reply-textarea" rows="9" placeholder="환자분의 증상에 대한 따뜻한 위로와 원인 분석, 한방 치료 방향을 자세하게 작성해주세요." required></textarea>
+        </div>
+        <div class="reply-btn-group">
+          <button type="button" class="btn btn-cancel" onclick="closeDoctorReplyEditorModal()">취소</button>
+          <button type="submit" class="btn btn-save-reply">답변 등록 및 완료 처리</button>
+        </div>
+      </form>
+    </div>
+    <div class="inquiry-modal-overlay" onclick="closeDoctorReplyEditorModal()"></div>
+  </div>
+
+  {{ partial "footer.html" . }}
+  {{ partial "floating_bar.html" . }}
+
+  <!-- Scripts -->
+  {{ $js := resources.Get "js/main.js" | resources.Minify | resources.Fingerprint }}
+  <script src="{{ $js.RelPermalink }}"></script>
+</body>
+</html>

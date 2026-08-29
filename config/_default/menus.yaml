@@ -11,6 +11,9 @@ main:
   - name: 원장 칼럼
     url: 'blog/'
     weight: 40
+  - name: 온라인문의
+    url: 'inquiry/'
+    weight: 45
   - name: 상담예약
     url: '#location'
     weight: 50

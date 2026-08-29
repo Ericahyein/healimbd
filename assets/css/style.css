@@ -6369,4 +6369,921 @@ html, body {
   }
 }
 
+/* ==========================================================================
+   ADMIN VISIBILITY SECURITY CONTROL (관리자 전용 버튼 제어)
+   ========================================================================== */
+.admin-only-btn {
+  display: none !important;
+}
 
+body.is-admin .admin-only-btn {
+  display: inline-flex !important;
+}
+
+/* ==========================================================================
+   ONLINE INQUIRY & 1:1 Q&A CONSULTATION BOARD STYLES
+   ========================================================================== */
+.inquiry-header-banner {
+  background: linear-gradient(135deg, #0F172A 0%, #1E293B 60%, #0369A1 100%);
+}
+
+.inquiry-board-section {
+  padding: 60px 0 100px;
+  background: #F8FAFC;
+  min-height: 70vh;
+}
+
+.inquiry-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.inquiry-category-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.inquiry-tab-btn {
+  padding: 10px 18px;
+  background: white;
+  border: 1.5px solid #E2E8F0;
+  border-radius: var(--radius-full);
+  font-size: 0.94rem;
+  font-weight: 600;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.inquiry-tab-btn:hover {
+  background: #F1F5F9;
+  color: #0F172A;
+  border-color: #CBD5E1;
+}
+
+.inquiry-tab-btn.active {
+  background: #0369A1;
+  color: white;
+  border-color: #0369A1;
+  box-shadow: 0 4px 12px rgba(3, 105, 161, 0.25);
+}
+
+.inquiry-action-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.inquiry-search-box {
+  position: relative;
+  width: 240px;
+}
+
+.inquiry-search-box i {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94A3B8;
+  font-size: 1.05rem;
+}
+
+.inquiry-search-box input {
+  width: 100%;
+  padding: 10px 14px 10px 38px;
+  border: 1.5px solid #E2E8F0;
+  border-radius: var(--radius-full);
+  font-size: 0.9rem;
+  background: white;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.inquiry-search-box input:focus {
+  border-color: #0369A1;
+  box-shadow: 0 0 0 3px rgba(3, 105, 161, 0.15);
+}
+
+.btn-inquiry-write-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #0369A1;
+  color: white;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 11px 22px;
+  border-radius: var(--radius-full);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(3, 105, 161, 0.3);
+  transition: all 0.25s ease;
+}
+
+.btn-inquiry-write-trigger:hover {
+  background: #0284C7;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(3, 105, 161, 0.4);
+}
+
+/* Notice Strip */
+.inquiry-notice-strip {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #EFF6FF;
+  border: 1px solid #BFDBFE;
+  border-radius: 12px;
+  padding: 14px 20px;
+  margin-bottom: 24px;
+  color: #1E40AF;
+  font-size: 0.92rem;
+}
+
+.inquiry-notice-strip .notice-icon {
+  font-size: 1.25rem;
+  color: #2563EB;
+  display: flex;
+  align-items: center;
+}
+
+/* Q&A Table */
+.inquiry-board-table-wrap {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
+  border: 1px solid #E2E8F0;
+  overflow: hidden;
+}
+
+.inquiry-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.inquiry-table thead {
+  background: #F8FAFC;
+  border-bottom: 1.5px solid #E2E8F0;
+}
+
+.inquiry-table th {
+  padding: 16px 18px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #475569;
+}
+
+.inquiry-table tbody tr {
+  border-bottom: 1px solid #F1F5F9;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.inquiry-table tbody tr:hover {
+  background: #F8FAFC;
+}
+
+.inquiry-table td {
+  padding: 16px 18px;
+  font-size: 0.93rem;
+  color: #334155;
+  vertical-align: middle;
+}
+
+.col-num { width: 60px; text-align: center; color: #94A3B8; }
+.col-cat { width: 140px; }
+.col-title { min-width: 280px; font-weight: 600; color: #0F172A; }
+.col-author { width: 100px; text-align: center; }
+.col-info { width: 140px; text-align: center; color: #64748B; font-size: 0.88rem; }
+.col-date { width: 110px; text-align: center; color: #94A3B8; font-size: 0.86rem; }
+.col-status { width: 105px; text-align: center; }
+
+.cat-badge {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: #E0F2FE;
+  color: #0369A1;
+}
+
+.cat-badge.brain { background: #E0F2FE; color: #0369A1; }
+.cat-badge.mind { background: #FEF3C7; color: #D97706; }
+.cat-badge.body { background: #DCFCE7; color: #16A34A; }
+.cat-badge.etc { background: #F1F5F9; color: #64748B; }
+
+.table-title-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #0F172A;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.table-title-link:hover {
+  color: #0369A1;
+}
+
+.secret-icon {
+  color: #94A3B8;
+  font-size: 0.95rem;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.status-badge.pending {
+  background: #F1F5F9;
+  color: #64748B;
+}
+
+.status-badge.answered {
+  background: #E0F2FE;
+  color: #0284C7;
+  border: 1px solid #BAE6FD;
+}
+
+/* Empty state */
+.inquiry-empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #94A3B8;
+}
+
+.inquiry-empty-state i {
+  font-size: 3rem;
+  margin-bottom: 12px;
+  color: #CBD5E1;
+}
+
+.inquiry-empty-state p {
+  font-size: 1rem;
+  margin-bottom: 16px;
+}
+
+/* ==========================================================================
+   INQUIRY WRITE FORM MODAL (Matching screenshot)
+   ========================================================================== */
+.inquiry-form-modal,
+.inquiry-detail-modal,
+.inquiry-pwd-modal,
+.inquiry-reply-editor-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 16px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.inquiry-form-modal.active,
+.inquiry-detail-modal.active,
+.inquiry-pwd-modal.active,
+.inquiry-reply-editor-modal.active {
+  display: flex;
+}
+
+.inquiry-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.inquiry-modal-card {
+  position: relative;
+  background: white;
+  width: 100%;
+  max-width: 820px;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 16px;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.3);
+  padding: 30px 28px;
+  z-index: 10;
+}
+
+.inquiry-modal-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1.5px solid #E2E8F0;
+  padding-bottom: 16px;
+  margin-bottom: 20px;
+}
+
+.inquiry-modal-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #0F172A;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.form-block-section {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  padding: 18px 20px;
+  margin-bottom: 20px;
+}
+
+.form-block-header {
+  background: #E2E8F0;
+  margin: -18px -20px 16px -20px;
+  padding: 10px 20px;
+  border-radius: 11px 11px 0 0;
+}
+
+.form-block-header h4 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1E293B;
+  margin: 0;
+}
+
+.form-grid-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.mt-12 { margin-top: 12px; }
+.mt-8 { margin-top: 8px; }
+.mb-12 { margin-bottom: 12px; }
+
+.form-field-group label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #475569;
+  margin-bottom: 6px;
+}
+
+.form-field-group input[type="text"],
+.form-field-group input[type="number"],
+.form-field-group input[type="password"],
+.form-field-group textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid #CBD5E1;
+  border-radius: 8px;
+  font-size: 0.92rem;
+  background: white;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.form-field-group input:focus,
+.form-field-group textarea:focus {
+  border-color: #0369A1;
+}
+
+.radio-inline-group {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  height: 42px;
+}
+
+.radio-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.inq-secret-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: #0369A1;
+}
+
+/* Disease Radios */
+.clinic-category-box {
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px dashed #CBD5E1;
+}
+
+.clinic-category-box:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.clinic-cat-title {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #334155;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.disease-radio-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px 12px;
+}
+
+.disease-radio {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: #334155;
+  cursor: pointer;
+}
+
+.disease-radio input[type="radio"] {
+  cursor: pointer;
+}
+
+.privacy-terms-scroll {
+  background: white;
+  border: 1px solid #CBD5E1;
+  border-radius: 8px;
+  padding: 12px 14px;
+  max-height: 110px;
+  overflow-y: auto;
+  font-size: 0.82rem;
+  color: #64748B;
+  line-height: 1.6;
+}
+
+.privacy-terms-scroll p {
+  margin-bottom: 6px;
+}
+
+.privacy-terms-scroll p:last-child {
+  margin-bottom: 0;
+}
+
+.inquiry-form-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 24px;
+}
+
+.btn-inq-back {
+  background: #0284C7;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.btn-inq-submit {
+  background: #0284C7;
+  color: white;
+  padding: 12px 28px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.btn-inq-back:hover,
+.btn-inq-submit:hover {
+  background: #0369A1;
+}
+
+/* ==========================================================================
+   DETAIL VIEW MODAL & DOCTOR'S ANSWER BOX
+   ========================================================================== */
+.inquiry-detail-card {
+  position: relative;
+  background: white;
+  width: 100%;
+  max-width: 760px;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 16px;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.3);
+  padding: 32px 28px;
+  z-index: 10;
+}
+
+.inquiry-detail-header {
+  border-bottom: 1.5px solid #E2E8F0;
+  padding-bottom: 20px;
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.detail-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.detail-disease-tag {
+  background: #0369A1;
+  color: white;
+  font-weight: 700;
+  font-size: 0.82rem;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+.detail-status-tag {
+  background: #E0F2FE;
+  color: #0284C7;
+  font-weight: 700;
+  font-size: 0.82rem;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+.detail-main-title {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #0F172A;
+  line-height: 1.4;
+  margin-bottom: 12px;
+}
+
+.detail-meta-info {
+  display: flex;
+  gap: 16px;
+  font-size: 0.88rem;
+  color: #64748B;
+  flex-wrap: wrap;
+}
+
+.detail-meta-info span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.inq-question-box {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  padding: 20px 22px;
+  margin-bottom: 24px;
+}
+
+.inq-question-box .box-label {
+  font-size: 0.86rem;
+  font-weight: 800;
+  color: #475569;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.question-content {
+  font-size: 0.98rem;
+  line-height: 1.8;
+  color: #1E293B;
+  white-space: pre-line;
+}
+
+/* Doctor Consultation Answer Box */
+.inq-doctor-answer-box {
+  background: #F0F9FF;
+  border: 1.5px solid #BAE6FD;
+  border-radius: 14px;
+  padding: 24px 26px;
+  position: relative;
+  box-shadow: 0 8px 24px rgba(3, 105, 161, 0.08);
+}
+
+.doctor-answer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #BAE6FD;
+  padding-bottom: 14px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.doc-badge-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.doc-badge {
+  background: #0369A1;
+  color: white;
+  font-size: 0.78rem;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.doc-name {
+  font-size: 1.05rem;
+  color: #0F172A;
+}
+
+.answer-date {
+  font-size: 0.84rem;
+  color: #64748B;
+}
+
+.doctor-answer-content {
+  font-size: 1rem;
+  line-height: 1.85;
+  color: #0F172A;
+  white-space: pre-line;
+  margin-bottom: 18px;
+}
+
+.doctor-answer-footer {
+  border-top: 1px dashed #BAE6FD;
+  padding-top: 12px;
+}
+
+.answer-notice {
+  font-size: 0.8rem;
+  color: #64748B;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.inq-unanswered-box {
+  text-align: center;
+  padding: 36px 20px;
+  background: #F8FAFC;
+  border: 1.5px dashed #CBD5E1;
+  border-radius: 12px;
+  color: #64748B;
+}
+
+.inq-unanswered-box .pending-icon {
+  font-size: 2.2rem;
+  color: #0284C7;
+  margin-bottom: 8px;
+}
+
+.inq-unanswered-box h4 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #1E293B;
+  margin-bottom: 6px;
+}
+
+.inq-unanswered-box p {
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* Admin controls in detail view */
+.inquiry-admin-controls {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #E2E8F0;
+}
+
+.btn-admin-reply {
+  background: #0F172A;
+  color: white;
+  font-weight: 700;
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-admin-delete {
+  background: #FEE2E2;
+  color: #DC2626;
+  font-weight: 700;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: 1px solid #FCA5A5;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.inquiry-detail-footer {
+  margin-top: 28px;
+  text-align: center;
+}
+
+.btn-close-detail {
+  background: #E2E8F0;
+  color: #334155;
+  padding: 12px 28px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Password Modal */
+.inquiry-pwd-card {
+  position: relative;
+  background: white;
+  border-radius: 14px;
+  padding: 30px 24px;
+  max-width: 380px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.3);
+  z-index: 10;
+}
+
+.pwd-modal-icon {
+  font-size: 2.4rem;
+  color: #0369A1;
+  margin-bottom: 10px;
+}
+
+.inquiry-pwd-card h3 {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin-bottom: 6px;
+}
+
+.inquiry-pwd-card p {
+  font-size: 0.88rem;
+  color: #64748B;
+  margin-bottom: 18px;
+}
+
+.inquiry-pwd-card input[type="password"] {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #CBD5E1;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  text-align: center;
+  letter-spacing: 4px;
+  margin-bottom: 12px;
+  box-sizing: border-box;
+}
+
+.pwd-error-msg {
+  color: #DC2626;
+  font-size: 0.84rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.pwd-btn-group {
+  display: flex;
+  gap: 10px;
+}
+
+.pwd-btn-group .btn-cancel {
+  flex: 1;
+  padding: 10px;
+  background: #F1F5F9;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.pwd-btn-group .btn-confirm {
+  flex: 1;
+  padding: 10px;
+  background: #0369A1;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Reply Editor Modal */
+.inquiry-reply-card {
+  position: relative;
+  background: white;
+  border-radius: 14px;
+  padding: 28px 24px;
+  max-width: 650px;
+  width: 100%;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.3);
+  z-index: 10;
+}
+
+.reply-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1.5px solid #E2E8F0;
+  padding-bottom: 14px;
+  margin-bottom: 16px;
+}
+
+.reply-target-summary {
+  background: #F8FAFC;
+  border-left: 4px solid #0369A1;
+  padding: 10px 14px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #1E293B;
+  margin-bottom: 16px;
+  border-radius: 0 8px 8px 0;
+}
+
+.reply-btn-group {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 18px;
+}
+
+.btn-save-reply {
+  background: #0369A1;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+/* Responsive Rules */
+@media (max-width: 768px) {
+  .form-grid-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .disease-radio-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .inquiry-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .inquiry-action-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .inquiry-search-box {
+    width: 100%;
+  }
+
+  .btn-inquiry-write-trigger {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .col-num, .col-info, .col-date {
+    display: none;
+  }
+
+  .inquiry-table th, .inquiry-table td {
+    padding: 12px 10px;
+  }
+}

@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initAuth();
   initAdminCaseWriter();
   initAdminColumnBoard();
+  initOnlineInquiry();
 });
 
 // 1. Mobile Menu Drawer
@@ -388,20 +389,43 @@ function handleSocialLogin(provider) {
 function handleEmailLogin(e) {
   e.preventDefault();
   const emailInput = document.getElementById('login-email');
+  const passwordInput = document.getElementById('login-password');
   const email = emailInput ? emailInput.value.trim() : '회원';
-  const name = email.split('@')[0] || '회원';
+  const password = passwordInput ? passwordInput.value.trim() : '';
+
+  let name = email.split('@')[0] || '회원';
+  let isAdmin = false;
+
+  // Check if admin login
+  if (password === ADMIN_MASTER_PIN || email.toLowerCase() === 'admin' || email.toLowerCase() === 'healim') {
+    if (password === ADMIN_MASTER_PIN) {
+      isAdmin = true;
+      name = '손지웅 대표원장 (관리자)';
+      sessionStorage.setItem('healim_admin_auth', 'true');
+    }
+  }
 
   const user = {
     name: name,
     email: email,
     provider: 'email',
+    isAdmin: isAdmin,
     loginAt: new Date().toISOString()
   };
 
   localStorage.setItem('healim_auth_user', JSON.stringify(user));
   updateAuthUI(user);
   closeAuthModal();
-  showAuthToast(`🎉 ${name}님 환영합니다! 로그인되어 자필 수기를 열람하실 수 있습니다.`);
+
+  if (isAdmin) {
+    showAuthToast('👑 관리자(대표원장)로 로그인되었습니다. 모든 관리자 글쓰기 및 답변 기능이 활성화되었습니다.');
+  } else {
+    showAuthToast(`🎉 ${name}님 환영합니다! 로그인되어 자필 수기를 열람하실 수 있습니다.`);
+  }
+
+  if (typeof renderInquiryList === 'function') {
+    renderInquiryList();
+  }
 }
 
 function handleEmailSignup(e) {
@@ -415,6 +439,7 @@ function handleEmailSignup(e) {
     name: name,
     email: email,
     provider: 'signup',
+    isAdmin: false,
     loginAt: new Date().toISOString()
   };
 
@@ -426,11 +451,19 @@ function handleEmailSignup(e) {
 
 function logoutUser() {
   localStorage.removeItem('healim_auth_user');
+  sessionStorage.removeItem('healim_admin_auth');
+  document.body.classList.remove('is-admin');
   updateAuthUI(null);
   showAuthToast('로그아웃 되었습니다.');
+  if (typeof renderInquiryList === 'function') {
+    renderInquiryList();
+  }
 }
 
 function updateAuthUI(user) {
+  const isAdmin = (user && user.isAdmin) || sessionStorage.getItem('healim_admin_auth') === 'true';
+  document.body.classList.toggle('is-admin', !!isAdmin);
+
   const headerLoginBtn = document.getElementById('btn-header-login');
   const headerUserBadge = document.getElementById('header-user-badge');
   const loggedUserName = document.getElementById('logged-user-name');
@@ -1338,5 +1371,514 @@ ${content}
   URL.revokeObjectURL(url);
 }
 
+// ==========================================================================
+// 12. ONLINE INQUIRY & 1:1 Q&A CONSULTATION ENGINE
+// ==========================================================================
+let currentInquiryFilter = 'all';
+let currentInquirySearchQuery = '';
+let currentOpenedInquiryId = null;
+let currentPendingVerifyInquiryId = null;
 
+const DEFAULT_INQUIRIES = [
+  {
+    id: 'inq-101',
+    category: 'brain',
+    disease: '틱장애',
+    title: '초등 3학년 아이 눈깜빡임과 킁킁거리는 소리 틱 문의드립니다.',
+    author: '김*희',
+    region: '성남 분당',
+    age: 10,
+    gender: '남',
+    date: '2026.08.27',
+    isSecret: false,
+    password: '1111',
+    status: 'answered',
+    content: '한 달 전부터 아이가 눈을 심하게 깜빡이고 목을 가다듬듯 킁킁거리는 소리를 냅니다. 학교 수업 시간에 지적을 받아서 아이가 많이 위축되어 있습니다. 한의원에서는 틱장애를 어떻게 진단하고 치료하는지, 한약 복용 기간이 얼마나 걸리는지 궁금합니다.',
+    answer: '어머님, 소중한 아이의 증상으로 걱정이 참 많으셨겠습니다. 분당 해아림한의원 손지웅 대표원장입니다.\n\n말씀해주신 눈 깜빡임(운동 틱)과 킁킁거리는 소리(음성 틱)는 소아기 두뇌의 기저핵과 전두엽 피질 간의 조절 불균형 및 뇌신경계 긴장도 증가로 인해 나타나는 전형적인 틱 증상입니다.\n\n본원에서는 아이의 체질과 뇌신경 긴장도를 과학적으로 측정(뇌파 및 자율신경계 검사)한 후, 뇌의 흥분도를 부드럽게 가라앉히고 두뇌 자율조절력을 강화하는 맞춤 한약과 두뇌 훈련(뉴로피드백/감각통합치료)을 병행합니다. 보통 초기 1~3개월 치료 시 눈에 띄는 완화가 이루어지며, 아이가 스트레스를 받지 않도록 억제하거나 다그치지 않는 부모님의 따뜻한 지지가 함께할 때 회복 속도가 더욱 빠릅니다.\n\n언제든 편안한 마음으로 아이와 함께 내원해주시면 정밀하게 진단해 드리겠습니다.',
+    answerDate: '2026.08.27'
+  },
+  {
+    id: 'inq-102',
+    category: 'mind',
+    disease: '공황장애',
+    title: '지하철 출퇴근길 갑작스러운 호흡곤란과 심장 두근거림',
+    author: '박*준',
+    region: '용인 수지',
+    age: 34,
+    gender: '남',
+    date: '2026.08.26',
+    isSecret: true,
+    password: '2222',
+    status: 'answered',
+    content: '지난주 붐비는 신분당선 지하철 안에서 갑자기 숨이 턱 막히고 심장이 터질 것처럼 뛰며 쓰러질 것 같은 극심한 공포를 느꼈습니다. 응급실에 갔는데 심장에는 이상이 없다고 하네요. 이후로 대중교통을 타기가 너무 두렵습니다. 한방 치료로 완치가 가능한가요?',
+    answer: '박*준 님, 출퇴근길 예기치 못한 극심한 공포와 신체 증상으로 많이 놀라시고 일상에 지장이 크셨겠습니다. 손지웅 원장입니다.\n\n병원 응급실 검사상 기질적 이상이 없음에도 숨이 막히고 가슴이 심하게 뛰는 것은 두뇌의 편도체(불안 조절 중추)와 자율신경계가 과도한 스트레스나 피로로 인해 급격히 오작동한 "공황발작" 상태입니다.\n\n한의학에서는 이를 "경계(驚悸)", "정충(怔忡)"이라 하여 심장과 담력을 강화(심담강화)하고 뇌신경의 과도한 흥분을 진정시키는 시호가용골모려탕, 온담탕 등의 맞춤 처방과 두뇌 이완 치료를 진행합니다. 약물 의존성 없이 자율신경계의 본래 조절력을 복원하면 지하철과 같은 밀폐 공간에서도 다시 편안하게 일상생활을 영위하실 수 있습니다.',
+    answerDate: '2026.08.26'
+  },
+  {
+    id: 'inq-103',
+    category: 'mind',
+    disease: '불면증',
+    title: '수면유도제를 6개월째 복용 중인데 약 없이 자연스럽게 잠들고 싶습니다.',
+    author: '이*영',
+    region: '분당 정자',
+    age: 46,
+    gender: '여',
+    date: '2026.08.25',
+    isSecret: false,
+    password: '3333',
+    status: 'answered',
+    content: '밤에 누우면 머릿속 생각이 멈추지 않고 2~3시간씩 뒤척이다가 수면제를 먹어야 겨우 잠에 듭니다. 아침에 일어나도 머리가 멍하고 피로가 가시지 않아 수면제를 끊고 싶은데 단계적 단약이 가능할까요?',
+    answer: '이*영 님 안녕하세요. 해아림한의원 손지웅 원장입니다.\n\n수면제를 복용하시면 일시적으로 잠은 들 수 있으나, 뇌의 깊은 수면(서파 수면) 단계에 도달하기 어려워 아침에 머리가 무겁고 피로감이 지속되는 경우가 많습니다.\n\n해아림에서는 수면제를 갑자기 끊는 것이 아니라, 심신의 상열감(상초의 열)을 내리고 뇌의 각성도를 낮추는 한약 치료를 병행하면서 서서히 수면제 복용량을 줄여나가는 "단계적 감약 및 단약 요법"을 시행합니다. 뇌 스스로 멜라토닌 분비와 체온 저하를 유도하는 자율신경 리듬을 되찾아 드리므로 건강한 자연 수면을 회복하실 수 있습니다.',
+    answerDate: '2026.08.25'
+  },
+  {
+    id: 'inq-104',
+    category: 'brain',
+    disease: '자율신경실조증',
+    title: '만성 어지럼증과 소화불량, 가슴 답답함이 동시에 있습니다.',
+    author: '최*진',
+    region: '수원 영통',
+    age: 29,
+    gender: '여',
+    date: '2026.08.24',
+    isSecret: false,
+    password: '4444',
+    status: 'answered',
+    content: '어지럼증과 두통이 지속되고 소화도 잘 안 되며 손발이 차갑습니다. 내과, 이비인후과 검사를 받아도 별다른 이상이 없다고 하는데 자율신경실조증 치료가 가능한가요?',
+    answer: '최*진 님 반갑습니다. 해아림한의원 손지웅 원장입니다.\n\n병원 검사에서 뚜렷한 원인이 발견되지 않으면서 어지럼증, 소화불량, 수족냉증, 두통 등 전신에 걸친 복합 증상이 나타난다면 자율신경계(교감신경-부교감신경)의 불균형일 가능성이 매우 높습니다.\n\n두뇌와 장기는 미주신경 등 자율신경망으로 긴밀히 연결되어 있어 스트레스나 수면 부족 시 소화기 기능 저하와 뇌 혈류 저하가 동시에 나타납니다. 뇌파 및 자율신경 검사를 통해 교감신경의 긴장도를 파악하고 기혈 순환을 돕는 침·뜸 및 맞춤 한약 치료를 통해 밸런스를 바로잡아 드리겠습니다.',
+    answerDate: '2026.08.24'
+  },
+  {
+    id: 'inq-105',
+    category: 'brain',
+    disease: 'ADHD',
+    title: '초등 5학년 집중력 부족과 산만함, 충동성 치료 방법이 궁금합니다.',
+    author: '정*훈',
+    region: '성남 판교',
+    age: 12,
+    gender: '남',
+    date: '2026.08.28',
+    isSecret: true,
+    password: '5555',
+    status: 'answered',
+    content: '수업 시간에 5분 이상 집중하지 못하고 지우개나 연필을 계속 만지작거립니다. 과제를 끝까지 마치지 못하고 충동적으로 말하는 경향이 있는데 한방으로 집중력 향상이 가능한가요?',
+    answer: '정*훈 학생 부모님 안녕하십니까. 손지웅 원장입니다.\n\n초등 고학년 시기는 학습량과 정서적 자기통제 요구가 급증하는 시기로, 전두엽의 실행 기능과 주의집중 조절력이 충분히 발달하지 못했을 때 지적된 행동들이 나타납니다.\n\n한의학적 치료는 중추신경계의 각성 조절 물질(도파민, 노르에피네프린)이 자연스럽게 균형을 이루도록 돕는 순한 천연 약재 처방과 뉴로피드백 훈련을 결합하여 뇌의 작업기억력과 충동 억제력을 높여줍니다. 양약의 식욕부진이나 수면장애 부작용 걱정 없이 안전하게 주의집중력을 키울 수 있습니다.',
+    answerDate: '2026.08.28'
+  },
+  {
+    id: 'inq-106',
+    category: 'mind',
+    disease: '과민성대장증후군',
+    title: '중요한 시험이나 긴장할 때마다 아랫배가 아프고 설사가 납니다.',
+    author: '강*석',
+    region: '서울 강남',
+    age: 38,
+    gender: '남',
+    date: '2026.08.29',
+    isSecret: false,
+    password: '6666',
+    status: 'pending',
+    content: '회사에서 중요한 발표를 앞두거나 이동 중에 화장실을 찾기 어려울 때 심한 복통과 가스가 차고 설사를 합니다. 장-뇌 축 치료가 도움이 될까요?',
+    answer: '',
+    answerDate: ''
+  }
+];
 
+function initOnlineInquiry() {
+  const tbody = document.getElementById('inquiry-list-tbody');
+  if (!tbody) return;
+
+  // Initialize LocalStorage with default data if empty
+  const stored = localStorage.getItem('healim_online_inquiries');
+  if (!stored) {
+    localStorage.setItem('healim_online_inquiries', JSON.stringify(DEFAULT_INQUIRIES));
+  }
+
+  renderInquiryList();
+}
+
+function getStoredInquiries() {
+  const stored = localStorage.getItem('healim_online_inquiries');
+  if (stored) {
+    try {
+      return JSON.parse(stored);
+    } catch (e) {
+      return DEFAULT_INQUIRIES;
+    }
+  }
+  return DEFAULT_INQUIRIES;
+}
+
+function renderInquiryList() {
+  const tbody = document.getElementById('inquiry-list-tbody');
+  const emptyState = document.getElementById('inquiry-empty-state');
+  if (!tbody) return;
+
+  const allItems = getStoredInquiries();
+
+  // Filter by Category
+  let filtered = allItems;
+  if (currentInquiryFilter !== 'all') {
+    filtered = filtered.filter(item => item.category === currentInquiryFilter);
+  }
+
+  // Filter by Search Query
+  if (currentInquirySearchQuery) {
+    const q = currentInquirySearchQuery.toLowerCase();
+    filtered = filtered.filter(item => 
+      item.title.toLowerCase().includes(q) ||
+      item.disease.toLowerCase().includes(q) ||
+      item.content.toLowerCase().includes(q) ||
+      item.author.toLowerCase().includes(q) ||
+      item.region.toLowerCase().includes(q)
+    );
+  }
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = '';
+    if (emptyState) emptyState.style.display = 'block';
+    return;
+  }
+
+  if (emptyState) emptyState.style.display = 'none';
+
+  let html = '';
+  filtered.forEach((item, index) => {
+    const num = filtered.length - index;
+    const catClass = item.category || 'etc';
+    const isAnswered = item.status === 'answered';
+    const statusText = isAnswered ? '답변완료' : '답변대기';
+    const statusClass = isAnswered ? 'answered' : 'pending';
+    const secretIcon = item.isSecret ? '<i class="ph-bold ph-lock-key secret-icon" title="비밀글"></i>' : '';
+
+    html += `
+      <tr onclick="handleInquiryClick('${item.id}')">
+        <td class="col-num">${num}</td>
+        <td class="col-cat">
+          <span class="cat-badge ${catClass}">[${getCategoryTitle(item.category)}] ${item.disease}</span>
+        </td>
+        <td class="col-title">
+          <span class="table-title-link">
+            ${secretIcon}
+            <span>${item.title}</span>
+          </span>
+        </td>
+        <td class="col-author">${item.author}</td>
+        <td class="col-info">${item.region} (${item.age}세/${item.gender})</td>
+        <td class="col-date">${item.date}</td>
+        <td class="col-status">
+          <span class="status-badge ${statusClass}">${statusText}</span>
+        </td>
+      </tr>
+    `;
+  });
+
+  tbody.innerHTML = html;
+}
+
+function getCategoryTitle(cat) {
+  switch (cat) {
+    case 'brain': return '두뇌';
+    case 'mind': return '마음';
+    case 'body': return '몸';
+    default: return '기타';
+  }
+}
+
+function filterInquiryCategory(cat) {
+  currentInquiryFilter = cat;
+  const buttons = document.querySelectorAll('#inquiry-category-tabs .inquiry-tab-btn');
+  buttons.forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-category') === cat);
+  });
+  renderInquiryList();
+}
+
+function handleInquirySearch(e) {
+  currentInquirySearchQuery = e.target.value.trim();
+  renderInquiryList();
+}
+
+// Modal open/close
+function openInquiryWriteModal() {
+  const modal = document.getElementById('inquiry-write-modal');
+  if (modal) {
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function closeInquiryWriteModal() {
+  const modal = document.getElementById('inquiry-write-modal');
+  if (modal) {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+}
+
+function handleInquirySubmit(e) {
+  e.preventDefault();
+
+  const region = document.getElementById('inq-region')?.value.trim() || '분당';
+  const age = parseInt(document.getElementById('inq-age')?.value.trim() || '20', 10);
+  const gender = document.querySelector('input[name="inq-gender"]:checked')?.value || '남';
+  const rawAuthor = document.getElementById('inq-author')?.value.trim() || '방문자';
+  const password = document.getElementById('inq-password')?.value.trim() || '1234';
+  const isSecret = document.getElementById('inq-is-secret')?.checked || false;
+
+  // Selected disease & category
+  const selectedDiseaseEl = document.querySelector('input[name="inq-disease"]:checked');
+  const disease = selectedDiseaseEl ? selectedDiseaseEl.value : '틱장애';
+  const category = selectedDiseaseEl ? selectedDiseaseEl.getAttribute('data-category') : 'brain';
+
+  const title = document.getElementById('inq-title')?.value.trim() || '상담 문의';
+  const content = document.getElementById('inq-content')?.value.trim() || '';
+
+  // Mask author name (e.g. 홍길동 -> 홍*동)
+  let maskedAuthor = rawAuthor;
+  if (rawAuthor.length > 2) {
+    maskedAuthor = rawAuthor[0] + '*'.repeat(rawAuthor.length - 2) + rawAuthor[rawAuthor.length - 1];
+  } else if (rawAuthor.length === 2) {
+    maskedAuthor = rawAuthor[0] + '*';
+  }
+
+  const today = new Date();
+  const dateStr = `${today.getFullYear()}.${String(today.getMonth() + 1).padStart(2, '0')}.${String(today.getDate()).padStart(2, '0')}`;
+
+  const newInquiry = {
+    id: `inq-${Date.now()}`,
+    category: category,
+    disease: disease,
+    title: title,
+    author: maskedAuthor,
+    region: region,
+    age: age,
+    gender: gender,
+    date: dateStr,
+    isSecret: isSecret,
+    password: password,
+    status: 'pending',
+    content: content,
+    answer: '',
+    answerDate: ''
+  };
+
+  const stored = getStoredInquiries();
+  stored.unshift(newInquiry);
+  localStorage.setItem('healim_online_inquiries', JSON.stringify(stored));
+
+  // Reset form & close modal
+  document.getElementById('inquiry-submit-form')?.reset();
+  closeInquiryWriteModal();
+  showAuthToast('🎉 온라인 상담글이 등록되었습니다. 손지웅 원장님이 확인 후 성심성의껏 답변을 등록해 드립니다.');
+  renderInquiryList();
+}
+
+function handleInquiryClick(id) {
+  const items = getStoredInquiries();
+  const found = items.find(item => item.id === id);
+  if (!found) return;
+
+  const authUser = JSON.parse(localStorage.getItem('healim_auth_user') || 'null');
+  const isAdmin = (authUser && authUser.isAdmin) || sessionStorage.getItem('healim_admin_auth') === 'true';
+
+  // Check if secret post and not admin
+  if (found.isSecret && !isAdmin) {
+    // Check if session verified
+    const verifiedId = sessionStorage.getItem(`inq_verified_${id}`);
+    if (verifiedId !== 'true') {
+      openInquiryPwdModal(id);
+      return;
+    }
+  }
+
+  openInquiryDetailModal(id);
+}
+
+function openInquiryPwdModal(id) {
+  currentPendingVerifyInquiryId = id;
+  const modal = document.getElementById('inquiry-pwd-modal');
+  const input = document.getElementById('inq-verify-pwd-input');
+  const errorEl = document.getElementById('inq-pwd-error');
+
+  if (input) input.value = '';
+  if (errorEl) errorEl.style.display = 'none';
+
+  if (modal) {
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => { if (input) input.focus(); }, 100);
+  }
+}
+
+function closeInquiryPwdModal() {
+  const modal = document.getElementById('inquiry-pwd-modal');
+  currentPendingVerifyInquiryId = null;
+  if (modal) {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+}
+
+function handleInquiryPwdSubmit(e) {
+  e.preventDefault();
+  if (!currentPendingVerifyInquiryId) return;
+
+  const input = document.getElementById('inq-verify-pwd-input');
+  const errorEl = document.getElementById('inq-pwd-error');
+  const enteredPwd = input ? input.value.trim() : '';
+
+  const items = getStoredInquiries();
+  const found = items.find(item => item.id === currentPendingVerifyInquiryId);
+
+  if (found && (enteredPwd === found.password || enteredPwd === ADMIN_MASTER_PIN)) {
+    sessionStorage.setItem(`inq_verified_${found.id}`, 'true');
+    const targetId = found.id;
+    closeInquiryPwdModal();
+    openInquiryDetailModal(targetId);
+  } else {
+    if (errorEl) errorEl.style.display = 'block';
+    if (input) {
+      input.classList.add('error');
+      input.focus();
+    }
+  }
+}
+
+function openInquiryDetailModal(id) {
+  const items = getStoredInquiries();
+  const found = items.find(item => item.id === id);
+  if (!found) return;
+
+  currentOpenedInquiryId = id;
+
+  const modal = document.getElementById('inquiry-detail-modal');
+  const diseaseTag = document.getElementById('view-inq-disease');
+  const statusTag = document.getElementById('view-inq-status');
+  const titleEl = document.getElementById('view-inq-title');
+  const authorEl = document.getElementById('view-inq-author');
+  const regionEl = document.getElementById('view-inq-region');
+  const ageEl = document.getElementById('view-inq-age');
+  const genderEl = document.getElementById('view-inq-gender');
+  const dateEl = document.getElementById('view-inq-date');
+  const contentEl = document.getElementById('view-inq-content');
+
+  const answerWrapper = document.getElementById('view-doctor-answer-wrapper');
+  const answerContentEl = document.getElementById('view-doctor-answer-content');
+  const answerDateEl = document.getElementById('view-answer-date');
+  const unansweredBox = document.getElementById('view-unanswered-box');
+  const replyBtnText = document.getElementById('admin-reply-btn-text');
+
+  if (diseaseTag) diseaseTag.textContent = `[${getCategoryTitle(found.category)}] ${found.disease}`;
+  if (statusTag) {
+    statusTag.textContent = found.status === 'answered' ? '답변완료' : '답변대기';
+    statusTag.className = 'detail-status-tag ' + (found.status === 'answered' ? 'answered' : 'pending');
+  }
+  if (titleEl) titleEl.textContent = found.title;
+  if (authorEl) authorEl.textContent = found.author;
+  if (regionEl) regionEl.textContent = found.region;
+  if (ageEl) ageEl.textContent = found.age;
+  if (genderEl) genderEl.textContent = found.gender;
+  if (dateEl) dateEl.textContent = found.date;
+  if (contentEl) contentEl.textContent = found.content;
+
+  if (found.status === 'answered' && found.answer) {
+    if (answerWrapper) answerWrapper.style.display = 'block';
+    if (unansweredBox) unansweredBox.style.display = 'none';
+    if (answerContentEl) answerContentEl.textContent = found.answer;
+    if (answerDateEl) answerDateEl.textContent = `답변일: ${found.answerDate || found.date}`;
+    if (replyBtnText) replyBtnText.textContent = '원장님 답변 수정하기';
+  } else {
+    if (answerWrapper) answerWrapper.style.display = 'none';
+    if (unansweredBox) unansweredBox.style.display = 'block';
+    if (replyBtnText) replyBtnText.textContent = '원장님 답변 작성하기';
+  }
+
+  if (modal) {
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function closeInquiryDetailModal() {
+  const modal = document.getElementById('inquiry-detail-modal');
+  currentOpenedInquiryId = null;
+  if (modal) {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+}
+
+// Doctor Answer Composer Modal
+function openDoctorReplyEditorModal() {
+  if (!currentOpenedInquiryId) return;
+
+  const items = getStoredInquiries();
+  const found = items.find(item => item.id === currentOpenedInquiryId);
+  if (!found) return;
+
+  const modal = document.getElementById('inquiry-reply-editor-modal');
+  const summaryEl = document.getElementById('reply-target-summary');
+  const textarea = document.getElementById('doctor-reply-textarea');
+
+  if (summaryEl) {
+    summaryEl.innerHTML = `<strong>상담 대상:</strong> [${found.disease}] ${found.title} (${found.author}, ${found.region} ${found.age}세/${found.gender})`;
+  }
+  if (textarea) {
+    textarea.value = found.answer || '';
+  }
+
+  if (modal) {
+    modal.classList.add('active');
+    setTimeout(() => { if (textarea) textarea.focus(); }, 100);
+  }
+}
+
+function closeDoctorReplyEditorModal() {
+  const modal = document.getElementById('inquiry-reply-editor-modal');
+  if (modal) {
+    modal.classList.remove('active');
+  }
+}
+
+function handleDoctorReplySubmit(e) {
+  e.preventDefault();
+  if (!currentOpenedInquiryId) return;
+
+  const textarea = document.getElementById('doctor-reply-textarea');
+  const answerText = textarea ? textarea.value.trim() : '';
+  if (!answerText) return;
+
+  const today = new Date();
+  const dateStr = `${today.getFullYear()}.${String(today.getMonth() + 1).padStart(2, '0')}.${String(today.getDate()).padStart(2, '0')}`;
+
+  const items = getStoredInquiries();
+  const targetIndex = items.findIndex(item => item.id === currentOpenedInquiryId);
+  if (targetIndex === -1) return;
+
+  items[targetIndex].answer = answerText;
+  items[targetIndex].answerDate = dateStr;
+  items[targetIndex].status = 'answered';
+
+  localStorage.setItem('healim_online_inquiries', JSON.stringify(items));
+
+  closeDoctorReplyEditorModal();
+  showAuthToast('🩺 손지웅 대표원장의 전문 답변이 성공적으로 등록되었습니다.');
+
+  // Refresh Detail view and Board list
+  openInquiryDetailModal(currentOpenedInquiryId);
+  renderInquiryList();
+}
+
+function handleAdminDeleteInquiry() {
+  if (!currentOpenedInquiryId) return;
+  if (!confirm('정말 이 상담글을 삭제하시겠습니까?')) return;
+
+  let items = getStoredInquiries();
+  items = items.filter(item => item.id !== currentOpenedInquiryId);
+  localStorage.setItem('healim_online_inquiries', JSON.stringify(items));
+
+  closeInquiryDetailModal();
+  showAuthToast('🗑️ 상담글이 삭제되었습니다.');
+  renderInquiryList();
+}
