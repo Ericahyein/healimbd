@@ -355,19 +355,69 @@ function closeAuthModal() {
 function switchAuthTab(tab) {
   const loginTabBtn = document.getElementById('tab-btn-login');
   const signupTabBtn = document.getElementById('tab-btn-signup');
+  const adminTabBtn = document.getElementById('tab-btn-admin');
   const loginForm = document.getElementById('login-form');
   const signupForm = document.getElementById('signup-form');
+  const adminForm = document.getElementById('admin-login-form');
+  const socialGroup = document.getElementById('social-auth-group');
+  const authDivider = document.getElementById('auth-divider');
+
+  if (loginTabBtn) loginTabBtn.classList.remove('active');
+  if (signupTabBtn) signupTabBtn.classList.remove('active');
+  if (adminTabBtn) adminTabBtn.classList.remove('active');
+
+  if (loginForm) loginForm.style.display = 'none';
+  if (signupForm) signupForm.style.display = 'none';
+  if (adminForm) adminForm.style.display = 'none';
 
   if (tab === 'signup') {
-    if (loginTabBtn) loginTabBtn.classList.remove('active');
     if (signupTabBtn) signupTabBtn.classList.add('active');
-    if (loginForm) loginForm.style.display = 'none';
     if (signupForm) signupForm.style.display = 'block';
+    if (socialGroup) socialGroup.style.display = 'grid';
+    if (authDivider) authDivider.style.display = 'flex';
+  } else if (tab === 'admin') {
+    if (adminTabBtn) adminTabBtn.classList.add('active');
+    if (adminForm) adminForm.style.display = 'block';
+    if (socialGroup) socialGroup.style.display = 'none';
+    if (authDivider) authDivider.style.display = 'none';
+    setTimeout(() => {
+      document.getElementById('admin-direct-pwd')?.focus();
+    }, 100);
   } else {
     if (loginTabBtn) loginTabBtn.classList.add('active');
-    if (signupTabBtn) signupTabBtn.classList.remove('active');
     if (loginForm) loginForm.style.display = 'block';
-    if (signupForm) signupForm.style.display = 'none';
+    if (socialGroup) socialGroup.style.display = 'grid';
+    if (authDivider) authDivider.style.display = 'flex';
+  }
+}
+
+function handleDedicatedAdminLogin(e) {
+  e.preventDefault();
+  const pwdInput = document.getElementById('admin-direct-pwd');
+  const pwd = pwdInput ? pwdInput.value.trim() : '';
+
+  if (pwd === ADMIN_MASTER_PIN) {
+    const adminUser = {
+      name: '손지웅 대표원장 (관리자)',
+      email: 'admin@healimbd.com',
+      provider: 'admin',
+      isAdmin: true,
+      loginAt: new Date().toISOString()
+    };
+    sessionStorage.setItem('healim_admin_auth', 'true');
+    localStorage.setItem('healim_auth_user', JSON.stringify(adminUser));
+    updateAuthUI(adminUser);
+    closeAuthModal();
+    showAuthToast('👑 대표원장 관리자 인증 완료! 모든 글쓰기 및 답변 관리 기능이 활성화되었습니다.');
+    if (typeof renderInquiryList === 'function') {
+      renderInquiryList();
+    }
+  } else {
+    alert('비밀번호가 일치하지 않습니다. 관리자 비밀번호를 다시 확인해주세요.');
+    if (pwdInput) {
+      pwdInput.focus();
+      pwdInput.select();
+    }
   }
 }
 

@@ -15,18 +15,21 @@
       </p>
     </div>
 
-    <!-- Auth Tabs (로그인 / 회원가입) -->
+    <!-- Auth Tabs (로그인 / 회원가입 / 관리자) -->
     <div class="auth-tabs">
       <button class="auth-tab-btn active" id="tab-btn-login" onclick="switchAuthTab('login')">
         <i class="ph-bold ph-sign-in"></i> 로그인
       </button>
       <button class="auth-tab-btn" id="tab-btn-signup" onclick="switchAuthTab('signup')">
-        <i class="ph-bold ph-user-plus"></i> 간편 회원가입
+        <i class="ph-bold ph-user-plus"></i> 회원가입
+      </button>
+      <button class="auth-tab-btn" id="tab-btn-admin" onclick="switchAuthTab('admin')">
+        <i class="ph-bold ph-crown"></i> 관리자
       </button>
     </div>
 
     <!-- 1. Easy 1-Click Social Auth Buttons -->
-    <div class="social-auth-group">
+    <div class="social-auth-group" id="social-auth-group">
       <button type="button" class="btn-social-auth naver-auth" onclick="handleSocialLogin('naver')">
         <span class="n-symbol-auth">N</span>
         <span>네이버 아이디로 1초 간편 시작</span>
@@ -37,7 +40,7 @@
       </button>
     </div>
 
-    <div class="auth-divider">
+    <div class="auth-divider" id="auth-divider">
       <span>또는 아이디로 이용</span>
     </div>
 
@@ -116,6 +119,26 @@
       <button type="submit" class="btn btn-auth-submit signup-submit">
         <span>회원가입 완료 & 수기 열람</span>
         <i class="ph-bold ph-check"></i>
+      </button>
+    </form>
+
+    <!-- 4. Admin Dedicated Login Panel -->
+    <form class="auth-form" id="admin-login-form" style="display: none;" onsubmit="handleDedicatedAdminLogin(event)">
+      <div class="auth-input-group">
+        <label for="admin-direct-pwd">대표원장 관리자 비밀번호 (PIN)</label>
+        <div class="input-with-icon">
+          <i class="ph-bold ph-shield-check"></i>
+          <input type="password" id="admin-direct-pwd" placeholder="관리자 비밀번호 입력 (tmfltmfl11!)" required autocomplete="current-password">
+        </div>
+      </div>
+      <div class="auth-form-options">
+        <p style="font-size: 0.84rem; color: #0369A1; margin: 0;">
+          <i class="ph-bold ph-info"></i> 관리자 인증 시 치료사례, 원장칼럼 등록 및 온라인문의 답변 권한이 활성화됩니다.
+        </p>
+      </div>
+      <button type="submit" class="btn btn-auth-submit" style="background: #0F172A;">
+        <span>👑 관리자 인증 & 글쓰기 활성화</span>
+        <i class="ph-bold ph-arrow-right"></i>
       </button>
     </form>
 
