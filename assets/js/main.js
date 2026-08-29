@@ -1432,8 +1432,8 @@ let currentPendingVerifyInquiryId = null;
 const DEFAULT_INQUIRIES = [
   {
     id: 'inq-101',
-    category: 'brain',
-    disease: '틱장애',
+    category: 'tic',
+    disease: '틱장애·뚜렛',
     title: '초등 3학년 아이 눈깜빡임과 킁킁거리는 소리 틱 문의드립니다.',
     author: '김*희',
     region: '성남 분당',
@@ -1449,7 +1449,7 @@ const DEFAULT_INQUIRIES = [
   },
   {
     id: 'inq-102',
-    category: 'mind',
+    category: 'panic',
     disease: '공황장애',
     title: '지하철 출퇴근길 갑작스러운 호흡곤란과 심장 두근거림',
     author: '박*준',
@@ -1466,8 +1466,8 @@ const DEFAULT_INQUIRIES = [
   },
   {
     id: 'inq-103',
-    category: 'mind',
-    disease: '불면증',
+    category: 'sleep',
+    disease: '수면·불면증',
     title: '수면유도제를 6개월째 복용 중인데 약 없이 자연스럽게 잠들고 싶습니다.',
     author: '이*영',
     region: '분당 정자',
@@ -1483,7 +1483,7 @@ const DEFAULT_INQUIRIES = [
   },
   {
     id: 'inq-104',
-    category: 'brain',
+    category: 'autonomic',
     disease: '자율신경실조증',
     title: '만성 어지럼증과 소화불량, 가슴 답답함이 동시에 있습니다.',
     author: '최*진',
@@ -1500,8 +1500,8 @@ const DEFAULT_INQUIRIES = [
   },
   {
     id: 'inq-105',
-    category: 'brain',
-    disease: 'ADHD',
+    category: 'adhd',
+    disease: 'ADHD·집중력',
     title: '초등 5학년 집중력 부족과 산만함, 충동성 치료 방법이 궁금합니다.',
     author: '정*훈',
     region: '성남 판교',
@@ -1517,7 +1517,7 @@ const DEFAULT_INQUIRIES = [
   },
   {
     id: 'inq-106',
-    category: 'mind',
+    category: 'ibs',
     disease: '과민성대장증후군',
     title: '중요한 시험이나 긴장할 때마다 아랫배가 아프고 설사가 납니다.',
     author: '강*석',
@@ -1538,7 +1538,7 @@ function initOnlineInquiry() {
   const tbody = document.getElementById('inquiry-list-tbody');
   if (!tbody) return;
 
-  // Initialize LocalStorage with default data if empty
+  // Initialize LocalStorage with default data if empty or old format
   const stored = localStorage.getItem('healim_online_inquiries');
   if (!stored) {
     localStorage.setItem('healim_online_inquiries', JSON.stringify(DEFAULT_INQUIRIES));
@@ -1605,7 +1605,7 @@ function renderInquiryList() {
       <tr onclick="handleInquiryClick('${item.id}')">
         <td class="col-num">${num}</td>
         <td class="col-cat">
-          <span class="cat-badge ${catClass}">[${getCategoryTitle(item.category)}] ${item.disease}</span>
+          <span class="cat-badge ${catClass}">${item.disease}</span>
         </td>
         <td class="col-title">
           <span class="table-title-link">
@@ -1627,12 +1627,22 @@ function renderInquiryList() {
 }
 
 function getCategoryTitle(cat) {
-  switch (cat) {
-    case 'brain': return '두뇌';
-    case 'mind': return '마음';
-    case 'body': return '몸';
-    default: return '기타';
-  }
+  const map = {
+    tic: '틱장애·뚜렛',
+    adhd: 'ADHD·집중력',
+    panic: '공황장애',
+    anxiety: '불안·공포',
+    sleep: '수면·불면증',
+    autonomic: '자율신경',
+    hyperhidrosis: '다한증',
+    ibs: '과민성대장',
+    headache: '두통·어지럼',
+    depression: '우울·강박',
+    child: '소아 성장·야뇨',
+    fatigue: '만성피로·번아웃',
+    etc: '기타 질환'
+  };
+  return map[cat] || '기타 질환';
 }
 
 function filterInquiryCategory(cat) {
@@ -1678,8 +1688,8 @@ function handleInquirySubmit(e) {
 
   // Selected disease & category
   const selectedDiseaseEl = document.querySelector('input[name="inq-disease"]:checked');
-  const disease = selectedDiseaseEl ? selectedDiseaseEl.value : '틱장애';
-  const category = selectedDiseaseEl ? selectedDiseaseEl.getAttribute('data-category') : 'brain';
+  const disease = selectedDiseaseEl ? selectedDiseaseEl.value : '틱장애·뚜렛';
+  const category = selectedDiseaseEl ? selectedDiseaseEl.getAttribute('data-category') : 'tic';
 
   const title = document.getElementById('inq-title')?.value.trim() || '상담 문의';
   const content = document.getElementById('inq-content')?.value.trim() || '';
@@ -1819,7 +1829,7 @@ function openInquiryDetailModal(id) {
   const unansweredBox = document.getElementById('view-unanswered-box');
   const replyBtnText = document.getElementById('admin-reply-btn-text');
 
-  if (diseaseTag) diseaseTag.textContent = `[${getCategoryTitle(found.category)}] ${found.disease}`;
+  if (diseaseTag) diseaseTag.textContent = found.disease;
   if (statusTag) {
     statusTag.textContent = found.status === 'answered' ? '답변완료' : '답변대기';
     statusTag.className = 'detail-status-tag ' + (found.status === 'answered' ? 'answered' : 'pending');

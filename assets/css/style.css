@@ -6799,34 +6799,57 @@ body.is-admin .admin-only-btn {
   border-bottom: none;
 }
 
-.clinic-cat-title {
-  font-size: 0.88rem;
-  font-weight: 800;
-  color: #334155;
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.disease-radio-grid {
+/* Disease Chips Grid */
+.disease-chips-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 10px 12px;
+  gap: 10px;
 }
 
-.disease-radio {
+.disease-chip {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  font-size: 0.88rem;
-  font-weight: 500;
-  color: #334155;
+  justify-content: center;
+  position: relative;
   cursor: pointer;
+  user-select: none;
 }
 
-.disease-radio input[type="radio"] {
-  cursor: pointer;
+.disease-chip input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.disease-chip span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 10px 12px;
+  background: white;
+  border: 1.5px solid #CBD5E1;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #334155;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.disease-chip:hover span {
+  border-color: #0369A1;
+  background: #F0F9FF;
+  color: #0369A1;
+}
+
+.disease-chip input[type="radio"]:checked + span {
+  background: #0369A1;
+  color: white;
+  border-color: #0369A1;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(3, 105, 161, 0.25);
+  transform: translateY(-1px);
 }
 
 .privacy-terms-scroll {

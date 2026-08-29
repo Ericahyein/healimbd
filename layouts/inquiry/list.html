@@ -42,10 +42,18 @@
         <div class="inquiry-toolbar">
           <div class="inquiry-category-tabs" id="inquiry-category-tabs">
             <button type="button" class="inquiry-tab-btn active" data-category="all" onclick="filterInquiryCategory('all')">전체</button>
-            <button type="button" class="inquiry-tab-btn" data-category="brain" onclick="filterInquiryCategory('brain')">두뇌클리닉</button>
-            <button type="button" class="inquiry-tab-btn" data-category="mind" onclick="filterInquiryCategory('mind')">마음클리닉</button>
-            <button type="button" class="inquiry-tab-btn" data-category="body" onclick="filterInquiryCategory('body')">몸클리닉</button>
-            <button type="button" class="inquiry-tab-btn" data-category="etc" onclick="filterInquiryCategory('etc')">기타질환</button>
+            <button type="button" class="inquiry-tab-btn" data-category="tic" onclick="filterInquiryCategory('tic')">틱장애·뚜렛</button>
+            <button type="button" class="inquiry-tab-btn" data-category="adhd" onclick="filterInquiryCategory('adhd')">ADHD·집중력</button>
+            <button type="button" class="inquiry-tab-btn" data-category="panic" onclick="filterInquiryCategory('panic')">공황장애</button>
+            <button type="button" class="inquiry-tab-btn" data-category="anxiety" onclick="filterInquiryCategory('anxiety')">불안·공포</button>
+            <button type="button" class="inquiry-tab-btn" data-category="sleep" onclick="filterInquiryCategory('sleep')">수면·불면증</button>
+            <button type="button" class="inquiry-tab-btn" data-category="autonomic" onclick="filterInquiryCategory('autonomic')">자율신경</button>
+            <button type="button" class="inquiry-tab-btn" data-category="hyperhidrosis" onclick="filterInquiryCategory('hyperhidrosis')">다한증</button>
+            <button type="button" class="inquiry-tab-btn" data-category="ibs" onclick="filterInquiryCategory('ibs')">과민성대장</button>
+            <button type="button" class="inquiry-tab-btn" data-category="headache" onclick="filterInquiryCategory('headache')">두통·어지럼</button>
+            <button type="button" class="inquiry-tab-btn" data-category="depression" onclick="filterInquiryCategory('depression')">우울·강박</button>
+            <button type="button" class="inquiry-tab-btn" data-category="child" onclick="filterInquiryCategory('child')">소아 성장·야뇨</button>
+            <button type="button" class="inquiry-tab-btn" data-category="etc" onclick="filterInquiryCategory('etc')">기타 질환</button>
           </div>
 
           <div class="inquiry-action-group">
@@ -160,64 +168,25 @@
           </div>
         </div>
 
-        <!-- Section 2: 상담과목 (질환별 라디오 그리드) -->
+        <!-- Section 2: 상담 질환 선택 (원장칼럼 스타일 직접 질환 선택) -->
         <div class="form-block-section">
           <div class="form-block-header">
-            <h4>상담과목 선택</h4>
+            <h4>상담 질환 선택 (해당하는 질환을 선택해주세요)</h4>
           </div>
-
-          <!-- 두뇌클리닉 -->
-          <div class="clinic-category-box">
-            <div class="clinic-cat-title"><i class="ph-bold ph-brain"></i> 두뇌클리닉</div>
-            <div class="disease-radio-grid">
-              <label class="disease-radio"><input type="radio" name="inq-disease" value="틱장애" data-category="brain" checked><span>틱장애</span></label>
-              <label class="disease-radio"><input type="radio" name="inq-disease" value="ADHD" data-category="brain"><span>ADHD</span></label>
-              <label class="disease-radio"><input type="radio" name="inq-disease" value="아스퍼거" data-category="brain"><span>아스퍼거</span></label>
-              <label class="disease-radio"><input type="radio" name="inq-disease" value="시험불안증" data-category="brain"><span>시험불안증</span></label>
-              <label class="disease-radio"><input type="radio" name="inq-disease" value="어지럼증,두통" data-category="brain"><span>어지럼증,두통</span></label>
-              <label class="disease-radio"><input type="radio" name="inq-disease" value="안면근육경련" data-category="brain"><span>안면근육경련</span></label>
-              <label class="disease-radio"><input type="radio" name="inq-disease" value="자율신경실조증" data-category="brain"><span>자율신경실조증</span></label>
-              <label class="disease-radio"><input type="radio" name="inq-disease" value="집중력" data-category="brain"><span>집중력</span></label>
-            </div>
-          </div>
-
-          <!-- 마음클리닉 -->
-          <div class="clinic-category-box">
-            <div class="clinic-cat-title"><i class="ph-bold ph-heart"></i> 마음클리닉</div>
-            <div class="disease-radio-grid">
-              <label class="disease-radio"><input type="radio" name="inq-disease" value="불안장애" data-category="mind"><span>불안장애</span></label>
-              <label class="disease-radio"><input type="radio" name="inq-disease" value="공황장애" data-category="mind"><span>공황장애</span></label>
-              <label class="disease-radio"><input type="radio" name="inq-disease" value="불면증" data-category="mind"><span>불면증</span></label>
-              <label class="disease-radio"><input type="radio" name="inq-disease" value="강박증" data-category="mind"><span>강박증</span></label>
-              <label class="disease-radio"><input type="radio" name="inq-disease" value="대인기피증" data-category="mind"><span>대인기피증</span></label>
-              <label class="disease-radio"><input type="radio" name="inq-disease" value="우울증" data-category="mind"><span>우울증</span></label>
-              <label class="disease-radio"><input type="radio" name="inq-disease" value="다한증" data-category="mind"><span>다한증</span></label>
-              <label class="disease-radio"><input type="radio" name="inq-disease" value="하지불안증후군" data-category="mind"><span>하지불안증후군</span></label>
-              <label class="disease-radio"><input type="radio" name="inq-disease" value="과민성대장증후군" data-category="mind"><span>과민성대장증후군</span></label>
-              <label class="disease-radio"><input type="radio" name="inq-disease" value="담적병" data-category="mind"><span>담적병</span></label>
-            </div>
-          </div>
-
-          <!-- 몸클리닉 -->
-          <div class="clinic-category-box">
-            <div class="clinic-cat-title"><i class="ph-bold ph-user-focus"></i> 몸클리닉</div>
-            <div class="disease-radio-grid">
-              <label class="disease-radio"><input type="radio" name="inq-disease" value="키성장" data-category="body"><span>키성장</span></label>
-              <label class="disease-radio"><input type="radio" name="inq-disease" value="식욕부진" data-category="body"><span>식욕부진</span></label>
-              <label class="disease-radio"><input type="radio" name="inq-disease" value="야뇨증" data-category="body"><span>야뇨증</span></label>
-              <label class="disease-radio"><input type="radio" name="inq-disease" value="소아비만" data-category="body"><span>소아비만</span></label>
-              <label class="disease-radio"><input type="radio" name="inq-disease" value="만성피로 번아웃증후군" data-category="body"><span>만성피로 번아웃증후군</span></label>
-              <label class="disease-radio"><input type="radio" name="inq-disease" value="삼차신경통" data-category="body"><span>삼차신경통</span></label>
-              <label class="disease-radio"><input type="radio" name="inq-disease" value="교통사고" data-category="body"><span>교통사고</span></label>
-            </div>
-          </div>
-
-          <!-- 기타질환 -->
-          <div class="clinic-category-box">
-            <div class="clinic-cat-title"><i class="ph-bold ph-dots-three-circle"></i> 기타질환</div>
-            <div class="disease-radio-grid">
-              <label class="disease-radio"><input type="radio" name="inq-disease" value="기타질환" data-category="etc"><span>기타 두뇌·신경계 질환</span></label>
-            </div>
+          <div class="disease-chips-grid">
+            <label class="disease-chip"><input type="radio" name="inq-disease" value="틱장애·뚜렛" data-category="tic" checked><span>틱장애·뚜렛</span></label>
+            <label class="disease-chip"><input type="radio" name="inq-disease" value="ADHD·집중력" data-category="adhd"><span>ADHD·집중력</span></label>
+            <label class="disease-chip"><input type="radio" name="inq-disease" value="공황장애" data-category="panic"><span>공황장애</span></label>
+            <label class="disease-chip"><input type="radio" name="inq-disease" value="불안·사회공포" data-category="anxiety"><span>불안·사회공포</span></label>
+            <label class="disease-chip"><input type="radio" name="inq-disease" value="수면·불면증" data-category="sleep"><span>수면·불면증</span></label>
+            <label class="disease-chip"><input type="radio" name="inq-disease" value="자율신경실조증" data-category="autonomic"><span>자율신경실조증</span></label>
+            <label class="disease-chip"><input type="radio" name="inq-disease" value="다한증" data-category="hyperhidrosis"><span>다한증</span></label>
+            <label class="disease-chip"><input type="radio" name="inq-disease" value="과민성대장증후군" data-category="ibs"><span>과민성대장증후군</span></label>
+            <label class="disease-chip"><input type="radio" name="inq-disease" value="두통·어지럼증" data-category="headache"><span>두통·어지럼증</span></label>
+            <label class="disease-chip"><input type="radio" name="inq-disease" value="우울·강박증" data-category="depression"><span>우울·강박증</span></label>
+            <label class="disease-chip"><input type="radio" name="inq-disease" value="소아 성장·야뇨" data-category="child"><span>소아 성장·야뇨</span></label>
+            <label class="disease-chip"><input type="radio" name="inq-disease" value="만성피로·번아웃" data-category="fatigue"><span>만성피로·번아웃</span></label>
+            <label class="disease-chip"><input type="radio" name="inq-disease" value="기타 질환" data-category="etc"><span>기타 신경정신 질환</span></label>
           </div>
         </div>
 
