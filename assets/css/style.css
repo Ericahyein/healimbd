@@ -792,7 +792,7 @@ ul {
   position: absolute;
   inset: 0;
   background-size: cover;
-  background-position: right center;
+  background-position: left 20% center;
   background-repeat: no-repeat;
   z-index: 1;
   transform: scale(1.01);
@@ -808,7 +808,7 @@ ul {
 .hero-photo-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, rgba(15, 23, 42, 0.96) 0%, rgba(15, 23, 42, 0.86) 38%, rgba(15, 23, 42, 0.15) 66%, rgba(15, 23, 42, 0.42) 100%);
+  background: linear-gradient(90deg, rgba(15, 23, 42, 0.22) 0%, rgba(15, 23, 42, 0.42) 42%, rgba(15, 23, 42, 0.88) 70%, rgba(15, 23, 42, 0.96) 100%);
   z-index: 2;
 }
 
@@ -819,33 +819,10 @@ ul {
 }
 
 .hero-photo-content {
-  max-width: 580px;
-  margin: 0;
-  text-align: left;
-}
-
-.hero-tag-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  padding: 7px 18px;
-  border-radius: var(--radius-full);
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #F1F5F9;
-  margin-bottom: 20px;
-  backdrop-filter: blur(8px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-}
-
-.pill-dot {
-  width: 8px;
-  height: 8px;
-  background: var(--secondary);
-  border-radius: 50%;
-  box-shadow: 0 0 10px var(--secondary);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: 0;
+  text-align: right;
 }
 
 .hero-bold-title {
@@ -855,8 +832,8 @@ ul {
   letter-spacing: -1.2px;
   color: #FFFFFF;
   margin-bottom: 20px;
-  text-align: left;
-  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
+  text-align: right;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.7);
 }
 
 .hero-highlight {
@@ -871,13 +848,13 @@ ul {
   color: rgba(241, 245, 249, 0.95);
   margin-bottom: 32px;
   letter-spacing: -0.3px;
-  text-align: left;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+  text-align: right;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
 }
 
 .hero-cta-buttons {
   display: flex;
-  justify-content: flex-start;
+  justify-content: flex-end;
   align-items: center;
   gap: 14px;
   flex-wrap: wrap;
