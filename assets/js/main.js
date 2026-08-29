@@ -328,6 +328,10 @@ function initAuth() {
   if (storedUser) {
     try {
       const user = JSON.parse(storedUser);
+      if (user && user.isAdmin) {
+        user.name = '관리자';
+        localStorage.setItem('healim_auth_user', JSON.stringify(user));
+      }
       updateAuthUI(user);
     } catch (e) {
       localStorage.removeItem('healim_auth_user');
@@ -398,7 +402,7 @@ function handleDedicatedAdminLogin(e) {
 
   if (pwd === ADMIN_MASTER_PIN) {
     const adminUser = {
-      name: '손지웅 대표원장 (관리자)',
+      name: '관리자',
       email: 'admin@healimbd.com',
       provider: 'admin',
       isAdmin: true,
@@ -408,7 +412,7 @@ function handleDedicatedAdminLogin(e) {
     localStorage.setItem('healim_auth_user', JSON.stringify(adminUser));
     updateAuthUI(adminUser);
     closeAuthModal();
-    showAuthToast('👑 대표원장 관리자 인증 완료! 모든 글쓰기 및 답변 관리 기능이 활성화되었습니다.');
+    showAuthToast('👑 관리자 인증 완료! 모든 글쓰기 및 답변 관리 기능이 활성화되었습니다.');
     if (typeof renderInquiryList === 'function') {
       renderInquiryList();
     }
@@ -450,7 +454,7 @@ function handleEmailLogin(e) {
   if (password === ADMIN_MASTER_PIN || email.toLowerCase() === 'admin' || email.toLowerCase() === 'healim') {
     if (password === ADMIN_MASTER_PIN) {
       isAdmin = true;
-      name = '손지웅 대표원장 (관리자)';
+      name = '관리자';
       sessionStorage.setItem('healim_admin_auth', 'true');
     }
   }
@@ -468,7 +472,7 @@ function handleEmailLogin(e) {
   closeAuthModal();
 
   if (isAdmin) {
-    showAuthToast('👑 관리자(대표원장)로 로그인되었습니다. 모든 관리자 글쓰기 및 답변 기능이 활성화되었습니다.');
+    showAuthToast('👑 관리자로 로그인되었습니다. 모든 관리자 글쓰기 및 답변 기능이 활성화되었습니다.');
   } else {
     showAuthToast(`🎉 ${name}님 환영합니다! 로그인되어 자필 수기를 열람하실 수 있습니다.`);
   }

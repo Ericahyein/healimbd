@@ -258,25 +258,28 @@ ul {
 }
 
 .header-main {
-  padding: 16px 0;
+  padding: 14px 0;
 }
 
 .header-main-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: clamp(12px, 2vw, 24px);
+  flex-wrap: nowrap;
 }
 
 .brand-logo {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
   text-decoration: none;
+  flex-shrink: 0;
 }
 
 .brand-logo-img {
-  width: 52px;
-  height: 52px;
+  width: 48px;
+  height: 48px;
   object-fit: contain;
   flex-shrink: 0;
   display: block;
@@ -289,23 +292,23 @@ ul {
 }
 
 .brand-slogan-top {
-  font-size: 0.84rem;
+  font-size: 0.82rem;
   font-weight: 600;
   color: #5A6266;
   letter-spacing: -0.4px;
   line-height: 1.15;
-  margin-bottom: 3px;
+  margin-bottom: 2px;
 }
 
 .brand-main-row {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   line-height: 1.1;
 }
 
 .brand-name-main {
-  font-size: 1.68rem;
+  font-size: 1.58rem;
   font-weight: 800;
   color: #33383B;
   letter-spacing: -0.8px;
@@ -315,9 +318,9 @@ ul {
 .brand-branch-badge {
   background: #1B8FD1;
   color: #FFFFFF;
-  font-size: 0.86rem;
+  font-size: 0.82rem;
   font-weight: 700;
-  padding: 3px 9px;
+  padding: 2px 8px;
   border-radius: 6px;
   letter-spacing: -0.3px;
   display: inline-flex;
@@ -332,20 +335,27 @@ ul {
   gap: 10px;
 }
 
-/* Desktop Nav (Bigger font sizes) */
+/* Desktop Nav (Compact and robust to avoid wrapping) */
+.desktop-nav {
+  flex-shrink: 1;
+}
+
 .desktop-nav .nav-list {
   display: flex;
   align-items: center;
-  gap: 28px;
+  gap: clamp(10px, 1.4vw, 22px);
+  white-space: nowrap;
+  flex-wrap: nowrap;
 }
 
 .nav-link {
-  font-size: 1.12rem;
+  font-size: clamp(0.94rem, 1.05vw, 1.06rem);
   font-weight: 700;
   color: var(--text-dark);
-  padding: 8px 4px;
+  padding: 8px 3px;
   position: relative;
   transition: var(--transition);
+  white-space: nowrap;
 }
 
 .nav-link:hover {
@@ -2006,12 +2016,14 @@ ul {
 .header-user-badge {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   background: #EFF6FF;
   border: 1px solid rgba(27, 143, 209, 0.3);
-  padding: 6px 14px;
+  padding: 5px 10px;
   border-radius: var(--radius-full);
-  font-size: 0.86rem;
+  font-size: 0.82rem;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .user-greeting {
@@ -2019,7 +2031,8 @@ ul {
   font-weight: 600;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
+  white-space: nowrap;
 }
 
 .user-greeting strong {
@@ -2031,12 +2044,13 @@ ul {
   background: none;
   border: none;
   color: #64748B;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   cursor: pointer;
   padding: 0;
-  margin-left: 4px;
+  margin-left: 2px;
   text-decoration: underline;
   transition: color 0.2s ease;
+  white-space: nowrap;
 }
 
 .btn-logout-link:hover {
@@ -4975,6 +4989,18 @@ html, body {
 }
 
 @media (max-width: 1024px) {
+  .desktop-nav {
+    display: none !important;
+  }
+
+  .mobile-menu-toggle {
+    display: flex !important;
+  }
+
+  .header-cta-group .btn-inquiry-header {
+    display: none !important;
+  }
+
   .cases-home-grid,
   .cases-grid-container {
     grid-template-columns: 1fr;
