@@ -792,7 +792,7 @@ ul {
   position: absolute;
   inset: 0;
   background-size: cover;
-  background-position: 72% center;
+  background-position: right center;
   background-repeat: no-repeat;
   z-index: 1;
   transform: scale(1.01);
@@ -808,7 +808,7 @@ ul {
 .hero-photo-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.84) 42%, rgba(15, 23, 42, 0.32) 72%, rgba(15, 23, 42, 0.55) 100%);
+  background: linear-gradient(90deg, rgba(15, 23, 42, 0.96) 0%, rgba(15, 23, 42, 0.86) 38%, rgba(15, 23, 42, 0.15) 66%, rgba(15, 23, 42, 0.42) 100%);
   z-index: 2;
 }
 
@@ -819,7 +819,7 @@ ul {
 }
 
 .hero-photo-content {
-  max-width: 620px;
+  max-width: 580px;
   margin: 0;
   text-align: left;
 }
