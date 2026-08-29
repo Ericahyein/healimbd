@@ -38,7 +38,7 @@
     <section class="section inquiry-board-section">
       <div class="container">
 
-        <!-- Top Control Bar (Categories, Search, and Write Button) -->
+        <!-- Top Control Bar (Categories and Right-aligned Write Button) -->
         <div class="inquiry-toolbar">
           <div class="inquiry-category-tabs" id="inquiry-category-tabs">
             <button type="button" class="inquiry-tab-btn active" data-category="all" onclick="filterInquiryCategory('all')">전체</button>
@@ -56,11 +56,7 @@
             <button type="button" class="inquiry-tab-btn" data-category="etc" onclick="filterInquiryCategory('etc')">기타 질환</button>
           </div>
 
-          <div class="inquiry-action-group">
-            <div class="inquiry-search-box">
-              <i class="ph-bold ph-magnifying-glass"></i>
-              <input type="text" id="inquiry-search-input" placeholder="질환명, 상담 제목 검색..." onkeyup="handleInquirySearch(event)">
-            </div>
+          <div class="inquiry-action-right">
             <button type="button" class="btn btn-inquiry-write-trigger" onclick="openInquiryWriteModal()">
               <i class="ph-bold ph-pencil-simple-line"></i>
               <span>상담글 작성하기</span>
