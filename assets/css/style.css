@@ -779,12 +779,12 @@ ul {
    ========================================================================== */
 .hero-photo-section {
   position: relative;
-  padding: 130px 0 110px;
+  padding: 130px 0 120px;
   color: #FFFFFF;
   overflow: hidden;
   display: flex;
   align-items: center;
-  min-height: 560px;
+  min-height: 580px;
   background-color: #0F172A;
 }
 
@@ -792,7 +792,7 @@ ul {
   position: absolute;
   inset: 0;
   background-size: cover;
-  background-position: center 30%;
+  background-position: 72% center;
   background-repeat: no-repeat;
   z-index: 1;
   transform: scale(1.01);
@@ -808,18 +808,20 @@ ul {
 .hero-photo-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(15, 23, 42, 0.38) 0%, rgba(15, 23, 42, 0.58) 55%, rgba(15, 23, 42, 0.82) 100%);
+  background: linear-gradient(90deg, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.84) 42%, rgba(15, 23, 42, 0.32) 72%, rgba(15, 23, 42, 0.55) 100%);
   z-index: 2;
 }
 
 .hero-photo-container {
   position: relative;
   z-index: 3;
+  width: 100%;
 }
 
 .hero-photo-content {
-  max-width: 920px;
-  margin: 0 auto;
+  max-width: 620px;
+  margin: 0;
+  text-align: left;
 }
 
 .hero-tag-pill {
@@ -828,12 +830,12 @@ ul {
   gap: 8px;
   background: rgba(255, 255, 255, 0.12);
   border: 1px solid rgba(255, 255, 255, 0.25);
-  padding: 8px 20px;
+  padding: 7px 18px;
   border-radius: var(--radius-full);
-  font-size: 0.94rem;
+  font-size: 0.9rem;
   font-weight: 600;
   color: #F1F5F9;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
   backdrop-filter: blur(8px);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
@@ -849,11 +851,12 @@ ul {
 .hero-bold-title {
   font-size: 3.1rem;
   font-weight: 800;
-  line-height: 1.35;
+  line-height: 1.32;
   letter-spacing: -1.2px;
   color: #FFFFFF;
-  margin-bottom: 22px;
-  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+  margin-bottom: 20px;
+  text-align: left;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
 }
 
 .hero-highlight {
@@ -862,18 +865,19 @@ ul {
 }
 
 .hero-light-desc {
-  font-size: 1.25rem;
-  font-weight: 300;
-  line-height: 1.85;
-  color: rgba(255, 255, 255, 0.92);
-  margin-bottom: 38px;
+  font-size: 1.16rem;
+  font-weight: 400;
+  line-height: 1.75;
+  color: rgba(241, 245, 249, 0.95);
+  margin-bottom: 32px;
   letter-spacing: -0.3px;
+  text-align: left;
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
 }
 
 .hero-cta-buttons {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   gap: 14px;
   flex-wrap: wrap;
@@ -5440,24 +5444,41 @@ html, body {
   }
 
   .hero-photo-section {
-    padding: 85px 0 75px;
+    padding: 75px 0 65px;
     min-height: auto;
+  }
+
+  .hero-photo-bg {
+    background-position: 65% center;
+  }
+
+  .hero-photo-overlay {
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.9) 0%, rgba(15, 23, 42, 0.78) 55%, rgba(15, 23, 42, 0.92) 100%);
+  }
+
+  .hero-photo-content {
+    text-align: center;
+    margin: 0 auto;
+    max-width: 100%;
   }
 
   .hero-bold-title {
     font-size: 1.95rem;
     line-height: 1.4;
+    text-align: center;
   }
 
   .hero-light-desc {
     font-size: 1rem;
     line-height: 1.7;
     margin-bottom: 28px;
+    text-align: center;
   }
 
   .hero-cta-buttons {
     flex-direction: column;
     width: 100%;
+    justify-content: center;
   }
 
   .btn-hero-inquiry, .btn-hero-naver-dark, .btn-hero-kakao-dark {
