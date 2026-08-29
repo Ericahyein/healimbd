@@ -1461,7 +1461,7 @@ const DEFAULT_INQUIRIES = [
     age: 34,
     gender: '남',
     date: '2026.08.26',
-    isSecret: true,
+    isSecret: false,
     password: '2222',
     status: 'answered',
     content: '지난주 붐비는 신분당선 지하철 안에서 갑자기 숨이 턱 막히고 심장이 터질 것처럼 뛰며 쓰러질 것 같은 극심한 공포를 느꼈습니다. 응급실에 갔는데 심장에는 이상이 없다고 하네요. 이후로 대중교통을 타기가 너무 두렵습니다. 한방 치료로 완치가 가능한가요?',
@@ -1512,7 +1512,7 @@ const DEFAULT_INQUIRIES = [
     age: 12,
     gender: '남',
     date: '2026.08.28',
-    isSecret: true,
+    isSecret: false,
     password: '5555',
     status: 'answered',
     content: '수업 시간에 5분 이상 집중하지 못하고 지우개나 연필을 계속 만지작거립니다. 과제를 끝까지 마치지 못하고 충동적으로 말하는 경향이 있는데 한방으로 집중력 향상이 가능한가요?',
@@ -1542,10 +1542,18 @@ function initOnlineInquiry() {
   const tbody = document.getElementById('inquiry-list-tbody');
   if (!tbody) return;
 
-  // Initialize LocalStorage with default data if empty or old format
+  // Initialize LocalStorage with default data or normalize all to public
   const stored = localStorage.getItem('healim_online_inquiries');
   if (!stored) {
     localStorage.setItem('healim_online_inquiries', JSON.stringify(DEFAULT_INQUIRIES));
+  } else {
+    try {
+      const parsed = JSON.parse(stored);
+      const updated = parsed.map(item => ({ ...item, isSecret: false }));
+      localStorage.setItem('healim_online_inquiries', JSON.stringify(updated));
+    } catch (e) {
+      localStorage.setItem('healim_online_inquiries', JSON.stringify(DEFAULT_INQUIRIES));
+    }
   }
 
   renderInquiryList();
@@ -1603,7 +1611,6 @@ function renderInquiryList() {
     const isAnswered = item.status === 'answered';
     const statusText = isAnswered ? '답변완료' : '답변대기';
     const statusClass = isAnswered ? 'answered' : 'pending';
-    const secretIcon = item.isSecret ? '<i class="ph-bold ph-lock-key secret-icon" title="비밀글"></i>' : '';
 
     html += `
       <tr onclick="handleInquiryClick('${item.id}')">
@@ -1613,7 +1620,6 @@ function renderInquiryList() {
         </td>
         <td class="col-title">
           <span class="table-title-link">
-            ${secretIcon}
             <span>${item.title}</span>
           </span>
         </td>
@@ -1688,7 +1694,6 @@ function handleInquirySubmit(e) {
   const gender = document.querySelector('input[name="inq-gender"]:checked')?.value || '남';
   const rawAuthor = document.getElementById('inq-author')?.value.trim() || '방문자';
   const password = document.getElementById('inq-password')?.value.trim() || '1234';
-  const isSecret = document.getElementById('inq-is-secret')?.checked || false;
 
   // Selected disease & category
   const selectedDiseaseEl = document.querySelector('input[name="inq-disease"]:checked');
@@ -1719,7 +1724,7 @@ function handleInquirySubmit(e) {
     age: age,
     gender: gender,
     date: dateStr,
-    isSecret: isSecret,
+    isSecret: false,
     password: password,
     status: 'pending',
     content: content,
@@ -1739,23 +1744,7 @@ function handleInquirySubmit(e) {
 }
 
 function handleInquiryClick(id) {
-  const items = getStoredInquiries();
-  const found = items.find(item => item.id === id);
-  if (!found) return;
-
-  const authUser = JSON.parse(localStorage.getItem('healim_auth_user') || 'null');
-  const isAdmin = (authUser && authUser.isAdmin) || sessionStorage.getItem('healim_admin_auth') === 'true';
-
-  // Check if secret post and not admin
-  if (found.isSecret && !isAdmin) {
-    // Check if session verified
-    const verifiedId = sessionStorage.getItem(`inq_verified_${id}`);
-    if (verifiedId !== 'true') {
-      openInquiryPwdModal(id);
-      return;
-    }
-  }
-
+  // Publicly readable for all visitors
   openInquiryDetailModal(id);
 }
 
