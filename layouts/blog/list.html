@@ -37,7 +37,7 @@
     <!-- Column Board Main Section -->
     <section class="section blog-page-section">
       <div class="container">
-        <!-- Category Tabs -->
+        <!-- Category Tabs & Top Right-aligned Write Button -->
         <div class="column-board-controls">
           <div class="column-category-tabs" id="column-category-tabs">
             <button type="button" class="col-tab-btn active" data-filter="all" onclick="filterColumnCategory('all')">전체</button>
@@ -51,6 +51,12 @@
             <button type="button" class="col-tab-btn" data-filter="ibs" onclick="filterColumnCategory('ibs')">과민성대장</button>
             <button type="button" class="col-tab-btn" data-filter="syncope" onclick="filterColumnCategory('syncope')">실신</button>
             <button type="button" class="col-tab-btn" data-filter="general" onclick="filterColumnCategory('general')">두뇌·건강</button>
+          </div>
+
+          <div class="column-action-right">
+            <button type="button" class="btn btn-subtle-write admin-only-btn" onclick="openAdminColumnWriter()" title="칼럼 등록">
+              <i class="ph ph-plus-circle"></i> <span>칼럼 등록하기</span>
+            </button>
           </div>
         </div>
 
@@ -183,12 +189,6 @@
               </div>
             </div>
           </article>
-        </div>
-
-        <div class="blog-bottom-actions">
-          <button type="button" class="btn btn-column-write-bottom admin-only-btn" onclick="openAdminColumnWriter()">
-            <i class="ph ph-plus-circle"></i> 칼럼 등록하기
-          </button>
         </div>
       </div>
     </section>
