@@ -114,7 +114,7 @@ keywords:
 <span class="flow-step-num">1</span>
 <div class="flow-step-content">
 <div class="flow-step-title">정밀 뇌기능 & 자율신경 검사</div>
-<p class="flow-step-desc">심박변이도(HRV), 뇌파 스트레스 검사, 체질 맥진 및 설진을 통해 자율신경 불균형 정도를 정밀 진단합니다.</p>
+<p class="flow-step-desc">뇌파 스트레스 검사, 체질 맥진 및 설진, 1:1 심층 문진을 통해 자율신경 불균형 정도를 정밀 진단합니다.</p>
 </div>
 </div>
 <div class="flow-step-arrow"><i class="ph-bold ph-arrow-down"></i></div>
