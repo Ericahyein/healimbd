@@ -6711,6 +6711,7 @@ html, body {
 }
 
 .col-row-thumb-wrap {
+  display: block;
   flex: 0 0 140px;
   width: 140px;
   height: 140px;
@@ -6719,6 +6720,8 @@ html, body {
   position: relative;
   background: #F1F5F9;
   align-self: center;
+  cursor: pointer;
+  text-decoration: none;
 }
 
 .col-row-thumb-img {

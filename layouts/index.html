@@ -941,15 +941,16 @@
     <div class="column-list-wrap" id="column-cards-grid">
       {{ range where .Site.RegularPages "Section" "blog" }}
       <article class="doctor-column-row-item static-column-card" 
-               data-category="{{ .Params.category }}">
-        <div class="col-row-thumb-wrap">
+               data-category="{{ .Params.category }}"
+               onclick="location.href='{{ .RelPermalink }}'">
+        <a href="{{ .RelPermalink }}" class="col-row-thumb-wrap" aria-label="{{ .Title }}">
           {{ if .Params.image }}
           <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}" class="col-row-thumb-img" loading="lazy">
           {{ else }}
           <img src="{{ "images/clinics/autonomic.jpg" | relURL }}" alt="{{ .Title }}" class="col-row-thumb-img" loading="lazy">
           {{ end }}
           <span class="col-badge-pill {{ .Params.category }}">{{ .Params.category_name }}</span>
-        </div>
+        </a>
 
         <div class="col-row-body">
           <div>
