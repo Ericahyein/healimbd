@@ -80,7 +80,7 @@
                 <th class="col-num">번호</th>
                 <th class="col-cat">상담과목</th>
                 <th class="col-title">상담 제목</th>
-                <th class="col-info">지역/연령</th>
+                <th class="col-info">작성자</th>
                 <th class="col-date">작성일</th>
                 <th class="col-status">상태</th>
               </tr>
@@ -103,65 +103,43 @@
   </main>
 
   <!-- ==========================================================================
-       MODAL 1: Consultation Write Modal (Form matching the uploaded screenshot)
+       MODAL 1: Consultation Write Modal (Clean Public Q&A Schema)
        ========================================================================== -->
   <div class="inquiry-form-modal" id="inquiry-write-modal" role="dialog" aria-modal="true" aria-labelledby="inquiry-write-title">
     <div class="inquiry-modal-card">
       <div class="inquiry-modal-top">
-        <h3 id="inquiry-write-title" class="inquiry-modal-title"><i class="ph-bold ph-note-pencil"></i> 온라인 1:1 상담글 작성</h3>
+        <h3 id="inquiry-write-title" class="inquiry-modal-title"><i class="ph-bold ph-note-pencil"></i> 온라인 1:1 공개 상담글 작성</h3>
         <button type="button" class="modal-close-btn" onclick="closeInquiryWriteModal()" aria-label="닫기">
           <i class="ph ph-x"></i>
         </button>
       </div>
 
+      <!-- Public Warning Notice (Mandatory Requirement) -->
+      <div class="inquiry-public-warning-banner">
+        <i class="ph-bold ph-warning-circle"></i>
+        <div>
+          <strong>공개 게시판 안내</strong>
+          <p>작성하신 질문과 원장님 답변은 홈페이지에 전체 공개됩니다.<br><strong>이름, 전화번호, 이메일, 주소 등 개인정보는 절대 입력하지 마세요.</strong></p>
+        </div>
+      </div>
+
       <form id="inquiry-submit-form" onsubmit="handleInquirySubmit(event)">
-        <!-- Section 1: 지역 / 나이 / 성별 / 비밀번호 -->
+        <!-- Section 1: 작성자 닉네임 -->
         <div class="form-block-section">
           <div class="form-block-header">
-            <h4>기본 정보</h4>
+            <h4>작성자 닉네임</h4>
           </div>
-          <div class="form-grid-row">
-            <div class="form-field-group">
-              <label for="inq-region">지역</label>
-              <input type="text" id="inq-region" placeholder="예) 서울 송파, 분당 정자" required>
-            </div>
-            <div class="form-field-group">
-              <label for="inq-age">나이 / 연령대</label>
-              <input type="text" id="inq-age" placeholder="예) 30대, 10세 남아 등" required>
-            </div>
-            <div class="form-field-group">
-              <label>성별</label>
-              <div class="radio-inline-group">
-                <label class="radio-label">
-                  <input type="radio" name="inq-gender" value="남" checked>
-                  <span>남</span>
-                </label>
-                <label class="radio-label">
-                  <input type="radio" name="inq-gender" value="여">
-                  <span>여</span>
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-grid-row mt-12">
-            <div class="form-field-group">
-              <label for="inq-password">비밀번호 (4자리 숫자)</label>
-              <input type="password" id="inq-password" placeholder="본인 글 수정/삭제용 4자리" maxlength="8" required>
-            </div>
-            <div class="form-field-group form-field-secret">
-              <label>공개 설정</label>
-              <div style="font-size: 0.86rem; color: #0284C7; padding-top: 10px; font-weight: 600;">
-                <i class="ph-bold ph-globe"></i> 전체 공개 (이름 마스킹 보호)
-              </div>
-            </div>
+          <div class="form-field-group">
+            <label for="inq-nickname">닉네임 / 호칭 (공개용)</label>
+            <input type="text" id="inq-nickname" placeholder="예) 익명, 분당맘, 30대직장인" maxlength="20" value="익명" required>
+            <small style="color: #64748B; font-size: 0.8rem; margin-top: 4px; display: block;">* 실명 대신 닉네임이나 가명을 사용해주세요.</small>
           </div>
         </div>
 
-        <!-- Section 2: 상담 질환 선택 (원장칼럼 스타일 직접 질환 선택) -->
+        <!-- Section 2: 상담 질환 선택 -->
         <div class="form-block-section">
           <div class="form-block-header">
-            <h4>상담 질환 선택 (해당하는 질환을 선택해주세요)</h4>
+            <h4>상담 질환 선택</h4>
           </div>
           <div class="disease-chips-grid">
             <label class="disease-chip"><input type="radio" name="inq-disease" value="틱장애·뚜렛" data-category="tic" checked><span>틱장애·뚜렛</span></label>
@@ -187,37 +165,33 @@
           </div>
           <div class="form-field-group mb-12">
             <label for="inq-title">제목</label>
-            <input type="text" id="inq-title" placeholder="상담 제목을 입력해주세요" required>
+            <input type="text" id="inq-title" placeholder="상담 제목을 간결하게 입력해주세요 (최대 80자)" maxlength="80" minlength="2" required>
           </div>
           <div class="form-field-group">
-            <label for="inq-content">내용</label>
-            <textarea id="inq-content" rows="6" placeholder="증상 발현 시기, 주요 불편 증상, 병원 치료 경험 등 상세한 내용을 적어주시면 더욱 정밀한 답변을 드릴 수 있습니다." required></textarea>
+            <label for="inq-content">상담 내용 전문</label>
+            <textarea id="inq-content" rows="7" placeholder="증상 발현 시기, 주요 불편 증상, 병원 치료 경험 등 상세한 내용을 적어주시면 더욱 정밀한 답변을 드릴 수 있습니다. (전화번호/실명 등 개인정보 제외)" minlength="5" maxlength="2500" required></textarea>
           </div>
         </div>
 
-        <!-- Section 4: 개인정보취급방침 동의 -->
+        <!-- Section 4: 공개 동의 -->
         <div class="form-block-section">
-          <div class="form-block-header">
-            <h4>개인정보취급방침 동의</h4>
-          </div>
-          <div class="privacy-terms-scroll">
-            <p>해아림한의원은 개인정보를 수집하지 않으며, 글쓴이가 본인이 쓴 글을 식별하기 위해 가상의 닉네임 등 최소한의 가상정보만을 수집합니다.</p>
-            <p>가상정보에 대한 의견수렴 및 불만처리의 정책을 담당하는 개인정보정책 담당 관리책임자를 원장으로 지정하고 있습니다.</p>
-            <p>해아림한의원은 귀하께서 문의글 작성 시 정보보호방침 또는 이용약관의 내용을 공지하여 동의 및 저장 버튼을 클릭하면 가상정보 수집에 대해 동의하신 것으로 간주합니다.</p>
-            <p><strong>수집 목적:</strong> 1:1 온라인 한의학 상담 답변 제공 및 본인 글 식별 관리</p>
-          </div>
-          <label class="checkbox-label mt-8">
+          <label class="checkbox-label">
             <input type="checkbox" id="inq-agree-terms" required checked>
-            <span><strong>정보활용 방침에 동의합니다.</strong> (필수)</span>
+            <span><strong>본 상담글이 홈페이지에 공개됨에 동의하며, 개인 식별정보를 포함하지 않았음을 확인합니다.</strong> (필수)</span>
           </label>
         </div>
 
         <!-- Section 5: 하단 버튼 -->
         <div class="inquiry-form-actions">
-          <button type="button" class="btn btn-inq-back" onclick="closeInquiryWriteModal()">돌아가기</button>
-          <button type="button" class="btn btn-draft-save inq-draft-btn" onclick="saveInquiryDraftManual()"><i class="ph-bold ph-floppy-disk"></i> 임시저장</button>
-          <button type="submit" class="btn btn-inq-submit">저장하기 (상담글 등록)</button>
+          <button type="button" class="btn btn-inq-back" onclick="closeInquiryWriteModal()">취소</button>
+          <button type="submit" id="inquiry-submit-btn" class="btn btn-inq-submit">
+            <i class="ph-bold ph-paper-plane-tilt"></i> <span>상담글 등록하기</span>
+          </button>
         </div>
+      </form>
+    </div>
+    <div class="inquiry-modal-overlay" onclick="closeInquiryWriteModal()"></div>
+  </div>
       </form>
     </div>
     <div class="inquiry-modal-overlay" onclick="closeInquiryWriteModal()"></div>
@@ -258,8 +232,8 @@
         </div>
         <h2 class="detail-main-title" id="view-inq-title">상담 제목이 들어갑니다</h2>
         <div class="detail-meta-info">
-          <span><i class="ph-bold ph-map-pin"></i> <span id="view-inq-region">분당</span> (<span id="view-inq-age">30대</span> / <span id="view-inq-gender">남</span>)</span>
-          <span><i class="ph-bold ph-calendar"></i> <span id="view-inq-date">2026.08.29</span></span>
+          <span><i class="ph-bold ph-user"></i> 작성자: <span id="view-inq-nickname">익명</span></span>
+          <span><i class="ph-bold ph-calendar"></i> 작성일: <span id="view-inq-date">2026.08.31</span></span>
         </div>
         <button type="button" class="modal-close-btn" onclick="closeInquiryDetailModal()"><i class="ph ph-x"></i></button>
       </div>

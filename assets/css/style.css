@@ -8208,6 +8208,320 @@ body.is-admin .admin-only-btn {
   font-weight: 700;
   font-size: 0.95rem;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.btn-save-reply:hover {
+  background: #0284C7;
+  transform: translateY(-1px);
+}
+
+/* Public Warning Banner in Modal */
+.inquiry-public-warning-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #FFFBEB;
+  border: 1.5px solid #FDE68A;
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  color: #92400E;
+}
+
+.inquiry-public-warning-banner i {
+  font-size: 1.4rem;
+  color: #D97706;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.inquiry-public-warning-banner strong {
+  display: block;
+  font-size: 0.95rem;
+  margin-bottom: 3px;
+  color: #B45309;
+}
+
+.inquiry-public-warning-banner p {
+  font-size: 0.86rem;
+  line-height: 1.55;
+  margin: 0;
+  color: #78350F;
+}
+
+/* ==========================================================================
+   ADMIN MANAGEMENT CONSOLE STYLES (/admin)
+   ========================================================================== */
+.admin-page-body {
+  background: #F8FAFC;
+  min-height: 100vh;
+}
+
+.admin-hero-banner {
+  background: linear-gradient(180deg, #0F172A 0%, #1E293B 100%);
+  color: white;
+  padding: 70px 0 50px;
+}
+
+.admin-auth-card {
+  max-width: 440px;
+  margin: 40px auto 80px;
+  background: white;
+  border: 1px solid #E2E8F0;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  padding: 36px 28px;
+  text-align: center;
+}
+
+.auth-icon-wrap {
+  width: 64px;
+  height: 64px;
+  background: #E0F2FE;
+  color: #0284C7;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  margin: 0 auto 18px;
+}
+
+.admin-auth-card h2 {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin-bottom: 8px;
+}
+
+.auth-desc {
+  font-size: 0.9rem;
+  color: #64748B;
+  margin-bottom: 24px;
+}
+
+.admin-auth-card form {
+  text-align: left;
+}
+
+.btn-block {
+  width: 100%;
+  padding: 13px;
+  margin-top: 14px;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 10px;
+}
+
+.admin-error-msg {
+  background: #FEF2F2;
+  border: 1px solid #FCA5A5;
+  color: #DC2626;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.86rem;
+  margin-top: 14px;
+  text-align: left;
+}
+
+/* Admin Dashboard Stats Grid */
+.admin-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-bottom: 28px;
+}
+
+.admin-stat-card {
+  background: white;
+  border: 1px solid #E2E8F0;
+  border-radius: 14px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.stat-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+.stat-icon.total { background: #E0F2FE; color: #0284C7; }
+.stat-icon.pending { background: #FEF2F2; color: #DC2626; }
+.stat-icon.answered { background: #F0FDF4; color: #16A34A; }
+.stat-icon.auth { background: #F1F5F9; color: #475569; }
+
+.stat-label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #64748B;
+  margin-bottom: 4px;
+}
+
+.stat-num {
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: #0F172A;
+}
+
+.btn-logout-small {
+  background: #F1F5F9;
+  border: 1px solid #CBD5E1;
+  color: #475569;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-logout-small:hover {
+  background: #E2E8F0;
+  color: #0F172A;
+}
+
+/* Admin Toolbar */
+.admin-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.admin-filter-group {
+  display: flex;
+  gap: 8px;
+}
+
+.admin-filter-btn {
+  background: white;
+  border: 1px solid #E2E8F0;
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.admin-filter-btn.active {
+  background: #0F172A;
+  color: white;
+  border-color: #0F172A;
+}
+
+.admin-search-wrap {
+  position: relative;
+  width: 300px;
+}
+
+.admin-search-wrap i {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94A3B8;
+  font-size: 1.1rem;
+}
+
+.admin-search-wrap input {
+  width: 100%;
+  padding: 9px 14px 9px 38px;
+  background: white;
+  border: 1px solid #E2E8F0;
+  border-radius: 20px;
+  font-size: 0.88rem;
+}
+
+.admin-table th,
+.admin-table td {
+  vertical-align: middle;
+}
+
+.btn-admin-action {
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.2s ease;
+}
+
+.btn-admin-action.reply {
+  background: #0284C7;
+  color: white;
+}
+
+.btn-admin-action.reply:hover {
+  background: #0369A1;
+}
+
+.btn-admin-action.delete {
+  background: #FEE2E2;
+  color: #DC2626;
+  margin-left: 6px;
+}
+
+.btn-admin-action.delete:hover {
+  background: #FCA5A5;
+  color: #991B1B;
+}
+
+.admin-reply-question-box {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.admin-reply-question-box .badge-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.badge-author, .badge-date {
+  font-size: 0.78rem;
+  color: #64748B;
+  background: #E2E8F0;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.admin-modal-title-text {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin-bottom: 6px;
+}
+
+.admin-modal-content-text {
+  font-size: 0.9rem;
+  color: #475569;
+  line-height: 1.6;
+  white-space: pre-line;
 }
 
 /* Responsive Rules */

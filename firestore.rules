@@ -1,0 +1,95 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ========================================================================
+    // HELPER FUNCTIONS
+    // ========================================================================
+
+    // Check if requester is authenticated admin
+    function isAdmin() {
+      return request.auth != null && (
+        request.auth.token.admin == true ||
+        request.auth.token.email in ['admin@healimbd.com', 'doctor@healimbd.com', 'ericahyein@gmail.com'] ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    // Check if anonymous user is creating a valid public inquiry
+    function isCreateValid() {
+      let data = request.resource.data;
+      let allowedKeys = ['nickname', 'title', 'content', 'category', 'status', 'createdAt', 'id'];
+
+      return (
+        // 1. Must only contain strictly allowed fields
+        data.keys().hasOnly(allowedKeys) &&
+
+        // 2. Status must strictly be 'pending' upon creation
+        data.status == 'pending' &&
+
+        // 3. String length & type constraints (Anti-spam / Anti-bloat)
+        data.nickname is string &&
+        data.nickname.size() >= 1 &&
+        data.nickname.size() <= 30 &&
+
+        data.title is string &&
+        data.title.size() >= 2 &&
+        data.title.size() <= 100 &&
+
+        data.content is string &&
+        data.content.size() >= 5 &&
+        data.content.size() <= 3000 &&
+
+        // 4. Allowed categories whitelist
+        data.category in [
+          'tic', 'adhd', 'panic', 'anxiety', 'sleep',
+          'autonomic', 'hyperhidrosis', 'ibs', 'headache',
+          'depression', 'child', 'fatigue', 'etc'
+        ] &&
+
+        // 5. Must use Firebase Server Timestamp
+        data.createdAt == request.time &&
+
+        // 6. Prohibit unauthorized admin fields upon creation
+        !('answer' in data) &&
+        !('answeredAt' in data) &&
+        !('admin' in data) &&
+        !('isAdmin' in data) &&
+        !('role' in data) &&
+        !('answeredBy' in data)
+      );
+    }
+
+    // ========================================================================
+    // PUBLIC Q&A BOARD COLLECTION (online_inquiries)
+    // ========================================================================
+    match /online_inquiries/{inquiryId} {
+      // 1. Anyone (anonymous/public) can read the Q&A list and answers
+      allow read: if true;
+
+      // 2. Anyone can create a new question subject to strict field validation
+      allow create: if isCreateValid() || isAdmin();
+
+      // 3. Only verified admin can update (write/edit answers, change status to answered, etc.)
+      allow update: if isAdmin();
+
+      // 4. Only verified admin can delete questions
+      allow delete: if isAdmin();
+    }
+
+    // ========================================================================
+    // ADMIN LIST & PRIVATE COLLECTIONS
+    // ========================================================================
+    match /admins/{adminId} {
+      allow read: if request.auth != null && request.auth.uid == adminId;
+      allow write: if false; // Managed exclusively via server or Firebase Console
+    }
+
+    // ========================================================================
+    // DEFAULT DENY FOR ALL OTHER COLLECTIONS
+    // ========================================================================
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

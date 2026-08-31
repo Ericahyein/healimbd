@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>관리자 센터 | 해아림한의원 분당점</title>
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Fonts -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+
+  <!-- Styles -->
+  {{ $style := resources.Get "css/style.css" | resources.Minify | resources.Fingerprint }}
+  <link rel="stylesheet" href="{{ $style.RelPermalink }}">
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+</head>
+<body class="admin-page-body">
+  {{ partial "header.html" . }}
+
+  <main id="main-content" class="admin-dashboard-container">
+    <section class="cases-page-header admin-hero-banner">
+      <div class="container text-center">
+        <span class="cases-top-pill">HEALIM CLINIC ADMIN CONSOLE</span>
+        <h1 class="cases-main-title">온라인 상담 실시간 관리 센터</h1>
+        <p class="cases-main-desc">
+          환자분들의 실시간 상담 질문을 확인하고 대표원장님의 전문 답변을 작성/수정합니다.
+        </p>
+      </div>
+    </section>
+
+    <div class="container section">
+      
+      <!-- 1. LOGIN CARD (Shown when not authenticated) -->
+      <div id="admin-auth-login-card" class="admin-auth-card" style="display: none;">
+        <div class="auth-card-inner">
+          <div class="auth-icon-wrap">
+            <i class="ph-bold ph-shield-check"></i>
+          </div>
+          <h2>관리자 인증 로그인</h2>
+          <p class="auth-desc">해아림한의원 관리자 계정(이메일/비밀번호)으로 로그인하세요.</p>
+
+          <form id="admin-firebase-login-form" onsubmit="handleFirebaseAdminLogin(event)">
+            <div class="form-field-group">
+              <label for="admin-auth-email">관리자 이메일</label>
+              <input type="email" id="admin-auth-email" placeholder="admin@healimbd.com" required autocomplete="username">
+            </div>
+            <div class="form-field-group">
+              <label for="admin-auth-password">비밀번호</label>
+              <input type="password" id="admin-auth-password" placeholder="비밀번호 입력" required autocomplete="current-password">
+            </div>
+            <button type="submit" id="admin-login-submit-btn" class="btn btn-primary btn-block">
+              <i class="ph-bold ph-sign-in"></i> <span>관리자 로그인</span>
+            </button>
+          </form>
+
+          <div id="admin-login-error" class="admin-error-msg" style="display: none;"></div>
+        </div>
+      </div>
+
+      <!-- 2. AUTHENTICATED DASHBOARD (Shown when logged in) -->
+      <div id="admin-authenticated-panel" style="display: none;">
+        
+        <!-- Top Stats Row -->
+        <div class="admin-stats-grid">
+          <div class="admin-stat-card">
+            <div class="stat-icon total"><i class="ph-bold ph-chats"></i></div>
+            <div class="stat-info">
+              <span class="stat-label">전체 상담글</span>
+              <strong id="admin-stat-total" class="stat-num">0</strong>
+            </div>
+          </div>
+          <div class="admin-stat-card">
+            <div class="stat-icon pending"><i class="ph-bold ph-clock"></i></div>
+            <div class="stat-info">
+              <span class="stat-label">답변 대기</span>
+              <strong id="admin-stat-pending" class="stat-num">0</strong>
+            </div>
+          </div>
+          <div class="admin-stat-card">
+            <div class="stat-icon answered"><i class="ph-bold ph-check-circle"></i></div>
+            <div class="stat-info">
+              <span class="stat-label">답변 완료</span>
+              <strong id="admin-stat-answered" class="stat-num">0</strong>
+            </div>
+          </div>
+          <div class="admin-stat-card user-card">
+            <div class="stat-icon auth"><i class="ph-bold ph-user-check"></i></div>
+            <div class="stat-info">
+              <span class="stat-label" id="admin-logged-user-email">관리자 접속 중</span>
+              <button type="button" class="btn-logout-small" onclick="handleFirebaseAdminLogout()">
+                <i class="ph-bold ph-sign-out"></i> 로그아웃
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter & Search Toolbar -->
+        <div class="admin-toolbar">
+          <div class="admin-filter-group">
+            <button type="button" class="admin-filter-btn active" data-status="all" onclick="filterAdminStatus('all')">전체보기</button>
+            <button type="button" class="admin-filter-btn" data-status="pending" onclick="filterAdminStatus('pending')">🔴 답변대기</button>
+            <button type="button" class="admin-filter-btn" data-status="answered" onclick="filterAdminStatus('answered')">🟢 답변완료</button>
+          </div>
+          <div class="admin-search-wrap">
+            <i class="ph-bold ph-magnifying-glass"></i>
+            <input type="text" id="admin-search-input" placeholder="질문 제목/내용/닉네임 검색..." oninput="handleAdminSearch(this.value)">
+          </div>
+        </div>
+
+        <!-- Real-Time Inquiries List Table -->
+        <div class="inquiry-board-table-wrap">
+          <table class="inquiry-table admin-table">
+            <thead>
+              <tr>
+                <th style="width: 70px;">번호</th>
+                <th style="width: 120px;">상담과목</th>
+                <th>상담 제목 및 내용 요약</th>
+                <th style="width: 110px;">작성자</th>
+                <th style="width: 120px;">작성일시</th>
+                <th style="width: 100px;">상태</th>
+                <th style="width: 140px;">관리</th>
+              </tr>
+            </thead>
+            <tbody id="admin-inquiries-tbody">
+              <!-- Dynamically populated via Firestore onSnapshot() -->
+            </tbody>
+          </table>
+
+          <div id="admin-inquiries-empty" class="inquiry-empty-state" style="display: none;">
+            <i class="ph-bold ph-chats-circle"></i>
+            <p>표시할 상담글이 없습니다.</p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ==========================================================================
+       ADMIN DOCTOR REPLY MODAL
+       ========================================================================== -->
+  <div class="inquiry-form-modal" id="admin-doctor-reply-modal" role="dialog" aria-modal="true">
+    <div class="inquiry-modal-card modal-lg">
+      <div class="inquiry-modal-top">
+        <h3 class="inquiry-modal-title"><i class="ph-bold ph-stethoscope"></i> 원장님 답변 작성 및 수정</h3>
+        <button type="button" class="modal-close-btn" onclick="closeAdminDoctorReplyModal()">
+          <i class="ph ph-x"></i>
+        </button>
+      </div>
+
+      <!-- Question Preview Block -->
+      <div class="admin-reply-question-box">
+        <div class="badge-row">
+          <span id="admin-modal-q-category" class="cat-badge">과목</span>
+          <span id="admin-modal-q-nickname" class="badge-author">작성자</span>
+          <span id="admin-modal-q-date" class="badge-date">작성일</span>
+        </div>
+        <h4 id="admin-modal-q-title" class="admin-modal-title-text">질문 제목</h4>
+        <div id="admin-modal-q-content" class="admin-modal-content-text">질문 내용 전문</div>
+      </div>
+
+      <form onsubmit="handleAdminSaveDoctorReply(event)">
+        <div class="form-field-group">
+          <label for="admin-doctor-reply-text">손지웅 대표원장 답변 내용</label>
+          <textarea id="admin-doctor-reply-text" rows="10" placeholder="환자분의 증상에 대한 따뜻한 위로와 원인 분석, 한방 치료 방향을 자세하게 작성해주세요." required></textarea>
+        </div>
+        
+        <div class="reply-btn-group">
+          <button type="button" class="btn btn-cancel" onclick="closeAdminDoctorReplyModal()">취소</button>
+          <button type="submit" id="admin-save-reply-btn" class="btn btn-save-reply">
+            <i class="ph-bold ph-check"></i> <span>답변 등록 / 완료 처리</span>
+          </button>
+        </div>
+      </form>
+    </div>
+    <div class="inquiry-modal-overlay" onclick="closeAdminDoctorReplyModal()"></div>
+  </div>
+
+  {{ partial "footer.html" . }}
+
+  <!-- Scripts -->
+  {{ $js := resources.Get "js/main.js" | resources.Minify | resources.Fingerprint }}
+  <script src="{{ $js.RelPermalink }}"></script>
+</body>
+</html>
