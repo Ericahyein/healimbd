@@ -135,7 +135,7 @@
   {{ partial "floating_bar.html" . }}
 
   <!-- Scripts -->
-  {{ $script := resources.Get "js/main.js" | resources.Minify }}
+  {{ $script := resources.Get "js/main.js" | resources.Minify | resources.Fingerprint }}
   <script src="{{ $script.RelPermalink }}"></script>
 </body>
 </html>
