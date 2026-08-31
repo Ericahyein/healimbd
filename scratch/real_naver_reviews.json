@@ -1,0 +1,1210 @@
+[
+  {
+    "__typename": "VisitorReview",
+    "id": "6a7d0b421225525de7cdb6f6",
+    "cursor": "c1BpNGdqWEFENTZIVXVNaUloNGZ0Rm1ZU0lXRDRDVkdVRW1iSG4wZ2xBYzRQb1dTQk5pZ2YzRUtLclZNSVBQT2lGaFUxell4Qy9IaVlwa1N0V2hCUVFYWkNKWk5MWUFpTFFkZlZkZTMvQnpuZXpJTTMwQ3VNVXhBSkhEYW1UVmVOTit5bm9wcm9TYU83R0F6dkNBMmM1VDA1dWZnazJrPQ==",
+    "reviewId": "6a7d0b431225525de7cdb708",
+    "rating": null,
+    "author": {
+      "__ref": "VisitorReviewAuthor:269HH"
+    },
+    "body": "올 초 호르몬, 스트레스, 갱년기전 증상이 겹쳐 자율신경실조 진단받고 3월부터 치료받기 시작했습니다. 가슴두근거림, 상열감등 전반적인 컨디션이 좋아졌습니다. 한약복용과 함께 주1회 침치료 병행하였구요, 원장님 상담도 큰 도움이 되었습니다. 보통은 HRV검사를 하는데 해아림은 뇌파등 다른 검사들을 진행합니다. 원장님과 직원분들 모두 차분하셔서 저는 더 좋았던 거 같아요. 자율신경실조로 고생하시는 분들 꼭 적극적으로 치료받으세요. 앞으로고 체력이 떨어졌다싶을 때면 해아림 방문할 계획입니다.",
+    "thumbnail": null,
+    "media": [],
+    "tags": null,
+    "status": "ACTIVE",
+    "visitCount": 1,
+    "viewCount": 124,
+    "visited": "8.11.화",
+    "created": "8.13.목",
+    "reply": {
+      "__typename": "VisitorReviewReply",
+      "editUrl": "https://new-m.smartplace.naver.com/bizes/place-id/1272285133/reviews/6a7d0b421225525de7cdb6f6",
+      "body": null,
+      "editedBy": null,
+      "created": null,
+      "date": null,
+      "replyTitle": null,
+      "isReported": false,
+      "isSuspended": false,
+      "status": null
+    },
+    "originType": "영수증",
+    "item": null,
+    "language": "ko",
+    "highlightRanges": null,
+    "apolloCacheId": "true",
+    "translatedText": null,
+    "businessName": "해아림한의원 분당점",
+    "showBookingItemName": null,
+    "bookingItemName": "",
+    "votedKeywords": [],
+    "userIdno": "269HH",
+    "loginIdno": "",
+    "receiptInfoUrl": "https://m.place.naver.com/my/review/6a7d0b421225525de7cdb6f6/paymentInfo",
+    "reactionStat": {
+      "__ref": "ReactionStat:6a7d0b421225525de7cdb6f6"
+    },
+    "hasViewerReacted": {
+      "__ref": "HasViewerReacted:6a7d0b421225525de7cdb6f6"
+    },
+    "nickname": "",
+    "showPaymentInfo": true,
+    "visitCategories": [
+      {
+        "__typename": "VisitCategory",
+        "code": "v_with_reservation",
+        "name": "",
+        "keywords": [
+          {
+            "__typename": "VisitCategoryKeyword",
+            "code": "예약 후 이용",
+            "name": "예약 후 이용"
+          }
+        ]
+      },
+      {
+        "__typename": "VisitCategory",
+        "code": "v_within_10minutes",
+        "name": "대기 시간",
+        "keywords": [
+          {
+            "__typename": "VisitCategoryKeyword",
+            "code": "10분 이내 ",
+            "name": "10분 이내 "
+          }
+        ]
+      }
+    ],
+    "representativeVisitDateTime": "2026-08-11T02:38:29.000Z",
+    "showRepresentativeVisitDateTime": null
+  },
+  {
+    "__typename": "VisitorReview",
+    "id": "6a6b456832df7602b2a63f4c",
+    "cursor": "aTRrZVJScXQvdnpRbnkrNHVaN1hJRTYzTnYwM0MycElZSUNSR2NwaHQ4dVo3MWlBQ2lydXMzV2N3RVNDa2tjMmp3UGtCaklha25kUDM3c2lCT3RkaXgwQWRRSjNjWGRMMGk3UDZndFA4NkdxMy9JNTZJdjhaWFVML21pNHpyMjlhMVJMSGJYSmt6NGwwWTdrNVNTTXVmMXFYOUIwL1JvPQ==",
+    "reviewId": "6a6b456832df7602b2a63f5f",
+    "rating": null,
+    "author": {
+      "__ref": "VisitorReviewAuthor:6I0yd"
+    },
+    "body": "다한증 증상으로 방문 했었습니다.\n원장님의 친절한 상담 및 치료 덕분에 치료 받기 전이랑 손과 발을 비교하면 현재 많이 완화되었습니다. 감사합니다.",
+    "thumbnail": null,
+    "media": [],
+    "tags": null,
+    "status": "ACTIVE",
+    "visitCount": 1,
+    "viewCount": 224,
+    "visited": "7.24.금",
+    "created": "7.30.목",
+    "reply": {
+      "__typename": "VisitorReviewReply",
+      "editUrl": "https://new-m.smartplace.naver.com/bizes/place-id/1272285133/reviews/6a6b456832df7602b2a63f4c",
+      "body": null,
+      "editedBy": null,
+      "created": null,
+      "date": null,
+      "replyTitle": null,
+      "isReported": false,
+      "isSuspended": false,
+      "status": null
+    },
+    "originType": "영수증",
+    "item": null,
+    "language": "ko",
+    "highlightRanges": null,
+    "apolloCacheId": "true",
+    "translatedText": null,
+    "businessName": "해아림한의원 분당점",
+    "showBookingItemName": null,
+    "bookingItemName": "",
+    "votedKeywords": [],
+    "userIdno": "6I0yd",
+    "loginIdno": "",
+    "receiptInfoUrl": "https://m.place.naver.com/my/review/6a6b456832df7602b2a63f4c/paymentInfo",
+    "reactionStat": {
+      "__ref": "ReactionStat:6a6b456832df7602b2a63f4c"
+    },
+    "hasViewerReacted": {
+      "__ref": "HasViewerReacted:6a6b456832df7602b2a63f4c"
+    },
+    "nickname": "",
+    "showPaymentInfo": true,
+    "visitCategories": [
+      {
+        "__typename": "VisitCategory",
+        "code": "v_with_reservation",
+        "name": "",
+        "keywords": [
+          {
+            "__typename": "VisitCategoryKeyword",
+            "code": "예약 후 이용",
+            "name": "예약 후 이용"
+          }
+        ]
+      },
+      {
+        "__typename": "VisitCategory",
+        "code": "v_enter_immediately",
+        "name": "대기 시간",
+        "keywords": [
+          {
+            "__typename": "VisitCategoryKeyword",
+            "code": "바로 입장",
+            "name": "바로 입장"
+          }
+        ]
+      }
+    ],
+    "representativeVisitDateTime": "2026-07-24T06:14:36.000Z",
+    "showRepresentativeVisitDateTime": null
+  },
+  {
+    "__typename": "VisitorReview",
+    "id": "6a478732dc64972bc95c979c",
+    "cursor": "MFZtdzduVjRDVVdaYnVFaDd2S2l0Ykw1ZGFSZWxDaEl0NExXY2dlMVFtTTBYL1lBRmgvbkIrVXBQeGp4aDY2V09uMmUrdFI5VklDUmpNK0lhMnZVTC81SGJCUngwMGNSbWNpZUJLaDhYbUFvNURVSTNsTEVPNlpJeWpNSW4rK1A2U0M4MGd4YXl6QVhiRGRRbXRmVzIvVDNvYndoTFdvPQ==",
+    "reviewId": "6a478732dc64972bc95c97db",
+    "rating": null,
+    "author": {
+      "__ref": "VisitorReviewAuthor:2uv6J"
+    },
+    "body": "브레인포그 증상으로 방문했는데 많이 좋아졌습니다. 따뜻하게 상담해주시고 치료해 주신 원장선생님 감사드립니다.",
+    "thumbnail": null,
+    "media": [],
+    "tags": null,
+    "status": "ACTIVE",
+    "visitCount": 1,
+    "viewCount": 435,
+    "visited": "7.3.금",
+    "created": "7.3.금",
+    "reply": {
+      "__typename": "VisitorReviewReply",
+      "editUrl": "https://new-m.smartplace.naver.com/bizes/place-id/1272285133/reviews/6a478732dc64972bc95c979c",
+      "body": null,
+      "editedBy": null,
+      "created": null,
+      "date": null,
+      "replyTitle": null,
+      "isReported": false,
+      "isSuspended": false,
+      "status": null
+    },
+    "originType": "영수증",
+    "item": null,
+    "language": "ko",
+    "highlightRanges": null,
+    "apolloCacheId": "true",
+    "translatedText": null,
+    "businessName": "해아림한의원 분당점",
+    "showBookingItemName": null,
+    "bookingItemName": "",
+    "votedKeywords": [],
+    "userIdno": "2uv6J",
+    "loginIdno": "",
+    "receiptInfoUrl": "https://m.place.naver.com/my/review/6a478732dc64972bc95c979c/paymentInfo",
+    "reactionStat": {
+      "__ref": "ReactionStat:6a478732dc64972bc95c979c"
+    },
+    "hasViewerReacted": {
+      "__ref": "HasViewerReacted:6a478732dc64972bc95c979c"
+    },
+    "nickname": "",
+    "showPaymentInfo": true,
+    "visitCategories": [
+      {
+        "__typename": "VisitCategory",
+        "code": "v_with_reservation",
+        "name": "",
+        "keywords": [
+          {
+            "__typename": "VisitCategoryKeyword",
+            "code": "예약 후 이용",
+            "name": "예약 후 이용"
+          }
+        ]
+      },
+      {
+        "__typename": "VisitCategory",
+        "code": "v_enter_immediately",
+        "name": "대기 시간",
+        "keywords": [
+          {
+            "__typename": "VisitCategoryKeyword",
+            "code": "바로 입장",
+            "name": "바로 입장"
+          }
+        ]
+      }
+    ],
+    "representativeVisitDateTime": "2026-07-03T09:52:51.000Z",
+    "showRepresentativeVisitDateTime": null
+  },
+  {
+    "__typename": "VisitorReview",
+    "id": "6a3264867455befbcadbf743",
+    "cursor": "K2thZEpPakZ6T3ZDWHpEc2hKRUhaSWowcjFlT3VVTGxwYnFWUzhDSVJkaFNCaVJVVFl3WVUxbXRDYUQ5eXJNTUVsV2R3anl5clIrZWZMeFFxWkhtZXJrd2xidS9OSlZJQldZWGJkYVRtcmh6OGlsekI1NHUrOG5YZmt6NGJaeTlEZ2xYOHhycDlyWEZZbU1HVEl0WDRXK2VwK3k3RUI0PQ==",
+    "reviewId": "6a3264867455befbcadbf759",
+    "rating": null,
+    "author": {
+      "__ref": "VisitorReviewAuthor:2iO1H"
+    },
+    "body": "작년 11월부터 다녔는데요.\n그때랑 지금이랑 검사결과를 비교해봤는데요.\n너무나 좋아져서 감사할 따름입니다.\n다들 친절하시고 편안하게 해주셔서 방문시 좋았습니다.\n한약 다먹고 또 방문할께요^^",
+    "thumbnail": "https://pup-review-phinf.pstatic.net/MjAyNjA2MTdfNyAg/MDAxNzgxNjg3NDI4NTkx.y0RM_ipNt9lsCbO-LcbUqfM5vU7gsfKkPGv61zuipXEg.dfVNBq-nI9jhn9cr6G2XaTxqcnYUl39qYdqGEgHf9BQg.JPEG/20260617_180752.jpg.jpg",
+    "media": [
+      {
+        "__typename": "VisitorReviewMedia",
+        "type": "image",
+        "thumbnail": "https://pup-review-phinf.pstatic.net/MjAyNjA2MTdfNyAg/MDAxNzgxNjg3NDI4NTkx.y0RM_ipNt9lsCbO-LcbUqfM5vU7gsfKkPGv61zuipXEg.dfVNBq-nI9jhn9cr6G2XaTxqcnYUl39qYdqGEgHf9BQg.JPEG/20260617_180752.jpg.jpg?type=w1500_60_sharpen",
+        "thumbnailRatio": "portrait",
+        "class": "notReceipt",
+        "videoId": null,
+        "videoUrl": null,
+        "trailerUrl": null
+      }
+    ],
+    "tags": null,
+    "status": "ACTIVE",
+    "visitCount": 5,
+    "viewCount": 508,
+    "visited": "6.17.수",
+    "created": "6.17.수",
+    "reply": {
+      "__typename": "VisitorReviewReply",
+      "editUrl": "https://new-m.smartplace.naver.com/bizes/place-id/1272285133/reviews/6a3264867455befbcadbf743",
+      "body": null,
+      "editedBy": null,
+      "created": null,
+      "date": null,
+      "replyTitle": null,
+      "isReported": false,
+      "isSuspended": false,
+      "status": null
+    },
+    "originType": "예약",
+    "item": {
+      "__typename": "VisitorReviewItem",
+      "name": "해아림 분당점 예약",
+      "code": null,
+      "options": null
+    },
+    "language": "ko",
+    "highlightRanges": null,
+    "apolloCacheId": "true",
+    "translatedText": null,
+    "businessName": "해아림한의원 분당점",
+    "showBookingItemName": null,
+    "bookingItemName": "해아림 분당점 예약",
+    "votedKeywords": [],
+    "userIdno": "2iO1H",
+    "loginIdno": "",
+    "receiptInfoUrl": "https://m.place.naver.com/my/review/6a3264867455befbcadbf743/paymentInfo",
+    "reactionStat": {
+      "__ref": "ReactionStat:6a3264867455befbcadbf743"
+    },
+    "hasViewerReacted": {
+      "__ref": "HasViewerReacted:6a3264867455befbcadbf743"
+    },
+    "nickname": "",
+    "showPaymentInfo": false,
+    "visitCategories": [
+      {
+        "__typename": "VisitCategory",
+        "code": "v_with_reservation",
+        "name": "",
+        "keywords": [
+          {
+            "__typename": "VisitCategoryKeyword",
+            "code": "예약 후 이용",
+            "name": "예약 후 이용"
+          }
+        ]
+      },
+      {
+        "__typename": "VisitCategory",
+        "code": "v_within_10minutes",
+        "name": "대기 시간",
+        "keywords": [
+          {
+            "__typename": "VisitCategoryKeyword",
+            "code": "10분 이내 ",
+            "name": "10분 이내 "
+          }
+        ]
+      }
+    ],
+    "representativeVisitDateTime": "2026-06-17T09:05:48.000Z",
+    "showRepresentativeVisitDateTime": null
+  },
+  {
+    "__typename": "VisitorReview",
+    "id": "6a2cce47cc78b835d9b0f12b",
+    "cursor": "RTBXSHlJR2orVFMrL3hGVTI0TGhNQzlrd0w4V0ZHejNXVGtVYzJlUVFhSERPV3ZTMlo5SHk3Y3hUTzlDMVdCVjI0MnkvT3RVSXJ3aTA2bWJ3WFZvTlVud05QeGl5Z3B2bHpPSkh0ZkZHTFVZc1NtVm9mWDdFeTcwN0grUHQ4VHFnRktOSFBzb1JSV1NTOVpTaXJkZ0FLWVltQlZlM2tNPQ==",
+    "reviewId": "6a2cce47cc78b835d9b0f138",
+    "rating": null,
+    "author": {
+      "__ref": "VisitorReviewAuthor:2RlNM"
+    },
+    "body": "아이가 틱증상이랑 감정적으로 힘든시기에 찾게되었습니다. 매주 원장선생님의 현실적인 상담과 조언을 들으면서 아이도 부모인 저희들도 치료를 넘어서 방향과 방법을 찾게 된 것 같습니다. 뜸, 한약, 행동치료도 병행하며 효과를 더욱 잘 받은 것 같습니다. 데스크 선생님들도 친절하게 받아주셔서 아이가 어색함 없이 여러달을 잘 다녔던 것 같고요. 처음에는 앞이 너무 멀게 느껴지고 겁나기도 했지만 원장선생님. 데스크. 행동치료선생님들 덕분에 좋아지게 되어 너무 감사드려요. 그리고 무엇보다 아이가 생각과 행동의 힘을 알게되는 소중한 시간이였습니다.",
+    "thumbnail": "https://pup-review-phinf.pstatic.net/MjAyNjA2MTNfMjgz/MDAxNzgxMzIwNzg4MDY2.dnz5YN8gfJ-qd1T03KubtsNoM8zw58I5XzchrH_XkNsg.v8XMrlli5cPmmn13XU-IJAW3qpPrKnsZZC9gP569Pl8g.JPEG/IMG_8957.jpeg",
+    "media": [
+      {
+        "__typename": "VisitorReviewMedia",
+        "type": "image",
+        "thumbnail": "https://pup-review-phinf.pstatic.net/MjAyNjA2MTNfMjgz/MDAxNzgxMzIwNzg4MDY2.dnz5YN8gfJ-qd1T03KubtsNoM8zw58I5XzchrH_XkNsg.v8XMrlli5cPmmn13XU-IJAW3qpPrKnsZZC9gP569Pl8g.JPEG/IMG_8957.jpeg?type=w1500_60_sharpen",
+        "thumbnailRatio": "square",
+        "class": "notReceipt",
+        "videoId": null,
+        "videoUrl": null,
+        "trailerUrl": null
+      }
+    ],
+    "tags": null,
+    "status": "ACTIVE",
+    "visitCount": 2,
+    "viewCount": 518,
+    "visited": "6.13.토",
+    "created": "6.13.토",
+    "reply": {
+      "__typename": "VisitorReviewReply",
+      "editUrl": "https://new-m.smartplace.naver.com/bizes/place-id/1272285133/reviews/6a2cce47cc78b835d9b0f12b",
+      "body": null,
+      "editedBy": null,
+      "created": null,
+      "date": null,
+      "replyTitle": null,
+      "isReported": false,
+      "isSuspended": false,
+      "status": null
+    },
+    "originType": "영수증",
+    "item": null,
+    "language": "ko",
+    "highlightRanges": null,
+    "apolloCacheId": "true",
+    "translatedText": null,
+    "businessName": "해아림한의원 분당점",
+    "showBookingItemName": null,
+    "bookingItemName": "",
+    "votedKeywords": [],
+    "userIdno": "2RlNM",
+    "loginIdno": "",
+    "receiptInfoUrl": "https://m.place.naver.com/my/review/6a2cce47cc78b835d9b0f12b/paymentInfo",
+    "reactionStat": {
+      "__ref": "ReactionStat:6a2cce47cc78b835d9b0f12b"
+    },
+    "hasViewerReacted": {
+      "__ref": "HasViewerReacted:6a2cce47cc78b835d9b0f12b"
+    },
+    "nickname": "",
+    "showPaymentInfo": true,
+    "visitCategories": [
+      {
+        "__typename": "VisitCategory",
+        "code": "v_with_reservation",
+        "name": "",
+        "keywords": [
+          {
+            "__typename": "VisitCategoryKeyword",
+            "code": "예약 후 이용",
+            "name": "예약 후 이용"
+          }
+        ]
+      },
+      {
+        "__typename": "VisitCategory",
+        "code": "v_enter_immediately",
+        "name": "대기 시간",
+        "keywords": [
+          {
+            "__typename": "VisitCategoryKeyword",
+            "code": "바로 입장",
+            "name": "바로 입장"
+          }
+        ]
+      }
+    ],
+    "representativeVisitDateTime": "2026-06-13T03:13:26.000Z",
+    "showRepresentativeVisitDateTime": null
+  },
+  {
+    "__typename": "VisitorReview",
+    "id": "6a292af279d14bd4ff6f1082",
+    "cursor": "TS9wZ3ZxZHNPdm5LMkZUU0JlZHJsZW9UUHRKU2NPR3J1Y0ZRTzJZUGRQNDJJMnh5T1lWQ0pTWDdvY1ZISmoxdWt6UGJVaTJSQ0I5VEg4Znk2ZFJFV0JyWGpwb3IwOHBKTUNUbGZuanRJOFhiczZDVWxBMzhGRDZXd0J5TGpod0VvWTRIM210UlhkdzFxWXowa09GZVhCYnFGWHZyZndzPQ==",
+    "reviewId": "6a292af279d14bd4ff6f10ac",
+    "rating": null,
+    "author": {
+      "__ref": "VisitorReviewAuthor:1Wijc"
+    },
+    "body": "아이가 초등학교 1학년때부터 하기 싫은 일을 할때마다 갑자기 속이 메스껍고 울렁거린다고 하고 손발이 차가워지면서  움직이지도 못하는 증상이 생겼어요. 계속되는게 아니라 얼마후에 괜찮아지고를 해서 가까운병원 몇군데를 다녀봐도 내과적으로는 이상이 없었습니다.\n1년에 한번씩 한달가량을 증상이 지속되다 너무 힘들어\n자율신경이상증상검사를 위해 해아림한의원을 찾게되었습니다.  6개월 치료를 해야한다는 말씀에 막막하기도 비용부담도 되었지만  아이도 가족 모두 힘들어 치료를 결정하고 치료 받고 드디어 6개월 치료가 마무리가 되었네요.치료 시작하면서\n증상도 예전보다 빨리 사라졌고 한약도 6개월동안 먹고 침치료. 뜸치료 상담을 통해 생활습관과 마음가짐 바꾸려고 노력했더니 예전보다 훨씬 좋아졌습니다. 감사합니다.",
+    "thumbnail": null,
+    "media": [],
+    "tags": null,
+    "status": "ACTIVE",
+    "visitCount": 2,
+    "viewCount": 405,
+    "visited": "6.10.수",
+    "created": "6.10.수",
+    "reply": {
+      "__typename": "VisitorReviewReply",
+      "editUrl": "https://new-m.smartplace.naver.com/bizes/place-id/1272285133/reviews/6a292af279d14bd4ff6f1082",
+      "body": null,
+      "editedBy": null,
+      "created": null,
+      "date": null,
+      "replyTitle": null,
+      "isReported": false,
+      "isSuspended": false,
+      "status": null
+    },
+    "originType": "영수증",
+    "item": null,
+    "language": "ko",
+    "highlightRanges": null,
+    "apolloCacheId": "true",
+    "translatedText": null,
+    "businessName": "해아림한의원 분당점",
+    "showBookingItemName": null,
+    "bookingItemName": "",
+    "votedKeywords": [],
+    "userIdno": "1Wijc",
+    "loginIdno": "",
+    "receiptInfoUrl": "https://m.place.naver.com/my/review/6a292af279d14bd4ff6f1082/paymentInfo",
+    "reactionStat": {
+      "__ref": "ReactionStat:6a292af279d14bd4ff6f1082"
+    },
+    "hasViewerReacted": {
+      "__ref": "HasViewerReacted:6a292af279d14bd4ff6f1082"
+    },
+    "nickname": "",
+    "showPaymentInfo": true,
+    "visitCategories": [
+      {
+        "__typename": "VisitCategory",
+        "code": "v_with_reservation",
+        "name": "",
+        "keywords": [
+          {
+            "__typename": "VisitCategoryKeyword",
+            "code": "예약 후 이용",
+            "name": "예약 후 이용"
+          }
+        ]
+      },
+      {
+        "__typename": "VisitCategory",
+        "code": "v_enter_immediately",
+        "name": "대기 시간",
+        "keywords": [
+          {
+            "__typename": "VisitCategoryKeyword",
+            "code": "바로 입장",
+            "name": "바로 입장"
+          }
+        ]
+      }
+    ],
+    "representativeVisitDateTime": "2026-06-10T08:54:17.000Z",
+    "showRepresentativeVisitDateTime": null
+  },
+  {
+    "__typename": "VisitorReview",
+    "id": "6a1a3a9a87dc8c59dc12114c",
+    "cursor": "bW51SnF0QWxLbjQ5M3YyaEE2M0l5WlZhNnZNK1lhQTJuS2tUR2s0Q1JibHFhQXU4U092bDkyaHZFajRkRnFwc1ZwTjhpUlBDNzlObUIxQWR2dWkxS3o5ZUNmcUU4cmlTa1Y5Z1VaRDFWUlZUVjFwQkpoV2xSU0lxbUtDVkk4Q3pBUFBPbkt1SjBVa3pNNUM1VlNQdjRrRmNqb0dVUS9NPQ==",
+    "reviewId": "6a1a3a9a87dc8c59dc121163",
+    "rating": null,
+    "author": {
+      "__ref": "VisitorReviewAuthor:26z6Q"
+    },
+    "body": "거의 1년정도 다녔어요.\n아들이 갑자기 틱이 심해져서 밤새 병원 알아보고 후기찾아보고 선택한 곳입니다. 초저학년이라 양방병원보다는 한의원이 나을듯해서 집과 거리가 있음에도 내원하였는데 먼저 병원 전 직원분들이 너무 친절하게 맞이하여주셔서 좋았어요. 틱 검사부터 진단, 치료과정까지 아이가 힘들었겠지만 지난 시간을 돌이켜보니 굉장히 잘한선택이었다는 생각이 듭니다.\n초반에 한약 먹는것에 대해 거부감이 있던 아이도 어느새 스스로 찾아먹게되고 틱도 어느순간 사라져있더라구요.\n아이 틱이 사라지니 엄마인 제 불안도 사라져서 넘 좋았습니다. 잘 치료해주신 선생님께 진심으로 감사드려요!\n틱이 고민이신 부모님들은 이 곳 정말 추천드릴께요!",
+    "thumbnail": "https://pup-review-phinf.pstatic.net/MjAyNjA1MzBfMzUg/MDAxNzgwMTAzODMzMTc0.wZje9cce5qT3E-7B75FEPv-eQjwSwuvL3xxjgj-c8qkg.Jn7S_wKuSocNmrZj3UCck94Bc3X_VKmKIVBjcZefDA4g.JPEG/6CD9DDEE-DEE2-4E0C-86DE-36A832C06A72.jpeg",
+    "media": [
+      {
+        "__typename": "VisitorReviewMedia",
+        "type": "image",
+        "thumbnail": "https://pup-review-phinf.pstatic.net/MjAyNjA1MzBfMzUg/MDAxNzgwMTAzODMzMTc0.wZje9cce5qT3E-7B75FEPv-eQjwSwuvL3xxjgj-c8qkg.Jn7S_wKuSocNmrZj3UCck94Bc3X_VKmKIVBjcZefDA4g.JPEG/6CD9DDEE-DEE2-4E0C-86DE-36A832C06A72.jpeg?type=w1500_60_sharpen",
+        "thumbnailRatio": "portrait",
+        "class": "notReceipt",
+        "videoId": null,
+        "videoUrl": null,
+        "trailerUrl": null
+      }
+    ],
+    "tags": null,
+    "status": "ACTIVE",
+    "visitCount": 2,
+    "viewCount": 469,
+    "visited": "5.30.토",
+    "created": "5.30.토",
+    "reply": {
+      "__typename": "VisitorReviewReply",
+      "editUrl": "https://new-m.smartplace.naver.com/bizes/place-id/1272285133/reviews/6a1a3a9a87dc8c59dc12114c",
+      "body": null,
+      "editedBy": null,
+      "created": null,
+      "date": null,
+      "replyTitle": null,
+      "isReported": false,
+      "isSuspended": false,
+      "status": null
+    },
+    "originType": "영수증",
+    "item": null,
+    "language": "ko",
+    "highlightRanges": null,
+    "apolloCacheId": "true",
+    "translatedText": null,
+    "businessName": "해아림한의원 분당점",
+    "showBookingItemName": null,
+    "bookingItemName": "",
+    "votedKeywords": [],
+    "userIdno": "26z6Q",
+    "loginIdno": "",
+    "receiptInfoUrl": "https://m.place.naver.com/my/review/6a1a3a9a87dc8c59dc12114c/paymentInfo",
+    "reactionStat": {
+      "__ref": "ReactionStat:6a1a3a9a87dc8c59dc12114c"
+    },
+    "hasViewerReacted": {
+      "__ref": "HasViewerReacted:6a1a3a9a87dc8c59dc12114c"
+    },
+    "nickname": "",
+    "showPaymentInfo": true,
+    "visitCategories": [
+      {
+        "__typename": "VisitCategory",
+        "code": "v_with_reservation",
+        "name": "",
+        "keywords": [
+          {
+            "__typename": "VisitCategoryKeyword",
+            "code": "예약 후 이용",
+            "name": "예약 후 이용"
+          }
+        ]
+      },
+      {
+        "__typename": "VisitCategory",
+        "code": "v_enter_immediately",
+        "name": "대기 시간",
+        "keywords": [
+          {
+            "__typename": "VisitCategoryKeyword",
+            "code": "바로 입장",
+            "name": "바로 입장"
+          }
+        ]
+      }
+    ],
+    "representativeVisitDateTime": "2026-05-30T01:06:48.000Z",
+    "showRepresentativeVisitDateTime": null
+  },
+  {
+    "__typename": "VisitorReview",
+    "id": "6a111b6c13e47359d72ad614",
+    "cursor": "WWxyR3VKVmo0RzlkNnJ5RGx5VFV6TzJ5WXVaWkt3L241bEVUNG9KVUhGSUZkS1daMXFFZkkvOTZwRE5VTVMrOTU5STBVNkJTMHRoamtqc0RHSVZHVkxtQjBLU1BybU1tR3BGaFZNeFQrbCtLTXI5ZkZvcThIMHJ2d1p3QnBBQ2NJWlN0RXZGOU9rT2RGemt1UlNmd2xuTVpHRElMejJFPQ==",
+    "reviewId": "6a111b6c13e47359d72ad632",
+    "rating": null,
+    "author": {
+      "__ref": "VisitorReviewAuthor:275Wi"
+    },
+    "body": "6개월 전 중학생 아들이 불안증상으로 과민성대장증후군이 자주 발병해서 진료받게 됐는데 원장님 처방으로 이제는 말끔히 없어졌어요. 학교가는게 불규칙해서 고민이 많이 됐었는데요 어떤 증상이 뿅하고 사라지기 바라는 마음은 모두 같겠지만 정말 시간이 걸리더라구요. 한약 처방받고 3개월정도에 증상이 거의 완화됐고 나머지 3개월 정도는 관리 차원에서 약하게 처방받았는데 지금은 더이상 약을 안먹어도 됩니다.\n망설이시는 분들은 지금 치료를 시작하시라고 말씀드리고 싶어요~\n원장님과 선생님들 모두 친절하시고 좋아요~^^",
+    "thumbnail": null,
+    "media": [],
+    "tags": null,
+    "status": "ACTIVE",
+    "visitCount": 1,
+    "viewCount": 473,
+    "visited": "5.23.토",
+    "created": "5.23.토",
+    "reply": {
+      "__typename": "VisitorReviewReply",
+      "editUrl": "https://new-m.smartplace.naver.com/bizes/place-id/1272285133/reviews/6a111b6c13e47359d72ad614",
+      "body": null,
+      "editedBy": null,
+      "created": null,
+      "date": null,
+      "replyTitle": null,
+      "isReported": false,
+      "isSuspended": false,
+      "status": null
+    },
+    "originType": "영수증",
+    "item": null,
+    "language": "ko",
+    "highlightRanges": null,
+    "apolloCacheId": "true",
+    "translatedText": null,
+    "businessName": "해아림한의원 분당점",
+    "showBookingItemName": null,
+    "bookingItemName": "",
+    "votedKeywords": [],
+    "userIdno": "275Wi",
+    "loginIdno": "",
+    "receiptInfoUrl": "https://m.place.naver.com/my/review/6a111b6c13e47359d72ad614/paymentInfo",
+    "reactionStat": {
+      "__ref": "ReactionStat:6a111b6c13e47359d72ad614"
+    },
+    "hasViewerReacted": {
+      "__ref": "HasViewerReacted:6a111b6c13e47359d72ad614"
+    },
+    "nickname": "",
+    "showPaymentInfo": true,
+    "visitCategories": [
+      {
+        "__typename": "VisitCategory",
+        "code": "v_with_reservation",
+        "name": "",
+        "keywords": [
+          {
+            "__typename": "VisitCategoryKeyword",
+            "code": "예약 후 이용",
+            "name": "예약 후 이용"
+          }
+        ]
+      },
+      {
+        "__typename": "VisitCategory",
+        "code": "v_within_10minutes",
+        "name": "대기 시간",
+        "keywords": [
+          {
+            "__typename": "VisitCategoryKeyword",
+            "code": "10분 이내 ",
+            "name": "10분 이내 "
+          }
+        ]
+      }
+    ],
+    "representativeVisitDateTime": "2026-05-23T03:05:59.000Z",
+    "showRepresentativeVisitDateTime": null
+  },
+  {
+    "__typename": "VisitorReview",
+    "id": "6a0182170bc0b7af0e50cf7e",
+    "cursor": "K2RTQlMyN3hUS256Sm5tTEJmNldvU3N4RllLdjR6WndPQ2tIQkkxU25jQ2RmWTdsN3NPZGhKWVBWMVozckV0Y2cxSm02MVR3RzBlVUo0ZmRLZVFtNVcwSGlsc0Z1ZENCVVl4aFJYYmdsQ3RLU29sbDhGL0dPKzd5ZW01UjJpSFJoMHUrV0Zza1BKc1I1TkY5R1RudjFLeUw3dWQ1L1h3PQ==",
+    "reviewId": "6a0182170bc0b7af0e50cfa2",
+    "rating": null,
+    "author": {
+      "__ref": "VisitorReviewAuthor:64imr"
+    },
+    "body": "선생님들 모두 친절하시고 특히 원장선생님께서 편안하게 상담을 잘 해주십니다~ 병원 내부도 깔끔하고 분위기가 편안해서 거부감 없이 진료 받을 수 있었습니다~ \n처음에는 걱정과 불안이 가득했었는데 이제 가벼움 발거움으로 나가게 되었습니다~ 그동안 애써주신 선생님들께 감사하다고 꼭 이야기 하고 싶습니다^^",
+    "thumbnail": null,
+    "media": [],
+    "tags": null,
+    "status": "ACTIVE",
+    "visitCount": 1,
+    "viewCount": 550,
+    "visited": "5.11.월",
+    "created": "5.11.월",
+    "reply": {
+      "__typename": "VisitorReviewReply",
+      "editUrl": "https://new-m.smartplace.naver.com/bizes/place-id/1272285133/reviews/6a0182170bc0b7af0e50cf7e",
+      "body": null,
+      "editedBy": null,
+      "created": null,
+      "date": null,
+      "replyTitle": null,
+      "isReported": false,
+      "isSuspended": false,
+      "status": null
+    },
+    "originType": "영수증",
+    "item": null,
+    "language": "ko",
+    "highlightRanges": null,
+    "apolloCacheId": "true",
+    "translatedText": null,
+    "businessName": "해아림한의원 분당점",
+    "showBookingItemName": null,
+    "bookingItemName": "",
+    "votedKeywords": [],
+    "userIdno": "64imr",
+    "loginIdno": "",
+    "receiptInfoUrl": "https://m.place.naver.com/my/review/6a0182170bc0b7af0e50cf7e/paymentInfo",
+    "reactionStat": {
+      "__ref": "ReactionStat:6a0182170bc0b7af0e50cf7e"
+    },
+    "hasViewerReacted": {
+      "__ref": "HasViewerReacted:6a0182170bc0b7af0e50cf7e"
+    },
+    "nickname": "",
+    "showPaymentInfo": true,
+    "visitCategories": [
+      {
+        "__typename": "VisitCategory",
+        "code": "v_with_reservation",
+        "name": "",
+        "keywords": [
+          {
+            "__typename": "VisitCategoryKeyword",
+            "code": "예약 후 이용",
+            "name": "예약 후 이용"
+          }
+        ]
+      },
+      {
+        "__typename": "VisitCategory",
+        "code": "v_enter_immediately",
+        "name": "대기 시간",
+        "keywords": [
+          {
+            "__typename": "VisitCategoryKeyword",
+            "code": "바로 입장",
+            "name": "바로 입장"
+          }
+        ]
+      }
+    ],
+    "representativeVisitDateTime": "2026-05-11T07:11:05.000Z",
+    "showRepresentativeVisitDateTime": null
+  },
+  {
+    "__typename": "VisitorReview",
+    "id": "699e54c40d5ee02554cfb516",
+    "cursor": "d2R4M25DanpRRlNFbHU5bFNpNWxCWkVMZzJiZm93bU1yTmp0a1NCMHFKWngrMlVzQjlTay9tSk1EQStwMnVodGFvTG85Qm1uaGV1cStnWGljQTRIaWxaZzRxK1hYY2hvSGZTaEcxcnRNTC9ndy83cXlhTnF5UE9mVmxtLzJiWnFUZVpBeElScE50WC9JNkE0MVRIVXk0NW1WMmFES0JRPQ==",
+    "reviewId": "699e54c40d5ee02554cfb522",
+    "rating": null,
+    "author": {
+      "__ref": "VisitorReviewAuthor:1CwId"
+    },
+    "body": "9개월 정도 아이의 틱 증상으로 본 한의원을 다니게\n되었습니다. 한 달 정도 지켜보다가 증상이 심해지고 여러 가지 틱들이 복합적으로 나타나 어떤 치료를 받아야 하나 고민하다 한의원에서 더 근본적인 치료를 받을 수 있다는 사실을 알게 되어 결정하였습니다. 아이의 증상이 너무 심각하여 처음에는 별 차도가 없는 듯 보였습니다. 하지만 3개월 정도가 지나자 점차 증상의 개수가 줄어들고 빈도가 줄어들고 9개월이 지난 지금은 증상을 찾아볼 수 없을 정도로 호전되었습니다. 선생님을 믿고 약 복용을 잘 지키고 미디어 제한하고 먹을 것 조심한 것 외에는 별다른 변화는 없었습니다. 틱으로 고민하시는 분들에게 적극 추천드립니다.",
+    "thumbnail": null,
+    "media": [],
+    "tags": null,
+    "status": "ACTIVE",
+    "visitCount": 2,
+    "viewCount": 1111,
+    "visited": "2.25.수",
+    "created": "2.25.수",
+    "reply": {
+      "__typename": "VisitorReviewReply",
+      "editUrl": "https://new-m.smartplace.naver.com/bizes/place-id/1272285133/reviews/699e54c40d5ee02554cfb516",
+      "body": null,
+      "editedBy": null,
+      "created": null,
+      "date": null,
+      "replyTitle": null,
+      "isReported": false,
+      "isSuspended": false,
+      "status": null
+    },
+    "originType": "영수증",
+    "item": null,
+    "language": "ko",
+    "highlightRanges": null,
+    "apolloCacheId": "true",
+    "translatedText": null,
+    "businessName": "해아림한의원 분당점",
+    "showBookingItemName": null,
+    "bookingItemName": "",
+    "votedKeywords": [],
+    "userIdno": "1CwId",
+    "loginIdno": "",
+    "receiptInfoUrl": "https://m.place.naver.com/my/review/699e54c40d5ee02554cfb516/paymentInfo",
+    "reactionStat": {
+      "__ref": "ReactionStat:699e54c40d5ee02554cfb516"
+    },
+    "hasViewerReacted": {
+      "__ref": "HasViewerReacted:699e54c40d5ee02554cfb516"
+    },
+    "nickname": "",
+    "showPaymentInfo": true,
+    "visitCategories": [
+      {
+        "__typename": "VisitCategory",
+        "code": "v_with_reservation",
+        "name": "",
+        "keywords": [
+          {
+            "__typename": "VisitCategoryKeyword",
+            "code": "예약 후 이용",
+            "name": "예약 후 이용"
+          }
+        ]
+      },
+      {
+        "__typename": "VisitCategory",
+        "code": "v_enter_immediately",
+        "name": "대기 시간",
+        "keywords": [
+          {
+            "__typename": "VisitCategoryKeyword",
+            "code": "바로 입장",
+            "name": "바로 입장"
+          }
+        ]
+      }
+    ],
+    "representativeVisitDateTime": "2026-02-25T01:40:22.000Z",
+    "showRepresentativeVisitDateTime": null
+  },
+  {
+    "__typename": "VisitorReview",
+    "id": "614b926143d6760050ec35c6",
+    "cursor": "OXZRMkxBenpKVG8zWlBZYlI1bW5oL3AzL3ByejJzekIyUjVTUC85UzR6YzcwQ3gwSVI3Z2kxWEt3OFJHQ2tFaTZDTncyVlY5UER1d3phVkUyeEpZMjhlRDg5SzNIdk1MREtNY0s4N2tQUVVLc096SjNYbDJNaWJpdkhBaWFwdW1IanpOSlhJMGtDZFZJWGEzWWV6NmtrNEl5TTY0REpzPQ==",
+    "rating": 3,
+    "author": {
+      "__ref": "VisitorReviewAuthor:1alPI"
+    },
+    "visitCount": 1,
+    "visited": "21.8.31.화",
+    "originType": "영수증",
+    "reply": {
+      "__typename": "VisitorReviewReply",
+      "editUrl": "https://new-m.smartplace.naver.com/bizes/place-id/1272285133/reviews/614b926143d6760050ec35c6",
+      "body": null,
+      "editedBy": null,
+      "created": null,
+      "date": null,
+      "replyTitle": null,
+      "isReported": false,
+      "isSuspended": false,
+      "status": null
+    },
+    "votedKeywords": [],
+    "businessName": "해아림한의원 분당점",
+    "status": "ACTIVE",
+    "userIdno": "1alPI",
+    "loginIdno": "",
+    "receiptInfoUrl": "https://m.place.naver.com/my/review/614b926143d6760050ec35c6/paymentInfo",
+    "reactionStat": {
+      "__ref": "ReactionStat:614b926143d6760050ec35c6"
+    },
+    "hasViewerReacted": {
+      "__ref": "HasViewerReacted:614b926143d6760050ec35c6"
+    },
+    "nickname": ""
+  },
+  {
+    "__typename": "VisitorReview",
+    "id": "6134aad4c18d4700506d798c",
+    "cursor": "VGtGTEw3NGpwRzVVbHoxd0VITXRmbzlBaStldmh4RVlMZlBWamY3VzZ5VzgyaWQzVzIzd3pTc2ZVY0dSNUZRT0d1SitYWU81ODE0L0YreUlZQ2p1WlRsYlVUc2ExbjhsRFJUdnBRYmlRV2pGT0JwZEN1UW41c1NwNUh4dFFlMkl0QytmeE82RDM1cEtWNjVVS0NycG93dWtUVjBjQUFnPQ==",
+    "rating": 4.5,
+    "author": {
+      "__ref": "VisitorReviewAuthor:6uPdE"
+    },
+    "visitCount": 8,
+    "visited": "21.8.31.화",
+    "originType": "영수증",
+    "reply": {
+      "__typename": "VisitorReviewReply",
+      "editUrl": "https://new-m.smartplace.naver.com/bizes/place-id/1272285133/reviews/6134aad4c18d4700506d798c",
+      "body": null,
+      "editedBy": null,
+      "created": null,
+      "date": null,
+      "replyTitle": null,
+      "isReported": false,
+      "isSuspended": false,
+      "status": null
+    },
+    "votedKeywords": [],
+    "businessName": "해아림한의원 분당점",
+    "status": "ACTIVE",
+    "userIdno": "6uPdE",
+    "loginIdno": "",
+    "receiptInfoUrl": "https://m.place.naver.com/my/review/6134aad4c18d4700506d798c/paymentInfo",
+    "reactionStat": {
+      "__ref": "ReactionStat:6134aad4c18d4700506d798c"
+    },
+    "hasViewerReacted": {
+      "__ref": "HasViewerReacted:6134aad4c18d4700506d798c"
+    },
+    "nickname": ""
+  },
+  {
+    "__typename": "VisitorReview",
+    "id": "611a06be13adc000505eb996",
+    "cursor": "aWc2eE9WMWVrcDY0RFRwdFRwald5cWJKK1k5WFZJSENKaE43eFdwa0ljQTZ5Q2IzZTBzL2JqU0ZKK2lLN2JOMCswQjB2WGJFTk13a2ZyaHBMMVlSdjZwV0V4R0duMFdOUGxGbWpzVzFkVCt6SHBMYTdueFVXTTNwOWlhR0dDMXF2OC8vL0lKeG1DRDV2cGpCS1ZmSUhuZVRLQ3dBZVY4PQ==",
+    "rating": 5,
+    "author": {
+      "__ref": "VisitorReviewAuthor:lTrb"
+    },
+    "visitCount": 2,
+    "visited": "21.8.16.월",
+    "originType": "영수증",
+    "reply": {
+      "__typename": "VisitorReviewReply",
+      "editUrl": "https://new-m.smartplace.naver.com/bizes/place-id/1272285133/reviews/611a06be13adc000505eb996",
+      "body": null,
+      "editedBy": null,
+      "created": null,
+      "date": null,
+      "replyTitle": null,
+      "isReported": false,
+      "isSuspended": false,
+      "status": null
+    },
+    "votedKeywords": [],
+    "businessName": "해아림한의원 분당점",
+    "status": "ACTIVE",
+    "userIdno": "lTrb",
+    "loginIdno": "",
+    "receiptInfoUrl": "https://m.place.naver.com/my/review/611a06be13adc000505eb996/paymentInfo",
+    "reactionStat": {
+      "__ref": "ReactionStat:611a06be13adc000505eb996"
+    },
+    "hasViewerReacted": {
+      "__ref": "HasViewerReacted:611a06be13adc000505eb996"
+    },
+    "nickname": ""
+  },
+  {
+    "__typename": "VisitorReview",
+    "id": "611a06eb3ec08700509b0296",
+    "cursor": "S2greXBTQVNSWkp0MUc5ZGRLbFl5QW5YTklINUMrdndySEYrQ3N4MWNQdjFyMjlNejhDdmkxRWh3ZHVZU2dEMlV4a0dGa1c1SEFIZW5ZdjU0bkZmZTE5QmdOV3p3amxEOXYrZzFyZkNvTVJXMktNME5VTDJMclZoLzRVR09obW9lek95eDYwRndJMWVFWUN5bFBtOW1SWUNWbkJwekpnPQ==",
+    "rating": 3,
+    "author": {
+      "__ref": "VisitorReviewAuthor:lTrb"
+    },
+    "visitCount": 1,
+    "visited": "21.8.16.월",
+    "originType": "영수증",
+    "reply": {
+      "__typename": "VisitorReviewReply",
+      "editUrl": "https://new-m.smartplace.naver.com/bizes/place-id/1272285133/reviews/611a06eb3ec08700509b0296",
+      "body": null,
+      "editedBy": null,
+      "created": null,
+      "date": null,
+      "replyTitle": null,
+      "isReported": false,
+      "isSuspended": false,
+      "status": null
+    },
+    "votedKeywords": [],
+    "businessName": "해아림한의원 분당점",
+    "status": "ACTIVE",
+    "userIdno": "lTrb",
+    "loginIdno": "",
+    "receiptInfoUrl": "https://m.place.naver.com/my/review/611a06eb3ec08700509b0296/paymentInfo",
+    "reactionStat": {
+      "__ref": "ReactionStat:611a06eb3ec08700509b0296"
+    },
+    "hasViewerReacted": {
+      "__ref": "HasViewerReacted:611a06eb3ec08700509b0296"
+    },
+    "nickname": ""
+  },
+  {
+    "__typename": "VisitorReview",
+    "id": "611316a6e5c16400501ec400",
+    "cursor": "Mm5zMDFmUWppeVJ2alk3dGRkc0JFVlRmM2FFWjgwVzJ5S1ZCMlYzYmdvUXNmR1l5RUh3OXlvNXpLWHdNSTVSOU84clFaRk02bHJtSTVqY3BYWmFIa1p1cUxLNnBmMWNBaFAyUkNrYmRZZmZDMUdZZDBrcXdFMG1VUDY2aENTQ1VsWUNSN3U0eThuejZPc01kNXBycDNXb0dUbXo5UkZZPQ==",
+    "rating": 4,
+    "author": {
+      "__ref": "VisitorReviewAuthor:6uPdE"
+    },
+    "visitCount": 7,
+    "visited": "21.8.10.화",
+    "originType": "영수증",
+    "reply": {
+      "__typename": "VisitorReviewReply",
+      "editUrl": "https://new-m.smartplace.naver.com/bizes/place-id/1272285133/reviews/611316a6e5c16400501ec400",
+      "body": null,
+      "editedBy": null,
+      "created": null,
+      "date": null,
+      "replyTitle": null,
+      "isReported": false,
+      "isSuspended": false,
+      "status": null
+    },
+    "votedKeywords": [],
+    "businessName": "해아림한의원 분당점",
+    "status": "ACTIVE",
+    "userIdno": "6uPdE",
+    "loginIdno": "",
+    "receiptInfoUrl": "https://m.place.naver.com/my/review/611316a6e5c16400501ec400/paymentInfo",
+    "reactionStat": {
+      "__ref": "ReactionStat:611316a6e5c16400501ec400"
+    },
+    "hasViewerReacted": {
+      "__ref": "HasViewerReacted:611316a6e5c16400501ec400"
+    },
+    "nickname": ""
+  },
+  {
+    "__typename": "VisitorReview",
+    "id": "610e0043d3c6b900506040c8",
+    "cursor": "bi9jM3NudEhLcG9KTEwzN3BweHpmZGF0VGVuQkFsRllJbXJKOVdVc3g3c3BEVXJob0QvUEFrZVVnNVZkb1FnZmNjUy9QeDNETzFMekMwZVh0MHF1Nys5TG5XYmw4Y3JIUUY5RWQ3TzY5aXVMQmF3N1NDUDRIS3NtUWpuenQ5UWhMN2ZNZDl5NHJyRTVDZ1JMOG1GSm1VVDRaTHpBTTR3PQ==",
+    "rating": 5,
+    "author": {
+      "__ref": "VisitorReviewAuthor:1ysJ5"
+    },
+    "visitCount": 5,
+    "visited": "21.8.6.금",
+    "originType": "영수증",
+    "reply": {
+      "__typename": "VisitorReviewReply",
+      "editUrl": "https://new-m.smartplace.naver.com/bizes/place-id/1272285133/reviews/610e0043d3c6b900506040c8",
+      "body": null,
+      "editedBy": null,
+      "created": null,
+      "date": null,
+      "replyTitle": null,
+      "isReported": false,
+      "isSuspended": false,
+      "status": null
+    },
+    "votedKeywords": [],
+    "businessName": "해아림한의원 분당점",
+    "status": "ACTIVE",
+    "userIdno": "1ysJ5",
+    "loginIdno": "",
+    "receiptInfoUrl": "https://m.place.naver.com/my/review/610e0043d3c6b900506040c8/paymentInfo",
+    "reactionStat": {
+      "__ref": "ReactionStat:610e0043d3c6b900506040c8"
+    },
+    "hasViewerReacted": {
+      "__ref": "HasViewerReacted:610e0043d3c6b900506040c8"
+    },
+    "nickname": ""
+  },
+  {
+    "__typename": "VisitorReview",
+    "id": "610c048917ac1100500f468d",
+    "cursor": "U2txczVvUFIrMWZvbjhkeWROekFGNW9hcXFsalhTTDBnV1dHWHFWZjhlMGRHVm0wblFudnc2Tm9hSGh2QXZQTjJad2FoWjM3enExY1Fmc3kwM0NQZEhJN2hTbkpWdjI3UXpYYmlKR2MyMnpWZ2VNMTJwaTAyZlY2NysxMlhjUDhXVEhZckpXaWNReDdIOEEwbm5lTFJlS20rNHlVM21BPQ==",
+    "rating": 5,
+    "author": {
+      "__ref": "VisitorReviewAuthor:479PG"
+    },
+    "visitCount": 1,
+    "visited": "21.7.14.수",
+    "originType": "영수증",
+    "reply": {
+      "__typename": "VisitorReviewReply",
+      "editUrl": "https://new-m.smartplace.naver.com/bizes/place-id/1272285133/reviews/610c048917ac1100500f468d",
+      "body": null,
+      "editedBy": null,
+      "created": null,
+      "date": null,
+      "replyTitle": null,
+      "isReported": false,
+      "isSuspended": false,
+      "status": null
+    },
+    "votedKeywords": [],
+    "businessName": "해아림한의원 분당점",
+    "status": "ACTIVE",
+    "userIdno": "479PG",
+    "loginIdno": "",
+    "receiptInfoUrl": "https://m.place.naver.com/my/review/610c048917ac1100500f468d/paymentInfo",
+    "reactionStat": {
+      "__ref": "ReactionStat:610c048917ac1100500f468d"
+    },
+    "hasViewerReacted": {
+      "__ref": "HasViewerReacted:610c048917ac1100500f468d"
+    },
+    "nickname": ""
+  },
+  {
+    "__typename": "VisitorReview",
+    "id": "6110a9133c0e870050400e10",
+    "cursor": "MmsrSTZLdFBTamY0bWw4VEVCT3BJUVEzRU9TdGZuL1VVVlF3M2twNFlLRW9qcWgxR3FXbEpxVk1oOTRVaStYNGE1YVFkK2R3VTIxMFFSeXBvRWhPdmd6bFJCWWw5MFhpVXhRN08wdlhweDlDVGFNc000TENNcjNMRW1QUkt6eWpGT1RPd3JiVWl6ZWQ1aXpRY1lyT3BRMDBXbVhSUy9VPQ==",
+    "rating": 4,
+    "author": {
+      "__ref": "VisitorReviewAuthor:6uPdE"
+    },
+    "visitCount": 6,
+    "visited": "21.6.25.금",
+    "originType": "영수증",
+    "reply": {
+      "__typename": "VisitorReviewReply",
+      "editUrl": "https://new-m.smartplace.naver.com/bizes/place-id/1272285133/reviews/6110a9133c0e870050400e10",
+      "body": null,
+      "editedBy": null,
+      "created": null,
+      "date": null,
+      "replyTitle": null,
+      "isReported": false,
+      "isSuspended": false,
+      "status": null
+    },
+    "votedKeywords": [],
+    "businessName": "해아림한의원 분당점",
+    "status": "ACTIVE",
+    "userIdno": "6uPdE",
+    "loginIdno": "",
+    "receiptInfoUrl": "https://m.place.naver.com/my/review/6110a9133c0e870050400e10/paymentInfo",
+    "reactionStat": {
+      "__ref": "ReactionStat:6110a9133c0e870050400e10"
+    },
+    "hasViewerReacted": {
+      "__ref": "HasViewerReacted:6110a9133c0e870050400e10"
+    },
+    "nickname": ""
+  },
+  {
+    "__typename": "VisitorReview",
+    "id": "60bb1cf4c7cb57005034e2d7",
+    "cursor": "K3dtQm9lY3F1QWwzOTRIZGxqdlVKSW4vL05IU201aEhGRGZjVWVyUXBjOG5VRjFweTBpd2tjdVR1N0F4RmpPNHZXZDl5RUhmQ3FweW9XbzE3aHAycFdDdkFOOENwUWdMVVMycHNtUkQ0OWp3YjJ1MlNRVWJMZ3B6QUlENUZSTUMvSjYwOUdJUzZqRVNFSVBIVDYrV3dQOEZEcUczOHpvPQ==",
+    "rating": 5,
+    "author": {
+      "__ref": "VisitorReviewAuthor:IFbW"
+    },
+    "visitCount": 1,
+    "visited": "21.6.5.토",
+    "originType": "영수증",
+    "reply": {
+      "__typename": "VisitorReviewReply",
+      "editUrl": "https://new-m.smartplace.naver.com/bizes/place-id/1272285133/reviews/60bb1cf4c7cb57005034e2d7",
+      "body": null,
+      "editedBy": null,
+      "created": null,
+      "date": null,
+      "replyTitle": null,
+      "isReported": false,
+      "isSuspended": false,
+      "status": null
+    },
+    "votedKeywords": [],
+    "businessName": "해아림한의원 분당점",
+    "status": "ACTIVE",
+    "userIdno": "IFbW",
+    "loginIdno": "",
+    "receiptInfoUrl": "https://m.place.naver.com/my/review/60bb1cf4c7cb57005034e2d7/paymentInfo",
+    "reactionStat": {
+      "__ref": "ReactionStat:60bb1cf4c7cb57005034e2d7"
+    },
+    "hasViewerReacted": {
+      "__ref": "HasViewerReacted:60bb1cf4c7cb57005034e2d7"
+    },
+    "nickname": ""
+  },
+  {
+    "__typename": "VisitorReview",
+    "id": "60bcaddbaa2e2a005066bf50",
+    "cursor": "Zi82bExiSTVNUFhzNE83ZGszYXBDQXFjOTI1WXB2aDkvQkVZbEJWaG5sdDVEZFozTEpZbGJsVEJxYnNnZ3BsdG9ldWZoeFpaYnpwWGdwWFg0QjJ4TjJ0dE02c2tjTlRUNWU5UFBBOUNiM3pZL0RDL3lxa1piR1BzYldidjBHbStaMXhuNkJQc0s4N0ZwUmxSSWRyV3ZSQlRQd0RjcWhvPQ==",
+    "rating": 5,
+    "author": {
+      "__ref": "VisitorReviewAuthor:1ysJ5"
+    },
+    "visitCount": 4,
+    "visited": "21.6.4.금",
+    "originType": "영수증",
+    "reply": {
+      "__typename": "VisitorReviewReply",
+      "editUrl": "https://new-m.smartplace.naver.com/bizes/place-id/1272285133/reviews/60bcaddbaa2e2a005066bf50",
+      "body": null,
+      "editedBy": null,
+      "created": null,
+      "date": null,
+      "replyTitle": null,
+      "isReported": false,
+      "isSuspended": false,
+      "status": null
+    },
+    "votedKeywords": [],
+    "businessName": "해아림한의원 분당점",
+    "status": "ACTIVE",
+    "userIdno": "1ysJ5",
+    "loginIdno": "",
+    "receiptInfoUrl": "https://m.place.naver.com/my/review/60bcaddbaa2e2a005066bf50/paymentInfo",
+    "reactionStat": {
+      "__ref": "ReactionStat:60bcaddbaa2e2a005066bf50"
+    },
+    "hasViewerReacted": {
+      "__ref": "HasViewerReacted:60bcaddbaa2e2a005066bf50"
+    },
+    "nickname": ""
+  }
+]
