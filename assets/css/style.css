@@ -7581,8 +7581,9 @@ body.is-admin .admin-only-btn {
 .inquiry-form-modal,
 .inquiry-detail-modal,
 .inquiry-pwd-modal,
-.inquiry-reply-editor-modal {
-  display: none;
+.inquiry-reply-editor-modal,
+#admin-doctor-reply-modal {
+  display: none !important;
   position: fixed;
   inset: 0;
   z-index: 99999;
@@ -7596,8 +7597,9 @@ body.is-admin .admin-only-btn {
 .inquiry-form-modal.active,
 .inquiry-detail-modal.active,
 .inquiry-pwd-modal.active,
-.inquiry-reply-editor-modal.active {
-  display: flex;
+.inquiry-reply-editor-modal.active,
+#admin-doctor-reply-modal.active {
+  display: flex !important;
 }
 
 .inquiry-modal-overlay {
@@ -7606,6 +7608,7 @@ body.is-admin .admin-only-btn {
   background: rgba(15, 23, 42, 0.7);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
+  pointer-events: auto;
 }
 
 .inquiry-modal-card {
