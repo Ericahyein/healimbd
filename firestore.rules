@@ -6,28 +6,36 @@ service cloud.firestore {
     // HELPER FUNCTIONS
     // ========================================================================
 
-    // Check if requester is authenticated admin
+    // Strictly check if requester is authenticated admin via Custom Claim or admins/{uid} document
     function isAdmin() {
       return request.auth != null && (
         request.auth.token.admin == true ||
-        request.auth.token.email in ['admin@healimbd.com', 'doctor@healimbd.com', 'ericahyein@gmail.com'] ||
         exists(/databases/$(database)/documents/admins/$(request.auth.uid))
       );
     }
 
-    // Check if anonymous user is creating a valid public inquiry
+    // Allowed category whitelist for public Q&A
+    function isValidCategory(cat) {
+      return cat in [
+        'tic', 'adhd', 'panic', 'anxiety', 'sleep',
+        'autonomic', 'hyperhidrosis', 'ibs', 'headache',
+        'depression', 'child', 'fatigue', 'etc'
+      ];
+    }
+
+    // Validation for new question creation (Anonymous / Public)
     function isCreateValid() {
       let data = request.resource.data;
-      let allowedKeys = ['nickname', 'title', 'content', 'category', 'status', 'createdAt', 'id'];
+      let allowedCreateKeys = ['nickname', 'title', 'content', 'category', 'status', 'createdAt', 'id'];
 
       return (
-        // 1. Must only contain strictly allowed fields
-        data.keys().hasOnly(allowedKeys) &&
+        // 1. Must only contain strictly allowed public fields (No extra/private fields)
+        data.keys().hasOnly(allowedCreateKeys) &&
 
         // 2. Status must strictly be 'pending' upon creation
         data.status == 'pending' &&
 
-        // 3. String length & type constraints (Anti-spam / Anti-bloat)
+        // 3. Field type and length limits
         data.nickname is string &&
         data.nickname.size() >= 1 &&
         data.nickname.size() <= 30 &&
@@ -40,19 +48,16 @@ service cloud.firestore {
         data.content.size() >= 5 &&
         data.content.size() <= 3000 &&
 
-        // 4. Allowed categories whitelist
-        data.category in [
-          'tic', 'adhd', 'panic', 'anxiety', 'sleep',
-          'autonomic', 'hyperhidrosis', 'ibs', 'headache',
-          'depression', 'child', 'fatigue', 'etc'
-        ] &&
+        // 4. Category must belong to whitelist
+        isValidCategory(data.category) &&
 
-        // 5. Must use Firebase Server Timestamp
+        // 5. Server timestamp validation
         data.createdAt == request.time &&
 
-        // 6. Prohibit unauthorized admin fields upon creation
+        // 6. Prohibit unauthorized answer and admin fields
         !('answer' in data) &&
         !('answeredAt' in data) &&
+        !('updatedAt' in data) &&
         !('admin' in data) &&
         !('isAdmin' in data) &&
         !('role' in data) &&
@@ -60,33 +65,72 @@ service cloud.firestore {
       );
     }
 
+    // Validation for question updating (Admin only)
+    function isUpdateValid() {
+      let data = request.resource.data;
+      let allowedUpdateKeys = ['nickname', 'title', 'content', 'category', 'status', 'createdAt', 'answer', 'answeredAt', 'updatedAt', 'id'];
+
+      return (
+        // 1. Must strictly restrict updated document to allowed schema fields (Prevents PII / arbitrary field injection)
+        data.keys().hasOnly(allowedUpdateKeys) &&
+
+        // 2. Immutable creation timestamp
+        data.createdAt == resource.data.createdAt &&
+
+        // 3. Status must strictly be either 'pending' or 'answered'
+        data.status in ['pending', 'answered'] &&
+
+        // 4. Base fields validation
+        data.nickname is string &&
+        data.nickname.size() >= 1 &&
+        data.nickname.size() <= 30 &&
+
+        data.title is string &&
+        data.title.size() >= 2 &&
+        data.title.size() <= 100 &&
+
+        data.content is string &&
+        data.content.size() >= 5 &&
+        data.content.size() <= 3000 &&
+
+        isValidCategory(data.category) &&
+
+        // 5. Answer validation: optional string up to 5000 characters
+        (!('answer' in data) || (data.answer is string && data.answer.size() <= 5000)) &&
+
+        // 6. Optional timestamp validations
+        (!('answeredAt' in data) || data.answeredAt is timestamp) &&
+        (!('updatedAt' in data) || data.updatedAt is timestamp)
+      );
+    }
+
     // ========================================================================
     // PUBLIC Q&A BOARD COLLECTION (online_inquiries)
     // ========================================================================
     match /online_inquiries/{inquiryId} {
-      // 1. Anyone (anonymous/public) can read the Q&A list and answers
+      // 1. Public Read (Anyone can view questions & answers)
       allow read: if true;
 
-      // 2. Anyone can create a new question subject to strict field validation
-      allow create: if isCreateValid() || isAdmin();
+      // 2. Public Create (Subject to strict schema and 'pending' status)
+      allow create: if isCreateValid();
 
-      // 3. Only verified admin can update (write/edit answers, change status to answered, etc.)
-      allow update: if isAdmin();
+      // 3. Admin Update (Strictly validated schema, immutable createdAt, answer length limit)
+      allow update: if isAdmin() && isUpdateValid();
 
-      // 4. Only verified admin can delete questions
+      // 4. Admin Delete
       allow delete: if isAdmin();
     }
 
     // ========================================================================
-    // ADMIN LIST & PRIVATE COLLECTIONS
+    // ADMIN IDENTIFIER COLLECTION (admins/{uid})
     // ========================================================================
     match /admins/{adminId} {
       allow read: if request.auth != null && request.auth.uid == adminId;
-      allow write: if false; // Managed exclusively via server or Firebase Console
+      allow write: if false; // Managed exclusively via Firebase Console / Server
     }
 
     // ========================================================================
-    // DEFAULT DENY FOR ALL OTHER COLLECTIONS
+    // DEFAULT DENY FOR ALL OTHER PATHS
     // ========================================================================
     match /{document=**} {
       allow read, write: if false;
