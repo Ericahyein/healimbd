@@ -608,12 +608,25 @@ const CATEGORY_NAME_MAP = {
   etc: '기타 신경정신'
 };
 
+function isUserAdmin() {
+  if (sessionStorage.getItem('healim_admin_auth') === 'true') return true;
+  try {
+    const user = JSON.parse(localStorage.getItem('healim_auth_user') || 'null');
+    if (user && user.isAdmin) return true;
+  } catch (e) {}
+  return false;
+}
+
 function initAdminCaseWriter() {
   renderCustomCasesToList();
 }
 
 function openAdminCaseWriter() {
-  openAdminAuthModal('case');
+  if (isUserAdmin()) {
+    openAdminWriterModal();
+  } else {
+    openAdminAuthModal('case');
+  }
 }
 
 function openAdminAuthModal(targetType = 'case') {
@@ -659,9 +672,19 @@ function handleAdminAuthSubmit(e) {
 
   if (enteredPwd === ADMIN_MASTER_PIN) {
     sessionStorage.setItem('healim_admin_auth', 'true');
+    const adminUser = {
+      name: '대표원장 (관리자)',
+      email: 'admin@healimbd.com',
+      provider: 'admin',
+      isAdmin: true,
+      loginAt: new Date().toISOString()
+    };
+    localStorage.setItem('healim_auth_user', JSON.stringify(adminUser));
+    updateAuthUI(adminUser);
+
     closeAdminAuthModal();
     const isColumn = window.adminTargetModal === 'column';
-    showAuthToast(isColumn ? '🔓 관리자 인증 성공! 원장 칼럼 작성창이 열립니다.' : '🔓 관리자 인증 성공! 치료사례 작성창이 열립니다.');
+    showAuthToast(isColumn ? '🔓 관리자 인증 완료! 원장 칼럼 작성창이 열립니다.' : '🔓 관리자 인증 완료! 치료사례 작성창이 열립니다.');
     setTimeout(() => {
       if (isColumn) {
         openAdminColumnWriterModal();
@@ -669,7 +692,7 @@ function handleAdminAuthSubmit(e) {
         openAdminWriterModal();
       }
       window.adminTargetModal = null;
-    }, 250);
+    }, 200);
   } else {
     if (errEl) errEl.style.display = 'flex';
     if (pwdInput) {
@@ -1138,7 +1161,11 @@ function initAdminColumnBoard() {
 }
 
 function openAdminColumnWriter() {
-  openAdminAuthModal('column');
+  if (isUserAdmin()) {
+    openAdminColumnWriterModal();
+  } else {
+    openAdminAuthModal('column');
+  }
 }
 
 function openAdminColumnWriterModal() {
