@@ -684,6 +684,8 @@ function openAdminWriterModal() {
   if (modal) {
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
+    loadCaseDraft();
+    setupCaseAutoSave();
   }
 }
 
@@ -693,6 +695,91 @@ function closeAdminWriterModal() {
     modal.classList.remove('active');
     document.body.style.overflow = '';
   }
+}
+
+let caseAutoSaveBound = false;
+function setupCaseAutoSave() {
+  if (caseAutoSaveBound) return;
+  caseAutoSaveBound = true;
+  const form = document.getElementById('admin-case-write-form');
+  if (!form) return;
+
+  const debouncedSave = debounce(() => {
+    saveCaseDraft();
+  }, 1000);
+
+  form.addEventListener('input', debouncedSave);
+}
+
+function saveCaseDraft() {
+  const cat = document.getElementById('case-input-category')?.value || '';
+  const startMonth = document.getElementById('case-input-start-month')?.value || '';
+  const endMonth = document.getElementById('case-input-end-month')?.value || '';
+  const content = document.getElementById('case-input-content')?.value || '';
+  const hashtags = document.getElementById('case-input-hashtags')?.value || '';
+
+  if (!content && !startMonth && !hashtags && !currentUploadedImageDataUrl) return;
+
+  const draft = {
+    category: cat,
+    startMonth: startMonth,
+    endMonth: endMonth,
+    content: content,
+    hashtags: hashtags,
+    image: currentUploadedImageDataUrl || '',
+    savedAt: new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })
+  };
+  localStorage.setItem('healim_draft_case', JSON.stringify(draft));
+}
+
+function saveCaseDraftManual() {
+  saveCaseDraft();
+  showAuthToast('💾 치료사례 작성 내용이 임시저장되었습니다.');
+}
+
+function loadCaseDraft() {
+  const draftStr = localStorage.getItem('healim_draft_case');
+  if (!draftStr) return;
+  try {
+    const draft = JSON.parse(draftStr);
+    if (!draft.content && !draft.startMonth && !draft.image && !draft.hashtags) return;
+
+    if (draft.category) {
+      const catEl = document.getElementById('case-input-category');
+      if (catEl) catEl.value = draft.category;
+    }
+    if (draft.startMonth) {
+      const el = document.getElementById('case-input-start-month');
+      if (el) el.value = draft.startMonth;
+    }
+    if (draft.endMonth) {
+      const el = document.getElementById('case-input-end-month');
+      if (el) el.value = draft.endMonth;
+    }
+    if (draft.content) {
+      const el = document.getElementById('case-input-content');
+      if (el) el.value = draft.content;
+    }
+    if (draft.hashtags) {
+      const el = document.getElementById('case-input-hashtags');
+      if (el) el.value = draft.hashtags;
+    }
+    if (draft.image) {
+      currentUploadedImageDataUrl = draft.image;
+      const imgEl = document.getElementById('case-preview-img');
+      const promptEl = document.getElementById('uploader-prompt');
+      const previewEl = document.getElementById('uploader-preview');
+      if (imgEl) imgEl.src = draft.image;
+      if (promptEl) promptEl.style.display = 'none';
+      if (previewEl) previewEl.style.display = 'flex';
+    }
+    updateDurationCalcPreview();
+    showAuthToast(`📝 [${draft.savedAt || '이전'}] 임시저장된 치료사례를 불러왔습니다.`);
+  } catch (e) {}
+}
+
+function clearCaseDraft() {
+  localStorage.removeItem('healim_draft_case');
 }
 
 function handleCasePhotoSelect(e) {
@@ -714,6 +801,7 @@ function handleCasePhotoSelect(e) {
     if (imgEl) imgEl.src = currentUploadedImageDataUrl;
     if (promptEl) promptEl.style.display = 'none';
     if (previewEl) previewEl.style.display = 'flex';
+    saveCaseDraft();
   };
   reader.readAsDataURL(file);
 }
@@ -729,6 +817,7 @@ function removeCasePhoto() {
   if (imgEl) imgEl.src = '';
   if (promptEl) promptEl.style.display = 'flex';
   if (previewEl) previewEl.style.display = 'none';
+  saveCaseDraft();
 }
 
 function calculateDurationText(startMonthStr, endMonthStr) {
@@ -784,12 +873,34 @@ function updateDurationCalcPreview() {
   }
 }
 
+function parseHashtags(rawInput) {
+  if (!rawInput) return [];
+  if (Array.isArray(rawInput)) return rawInput;
+  return rawInput
+    .split(/[\s,]+/)
+    .map(tag => tag.trim().replace(/^#+/, ''))
+    .filter(tag => tag.length > 0)
+    .map(tag => '#' + tag);
+}
+
+function renderHashtagPills(hashtags) {
+  if (!hashtags) return '';
+  const list = Array.isArray(hashtags) ? hashtags : parseHashtags(hashtags);
+  if (!list.length) return '';
+  return `
+    <div class="hashtag-pill-group">
+      ${list.map(tag => `<span class="hashtag-pill">${tag}</span>`).join('')}
+    </div>
+  `;
+}
+
 function handleAdminCaseSubmit(e) {
   e.preventDefault();
   const cat = document.getElementById('case-input-category').value;
   const startMonth = document.getElementById('case-input-start-month').value;
   const endMonth = document.getElementById('case-input-end-month').value;
   const content = document.getElementById('case-input-content').value.trim();
+  const hashtagsVal = document.getElementById('case-input-hashtags')?.value.trim() || '';
 
   if (!startMonth || !endMonth) {
     alert('치료 시작년월과 종료년월을 선택해주세요.');
@@ -820,6 +931,7 @@ function handleAdminCaseSubmit(e) {
     date: new Date().toISOString().split('T')[0],
     image: currentUploadedImageDataUrl,
     content: content,
+    hashtags: parseHashtags(hashtagsVal),
     createdAt: Date.now()
   };
 
@@ -827,7 +939,9 @@ function handleAdminCaseSubmit(e) {
   stored.unshift(newCase);
   localStorage.setItem('healim_custom_cases', JSON.stringify(stored));
 
+  clearCaseDraft();
   closeAdminWriterModal();
+
   // Reset Form
   document.getElementById('admin-case-write-form').reset();
   removeCasePhoto();
@@ -852,6 +966,8 @@ function renderCustomCasesToList() {
       card.setAttribute('data-category', item.category);
       card.setAttribute('data-review-type', 'direct');
 
+      const hashtagsHtml = renderHashtagPills(item.hashtags);
+
       card.innerHTML = `
         <div class="case-card-anchor" style="cursor: pointer;" onclick="openCustomCaseReader('${item.id}')">
           <div class="case-thumb-wrap">
@@ -864,6 +980,7 @@ function renderCustomCasesToList() {
               <span class="case-duration-text"><i class="ph-bold ph-calendar-blank"></i> 치료기간: ${item.duration || item.date}</span>
             </div>
             <p class="case-summary-text">${item.content}</p>
+            ${hashtagsHtml}
           </div>
         </div>
       `;
@@ -881,6 +998,8 @@ function renderCustomCasesToList() {
       card.className = 'healim-case-card injected-custom-case';
       card.setAttribute('data-category', item.category);
 
+      const hashtagsHtml = renderHashtagPills(item.hashtags);
+
       card.innerHTML = `
         <div class="case-card-anchor" style="cursor: pointer;" onclick="openCustomCaseReader('${item.id}')">
           <div class="case-thumb-wrap">
@@ -893,6 +1012,7 @@ function renderCustomCasesToList() {
               <span class="case-duration-text"><i class="ph-bold ph-calendar-blank"></i> 치료기간: ${item.duration || item.date}</span>
             </div>
             <p class="case-summary-text">${item.content}</p>
+            ${hashtagsHtml}
           </div>
         </div>
       `;
@@ -913,6 +1033,7 @@ function openCustomCaseReader(caseId) {
   const durationEl = document.getElementById('custom-reader-duration');
   const photoEl = document.getElementById('custom-reader-photo');
   const bodyEl = document.getElementById('custom-reader-body');
+  const hashtagsEl = document.getElementById('custom-reader-hashtags');
 
   if (catEl) {
     catEl.textContent = found.categoryName;
@@ -922,6 +1043,17 @@ function openCustomCaseReader(caseId) {
   if (durationEl) durationEl.textContent = `치료기간: ${found.duration || found.date}`;
   if (photoEl) photoEl.src = found.image;
   if (bodyEl) bodyEl.innerHTML = found.content.replace(/\n/g, '<br>');
+
+  if (hashtagsEl) {
+    const list = found.hashtags || [];
+    if (list.length) {
+      hashtagsEl.innerHTML = renderHashtagPills(list);
+      hashtagsEl.style.display = 'block';
+    } else {
+      hashtagsEl.innerHTML = '';
+      hashtagsEl.style.display = 'none';
+    }
+  }
 
   if (modal) {
     modal.classList.add('active');
@@ -995,111 +1127,7 @@ ${content}
 let currentUploadedColPhotoDataUrl = '';
 let currentOpenedCustomColumnId = null;
 
-const DEFAULT_COLUMNS_DATA = {
-  tic: {
-    category: 'tic',
-    categoryName: '소아·성인 틱장애',
-    title: '눈깜빡임과 킁킁거림, 틱장애는 억제가 아닌 뇌신경계 조절력 강화가 핵심입니다',
-    date: '2026.08.20',
-    author: '손지웅 대표원장',
-    image: 'images/clinics/tic.jpg',
-    content: `틱장애(Tic Disorder)는 자신의 의지와 무관하게 근육을 움직이거나(운동틱) 특정한 소리를 내는(음성틱) 질환입니다.
-
-많은 부모님들께서 "하지 마", "참아봐"라며 아이를 다그치시지만, 이는 아이의 긴장도와 뇌 흥분도를 극대화하여 증상을 더욱 악화시킬 뿐입니다.
-
-■ 틱장애가 발생하는 근본 원인
-두뇌의 기저핵(Basal Ganglia)은 불필요한 근육 움직임을 억제하고 정교한 운동을 조절하는 제동장치 역할을 합니다. 성장기 두뇌 발달의 불균형이나 유전적·환경적 스트레스, 자율신경의 과항진이 겹치면 이 억제 기능에 과부하가 걸리며 불수의적 움직임이 표출됩니다.
-
-■ 해아림한의원 분당점의 3단계 치료
-1. 뇌신경계 긴장 완화: 맞춤 한약을 통해 뇌의 기혈 순환을 돕고 과흥분된 신경 전달물질의 균형을 맞춥니다.
-2. 기저핵·전두엽 자율 조절 훈련: 뇌파 훈련(뉴로피드백)과 소뇌 운동 치료를 병행하여 스스로 제동할 수 있는 힘을 키웁니다.
-3. 심리적 안정 및 가족 코칭: 틱 증상에 대한 부모님의 대처법과 환경 개선으로 재발을 방지합니다.`
-  },
-  adhd: {
-    category: 'adhd',
-    categoryName: '주의집중력·ADHD',
-    title: '산만함과 충동성, 전두엽 억제 제동장치를 회복하는 맞춤 한방 치료',
-    date: '2026.08.18',
-    author: '손지웅 대표원장',
-    image: 'images/clinics/adhd.jpg',
-    content: `ADHD(주의력결핍 과잉행동장애)는 성격이나 훈육의 문제가 아닌, 전두엽(Frontal Lobe)의 자기조절 기능 발달 지연에서 기인합니다.
-
-■ ADHD의 핵심 증상 3가지
-1. 주의력 결핍: 한 가지 일에 지속적으로 집중하지 못하고 잦은 실수를 반복함
-2. 과잉 행동: 가만히 앉아 있지 못하고 손발을 꼼지락거리거나 지나치게 뛰어다님
-3. 충동성: 순서를 기다리지 못하고 불쑥 끼어들거나 감정 조절이 어려움
-
-■ 한방 맞춤 치료의 장점
-양약 신경정신과 약물의 식욕부진, 수면장애, 의존성 부담 없이, 뇌의 전두엽 혈류를 개선하고 두뇌 각성도를 자연스럽게 정상화하는 한약 처방과 두뇌 훈련을 병행하여 스스로 계획하고 절제하는 힘을 길러줍니다.`
-  },
-  panic: {
-    category: 'panic',
-    categoryName: '공황장애',
-    title: '검사상 이상은 없는데 죽을 것 같은 공포... 공황장애와 자율신경 과흥분의 진실',
-    date: '2026.08.15',
-    author: '손지웅 대표원장',
-    image: 'images/clinics/panic.jpg',
-    content: `갑자기 숨이 턱 막히고 심장이 터질 듯이 뛰며 '이러다 죽거나 미치는 것은 아닐까' 하는 극심한 공포가 밀려오는 공황발작.
-응급실에서 심전도와 피검사를 받아도 "아무 이상이 없다"는 말만 듣고 돌아오기 일쑤입니다.
-
-■ 공황발작이 일어나는 기전
-뇌 속 위험 감지 센서인 편도체(Amygdala)가 실제 위험이 없음에도 '초비상 사태'로 오작동하여 교감신경을 극한으로 폭주시키는 현상입니다.
-
-■ 자율신경 안정을 통한 근본 치유
-불안을 무조건 누르는 것이 아니라, 과열된 교감신경의 스위치를 끄고 부교감신경의 이완력을 복원하는 청심(淸心), 안신(安神) 한약과 자율신경 조절 침구 요법으로 공황의 고리를 끊어냅니다.`
-  },
-  sleep: {
-    category: 'sleep',
-    categoryName: '수면·불면증',
-    title: '수면제에 의존하지 않고 자연스러운 깊은 잠을 회복하는 두뇌 리듬 치유법',
-    date: '2026.08.10',
-    author: '손지웅 대표원장',
-    image: 'images/clinics/sleep.jpg',
-    content: `잠자리에 누워 1시간 넘게 뒤척이거나, 새벽에 자꾸 깨어 아침이 피곤한 만성 불면증.
-수면유도제나 신경안정제는 일시적으로 뇌를 기절시킬 뿐, 깊은 3~4단계 숙면을 만들어내지 못합니다.
-
-■ 불면의 유형별 원인
-1. 입면장애: 뇌의 생각이 멈추지 않고 심장이 두근거려 잠들기 힘든 상태
-2. 수면유지장애: 얕은 잠을 자며 작은 소리에도 자주 깨고 꿈이 많은 상태 (다몽증)
-3. 조기각성: 새벽 3~4시에 눈이 떠져 다시 잠들지 못하는 상태
-
-■ 해아림의 자연 수면 리듬 회복법
-심장의 열(心熱)을 내리고 간의 피로(肝鬱)를 풀어주는 맞춤 한약과 이완 치료를 통해 뇌가 스스로 편안하게 수면 스위치를 켤 수 있도록 만듭니다.`
-  },
-  anxiety: {
-    category: 'anxiety',
-    categoryName: '불안·사회공포',
-    title: '발표할 때 목소리가 떨리고 얼굴이 붉어지는 사회공포증, 체질별 접근법',
-    date: '2026.08.05',
-    author: '손지웅 대표원장',
-    image: 'images/clinics/anxiety.jpg',
-    content: `사람들 앞에서 발표하거나 회의를 할 때 심장이 미친 듯이 뛰고, 목소리가 떨리거나 얼굴이 화끈거려 일상과 직장 생활에 큰 고통을 받는 사회공포증(대인불안).
-
-단순한 성격의 소심함이 아니라, 타인의 시선과 평가 상황에서 자율신경계가 과민 반응을 일으키는 뇌신경계 질환입니다.
-
-■ 한방 치유 프로세스
-- 교감신경 과민 완화: 가슴 답답함과 상열감을 해소하는 한약 처방
-- 심신 이완 및 두뇌 피드백: 긴장 상황에서도 안정된 심박수와 호흡을 유지할 수 있는 바이오피드백 훈련`
-  },
-  autonomic: {
-    category: 'autonomic',
-    categoryName: '자율신경실조증',
-    title: '원인 모를 두통, 어지럼증, 가슴 답답함... 자율신경 불균형이 보내는 신호',
-    date: '2026.07.28',
-    author: '손지웅 대표원장',
-    image: 'images/clinics/autonomic.jpg',
-    content: `머리가 맑지 않고 어지러우며, 소화가 안 되고 온몸이 천근만근 무거운데 병원 검사에서는 "스트레스성 신경성"이라는 말만 들으셨나요?
-
-우리 몸의 호흡, 맥박, 혈압, 소화, 체온을 무의식적으로 조율하는 자율신경계(교감신경-부교감신경)의 시소가 무너졌기 때문입니다.
-
-■ 자율신경 불균형의 대표 증상
-- 원인 모를 만성 두통, 멍함, 브레인 포그
-- 가슴 두근거림, 숨찬 느낌, 식은땀
-- 만성 위장 장애, 과민성 대장, 전신 근육통
-
-체질 분석과 정밀 자율신경 검사를 통해 깨진 균형점을 바로잡고 몸의 자연 치유력을 되살려드립니다.`
-  }
-};
+const DEFAULT_COLUMNS_DATA = {};
 
 function initAdminColumnBoard() {
   const dateInput = document.getElementById('column-input-date');
@@ -1122,6 +1150,8 @@ function openAdminColumnWriterModal() {
   if (modal) {
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
+    loadColumnDraft();
+    setupColumnAutoSave();
   }
 }
 
@@ -1131,6 +1161,90 @@ function closeAdminColumnWriterModal() {
     modal.classList.remove('active');
     document.body.style.overflow = '';
   }
+}
+
+let columnAutoSaveBound = false;
+function setupColumnAutoSave() {
+  if (columnAutoSaveBound) return;
+  columnAutoSaveBound = true;
+  const form = document.getElementById('admin-column-write-form');
+  if (!form) return;
+
+  const debouncedSave = debounce(() => {
+    saveColumnDraft();
+  }, 1000);
+
+  form.addEventListener('input', debouncedSave);
+}
+
+function saveColumnDraft() {
+  const cat = document.getElementById('column-input-category')?.value || '';
+  const title = document.getElementById('column-input-title')?.value || '';
+  const date = document.getElementById('column-input-date')?.value || '';
+  const content = document.getElementById('column-input-content')?.value || '';
+  const hashtags = document.getElementById('column-input-hashtags')?.value || '';
+
+  if (!title && !content && !hashtags && !currentUploadedColPhotoDataUrl) return;
+
+  const draft = {
+    category: cat,
+    title: title,
+    date: date,
+    content: content,
+    hashtags: hashtags,
+    image: currentUploadedColPhotoDataUrl || '',
+    savedAt: new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })
+  };
+  localStorage.setItem('healim_draft_column', JSON.stringify(draft));
+}
+
+function saveColumnDraftManual() {
+  saveColumnDraft();
+  showAuthToast('💾 칼럼 작성 내용이 임시저장되었습니다.');
+}
+
+function loadColumnDraft() {
+  const draftStr = localStorage.getItem('healim_draft_column');
+  if (!draftStr) return;
+  try {
+    const draft = JSON.parse(draftStr);
+    if (!draft.title && !draft.content && !draft.image && !draft.hashtags) return;
+
+    if (draft.category) {
+      const el = document.getElementById('column-input-category');
+      if (el) el.value = draft.category;
+    }
+    if (draft.title) {
+      const el = document.getElementById('column-input-title');
+      if (el) el.value = draft.title;
+    }
+    if (draft.date) {
+      const el = document.getElementById('column-input-date');
+      if (el) el.value = draft.date;
+    }
+    if (draft.content) {
+      const el = document.getElementById('column-input-content');
+      if (el) el.value = draft.content;
+    }
+    if (draft.hashtags) {
+      const el = document.getElementById('column-input-hashtags');
+      if (el) el.value = draft.hashtags;
+    }
+    if (draft.image) {
+      currentUploadedColPhotoDataUrl = draft.image;
+      const imgEl = document.getElementById('col-preview-img');
+      const promptEl = document.getElementById('col-uploader-prompt');
+      const previewEl = document.getElementById('col-uploader-preview');
+      if (imgEl) imgEl.src = draft.image;
+      if (promptEl) promptEl.style.display = 'none';
+      if (previewEl) previewEl.style.display = 'flex';
+    }
+    showAuthToast(`📝 [${draft.savedAt || '이전'}] 임시저장된 칼럼을 불러왔습니다.`);
+  } catch (e) {}
+}
+
+function clearColumnDraft() {
+  localStorage.removeItem('healim_draft_column');
 }
 
 function handleColumnPhotoSelect(e) {
@@ -1152,6 +1266,7 @@ function handleColumnPhotoSelect(e) {
     if (imgEl) imgEl.src = currentUploadedColPhotoDataUrl;
     if (promptEl) promptEl.style.display = 'none';
     if (previewEl) previewEl.style.display = 'flex';
+    saveColumnDraft();
   };
   reader.readAsDataURL(file);
 }
@@ -1167,6 +1282,7 @@ function removeColumnPhoto() {
   if (imgEl) imgEl.src = '';
   if (promptEl) promptEl.style.display = 'flex';
   if (previewEl) previewEl.style.display = 'none';
+  saveColumnDraft();
 }
 
 function handleAdminColumnSubmit(e) {
@@ -1176,6 +1292,7 @@ function handleAdminColumnSubmit(e) {
   const title = document.getElementById('column-input-title').value.trim();
   const dateVal = document.getElementById('column-input-date').value || new Date().toISOString().split('T')[0];
   const content = document.getElementById('column-input-content').value.trim();
+  const hashtagsVal = document.getElementById('column-input-hashtags')?.value.trim() || '';
 
   if (!title || !content) {
     alert('칼럼 제목과 본문 내용을 모두 입력해주세요.');
@@ -1194,6 +1311,7 @@ function handleAdminColumnSubmit(e) {
     author: '손지웅 대표원장',
     image: currentUploadedColPhotoDataUrl || '',
     content: content,
+    hashtags: parseHashtags(hashtagsVal),
     summary: content.slice(0, 110) + (content.length > 110 ? '...' : '')
   };
 
@@ -1201,6 +1319,7 @@ function handleAdminColumnSubmit(e) {
   customColumns.unshift(newColumn);
   localStorage.setItem('healim_custom_columns', JSON.stringify(customColumns));
 
+  clearColumnDraft();
   showAuthToast('🎉 원장 칼럼이 성공적으로 게시판에 등록되었습니다!');
   closeAdminColumnWriterModal();
 
@@ -1231,42 +1350,52 @@ function renderCustomColumns() {
   const customColumns = JSON.parse(localStorage.getItem('healim_custom_columns') || '[]');
 
   grids.forEach(grid => {
-    // Remove existing custom column cards
-    const existingCustoms = grid.querySelectorAll('.custom-column-card');
-    existingCustoms.forEach(el => el.remove());
+    grid.innerHTML = '';
 
-    if (!customColumns.length) return;
+    if (!customColumns.length) {
+      grid.innerHTML = `
+        <div class="column-empty-state" style="display: flex;">
+          <div class="empty-icon"><i class="ph-bold ph-newspaper-clipping"></i></div>
+          <p class="empty-title">등록된 원장 칼럼이 없습니다.</p>
+          <p class="empty-sub">손지웅 대표원장의 전문 의학 칼럼이 곧 등록될 예정입니다.</p>
+        </div>
+      `;
+      return;
+    }
 
     const fragment = document.createDocumentFragment();
     customColumns.forEach(col => {
       const card = document.createElement('article');
-      card.className = 'doctor-column-card custom-column-card';
+      card.className = 'doctor-column-row-item custom-column-card';
       card.setAttribute('data-category', col.category);
       card.onclick = () => openCustomColumnReader(col.id);
 
       const colImg = col.image || CLINIC_THUMB_MAP[col.category] || 'images/clinics/autonomic.jpg';
+      const hashtagsHtml = renderHashtagPills(col.hashtags);
 
       card.innerHTML = `
-        <div class="col-thumb-wrap">
-          <img src="${colImg}" alt="${col.title}" class="col-thumb-img" loading="lazy">
+        <div class="col-row-thumb-wrap">
+          <img src="${colImg}" alt="${col.title}" class="col-row-thumb-img" loading="lazy">
           <span class="col-badge-pill ${col.category}">${col.categoryName}</span>
         </div>
-        <div class="col-card-body">
-          <div class="col-meta-row">
-            <span class="col-date-text">${col.date}</span>
+        <div class="col-row-body">
+          <div class="col-row-meta-top">
+            <span class="col-badge-pill-inline ${col.category}">${col.categoryName}</span>
+            <span class="col-row-date">${col.date}</span>
           </div>
-          <h3 class="col-card-title">${col.title}</h3>
-          <p class="col-card-desc">${col.summary}</p>
-          <div class="col-card-footer">
-            <span class="col-author-label"><i class="ph-bold ph-user-circle"></i> ${col.author}</span>
-            <span class="col-read-more">칼럼 읽기 <i class="ph-bold ph-arrow-right"></i></span>
+          <h3 class="col-row-title">${col.title}</h3>
+          <p class="col-row-desc">${col.summary}</p>
+          <div class="col-row-footer">
+            <span class="col-row-author"><i class="ph-bold ph-user-circle"></i> ${col.author}</span>
+            ${hashtagsHtml}
+            <span class="col-row-read-btn">전문 읽기 <i class="ph-bold ph-arrow-right"></i></span>
           </div>
         </div>
       `;
       fragment.appendChild(card);
     });
 
-    grid.insertBefore(fragment, grid.firstChild);
+    grid.appendChild(fragment);
   });
 }
 
@@ -1282,12 +1411,14 @@ function filterColumnCategory(filterKey) {
   });
 
   // Filter column cards
-  const cards = document.querySelectorAll('.doctor-column-card');
+  const cards = document.querySelectorAll('.doctor-column-row-item');
+  let visibleCount = 0;
   cards.forEach(card => {
     const cardCat = card.getAttribute('data-category');
     if (filterKey === 'all' || cardCat === filterKey) {
       card.style.display = 'flex';
       card.classList.add('fade-in');
+      visibleCount++;
     } else {
       card.style.display = 'none';
     }
@@ -1307,6 +1438,7 @@ function openDefaultColumnModal(catKey) {
   const photoBox = document.getElementById('col-reader-photo-box');
   const photoEl = document.getElementById('col-reader-photo');
   const bodyEl = document.getElementById('col-reader-body');
+  const hashtagsEl = document.getElementById('col-reader-hashtags');
   const deleteBtn = document.getElementById('btn-delete-custom-col');
 
   if (catEl) {
@@ -1325,6 +1457,10 @@ function openDefaultColumnModal(catKey) {
   }
 
   if (bodyEl) bodyEl.innerHTML = found.content.replace(/\n/g, '<br>');
+  if (hashtagsEl) {
+    hashtagsEl.innerHTML = '';
+    hashtagsEl.style.display = 'none';
+  }
   if (deleteBtn) deleteBtn.style.display = 'none';
 
   if (modal) {
@@ -1347,6 +1483,7 @@ function openCustomColumnReader(colId) {
   const photoBox = document.getElementById('col-reader-photo-box');
   const photoEl = document.getElementById('col-reader-photo');
   const bodyEl = document.getElementById('col-reader-body');
+  const hashtagsEl = document.getElementById('col-reader-hashtags');
   const deleteBtn = document.getElementById('btn-delete-custom-col');
 
   if (catEl) {
@@ -1365,6 +1502,18 @@ function openCustomColumnReader(colId) {
   }
 
   if (bodyEl) bodyEl.innerHTML = found.content.replace(/\n/g, '<br>');
+
+  if (hashtagsEl) {
+    const list = found.hashtags || [];
+    if (list.length) {
+      hashtagsEl.innerHTML = renderHashtagPills(list);
+      hashtagsEl.style.display = 'block';
+    } else {
+      hashtagsEl.innerHTML = '';
+      hashtagsEl.style.display = 'none';
+    }
+  }
+
   if (deleteBtn) deleteBtn.style.display = 'inline-flex';
 
   if (modal) {
@@ -1400,6 +1549,7 @@ function downloadColumnMarkdown() {
   const title = document.getElementById('column-input-title').value.trim() || '의학 칼럼';
   const dateVal = document.getElementById('column-input-date').value || new Date().toISOString().split('T')[0];
   const content = document.getElementById('column-input-content').value.trim() || '';
+  const hashtagsVal = document.getElementById('column-input-hashtags')?.value.trim() || '';
   const catName = CATEGORY_NAME_MAP[cat] || '신경정신';
 
   const mdContent = `---
@@ -1408,6 +1558,7 @@ date: ${dateVal}
 category: "${cat}"
 category_name: "${catName}"
 author: "손지웅 대표원장"
+hashtags: "${hashtagsVal}"
 summary: "${content.slice(0, 120)}..."
 ---
 
@@ -1433,127 +1584,25 @@ let currentInquirySearchQuery = '';
 let currentOpenedInquiryId = null;
 let currentPendingVerifyInquiryId = null;
 
-const DEFAULT_INQUIRIES = [
-  {
-    id: 'inq-101',
-    category: 'tic',
-    disease: '틱장애·뚜렛',
-    title: '초등 3학년 아이 눈깜빡임과 킁킁거리는 소리 틱 문의드립니다.',
-    author: '김*희',
-    region: '성남 분당',
-    age: 10,
-    gender: '남',
-    date: '2026.08.27',
-    isSecret: false,
-    password: '1111',
-    status: 'answered',
-    content: '한 달 전부터 아이가 눈을 심하게 깜빡이고 목을 가다듬듯 킁킁거리는 소리를 냅니다. 학교 수업 시간에 지적을 받아서 아이가 많이 위축되어 있습니다. 한의원에서는 틱장애를 어떻게 진단하고 치료하는지, 한약 복용 기간이 얼마나 걸리는지 궁금합니다.',
-    answer: '어머님, 소중한 아이의 증상으로 걱정이 참 많으셨겠습니다. 분당 해아림한의원 손지웅 대표원장입니다.\n\n말씀해주신 눈 깜빡임(운동 틱)과 킁킁거리는 소리(음성 틱)는 소아기 두뇌의 기저핵과 전두엽 피질 간의 조절 불균형 및 뇌신경계 긴장도 증가로 인해 나타나는 전형적인 틱 증상입니다.\n\n본원에서는 아이의 체질과 뇌신경 긴장도를 과학적으로 측정(뇌파 및 자율신경계 검사)한 후, 뇌의 흥분도를 부드럽게 가라앉히고 두뇌 자율조절력을 강화하는 맞춤 한약과 두뇌 훈련(뉴로피드백/감각통합치료)을 병행합니다. 보통 초기 1~3개월 치료 시 눈에 띄는 완화가 이루어지며, 아이가 스트레스를 받지 않도록 억제하거나 다그치지 않는 부모님의 따뜻한 지지가 함께할 때 회복 속도가 더욱 빠릅니다.\n\n언제든 편안한 마음으로 아이와 함께 내원해주시면 정밀하게 진단해 드리겠습니다.',
-    answerDate: '2026.08.27'
-  },
-  {
-    id: 'inq-102',
-    category: 'panic',
-    disease: '공황장애',
-    title: '지하철 출퇴근길 갑작스러운 호흡곤란과 심장 두근거림',
-    author: '박*준',
-    region: '용인 수지',
-    age: 34,
-    gender: '남',
-    date: '2026.08.26',
-    isSecret: false,
-    password: '2222',
-    status: 'answered',
-    content: '지난주 붐비는 신분당선 지하철 안에서 갑자기 숨이 턱 막히고 심장이 터질 것처럼 뛰며 쓰러질 것 같은 극심한 공포를 느꼈습니다. 응급실에 갔는데 심장에는 이상이 없다고 하네요. 이후로 대중교통을 타기가 너무 두렵습니다. 한방 치료로 완치가 가능한가요?',
-    answer: '박*준 님, 출퇴근길 예기치 못한 극심한 공포와 신체 증상으로 많이 놀라시고 일상에 지장이 크셨겠습니다. 손지웅 원장입니다.\n\n병원 응급실 검사상 기질적 이상이 없음에도 숨이 막히고 가슴이 심하게 뛰는 것은 두뇌의 편도체(불안 조절 중추)와 자율신경계가 과도한 스트레스나 피로로 인해 급격히 오작동한 "공황발작" 상태입니다.\n\n한의학에서는 이를 "경계(驚悸)", "정충(怔忡)"이라 하여 심장과 담력을 강화(심담강화)하고 뇌신경의 과도한 흥분을 진정시키는 시호가용골모려탕, 온담탕 등의 맞춤 처방과 두뇌 이완 치료를 진행합니다. 약물 의존성 없이 자율신경계의 본래 조절력을 복원하면 지하철과 같은 밀폐 공간에서도 다시 편안하게 일상생활을 영위하실 수 있습니다.',
-    answerDate: '2026.08.26'
-  },
-  {
-    id: 'inq-103',
-    category: 'sleep',
-    disease: '수면·불면증',
-    title: '수면유도제를 6개월째 복용 중인데 약 없이 자연스럽게 잠들고 싶습니다.',
-    author: '이*영',
-    region: '분당 정자',
-    age: 46,
-    gender: '여',
-    date: '2026.08.25',
-    isSecret: false,
-    password: '3333',
-    status: 'answered',
-    content: '밤에 누우면 머릿속 생각이 멈추지 않고 2~3시간씩 뒤척이다가 수면제를 먹어야 겨우 잠에 듭니다. 아침에 일어나도 머리가 멍하고 피로가 가시지 않아 수면제를 끊고 싶은데 단계적 단약이 가능할까요?',
-    answer: '이*영 님 안녕하세요. 해아림한의원 손지웅 원장입니다.\n\n수면제를 복용하시면 일시적으로 잠은 들 수 있으나, 뇌의 깊은 수면(서파 수면) 단계에 도달하기 어려워 아침에 머리가 무겁고 피로감이 지속되는 경우가 많습니다.\n\n해아림에서는 수면제를 갑자기 끊는 것이 아니라, 심신의 상열감(상초의 열)을 내리고 뇌의 각성도를 낮추는 한약 치료를 병행하면서 서서히 수면제 복용량을 줄여나가는 "단계적 감약 및 단약 요법"을 시행합니다. 뇌 스스로 멜라토닌 분비와 체온 저하를 유도하는 자율신경 리듬을 되찾아 드리므로 건강한 자연 수면을 회복하실 수 있습니다.',
-    answerDate: '2026.08.25'
-  },
-  {
-    id: 'inq-104',
-    category: 'autonomic',
-    disease: '자율신경실조증',
-    title: '만성 어지럼증과 소화불량, 가슴 답답함이 동시에 있습니다.',
-    author: '최*진',
-    region: '수원 영통',
-    age: 29,
-    gender: '여',
-    date: '2026.08.24',
-    isSecret: false,
-    password: '4444',
-    status: 'answered',
-    content: '어지럼증과 두통이 지속되고 소화도 잘 안 되며 손발이 차갑습니다. 내과, 이비인후과 검사를 받아도 별다른 이상이 없다고 하는데 자율신경실조증 치료가 가능한가요?',
-    answer: '최*진 님 반갑습니다. 해아림한의원 손지웅 원장입니다.\n\n병원 검사에서 뚜렷한 원인이 발견되지 않으면서 어지럼증, 소화불량, 수족냉증, 두통 등 전신에 걸친 복합 증상이 나타난다면 자율신경계(교감신경-부교감신경)의 불균형일 가능성이 매우 높습니다.\n\n두뇌와 장기는 미주신경 등 자율신경망으로 긴밀히 연결되어 있어 스트레스나 수면 부족 시 소화기 기능 저하와 뇌 혈류 저하가 동시에 나타납니다. 뇌파 및 자율신경 검사를 통해 교감신경의 긴장도를 파악하고 기혈 순환을 돕는 침·뜸 및 맞춤 한약 치료를 통해 밸런스를 바로잡아 드리겠습니다.',
-    answerDate: '2026.08.24'
-  },
-  {
-    id: 'inq-105',
-    category: 'adhd',
-    disease: 'ADHD·집중력',
-    title: '초등 5학년 집중력 부족과 산만함, 충동성 치료 방법이 궁금합니다.',
-    author: '정*훈',
-    region: '성남 판교',
-    age: 12,
-    gender: '남',
-    date: '2026.08.28',
-    isSecret: false,
-    password: '5555',
-    status: 'answered',
-    content: '수업 시간에 5분 이상 집중하지 못하고 지우개나 연필을 계속 만지작거립니다. 과제를 끝까지 마치지 못하고 충동적으로 말하는 경향이 있는데 한방으로 집중력 향상이 가능한가요?',
-    answer: '정*훈 학생 부모님 안녕하십니까. 손지웅 원장입니다.\n\n초등 고학년 시기는 학습량과 정서적 자기통제 요구가 급증하는 시기로, 전두엽의 실행 기능과 주의집중 조절력이 충분히 발달하지 못했을 때 지적된 행동들이 나타납니다.\n\n한의학적 치료는 중추신경계의 각성 조절 물질(도파민, 노르에피네프린)이 자연스럽게 균형을 이루도록 돕는 순한 천연 약재 처방과 뉴로피드백 훈련을 결합하여 뇌의 작업기억력과 충동 억제력을 높여줍니다. 양약의 식욕부진이나 수면장애 부작용 걱정 없이 안전하게 주의집중력을 키울 수 있습니다.',
-    answerDate: '2026.08.28'
-  },
-  {
-    id: 'inq-106',
-    category: 'ibs',
-    disease: '과민성대장증후군',
-    title: '중요한 시험이나 긴장할 때마다 아랫배가 아프고 설사가 납니다.',
-    author: '강*석',
-    region: '서울 강남',
-    age: 38,
-    gender: '남',
-    date: '2026.08.29',
-    isSecret: false,
-    password: '6666',
-    status: 'pending',
-    content: '회사에서 중요한 발표를 앞두거나 이동 중에 화장실을 찾기 어려울 때 심한 복통과 가스가 차고 설사를 합니다. 장-뇌 축 치료가 도움이 될까요?',
-    answer: '',
-    answerDate: ''
-  }
-];
+const DEFAULT_INQUIRIES = [];
 
 function initOnlineInquiry() {
   const tbody = document.getElementById('inquiry-list-tbody');
   if (!tbody) return;
 
-  // Initialize LocalStorage with default data or normalize all to public
   const stored = localStorage.getItem('healim_online_inquiries');
-  if (!stored) {
-    localStorage.setItem('healim_online_inquiries', JSON.stringify(DEFAULT_INQUIRIES));
-  } else {
+  if (stored) {
     try {
       const parsed = JSON.parse(stored);
-      const updated = parsed.map(item => ({ ...item, isSecret: false }));
-      localStorage.setItem('healim_online_inquiries', JSON.stringify(updated));
+      // Filter out any sample IDs (inq-101 ~ inq-106)
+      const sampleIds = ['inq-101', 'inq-102', 'inq-103', 'inq-104', 'inq-105', 'inq-106'];
+      const cleaned = parsed.filter(item => !sampleIds.includes(item.id));
+      localStorage.setItem('healim_online_inquiries', JSON.stringify(cleaned));
     } catch (e) {
-      localStorage.setItem('healim_online_inquiries', JSON.stringify(DEFAULT_INQUIRIES));
+      localStorage.setItem('healim_online_inquiries', '[]');
     }
+  } else {
+    localStorage.setItem('healim_online_inquiries', '[]');
   }
 
   renderInquiryList();
@@ -1563,12 +1612,14 @@ function getStoredInquiries() {
   const stored = localStorage.getItem('healim_online_inquiries');
   if (stored) {
     try {
-      return JSON.parse(stored);
+      const sampleIds = ['inq-101', 'inq-102', 'inq-103', 'inq-104', 'inq-105', 'inq-106'];
+      const parsed = JSON.parse(stored);
+      return parsed.filter(item => !sampleIds.includes(item.id));
     } catch (e) {
-      return DEFAULT_INQUIRIES;
+      return [];
     }
   }
-  return DEFAULT_INQUIRIES;
+  return [];
 }
 
 function renderInquiryList() {
@@ -1669,12 +1720,14 @@ function handleInquirySearch(e) {
   renderInquiryList();
 }
 
-// Modal open/close
+// Modal open/close & Draft
 function openInquiryWriteModal() {
   const modal = document.getElementById('inquiry-write-modal');
   if (modal) {
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
+    loadInquiryDraft();
+    setupInquiryAutoSave();
   }
 }
 
@@ -1684,6 +1737,100 @@ function closeInquiryWriteModal() {
     modal.classList.remove('active');
     document.body.style.overflow = '';
   }
+}
+
+let inqAutoSaveBound = false;
+function setupInquiryAutoSave() {
+  if (inqAutoSaveBound) return;
+  inqAutoSaveBound = true;
+  const form = document.getElementById('inquiry-submit-form');
+  if (!form) return;
+
+  const debouncedSave = debounce(() => {
+    saveInquiryDraft();
+  }, 1000);
+
+  form.addEventListener('input', debouncedSave);
+  form.addEventListener('change', debouncedSave);
+}
+
+function saveInquiryDraft() {
+  const region = document.getElementById('inq-region')?.value || '';
+  const age = document.getElementById('inq-age')?.value || '';
+  const gender = document.querySelector('input[name="inq-gender"]:checked')?.value || '남';
+  const author = document.getElementById('inq-author')?.value || '';
+  const diseaseEl = document.querySelector('input[name="inq-disease"]:checked');
+  const diseaseVal = diseaseEl ? diseaseEl.value : '';
+  const title = document.getElementById('inq-title')?.value || '';
+  const content = document.getElementById('inq-content')?.value || '';
+  const hashtags = document.getElementById('inq-hashtags')?.value || '';
+
+  if (!title && !content && !author && !hashtags) return;
+
+  const draft = {
+    region: region,
+    age: age,
+    gender: gender,
+    author: author,
+    disease: diseaseVal,
+    title: title,
+    content: content,
+    hashtags: hashtags,
+    savedAt: new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })
+  };
+  localStorage.setItem('healim_draft_inquiry', JSON.stringify(draft));
+}
+
+function saveInquiryDraftManual() {
+  saveInquiryDraft();
+  showAuthToast('💾 상담 문의글이 임시저장되었습니다.');
+}
+
+function loadInquiryDraft() {
+  const draftStr = localStorage.getItem('healim_draft_inquiry');
+  if (!draftStr) return;
+  try {
+    const draft = JSON.parse(draftStr);
+    if (!draft.title && !draft.content && !draft.author && !draft.hashtags) return;
+
+    if (draft.region) {
+      const el = document.getElementById('inq-region');
+      if (el) el.value = draft.region;
+    }
+    if (draft.age) {
+      const el = document.getElementById('inq-age');
+      if (el) el.value = draft.age;
+    }
+    if (draft.gender) {
+      const el = document.querySelector(`input[name="inq-gender"][value="${draft.gender}"]`);
+      if (el) el.checked = true;
+    }
+    if (draft.author) {
+      const el = document.getElementById('inq-author');
+      if (el) el.value = draft.author;
+    }
+    if (draft.disease) {
+      const el = document.querySelector(`input[name="inq-disease"][value="${draft.disease}"]`);
+      if (el) el.checked = true;
+    }
+    if (draft.title) {
+      const el = document.getElementById('inq-title');
+      if (el) el.value = draft.title;
+    }
+    if (draft.content) {
+      const el = document.getElementById('inq-content');
+      if (el) el.value = draft.content;
+    }
+    if (draft.hashtags) {
+      const el = document.getElementById('inq-hashtags');
+      if (el) el.value = draft.hashtags;
+    }
+    showAuthToast(`📝 [${draft.savedAt || '이전'}] 임시저장된 상담글을 불러왔습니다.`);
+  } catch (e) {}
+}
+
+function clearInquiryDraft() {
+  localStorage.removeItem('healim_draft_inquiry');
 }
 
 function handleInquirySubmit(e) {
@@ -1702,6 +1849,7 @@ function handleInquirySubmit(e) {
 
   const title = document.getElementById('inq-title')?.value.trim() || '상담 문의';
   const content = document.getElementById('inq-content')?.value.trim() || '';
+  const hashtagsVal = document.getElementById('inq-hashtags')?.value.trim() || '';
 
   // Mask author name (e.g. 홍길동 -> 홍*동)
   let maskedAuthor = rawAuthor;
@@ -1728,6 +1876,7 @@ function handleInquirySubmit(e) {
     password: password,
     status: 'pending',
     content: content,
+    hashtags: parseHashtags(hashtagsVal),
     answer: '',
     answerDate: ''
   };
@@ -1736,6 +1885,7 @@ function handleInquirySubmit(e) {
   stored.unshift(newInquiry);
   localStorage.setItem('healim_online_inquiries', JSON.stringify(stored));
 
+  clearInquiryDraft();
   // Reset form & close modal
   document.getElementById('inquiry-submit-form')?.reset();
   closeInquiryWriteModal();
@@ -1815,6 +1965,7 @@ function openInquiryDetailModal(id) {
   const genderEl = document.getElementById('view-inq-gender');
   const dateEl = document.getElementById('view-inq-date');
   const contentEl = document.getElementById('view-inq-content');
+  const hashtagsEl = document.getElementById('view-inq-hashtags');
 
   const answerWrapper = document.getElementById('view-doctor-answer-wrapper');
   const answerContentEl = document.getElementById('view-doctor-answer-content');
@@ -1834,6 +1985,17 @@ function openInquiryDetailModal(id) {
   if (genderEl) genderEl.textContent = found.gender;
   if (dateEl) dateEl.textContent = found.date;
   if (contentEl) contentEl.textContent = found.content;
+
+  if (hashtagsEl) {
+    const list = found.hashtags || [];
+    if (list.length) {
+      hashtagsEl.innerHTML = renderHashtagPills(list);
+      hashtagsEl.style.display = 'block';
+    } else {
+      hashtagsEl.innerHTML = '';
+      hashtagsEl.style.display = 'none';
+    }
+  }
 
   if (found.status === 'answered' && found.answer) {
     if (answerWrapper) answerWrapper.style.display = 'block';

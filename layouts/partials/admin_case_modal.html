@@ -105,8 +105,15 @@
         <textarea id="case-input-content" rows="6" placeholder="환자분이 직접 작성하신 자필 수기 내용이나 치료 후기를 그대로 타이핑해 주세요. 입력하신 그대로 홈페이지에 깨끗하게 출력됩니다." required></textarea>
       </div>
 
+      <!-- 해시태그 -->
+      <div class="form-group">
+        <label for="case-input-hashtags">해시태그 <span class="optional-tag">(선택, 쉼표나 띄어쓰기로 구분)</span></label>
+        <input type="text" id="case-input-hashtags" placeholder="예) #공황발작극복 #불안장애치료 #자율신경안정 #한방치료후기">
+      </div>
+
       <div class="modal-actions writer-actions">
         <button type="button" class="btn btn-secondary" onclick="closeAdminWriterModal()">취소</button>
+        <button type="button" class="btn btn-draft-save" onclick="saveCaseDraftManual()"><i class="ph-bold ph-floppy-disk"></i> 임시저장</button>
         <button type="button" class="btn btn-outline-download" onclick="downloadCaseMarkdown()"><i class="ph-bold ph-download-simple"></i> .md 파일 다운로드</button>
         <button type="submit" class="btn btn-primary-admin"><i class="ph-bold ph-check"></i> 홈페이지에 즉시 등록하기</button>
       </div>
@@ -143,6 +150,9 @@
     <div class="case-typed-body" id="custom-reader-body">
       본문 내용이 출력됩니다.
     </div>
+
+    <!-- 3. 해시태그 영역 -->
+    <div class="reader-hashtags-box" id="custom-reader-hashtags" style="display: none;"></div>
 
     <div class="modal-actions reader-actions">
       <button type="button" class="btn btn-danger-small" id="btn-delete-custom-case" onclick="deleteCurrentCustomCase()"><i class="ph-bold ph-trash"></i> 이 글 삭제</button>

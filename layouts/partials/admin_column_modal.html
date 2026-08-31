@@ -65,9 +65,16 @@
         <textarea id="column-input-content" rows="9" placeholder="원장님의 의학 칼럼 본문을 자유롭게 작성해 주세요. 줄바꿈과 단락 구분이 홈페이지에 깔끔하게 반영됩니다." required></textarea>
       </div>
 
+      <!-- 해시태그 -->
+      <div class="form-group">
+        <label for="column-input-hashtags">해시태그 <span class="optional-tag">(선택, 쉼표나 띄어쓰기로 구분)</span></label>
+        <input type="text" id="column-input-hashtags" placeholder="예) #틱장애 #초등틱치료 #두뇌훈련 #분당한의원">
+      </div>
+
       <div class="modal-actions writer-actions">
         <button type="button" class="btn btn-secondary" onclick="closeAdminColumnWriterModal()">취소</button>
-        <button type="button" class="btn btn-outline-download" onclick="downloadColumnMarkdown()"><i class="ph-bold ph-download-simple"></i> .md 파일 다운로드</button>
+        <button type="button" class="btn btn-draft-save" onclick="saveColumnDraftManual()"><i class="ph-bold ph-floppy-disk"></i> 임시저장</button>
+        <button type="button" class="btn btn-outline-download" onclick="downloadColumnMarkdown()"><i class="ph-bold ph-download-simple"></i> .md 다운로드</button>
         <button type="submit" class="btn btn-primary-admin"><i class="ph-bold ph-check"></i> 칼럼 게시판에 즉시 등록</button>
       </div>
     </form>
@@ -104,6 +111,9 @@
     <div class="case-typed-body column-body-text" id="col-reader-body">
       본문 내용이 출력됩니다.
     </div>
+
+    <!-- 3. 해시태그 영역 -->
+    <div class="reader-hashtags-box" id="col-reader-hashtags" style="display: none;"></div>
 
     <div class="modal-actions reader-actions">
       <button type="button" class="btn btn-danger-small" id="btn-delete-custom-col" onclick="deleteCurrentCustomColumn()"><i class="ph-bold ph-trash"></i> 이 칼럼 삭제</button>
