@@ -66,10 +66,10 @@
 
         <!-- Info Notice Strip -->
         <div class="inquiry-notice-strip">
-          <div class="notice-icon"><i class="ph-fill ph-info"></i></div>
-          <div class="notice-text">
-            <strong>온라인 상담 안내:</strong> 누구나 자유롭게 질환별 상담글과 손지웅 대표원장의 전문 1:1 답변을 열람하실 수 있습니다. (작성자의 성함은 '홍*동' 형태로 마스킹되어 안전하게 보호됩니다)
-          </div>
+          <i class="ph-bold ph-info"></i>
+          <p>
+            <strong>온라인 상담 안내:</strong> 누구나 자유롭게 질환별 상담글과 손지웅 대표원장의 전문 1:1 답변을 열람하실 수 있습니다. (개인정보 보호를 위해 작성자 이름 없이 안전하게 등록됩니다)
+          </p>
         </div>
 
         <!-- Q&A Table & Cards Container -->
@@ -80,7 +80,6 @@
                 <th class="col-num">번호</th>
                 <th class="col-cat">상담과목</th>
                 <th class="col-title">상담 제목</th>
-                <th class="col-author">작성자</th>
                 <th class="col-info">지역/연령</th>
                 <th class="col-date">작성일</th>
                 <th class="col-status">상태</th>
@@ -116,10 +115,10 @@
       </div>
 
       <form id="inquiry-submit-form" onsubmit="handleInquirySubmit(event)">
-        <!-- Section 1: 지역 / 나이 / 성별 / 작성자 / 비밀번호 -->
+        <!-- Section 1: 지역 / 나이 / 성별 / 비밀번호 -->
         <div class="form-block-section">
           <div class="form-block-header">
-            <h4>지역 / 나이 / 성별 / 작성자</h4>
+            <h4>기본 정보</h4>
           </div>
           <div class="form-grid-row">
             <div class="form-field-group">
@@ -146,10 +145,6 @@
           </div>
 
           <div class="form-grid-row mt-12">
-            <div class="form-field-group">
-              <label for="inq-author">작성자 (이름 또는 닉네임)</label>
-              <input type="text" id="inq-author" placeholder="예) 홍길동" required>
-            </div>
             <div class="form-field-group">
               <label for="inq-password">비밀번호 (4자리 숫자)</label>
               <input type="password" id="inq-password" placeholder="본인 글 수정/삭제용 4자리" maxlength="8" required>
@@ -263,7 +258,6 @@
         </div>
         <h2 class="detail-main-title" id="view-inq-title">상담 제목이 들어갑니다</h2>
         <div class="detail-meta-info">
-          <span><i class="ph-bold ph-user"></i> <strong id="view-inq-author">홍길동</strong></span>
           <span><i class="ph-bold ph-map-pin"></i> <span id="view-inq-region">분당</span> (<span id="view-inq-age">30대</span> / <span id="view-inq-gender">남</span>)</span>
           <span><i class="ph-bold ph-calendar"></i> <span id="view-inq-date">2026.08.29</span></span>
         </div>

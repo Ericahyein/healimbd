@@ -2168,7 +2168,6 @@ function renderInquiryList() {
             <span>${item.title}</span>
           </span>
         </td>
-        <td class="col-author">${item.author}</td>
         <td class="col-info">${item.region} (${item.age} / ${item.gender})</td>
         <td class="col-date">${item.date}</td>
         <td class="col-status">
@@ -2327,7 +2326,6 @@ function handleInquirySubmit(e) {
   const region = document.getElementById('inq-region')?.value.trim() || '분당';
   const age = document.getElementById('inq-age')?.value.trim() || '20대';
   const gender = document.querySelector('input[name="inq-gender"]:checked')?.value || '남';
-  const rawAuthor = document.getElementById('inq-author')?.value.trim() || '방문자';
   const password = document.getElementById('inq-password')?.value.trim() || '1234';
 
   // Selected disease & category
@@ -2338,14 +2336,6 @@ function handleInquirySubmit(e) {
   const title = document.getElementById('inq-title')?.value.trim() || '상담 문의';
   const content = document.getElementById('inq-content')?.value.trim() || '';
 
-  // Mask author name (e.g. 홍길동 -> 홍*동)
-  let maskedAuthor = rawAuthor;
-  if (rawAuthor.length > 2) {
-    maskedAuthor = rawAuthor[0] + '*'.repeat(rawAuthor.length - 2) + rawAuthor[rawAuthor.length - 1];
-  } else if (rawAuthor.length === 2) {
-    maskedAuthor = rawAuthor[0] + '*';
-  }
-
   const today = new Date();
   const dateStr = `${today.getFullYear()}.${String(today.getMonth() + 1).padStart(2, '0')}.${String(today.getDate()).padStart(2, '0')}`;
 
@@ -2354,7 +2344,7 @@ function handleInquirySubmit(e) {
     category: category,
     disease: disease,
     title: title,
-    author: maskedAuthor,
+    author: '익명',
     region: region,
     age: age,
     gender: gender,
