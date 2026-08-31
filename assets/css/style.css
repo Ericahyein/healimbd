@@ -6671,7 +6671,7 @@ body.is-admin .admin-only-btn {
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
   border: 1px solid #E2E8F0;
-  overflow: hidden;
+  overflow-x: auto;
 }
 
 .inquiry-table {
@@ -6686,10 +6686,12 @@ body.is-admin .admin-only-btn {
 }
 
 .inquiry-table th {
-  padding: 16px 18px;
+  padding: 16px 14px;
   font-size: 0.88rem;
   font-weight: 700;
   color: #475569;
+  white-space: nowrap;
+  word-break: keep-all;
 }
 
 .inquiry-table tbody tr {
@@ -6703,19 +6705,57 @@ body.is-admin .admin-only-btn {
 }
 
 .inquiry-table td {
-  padding: 16px 18px;
+  padding: 16px 14px;
   font-size: 0.93rem;
   color: #334155;
   vertical-align: middle;
 }
 
-.col-num { width: 60px; text-align: center; color: #94A3B8; }
-.col-cat { width: 140px; }
-.col-title { min-width: 280px; font-weight: 600; color: #0F172A; }
-.col-author { width: 100px; text-align: center; }
-.col-info { width: 140px; text-align: center; color: #64748B; font-size: 0.88rem; }
-.col-date { width: 110px; text-align: center; color: #94A3B8; font-size: 0.86rem; }
-.col-status { width: 105px; text-align: center; }
+.col-num {
+  width: 70px;
+  min-width: 60px;
+  text-align: center;
+  color: #94A3B8;
+  white-space: nowrap;
+  word-break: keep-all;
+}
+.col-cat {
+  width: 140px;
+  white-space: nowrap;
+}
+.col-title {
+  min-width: 260px;
+  font-weight: 600;
+  color: #0F172A;
+}
+.col-author {
+  width: 100px;
+  text-align: center;
+  white-space: nowrap;
+  word-break: keep-all;
+}
+.col-info {
+  width: 140px;
+  text-align: center;
+  color: #64748B;
+  font-size: 0.88rem;
+  white-space: nowrap;
+  word-break: keep-all;
+}
+.col-date {
+  width: 110px;
+  text-align: center;
+  color: #94A3B8;
+  font-size: 0.86rem;
+  white-space: nowrap;
+  word-break: keep-all;
+}
+.col-status {
+  width: 105px;
+  text-align: center;
+  white-space: nowrap;
+  word-break: keep-all;
+}
 
 .cat-badge {
   display: inline-block;
