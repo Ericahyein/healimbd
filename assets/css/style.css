@@ -1613,52 +1613,100 @@ ul {
   justify-content: center;
 }
 
-/* Stories of Real Recovery Header (Refined Header Layout) */
-.recovery-story-header-wrap {
-  text-align: center;
-  margin-bottom: 44px;
-}
-
-.recovery-story-text-center {
-  max-width: 780px;
-  margin: 0 auto;
-}
-
-.story-tag-en {
-  font-family: 'Outfit', -apple-system, sans-serif;
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: #3730A3;
-  letter-spacing: 0.02em;
+/* Stories of Real Recovery Header in Hero */
+.cases-page-header .story-tag-en {
   display: inline-block;
-  margin-bottom: 12px;
+  background: rgba(56, 189, 248, 0.14);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  color: #38BDF8 !important;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  padding: 6px 18px;
+  border-radius: var(--radius-full);
+  margin-bottom: 18px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
 }
 
-.story-main-title {
-  font-size: 2.35rem;
+.cases-page-header .story-main-title {
+  font-size: 2.5rem;
   font-weight: 800;
-  color: #0F172A;
+  color: #FFFFFF !important;
+  margin-bottom: 16px;
   letter-spacing: -0.8px;
   line-height: 1.35;
-  margin-bottom: 18px;
 }
 
-.story-highlight {
-  color: #1E3A8A;
+.cases-page-header .story-highlight {
+  color: #38BDF8 !important;
+  background: linear-gradient(135deg, #38BDF8 0%, #2DD4BF 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
   font-weight: 900;
 }
 
-.story-desc-text {
-  font-size: 1.02rem;
-  color: #64748B;
-  line-height: 1.8;
-  word-break: keep-all;
+.cases-page-header .story-desc-text {
+  font-size: 1.1rem;
+  color: #CBD5E1 !important;
+  max-width: 720px;
   margin: 0 auto;
+  line-height: 1.75;
 }
 
-.story-desc-text strong {
-  color: #334155;
+.cases-page-header .story-desc-text strong {
+  color: #FFFFFF !important;
   font-weight: 700;
+}
+
+/* Fast Section Jump Nav */
+.reviews-section-nav {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 32px;
+  flex-wrap: wrap;
+}
+
+.btn-review-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 13px 26px;
+  border-radius: var(--radius-full);
+  font-size: 0.98rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.btn-review-nav.direct-nav {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #FFFFFF !important;
+  backdrop-filter: blur(8px);
+}
+
+.btn-review-nav.direct-nav:hover {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: #38BDF8;
+  color: #FFFFFF !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.btn-review-nav.naver-nav {
+  background: #03C75A;
+  color: #FFFFFF !important;
+  border: 1px solid #03C75A;
+}
+
+.btn-review-nav.naver-nav:hover {
+  background: #02B150;
+  border-color: #02B150;
+  color: #FFFFFF !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(3, 199, 90, 0.35);
 }
 
 .cases-toolbar-clean {
