@@ -939,12 +939,53 @@
 
     <!-- Doctor Column Horizontal List Wrap -->
     <div class="column-list-wrap" id="column-cards-grid">
-      <!-- Dynamic custom admin columns will be injected here as horizontal rows -->
+      {{ range where .Site.RegularPages "Section" "blog" }}
+      <article class="doctor-column-row-item static-column-card" 
+               data-category="{{ .Params.category }}">
+        <div class="col-row-thumb-wrap">
+          {{ if .Params.image }}
+          <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}" class="col-row-thumb-img" loading="lazy">
+          {{ else }}
+          <img src="{{ "images/clinics/autonomic.jpg" | relURL }}" alt="{{ .Title }}" class="col-row-thumb-img" loading="lazy">
+          {{ end }}
+          <span class="col-badge-pill {{ .Params.category }}">{{ .Params.category_name }}</span>
+        </div>
+
+        <div class="col-row-body">
+          <div>
+            <div class="col-row-meta-top">
+              <span class="col-badge-pill-inline {{ .Params.category }}">{{ .Params.category_name }}</span>
+              <span class="col-row-date">{{ .Date.Format "2006.01.02" }}</span>
+            </div>
+            <h3 class="col-row-title">
+              <a href="{{ .RelPermalink }}" style="color: inherit; text-decoration: none;">{{ .Title }}</a>
+            </h3>
+            <p class="col-row-desc">{{ .Params.summary }}</p>
+          </div>
+
+          <div class="col-row-footer">
+            <span class="col-row-author"><i class="ph-bold ph-stethoscope"></i> {{ .Params.author | default "손지웅 대표원장" }}</span>
+            {{ if .Params.hashtags }}
+            <div class="hashtag-pill-group">
+              {{ range .Params.hashtags }}
+              <span class="hashtag-pill">#{{ . }}</span>
+              {{ end }}
+            </div>
+            {{ end }}
+            <a href="{{ .RelPermalink }}" class="col-row-read-btn">
+              <span>칼럼 전문 읽기</span>
+              <i class="ph-bold ph-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </article>
+      {{ else }}
       <div class="column-empty-state" id="column-empty-state">
         <div class="empty-icon"><i class="ph-bold ph-newspaper-clipping"></i></div>
         <p class="empty-title">등록된 원장 칼럼이 없습니다.</p>
         <p class="empty-sub">손지웅 대표원장의 전문 의학 칼럼이 곧 업데이트될 예정입니다.</p>
       </div>
+      {{ end }}
     </div>
   </div>
 </section>

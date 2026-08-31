@@ -2076,6 +2076,151 @@ ul {
   display: block;
 }
 
+/* Blog Single Article Custom Styles */
+.blog-article-title {
+  font-size: 1.95rem;
+  font-weight: 800;
+  color: #0F172A;
+  line-height: 1.4;
+  letter-spacing: -0.6px;
+  word-break: keep-all;
+}
+
+.doctor-badge-mini {
+  background: #EBF6FC;
+  color: #0284C7;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-right: 6px;
+}
+
+.blog-featured-media-box {
+  margin-bottom: 36px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+  border: 1px solid #E2E8F0;
+  background: #0F172A;
+}
+
+.blog-featured-img {
+  width: 100%;
+  max-height: 480px;
+  object-fit: cover;
+  display: block;
+}
+
+.blog-content-body {
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: #334155;
+  word-break: keep-all;
+}
+
+.blog-content-body blockquote {
+  background: #F0F9FF;
+  border-left: 4px solid #0284C7;
+  padding: 18px 24px;
+  border-radius: 0 10px 10px 0;
+  margin: 24px 0 32px;
+  color: #0369A1;
+  font-size: 1.02rem;
+}
+
+.blog-content-body h2 {
+  font-size: 1.55rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin: 44px 0 18px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #F1F5F9;
+  letter-spacing: -0.4px;
+}
+
+.blog-content-body h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1E293B;
+  margin: 30px 0 14px;
+}
+
+.blog-content-body p {
+  margin-bottom: 18px;
+}
+
+.blog-content-body ul, 
+.blog-content-body ol {
+  margin: 16px 0 24px 20px;
+  line-height: 1.8;
+}
+
+.blog-content-body li {
+  margin-bottom: 8px;
+}
+
+.blog-content-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 28px 0;
+  font-size: 0.95rem;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #E2E8F0;
+}
+
+.blog-content-body th {
+  background: #F8FAFC;
+  color: #1E293B;
+  font-weight: 700;
+  padding: 14px 16px;
+  border-bottom: 2px solid #CBD5E1;
+  text-align: left;
+}
+
+.blog-content-body td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #F1F5F9;
+  color: #475569;
+  line-height: 1.65;
+}
+
+.blog-content-body pre {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 20px 0;
+  font-size: 0.9rem;
+  overflow-x: auto;
+  line-height: 1.5;
+  color: #334155;
+}
+
+.blog-hashtags-footer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 36px;
+  padding-top: 24px;
+  border-top: 1px solid #E2E8F0;
+  flex-wrap: wrap;
+}
+
+.blog-hashtags-footer .hashtag-label {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #64748B;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
 /* Header Auth Container & Member Login */
 .header-auth-container {
   display: inline-flex;

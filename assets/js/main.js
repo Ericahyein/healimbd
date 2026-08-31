@@ -1809,52 +1809,51 @@ function renderCustomColumns() {
   const customColumns = JSON.parse(localStorage.getItem('healim_custom_columns') || '[]');
 
   grids.forEach(grid => {
-    grid.innerHTML = '';
+    grid.querySelectorAll('.injected-custom-column').forEach(el => el.remove());
 
-    if (!customColumns.length) {
-      grid.innerHTML = `
-        <div class="column-empty-state" style="display: flex;">
-          <div class="empty-icon"><i class="ph-bold ph-newspaper-clipping"></i></div>
-          <p class="empty-title">등록된 원장 칼럼이 없습니다.</p>
-          <p class="empty-sub">손지웅 대표원장의 전문 의학 칼럼이 곧 등록될 예정입니다.</p>
-        </div>
-      `;
-      return;
+    const emptyState = grid.querySelector('.column-empty-state');
+    const staticCards = grid.querySelectorAll('.static-column-card');
+
+    if (customColumns.length > 0) {
+      if (emptyState) emptyState.style.display = 'none';
+
+      customColumns.slice().reverse().forEach(col => {
+        const card = document.createElement('article');
+        card.className = 'doctor-column-row-item custom-column-card injected-custom-column';
+        card.setAttribute('data-category', col.category);
+        card.onclick = () => openCustomColumnReader(col.id);
+
+        const colImg = col.image || CLINIC_THUMB_MAP[col.category] || 'images/clinics/autonomic.jpg';
+        const hashtagsHtml = renderHashtagPills(col.hashtags);
+
+        card.innerHTML = `
+          <div class="col-row-thumb-wrap">
+            <img src="${colImg}" alt="${col.title}" class="col-row-thumb-img" loading="lazy">
+            <span class="col-badge-pill ${col.category}">${col.categoryName}</span>
+          </div>
+          <div class="col-row-body">
+            <div class="col-row-meta-top">
+              <span class="col-badge-pill-inline ${col.category}">${col.categoryName}</span>
+              <span class="col-row-date">${col.date}</span>
+            </div>
+            <h3 class="col-row-title">${col.title}</h3>
+            <p class="col-row-desc">${col.summary}</p>
+            <div class="col-row-footer">
+              <span class="col-row-author"><i class="ph-bold ph-stethoscope"></i> ${col.author}</span>
+              ${hashtagsHtml}
+              <span class="col-row-read-btn">전문 읽기 <i class="ph-bold ph-arrow-right"></i></span>
+            </div>
+          </div>
+        `;
+        grid.prepend(card);
+      });
+    } else {
+      if (staticCards.length === 0 && emptyState) {
+        emptyState.style.display = 'flex';
+      } else if (emptyState) {
+        emptyState.style.display = 'none';
+      }
     }
-
-    const fragment = document.createDocumentFragment();
-    customColumns.forEach(col => {
-      const card = document.createElement('article');
-      card.className = 'doctor-column-row-item custom-column-card';
-      card.setAttribute('data-category', col.category);
-      card.onclick = () => openCustomColumnReader(col.id);
-
-      const colImg = col.image || CLINIC_THUMB_MAP[col.category] || 'images/clinics/autonomic.jpg';
-      const hashtagsHtml = renderHashtagPills(col.hashtags);
-
-      card.innerHTML = `
-        <div class="col-row-thumb-wrap">
-          <img src="${colImg}" alt="${col.title}" class="col-row-thumb-img" loading="lazy">
-          <span class="col-badge-pill ${col.category}">${col.categoryName}</span>
-        </div>
-        <div class="col-row-body">
-          <div class="col-row-meta-top">
-            <span class="col-badge-pill-inline ${col.category}">${col.categoryName}</span>
-            <span class="col-row-date">${col.date}</span>
-          </div>
-          <h3 class="col-row-title">${col.title}</h3>
-          <p class="col-row-desc">${col.summary}</p>
-          <div class="col-row-footer">
-            <span class="col-row-author"><i class="ph-bold ph-user-circle"></i> ${col.author}</span>
-            ${hashtagsHtml}
-            <span class="col-row-read-btn">전문 읽기 <i class="ph-bold ph-arrow-right"></i></span>
-          </div>
-        </div>
-      `;
-      fragment.appendChild(card);
-    });
-
-    grid.appendChild(fragment);
   });
 }
 

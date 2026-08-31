@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ .Title }} | 해아림한의원 분당점</title>
+  <meta name="description" content="{{ .Params.summary }}">
+  <link rel="canonical" href="{{ .Permalink }}">
+
+  <!-- OpenGraph & SEO Meta Tags -->
+  <meta property="og:title" content="{{ .Title }} | 해아림한의원 분당점">
+  <meta property="og:description" content="{{ .Params.summary }}">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="{{ .Permalink }}">
+  {{ if .Params.image }}
+  <meta property="og:image" content="{{ .Params.image | absURL }}">
+  {{ end }}
+  <meta property="article:author" content="손지웅 대표원장">
+  <meta property="article:published_time" content="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">
+
+  <!-- Schema.org Article Structured Data (AI & Search Engine Indexing) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MedicalWebPage",
+    "headline": "{{ .Title }}",
+    "description": "{{ .Params.summary }}",
+    "author": {
+      "@type": "Physician",
+      "name": "손지웅 대표원장",
+      "medicalSpecialty": "Korean Medicine Neuropsychiatry",
+      "hospitalAffiliation": "해아림한의원 분당점"
+    },
+    "publisher": {
+      "@type": "MedicalOrganization",
+      "name": "해아림한의원 분당점",
+      "url": "https://healimbd.pages.dev"
+    },
+    "datePublished": "{{ .Date.Format "2006-01-02" }}",
+    "inLanguage": "ko-KR"
+  }
+  </script>
+
+  <!-- Fonts (Pretendard & Outfit) -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+
+  <!-- Main Stylesheet (Cache-Busting Fingerprinted) -->
+  {{ $style := resources.Get "css/style.css" | resources.Minify | resources.Fingerprint }}
+  <link rel="stylesheet" href="{{ $style.RelPermalink }}">
+</head>
+<body>
+  {{ partial "header.html" . }}
+
+  <main id="main-content">
+    <article class="case-single-article blog-single-article">
+      <div class="container case-single-container blog-single-container">
+        <!-- Breadcrumb & Header -->
+        <div class="case-single-header">
+          <div class="case-nav-row">
+            <a href="{{ "/blog/" | relURL }}" class="case-back-btn">
+              <i class="ph-bold ph-arrow-left"></i> 원장 칼럼 목록으로
+            </a>
+            <span class="col-badge-pill-inline {{ .Params.category }}">{{ .Params.category_name }}</span>
+          </div>
+
+          <h1 class="case-single-title blog-article-title">{{ .Title }}</h1>
+
+          <div class="case-single-meta-bar">
+            <div class="meta-item-left">
+              <span class="doctor-badge-mini"><i class="ph-bold ph-stethoscope"></i> 대표원장 칼럼</span>
+              <strong>{{ .Params.author }}</strong>
+              <span>(해아림한의원 분당점)</span>
+            </div>
+            <div class="meta-item-right">
+              <span class="meta-date"><i class="ph-bold ph-calendar-blank"></i> {{ .Date.Format "2006.01.02" }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Article Featured Image / Visual Thumbnail -->
+        {{ if .Params.image }}
+        <div class="blog-featured-media-box">
+          <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}" class="blog-featured-img">
+        </div>
+        {{ end }}
+
+        <!-- Article Body Markdown Content -->
+        <div class="case-typed-body blog-content-body">
+          {{ .Content }}
+        </div>
+
+        <!-- Hashtags -->
+        {{ if .Params.hashtags }}
+        <div class="blog-hashtags-footer">
+          <span class="hashtag-label"><i class="ph-bold ph-hash"></i> 관련 키워드:</span>
+          <div class="hashtag-pill-group">
+            {{ range .Params.hashtags }}
+            <span class="hashtag-pill">#{{ . }}</span>
+            {{ end }}
+          </div>
+        </div>
+        {{ end }}
+
+        <!-- Doctor Consultation CTA Box -->
+        <div class="case-cta-banner blog-cta-banner">
+          <div class="cta-banner-text">
+            <h3>유사한 증상으로 일상에 어려움을 겪고 계신가요?</h3>
+            <p>손지웅 대표원장이 직접 1:1로 원인을 분석하고 맞춤 치료 계획을 설계해 드립니다.</p>
+          </div>
+          <div class="cta-banner-buttons">
+            <button class="btn btn-inquiry-header" onclick="document.getElementById('inquiry-modal').classList.add('active'); document.body.style.overflow='hidden';">
+              <i class="ph-bold ph-chat-teardrop-dots"></i> 빠른 온라인 상담
+            </button>
+            <a href="https://map.naver.com/p/entry/place/1272285133" target="_blank" rel="noopener noreferrer" class="btn btn-hero-naver-dark">
+              <span class="n-box">N</span> 네이버 실시간 예약
+            </a>
+          </div>
+        </div>
+
+        <!-- Bottom Navigation Button -->
+        <div class="case-bottom-nav">
+          <a href="{{ "/blog/" | relURL }}" class="btn btn-outline-cases">
+            <i class="ph-bold ph-list-dashes"></i> 전체 칼럼 목록 보기
+          </a>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  {{ partial "footer.html" . }}
+  {{ partial "floating_bar.html" . }}
+
+  <!-- Scripts -->
+  {{ $script := resources.Get "js/main.js" | resources.Minify }}
+  <script src="{{ $script.RelPermalink }}"></script>
+</body>
+</html>
