@@ -1,0 +1,50 @@
+name: Daily 4-Column Auto Publish
+
+on:
+  schedule:
+    # Runs at 00:00 UTC (09:00 KST) every day
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish-daily-columns:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: 'latest'
+          extended: true
+
+      - name: Run Daily Column Publisher
+        run: |
+          node scripts/auto_publish_daily_columns.js || true
+
+      - name: Build Hugo Site
+        run: |
+          hugo --minify -d public
+
+      - name: Commit and Push New Columns
+        run: |
+          git config --global user.name "Healim Auto Publisher"
+          git config --global user.email "bot@healim-bundang.com"
+          git add content/blog/ static/images/blog/ public/
+          if git diff --staged --quiet; then
+            echo "No new columns to commit today."
+          else
+            git commit -m "chore(auto-publish): publish 4 daily doctor columns for $(date +'%Y-%m-%d')"
+            git push origin main
+          fi
