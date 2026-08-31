@@ -1,0 +1,4587 @@
+{
+  "HouseBanner:https://maps-service.pstatic.net/maps-cms/568f3214-4368-46cc-9ce1-61c1d39aa97c.png": {
+    "__typename": "HouseBanner",
+    "id": "https://maps-service.pstatic.net/maps-cms/568f3214-4368-46cc-9ce1-61c1d39aa97c.png",
+    "slotIndex": 1,
+    "imageUrl": "https://maps-service.pstatic.net/maps-cms/568f3214-4368-46cc-9ce1-61c1d39aa97c.png",
+    "linkUrl": "https://booking.map.naver.com/promotions/home",
+    "bgColor": "#176CFF",
+    "altText": "놓치면 아까운 혜택! 네이버지도에서 예약하세요. "
+  },
+  "Panorama:nfvJnHlvK1Rdz3Hd87yasg==": {
+    "__typename": "Panorama",
+    "id": "nfvJnHlvK1Rdz3Hd87yasg==",
+    "pan": "-93.89",
+    "tilt": "10.00",
+    "lon": "127.1080023",
+    "lat": "37.3653543",
+    "fov": "120"
+  },
+  "PlaceDetailBase:1272285133": {
+    "__typename": "PlaceDetailBase",
+    "id": "1272285133",
+    "name": "해아림한의원 분당점",
+    "reviewSettings": {
+      "__typename": "ReviewSettings",
+      "keyword": null,
+      "blog": 1,
+      "cafe": 1,
+      "showVisitorReviewScore": false
+    },
+    "siteId": "sp_f29c00a00d159",
+    "road": "",
+    "conveniences": [
+      "남/녀 화장실 구분",
+      "주차",
+      "예약",
+      "무선 인터넷"
+    ],
+    "category": "한의원",
+    "categoryCode": "223265",
+    "categoryCodeList": [
+      "223175",
+      "223176",
+      "223187",
+      "223260",
+      "223265",
+      "1004760",
+      "1006799",
+      "1006813"
+    ],
+    "defaultCategoryCodeList": [
+      "223175",
+      "223176",
+      "223187",
+      "223260",
+      "223265"
+    ],
+    "categoryCount": 3,
+    "rcode": "02135103",
+    "roadAddress": "경기 성남시 분당구 성남대로331번길 3-3 젤존타워3차 405호",
+    "address": "경기 성남시 분당구 정자동 156-1",
+    "streetPanorama": {
+      "__ref": "Panorama:nfvJnHlvK1Rdz3Hd87yasg=="
+    },
+    "isKtis": null,
+    "visitorReviewsTotal": 149,
+    "visitorReviewsScore": 0,
+    "cafeBlogReviewsTotal": 832,
+    "missingInfo": {
+      "__typename": "MissingInfo",
+      "businessType": "else",
+      "isBizHourMissing": true,
+      "isMenuImageMissing": false,
+      "isAccessorMissing": false,
+      "isDescriptionMissing": false,
+      "isConveniencesMissing": false,
+      "needLargeSuggestionBanner": true,
+      "isBoss": false
+    },
+    "hideBusinessHours": false,
+    "hidePrice": false,
+    "microReviews": null,
+    "paymentInfo": [
+      "지역화폐 (카드형)",
+      "지역화폐 (지류형)",
+      "지역화폐 (모바일형)",
+      "고유가 피해지원금 (신용·체크카드)"
+    ],
+    "openingHours": null,
+    "isGoodStore": false,
+    "coordinate": {
+      "__typename": "Coordinate",
+      "x": "127.1077176",
+      "y": "37.3653352",
+      "mapZoomLevel": 12
+    },
+    "poiInfo": {
+      "__typename": "PoiInfo",
+      "polyline": null,
+      "land": null,
+      "polygon": null,
+      "relation": null,
+      "parentRelation": null
+    },
+    "routeUrl": "https://m.search.naver.com/search.naver?where=m&query=%EB%B9%A0%EB%A5%B8%EA%B8%B8%EC%B0%BE%EA%B8%B0&nso_path=placeType%5Eplace%3Bname%5E%3Baddress%5E%3Blatitude%5E%3Blongitude%5E%3Bcode%5E%7Ctype%5Eplace%3Bname%5E%ED%95%B4%EC%95%84%EB%A6%BC%ED%95%9C%EC%9D%98%EC%9B%90%20%EB%B6%84%EB%8B%B9%EC%A0%90%3Baddress%5E%3Bcode%5E1272285133%3Blongitude%5E127.1077176%3Blatitude%5E37.3653352%7Cobjtype%5Epath%3Bby%5Epubtrans",
+    "virtualPhone": null,
+    "phone": "031-716-8575",
+    "hasMobilePhoneNumber": false,
+    "talktalkUrl": null,
+    "chatBotUrl": null,
+    "naverBlog": null,
+    "visitorReviewsTextReviewTotal": 129,
+    "beLocalWeek": null,
+    "indoorInfo": null
+  },
+  "FsasReview:blog_해아림한의원 분당용인점_224293515246_용인 틱장애 한의원, 눈 깜빡을 반복하더니 다른 증상까지 추가되고 있다면?": {
+    "__typename": "FsasReview",
+    "name": "해아림한의원 분당용인점",
+    "type": "blog",
+    "typeName": "블로그",
+    "url": "https://m.blog.naver.com/jh9852/224293515246",
+    "home": "https://m.blog.naver.com/jh9852",
+    "id": "blog_해아림한의원 분당용인점_224293515246_용인 틱장애 한의원, 눈 깜빡을 반복하더니 다른 증상까지 추가되고 있다면?",
+    "title": "용인 틱장애 한의원, 눈 깜빡을 반복하더니 다른 증상까지 추가되고 있다면?",
+    "rank": "1",
+    "contents": "용인 틱장애 안녕하세요 한방 신경정신과 해아림한의원 분당용인점 손지웅 원장입니다. 항상 내원하시는 보호자분들께서 자주 이렇게 물어보십니다. \"처음에는 눈만 깜빡였는데 요즘 다른 증상들이 추가되서 코를 찡긋거리거나 고개를 까딱이기 시작했어요. 증상이 더 추가될까봐 걱정되요\" 눈 깜빡임은 아이들에게 흔히 보이는 초기 틱 증상 중 하나입니다. 그런데 시간이 지나면서 얼굴 찡그림, 코 훌쩍임, 헛기침, 어깨 들썩임처럼 다른 모습이 함께 나타나면 부모님 입장에서는 당연히 더욱 걱정이 될 수 밖에 없습니다. 용인 틱장애는 크게 운동 틱과 음성 틱으로 나뉘어지며 증상 양상과 지속 기간에 따라 전문가의 치료가 필요할 수 있습니다. 눈 깜빡임에다 다른 증상이 추가되면 심해진 걸까요? 용인 틱장애는 한 가지 형태로만 고정된다기 보다 시기에 따라 위치와 양상이 바뀌는 경우가 많습니다. 따라서 처음에는 눈 깜빡임처럼 얼굴 주변에서 시작했다가, 이후 코 찡그림, 입 벌리기, 목 움직임, 어깨 들썩임으로 달라질 수 있습니다. 중요한 것은 증상이 하나 더 생겼다는 사실이 아니라 빈도, 강도, 지속 기간, 생활 방해 정도냐 라는 것입니다. 잠깐 나타났다가 줄어드는 경우도 있지만, 피로하거나 긴장할 때 반복이 뚜렷해지고 학교생활이나 또래 관계에 영향을 준다면 세심하게 살펴야 합니다. 헛기침이나 킁킁거림도 틱장애에 해당되나요? 많은 보호자분들께서 코 킁킁 거림이나 눈깜빡임, 그리고 고개 까딱임을 비염이나 알레르기, 혹은 관절 문제 등으로 생각하시려고 하는 경향이 있습니다. 하지만 관련 병원에서 특별한 소견이 없는데도 혹은 어느정도 치료를 했는데도 계속 동일한 모습들을 보이거나 혹은 증상이 더욱 심해질 경우, 틱장애를 고려 해 보아야합니다. 왜 증상이 하나씩 추가되는 걸까요? 용인 틱장애는 단순한 습관이나 버릇만으로 설명하기 어렵습니다. 실제로 아이가 일부러 습관적으로 눈을 깜빡이거나 소리를 내는 것이 아닌, 아이도 하기 싫지만 뇌 운동 조절과 억제 기능이 아직 미숙한 상태이다보니 긴장, 피로, 흥분, 스트레스와 같은 요인이 겹쳐지면서 반복적인 증상을 보이는 것에 좀 더 가깝습니다. 아이들 입장에서는 새학기, 친구 관계의 변화, 학습 부담감의 심화, 수면 부족, 스마트폰 사용 증가와 같은 변화나 스트레스가 생길 경우 증상이 눈에 띄게 늘어나곤 합니다. 그래서 겉으로 보이는 행동만 막으려고 하기보다는, 아이의 신체 리듬과 정서적 긴장을 함께 살피는 과정이 필요합니다. 실제 치료했던... ",
+    "bySmartEditor3": false,
+    "hasNaverReservation": false,
+    "thumbnailUrl": "http://blogfiles.naver.net/MjAyNjA1MjJfMjIx/MDAxNzc5NDI5NjM5MjA4.C6XpTfmN2fTd3vzOaaRXuE2LxgUxjk7ZXu8XTvsz5s0g.8EhYit5D8hX6BOcebkJ2TeKEjN0L1LCPNkx1h207zl0g.PNG/%BA%ED%B7%CE%B1%D7_%BD%E6%B3%D7%C0%CF.png#567x567",
+    "thumbnailUrlList": [
+      "http://blogfiles.naver.net/MjAyNjA1MjJfMjIx/MDAxNzc5NDI5NjM5MjA4.C6XpTfmN2fTd3vzOaaRXuE2LxgUxjk7ZXu8XTvsz5s0g.8EhYit5D8hX6BOcebkJ2TeKEjN0L1LCPNkx1h207zl0g.PNG/%BA%ED%B7%CE%B1%D7_%BD%E6%B3%D7%C0%CF.png#567x567",
+      "http://blogfiles.naver.net/MjAyNjA1MjJfMjU3/MDAxNzc5NDMwOTE0MDY1.xMFfFilfqlKXwx-b9FAjX0KEigcveQ5hdETbK6cUqikg.dzboYMWBLWuevCWYG2jZ_j1FvFrkDvsQ46pK79hJ-04g.JPEG/20250930_152502_077.jpg#4000x2252",
+      "http://blogfiles.naver.net/MjAyNjA1MjJfMjMx/MDAxNzc5NDMwOTE0NjYz.CpvMZwqi17nwTJCap4bP9Nv4Metaz7aNarLlXqKX8E4g.RxtxEIgu7Ze_xIjMNirEYQ2pwT7EQDavQJptt704uKog.JPEG/20250930_132201_068.jpg#4000x2252",
+      "http://blogfiles.naver.net/MjAyNjA1MjJfMjMx/MDAxNzc5NDMwOTE0NzI2.xbdVb9e2x6qTMzngvEJmbIWWYmikxcx8AmhifSY6sskg.PhVIliWw6n_7IFp7-m_R8vutJLJ5j-ZWeICSacggmqUg.JPEG/20250930_152257_008.jpg#4000x2252",
+      "http://blogfiles.naver.net/MjAyNjA1MjJfNDEg/MDAxNzc5NDMwOTE0NzI2.G2S09To6-RfztpwNnbdRF4IbEPUCL8ZbryBPGXfkH8wg.MiZecyIEGHQU8hhlvzL1K0MABd42fMzKV_XI3abKlh4g.JPEG/20250930_132306_088.jpg#4000x2252",
+      "http://blogfiles.naver.net/MjAyNjA1MjJfMjE1/MDAxNzc5NDMwOTE0NDE5.rB8lZZcPW_Y24jv7qPpGUXFCTTogHhv3gUyIVScp9Mgg.FvS4L0MznPQT-lU1kjbvrrlIWzDcwq2o_UxyPKC53Bgg.JPEG/20250930_152150_006.jpg#4000x2252",
+      "http://blogfiles.naver.net/MjAyNjA1MjJfMjkw/MDAxNzc5NDMwOTE1NDEz.Nl341-EZIKbeD5UQXxNkiVIM12HNnk7Szaich2gs3Vgg.a83cUQ8YGNg-l_zccYnUgSTYhH6rtAc2i-yIBGpN6JQg.JPEG/20250930_132354_098.jpg#4000x2252",
+      "http://blogfiles.naver.net/MjAyNjA1MjJfODkg/MDAxNzc5NDMwOTE0MTEy.y5JQcte6-8zLJmX9QQZC-qpsxWxSh4haCLF82idmPFUg.h4BznBx0nNgkvvwpDkGAtsEF5Q38UiK4Ru1ogqgEcUUg.JPEG/20250930_152029_087.jpg#4000x2252",
+      "http://blogfiles.naver.net/MjAyNjA1MjJfMjM0/MDAxNzc5NDMwOTE1NTQ4.kSdl7MbSq-97p5tTC5ECe0r2NdZUjNhMdjcR6b7Wom4g.wTgDVbS4oa2hh8Kbi6YZL7mRqiIXTH6gYT092AzKndUg.JPEG/20250930_132435_030.jpg#4000x2252"
+    ],
+    "thumbnailCount": "9",
+    "date": "2026.05.22.",
+    "isOfficial": false,
+    "isRepresentative": false,
+    "profileImageUrl": "http://blogpfthumb.phinf.naver.net/MjAyNjAyMDJfMTY1/MDAxNzY5OTk1NDkxMTgw.OhJ-WT3sHuGM5KDiFxWgmJiAxd5mm72GN2jJiyuUsgog.17LfpNJ5qydqdIJzm47TZPK5qNdXJysQ9vyZIdlyxn8g.JPEG/%25ED%2594%2584%25EB%25A1%259C%25ED%2595%2584.jpg/%25ED%2594%2584%25EB%25A1%259C%25ED%2595%2584.jpg",
+    "isVideoThumbnail": false,
+    "reviewId": "224293515246",
+    "authorName": "해아림분당",
+    "createdString": "5.22.금",
+    "bypassToken": null,
+    "buyWithMyMoneyType": null
+  },
+  "FsasReview:blog_해아림한의원 분당용인점_224296975912_분당 한방정신과 한의원, 어린이 틱장애 진단 및 주요 증상": {
+    "__typename": "FsasReview",
+    "name": "해아림한의원 분당용인점",
+    "type": "blog",
+    "typeName": "블로그",
+    "url": "https://m.blog.naver.com/jh9852/224296975912",
+    "home": "https://m.blog.naver.com/jh9852",
+    "id": "blog_해아림한의원 분당용인점_224296975912_분당 한방정신과 한의원, 어린이 틱장애 진단 및 주요 증상",
+    "title": "분당 한방정신과 한의원, 어린이 틱장애 진단 및 주요 증상",
+    "rank": "2",
+    "contents": "아이에게 버릇처럼 보이는 행동이 반복된다면? 아이를 지켜보다 보면 유난히 눈을 자주 깜빡이거나, 코를 찡긋거리고, 목에 무언가 걸린 듯 “음음” 소리를 내는 경우가 있습니다. 처음에는 피곤해서 그런가, 장난처럼 하는 행동인가 싶어 대수롭지 않게 넘기기도 합니다. 하지만 비슷한 움직임이나 소리가 며칠, 몇 주 이상 반복되고 긴장하거나 피곤할 때 더 심해진다면 많은 부모님들께서 분당 틱장애를 검색하면서 우리 아이의 증상이 비슷한 것 같기도 하고 구분을 어려워합니다. 틱은 아이가 일부러 하거나 관심을 끌기 위해 하는 행동이 아닌 경우가 ���습니다. 그래서 “그만해”, “왜 자꾸 그러니”라는 말이 반복되면 아이는 증상을 더 의식하게 되고, 그 부담감이 다시 틱을 심하게 만들 수 있습니다. 어린이 틱장애 증상은 보통 어떻게 보이나요? 어린이 틱장애 증상은 크게 운동틱과 음성틱으로 나뉘어 집니다. 운동 틱은 눈 깜빡임, 얼굴 찡그림, 코 움직임, 어깨 들썩임, 고개 젖히기, 입 오므리기, 입 벌리기 등으로 나타날 수 있으며 음성 틱은 헛기침, 킁킁거림, 목 긁는 소리, 딸꾹질, 반복적인 소리 내기 등이 있습니다. 아이들의 경우 처음부터 여러 증상이 한꺼번에 나타나는 것은 아닙니다. 처음에는 눈 깜빡임 정도로 시작했다가 시간이 지나며 코 찡긋거림이나 헛기침이 더해지는 경우도 있고, 한동안 줄어든 것처럼 보이다가 스트레스가 많아지는 시기에 다시 두드러지기도 합니다. 운동틱과 음성틱이 함께 나타나고 기간이 길어지는 경우에는 뚜렛증후군 여부도 함께 살펴야 합니다. 다만 겉으로 보이는 양상만 보고 단정하기보다는 증상의 기간, 변화 양상, 동반되는 어려움까지 종합적으로 확인하는 과정이 필요합니다. 틱 증상이 생기는 뚜렷한 이유가 있나요? 틱은 단순히 한 가지 원인으로 설명하기 어렵습니다. 아이의 긴장 수준, 수면 상태, 스트레스 반응, 뇌의 조절 기능, 감정 기복, 학습 부담 등이 복합적으로 영향을 줄 수 있습니다. 특히 일부 아이들은 틱과 함께 ADHD, 강박증, 불안 증상을 보이기도 합니다. 수업 시간에 집중을 오래 유지하기 어렵거나, 충동 조절이 힘들거나, 특정 행동을 반복해야 안심되는 모습이 함께 관찰될 수 있습니다. 그래서 분당 한방정신과 진료를 알아보는 보호자분들 중에는 “우리 아이는 태어날 때 부터 불안도가 높고 예민했다”, “강박 증세도 같이 보이는 것 같다”고 말씀하시는 경우도 있습니다. 이처럼 틱은 증상 하나만 따로 보기보다 아이의 전반적인 생활 흐름 속에서... ",
+    "bySmartEditor3": false,
+    "hasNaverReservation": false,
+    "thumbnailUrl": "http://blogfiles.naver.net/MjAyNjA1MjZfMTI1/MDAxNzc5NzgwODM0NjYx.AGwPkTCJUCh-xSm0aodV_nindF5Z1PgytcHjBnCEbVEg.EG85BMoAqgmQid9mMc9sgLU6Dooofow_m7DEX6YdRs8g.PNG/%BA%ED%B7%CE%B1%D7_%BD%E6%B3%D7%C0%CF.png#567x567",
+    "thumbnailUrlList": [
+      "http://blogfiles.naver.net/MjAyNjA1MjZfMTI1/MDAxNzc5NzgwODM0NjYx.AGwPkTCJUCh-xSm0aodV_nindF5Z1PgytcHjBnCEbVEg.EG85BMoAqgmQid9mMc9sgLU6Dooofow_m7DEX6YdRs8g.PNG/%BA%ED%B7%CE%B1%D7_%BD%E6%B3%D7%C0%CF.png#567x567",
+      "http://blogfiles.naver.net/MjAyNjA1MjZfMTQx/MDAxNzc5NzgwNjY4OTM3.HrUnvTatTqnUlrp0S98CCNtcVTwn1HVtW_IC0D0IaGkg.HDFpOZiW3Vsv2S3kyK5CBmFuxdW9m6pNlASuR69g5Wsg.JPEG/KakaoTalk_20260526_162841233.jpg#4032x3024",
+      "http://blogfiles.naver.net/MjAyNjA1MjZfMTMz/MDAxNzc5NzgwNzI3Njcx.JuQshty0_FUzZHlFqkjaYM9d6WUkI5COOisGoqh3yewg.-Z6Z98axTet_M3e7pkvt0Mkqf4aTR_Aq27bX3NB1pqgg.JPEG/20250930_132201_004.jpg#4000x2252",
+      "http://blogfiles.naver.net/MjAyNjA1MjZfMTE5/MDAxNzc5NzgwNzI3NDEx.RJEfqpihuDTxFaZSYs_yxmYB2mtixy5MurYP23Dt_Bcg.6Ykst-YUhVkuKC8tmlqhsdJIM-9ojvj0yr4bxu4HGfYg.JPEG/20250930_132337_034.jpg#4000x2252",
+      "http://blogfiles.naver.net/MjAyNjA1MjZfODcg/MDAxNzc5NzgwNjY4NjY2.MhMKmHNNblgHPGFvmKrYu78wKmdAaD7S8umgMuO3P8Ug.XpwzRtFI_0Zg77VtPDtQekng96It76E3FWizQ9DMcDgg.JPEG/KakaoTalk_20260526_163017963.jpg#4032x3024",
+      "http://blogfiles.naver.net/MjAyNjA1MjZfMjkg/MDAxNzc5NzgwNzI2NzY0.kYsJwZR65vPUW3mLLKqgEfsgsZaqmmhXUz7yQ3xmqU8g.RhBYHeTm-EfTM6a0So6V7-rBaGw1cgBHnJmg9z4F-Z0g.JPEG/20250930_152257_016.jpg#4000x2252"
+    ],
+    "thumbnailCount": "6",
+    "date": "2026.05.26.",
+    "isOfficial": false,
+    "isRepresentative": false,
+    "profileImageUrl": "http://blogpfthumb.phinf.naver.net/MjAyNjAyMDJfMTY1/MDAxNzY5OTk1NDkxMTgw.OhJ-WT3sHuGM5KDiFxWgmJiAxd5mm72GN2jJiyuUsgog.17LfpNJ5qydqdIJzm47TZPK5qNdXJysQ9vyZIdlyxn8g.JPEG/%25ED%2594%2584%25EB%25A1%259C%25ED%2595%2584.jpg/%25ED%2594%2584%25EB%25A1%259C%25ED%2595%2584.jpg",
+    "isVideoThumbnail": false,
+    "reviewId": "224296975912",
+    "authorName": "해아림분당",
+    "createdString": "5.26.화",
+    "bypassToken": null,
+    "buyWithMyMoneyType": null
+  },
+  "FsasReview:cafe_♥해아림한의원 공식카페_24617_분당 용인 불면증 병원 잠을 전혀 못자는데 치료될까요?": {
+    "__typename": "FsasReview",
+    "name": "♥해아림한의원 공식카페",
+    "type": "cafe",
+    "typeName": "카페",
+    "url": "https://m.cafe.naver.com/healim0071/24617?query=%E2%99%A5%ED%95%B4%EC%95%84%EB%A6%BC%ED%95%9C%EC%9D%98%EC%9B%90%20%EA%B3%B5%EC%8B%9D%EC%B9%B4%ED%8E%98",
+    "home": "https://m.cafe.naver.com/healim0071/24617?query=%E2%99%A5%ED%95%B4%EC%95%84%EB%A6%BC%ED%95%9C%EC%9D%98%EC%9B%90%20%EA%B3%B5%EC%8B%9D%EC%B9%B4%ED%8E%98",
+    "id": "cafe_♥해아림한의원 공식카페_24617_분당 용인 불면증 병원 잠을 전혀 못자는데 치료될까요?",
+    "title": "분당 용인 불면증 병원 잠을 전혀 못자는데 치료될까요?",
+    "rank": "1",
+    "contents": "분당 용인 불면증 병원 잠을 전혀 못자는데 치료될까요? 해아림한의원 홈페이지주소 https://www.healim.com #분당용인불면증병원 몇 달 전부터 잠을 제대로 이루지 못하는 날이 많아지면서 생활 자체가 많이 무너진 것 같아 고민되어 질문드립니다. 처음에는 잠드는 데 조금 시간이 걸리는 정도였는데, 시간이 지나면서 점점 심해져 이제는 밤을 거의 통째로 새우는 날도 생겼습니다. 잠을 못 자다 보니 자연스럽게 수면시간도 들쭉날쭉해지고 생활 패턴까지 완전히 흐트러진 상태입니다. 현재는 일을 잠시 쉬고 있어서 그나마 버티고 있지만, 다시 일상생활이나 직장생활을 시작했을 때 지금처럼 잠을 제대로 못 자면 어떻게 해야 할지 벌써부터 걱정이 됩니다. 가장 고민되는 부분은 잠이 너무 오지 않다 보니 억지로라도 잠들기 위해 술을 마시게 된다는 것입니다. 처음에는 가끔 한두 잔 마시는 정도였는데, 술을 마시면 그나마 잠이 드는 것 같아서 점점 잠을 자기 위한 수단처럼 생각하게 되는 것 같습니다. 분당 용인 불면증 병원 이렇게 계속하는 것이 오히려 수면을 더 망가뜨릴까 봐 걱정되기도 합니다. 그래서 이제는 제대로 불면증 치료를 받아볼까 하는데, 불면증 치료를 받으려면 꼭 수면제를 먹어야 하나요? 약을 복용하지 않고 수면습관을 교정하거나 상담, 인지행동치료 같은 방법으로도 좋아질 수 있는지 궁금합니다. 분당 용인 불면증 병원 그리고 제가 잠드는 것뿐만 아니라 어렵게 잠이 들어도 새벽에 몇 번씩 깨고, 한번 깨면 다시 잠들기가 힘든 날도 많은데 이런 경우도 불면증에 해당하는지 궁금합니다. 잠을 거의 이루지 못하는 상태가 며칠씩 이어지고 낮 동안 집중력 저하와 피로감까지 심해졌다면 혼자서 생활습관만 조절하며 버티기에는 어려움이 있었을 수 있습니다. 특히 잠을 못 잘까 봐 걱정하는 마음이 커지면서 침대에 누웠을 때 오히려 각성이 높아지는 경우에는 불면에 대한 불안과 긴장이 수면을 방해하는 악순환이 만들어지기도 했습니다. 분당 용인 불면증 병원을 알아보실 때에는 단순히 수면제 처방만 생각하기보다 불면이 시작된 시점과 수면 패턴, 스트레스, 카페인 섭취, 생활 리듬 등을 함께 확인하는 진료를 받는 것이 좋았습니다. 분당 용인 불면증 병원 진료를 받으시면서 약물에 대한 부담이 크셨다면 현재 복용 중인 약이나 건강 상태를 의료진에게 충분히 말씀하시고 치료 방법을 함께 조절하는 것이 중요했습니다. 분당 용인 불면증 병원을 찾으실 정도로 증상이 심했다면 며칠 더... ",
+    "bySmartEditor3": false,
+    "hasNaverReservation": false,
+    "thumbnailUrl": "http://cafefiles.naver.net/MjAyNjA4MTlfMTEg/MDAxNzg3MTM4NTI4NTIw.X3jNGuNjo7wx47Iau7xA37fIp9TI4LxSqZ_5gW1NqzMg.jDDcMAmA-bgMIYSlOJYMOHaLbtYJ7mQfSoD53EByXIwg.JPEG/KakaoTalk_20260819_004543256_05.jpg#800x800",
+    "thumbnailUrlList": [
+      "http://cafefiles.naver.net/MjAyNjA4MTlfMTEg/MDAxNzg3MTM4NTI4NTIw.X3jNGuNjo7wx47Iau7xA37fIp9TI4LxSqZ_5gW1NqzMg.jDDcMAmA-bgMIYSlOJYMOHaLbtYJ7mQfSoD53EByXIwg.JPEG/KakaoTalk_20260819_004543256_05.jpg#800x800",
+      "http://cafefiles.naver.net/MjAyNjA4MTlfMTgy/MDAxNzg3MTM4NTQ3MTkw.VpxWB7GNvReE__Tz_u1E0hZfNPVSBaNQP9SfnlbeLVUg.1usuTs7_othxZ-57v5KT4DNQGOClmXYtBmHG-2_-574g.JPEG/KakaoTalk_20260728_165153480_01-002_(2).jpg#800x355",
+      "http://cafefiles.naver.net/MjAyNjA4MTlfNTcg/MDAxNzg3MTM4NTQ3MjEw.o97IWWDalwrjvcYKqOc4Wazh8VfK_FwYNcPqohzqZHsg.htasMApnpDHJ7_FEEj8LNSHT5t3u7A2fyz2SObufnH4g.JPEG/KakaoTalk_20260728_165201031_26-002.jpg#800x474",
+      "http://cafefiles.naver.net/MjAyNjA4MTlfMTAg/MDAxNzg3MTM4NTQ3MjE2.iGUfEHjPb98UM3uiXsjD0InihA8KsHCiyn37B8WVPQwg.MYKaSEG36qHlNcUW_YWP83yoCjjjj5IDn5fXAjy3ec4g.JPEG/KakaoTalk_20260728_165207101_13-002.jpg#800x474",
+      "http://cafefiles.naver.net/MjAyNjA4MTlfNTgg/MDAxNzg3MTM4NTQ3MjQ0.HQSKE2Hd2bYXjX3akEckscCUf5PZlaZH2_htEsfuxcIg.8Jq7TdWz6LSGwgc6xmZSjpIr6GccHtfh4X4bX4YsrGwg.JPEG/KakaoTalk_20260728_165207101_13-003_(2).jpg#800x355"
+    ],
+    "thumbnailCount": "5",
+    "date": "2026.08.19.",
+    "isOfficial": false,
+    "isRepresentative": false,
+    "profileImageUrl": "http://cafefiles.naver.net/20110622_225/0_1308711085725_Iu4br2_gif/무제-2.gif",
+    "isVideoThumbnail": false,
+    "reviewId": "24617",
+    "authorName": "해아림한의원",
+    "createdString": "8.19.수",
+    "bypassToken": "ZXh0ZXJuYWwtc2VydmljZS1wbGFjZS1zZWFyY2g=.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjYWZlVHlwZSI6IkNBRkVfVVJMIiwiY2FmZVVybCI6ImhlYWxpbTAwNzEiLCJhcnRpY2xlSWQiOjI0NjE3LCJpc3N1ZWRBdCI6MTc4ODE2ODg4MDI3OX0.1pUKwGrnCbxW3pDtPUiMtPuh36zCGCQMpueq58MPZog",
+    "buyWithMyMoneyType": null
+  },
+  "VisitorReviewStatsResult:1272285133": {
+    "__typename": "VisitorReviewStatsResult",
+    "id": "1272285133",
+    "name": null,
+    "review": {
+      "__typename": "VisitorReviewStats",
+      "avgRating": 0,
+      "totalCount": 149,
+      "scores": null,
+      "starDistribution": null,
+      "imageReviewCount": 15,
+      "authorCount": null,
+      "maxSingleReviewScoreCount": null,
+      "maxScoreWithMaxCount": null
+    },
+    "analysis": {
+      "__typename": "VisitorReviewStatsAnalysis",
+      "themes": [],
+      "menus": [],
+      "votedKeyword": null
+    },
+    "visitorReviewsTotal": 149,
+    "ratingReviewsTotal": 19,
+    "apolloCacheId": null
+  },
+  "SubwayStationInfo:1915": {
+    "__typename": "SubwayStationInfo",
+    "id": 1915,
+    "name": "정자",
+    "displayName": "정자역",
+    "lat": 37.3677228,
+    "lng": 127.108455,
+    "nearestExit": "3",
+    "nearestExitType": "public",
+    "walkTime": 1,
+    "walkingDistance": 67
+  },
+  "InnerRoute:5033": {
+    "__typename": "InnerRoute",
+    "id": "5033",
+    "name": "220"
+  },
+  "InnerRoute:5030": {
+    "__typename": "InnerRoute",
+    "id": "5030",
+    "name": "250"
+  },
+  "InnerRoute:5113": {
+    "__typename": "InnerRoute",
+    "id": "5113",
+    "name": "300"
+  },
+  "InnerRoute:20017046": {
+    "__typename": "InnerRoute",
+    "id": "20017046",
+    "name": "351"
+  },
+  "InnerRoute:5067": {
+    "__typename": "InnerRoute",
+    "id": "5067",
+    "name": "380"
+  },
+  "InnerRoute:5103": {
+    "__typename": "InnerRoute",
+    "id": "5103",
+    "name": "390"
+  },
+  "InnerRoute:10004": {
+    "__typename": "InnerRoute",
+    "id": "10004",
+    "name": "520"
+  },
+  "InnerRoute:11005": {
+    "__typename": "InnerRoute",
+    "id": "11005",
+    "name": "820"
+  },
+  "InnerRoute:2803173": {
+    "__typename": "InnerRoute",
+    "id": "2803173",
+    "name": "누리4"
+  },
+  "InnerRoute:5084": {
+    "__typename": "InnerRoute",
+    "id": "5084",
+    "name": "102"
+  },
+  "InnerRoute:10101": {
+    "__typename": "InnerRoute",
+    "id": "10101",
+    "name": "1101"
+  },
+  "InnerRoute:11038572": {
+    "__typename": "InnerRoute",
+    "id": "11038572",
+    "name": "1101N"
+  },
+  "InnerRoute:10095": {
+    "__typename": "InnerRoute",
+    "id": "10095",
+    "name": "1303"
+  },
+  "InnerRoute:10100": {
+    "__typename": "InnerRoute",
+    "id": "10100",
+    "name": "8100"
+  },
+  "InnerRoute:20033731": {
+    "__typename": "InnerRoute",
+    "id": "20033731",
+    "name": "8100(예약)"
+  },
+  "InnerRoute:10200": {
+    "__typename": "InnerRoute",
+    "id": "10200",
+    "name": "8106"
+  },
+  "InnerRoute:10199": {
+    "__typename": "InnerRoute",
+    "id": "10199",
+    "name": "8109"
+  },
+  "InnerRoute:5021": {
+    "__typename": "InnerRoute",
+    "id": "5021",
+    "name": "G8110"
+  },
+  "InnerRoute:20033705": {
+    "__typename": "InnerRoute",
+    "id": "20033705",
+    "name": "G8110(예약)"
+  },
+  "InnerRoute:1990": {
+    "__typename": "InnerRoute",
+    "id": "1990",
+    "name": "반디1"
+  },
+  "InnerRoute:1991": {
+    "__typename": "InnerRoute",
+    "id": "1991",
+    "name": "반디1-1"
+  },
+  "InnerRoute:2209": {
+    "__typename": "InnerRoute",
+    "id": "2209",
+    "name": "반디2"
+  },
+  "InnerRoute:10155": {
+    "__typename": "InnerRoute",
+    "id": "10155",
+    "name": "M4102"
+  },
+  "InnerRoute:20033708": {
+    "__typename": "InnerRoute",
+    "id": "20033708",
+    "name": "M4102(예약)"
+  },
+  "InnerRoute:5140": {
+    "__typename": "InnerRoute",
+    "id": "5140",
+    "name": "2"
+  },
+  "InnerRoute:5138": {
+    "__typename": "InnerRoute",
+    "id": "5138",
+    "name": "19"
+  },
+  "InnerRoute:5122": {
+    "__typename": "InnerRoute",
+    "id": "5122",
+    "name": "111"
+  },
+  "InnerRoute:5052": {
+    "__typename": "InnerRoute",
+    "id": "5052",
+    "name": "111(맞춤형)"
+  },
+  "InnerRoute:11001068": {
+    "__typename": "InnerRoute",
+    "id": "11001068",
+    "name": "117"
+  },
+  "InnerRoute:10816": {
+    "__typename": "InnerRoute",
+    "id": "10816",
+    "name": "5200-1"
+  },
+  "InnerRoute:10593": {
+    "__typename": "InnerRoute",
+    "id": "10593",
+    "name": "5400"
+  },
+  "InnerRoute:10817": {
+    "__typename": "InnerRoute",
+    "id": "10817",
+    "name": "5400-1"
+  },
+  "BusStation:110314": {
+    "__typename": "BusStation",
+    "id": "110314",
+    "name": "정자역",
+    "displayCode": "07049",
+    "lat": 37.365908,
+    "lng": 127.107852,
+    "innerRoutes": {
+      "__typename": "InnerRoutes",
+      "routeType": [
+        {
+          "__typename": "RouteType",
+          "type": "1",
+          "typeName": "일반",
+          "innerRoute": [
+            {
+              "__ref": "InnerRoute:5033"
+            },
+            {
+              "__ref": "InnerRoute:5030"
+            },
+            {
+              "__ref": "InnerRoute:5113"
+            },
+            {
+              "__ref": "InnerRoute:20017046"
+            },
+            {
+              "__ref": "InnerRoute:5067"
+            },
+            {
+              "__ref": "InnerRoute:5103"
+            },
+            {
+              "__ref": "InnerRoute:10004"
+            },
+            {
+              "__ref": "InnerRoute:11005"
+            },
+            {
+              "__ref": "InnerRoute:2803173"
+            }
+          ]
+        },
+        {
+          "__typename": "RouteType",
+          "type": "4",
+          "typeName": "직행",
+          "innerRoute": [
+            {
+              "__ref": "InnerRoute:5084"
+            },
+            {
+              "__ref": "InnerRoute:10101"
+            },
+            {
+              "__ref": "InnerRoute:11038572"
+            },
+            {
+              "__ref": "InnerRoute:10095"
+            },
+            {
+              "__ref": "InnerRoute:10100"
+            },
+            {
+              "__ref": "InnerRoute:20033731"
+            },
+            {
+              "__ref": "InnerRoute:10200"
+            },
+            {
+              "__ref": "InnerRoute:10199"
+            },
+            {
+              "__ref": "InnerRoute:5021"
+            },
+            {
+              "__ref": "InnerRoute:20033705"
+            },
+            {
+              "__ref": "InnerRoute:1990"
+            },
+            {
+              "__ref": "InnerRoute:1991"
+            },
+            {
+              "__ref": "InnerRoute:2209"
+            }
+          ]
+        },
+        {
+          "__typename": "RouteType",
+          "type": "14",
+          "typeName": "광역",
+          "innerRoute": [
+            {
+              "__ref": "InnerRoute:10155"
+            },
+            {
+              "__ref": "InnerRoute:20033708"
+            }
+          ]
+        },
+        {
+          "__typename": "RouteType",
+          "type": "3",
+          "typeName": "마을",
+          "innerRoute": [
+            {
+              "__ref": "InnerRoute:5140"
+            },
+            {
+              "__ref": "InnerRoute:5138"
+            },
+            {
+              "__ref": "InnerRoute:5122"
+            },
+            {
+              "__ref": "InnerRoute:5052"
+            },
+            {
+              "__ref": "InnerRoute:11001068"
+            }
+          ]
+        },
+        {
+          "__typename": "RouteType",
+          "type": "5",
+          "typeName": "공항",
+          "innerRoute": [
+            {
+              "__ref": "InnerRoute:10816"
+            },
+            {
+              "__ref": "InnerRoute:10593"
+            },
+            {
+              "__ref": "InnerRoute:10817"
+            }
+          ]
+        }
+      ]
+    },
+    "walkTime": 1,
+    "walkingDistance": 47
+  },
+  "InnerRoute:5130": {
+    "__typename": "InnerRoute",
+    "id": "5130",
+    "name": "109"
+  },
+  "InnerRoute:5152": {
+    "__typename": "InnerRoute",
+    "id": "5152",
+    "name": "109-1"
+  },
+  "InnerRoute:20025543": {
+    "__typename": "InnerRoute",
+    "id": "20025543",
+    "name": "109-2"
+  },
+  "BusStation:84738": {
+    "__typename": "BusStation",
+    "id": "84738",
+    "name": "정자역(마을)",
+    "displayCode": "07786",
+    "lat": 37.366227,
+    "lng": 127.108334,
+    "innerRoutes": {
+      "__typename": "InnerRoutes",
+      "routeType": [
+        {
+          "__typename": "RouteType",
+          "type": "3",
+          "typeName": "마을",
+          "innerRoute": [
+            {
+              "__ref": "InnerRoute:5130"
+            },
+            {
+              "__ref": "InnerRoute:5152"
+            },
+            {
+              "__ref": "InnerRoute:20025543"
+            }
+          ]
+        }
+      ]
+    },
+    "walkTime": 3,
+    "walkingDistance": 177
+  },
+  "BusStation:83266": {
+    "__typename": "BusStation",
+    "id": "83266",
+    "name": "정자역",
+    "displayCode": "07624",
+    "lat": 37.366759,
+    "lng": 127.108327,
+    "innerRoutes": {
+      "__typename": "InnerRoutes",
+      "routeType": [
+        {
+          "__typename": "RouteType",
+          "type": "4",
+          "typeName": "직행",
+          "innerRoute": [
+            {
+              "__ref": "InnerRoute:5084"
+            },
+            {
+              "__ref": "InnerRoute:10101"
+            },
+            {
+              "__ref": "InnerRoute:11038572"
+            },
+            {
+              "__ref": "InnerRoute:10095"
+            },
+            {
+              "__ref": "InnerRoute:10100"
+            },
+            {
+              "__ref": "InnerRoute:20033731"
+            },
+            {
+              "__ref": "InnerRoute:10200"
+            },
+            {
+              "__ref": "InnerRoute:10199"
+            },
+            {
+              "__ref": "InnerRoute:5021"
+            },
+            {
+              "__ref": "InnerRoute:20033705"
+            },
+            {
+              "__ref": "InnerRoute:1990"
+            },
+            {
+              "__ref": "InnerRoute:1991"
+            },
+            {
+              "__ref": "InnerRoute:2209"
+            }
+          ]
+        },
+        {
+          "__typename": "RouteType",
+          "type": "14",
+          "typeName": "광역",
+          "innerRoute": [
+            {
+              "__ref": "InnerRoute:10155"
+            },
+            {
+              "__ref": "InnerRoute:20033708"
+            }
+          ]
+        }
+      ]
+    },
+    "walkTime": 4,
+    "walkingDistance": 230
+  },
+  "BusStation:113229": {
+    "__typename": "BusStation",
+    "id": "113229",
+    "name": "정자중학교",
+    "displayCode": "07064",
+    "lat": 37.366246,
+    "lng": 127.109722,
+    "innerRoutes": {
+      "__typename": "InnerRoutes",
+      "routeType": [
+        {
+          "__typename": "RouteType",
+          "type": "3",
+          "typeName": "마을",
+          "innerRoute": [
+            {
+              "__ref": "InnerRoute:5130"
+            }
+          ]
+        }
+      ]
+    },
+    "walkTime": 5,
+    "walkingDistance": 324
+  },
+  "BusStation:117085": {
+    "__typename": "BusStation",
+    "id": "117085",
+    "name": "아데나팰리스",
+    "displayCode": "07053",
+    "lat": 37.362159,
+    "lng": 127.107828,
+    "innerRoutes": {
+      "__typename": "InnerRoutes",
+      "routeType": [
+        {
+          "__typename": "RouteType",
+          "type": "1",
+          "typeName": "일반",
+          "innerRoute": [
+            {
+              "__ref": "InnerRoute:5030"
+            },
+            {
+              "__ref": "InnerRoute:5113"
+            },
+            {
+              "__ref": "InnerRoute:20017046"
+            },
+            {
+              "__ref": "InnerRoute:5067"
+            },
+            {
+              "__ref": "InnerRoute:5103"
+            },
+            {
+              "__ref": "InnerRoute:10004"
+            },
+            {
+              "__ref": "InnerRoute:11005"
+            },
+            {
+              "__ref": "InnerRoute:2803173"
+            }
+          ]
+        },
+        {
+          "__typename": "RouteType",
+          "type": "4",
+          "typeName": "직행",
+          "innerRoute": [
+            {
+              "__ref": "InnerRoute:5084"
+            },
+            {
+              "__ref": "InnerRoute:10101"
+            },
+            {
+              "__ref": "InnerRoute:11038572"
+            },
+            {
+              "__ref": "InnerRoute:10095"
+            }
+          ]
+        },
+        {
+          "__typename": "RouteType",
+          "type": "3",
+          "typeName": "마을",
+          "innerRoute": [
+            {
+              "__ref": "InnerRoute:5138"
+            }
+          ]
+        }
+      ]
+    },
+    "walkTime": 6,
+    "walkingDistance": 378
+  },
+  "BusStation:91743": {
+    "__typename": "BusStation",
+    "id": "91743",
+    "name": "분당경찰서",
+    "displayCode": "07797",
+    "lat": 37.363018,
+    "lng": 127.105854,
+    "innerRoutes": {
+      "__typename": "InnerRoutes",
+      "routeType": [
+        {
+          "__typename": "RouteType",
+          "type": "3",
+          "typeName": "마을",
+          "innerRoute": [
+            {
+              "__ref": "InnerRoute:5140"
+            }
+          ]
+        }
+      ]
+    },
+    "walkTime": 7,
+    "walkingDistance": 436
+  },
+  "InformationFacilities:8": {
+    "__typename": "InformationFacilities",
+    "id": "8",
+    "name": "남/녀 화장실 구분",
+    "i18nName": "남/녀 화장실 구분"
+  },
+  "InformationFacilities:1": {
+    "__typename": "InformationFacilities",
+    "id": "1",
+    "name": "예약",
+    "i18nName": "예약"
+  },
+  "InformationFacilities:7": {
+    "__typename": "InformationFacilities",
+    "id": "7",
+    "name": "무선 인터넷",
+    "i18nName": "무선 인터넷"
+  },
+  "PlaceDetailTopPhotoItem:business_1": {
+    "__typename": "PlaceDetailTopPhotoItem",
+    "id": "business_1",
+    "viewId": "business_1_1",
+    "title": "해아림한의원 분당점",
+    "width": 686,
+    "height": 960,
+    "linkUrl": null,
+    "date": null,
+    "isPopularStyle": null,
+    "price": null,
+    "video": null,
+    "author": {
+      "__typename": "PhotoViewerItemAuthor",
+      "id": null,
+      "nickname": null,
+      "imageUrl": null,
+      "objectId": null,
+      "url": null,
+      "officialYn": null,
+      "followRequested": null
+    },
+    "originalUrl": "https://ldb-phinf.pstatic.net/20210215_192/1613357958598hoeXp_JPEG/%BC%D5%C1%F6%BF%F5%BF%F8%BA%BB.jpg",
+    "thumbnailUrl": "https://ldb-phinf.pstatic.net/20210215_192/1613357958598hoeXp_JPEG/%BC%D5%C1%F6%BF%F5%BF%F8%BA%BB.jpg",
+    "description": null,
+    "mediaFormat": "image",
+    "mediaSource": "business",
+    "filterId": "biz",
+    "subFilterId": null,
+    "sourceTitle": null,
+    "externalLink": null,
+    "clip": null,
+    "option": null,
+    "visitorReview": null,
+    "originType": null
+  },
+  "PlaceDetailTopPhotoItem:business_2": {
+    "__typename": "PlaceDetailTopPhotoItem",
+    "id": "business_2",
+    "viewId": "business_2_2",
+    "title": "해아림한의원 분당점",
+    "width": 3648,
+    "height": 2056,
+    "linkUrl": null,
+    "date": null,
+    "isPopularStyle": null,
+    "price": null,
+    "video": null,
+    "author": {
+      "__typename": "PhotoViewerItemAuthor",
+      "id": null,
+      "nickname": null,
+      "imageUrl": null,
+      "objectId": null,
+      "url": null,
+      "officialYn": null,
+      "followRequested": null
+    },
+    "originalUrl": "https://ldb-phinf.pstatic.net/20241007_264/1728264395568ouUNn_PNG/KakaoTalk_20241007_101158709.png",
+    "thumbnailUrl": "https://ldb-phinf.pstatic.net/20241007_264/1728264395568ouUNn_PNG/KakaoTalk_20241007_101158709.png",
+    "description": null,
+    "mediaFormat": "image",
+    "mediaSource": "business",
+    "filterId": "biz",
+    "subFilterId": null,
+    "sourceTitle": null,
+    "externalLink": null,
+    "clip": null,
+    "option": null,
+    "visitorReview": null,
+    "originType": null
+  },
+  "PlaceDetailTopPhotoItem:business_3": {
+    "__typename": "PlaceDetailTopPhotoItem",
+    "id": "business_3",
+    "viewId": "business_3_3",
+    "title": "해아림한의원 분당점",
+    "width": 3648,
+    "height": 2056,
+    "linkUrl": null,
+    "date": null,
+    "isPopularStyle": null,
+    "price": null,
+    "video": null,
+    "author": {
+      "__typename": "PhotoViewerItemAuthor",
+      "id": null,
+      "nickname": null,
+      "imageUrl": null,
+      "objectId": null,
+      "url": null,
+      "officialYn": null,
+      "followRequested": null
+    },
+    "originalUrl": "https://ldb-phinf.pstatic.net/20241007_217/1728264398748nat70_PNG/KakaoTalk_20241007_101158709_01.png",
+    "thumbnailUrl": "https://ldb-phinf.pstatic.net/20241007_217/1728264398748nat70_PNG/KakaoTalk_20241007_101158709_01.png",
+    "description": null,
+    "mediaFormat": "image",
+    "mediaSource": "business",
+    "filterId": "biz",
+    "subFilterId": null,
+    "sourceTitle": null,
+    "externalLink": null,
+    "clip": null,
+    "option": null,
+    "visitorReview": null,
+    "originType": null
+  },
+  "PlaceDetailTopPhotoItem:business_4": {
+    "__typename": "PlaceDetailTopPhotoItem",
+    "id": "business_4",
+    "viewId": "business_4_4",
+    "title": "해아림한의원 분당점",
+    "width": 2056,
+    "height": 3648,
+    "linkUrl": null,
+    "date": null,
+    "isPopularStyle": null,
+    "price": null,
+    "video": null,
+    "author": {
+      "__typename": "PhotoViewerItemAuthor",
+      "id": null,
+      "nickname": null,
+      "imageUrl": null,
+      "objectId": null,
+      "url": null,
+      "officialYn": null,
+      "followRequested": null
+    },
+    "originalUrl": "https://ldb-phinf.pstatic.net/20241007_133/1728264425225CjCg5_PNG/KakaoTalk_20241007_101158709_05.png",
+    "thumbnailUrl": "https://ldb-phinf.pstatic.net/20241007_133/1728264425225CjCg5_PNG/KakaoTalk_20241007_101158709_05.png",
+    "description": null,
+    "mediaFormat": "image",
+    "mediaSource": "business",
+    "filterId": "biz",
+    "subFilterId": null,
+    "sourceTitle": null,
+    "externalLink": null,
+    "clip": null,
+    "option": null,
+    "visitorReview": null,
+    "originType": null
+  },
+  "PlaceDetailTopPhotoItem:visitor_1": {
+    "__typename": "PlaceDetailTopPhotoItem",
+    "id": "visitor_1",
+    "viewId": "visitor_1_5",
+    "title": null,
+    "width": 1496,
+    "height": 1496,
+    "linkUrl": "https://blog.naver.com/effakq68902/224352406079",
+    "date": "2026.07.20",
+    "isPopularStyle": null,
+    "price": null,
+    "video": null,
+    "author": {
+      "__typename": "PhotoViewerItemAuthor",
+      "id": null,
+      "nickname": "해아림",
+      "imageUrl": "https://search.pstatic.net/common/?autoRotate=true&quality=95&type=f120_120&src=https%3A%2F%2Fblogpfthumb-phinf.pstatic.net%2FMjAyNjA0MzBfMjI1%2FMDAxNzc3NDgxMDgxODUw.lnKvkaSk-02mcq2vdyGBjwroAJrgnEGe_7joKw-pcZwg.2StetKf_qZ2g46xLPtNfhxYbELq3ZquFA7PBgVqaVYog.JPEG%2F0-%25ED%2595%25B4%25EC%2595%2584%25EB%25A6%25BC%25ED%2595%259C%25EA%25B8%2580_%25EB%25A1%259C%25EA%25B3%25A0.jpg%2F0-%25ED%2595%25B4%25EC%2595%2584%25EB%25A6%25BC%25ED%2595%259C%25EA%25B8%2580%2B%25EB%25A1%259C%25EA%25B3%25A0.jpg",
+      "objectId": null,
+      "url": "https://m.blog.naver.com/effakq68902",
+      "officialYn": null,
+      "followRequested": null
+    },
+    "originalUrl": "https://blogfiles.pstatic.net/MjAyNjA3MjBfNDIg/MDAxNzg0NTQ2NTM5OTE4.4IeP2FWAJHq-hU4S1vD2t8zmq2mrmHJpWVMxIG1D8U0g.dAFSNJ6kRIcT2r4p1PtewegO7-cBLhc-JjHp6RrJZpAg.JPEG/KakaoTalk_20260720_091459837_16.jpg/1496x1496",
+    "thumbnailUrl": "https://blogfiles.pstatic.net/MjAyNjA3MjBfNDIg/MDAxNzg0NTQ2NTM5OTE4.4IeP2FWAJHq-hU4S1vD2t8zmq2mrmHJpWVMxIG1D8U0g.dAFSNJ6kRIcT2r4p1PtewegO7-cBLhc-JjHp6RrJZpAg.JPEG/KakaoTalk_20260720_091459837_16.jpg/1496x1496",
+    "description": "분당어지럼증 병원, 계절이나 날씨 변화에 어지럼증 증상이 반복되면 생활환경과 몸 상태를 함께 살펴봐야 할까요?",
+    "mediaFormat": "image",
+    "mediaSource": "placeReview",
+    "filterId": "placeReview",
+    "subFilterId": null,
+    "sourceTitle": "블로그",
+    "externalLink": {
+      "__typename": "PhotoViewerExternalLink",
+      "title": "블로그",
+      "url": "https://blog.naver.com/effakq68902/224352406079"
+    },
+    "clip": null,
+    "option": null,
+    "visitorReview": {
+      "__typename": "PhotoViewerVisitorReviewInfo",
+      "visitCount": null,
+      "visitCategories": null,
+      "votedKeywords": null,
+      "isFollowing": null,
+      "rating": null,
+      "reviewGroupId": null,
+      "reviewId": null
+    },
+    "originType": null
+  },
+  "PlaceDetailTopPhotoItem:visitor_2": {
+    "__typename": "PlaceDetailTopPhotoItem",
+    "id": "visitor_2",
+    "viewId": "visitor_2_6",
+    "title": null,
+    "width": 1496,
+    "height": 1496,
+    "linkUrl": "https://blog.naver.com/effakq68902/224352406079",
+    "date": "2026.07.20",
+    "isPopularStyle": null,
+    "price": null,
+    "video": null,
+    "author": {
+      "__typename": "PhotoViewerItemAuthor",
+      "id": null,
+      "nickname": "해아림",
+      "imageUrl": "https://search.pstatic.net/common/?autoRotate=true&quality=95&type=f120_120&src=https%3A%2F%2Fblogpfthumb-phinf.pstatic.net%2FMjAyNjA0MzBfMjI1%2FMDAxNzc3NDgxMDgxODUw.lnKvkaSk-02mcq2vdyGBjwroAJrgnEGe_7joKw-pcZwg.2StetKf_qZ2g46xLPtNfhxYbELq3ZquFA7PBgVqaVYog.JPEG%2F0-%25ED%2595%25B4%25EC%2595%2584%25EB%25A6%25BC%25ED%2595%259C%25EA%25B8%2580_%25EB%25A1%259C%25EA%25B3%25A0.jpg%2F0-%25ED%2595%25B4%25EC%2595%2584%25EB%25A6%25BC%25ED%2595%259C%25EA%25B8%2580%2B%25EB%25A1%259C%25EA%25B3%25A0.jpg",
+      "objectId": null,
+      "url": "https://m.blog.naver.com/effakq68902",
+      "officialYn": null,
+      "followRequested": null
+    },
+    "originalUrl": "https://blogfiles.pstatic.net/MjAyNjA3MjBfMTky/MDAxNzg0NTQ2NDQyMDE5.d99DFT4yYbmM43Qp2ARKLFme8m0V6iQu2NkH9rg9sAgg.endvAMjNNJfQHgFo5R7fnHAbF8PDCQNUWOR0pRu2tucg.JPEG/KakaoTalk_20260720_091459837_04.jpg/1496x1496",
+    "thumbnailUrl": "https://blogfiles.pstatic.net/MjAyNjA3MjBfMTky/MDAxNzg0NTQ2NDQyMDE5.d99DFT4yYbmM43Qp2ARKLFme8m0V6iQu2NkH9rg9sAgg.endvAMjNNJfQHgFo5R7fnHAbF8PDCQNUWOR0pRu2tucg.JPEG/KakaoTalk_20260720_091459837_04.jpg/1496x1496",
+    "description": "분당어지럼증 병원, 계절이나 날씨 변화에 어지럼증 증상이 반복되면 생활환경과 몸 상태를 함께 살펴봐야 할까요?",
+    "mediaFormat": "image",
+    "mediaSource": "placeReview",
+    "filterId": "placeReview",
+    "subFilterId": null,
+    "sourceTitle": "블로그",
+    "externalLink": {
+      "__typename": "PhotoViewerExternalLink",
+      "title": "블로그",
+      "url": "https://blog.naver.com/effakq68902/224352406079"
+    },
+    "clip": null,
+    "option": null,
+    "visitorReview": {
+      "__typename": "PhotoViewerVisitorReviewInfo",
+      "visitCount": null,
+      "visitCategories": null,
+      "votedKeywords": null,
+      "isFollowing": null,
+      "rating": null,
+      "reviewGroupId": null,
+      "reviewId": null
+    },
+    "originType": null
+  },
+  "PlaceDetailTopPhotoItem:visitor_3": {
+    "__typename": "PlaceDetailTopPhotoItem",
+    "id": "visitor_3",
+    "viewId": "visitor_3_7",
+    "title": null,
+    "width": 1496,
+    "height": 1496,
+    "linkUrl": "https://blog.naver.com/effakq68902/224352406079",
+    "date": "2026.07.20",
+    "isPopularStyle": null,
+    "price": null,
+    "video": null,
+    "author": {
+      "__typename": "PhotoViewerItemAuthor",
+      "id": null,
+      "nickname": "해아림",
+      "imageUrl": "https://search.pstatic.net/common/?autoRotate=true&quality=95&type=f120_120&src=https%3A%2F%2Fblogpfthumb-phinf.pstatic.net%2FMjAyNjA0MzBfMjI1%2FMDAxNzc3NDgxMDgxODUw.lnKvkaSk-02mcq2vdyGBjwroAJrgnEGe_7joKw-pcZwg.2StetKf_qZ2g46xLPtNfhxYbELq3ZquFA7PBgVqaVYog.JPEG%2F0-%25ED%2595%25B4%25EC%2595%2584%25EB%25A6%25BC%25ED%2595%259C%25EA%25B8%2580_%25EB%25A1%259C%25EA%25B3%25A0.jpg%2F0-%25ED%2595%25B4%25EC%2595%2584%25EB%25A6%25BC%25ED%2595%259C%25EA%25B8%2580%2B%25EB%25A1%259C%25EA%25B3%25A0.jpg",
+      "objectId": null,
+      "url": "https://m.blog.naver.com/effakq68902",
+      "officialYn": null,
+      "followRequested": null
+    },
+    "originalUrl": "https://blogfiles.pstatic.net/MjAyNjA3MjBfMTMg/MDAxNzg0NTQ2NTAxOTAz.Gpvbs4_YQiJ0rAp7zkxTyrK5gPjR8P96In-sahFAGWsg.WYQOGsxaSAUca3Co4I90RCfqLSBeTZFBNZSYmlr5W68g.JPEG/KakaoTalk_20260720_091459837_07.jpg/1496x1496",
+    "thumbnailUrl": "https://blogfiles.pstatic.net/MjAyNjA3MjBfMTMg/MDAxNzg0NTQ2NTAxOTAz.Gpvbs4_YQiJ0rAp7zkxTyrK5gPjR8P96In-sahFAGWsg.WYQOGsxaSAUca3Co4I90RCfqLSBeTZFBNZSYmlr5W68g.JPEG/KakaoTalk_20260720_091459837_07.jpg/1496x1496",
+    "description": "분당어지럼증 병원, 계절이나 날씨 변화에 어지럼증 증상이 반복되면 생활환경과 몸 상태를 함께 살펴봐야 할까요?",
+    "mediaFormat": "image",
+    "mediaSource": "placeReview",
+    "filterId": "placeReview",
+    "subFilterId": null,
+    "sourceTitle": "블로그",
+    "externalLink": {
+      "__typename": "PhotoViewerExternalLink",
+      "title": "블로그",
+      "url": "https://blog.naver.com/effakq68902/224352406079"
+    },
+    "clip": null,
+    "option": null,
+    "visitorReview": {
+      "__typename": "PhotoViewerVisitorReviewInfo",
+      "visitCount": null,
+      "visitCategories": null,
+      "votedKeywords": null,
+      "isFollowing": null,
+      "rating": null,
+      "reviewGroupId": null,
+      "reviewId": null
+    },
+    "originType": null
+  },
+  "PlaceDetailTopPhotoItem:visitor_4": {
+    "__typename": "PlaceDetailTopPhotoItem",
+    "id": "visitor_4",
+    "viewId": "visitor_4_8",
+    "title": null,
+    "width": 1496,
+    "height": 1496,
+    "linkUrl": "https://blog.naver.com/effakq68902/224352406079",
+    "date": "2026.07.20",
+    "isPopularStyle": null,
+    "price": null,
+    "video": null,
+    "author": {
+      "__typename": "PhotoViewerItemAuthor",
+      "id": null,
+      "nickname": "해아림",
+      "imageUrl": "https://search.pstatic.net/common/?autoRotate=true&quality=95&type=f120_120&src=https%3A%2F%2Fblogpfthumb-phinf.pstatic.net%2FMjAyNjA0MzBfMjI1%2FMDAxNzc3NDgxMDgxODUw.lnKvkaSk-02mcq2vdyGBjwroAJrgnEGe_7joKw-pcZwg.2StetKf_qZ2g46xLPtNfhxYbELq3ZquFA7PBgVqaVYog.JPEG%2F0-%25ED%2595%25B4%25EC%2595%2584%25EB%25A6%25BC%25ED%2595%259C%25EA%25B8%2580_%25EB%25A1%259C%25EA%25B3%25A0.jpg%2F0-%25ED%2595%25B4%25EC%2595%2584%25EB%25A6%25BC%25ED%2595%259C%25EA%25B8%2580%2B%25EB%25A1%259C%25EA%25B3%25A0.jpg",
+      "objectId": null,
+      "url": "https://m.blog.naver.com/effakq68902",
+      "officialYn": null,
+      "followRequested": null
+    },
+    "originalUrl": "https://blogfiles.pstatic.net/MjAyNjA3MjBfMjA1/MDAxNzg0NTQ2NTAxMDky.s8X7RTzMC4QluIyytkKX_4knAf6RYjbeNgy5pyW28CIg.ObWKTdLJuGeX1KKlhm5dimlFzl_nuYFJNQJ9ag22TR0g.JPEG/KakaoTalk_20260720_091459837_08.jpg/1496x1496",
+    "thumbnailUrl": "https://blogfiles.pstatic.net/MjAyNjA3MjBfMjA1/MDAxNzg0NTQ2NTAxMDky.s8X7RTzMC4QluIyytkKX_4knAf6RYjbeNgy5pyW28CIg.ObWKTdLJuGeX1KKlhm5dimlFzl_nuYFJNQJ9ag22TR0g.JPEG/KakaoTalk_20260720_091459837_08.jpg/1496x1496",
+    "description": "분당어지럼증 병원, 계절이나 날씨 변화에 어지럼증 증상이 반복되면 생활환경과 몸 상태를 함께 살펴봐야 할까요?",
+    "mediaFormat": "image",
+    "mediaSource": "placeReview",
+    "filterId": "placeReview",
+    "subFilterId": null,
+    "sourceTitle": "블로그",
+    "externalLink": {
+      "__typename": "PhotoViewerExternalLink",
+      "title": "블로그",
+      "url": "https://blog.naver.com/effakq68902/224352406079"
+    },
+    "clip": null,
+    "option": null,
+    "visitorReview": {
+      "__typename": "PhotoViewerVisitorReviewInfo",
+      "visitCount": null,
+      "visitCategories": null,
+      "votedKeywords": null,
+      "isFollowing": null,
+      "rating": null,
+      "reviewGroupId": null,
+      "reviewId": null
+    },
+    "originType": null
+  },
+  "PlaceDetailTopPhotoItem:visitor_5": {
+    "__typename": "PlaceDetailTopPhotoItem",
+    "id": "visitor_5",
+    "viewId": "visitor_5_9",
+    "title": null,
+    "width": 1496,
+    "height": 1496,
+    "linkUrl": "https://blog.naver.com/effakq68902/224352406079",
+    "date": "2026.07.20",
+    "isPopularStyle": null,
+    "price": null,
+    "video": null,
+    "author": {
+      "__typename": "PhotoViewerItemAuthor",
+      "id": null,
+      "nickname": "해아림",
+      "imageUrl": "https://search.pstatic.net/common/?autoRotate=true&quality=95&type=f120_120&src=https%3A%2F%2Fblogpfthumb-phinf.pstatic.net%2FMjAyNjA0MzBfMjI1%2FMDAxNzc3NDgxMDgxODUw.lnKvkaSk-02mcq2vdyGBjwroAJrgnEGe_7joKw-pcZwg.2StetKf_qZ2g46xLPtNfhxYbELq3ZquFA7PBgVqaVYog.JPEG%2F0-%25ED%2595%25B4%25EC%2595%2584%25EB%25A6%25BC%25ED%2595%259C%25EA%25B8%2580_%25EB%25A1%259C%25EA%25B3%25A0.jpg%2F0-%25ED%2595%25B4%25EC%2595%2584%25EB%25A6%25BC%25ED%2595%259C%25EA%25B8%2580%2B%25EB%25A1%259C%25EA%25B3%25A0.jpg",
+      "objectId": null,
+      "url": "https://m.blog.naver.com/effakq68902",
+      "officialYn": null,
+      "followRequested": null
+    },
+    "originalUrl": "https://blogfiles.pstatic.net/MjAyNjA3MjBfMTUx/MDAxNzg0NTQ2NDM2Njkx.Kg99Db2B7qlVFUdohucz7lndLEZ0PTJV7EUTfxvZKcog.rNETthpRYzA51N9cQin2u0-d214USJzapDmEGkzGyr0g.JPEG/KakaoTalk_20260720_091459837_05.jpg/1496x1496",
+    "thumbnailUrl": "https://blogfiles.pstatic.net/MjAyNjA3MjBfMTUx/MDAxNzg0NTQ2NDM2Njkx.Kg99Db2B7qlVFUdohucz7lndLEZ0PTJV7EUTfxvZKcog.rNETthpRYzA51N9cQin2u0-d214USJzapDmEGkzGyr0g.JPEG/KakaoTalk_20260720_091459837_05.jpg/1496x1496",
+    "description": "분당어지럼증 병원, 계절이나 날씨 변화에 어지럼증 증상이 반복되면 생활환경과 몸 상태를 함께 살펴봐야 할까요?",
+    "mediaFormat": "image",
+    "mediaSource": "placeReview",
+    "filterId": "placeReview",
+    "subFilterId": null,
+    "sourceTitle": "블로그",
+    "externalLink": {
+      "__typename": "PhotoViewerExternalLink",
+      "title": "블로그",
+      "url": "https://blog.naver.com/effakq68902/224352406079"
+    },
+    "clip": null,
+    "option": null,
+    "visitorReview": {
+      "__typename": "PhotoViewerVisitorReviewInfo",
+      "visitCount": null,
+      "visitCategories": null,
+      "votedKeywords": null,
+      "isFollowing": null,
+      "rating": null,
+      "reviewGroupId": null,
+      "reviewId": null
+    },
+    "originType": null
+  },
+  "PlaceDetailTopPhotoItem:visitor_6": {
+    "__typename": "PlaceDetailTopPhotoItem",
+    "id": "visitor_6",
+    "viewId": "visitor_6_10",
+    "title": null,
+    "width": 1496,
+    "height": 1496,
+    "linkUrl": "https://blog.naver.com/effakq68902/224352406079",
+    "date": "2026.07.20",
+    "isPopularStyle": null,
+    "price": null,
+    "video": null,
+    "author": {
+      "__typename": "PhotoViewerItemAuthor",
+      "id": null,
+      "nickname": "해아림",
+      "imageUrl": "https://search.pstatic.net/common/?autoRotate=true&quality=95&type=f120_120&src=https%3A%2F%2Fblogpfthumb-phinf.pstatic.net%2FMjAyNjA0MzBfMjI1%2FMDAxNzc3NDgxMDgxODUw.lnKvkaSk-02mcq2vdyGBjwroAJrgnEGe_7joKw-pcZwg.2StetKf_qZ2g46xLPtNfhxYbELq3ZquFA7PBgVqaVYog.JPEG%2F0-%25ED%2595%25B4%25EC%2595%2584%25EB%25A6%25BC%25ED%2595%259C%25EA%25B8%2580_%25EB%25A1%259C%25EA%25B3%25A0.jpg%2F0-%25ED%2595%25B4%25EC%2595%2584%25EB%25A6%25BC%25ED%2595%259C%25EA%25B8%2580%2B%25EB%25A1%259C%25EA%25B3%25A0.jpg",
+      "objectId": null,
+      "url": "https://m.blog.naver.com/effakq68902",
+      "officialYn": null,
+      "followRequested": null
+    },
+    "originalUrl": "https://blogfiles.pstatic.net/MjAyNjA3MjBfMTk4/MDAxNzg0NTQ2NTQxMjE0.ZdZW2me26lAs2mW63nhARJ32g6qNeujQoN03-pfe9QQg.1WaagNvIyk7Ojjph4xaJuJSXQAxpJYhyGRv0jsChh28g.JPEG/KakaoTalk_20260720_091459837_15.jpg/1496x1496",
+    "thumbnailUrl": "https://blogfiles.pstatic.net/MjAyNjA3MjBfMTk4/MDAxNzg0NTQ2NTQxMjE0.ZdZW2me26lAs2mW63nhARJ32g6qNeujQoN03-pfe9QQg.1WaagNvIyk7Ojjph4xaJuJSXQAxpJYhyGRv0jsChh28g.JPEG/KakaoTalk_20260720_091459837_15.jpg/1496x1496",
+    "description": "분당어지럼증 병원, 계절이나 날씨 변화에 어지럼증 증상이 반복되면 생활환경과 몸 상태를 함께 살펴봐야 할까요?",
+    "mediaFormat": "image",
+    "mediaSource": "placeReview",
+    "filterId": "placeReview",
+    "subFilterId": null,
+    "sourceTitle": "블로그",
+    "externalLink": {
+      "__typename": "PhotoViewerExternalLink",
+      "title": "블로그",
+      "url": "https://blog.naver.com/effakq68902/224352406079"
+    },
+    "clip": null,
+    "option": null,
+    "visitorReview": {
+      "__typename": "PhotoViewerVisitorReviewInfo",
+      "visitCount": null,
+      "visitCategories": null,
+      "votedKeywords": null,
+      "isFollowing": null,
+      "rating": null,
+      "reviewGroupId": null,
+      "reviewId": null
+    },
+    "originType": null
+  },
+  "ROOT_QUERY": {
+    "__typename": "Query",
+    "placeDetail({\"input\":{\"deviceType\":\"mobile\",\"id\":\"1272285133\",\"isNx\":false}})": {
+      "__typename": "PlaceDetail",
+      "tabs": [
+        {
+          "__typename": "PlaceDetailTab",
+          "tabId": "home",
+          "name": "홈",
+          "externalUrl": null
+        },
+        {
+          "__typename": "PlaceDetailTab",
+          "tabId": "review",
+          "name": "리뷰",
+          "externalUrl": null
+        },
+        {
+          "__typename": "PlaceDetailTab",
+          "tabId": "photo",
+          "name": "사진",
+          "externalUrl": null
+        },
+        {
+          "__typename": "PlaceDetailTab",
+          "tabId": "location",
+          "name": "지도",
+          "externalUrl": null
+        },
+        {
+          "__typename": "PlaceDetailTab",
+          "tabId": "around",
+          "name": "주변",
+          "externalUrl": null
+        },
+        {
+          "__typename": "PlaceDetailTab",
+          "tabId": "information",
+          "name": "정보",
+          "externalUrl": null
+        }
+      ],
+      "houseBanners": [
+        {
+          "__ref": "HouseBanner:https://maps-service.pstatic.net/maps-cms/568f3214-4368-46cc-9ce1-61c1d39aa97c.png"
+        }
+      ],
+      "accessor": {
+        "__typename": "PlaceAccessor",
+        "accessor": "",
+        "hasAccessor": true,
+        "accessorBanner": []
+      },
+      "base": {
+        "__ref": "PlaceDetailBase:1272285133"
+      },
+      "buttons({\"input\":{\"deviceType\":\"mobile\",\"isNx\":false}})": [
+        {
+          "__typename": "PlaceButton",
+          "key": "booking",
+          "name": "예약",
+          "value": "https://m.booking.naver.com/booking/13/bizes/263547?theme=place&lang=ko"
+        },
+        {
+          "__typename": "PlaceButton",
+          "key": "route",
+          "name": "길찾기",
+          "value": "https://m.search.naver.com/search.naver?where=m&query=%EB%B9%A0%EB%A5%B8%EA%B8%B8%EC%B0%BE%EA%B8%B0&nso_path=placeType%5Eplace%3Bname%5E%3Baddress%5E%3Blatitude%5E%3Blongitude%5E%3Bcode%5E%7Ctype%5Eplace%3Bname%5E%ED%95%B4%EC%95%84%EB%A6%BC%ED%95%9C%EC%9D%98%EC%9B%90%20%EB%B6%84%EB%8B%B9%EC%A0%90%3Baddress%5E%3Bcode%5E1272285133%3Blongitude%5E127.1077176%3Blatitude%5E37.3653352%7Cobjtype%5Epath%3Bby%5Epubtrans"
+        },
+        {
+          "__typename": "PlaceButton",
+          "key": "share",
+          "name": "공유",
+          "value": null
+        },
+        {
+          "__typename": "PlaceButton",
+          "key": "phone",
+          "name": "전화",
+          "value": "031-716-8575"
+        }
+      ],
+      "badge({\"input\":{\"deviceType\":\"mobile\",\"isNx\":false}})": [],
+      "visitorReviewPenalty": null,
+      "fsasReviews": {
+        "__typename": "FsasReviewsResult",
+        "total": 834,
+        "maxItemCount": 150,
+        "items": [
+          {
+            "__ref": "FsasReview:blog_해아림한의원 분당용인점_224293515246_용인 틱장애 한의원, 눈 깜빡을 반복하더니 다른 증상까지 추가되고 있다면?"
+          },
+          {
+            "__ref": "FsasReview:blog_해아림한의원 분당용인점_224296975912_분당 한방정신과 한의원, 어린이 틱장애 진단 및 주요 증상"
+          },
+          {
+            "__ref": "FsasReview:cafe_♥해아림한의원 공식카페_24617_분당 용인 불면증 병원 잠을 전혀 못자는데 치료될까요?"
+          }
+        ]
+      },
+      "visitorReviewStats": {
+        "__ref": "VisitorReviewStatsResult:1272285133"
+      },
+      "hospitalInfo": {
+        "__typename": "HospitalInfo",
+        "nightChildTreat": "",
+        "dayERTel": "",
+        "isDayERAvailable": false,
+        "nightERTel": "",
+        "isNightERAvailable": false,
+        "lunchSat": "",
+        "lunchWeek": "",
+        "holidayTreat": "",
+        "sundayTreat": "",
+        "saturdayHours": "",
+        "weekdayHours": "",
+        "subjects": null,
+        "specialOperations": [],
+        "specialSubjects": [],
+        "specialEquipments": [],
+        "processedSubjects": null,
+        "sortedSubjects": [
+          {
+            "__typename": "NameCount",
+            "count": 0,
+            "name": "사상체질과",
+            "code": 87
+          },
+          {
+            "__typename": "NameCount",
+            "count": 0,
+            "name": "침구과",
+            "code": 85
+          },
+          {
+            "__typename": "NameCount",
+            "count": 0,
+            "name": "한방내과",
+            "code": 80
+          },
+          {
+            "__typename": "NameCount",
+            "count": 0,
+            "name": "한방부인과",
+            "code": 81
+          },
+          {
+            "__typename": "NameCount",
+            "count": 0,
+            "name": "한방소아과",
+            "code": 82
+          },
+          {
+            "__typename": "NameCount",
+            "count": 0,
+            "name": "한방신경정신과",
+            "code": 84
+          },
+          {
+            "__typename": "NameCount",
+            "count": 0,
+            "name": "한방안·이비인후·피부과",
+            "code": 83
+          },
+          {
+            "__typename": "NameCount",
+            "count": 0,
+            "name": "한방재활의학과",
+            "code": 86
+          }
+        ],
+        "isSpecialistInfoHidden": false,
+        "exclServiceInfo": [],
+        "ext_key": "JDU4MTI3MSM1MSMkMSMkMCMkMTMkMzgxNzAyIzIxIyQxIyQxIyQwMyQzNjE4MzIjNDEjJDEjJDgjJDgz"
+      },
+      "hasCoupon": {
+        "__typename": "HasCoupon",
+        "count": 0
+      },
+      "recentBlogPost": {
+        "__typename": "RecentBlogPost",
+        "isPostExists": false,
+        "postList": []
+      },
+      "subwayStations": [
+        {
+          "__typename": "SubwayStation",
+          "no": "신분당선",
+          "name": "신분당",
+          "type": 214,
+          "typeDesc": "정자역 신분당선",
+          "color": "#a71e31",
+          "priority": 14,
+          "transfers": [
+            {
+              "__typename": "SubwayStationTransfer",
+              "no": "수인분당선",
+              "name": "수인분당",
+              "type": 213,
+              "color": "#EBA900",
+              "priority": 13
+            }
+          ],
+          "station": {
+            "__ref": "SubwayStationInfo:1915"
+          }
+        }
+      ],
+      "busStations": [
+        {
+          "__ref": "BusStation:110314"
+        },
+        {
+          "__ref": "BusStation:84738"
+        },
+        {
+          "__ref": "BusStation:83266"
+        },
+        {
+          "__ref": "BusStation:113229"
+        },
+        {
+          "__ref": "BusStation:117085"
+        },
+        {
+          "__ref": "BusStation:91743"
+        }
+      ],
+      "cesco": null,
+      "vaccineQuantity": null,
+      "businessTools": {
+        "__typename": "BusinessTools",
+        "tools": [
+          {
+            "__typename": "BusinessTool",
+            "type": "smartCall",
+            "title": "스마트콜",
+            "countInString": "100만",
+            "description": "전화를 대신 받고 응대까지 해드려요!",
+            "link": "https://new-m.smartplace.naver.com/bizes/place/1272285133/smartcall",
+            "using": false
+          }
+        ],
+        "hideAnnouncement": true
+      },
+      "excludeTargets": null,
+      "kinQna": {
+        "__typename": "KinQna",
+        "answerCount": 1496,
+        "answerList": [
+          {
+            "__typename": "KinQnaAnswerList",
+            "detailUrl": "http://kin.naver.com/qna/detail.naver?docId=494674148&answerNo=1&dirId=70305",
+            "writeTime": "2026-08-10 13:02:35.0",
+            "contents": "# 병원 위치 | 진료 예약 | 병원 홈페이지 | 문의 전화안녕하세요, 닥톡-네이버 지식iN 한의사 손지웅입니다. 질문자님께서 불안감으로 인해 일상에서 많은 어려움을 겪고 계신 점, 그리고 이러한 증상이 반복되면서 일상생활에 영향을 주고 있다는 점이 매우 힘드실 것이라 생각합니다. 불안장애는 혼자 감당하기 어려울 수 있으며, 주변의 이해 부족으로 인해 더욱...",
+            "questionTitle": "불안장애 치료하면 나아질수 있을까요(성남 불안장애)",
+            "thumbnailUrl": null,
+            "dirId": 70305
+          },
+          {
+            "__typename": "KinQnaAnswerList",
+            "detailUrl": "http://kin.naver.com/qna/detail.naver?docId=494672541&answerNo=1&dirId=70305",
+            "writeTime": "2026-08-10 11:50:30.0",
+            "contents": "# 병원 위치 | 진료 예약 | 병원 홈페이지 | 문의 전화안녕하세요, 닥톡-네이버 지식iN 한의사 손지웅입니다. 질문자님께서 불면증으로 인해 일상생활에 불편함과 걱정을 겪고 계신 점에 깊이 공감합니다. 잠이 들기 어렵거나 자주 깨는 현상은 정신적, 신체적 건강 모두에 영향을 줄 수 있으므로 많은 분들이 불안해하시는 것이 당연합니다. 특히 낮 동안의 피로와...",
+            "questionTitle": "불면증 한의원에선 어떻게 치료하나요(용인 불면증)",
+            "thumbnailUrl": null,
+            "dirId": 70305
+          },
+          {
+            "__typename": "KinQnaAnswerList",
+            "detailUrl": "http://kin.naver.com/qna/detail.naver?docId=494578944&answerNo=1&dirId=70305",
+            "writeTime": "2026-08-03 17:10:40.0",
+            "contents": "# 병원 위치 | 진료 예약 | 병원 홈페이지 | 문의 전화안녕하세요, 닥톡-네이버 지식iN 한의사 손지웅입니다. 틱이 발생한 지 2년 정도 되었고 최근 들어 더 심해진 상황이라면, 단순히 일시적인 증상으로만 보기는 어렵습니다. 틱은 초기에 잠깐 나타났다가 자연스럽게 줄어드는 경우도 있지만, 3개월 이상 지속되고 호전과 악화를 반복하면서 강도가 올라간다면 ...",
+            "questionTitle": "판교 초등학생/남 틱장애, 틱장애 치료 가능한가요?",
+            "thumbnailUrl": null,
+            "dirId": 70305
+          }
+        ],
+        "profileUrl": "http://kin.naver.com/profile/index.naver?u=MBVNwdMbuTLFPm4ZGb0IA6S26WB1FaXSPa9JcjyZTbI%3D"
+      },
+      "hospitalDirectories({\"input\":{\"display\":3}})": {
+        "__typename": "Directories",
+        "validTabs": null,
+        "total": 0,
+        "items": [],
+        "countDirectories": null
+      },
+      "generalHospital": null,
+      "nursingCare": null,
+      "naverBooking": {
+        "__typename": "PlaceDetailNaverBooking",
+        "bookingBusinessId": "263547",
+        "businessTypeId": "13",
+        "naverBookingUrl": "https://m.booking.naver.com/booking/13/bizes/263547",
+        "bookingDisplayName": "방문",
+        "bookingButtonName": "예약",
+        "bookingHubButtonName": null,
+        "naverBookingHubUrl": null,
+        "naverBookingPromotion": null,
+        "promotionTitle": null,
+        "nPayPromotion": null,
+        "hasSmartOrder": null
+      },
+      "informationTab": {
+        "__typename": "InformationTab",
+        "parkingInfo": {
+          "__typename": "InformationParking",
+          "description": null,
+          "basicParking": {
+            "__typename": "InformationBasicParking",
+            "isFree": null,
+            "normalFeeDescription": null,
+            "extraFeeDescription": null
+          },
+          "valetParking": null
+        },
+        "facilities": [
+          {
+            "__ref": "InformationFacilities:8"
+          },
+          {
+            "__ref": "InformationFacilities:1"
+          },
+          {
+            "__ref": "InformationFacilities:7"
+          }
+        ],
+        "pet": null,
+        "noKidsZone": null,
+        "keywordList": [
+          "분당틱장애",
+          "분당공황장애",
+          "분당불면증",
+          "분당자율신경실조증",
+          "분당어지럼증"
+        ],
+        "nearbyParking": null
+      },
+      "newBusinessHours": [
+        {
+          "__typename": "NewBusinessHour",
+          "name": "기본",
+          "businessStatusDescription": {
+            "__typename": "BusinessStatusDescription",
+            "status": "진료 중",
+            "blindDescription": "20시 0분에 진료 종료",
+            "description": "20:00에 진료 종료",
+            "showEndsNextDay": false
+          },
+          "businessHours": [
+            {
+              "__typename": "WorkingHoursInfo",
+              "day": "월",
+              "businessHours": {
+                "__typename": "StartEndTime",
+                "start": "10:00",
+                "end": "20:00"
+              },
+              "breakHours": [
+                {
+                  "__typename": "StartEndTime",
+                  "start": "13:00",
+                  "end": "14:00"
+                }
+              ],
+              "description": null,
+              "lastOrderTimes": null,
+              "showEndsNextDay": false
+            },
+            {
+              "__typename": "WorkingHoursInfo",
+              "day": "화",
+              "businessHours": {
+                "__typename": "StartEndTime",
+                "start": "10:00",
+                "end": "19:00"
+              },
+              "breakHours": [
+                {
+                  "__typename": "StartEndTime",
+                  "start": "13:00",
+                  "end": "14:00"
+                }
+              ],
+              "description": null,
+              "lastOrderTimes": null,
+              "showEndsNextDay": false
+            },
+            {
+              "__typename": "WorkingHoursInfo",
+              "day": "수",
+              "businessHours": {
+                "__typename": "StartEndTime",
+                "start": "10:00",
+                "end": "20:00"
+              },
+              "breakHours": [
+                {
+                  "__typename": "StartEndTime",
+                  "start": "13:00",
+                  "end": "14:00"
+                }
+              ],
+              "description": null,
+              "lastOrderTimes": null,
+              "showEndsNextDay": false
+            },
+            {
+              "__typename": "WorkingHoursInfo",
+              "day": "목",
+              "businessHours": null,
+              "breakHours": null,
+              "description": "정기휴무 (매주 목요일)",
+              "lastOrderTimes": null,
+              "showEndsNextDay": null
+            },
+            {
+              "__typename": "WorkingHoursInfo",
+              "day": "금",
+              "businessHours": {
+                "__typename": "StartEndTime",
+                "start": "10:00",
+                "end": "19:00"
+              },
+              "breakHours": [
+                {
+                  "__typename": "StartEndTime",
+                  "start": "13:00",
+                  "end": "14:00"
+                }
+              ],
+              "description": null,
+              "lastOrderTimes": null,
+              "showEndsNextDay": false
+            },
+            {
+              "__typename": "WorkingHoursInfo",
+              "day": "토",
+              "businessHours": {
+                "__typename": "StartEndTime",
+                "start": "09:00",
+                "end": "15:00"
+              },
+              "breakHours": [],
+              "description": null,
+              "lastOrderTimes": null,
+              "showEndsNextDay": false
+            },
+            {
+              "__typename": "WorkingHoursInfo",
+              "day": "일",
+              "businessHours": null,
+              "breakHours": null,
+              "description": "정기휴무 (매주 일요일)",
+              "lastOrderTimes": null,
+              "showEndsNextDay": null
+            }
+          ],
+          "comingIrregularClosedDays": [],
+          "comingRegularClosedDays": "",
+          "freeText": "공휴일은 9:00~15:00까지 진료"
+        }
+      ],
+      "businessHours": null,
+      "homepages": {
+        "__typename": "Homepage",
+        "etc": [
+          {
+            "__typename": "HomepageRepr",
+            "url": "https://blog.naver.com/peaceful_one",
+            "landingUrl": "https://blog.naver.com/peaceful_one",
+            "isDeadUrl": false,
+            "type": "블로그",
+            "typeI18n": "블로그",
+            "order": 1,
+            "isRep": null
+          }
+        ],
+        "repr": {
+          "__typename": "HomepageRepr",
+          "url": "http://healim.com/",
+          "landingUrl": "http://healim.com/",
+          "isDeadUrl": false,
+          "type": "홈페이지",
+          "typeI18n": "홈페이지",
+          "order": 0,
+          "isRep": null
+        },
+        "subLinks": null,
+        "isSiteData": null
+      },
+      "goodPrice": null,
+      "relatedPopupstore": [],
+      "hospitalChuseokTemporaryHolidays": null,
+      "foreignPatients": null,
+      "description": "해아림한의원 분당점은 아이의 두뇌 발달문제부터 성인의 불안, 수면, 스트레스 관련 증상까지 뇌와 몸의 균형을 함께 살피는 한의원입니다.\n증상만 단적으로 보지않고 검사와 상담을 바탕으로 현재 상태를 종합적으로 확인한 뒤 개인별 치료 방향을 세웁니다.\n\n1. 소아부터 성인까지 폭넓게 살피는 진료 영역\n1) 소아,청소년 진료\n틱장애, ADHD, 학습장애, 집중력 강화, 소아불안, 소아우울, 소아강박증, 아스퍼거, 시험불안, 야뇨증, 성장보약\n2) 성인 진료\n자율신경실조증, 불안장애, 공황장애, 수면장애, 강박증, 사회공포증, 우울증, 화병, 다한증, 과민성대장증후군, 신경성 소화장애, 번아웃, 브레인포그\n3) 기타 신경계 관련 진료\n진전증, 삼차신경통, 하지불안증\n\n2. 객관적인 검사를 바탕으로 한 맞춤 진료\n뇌기능검사, 뇌인지검사, 주의력검사, 체질검사, 발달척도검사, 정서행동평가 등을 통해 환자의 상태를 종합적으로 확인합니다.\n이를 통해 두뇌 기능, 정서 상태, 집중력, 발달 특성, 신체 반응 등을 살피고, 환자 별 맞춤 치료 방향을 설정합니다.\n\n3. 두뇌 기능 회복을 위한 통합치료\n예민해진 신경 반응을 안정시키고, 스스로 조절하는 힘을 기를 수 있도록 돕습니다.\n1) 한의학 치료 : 개인별 맞춤 한약, 침치료, 약침 치료, 추나치료를 함께 고려\n2) 두뇌훈련치료 : 생기능자기조절훈련, 소뇌기저핵훈련, 시청지각훈련\n\n4. 충분히 듣고 안내하는 진료\n해아림한의원 분당점은 충분한 상담과 데이터 기반의 검사를 바탕으로 환자와 보호자가 현재 상태를 이해할 수 있도록 돕습니다.\n\n아이의 작은 변화가 걱정되는 보호자분들, 반복되는 불안과 피로로 일상이 힘든 성인분들 모두 편안하게 상담받으실 수 있도록 세심하게 진료하겠습니다.\n\n예약 및 상담은 네이버 톡톡 또는 전화로 문의해 주세요.",
+      "silson24": false,
+      "staticMapUrl": "https://simg.pstatic.net/static.map/v2/map/staticmap.bin?center=127.1077176%2C37.3653352&level=16&dataversion=178.21&caller=naver_mstore&markers=pos%3A127.1077176%2037.3653352%7Ccolor%3Ablue",
+      "isNFASafetyCertified": false,
+      "isAntiqueStore": false,
+      "visitorReviewMediasTotal": 16,
+      "isKoreaGrandSale": false,
+      "hasAroundItems": true,
+      "acceptsCultureDeductionCoupon": false,
+      "acceptsFuelCostSupport": true,
+      "phoneInfo": {
+        "__typename": "PlacePhoneInfo",
+        "phone": "031-716-8575",
+        "isVirtualPhone": false,
+        "isPrivatePhone": false,
+        "hasMobilePhoneNumber": false
+      },
+      "panoramaThumbnail": {
+        "__typename": "PanoramaThumbnailResult",
+        "url": "https://apis.naver.com/place/panorama/thumbnail/1272285133/0?width=800&height=400&msgpad=1788168880125&md=KYUfREkFCsvhkM%2BNbuBbcXCGcOw%3D"
+      },
+      "images": {
+        "__typename": "PlaceDetailImages",
+        "images": [
+          {
+            "__typename": "Image",
+            "origin": "https://ldb-phinf.pstatic.net/20210215_192/1613357958598hoeXp_JPEG/%BC%D5%C1%F6%BF%F5%BF%F8%BA%BB.jpg",
+            "number": null,
+            "infoTitle": null,
+            "url": null,
+            "desc": null,
+            "width": 686,
+            "height": 960,
+            "source": null
+          }
+        ],
+        "totalImages": 15
+      },
+      "topPhotos": {
+        "__typename": "PlaceDetailTopPhotos",
+        "total": 25,
+        "items": [
+          {
+            "__ref": "PlaceDetailTopPhotoItem:business_1"
+          },
+          {
+            "__ref": "PlaceDetailTopPhotoItem:business_2"
+          },
+          {
+            "__ref": "PlaceDetailTopPhotoItem:business_3"
+          },
+          {
+            "__ref": "PlaceDetailTopPhotoItem:business_4"
+          },
+          {
+            "__ref": "PlaceDetailTopPhotoItem:visitor_1"
+          },
+          {
+            "__ref": "PlaceDetailTopPhotoItem:visitor_2"
+          },
+          {
+            "__ref": "PlaceDetailTopPhotoItem:visitor_3"
+          },
+          {
+            "__ref": "PlaceDetailTopPhotoItem:visitor_4"
+          },
+          {
+            "__ref": "PlaceDetailTopPhotoItem:visitor_5"
+          },
+          {
+            "__ref": "PlaceDetailTopPhotoItem:visitor_6"
+          }
+        ]
+      }
+    },
+    "visitorReviews({\"input\":{\"bookingBusinessId\":\"263547\",\"businessId\":\"1272285133\",\"businessType\":\"hospital\",\"cidList\":[\"223175\",\"223176\",\"223187\",\"223260\",\"223265\"],\"getReactions\":true,\"getTrailer\":true,\"getUserStats\":true,\"includeContent\":true,\"includeReceiptPhotos\":true,\"isPhotoUsed\":false,\"item\":\"0\",\"size\":10,\"sort\":\"recent\"}})": {
+      "__typename": "VisitorReviewsResult",
+      "items": [
+        {
+          "__ref": "VisitorReview:6a7d0b421225525de7cdb6f6:true"
+        },
+        {
+          "__ref": "VisitorReview:6a6b456832df7602b2a63f4c:true"
+        },
+        {
+          "__ref": "VisitorReview:6a478732dc64972bc95c979c:true"
+        },
+        {
+          "__ref": "VisitorReview:6a3264867455befbcadbf743:true"
+        },
+        {
+          "__ref": "VisitorReview:6a2cce47cc78b835d9b0f12b:true"
+        },
+        {
+          "__ref": "VisitorReview:6a292af279d14bd4ff6f1082:true"
+        },
+        {
+          "__ref": "VisitorReview:6a1a3a9a87dc8c59dc12114c:true"
+        },
+        {
+          "__ref": "VisitorReview:6a111b6c13e47359d72ad614:true"
+        },
+        {
+          "__ref": "VisitorReview:6a0182170bc0b7af0e50cf7e:true"
+        },
+        {
+          "__ref": "VisitorReview:699e54c40d5ee02554cfb516:true"
+        }
+      ],
+      "starDistribution": null,
+      "hideProductSelectBox": null,
+      "total": 130,
+      "showRecommendationSort": false,
+      "itemReviewStats": {
+        "__typename": "ItemReviewStats",
+        "score": 0,
+        "count": 0,
+        "itemId": null,
+        "starDistribution": []
+      }
+    },
+    "visitorReviewStats({\"input\":{\"businessId\":\"1272285133\",\"businessType\":\"hospital\",\"itemId\":\"0\"}})": {
+      "__ref": "VisitorReviewStatsResult:1272285133"
+    },
+    "reactionTypes": [
+      {
+        "__typename": "ReactionType",
+        "name": "helpful",
+        "emojiUrl": "https://ssl.pstatic.net/static/pup/reactiontype/helpful_44w.png",
+        "label": "도움돼요"
+      },
+      {
+        "__typename": "ReactionType",
+        "name": "helpful",
+        "emojiUrl": "https://ssl.pstatic.net/static/pup/reactiontype/helpful_44w.png",
+        "label": "도움돼요"
+      },
+      {
+        "__typename": "ReactionType",
+        "name": "wannago",
+        "emojiUrl": "https://ssl.pstatic.net/static/pup/reactiontype/wannago_44w.png",
+        "label": "가고 싶어요"
+      },
+      {
+        "__typename": "ReactionType",
+        "name": "wannago",
+        "emojiUrl": "https://ssl.pstatic.net/static/pup/reactiontype/wannago_44w.png",
+        "label": "가고 싶어요"
+      }
+    ],
+    "user": {
+      "__typename": "UserResult",
+      "partnerHashedIdNo": null,
+      "myplace": {
+        "__typename": "MyPlaceUserInfo",
+        "profile": {
+          "__typename": "MyPlaceProfile",
+          "imageUrl": null,
+          "borderImageUrl": null,
+          "myplaceId": null,
+          "myplaceNickname": null
+        }
+      }
+    },
+    "reviewAwardCoupons({\"input\":{\"businessId\":\"1272285133\"}})": {
+      "__typename": "ReviewAwardsCouponsResult",
+      "total": 0
+    },
+    "visitorReviewPhotos({\"input\":{\"businessId\":\"1272285133\",\"businessType\":\"hospital\",\"type\":\"FLAT\"}})": [
+      {
+        "__typename": "PhotoViewerImage",
+        "viewId": "userimage_6a326486ec45e966ab22335b",
+        "originalUrl": "https://pup-review-phinf.pstatic.net/MjAyNjA2MTdfNyAg/MDAxNzgxNjg3NDI4NTkx.y0RM_ipNt9lsCbO-LcbUqfM5vU7gsfKkPGv61zuipXEg.dfVNBq-nI9jhn9cr6G2XaTxqcnYUl39qYdqGEgHf9BQg.JPEG/20260617_180752.jpg.jpg",
+        "mediaFormat": "image",
+        "mediaSource": "visitorReview",
+        "description": "작년 11월부터 다녔는데요.\n그때랑 지금이랑 검사결과를 비교해봤는데요.\n너무나 좋아져서 감사할 따름입니다.\n다들 친절하시고 편안하게 해주셔서 방문시 좋았습니다.\n한약 다먹고 또 방문할께요^^",
+        "visitorReview": {
+          "__typename": "PhotoViewerVisitorReviewInfo",
+          "visitCount": 5,
+          "visitCategories": null,
+          "votedKeywords": [],
+          "isFollowing": null,
+          "rating": null,
+          "reviewGroupId": "6a3264867455befbcadbf743",
+          "reviewId": null
+        },
+        "photoType": "visitor",
+        "relation": "REVIEW",
+        "title": "방문자리뷰",
+        "date": "2026.06.17",
+        "link": "",
+        "sourceTitle": null,
+        "externalLink": null,
+        "author": {
+          "__ref": "PhotoViewerItemAuthor:2iO1H"
+        },
+        "originType": null,
+        "video": null
+      },
+      {
+        "__typename": "PhotoViewerImage",
+        "viewId": "userimage_6a2cce48ec45e966ab143e19",
+        "originalUrl": "https://pup-review-phinf.pstatic.net/MjAyNjA2MTNfMjgz/MDAxNzgxMzIwNzg4MDY2.dnz5YN8gfJ-qd1T03KubtsNoM8zw58I5XzchrH_XkNsg.v8XMrlli5cPmmn13XU-IJAW3qpPrKnsZZC9gP569Pl8g.JPEG/IMG_8957.jpeg",
+        "mediaFormat": "image",
+        "mediaSource": "visitorReview",
+        "description": "아이가 틱증상이랑 감정적으로 힘든시기에 찾게되었습니다. 매주 원장선생님의 현실적인 상담과 조언을 들으면서 아이도 부모인 저희들도 치료를 넘어서 방향과 방법을 찾게 된 것 같습니다. 뜸, 한약, 행동치료도 병행하며 효과를 더욱 잘 받은 것 같습니다. 데스크 선생님들도 친절하게 받아주셔서 아이가 어색함 없이 여러달을 잘 다녔던 것 같고요. 처음에는 앞이 너무 멀게 느껴지고 겁나기도 했지만 원장선생님. 데스크. 행동치료선생님들 덕분에 좋아지게 되어 너무 감사드려요. 그리고 무엇보다 아이가 생각과 행동의 힘을 알게되는 소중한 시간이였습니다.",
+        "visitorReview": {
+          "__typename": "PhotoViewerVisitorReviewInfo",
+          "visitCount": 2,
+          "visitCategories": null,
+          "votedKeywords": [],
+          "isFollowing": null,
+          "rating": null,
+          "reviewGroupId": "6a2cce47cc78b835d9b0f12b",
+          "reviewId": null
+        },
+        "photoType": "visitor",
+        "relation": "REVIEW",
+        "title": "방문자리뷰",
+        "date": "2026.06.13",
+        "link": "",
+        "sourceTitle": null,
+        "externalLink": null,
+        "author": {
+          "__ref": "PhotoViewerItemAuthor:2RlNM"
+        },
+        "originType": null,
+        "video": null
+      },
+      {
+        "__typename": "PhotoViewerImage",
+        "viewId": "userimage_6a1a3a9b0070a984c4ffb7c4",
+        "originalUrl": "https://pup-review-phinf.pstatic.net/MjAyNjA1MzBfMzUg/MDAxNzgwMTAzODMzMTc0.wZje9cce5qT3E-7B75FEPv-eQjwSwuvL3xxjgj-c8qkg.Jn7S_wKuSocNmrZj3UCck94Bc3X_VKmKIVBjcZefDA4g.JPEG/6CD9DDEE-DEE2-4E0C-86DE-36A832C06A72.jpeg",
+        "mediaFormat": "image",
+        "mediaSource": "visitorReview",
+        "description": "거의 1년정도 다녔어요.\n아들이 갑자기 틱이 심해져서 밤새 병원 알아보고 후기찾아보고 선택한 곳입니다. 초저학년이라 양방병원보다는 한의원이 나을듯해서 집과 거리가 있음에도 내원하였는데 먼저 병원 전 직원분들이 너무 친절하게 맞이하여주셔서 좋았어요. 틱 검사부터 진단, 치료과정까지 아이가 힘들었겠지만 지난 시간을 돌이켜보니 굉장히 잘한선택이었다는 생각이 듭니다.\n초반에 한약 먹는것에 대해 거부감이 있던 아이도 어느새 스스로 찾아먹게되고 틱도 어느순간 사라져있더라구요.\n아이 틱이 사라지니 엄마인 제 불안도 사라져서 넘 좋았습니다. 잘 치료해주신 선생님께 진심으로 감사드려요!\n틱이 고민이신 부모님들은 이 곳 정말 추천드릴께요!",
+        "visitorReview": {
+          "__typename": "PhotoViewerVisitorReviewInfo",
+          "visitCount": 2,
+          "visitCategories": null,
+          "votedKeywords": [],
+          "isFollowing": null,
+          "rating": null,
+          "reviewGroupId": "6a1a3a9a87dc8c59dc12114c",
+          "reviewId": null
+        },
+        "photoType": "visitor",
+        "relation": "REVIEW",
+        "title": "방문자리뷰",
+        "date": "2026.05.30",
+        "link": "",
+        "sourceTitle": null,
+        "externalLink": null,
+        "author": {
+          "__ref": "PhotoViewerItemAuthor:26z6Q"
+        },
+        "originType": null,
+        "video": null
+      },
+      {
+        "__typename": "PhotoViewerImage",
+        "viewId": "userimage_684ff8b991239e76cebd3374",
+        "originalUrl": "https://pup-review-phinf.pstatic.net/MjAyNTA2MTZfMjUg/MDAxNzUwMDcxNDc5ODA0.eWb46WRiTkmAOMd4MtsTzi2_iUTkLStqHipAnz1Wrg8g.9UrLJHGsQJ5f-Yz4cRmn6dQ8CX9qD_J09enn7dqt_fYg.JPEG/20250611_172301.jpg.jpg",
+        "mediaFormat": "image",
+        "mediaSource": "visitorReview",
+        "description": "아이가 최근 기절하는 일이 있어서 너무 놀라고 무서워서\n알아보니 미주신경성실신.. 이런게 있더라구요\n여러부분에서 우리아이와 증세가 비슷해 검색 후 가장 평이 좋은곳으로 골라 방문한곳이 해아림한의원이었어요\n자율신경계 불균형으로 생기는 현상이라 하시고\n상담과 치료, 한약 먹으면서 지금 3개월째 꾸준이 다니고 있는데요\n아이가 평상시 긴장하는게 많이 없어지고 잠도 푹자고 전체적으로 건강해진거같아요\n그리고 한의사선생님은 물론 모든 선생님께서 너무 친절하셔서 아이가 한의원오는걸 좋아해요ㅎㅎ\n감사합니다♡\n(중3 여자아이입니다~)",
+        "visitorReview": {
+          "__typename": "PhotoViewerVisitorReviewInfo",
+          "visitCount": 2,
+          "visitCategories": null,
+          "votedKeywords": [],
+          "isFollowing": null,
+          "rating": null,
+          "reviewGroupId": "684ff8b9b096b80a7c150cec",
+          "reviewId": null
+        },
+        "photoType": "visitor",
+        "relation": "REVIEW",
+        "title": "방문자리뷰",
+        "date": "2025.06.11",
+        "link": "",
+        "sourceTitle": null,
+        "externalLink": null,
+        "author": {
+          "__ref": "PhotoViewerItemAuthor:cT47B"
+        },
+        "originType": null,
+        "video": null
+      },
+      {
+        "__typename": "PhotoViewerImage",
+        "viewId": "userimage_680b2e0091239e76ce31d4cc",
+        "originalUrl": "https://pup-review-phinf.pstatic.net/MjAyNTA0MjVfMjAy/MDAxNzQ1NTYzMTI5OTg3.YCB9c_UHNL1l0w3pS9TRqhGnpWGITXfX7Nin27Gz9rEg.bawi6symZJmPXP6RiieaHhaiEOl6B_GsMtBdPRYtCSgg.JPEG/20250425_153320.jpg.jpg",
+        "mediaFormat": "image",
+        "mediaSource": "visitorReview",
+        "description": "아이 틱 문제 때문에 고민하다가 내원하게 되었습니다.\n일반치료는 부작용이 많다고 해서 주저하다가\n한방치료로 안전하게 치료가능하다고 해서 선택했어요.\n많은 고민이 있었지만 선생님과 함께\n꾸준하게 다양한 치료를 했더니 많이 호전되었습니다.\n아이때문에 속상할때도 많았는데 그때마다 선생님과 상담하고 진료하면서 도움도 많이 받았습니다.\n앞으로도 더 치료해야하지만,\n선생님을 믿고 꾸준하게 지속할 예정이예요.\n아이 틱 문제로 고민이시라면 내원하셔서 꼭 상담받아보세요.",
+        "visitorReview": {
+          "__typename": "PhotoViewerVisitorReviewInfo",
+          "visitCount": 1,
+          "visitCategories": null,
+          "votedKeywords": [],
+          "isFollowing": null,
+          "rating": null,
+          "reviewGroupId": "680b2dfb3bedae1d56446820",
+          "reviewId": null
+        },
+        "photoType": "visitor",
+        "relation": "REVIEW",
+        "title": "방문자리뷰",
+        "date": "2025.04.25",
+        "link": "",
+        "sourceTitle": null,
+        "externalLink": null,
+        "author": {
+          "__ref": "PhotoViewerItemAuthor:2wZ7m"
+        },
+        "originType": null,
+        "video": null
+      },
+      {
+        "__typename": "PhotoViewerImage",
+        "viewId": "userimage_67d4c7038a611c3a03964b68",
+        "originalUrl": "https://pup-review-phinf.pstatic.net/MjAyNTAzMTVfMTU2/MDAxNzQxOTk3ODI1MjY2.lw7cCI7agUxrLxiPC7DKQ6aHptCX9fUv7Agrhprz-P8g.KC8ht_ZBqgKxW2aTaM6pQ7j-UlK2hM4n3aDo43Cl9JYg.JPEG/0C1461A6-F76D-4A64-8A9E-BC61CE9FB8E4.jpeg",
+        "mediaFormat": "image",
+        "mediaSource": "visitorReview",
+        "description": "요약\n- 초등학생 아이 틱 증상 치료\n- 훈련, 한약, 침 병행\n- 진료에 맞춰 꾸준히 치료한 결과 현재 일상에서 증상을 인지하기 어려울 정도 호전됨.\n- 걱정되고 염려된다면 방문 추천!\n\n\n초등학생 아이 틱 증상이 걱정돼서 방문했어요.\n\n해아림한의원 방문전에 좌우뇌 발달 훈련이나 양약 처방 등 이런 저런 소식과 상담들을 다른 곳들에서 받았었는데, 뭔가 충분치 않았었어요.\n\n헤아림한의원에서는 원장님이 뇌의 균형잡힌 발달을 위한 훈련과 함께 보조해 줄 수 있는 한약과 침 시술을 함께 처방해 주시기에 뭔가 꽉 찬 치료를 받고 있구나라는 생각이 들었어요.\n\n첫 방문부터 치료 마지막 방문까지 아이의 상태와 환경에 대해 꼼꼼히 상담해 주시고, 이에 맞춰 아이의 눈높이에서도 충분히 이해할 수 있도록 설명해 주세요.",
+        "visitorReview": {
+          "__typename": "PhotoViewerVisitorReviewInfo",
+          "visitCount": 1,
+          "visitCategories": null,
+          "votedKeywords": [],
+          "isFollowing": null,
+          "rating": null,
+          "reviewGroupId": "67d4c70217fb5db14b52ccff",
+          "reviewId": null
+        },
+        "photoType": "visitor",
+        "relation": "REVIEW",
+        "title": "방문자리뷰",
+        "date": "2025.03.08",
+        "link": "",
+        "sourceTitle": null,
+        "externalLink": null,
+        "author": {
+          "__ref": "PhotoViewerItemAuthor:MQoO"
+        },
+        "originType": null,
+        "video": null
+      },
+      {
+        "__typename": "PhotoViewerImage",
+        "viewId": "userimage_67af258c5a065415fb0f9491",
+        "originalUrl": "https://pup-review-phinf.pstatic.net/MjAyNTAyMTRfMTk4/MDAxNzM5NTMxNjU3NzA2.XFpNPK2sd_bsZ-Qy3uIZ2dYQMko8Ia7AqzopttvNJnwg.TG9d4O-fRiXRzoEuEwDip31qAT6D2wLFIuz_wjsUjuQg.JPEG/1000053564.jpg.jpg",
+        "mediaFormat": "image",
+        "mediaSource": "visitorReview",
+        "description": "내부도 늘 깔끔해요~",
+        "visitorReview": {
+          "__typename": "PhotoViewerVisitorReviewInfo",
+          "visitCount": 4,
+          "visitCategories": null,
+          "votedKeywords": [],
+          "isFollowing": null,
+          "rating": null,
+          "reviewGroupId": "67af258b2bc4e66805ad8d7a",
+          "reviewId": null
+        },
+        "photoType": "visitor",
+        "relation": "REVIEW",
+        "title": "방문자리뷰",
+        "date": "2025.02.08",
+        "link": "",
+        "sourceTitle": null,
+        "externalLink": null,
+        "author": {
+          "__ref": "PhotoViewerItemAuthor:2NrTO"
+        },
+        "originType": null,
+        "video": null
+      },
+      {
+        "__typename": "PhotoViewerImage",
+        "viewId": "userimage_67c28cde8a611c3a03762b77",
+        "originalUrl": "https://pup-review-phinf.pstatic.net/MjAyNTAzMDFfMjkw/MDAxNzQwODAzMjkyMDcx.NlnIGy_fcqZ8C0uiwgHHSRGwRMCsL9_cx1PRG8BJqlQg.Y5g21HgGGYxhX0eu_9TRsxjf2g5xbwj6cxgJuN8iO0Eg.JPEG/1735951390493-4.jpg.jpg",
+        "mediaFormat": "image",
+        "mediaSource": "visitorReview",
+        "description": "친절하시고 편안한 분위기에서 진료 잘 봐주십니다~",
+        "visitorReview": {
+          "__typename": "PhotoViewerVisitorReviewInfo",
+          "visitCount": 3,
+          "visitCategories": null,
+          "votedKeywords": [],
+          "isFollowing": null,
+          "rating": null,
+          "reviewGroupId": "67c28cdde38f8a24bdac36ba",
+          "reviewId": null
+        },
+        "photoType": "visitor",
+        "relation": "REVIEW",
+        "title": "방문자리뷰",
+        "date": "2025.02.01",
+        "link": "",
+        "sourceTitle": null,
+        "externalLink": null,
+        "author": {
+          "__ref": "PhotoViewerItemAuthor:2NrTO"
+        },
+        "originType": null,
+        "video": null
+      },
+      {
+        "__typename": "PhotoViewerImage",
+        "viewId": "userimage_679acbcbfd88be168f47f499",
+        "originalUrl": "https://pup-review-phinf.pstatic.net/MjAyNTAxMzBfODYg/MDAxNzM4MTk3OTYyMDA4.P_V9PgE5SeWp8JQ7xNl5GveWWdtrGM8WciZtQcKyKXsg.aUtqk4-_A8NwYujikIQ_w7Y0Cax1M4atLKqg1YOVK3gg.JPEG/1000053567.jpg.jpg",
+        "mediaFormat": "image",
+        "mediaSource": "visitorReview",
+        "description": "친절하시고 자세한 상담과 진찰을 해주십니다",
+        "visitorReview": {
+          "__typename": "PhotoViewerVisitorReviewInfo",
+          "visitCount": 2,
+          "visitCategories": null,
+          "votedKeywords": [],
+          "isFollowing": null,
+          "rating": null,
+          "reviewGroupId": "679acbcbf2a089d47adfad0b",
+          "reviewId": null
+        },
+        "photoType": "visitor",
+        "relation": "REVIEW",
+        "title": "방문자리뷰",
+        "date": "2025.01.25",
+        "link": "",
+        "sourceTitle": null,
+        "externalLink": null,
+        "author": {
+          "__ref": "PhotoViewerItemAuthor:2NrTO"
+        },
+        "originType": null,
+        "video": null
+      },
+      {
+        "__typename": "PhotoViewerImage",
+        "viewId": "userimage_67a6bdd7fd88be168f5c0910",
+        "originalUrl": "https://pup-review-phinf.pstatic.net/MjAyNTAyMDhfMTg0/MDAxNzM4OTgwODIxNDYy.fUtrvMXeSeZSZhrL5dcYmqOI5sioYeG4k6P0tO2RnJwg.4UpfAQu7ufzPRQ1q2doPH-SZegUNVcslYnCHQXEdsg4g.JPEG/1000053563.jpg.jpg",
+        "mediaFormat": "image",
+        "mediaSource": "visitorReview",
+        "description": "친절하시고 진료도 잘 봐주십니다\n내부도 늘 청결해요~",
+        "visitorReview": {
+          "__typename": "PhotoViewerVisitorReviewInfo",
+          "visitCount": 1,
+          "visitCategories": null,
+          "votedKeywords": [],
+          "isFollowing": null,
+          "rating": null,
+          "reviewGroupId": "67a6bdd77119524409d1be02",
+          "reviewId": null
+        },
+        "photoType": "visitor",
+        "relation": "REVIEW",
+        "title": "방문자리뷰",
+        "date": "2025.01.11",
+        "link": "",
+        "sourceTitle": null,
+        "externalLink": null,
+        "author": {
+          "__ref": "PhotoViewerItemAuthor:2NrTO"
+        },
+        "originType": null,
+        "video": null
+      }
+    ],
+    "followingReviews({\"input\":{\"businessId\":\"1272285133\"}})": {
+      "__typename": "FollowingReviewsResult",
+      "reviews": [],
+      "reactionTypes": [
+        {
+          "__typename": "ReactionType",
+          "name": "helpful",
+          "emojiUrl": "https://ssl.pstatic.net/static/pup/reactiontype/helpful_44w.png",
+          "label": "도움돼요"
+        },
+        {
+          "__typename": "ReactionType",
+          "name": "helpful",
+          "emojiUrl": "https://ssl.pstatic.net/static/pup/reactiontype/helpful_44w.png",
+          "label": "도움돼요"
+        },
+        {
+          "__typename": "ReactionType",
+          "name": "wannago",
+          "emojiUrl": "https://ssl.pstatic.net/static/pup/reactiontype/wannago_44w.png",
+          "label": "가고 싶어요"
+        },
+        {
+          "__typename": "ReactionType",
+          "name": "wannago",
+          "emojiUrl": "https://ssl.pstatic.net/static/pup/reactiontype/wannago_44w.png",
+          "label": "가고 싶어요"
+        }
+      ]
+    },
+    "visitorReviews({\"input\":{\"bookingBusinessId\":\"263547\",\"businessId\":\"1272285133\",\"businessType\":\"hospital\",\"cidList\":[\"223175\",\"223176\",\"223187\",\"223260\",\"223265\"],\"getReactions\":true,\"getTrailer\":true,\"getUserStats\":true,\"includeContent\":false,\"includeReceiptPhotos\":true,\"item\":\"0\",\"size\":10,\"sort\":\"recent\"}})": {
+      "__typename": "VisitorReviewsResult",
+      "total": 19,
+      "items": [
+        {
+          "__ref": "VisitorReview:614b926143d6760050ec35c6"
+        },
+        {
+          "__ref": "VisitorReview:6134aad4c18d4700506d798c"
+        },
+        {
+          "__ref": "VisitorReview:611a06be13adc000505eb996"
+        },
+        {
+          "__ref": "VisitorReview:611a06eb3ec08700509b0296"
+        },
+        {
+          "__ref": "VisitorReview:611316a6e5c16400501ec400"
+        },
+        {
+          "__ref": "VisitorReview:610e0043d3c6b900506040c8"
+        },
+        {
+          "__ref": "VisitorReview:610c048917ac1100500f468d"
+        },
+        {
+          "__ref": "VisitorReview:6110a9133c0e870050400e10"
+        },
+        {
+          "__ref": "VisitorReview:60bb1cf4c7cb57005034e2d7"
+        },
+        {
+          "__ref": "VisitorReview:60bcaddbaa2e2a005066bf50"
+        }
+      ]
+    },
+    "themeLists({\"input\":{\"businessId\":\"1272285133\",\"display\":3}})": {
+      "__typename": "ThemeListsResult",
+      "themeLists": [],
+      "total": 0
+    }
+  },
+  "VisitorReviewAuthor:269HH": {
+    "__typename": "VisitorReviewAuthor",
+    "id": "269HH",
+    "nickname": "예찬맘21",
+    "from": "NAVER",
+    "imageUrl": null,
+    "borderImageUrl": null,
+    "objectId": "5c3d96184368e28dce288eed",
+    "url": "https://m.place.naver.com/my/5c3d96184368e28dce288eed/review?v=2",
+    "review": {
+      "__typename": "AuthorReview",
+      "totalCount": 13,
+      "imageCount": 8,
+      "avgRating": 5
+    },
+    "theme": {
+      "__typename": "AuthorTheme",
+      "totalCount": 0
+    },
+    "isFollowing": null,
+    "followerCount": "0",
+    "followRequested": null
+  },
+  "ReactionStat:6a7d0b421225525de7cdb6f6": {
+    "__typename": "ReactionStat",
+    "id": "6a7d0b421225525de7cdb6f6",
+    "typeCount": [
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "fun",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "helpful",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "wannago",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "cool",
+        "count": 0
+      }
+    ],
+    "totalCount": 0
+  },
+  "HasViewerReacted:6a7d0b421225525de7cdb6f6": {
+    "__typename": "HasViewerReacted",
+    "id": "6a7d0b421225525de7cdb6f6",
+    "reacted": false
+  },
+  "VisitorReview:6a7d0b421225525de7cdb6f6:true": {
+    "__typename": "VisitorReview",
+    "id": "6a7d0b421225525de7cdb6f6",
+    "cursor": "dDNrM0hVTFFYUFZLR0Zzb3JpdXV1Tlg3Y1lNdlh2L21TYVJobUlPVnFSaDB5SzUxeWkrUUMrREpjUzZWTVFSZzNxSzJKc3hlcXBHL0o3S0JXc0ZBTVdua0RVbDlDRGR5Y1VEaTFFM2pKYVU2Y3Y0V1BWcnovcHV3Zk0vaGRrUGRldmwxQ0E2eWJadUs4ak1jZG9HRVE1TWYybHZ0bVAwPQ==",
+    "reviewId": "6a7d0b431225525de7cdb708",
+    "rating": null,
+    "author": {
+      "__ref": "VisitorReviewAuthor:269HH"
+    },
+    "body": "올 초 호르몬, 스트레스, 갱년기전 증상이 겹쳐 자율신경실조 진단받고 3월부터 치료받기 시작했습니다. 가슴두근거림, 상열감등 전반적인 컨디션이 좋아졌습니다. 한약복용과 함께 주1회 침치료 병행하였구요, 원장님 상담도 큰 도움이 되었습니다. 보통은 HRV검사를 하는데 해아림은 뇌파등 다른 검사들을 진행합니다. 원장님과 직원분들 모두 차분하셔서 저는 더 좋았던 거 같아요. 자율신경실조로 고생하시는 분들 꼭 적극적으로 치료받으세요. 앞으로고 체력이 떨어졌다싶을 때면 해아림 방문�� 계획입니다.",
+    "thumbnail": null,
+    "media": [],
+    "tags": null,
+    "status": "ACTIVE",
+    "visitCount": 1,
+    "viewCount": 124,
+    "visited": "8.11.화",
+    "created": "8.13.목",
+    "reply": {
+      "__typename": "VisitorReviewReply",
+      "editUrl": "https://new-m.smartplace.naver.com/bizes/place-id/1272285133/reviews/6a7d0b421225525de7cdb6f6",
+      "body": null,
+      "editedBy": null,
+      "created": null,
+      "date": null,
+      "replyTitle": null,
+      "isReported": false,
+      "isSuspended": false,
+      "status": null
+    },
+    "originType": "영수증",
+    "item": null,
+    "language": "ko",
+    "highlightRanges": null,
+    "apolloCacheId": "true",
+    "translatedText": null,
+    "businessName": "해아림한의원 분당점",
+    "showBookingItemName": null,
+    "bookingItemName": "",
+    "votedKeywords": [],
+    "userIdno": "269HH",
+    "loginIdno": "",
+    "receiptInfoUrl": "https://m.place.naver.com/my/review/6a7d0b421225525de7cdb6f6/paymentInfo",
+    "reactionStat": {
+      "__ref": "ReactionStat:6a7d0b421225525de7cdb6f6"
+    },
+    "hasViewerReacted": {
+      "__ref": "HasViewerReacted:6a7d0b421225525de7cdb6f6"
+    },
+    "nickname": "",
+    "showPaymentInfo": true,
+    "visitCategories": [
+      {
+        "__typename": "VisitCategory",
+        "code": "v_with_reservation",
+        "name": "",
+        "keywords": [
+          {
+            "__typename": "VisitCategoryKeyword",
+            "code": "예약 후 이용",
+            "name": "예약 후 이용"
+          }
+        ]
+      },
+      {
+        "__typename": "VisitCategory",
+        "code": "v_within_10minutes",
+        "name": "대기 시간",
+        "keywords": [
+          {
+            "__typename": "VisitCategoryKeyword",
+            "code": "10분 이내 ",
+            "name": "10분 이내 "
+          }
+        ]
+      }
+    ],
+    "representativeVisitDateTime": "2026-08-11T02:38:29.000Z",
+    "showRepresentativeVisitDateTime": null
+  },
+  "VisitorReviewAuthor:6I0yd": {
+    "__typename": "VisitorReviewAuthor",
+    "id": "6I0yd",
+    "nickname": "지윤호49",
+    "from": "NAVER",
+    "imageUrl": null,
+    "borderImageUrl": null,
+    "objectId": "61ebdafd5175aa0613fae42f",
+    "url": "https://m.place.naver.com/my/61ebdafd5175aa0613fae42f/review?v=2",
+    "review": {
+      "__typename": "AuthorReview",
+      "totalCount": 2,
+      "imageCount": 1,
+      "avgRating": 0
+    },
+    "theme": {
+      "__typename": "AuthorTheme",
+      "totalCount": 0
+    },
+    "isFollowing": null,
+    "followerCount": "0",
+    "followRequested": null
+  },
+  "ReactionStat:6a6b456832df7602b2a63f4c": {
+    "__typename": "ReactionStat",
+    "id": "6a6b456832df7602b2a63f4c",
+    "typeCount": [
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "fun",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "helpful",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "wannago",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "cool",
+        "count": 0
+      }
+    ],
+    "totalCount": 0
+  },
+  "HasViewerReacted:6a6b456832df7602b2a63f4c": {
+    "__typename": "HasViewerReacted",
+    "id": "6a6b456832df7602b2a63f4c",
+    "reacted": false
+  },
+  "VisitorReview:6a6b456832df7602b2a63f4c:true": {
+    "__typename": "VisitorReview",
+    "id": "6a6b456832df7602b2a63f4c",
+    "cursor": "N2NVMjkzOHVFWUtwbGRjRkdrZjVMb3hTVXJQVGxneWNyeEJvTWo1eDE3Kzh1WjBMRjBnMWFGbng1UEplOUhKbUxTcVVhUHM2VUZpL0lzTFduSURpQWdiUDhESDY4ZWxFb29XOXRqRlliWGZoY00vUEU4bUFTT0NoMkdURXc3b3NpK2YvbTl1ZmtKYjkvaHJ5NHJVenBicGZNSTV2SFJJPQ==",
+    "reviewId": "6a6b456832df7602b2a63f5f",
+    "rating": null,
+    "author": {
+      "__ref": "VisitorReviewAuthor:6I0yd"
+    },
+    "body": "다한증 증상으로 방문 했었습니다.\n원장님의 친절한 상담 및 치료 덕분에 치료 받기 전이랑 손과 발을 비교하면 현재 많이 완화되었습니다. 감사합니다.",
+    "thumbnail": null,
+    "media": [],
+    "tags": null,
+    "status": "ACTIVE",
+    "visitCount": 1,
+    "viewCount": 224,
+    "visited": "7.24.금",
+    "created": "7.30.목",
+    "reply": {
+      "__typename": "VisitorReviewReply",
+      "editUrl": "https://new-m.smartplace.naver.com/bizes/place-id/1272285133/reviews/6a6b456832df7602b2a63f4c",
+      "body": null,
+      "editedBy": null,
+      "created": null,
+      "date": null,
+      "replyTitle": null,
+      "isReported": false,
+      "isSuspended": false,
+      "status": null
+    },
+    "originType": "영수증",
+    "item": null,
+    "language": "ko",
+    "highlightRanges": null,
+    "apolloCacheId": "true",
+    "translatedText": null,
+    "businessName": "해아림한의원 분당점",
+    "showBookingItemName": null,
+    "bookingItemName": "",
+    "votedKeywords": [],
+    "userIdno": "6I0yd",
+    "loginIdno": "",
+    "receiptInfoUrl": "https://m.place.naver.com/my/review/6a6b456832df7602b2a63f4c/paymentInfo",
+    "reactionStat": {
+      "__ref": "ReactionStat:6a6b456832df7602b2a63f4c"
+    },
+    "hasViewerReacted": {
+      "__ref": "HasViewerReacted:6a6b456832df7602b2a63f4c"
+    },
+    "nickname": "",
+    "showPaymentInfo": true,
+    "visitCategories": [
+      {
+        "__typename": "VisitCategory",
+        "code": "v_with_reservation",
+        "name": "",
+        "keywords": [
+          {
+            "__typename": "VisitCategoryKeyword",
+            "code": "예약 후 이용",
+            "name": "예약 후 이용"
+          }
+        ]
+      },
+      {
+        "__typename": "VisitCategory",
+        "code": "v_enter_immediately",
+        "name": "대기 시간",
+        "keywords": [
+          {
+            "__typename": "VisitCategoryKeyword",
+            "code": "바로 입장",
+            "name": "바로 입장"
+          }
+        ]
+      }
+    ],
+    "representativeVisitDateTime": "2026-07-24T06:14:36.000Z",
+    "showRepresentativeVisitDateTime": null
+  },
+  "VisitorReviewAuthor:2uv6J": {
+    "__typename": "VisitorReviewAuthor",
+    "id": "2uv6J",
+    "nickname": "applelove",
+    "from": "NAVER",
+    "imageUrl": null,
+    "borderImageUrl": null,
+    "objectId": "5da9ce488f87a842bcd4b7d0",
+    "url": "https://m.place.naver.com/my/5da9ce488f87a842bcd4b7d0/review?v=2",
+    "review": {
+      "__typename": "AuthorReview",
+      "totalCount": 35,
+      "imageCount": 13,
+      "avgRating": 4.9
+    },
+    "theme": {
+      "__typename": "AuthorTheme",
+      "totalCount": 0
+    },
+    "isFollowing": null,
+    "followerCount": "0",
+    "followRequested": null
+  },
+  "ReactionStat:6a478732dc64972bc95c979c": {
+    "__typename": "ReactionStat",
+    "id": "6a478732dc64972bc95c979c",
+    "typeCount": [
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "fun",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "helpful",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "wannago",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "cool",
+        "count": 0
+      }
+    ],
+    "totalCount": 0
+  },
+  "HasViewerReacted:6a478732dc64972bc95c979c": {
+    "__typename": "HasViewerReacted",
+    "id": "6a478732dc64972bc95c979c",
+    "reacted": false
+  },
+  "VisitorReview:6a478732dc64972bc95c979c:true": {
+    "__typename": "VisitorReview",
+    "id": "6a478732dc64972bc95c979c",
+    "cursor": "blpSMHZ5RXBGOXVvSjk3MlhBSlQwUjExSHlROVhRWTdBZ2MxK2dlWDA0RytmK0x0ZFlIMk9YMnBPWHNVdUN5NE1Jcno1WUVHdkZIcm8vbzI4djVuOFBSRkcwMTAzTzJDSVZMamtZV0dMbnpvRlBPRzVHb3pZY0swYWJURVlQY0tMS0x0bzhaenhJUWxQK3ZERHc5WTZBR25ZNngwbnJNPQ==",
+    "reviewId": "6a478732dc64972bc95c97db",
+    "rating": null,
+    "author": {
+      "__ref": "VisitorReviewAuthor:2uv6J"
+    },
+    "body": "브레인포그 증상으로 방문했는데 많이 좋아졌습니다. 따뜻하게 상담해주시고 치료해 주신 원장선생님 감사드립니다.",
+    "thumbnail": null,
+    "media": [],
+    "tags": null,
+    "status": "ACTIVE",
+    "visitCount": 1,
+    "viewCount": 435,
+    "visited": "7.3.금",
+    "created": "7.3.금",
+    "reply": {
+      "__typename": "VisitorReviewReply",
+      "editUrl": "https://new-m.smartplace.naver.com/bizes/place-id/1272285133/reviews/6a478732dc64972bc95c979c",
+      "body": null,
+      "editedBy": null,
+      "created": null,
+      "date": null,
+      "replyTitle": null,
+      "isReported": false,
+      "isSuspended": false,
+      "status": null
+    },
+    "originType": "영수증",
+    "item": null,
+    "language": "ko",
+    "highlightRanges": null,
+    "apolloCacheId": "true",
+    "translatedText": null,
+    "businessName": "해아림한의원 분당점",
+    "showBookingItemName": null,
+    "bookingItemName": "",
+    "votedKeywords": [],
+    "userIdno": "2uv6J",
+    "loginIdno": "",
+    "receiptInfoUrl": "https://m.place.naver.com/my/review/6a478732dc64972bc95c979c/paymentInfo",
+    "reactionStat": {
+      "__ref": "ReactionStat:6a478732dc64972bc95c979c"
+    },
+    "hasViewerReacted": {
+      "__ref": "HasViewerReacted:6a478732dc64972bc95c979c"
+    },
+    "nickname": "",
+    "showPaymentInfo": true,
+    "visitCategories": [
+      {
+        "__typename": "VisitCategory",
+        "code": "v_with_reservation",
+        "name": "",
+        "keywords": [
+          {
+            "__typename": "VisitCategoryKeyword",
+            "code": "예약 후 이용",
+            "name": "예약 후 이용"
+          }
+        ]
+      },
+      {
+        "__typename": "VisitCategory",
+        "code": "v_enter_immediately",
+        "name": "대기 시간",
+        "keywords": [
+          {
+            "__typename": "VisitCategoryKeyword",
+            "code": "바로 입장",
+            "name": "바로 입장"
+          }
+        ]
+      }
+    ],
+    "representativeVisitDateTime": "2026-07-03T09:52:51.000Z",
+    "showRepresentativeVisitDateTime": null
+  },
+  "VisitorReviewAuthor:2iO1H": {
+    "__typename": "VisitorReviewAuthor",
+    "id": "2iO1H",
+    "nickname": "hh1****",
+    "from": "NAVER",
+    "imageUrl": null,
+    "borderImageUrl": null,
+    "objectId": "5be1ada0416bfe2b75a89fe8",
+    "url": "https://m.place.naver.com/my/5be1ada0416bfe2b75a89fe8/review?v=2",
+    "review": {
+      "__typename": "AuthorReview",
+      "totalCount": 15,
+      "imageCount": 14,
+      "avgRating": 4.8
+    },
+    "theme": {
+      "__typename": "AuthorTheme",
+      "totalCount": 0
+    },
+    "isFollowing": null,
+    "followerCount": "0",
+    "followRequested": null
+  },
+  "ReactionStat:6a3264867455befbcadbf743": {
+    "__typename": "ReactionStat",
+    "id": "6a3264867455befbcadbf743",
+    "typeCount": [
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "fun",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "helpful",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "wannago",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "cool",
+        "count": 0
+      }
+    ],
+    "totalCount": 0
+  },
+  "HasViewerReacted:6a3264867455befbcadbf743": {
+    "__typename": "HasViewerReacted",
+    "id": "6a3264867455befbcadbf743",
+    "reacted": false
+  },
+  "VisitorReview:6a3264867455befbcadbf743:true": {
+    "__typename": "VisitorReview",
+    "id": "6a3264867455befbcadbf743",
+    "cursor": "QmlBVGZIWUhJcXdCZGtDdFhsV2FIOFVWVkZJVStVbUhTcWhRZGFmOEtBTGx1VXM2QXNSSS9DeW1VVmpvSnMrUDlFWkhkajU0Z29xdWNiTW0rVUFyUHliWjdZcmFvOG5ZNGJ0SkhENWpoSSt4SDYrVUwvcnY2ZEJpeUJNK3cwZ0M1U2hzUW5GVzlmdkxremkzTVBSWEMxRHBTZ1FTVmJjPQ==",
+    "reviewId": "6a3264867455befbcadbf759",
+    "rating": null,
+    "author": {
+      "__ref": "VisitorReviewAuthor:2iO1H"
+    },
+    "body": "작년 11월부터 다녔는데요.\n그때랑 지금이랑 검사결과를 비교해봤는데요.\n너무나 좋아져서 감사할 따름입니다.\n다들 친절하시고 편안하게 해주셔서 방문시 좋았습니다.\n한약 다먹고 또 방문할께요^^",
+    "thumbnail": "https://pup-review-phinf.pstatic.net/MjAyNjA2MTdfNyAg/MDAxNzgxNjg3NDI4NTkx.y0RM_ipNt9lsCbO-LcbUqfM5vU7gsfKkPGv61zuipXEg.dfVNBq-nI9jhn9cr6G2XaTxqcnYUl39qYdqGEgHf9BQg.JPEG/20260617_180752.jpg.jpg",
+    "media": [
+      {
+        "__typename": "VisitorReviewMedia",
+        "type": "image",
+        "thumbnail": "https://pup-review-phinf.pstatic.net/MjAyNjA2MTdfNyAg/MDAxNzgxNjg3NDI4NTkx.y0RM_ipNt9lsCbO-LcbUqfM5vU7gsfKkPGv61zuipXEg.dfVNBq-nI9jhn9cr6G2XaTxqcnYUl39qYdqGEgHf9BQg.JPEG/20260617_180752.jpg.jpg?type=w1500_60_sharpen",
+        "thumbnailRatio": "portrait",
+        "class": "notReceipt",
+        "videoId": null,
+        "videoUrl": null,
+        "trailerUrl": null
+      }
+    ],
+    "tags": null,
+    "status": "ACTIVE",
+    "visitCount": 5,
+    "viewCount": 508,
+    "visited": "6.17.수",
+    "created": "6.17.수",
+    "reply": {
+      "__typename": "VisitorReviewReply",
+      "editUrl": "https://new-m.smartplace.naver.com/bizes/place-id/1272285133/reviews/6a3264867455befbcadbf743",
+      "body": null,
+      "editedBy": null,
+      "created": null,
+      "date": null,
+      "replyTitle": null,
+      "isReported": false,
+      "isSuspended": false,
+      "status": null
+    },
+    "originType": "예약",
+    "item": {
+      "__typename": "VisitorReviewItem",
+      "name": "해아림 분당점 예약",
+      "code": null,
+      "options": null
+    },
+    "language": "ko",
+    "highlightRanges": null,
+    "apolloCacheId": "true",
+    "translatedText": null,
+    "businessName": "해아림한의원 분당점",
+    "showBookingItemName": null,
+    "bookingItemName": "해아림 분당점 예약",
+    "votedKeywords": [],
+    "userIdno": "2iO1H",
+    "loginIdno": "",
+    "receiptInfoUrl": "https://m.place.naver.com/my/review/6a3264867455befbcadbf743/paymentInfo",
+    "reactionStat": {
+      "__ref": "ReactionStat:6a3264867455befbcadbf743"
+    },
+    "hasViewerReacted": {
+      "__ref": "HasViewerReacted:6a3264867455befbcadbf743"
+    },
+    "nickname": "",
+    "showPaymentInfo": false,
+    "visitCategories": [
+      {
+        "__typename": "VisitCategory",
+        "code": "v_with_reservation",
+        "name": "",
+        "keywords": [
+          {
+            "__typename": "VisitCategoryKeyword",
+            "code": "예약 후 이용",
+            "name": "예약 후 이용"
+          }
+        ]
+      },
+      {
+        "__typename": "VisitCategory",
+        "code": "v_within_10minutes",
+        "name": "대기 시간",
+        "keywords": [
+          {
+            "__typename": "VisitCategoryKeyword",
+            "code": "10분 이내 ",
+            "name": "10분 이내 "
+          }
+        ]
+      }
+    ],
+    "representativeVisitDateTime": "2026-06-17T09:05:48.000Z",
+    "showRepresentativeVisitDateTime": null
+  },
+  "VisitorReviewAuthor:2RlNM": {
+    "__typename": "VisitorReviewAuthor",
+    "id": "2RlNM",
+    "nickname": "친절한엄마이길",
+    "from": "NAVER",
+    "imageUrl": null,
+    "borderImageUrl": null,
+    "objectId": "5cb4923063199925ebd2f807",
+    "url": "https://m.place.naver.com/my/5cb4923063199925ebd2f807/review?v=2",
+    "review": {
+      "__typename": "AuthorReview",
+      "totalCount": 1,
+      "imageCount": 1,
+      "avgRating": 0
+    },
+    "theme": {
+      "__typename": "AuthorTheme",
+      "totalCount": 0
+    },
+    "isFollowing": null,
+    "followerCount": "0",
+    "followRequested": null
+  },
+  "ReactionStat:6a2cce47cc78b835d9b0f12b": {
+    "__typename": "ReactionStat",
+    "id": "6a2cce47cc78b835d9b0f12b",
+    "typeCount": [
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "fun",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "helpful",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "wannago",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "cool",
+        "count": 0
+      }
+    ],
+    "totalCount": 0
+  },
+  "HasViewerReacted:6a2cce47cc78b835d9b0f12b": {
+    "__typename": "HasViewerReacted",
+    "id": "6a2cce47cc78b835d9b0f12b",
+    "reacted": false
+  },
+  "VisitorReview:6a2cce47cc78b835d9b0f12b:true": {
+    "__typename": "VisitorReview",
+    "id": "6a2cce47cc78b835d9b0f12b",
+    "cursor": "YkRqS054aG5EaGxuMlFMOGhaQi9xTEJvdFhoVllEMDc5ei92NkMzK3pmaFQ5c2x6a3dNc1V5RWxwVkoxUW5KR2g4TlJwOVhYMTZOeUVIOXNML050SVhpbnA5a3h3Yjc0NElZL01vS0FSM0FiWVMyV3VpUTZ6cjN2NHlzN0p4UEwrRkZESXpVaHFkWDU5bnhhUUV0WXltUUk1L25ZdDA0PQ==",
+    "reviewId": "6a2cce47cc78b835d9b0f138",
+    "rating": null,
+    "author": {
+      "__ref": "VisitorReviewAuthor:2RlNM"
+    },
+    "body": "아이가 틱증상이랑 감정적으로 힘든시기에 찾게되었습니다. 매주 원장선생님의 현실적인 상담과 조언을 들으면서 아이도 부모인 저희들도 치료를 넘어서 방향과 방법을 찾게 된 것 같습니다. 뜸, 한약, 행동치료도 병행하며 효과를 더욱 잘 받은 것 같습니다. 데스크 선생님들도 친절하게 받아주셔서 아이가 어색함 없이 여러달을 잘 다녔던 것 같고요. 처음에는 앞이 너무 멀게 느껴지고 겁나기도 했지만 원장선생님. 데스크. 행동치료선생님들 덕분에 좋아지게 되어 너무 감사드려요. 그리고 무엇보다 아이가 생각과 행동의 힘을 알게되는 소중한 시간이였습니다.",
+    "thumbnail": "https://pup-review-phinf.pstatic.net/MjAyNjA2MTNfMjgz/MDAxNzgxMzIwNzg4MDY2.dnz5YN8gfJ-qd1T03KubtsNoM8zw58I5XzchrH_XkNsg.v8XMrlli5cPmmn13XU-IJAW3qpPrKnsZZC9gP569Pl8g.JPEG/IMG_8957.jpeg",
+    "media": [
+      {
+        "__typename": "VisitorReviewMedia",
+        "type": "image",
+        "thumbnail": "https://pup-review-phinf.pstatic.net/MjAyNjA2MTNfMjgz/MDAxNzgxMzIwNzg4MDY2.dnz5YN8gfJ-qd1T03KubtsNoM8zw58I5XzchrH_XkNsg.v8XMrlli5cPmmn13XU-IJAW3qpPrKnsZZC9gP569Pl8g.JPEG/IMG_8957.jpeg?type=w1500_60_sharpen",
+        "thumbnailRatio": "square",
+        "class": "notReceipt",
+        "videoId": null,
+        "videoUrl": null,
+        "trailerUrl": null
+      }
+    ],
+    "tags": null,
+    "status": "ACTIVE",
+    "visitCount": 2,
+    "viewCount": 518,
+    "visited": "6.13.토",
+    "created": "6.13.토",
+    "reply": {
+      "__typename": "VisitorReviewReply",
+      "editUrl": "https://new-m.smartplace.naver.com/bizes/place-id/1272285133/reviews/6a2cce47cc78b835d9b0f12b",
+      "body": null,
+      "editedBy": null,
+      "created": null,
+      "date": null,
+      "replyTitle": null,
+      "isReported": false,
+      "isSuspended": false,
+      "status": null
+    },
+    "originType": "영수증",
+    "item": null,
+    "language": "ko",
+    "highlightRanges": null,
+    "apolloCacheId": "true",
+    "translatedText": null,
+    "businessName": "해아림한의원 분당점",
+    "showBookingItemName": null,
+    "bookingItemName": "",
+    "votedKeywords": [],
+    "userIdno": "2RlNM",
+    "loginIdno": "",
+    "receiptInfoUrl": "https://m.place.naver.com/my/review/6a2cce47cc78b835d9b0f12b/paymentInfo",
+    "reactionStat": {
+      "__ref": "ReactionStat:6a2cce47cc78b835d9b0f12b"
+    },
+    "hasViewerReacted": {
+      "__ref": "HasViewerReacted:6a2cce47cc78b835d9b0f12b"
+    },
+    "nickname": "",
+    "showPaymentInfo": true,
+    "visitCategories": [
+      {
+        "__typename": "VisitCategory",
+        "code": "v_with_reservation",
+        "name": "",
+        "keywords": [
+          {
+            "__typename": "VisitCategoryKeyword",
+            "code": "예약 후 이용",
+            "name": "예약 후 이용"
+          }
+        ]
+      },
+      {
+        "__typename": "VisitCategory",
+        "code": "v_enter_immediately",
+        "name": "대기 시간",
+        "keywords": [
+          {
+            "__typename": "VisitCategoryKeyword",
+            "code": "바로 입장",
+            "name": "바로 입장"
+          }
+        ]
+      }
+    ],
+    "representativeVisitDateTime": "2026-06-13T03:13:26.000Z",
+    "showRepresentativeVisitDateTime": null
+  },
+  "VisitorReviewAuthor:1Wijc": {
+    "__typename": "VisitorReviewAuthor",
+    "id": "1Wijc",
+    "nickname": "haniel423",
+    "from": "NAVER",
+    "imageUrl": null,
+    "borderImageUrl": null,
+    "objectId": "5bc9343cda02ebb6e6fee4bc",
+    "url": "https://m.place.naver.com/my/5bc9343cda02ebb6e6fee4bc/review?v=2",
+    "review": {
+      "__typename": "AuthorReview",
+      "totalCount": 8,
+      "imageCount": 6,
+      "avgRating": 0
+    },
+    "theme": {
+      "__typename": "AuthorTheme",
+      "totalCount": 0
+    },
+    "isFollowing": null,
+    "followerCount": "0",
+    "followRequested": null
+  },
+  "ReactionStat:6a292af279d14bd4ff6f1082": {
+    "__typename": "ReactionStat",
+    "id": "6a292af279d14bd4ff6f1082",
+    "typeCount": [
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "fun",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "helpful",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "wannago",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "cool",
+        "count": 0
+      }
+    ],
+    "totalCount": 0
+  },
+  "HasViewerReacted:6a292af279d14bd4ff6f1082": {
+    "__typename": "HasViewerReacted",
+    "id": "6a292af279d14bd4ff6f1082",
+    "reacted": false
+  },
+  "VisitorReview:6a292af279d14bd4ff6f1082:true": {
+    "__typename": "VisitorReview",
+    "id": "6a292af279d14bd4ff6f1082",
+    "cursor": "Qm9aOWJOTTREdnBKNW55TW9zd2VURjZKRFdGZ1JFUE1nYmprSlA3RXVTaGdJU0hrZlZYV1UwbFVieDhMcHJzS3A5WkJNT0pzYmlmZDVjR2tqVUcyVkhxY2M4KzVuMXRNSmhDQjNrMjB1NU1MOG1rTGwwZWJCd0o1T2l1d1A3R2JrYUM1enArNUc1MEVteWFXK0ZIS2FlWXE0bEQxWS8wPQ==",
+    "reviewId": "6a292af279d14bd4ff6f10ac",
+    "rating": null,
+    "author": {
+      "__ref": "VisitorReviewAuthor:1Wijc"
+    },
+    "body": "아이가 초등학교 1학년때부터 하기 싫은 일을 할때마다 갑자기 속이 메스껍고 울렁거린다고 하고 손발이 차가워지면서  움직이지도 못하는 증상이 생겼어요. 계속되는게 아니라 얼마후에 괜찮아지고를 해서 가까운병원 몇군데를 다녀봐도 내과적으로는 이상이 없었습니다.\n1년에 한번씩 한달가량을 증상이 지속되다 너무 힘들어\n자율신경이상증상검사를 위해 해아림한의원을 찾게되었습니다.  6개월 치료를 해야한다는 말씀에 막막하기도 비용부담도 되었지만  아이도 가족 모두 힘들어 치료를 결정하고 치료 받고 드디어 6개월 치료가 마무리가 되었네요.치료 시작하면서\n증상도 예전보다 빨리 사라졌고 한약도 6개월동안 먹고 침치료. 뜸치료 상담을 통해 생활습관과 마음가짐 바꾸려고 노력했더니 예전보다 훨씬 좋아졌습니다. 감사합니다.",
+    "thumbnail": null,
+    "media": [],
+    "tags": null,
+    "status": "ACTIVE",
+    "visitCount": 2,
+    "viewCount": 405,
+    "visited": "6.10.수",
+    "created": "6.10.수",
+    "reply": {
+      "__typename": "VisitorReviewReply",
+      "editUrl": "https://new-m.smartplace.naver.com/bizes/place-id/1272285133/reviews/6a292af279d14bd4ff6f1082",
+      "body": null,
+      "editedBy": null,
+      "created": null,
+      "date": null,
+      "replyTitle": null,
+      "isReported": false,
+      "isSuspended": false,
+      "status": null
+    },
+    "originType": "영수증",
+    "item": null,
+    "language": "ko",
+    "highlightRanges": null,
+    "apolloCacheId": "true",
+    "translatedText": null,
+    "businessName": "해아림한의원 분당점",
+    "showBookingItemName": null,
+    "bookingItemName": "",
+    "votedKeywords": [],
+    "userIdno": "1Wijc",
+    "loginIdno": "",
+    "receiptInfoUrl": "https://m.place.naver.com/my/review/6a292af279d14bd4ff6f1082/paymentInfo",
+    "reactionStat": {
+      "__ref": "ReactionStat:6a292af279d14bd4ff6f1082"
+    },
+    "hasViewerReacted": {
+      "__ref": "HasViewerReacted:6a292af279d14bd4ff6f1082"
+    },
+    "nickname": "",
+    "showPaymentInfo": true,
+    "visitCategories": [
+      {
+        "__typename": "VisitCategory",
+        "code": "v_with_reservation",
+        "name": "",
+        "keywords": [
+          {
+            "__typename": "VisitCategoryKeyword",
+            "code": "예약 후 이용",
+            "name": "예약 후 이용"
+          }
+        ]
+      },
+      {
+        "__typename": "VisitCategory",
+        "code": "v_enter_immediately",
+        "name": "대기 시간",
+        "keywords": [
+          {
+            "__typename": "VisitCategoryKeyword",
+            "code": "바로 입장",
+            "name": "바로 입장"
+          }
+        ]
+      }
+    ],
+    "representativeVisitDateTime": "2026-06-10T08:54:17.000Z",
+    "showRepresentativeVisitDateTime": null
+  },
+  "VisitorReviewAuthor:26z6Q": {
+    "__typename": "VisitorReviewAuthor",
+    "id": "26z6Q",
+    "nickname": "lssaa",
+    "from": "NAVER",
+    "imageUrl": "https://pup-review-phinf.pstatic.net/MjAyNjAyMDlfMjE3/MDAxNzcwNjQ3NzI3MTQ1.smdOp0L_0bUPZ08vYINqHRPIULHjrA2WiEvLqJs2ETgg.s_eiXqszUkyrFsoCG1ICq27f9Hal_4iSwCvNvpa4mlQg.JPEG/IMG_6066.jpeg",
+    "borderImageUrl": null,
+    "objectId": "5b7782c7985e9e5b976eed2e",
+    "url": "https://m.place.naver.com/my/5b7782c7985e9e5b976eed2e/review?v=2",
+    "review": {
+      "__typename": "AuthorReview",
+      "totalCount": 132,
+      "imageCount": 49,
+      "avgRating": 4.9
+    },
+    "theme": {
+      "__typename": "AuthorTheme",
+      "totalCount": 0
+    },
+    "isFollowing": null,
+    "followerCount": "0",
+    "followRequested": null
+  },
+  "ReactionStat:6a1a3a9a87dc8c59dc12114c": {
+    "__typename": "ReactionStat",
+    "id": "6a1a3a9a87dc8c59dc12114c",
+    "typeCount": [
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "helpful",
+        "count": 1
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "helpful",
+        "count": 1
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "wannago",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "wannago",
+        "count": 0
+      }
+    ],
+    "totalCount": 1
+  },
+  "HasViewerReacted:6a1a3a9a87dc8c59dc12114c": {
+    "__typename": "HasViewerReacted",
+    "id": "6a1a3a9a87dc8c59dc12114c",
+    "reacted": false
+  },
+  "VisitorReview:6a1a3a9a87dc8c59dc12114c:true": {
+    "__typename": "VisitorReview",
+    "id": "6a1a3a9a87dc8c59dc12114c",
+    "cursor": "UUVNYlJscyswUkt5QTIvVkdNUjlOaU4wdGcrYWVxLzYwb2NtaEdpUURlSjZXU0k3M1JueHBRU1FxMnRLbldkREw3RC9pTlpueFJ0V3N3czlIN2pTVGZMWERXOGFiUGtHSjRmWUVqdVJEV1h3UDdhMTRCem5UNlhuOXN2K05aaWtHM1J6TTVoazEvemh3SFpPNk5PZWwyUEFiYVIvUkxzPQ==",
+    "reviewId": "6a1a3a9a87dc8c59dc121163",
+    "rating": null,
+    "author": {
+      "__ref": "VisitorReviewAuthor:26z6Q"
+    },
+    "body": "거의 1년정도 다녔어요.\n아들이 갑자기 틱이 심해져서 밤새 병원 알아보고 후기찾아보고 선택한 곳입니다. 초저학년이라 양방병원보다는 한의원이 나을듯해서 집과 거리가 있음에도 내원하였는데 먼저 병원 전 직원분들이 너무 친절하게 맞이하여주셔서 좋았어요. 틱 검사부터 진단, 치료과정까지 아이가 힘들었겠지만 지난 시간을 돌이켜보니 굉장히 잘한선택이었다는 생각이 듭니다.\n초반에 한약 먹는것에 대해 거부감이 있던 아이도 어느새 스스로 찾아먹게되고 틱도 어느순간 사라져있더라구요.\n아이 틱이 사라지니 엄마인 제 불안도 사라져서 넘 좋았습니다. 잘 치료해주신 선생님께 진심으로 감사드려요!\n틱이 고민이신 부모님들은 이 곳 정말 추천드릴께요!",
+    "thumbnail": "https://pup-review-phinf.pstatic.net/MjAyNjA1MzBfMzUg/MDAxNzgwMTAzODMzMTc0.wZje9cce5qT3E-7B75FEPv-eQjwSwuvL3xxjgj-c8qkg.Jn7S_wKuSocNmrZj3UCck94Bc3X_VKmKIVBjcZefDA4g.JPEG/6CD9DDEE-DEE2-4E0C-86DE-36A832C06A72.jpeg",
+    "media": [
+      {
+        "__typename": "VisitorReviewMedia",
+        "type": "image",
+        "thumbnail": "https://pup-review-phinf.pstatic.net/MjAyNjA1MzBfMzUg/MDAxNzgwMTAzODMzMTc0.wZje9cce5qT3E-7B75FEPv-eQjwSwuvL3xxjgj-c8qkg.Jn7S_wKuSocNmrZj3UCck94Bc3X_VKmKIVBjcZefDA4g.JPEG/6CD9DDEE-DEE2-4E0C-86DE-36A832C06A72.jpeg?type=w1500_60_sharpen",
+        "thumbnailRatio": "portrait",
+        "class": "notReceipt",
+        "videoId": null,
+        "videoUrl": null,
+        "trailerUrl": null
+      }
+    ],
+    "tags": null,
+    "status": "ACTIVE",
+    "visitCount": 2,
+    "viewCount": 469,
+    "visited": "5.30.토",
+    "created": "5.30.토",
+    "reply": {
+      "__typename": "VisitorReviewReply",
+      "editUrl": "https://new-m.smartplace.naver.com/bizes/place-id/1272285133/reviews/6a1a3a9a87dc8c59dc12114c",
+      "body": null,
+      "editedBy": null,
+      "created": null,
+      "date": null,
+      "replyTitle": null,
+      "isReported": false,
+      "isSuspended": false,
+      "status": null
+    },
+    "originType": "영수증",
+    "item": null,
+    "language": "ko",
+    "highlightRanges": null,
+    "apolloCacheId": "true",
+    "translatedText": null,
+    "businessName": "해아림한의원 분당점",
+    "showBookingItemName": null,
+    "bookingItemName": "",
+    "votedKeywords": [],
+    "userIdno": "26z6Q",
+    "loginIdno": "",
+    "receiptInfoUrl": "https://m.place.naver.com/my/review/6a1a3a9a87dc8c59dc12114c/paymentInfo",
+    "reactionStat": {
+      "__ref": "ReactionStat:6a1a3a9a87dc8c59dc12114c"
+    },
+    "hasViewerReacted": {
+      "__ref": "HasViewerReacted:6a1a3a9a87dc8c59dc12114c"
+    },
+    "nickname": "",
+    "showPaymentInfo": true,
+    "visitCategories": [
+      {
+        "__typename": "VisitCategory",
+        "code": "v_with_reservation",
+        "name": "",
+        "keywords": [
+          {
+            "__typename": "VisitCategoryKeyword",
+            "code": "예약 후 이용",
+            "name": "예약 후 이용"
+          }
+        ]
+      },
+      {
+        "__typename": "VisitCategory",
+        "code": "v_enter_immediately",
+        "name": "대기 시간",
+        "keywords": [
+          {
+            "__typename": "VisitCategoryKeyword",
+            "code": "바로 입장",
+            "name": "바로 입장"
+          }
+        ]
+      }
+    ],
+    "representativeVisitDateTime": "2026-05-30T01:06:48.000Z",
+    "showRepresentativeVisitDateTime": null
+  },
+  "VisitorReviewAuthor:275Wi": {
+    "__typename": "VisitorReviewAuthor",
+    "id": "275Wi",
+    "nickname": "하나사랑78",
+    "from": "NAVER",
+    "imageUrl": null,
+    "borderImageUrl": null,
+    "objectId": "5cf13c8237acdf4837ca52ae",
+    "url": "https://m.place.naver.com/my/5cf13c8237acdf4837ca52ae/review?v=2",
+    "review": {
+      "__typename": "AuthorReview",
+      "totalCount": 12,
+      "imageCount": 24,
+      "avgRating": 0
+    },
+    "theme": {
+      "__typename": "AuthorTheme",
+      "totalCount": 0
+    },
+    "isFollowing": null,
+    "followerCount": "0",
+    "followRequested": null
+  },
+  "ReactionStat:6a111b6c13e47359d72ad614": {
+    "__typename": "ReactionStat",
+    "id": "6a111b6c13e47359d72ad614",
+    "typeCount": [
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "fun",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "helpful",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "wannago",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "cool",
+        "count": 0
+      }
+    ],
+    "totalCount": 0
+  },
+  "HasViewerReacted:6a111b6c13e47359d72ad614": {
+    "__typename": "HasViewerReacted",
+    "id": "6a111b6c13e47359d72ad614",
+    "reacted": false
+  },
+  "VisitorReview:6a111b6c13e47359d72ad614:true": {
+    "__typename": "VisitorReview",
+    "id": "6a111b6c13e47359d72ad614",
+    "cursor": "c1VSS0RLOXRNeTBuNDlRbnc0NmdibEJiV00zZEkvM3ZESFc2U1B4dEs0YjM3RlQyMEFkSldlN2pWdXJGYjZ1Q3N1NmVlbW5pNnQ1MXU5NDYvQWplZ1EvdFdYbVpiVVhIRzVTUFRRcDJEaEsrM2hWcHZTeTZ6Lzk5SzZ4UXEzbk9rK2RwWXJtZ2ZobHZ2Z3VacXBuWWRneUxtUEFhZDZJPQ==",
+    "reviewId": "6a111b6c13e47359d72ad632",
+    "rating": null,
+    "author": {
+      "__ref": "VisitorReviewAuthor:275Wi"
+    },
+    "body": "6개월 전 중학생 아들이 불안증상으로 과민성대장증후군이 자주 발병해서 진료받게 됐는데 원장님 처방으로 이제는 말끔히 없어졌어요. 학교가는게 불규칙해서 고민이 많이 됐었는데요 어떤 증상이 뿅하고 사라지기 바라는 마음은 모두 같겠지만 정말 시간이 걸리더라구요. 한약 처방받고 3개월정도에 증상이 거의 완화됐고 나머지 3개월 정도는 관리 차원에서 약하게 처방받았는데 지금은 더이상 약을 안먹어도 됩니다.\n망설이시는 분들은 지금 치료를 시작하시라고 말씀드리고 싶어요~\n원장님과 선생님들 모두 친절하시고 좋아요~^^",
+    "thumbnail": null,
+    "media": [],
+    "tags": null,
+    "status": "ACTIVE",
+    "visitCount": 1,
+    "viewCount": 473,
+    "visited": "5.23.토",
+    "created": "5.23.토",
+    "reply": {
+      "__typename": "VisitorReviewReply",
+      "editUrl": "https://new-m.smartplace.naver.com/bizes/place-id/1272285133/reviews/6a111b6c13e47359d72ad614",
+      "body": null,
+      "editedBy": null,
+      "created": null,
+      "date": null,
+      "replyTitle": null,
+      "isReported": false,
+      "isSuspended": false,
+      "status": null
+    },
+    "originType": "영수증",
+    "item": null,
+    "language": "ko",
+    "highlightRanges": null,
+    "apolloCacheId": "true",
+    "translatedText": null,
+    "businessName": "해아림한의원 분당점",
+    "showBookingItemName": null,
+    "bookingItemName": "",
+    "votedKeywords": [],
+    "userIdno": "275Wi",
+    "loginIdno": "",
+    "receiptInfoUrl": "https://m.place.naver.com/my/review/6a111b6c13e47359d72ad614/paymentInfo",
+    "reactionStat": {
+      "__ref": "ReactionStat:6a111b6c13e47359d72ad614"
+    },
+    "hasViewerReacted": {
+      "__ref": "HasViewerReacted:6a111b6c13e47359d72ad614"
+    },
+    "nickname": "",
+    "showPaymentInfo": true,
+    "visitCategories": [
+      {
+        "__typename": "VisitCategory",
+        "code": "v_with_reservation",
+        "name": "",
+        "keywords": [
+          {
+            "__typename": "VisitCategoryKeyword",
+            "code": "예약 후 이용",
+            "name": "예약 후 이용"
+          }
+        ]
+      },
+      {
+        "__typename": "VisitCategory",
+        "code": "v_within_10minutes",
+        "name": "대기 시간",
+        "keywords": [
+          {
+            "__typename": "VisitCategoryKeyword",
+            "code": "10분 이내 ",
+            "name": "10분 이내 "
+          }
+        ]
+      }
+    ],
+    "representativeVisitDateTime": "2026-05-23T03:05:59.000Z",
+    "showRepresentativeVisitDateTime": null
+  },
+  "VisitorReviewAuthor:64imr": {
+    "__typename": "VisitorReviewAuthor",
+    "id": "64imr",
+    "nickname": "윤수경67",
+    "from": "NAVER",
+    "imageUrl": "https://phinf.pstatic.net/contact/20181226_72/1545814705167rqLYC_GIF/1-3.gif",
+    "borderImageUrl": null,
+    "objectId": "5b6ed1f63fe6e6e0625a22c1",
+    "url": "https://m.place.naver.com/my/5b6ed1f63fe6e6e0625a22c1/review?v=2",
+    "review": {
+      "__typename": "AuthorReview",
+      "totalCount": 15,
+      "imageCount": 2,
+      "avgRating": 5
+    },
+    "theme": {
+      "__typename": "AuthorTheme",
+      "totalCount": 0
+    },
+    "isFollowing": null,
+    "followerCount": "0",
+    "followRequested": null
+  },
+  "ReactionStat:6a0182170bc0b7af0e50cf7e": {
+    "__typename": "ReactionStat",
+    "id": "6a0182170bc0b7af0e50cf7e",
+    "typeCount": [
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "fun",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "helpful",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "wannago",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "cool",
+        "count": 0
+      }
+    ],
+    "totalCount": 0
+  },
+  "HasViewerReacted:6a0182170bc0b7af0e50cf7e": {
+    "__typename": "HasViewerReacted",
+    "id": "6a0182170bc0b7af0e50cf7e",
+    "reacted": false
+  },
+  "VisitorReview:6a0182170bc0b7af0e50cf7e:true": {
+    "__typename": "VisitorReview",
+    "id": "6a0182170bc0b7af0e50cf7e",
+    "cursor": "aUtXd0IwRkxibk9ZN1kwV1BxWFhLemlobFZYcW9OekJDMUVmMis1ZndpYnFzRmFxdWdrOTZKRHBkeHZ4QW1LMHFSNzdZNUV0U2k2ZUlnaFNtc3hYMngzaGdHUWN4QnBBMVZZNmtYdEE0Q2NpdWVWNEdGUU5QZG9rNjNld3B2bmJaVDdySEdqL2ROT3AxSVRXM2FtOSt2Nk9CSDFrTnprPQ==",
+    "reviewId": "6a0182170bc0b7af0e50cfa2",
+    "rating": null,
+    "author": {
+      "__ref": "VisitorReviewAuthor:64imr"
+    },
+    "body": "선생님들 모두 친절하시고 특히 원장선생님께서 편안하게 상담을 잘 해주십니다~ 병원 내부도 깔끔하고 분위기가 편안해서 거부감 없이 진료 받을 수 있었습니다~ \n처음에는 걱정과 불안이 가득했었는데 이제 가벼움 발거움으로 나가게 되었습니다~ 그동안 애써주신 선생님들께 감사하다고 꼭 이야기 하고 싶습니다^^",
+    "thumbnail": null,
+    "media": [],
+    "tags": null,
+    "status": "ACTIVE",
+    "visitCount": 1,
+    "viewCount": 550,
+    "visited": "5.11.월",
+    "created": "5.11.월",
+    "reply": {
+      "__typename": "VisitorReviewReply",
+      "editUrl": "https://new-m.smartplace.naver.com/bizes/place-id/1272285133/reviews/6a0182170bc0b7af0e50cf7e",
+      "body": null,
+      "editedBy": null,
+      "created": null,
+      "date": null,
+      "replyTitle": null,
+      "isReported": false,
+      "isSuspended": false,
+      "status": null
+    },
+    "originType": "영수증",
+    "item": null,
+    "language": "ko",
+    "highlightRanges": null,
+    "apolloCacheId": "true",
+    "translatedText": null,
+    "businessName": "해아림한의원 분당점",
+    "showBookingItemName": null,
+    "bookingItemName": "",
+    "votedKeywords": [],
+    "userIdno": "64imr",
+    "loginIdno": "",
+    "receiptInfoUrl": "https://m.place.naver.com/my/review/6a0182170bc0b7af0e50cf7e/paymentInfo",
+    "reactionStat": {
+      "__ref": "ReactionStat:6a0182170bc0b7af0e50cf7e"
+    },
+    "hasViewerReacted": {
+      "__ref": "HasViewerReacted:6a0182170bc0b7af0e50cf7e"
+    },
+    "nickname": "",
+    "showPaymentInfo": true,
+    "visitCategories": [
+      {
+        "__typename": "VisitCategory",
+        "code": "v_with_reservation",
+        "name": "",
+        "keywords": [
+          {
+            "__typename": "VisitCategoryKeyword",
+            "code": "예약 후 이용",
+            "name": "예약 후 이용"
+          }
+        ]
+      },
+      {
+        "__typename": "VisitCategory",
+        "code": "v_enter_immediately",
+        "name": "대기 시간",
+        "keywords": [
+          {
+            "__typename": "VisitCategoryKeyword",
+            "code": "바로 입장",
+            "name": "바로 입장"
+          }
+        ]
+      }
+    ],
+    "representativeVisitDateTime": "2026-05-11T07:11:05.000Z",
+    "showRepresentativeVisitDateTime": null
+  },
+  "VisitorReviewAuthor:1CwId": {
+    "__typename": "VisitorReviewAuthor",
+    "id": "1CwId",
+    "nickname": "onl****",
+    "from": "NAVER",
+    "imageUrl": null,
+    "borderImageUrl": null,
+    "objectId": "5f4ddefd6c3d7f7334b78d48",
+    "url": "https://m.place.naver.com/my/5f4ddefd6c3d7f7334b78d48/review?v=2",
+    "review": {
+      "__typename": "AuthorReview",
+      "totalCount": 7,
+      "imageCount": 4,
+      "avgRating": 0
+    },
+    "theme": {
+      "__typename": "AuthorTheme",
+      "totalCount": 0
+    },
+    "isFollowing": null,
+    "followerCount": "0",
+    "followRequested": null
+  },
+  "ReactionStat:699e54c40d5ee02554cfb516": {
+    "__typename": "ReactionStat",
+    "id": "699e54c40d5ee02554cfb516",
+    "typeCount": [
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "fun",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "helpful",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "wannago",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "cool",
+        "count": 0
+      }
+    ],
+    "totalCount": 0
+  },
+  "HasViewerReacted:699e54c40d5ee02554cfb516": {
+    "__typename": "HasViewerReacted",
+    "id": "699e54c40d5ee02554cfb516",
+    "reacted": false
+  },
+  "VisitorReview:699e54c40d5ee02554cfb516:true": {
+    "__typename": "VisitorReview",
+    "id": "699e54c40d5ee02554cfb516",
+    "cursor": "TjYrdjRvbHNzL0pnbUpQNXM5eEFkQWs1TjJlVWZ4ZWoxNFNBaHl1NVpuL1NzZUNqNjgvOGdqazdHblkxMEx3bnFpNzB1b3pIelZRVys2ekhtSmZ0NFNwZzZ6dmI0ei91T3I4QllVQ3AzUWIzR2VXLzlSYXFvYnJjRE1OSitBSWxZQVBRd0FPeC92UkQwYVRIa2xQaXBTUUFUVW9mRGZjPQ==",
+    "reviewId": "699e54c40d5ee02554cfb522",
+    "rating": null,
+    "author": {
+      "__ref": "VisitorReviewAuthor:1CwId"
+    },
+    "body": "9개월 정도 아이의 틱 증상으로 본 한의원을 다니게\n되었습니다. 한 달 정도 지켜보다가 증상이 심해지고 여러 가지 틱들이 복합적으로 나타나 어떤 치료를 받아야 하나 고민하다 한의원에서 더 근본적인 치료를 받을 수 있다는 사실을 알게 되어 결정하였습니다. 아이의 증상이 너무 심각하여 처음에는 별 차도가 없는 듯 보였습니다. 하지만 3개월 정도가 지나자 점차 증상의 개수가 줄어들고 빈도가 줄어들고 9개월이 지난 지금은 증상을 찾아볼 수 없을 정도로 호전되었습니다. 선생님을 믿고 약 복용을 잘 지키고 미디어 제한하고 먹을 것 조심한 것 외에는 별다른 변화는 없었습니다. 틱으로 고민하시는 분들에게 적극 추천드립니다.",
+    "thumbnail": null,
+    "media": [],
+    "tags": null,
+    "status": "ACTIVE",
+    "visitCount": 2,
+    "viewCount": 1111,
+    "visited": "2.25.수",
+    "created": "2.25.수",
+    "reply": {
+      "__typename": "VisitorReviewReply",
+      "editUrl": "https://new-m.smartplace.naver.com/bizes/place-id/1272285133/reviews/699e54c40d5ee02554cfb516",
+      "body": null,
+      "editedBy": null,
+      "created": null,
+      "date": null,
+      "replyTitle": null,
+      "isReported": false,
+      "isSuspended": false,
+      "status": null
+    },
+    "originType": "영수증",
+    "item": null,
+    "language": "ko",
+    "highlightRanges": null,
+    "apolloCacheId": "true",
+    "translatedText": null,
+    "businessName": "해아림한의원 분당점",
+    "showBookingItemName": null,
+    "bookingItemName": "",
+    "votedKeywords": [],
+    "userIdno": "1CwId",
+    "loginIdno": "",
+    "receiptInfoUrl": "https://m.place.naver.com/my/review/699e54c40d5ee02554cfb516/paymentInfo",
+    "reactionStat": {
+      "__ref": "ReactionStat:699e54c40d5ee02554cfb516"
+    },
+    "hasViewerReacted": {
+      "__ref": "HasViewerReacted:699e54c40d5ee02554cfb516"
+    },
+    "nickname": "",
+    "showPaymentInfo": true,
+    "visitCategories": [
+      {
+        "__typename": "VisitCategory",
+        "code": "v_with_reservation",
+        "name": "",
+        "keywords": [
+          {
+            "__typename": "VisitCategoryKeyword",
+            "code": "예약 후 이용",
+            "name": "예약 후 이용"
+          }
+        ]
+      },
+      {
+        "__typename": "VisitCategory",
+        "code": "v_enter_immediately",
+        "name": "대기 시간",
+        "keywords": [
+          {
+            "__typename": "VisitCategoryKeyword",
+            "code": "바로 입장",
+            "name": "바로 입장"
+          }
+        ]
+      }
+    ],
+    "representativeVisitDateTime": "2026-02-25T01:40:22.000Z",
+    "showRepresentativeVisitDateTime": null
+  },
+  "PhotoViewerItemAuthor:2iO1H": {
+    "__typename": "PhotoViewerItemAuthor",
+    "id": "2iO1H",
+    "nickname": "hh1****",
+    "from": "NAVER",
+    "imageUrl": null,
+    "objectId": "5be1ada0416bfe2b75a89fe8",
+    "url": "https://m.place.naver.com/my/5be1ada0416bfe2b75a89fe8/review?v=2",
+    "borderImageUrl": null
+  },
+  "PhotoViewerItemAuthor:2RlNM": {
+    "__typename": "PhotoViewerItemAuthor",
+    "id": "2RlNM",
+    "nickname": "친절한엄마이길",
+    "from": "NAVER",
+    "imageUrl": null,
+    "objectId": "5cb4923063199925ebd2f807",
+    "url": "https://m.place.naver.com/my/5cb4923063199925ebd2f807/review?v=2",
+    "borderImageUrl": null
+  },
+  "PhotoViewerItemAuthor:26z6Q": {
+    "__typename": "PhotoViewerItemAuthor",
+    "id": "26z6Q",
+    "nickname": "lssaa",
+    "from": "NAVER",
+    "imageUrl": "https://pup-review-phinf.pstatic.net/MjAyNjAyMDlfMjE3/MDAxNzcwNjQ3NzI3MTQ1.smdOp0L_0bUPZ08vYINqHRPIULHjrA2WiEvLqJs2ETgg.s_eiXqszUkyrFsoCG1ICq27f9Hal_4iSwCvNvpa4mlQg.JPEG/IMG_6066.jpeg",
+    "objectId": "5b7782c7985e9e5b976eed2e",
+    "url": "https://m.place.naver.com/my/5b7782c7985e9e5b976eed2e/review?v=2",
+    "borderImageUrl": null
+  },
+  "PhotoViewerItemAuthor:cT47B": {
+    "__typename": "PhotoViewerItemAuthor",
+    "id": "cT47B",
+    "nickname": "eun****",
+    "from": "NAVER",
+    "imageUrl": "https://phinf.pstatic.net/contact/20211216_246/16396374256179eezg_JPEG/profileImage.jpg",
+    "objectId": "5f0f79039ec8258e4a9326f8",
+    "url": "https://m.place.naver.com/my/5f0f79039ec8258e4a9326f8/review?v=2",
+    "borderImageUrl": null
+  },
+  "PhotoViewerItemAuthor:2wZ7m": {
+    "__typename": "PhotoViewerItemAuthor",
+    "id": "2wZ7m",
+    "nickname": "러블리유내씨",
+    "from": "NAVER",
+    "imageUrl": "https://phinf.pstatic.net/contact/20220228_241/1646012277460FdPF8_JPEG/KakaoTalk_20200316_151956184_1.jpg",
+    "objectId": "5ea6daa98f87a842bceb1072",
+    "url": "https://m.place.naver.com/my/5ea6daa98f87a842bceb1072/review?v=2",
+    "borderImageUrl": null
+  },
+  "PhotoViewerItemAuthor:MQoO": {
+    "__typename": "PhotoViewerItemAuthor",
+    "id": "MQoO",
+    "nickname": "쉿비밀41",
+    "from": "NAVER",
+    "imageUrl": null,
+    "objectId": "5f04349cee4be03dee262f90",
+    "url": "https://m.place.naver.com/my/5f04349cee4be03dee262f90/review?v=2",
+    "borderImageUrl": null
+  },
+  "PhotoViewerItemAuthor:2NrTO": {
+    "__typename": "PhotoViewerItemAuthor",
+    "id": "2NrTO",
+    "nickname": "Leave a review",
+    "from": "NAVER",
+    "imageUrl": "https://pup-review-phinf.pstatic.net/MjAyNTEyMzFfMjg2/MDAxNzY3MTM5NDc0ODU5.1ztl-bAMWg3YX640LXI3QPMzTZEAfpuWjGOQTFGsn6Eg.fiHpxhsGdV3ZrUoXgqAjMuG1JjOAW8f4tOZucJCwwl0g.JPEG/56c32603466f512805dcff0ff250342d.jpg",
+    "objectId": "5efe191ba23d584a853dac15",
+    "url": "https://m.place.naver.com/my/5efe191ba23d584a853dac15/review?v=2",
+    "borderImageUrl": null
+  },
+  "VisitorReviewAuthor:1alPI": {
+    "__typename": "VisitorReviewAuthor",
+    "id": "1alPI",
+    "nickname": "데니스709",
+    "from": "NAVER",
+    "imageUrl": null,
+    "borderImageUrl": null,
+    "objectId": "5d55304c88f4fa251312e022",
+    "url": "https://m.place.naver.com/my/5d55304c88f4fa251312e022/review?v=2",
+    "review": {
+      "__typename": "AuthorReview",
+      "totalCount": 321,
+      "imageCount": 66,
+      "avgRating": 4
+    },
+    "theme": {
+      "__typename": "AuthorTheme",
+      "totalCount": 0
+    },
+    "isFollowing": null,
+    "followerCount": "0",
+    "followRequested": null
+  },
+  "ReactionStat:614b926143d6760050ec35c6": {
+    "__typename": "ReactionStat",
+    "id": "614b926143d6760050ec35c6",
+    "typeCount": [
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "fun",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "helpful",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "wannago",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "cool",
+        "count": 0
+      }
+    ],
+    "totalCount": 0
+  },
+  "HasViewerReacted:614b926143d6760050ec35c6": {
+    "__typename": "HasViewerReacted",
+    "id": "614b926143d6760050ec35c6",
+    "reacted": false
+  },
+  "VisitorReview:614b926143d6760050ec35c6": {
+    "__typename": "VisitorReview",
+    "id": "614b926143d6760050ec35c6",
+    "cursor": "Zmp6aG1QK3lpWkdsalpHSnNWR0lLYXhSVnlmMFNpeG8zZExORlhnbUFDZitRcWg3NXZqVTdJUTV2cVVyWXk5RkJHOXVSUTZFbnpHOVE5VVBla1MxOWsrRjBMTGR5VUJZSE1aOG5zek93MmFaeGhGdzBTcXN5SWt3ZHBsMWY1RGFiRWhkT2RtOTJvY1F4dXg4L2FFZlZJc1hES2hiUzNVPQ==",
+    "rating": 3,
+    "author": {
+      "__ref": "VisitorReviewAuthor:1alPI"
+    },
+    "visitCount": 1,
+    "visited": "21.8.31.화",
+    "originType": "영수증",
+    "reply": {
+      "__typename": "VisitorReviewReply",
+      "editUrl": "https://new-m.smartplace.naver.com/bizes/place-id/1272285133/reviews/614b926143d6760050ec35c6",
+      "body": null,
+      "editedBy": null,
+      "created": null,
+      "date": null,
+      "replyTitle": null,
+      "isReported": false,
+      "isSuspended": false,
+      "status": null
+    },
+    "votedKeywords": [],
+    "businessName": "해아림한의원 분당점",
+    "status": "ACTIVE",
+    "userIdno": "1alPI",
+    "loginIdno": "",
+    "receiptInfoUrl": "https://m.place.naver.com/my/review/614b926143d6760050ec35c6/paymentInfo",
+    "reactionStat": {
+      "__ref": "ReactionStat:614b926143d6760050ec35c6"
+    },
+    "hasViewerReacted": {
+      "__ref": "HasViewerReacted:614b926143d6760050ec35c6"
+    },
+    "nickname": ""
+  },
+  "VisitorReviewAuthor:6uPdE": {
+    "__typename": "VisitorReviewAuthor",
+    "id": "6uPdE",
+    "nickname": "이쁘다케이크",
+    "from": "NAVER",
+    "imageUrl": "https://phinf.pstatic.net/contact/20190711_218/1562818929062EAqmN_JPEG/KakaoTalk_20190711_125304855.jpg",
+    "borderImageUrl": null,
+    "objectId": "5bf668b3b1ed043ad8c545e0",
+    "url": "https://m.place.naver.com/my/5bf668b3b1ed043ad8c545e0/review?v=2",
+    "review": {
+      "__typename": "AuthorReview",
+      "totalCount": 814,
+      "imageCount": 19,
+      "avgRating": 4.6
+    },
+    "theme": {
+      "__typename": "AuthorTheme",
+      "totalCount": 0
+    },
+    "isFollowing": null,
+    "followerCount": "0",
+    "followRequested": null
+  },
+  "ReactionStat:6134aad4c18d4700506d798c": {
+    "__typename": "ReactionStat",
+    "id": "6134aad4c18d4700506d798c",
+    "typeCount": [
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "fun",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "helpful",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "wannago",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "cool",
+        "count": 0
+      }
+    ],
+    "totalCount": 0
+  },
+  "HasViewerReacted:6134aad4c18d4700506d798c": {
+    "__typename": "HasViewerReacted",
+    "id": "6134aad4c18d4700506d798c",
+    "reacted": false
+  },
+  "VisitorReview:6134aad4c18d4700506d798c": {
+    "__typename": "VisitorReview",
+    "id": "6134aad4c18d4700506d798c",
+    "cursor": "c2RHOWFUTGxadjBIVUZtcjMyakdYY3Z4b0k0MVYvN1ZYbTJuRzJsU1JYNnZBTzBlUk5BSWhEcnlXN1hFZEhmcWlQZTBvTmRoOWtzN2Z1RXZCMXpWSlJwNDlEVnJuVE5ISm9PeHJTTUNrbTl0T01Tb1ptQVo5SE1mTXBMUzRUaUJoeWF2b01SZkdzZ3owWWhzUjRhNkZiMWEraGl4bnVzPQ==",
+    "rating": 4.5,
+    "author": {
+      "__ref": "VisitorReviewAuthor:6uPdE"
+    },
+    "visitCount": 8,
+    "visited": "21.8.31.화",
+    "originType": "영수증",
+    "reply": {
+      "__typename": "VisitorReviewReply",
+      "editUrl": "https://new-m.smartplace.naver.com/bizes/place-id/1272285133/reviews/6134aad4c18d4700506d798c",
+      "body": null,
+      "editedBy": null,
+      "created": null,
+      "date": null,
+      "replyTitle": null,
+      "isReported": false,
+      "isSuspended": false,
+      "status": null
+    },
+    "votedKeywords": [],
+    "businessName": "해아림한의원 분당점",
+    "status": "ACTIVE",
+    "userIdno": "6uPdE",
+    "loginIdno": "",
+    "receiptInfoUrl": "https://m.place.naver.com/my/review/6134aad4c18d4700506d798c/paymentInfo",
+    "reactionStat": {
+      "__ref": "ReactionStat:6134aad4c18d4700506d798c"
+    },
+    "hasViewerReacted": {
+      "__ref": "HasViewerReacted:6134aad4c18d4700506d798c"
+    },
+    "nickname": ""
+  },
+  "VisitorReviewAuthor:lTrb": {
+    "__typename": "VisitorReviewAuthor",
+    "id": "lTrb",
+    "nickname": "분당언니",
+    "from": "NAVER",
+    "imageUrl": null,
+    "borderImageUrl": null,
+    "objectId": "5d2bf7ad34cbfb1e0ed22ba1",
+    "url": "https://m.place.naver.com/my/5d2bf7ad34cbfb1e0ed22ba1/review?v=2",
+    "review": {
+      "__typename": "AuthorReview",
+      "totalCount": 107,
+      "imageCount": 7,
+      "avgRating": 4.8
+    },
+    "theme": {
+      "__typename": "AuthorTheme",
+      "totalCount": 0
+    },
+    "isFollowing": null,
+    "followerCount": "0",
+    "followRequested": null
+  },
+  "ReactionStat:611a06be13adc000505eb996": {
+    "__typename": "ReactionStat",
+    "id": "611a06be13adc000505eb996",
+    "typeCount": [
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "fun",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "helpful",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "wannago",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "cool",
+        "count": 0
+      }
+    ],
+    "totalCount": 0
+  },
+  "HasViewerReacted:611a06be13adc000505eb996": {
+    "__typename": "HasViewerReacted",
+    "id": "611a06be13adc000505eb996",
+    "reacted": false
+  },
+  "VisitorReview:611a06be13adc000505eb996": {
+    "__typename": "VisitorReview",
+    "id": "611a06be13adc000505eb996",
+    "cursor": "RXh2L0RabGE3d09OM3doNzBDZC9rcEJVR05seFRzVTYxWW5SUlU0T3BpQ1JTRVdaMVNUUEZVK3F0OFN5SUxFbmRoNE9MWjlScG1pN1VHY2RBYjdLWlhoaVBINDR4dDVPYXhjV09nT0JTUDc1UTIvMHd5R0lzUFVlYWo1Nys3QVhDWjkwT2ptZDBPOUN4K1VydXk1ZEFsNTBlaGMvZ3Z3PQ==",
+    "rating": 5,
+    "author": {
+      "__ref": "VisitorReviewAuthor:lTrb"
+    },
+    "visitCount": 2,
+    "visited": "21.8.16.월",
+    "originType": "영수증",
+    "reply": {
+      "__typename": "VisitorReviewReply",
+      "editUrl": "https://new-m.smartplace.naver.com/bizes/place-id/1272285133/reviews/611a06be13adc000505eb996",
+      "body": null,
+      "editedBy": null,
+      "created": null,
+      "date": null,
+      "replyTitle": null,
+      "isReported": false,
+      "isSuspended": false,
+      "status": null
+    },
+    "votedKeywords": [],
+    "businessName": "해아림한의원 분당점",
+    "status": "ACTIVE",
+    "userIdno": "lTrb",
+    "loginIdno": "",
+    "receiptInfoUrl": "https://m.place.naver.com/my/review/611a06be13adc000505eb996/paymentInfo",
+    "reactionStat": {
+      "__ref": "ReactionStat:611a06be13adc000505eb996"
+    },
+    "hasViewerReacted": {
+      "__ref": "HasViewerReacted:611a06be13adc000505eb996"
+    },
+    "nickname": ""
+  },
+  "ReactionStat:611a06eb3ec08700509b0296": {
+    "__typename": "ReactionStat",
+    "id": "611a06eb3ec08700509b0296",
+    "typeCount": [
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "fun",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "helpful",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "wannago",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "cool",
+        "count": 0
+      }
+    ],
+    "totalCount": 0
+  },
+  "HasViewerReacted:611a06eb3ec08700509b0296": {
+    "__typename": "HasViewerReacted",
+    "id": "611a06eb3ec08700509b0296",
+    "reacted": false
+  },
+  "VisitorReview:611a06eb3ec08700509b0296": {
+    "__typename": "VisitorReview",
+    "id": "611a06eb3ec08700509b0296",
+    "cursor": "QnMyYnkrWnlHQitndDhhQkpkMnl0bC9CU2lZdmloTXZjcWpRM1FUM3ZhQVdONFRvR3NlR1pxQ2VReGlPa2pCdWpyMDVIcmpuRHJQQmhOUmhtRzBVblN5SkZJZUUyNW5KZWMxOThFaExsVmdIWGlQOUJlOGx1WDl5Zy9VYjE1ZW1UaG1qL1JvMWhBYzAvSnBKL1JKK3JXYVZxTzRVaE00PQ==",
+    "rating": 3,
+    "author": {
+      "__ref": "VisitorReviewAuthor:lTrb"
+    },
+    "visitCount": 1,
+    "visited": "21.8.16.월",
+    "originType": "영수증",
+    "reply": {
+      "__typename": "VisitorReviewReply",
+      "editUrl": "https://new-m.smartplace.naver.com/bizes/place-id/1272285133/reviews/611a06eb3ec08700509b0296",
+      "body": null,
+      "editedBy": null,
+      "created": null,
+      "date": null,
+      "replyTitle": null,
+      "isReported": false,
+      "isSuspended": false,
+      "status": null
+    },
+    "votedKeywords": [],
+    "businessName": "해아림한의원 분당점",
+    "status": "ACTIVE",
+    "userIdno": "lTrb",
+    "loginIdno": "",
+    "receiptInfoUrl": "https://m.place.naver.com/my/review/611a06eb3ec08700509b0296/paymentInfo",
+    "reactionStat": {
+      "__ref": "ReactionStat:611a06eb3ec08700509b0296"
+    },
+    "hasViewerReacted": {
+      "__ref": "HasViewerReacted:611a06eb3ec08700509b0296"
+    },
+    "nickname": ""
+  },
+  "ReactionStat:611316a6e5c16400501ec400": {
+    "__typename": "ReactionStat",
+    "id": "611316a6e5c16400501ec400",
+    "typeCount": [
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "fun",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "helpful",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "wannago",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "cool",
+        "count": 0
+      }
+    ],
+    "totalCount": 0
+  },
+  "HasViewerReacted:611316a6e5c16400501ec400": {
+    "__typename": "HasViewerReacted",
+    "id": "611316a6e5c16400501ec400",
+    "reacted": false
+  },
+  "VisitorReview:611316a6e5c16400501ec400": {
+    "__typename": "VisitorReview",
+    "id": "611316a6e5c16400501ec400",
+    "cursor": "WEV4TUlhbnJPb3ZCb3Z6bk9YRzN6STh3K3p0QnVuWGhkbmxobVI4Z3dSU2RLRXhzVmFGYURjTVFmRlRPK0labGJMZ2hvRGpsZzQ3Wm5Ed3lHT0JEWGhyUUNyRjQvWWFtL3JOc3JiUFM3WUZscmRGS3A3ZmZlR01JbDZuZGtnQXdidURRajZ2Q2NXbXptZkRETE1iRk55Y29MOU40MUJnPQ==",
+    "rating": 4,
+    "author": {
+      "__ref": "VisitorReviewAuthor:6uPdE"
+    },
+    "visitCount": 7,
+    "visited": "21.8.10.화",
+    "originType": "영수증",
+    "reply": {
+      "__typename": "VisitorReviewReply",
+      "editUrl": "https://new-m.smartplace.naver.com/bizes/place-id/1272285133/reviews/611316a6e5c16400501ec400",
+      "body": null,
+      "editedBy": null,
+      "created": null,
+      "date": null,
+      "replyTitle": null,
+      "isReported": false,
+      "isSuspended": false,
+      "status": null
+    },
+    "votedKeywords": [],
+    "businessName": "해아림한의원 분당점",
+    "status": "ACTIVE",
+    "userIdno": "6uPdE",
+    "loginIdno": "",
+    "receiptInfoUrl": "https://m.place.naver.com/my/review/611316a6e5c16400501ec400/paymentInfo",
+    "reactionStat": {
+      "__ref": "ReactionStat:611316a6e5c16400501ec400"
+    },
+    "hasViewerReacted": {
+      "__ref": "HasViewerReacted:611316a6e5c16400501ec400"
+    },
+    "nickname": ""
+  },
+  "VisitorReviewAuthor:1ysJ5": {
+    "__typename": "VisitorReviewAuthor",
+    "id": "1ysJ5",
+    "nickname": "twi****",
+    "from": "NAVER",
+    "imageUrl": null,
+    "borderImageUrl": null,
+    "objectId": "5f05b74868ab0c2f9bef4c37",
+    "url": "https://m.place.naver.com/my/5f05b74868ab0c2f9bef4c37/review?v=2",
+    "review": {
+      "__typename": "AuthorReview",
+      "totalCount": 386,
+      "imageCount": 155,
+      "avgRating": 4.9
+    },
+    "theme": {
+      "__typename": "AuthorTheme",
+      "totalCount": 0
+    },
+    "isFollowing": null,
+    "followerCount": "1",
+    "followRequested": null
+  },
+  "ReactionStat:610e0043d3c6b900506040c8": {
+    "__typename": "ReactionStat",
+    "id": "610e0043d3c6b900506040c8",
+    "typeCount": [
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "fun",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "helpful",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "wannago",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "cool",
+        "count": 0
+      }
+    ],
+    "totalCount": 0
+  },
+  "HasViewerReacted:610e0043d3c6b900506040c8": {
+    "__typename": "HasViewerReacted",
+    "id": "610e0043d3c6b900506040c8",
+    "reacted": false
+  },
+  "VisitorReview:610e0043d3c6b900506040c8": {
+    "__typename": "VisitorReview",
+    "id": "610e0043d3c6b900506040c8",
+    "cursor": "bERXYTJhWE1maEkvTDZCVUc0T0tvQ3NsK21ZUVc3OVRmQjBDT3V0V2Vka29OV09MUEkxdWJhdWZFM0VSN0ZsM2JhYVV2T2ZVV1pKOHRQaHp0cGVSczc1K1lLWkdxcjN1dmUybWQ2RDFGSG8wNnRMTjVSZ25UUVBxQmZCam5leG1zVXE1RnJMbU10K1pvYk52V29MWkdIMDhMMDhjcEFvPQ==",
+    "rating": 5,
+    "author": {
+      "__ref": "VisitorReviewAuthor:1ysJ5"
+    },
+    "visitCount": 5,
+    "visited": "21.8.6.금",
+    "originType": "영수증",
+    "reply": {
+      "__typename": "VisitorReviewReply",
+      "editUrl": "https://new-m.smartplace.naver.com/bizes/place-id/1272285133/reviews/610e0043d3c6b900506040c8",
+      "body": null,
+      "editedBy": null,
+      "created": null,
+      "date": null,
+      "replyTitle": null,
+      "isReported": false,
+      "isSuspended": false,
+      "status": null
+    },
+    "votedKeywords": [],
+    "businessName": "해아림한의원 분당점",
+    "status": "ACTIVE",
+    "userIdno": "1ysJ5",
+    "loginIdno": "",
+    "receiptInfoUrl": "https://m.place.naver.com/my/review/610e0043d3c6b900506040c8/paymentInfo",
+    "reactionStat": {
+      "__ref": "ReactionStat:610e0043d3c6b900506040c8"
+    },
+    "hasViewerReacted": {
+      "__ref": "HasViewerReacted:610e0043d3c6b900506040c8"
+    },
+    "nickname": ""
+  },
+  "VisitorReviewAuthor:479PG": {
+    "__typename": "VisitorReviewAuthor",
+    "id": "479PG",
+    "nickname": "김부러",
+    "from": "NAVER",
+    "imageUrl": null,
+    "borderImageUrl": null,
+    "objectId": "5f043776ee4be03dee263bec",
+    "url": "https://m.place.naver.com/my/5f043776ee4be03dee263bec/review?v=2",
+    "review": {
+      "__typename": "AuthorReview",
+      "totalCount": 42,
+      "imageCount": 74,
+      "avgRating": 5
+    },
+    "theme": {
+      "__typename": "AuthorTheme",
+      "totalCount": 0
+    },
+    "isFollowing": null,
+    "followerCount": "1",
+    "followRequested": null
+  },
+  "ReactionStat:610c048917ac1100500f468d": {
+    "__typename": "ReactionStat",
+    "id": "610c048917ac1100500f468d",
+    "typeCount": [
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "fun",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "helpful",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "wannago",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "cool",
+        "count": 0
+      }
+    ],
+    "totalCount": 0
+  },
+  "HasViewerReacted:610c048917ac1100500f468d": {
+    "__typename": "HasViewerReacted",
+    "id": "610c048917ac1100500f468d",
+    "reacted": false
+  },
+  "VisitorReview:610c048917ac1100500f468d": {
+    "__typename": "VisitorReview",
+    "id": "610c048917ac1100500f468d",
+    "cursor": "N2JPdmxYWHhXYkVqWFlVbzlFd081NW5mR0lrSTNUWlJXdUUzMlhGMFRoNjlOMjZ1VzNlbWF0NUlJczJ0djBFNmYxeGN3QjdPLytLM0VERElLK2ZVSytmOXNkWVJmTzBXNEJ6dkRoMDdYYnI1YUJ5djlralpENUtVd0JTcmFJWkhyL2JTcWtZTWk3RDc4M2hvQjE5UnJUWnl1eHI1d3o0PQ==",
+    "rating": 5,
+    "author": {
+      "__ref": "VisitorReviewAuthor:479PG"
+    },
+    "visitCount": 1,
+    "visited": "21.7.14.수",
+    "originType": "영수증",
+    "reply": {
+      "__typename": "VisitorReviewReply",
+      "editUrl": "https://new-m.smartplace.naver.com/bizes/place-id/1272285133/reviews/610c048917ac1100500f468d",
+      "body": null,
+      "editedBy": null,
+      "created": null,
+      "date": null,
+      "replyTitle": null,
+      "isReported": false,
+      "isSuspended": false,
+      "status": null
+    },
+    "votedKeywords": [],
+    "businessName": "해아림한의원 분당점",
+    "status": "ACTIVE",
+    "userIdno": "479PG",
+    "loginIdno": "",
+    "receiptInfoUrl": "https://m.place.naver.com/my/review/610c048917ac1100500f468d/paymentInfo",
+    "reactionStat": {
+      "__ref": "ReactionStat:610c048917ac1100500f468d"
+    },
+    "hasViewerReacted": {
+      "__ref": "HasViewerReacted:610c048917ac1100500f468d"
+    },
+    "nickname": ""
+  },
+  "ReactionStat:6110a9133c0e870050400e10": {
+    "__typename": "ReactionStat",
+    "id": "6110a9133c0e870050400e10",
+    "typeCount": [
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "fun",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "helpful",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "wannago",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "cool",
+        "count": 0
+      }
+    ],
+    "totalCount": 0
+  },
+  "HasViewerReacted:6110a9133c0e870050400e10": {
+    "__typename": "HasViewerReacted",
+    "id": "6110a9133c0e870050400e10",
+    "reacted": false
+  },
+  "VisitorReview:6110a9133c0e870050400e10": {
+    "__typename": "VisitorReview",
+    "id": "6110a9133c0e870050400e10",
+    "cursor": "RHE2d1A2U3BaVEhpelJ2OU9QbzMyQjBKSytBSzl4WkhOZlF1Y2dsNzR4OW1BWGhmRkVOcllGekxZR2tWY1NZMWRjTzcwcWJ4OU1EWDN3RU1VVElMaHVLRnRtQy9ERFBReE9pVlJNdWhJK3JOTHc5ZENUWXg0aERrM2R2RWdQYUQ3d3hIdWZXM291djVNWXg3VjAwbjdDaEdDb25mdFM0PQ==",
+    "rating": 4,
+    "author": {
+      "__ref": "VisitorReviewAuthor:6uPdE"
+    },
+    "visitCount": 6,
+    "visited": "21.6.25.금",
+    "originType": "영수증",
+    "reply": {
+      "__typename": "VisitorReviewReply",
+      "editUrl": "https://new-m.smartplace.naver.com/bizes/place-id/1272285133/reviews/6110a9133c0e870050400e10",
+      "body": null,
+      "editedBy": null,
+      "created": null,
+      "date": null,
+      "replyTitle": null,
+      "isReported": false,
+      "isSuspended": false,
+      "status": null
+    },
+    "votedKeywords": [],
+    "businessName": "해아림한의원 분당점",
+    "status": "ACTIVE",
+    "userIdno": "6uPdE",
+    "loginIdno": "",
+    "receiptInfoUrl": "https://m.place.naver.com/my/review/6110a9133c0e870050400e10/paymentInfo",
+    "reactionStat": {
+      "__ref": "ReactionStat:6110a9133c0e870050400e10"
+    },
+    "hasViewerReacted": {
+      "__ref": "HasViewerReacted:6110a9133c0e870050400e10"
+    },
+    "nickname": ""
+  },
+  "VisitorReviewAuthor:IFbW": {
+    "__typename": "VisitorReviewAuthor",
+    "id": "IFbW",
+    "nickname": "한정아63",
+    "from": "NAVER",
+    "imageUrl": null,
+    "borderImageUrl": null,
+    "objectId": "5ca6174c26d4b902202ecc18",
+    "url": "https://m.place.naver.com/my/5ca6174c26d4b902202ecc18/review?v=2",
+    "review": {
+      "__typename": "AuthorReview",
+      "totalCount": 19,
+      "imageCount": 36,
+      "avgRating": 5
+    },
+    "theme": {
+      "__typename": "AuthorTheme",
+      "totalCount": 0
+    },
+    "isFollowing": null,
+    "followerCount": "0",
+    "followRequested": null
+  },
+  "ReactionStat:60bb1cf4c7cb57005034e2d7": {
+    "__typename": "ReactionStat",
+    "id": "60bb1cf4c7cb57005034e2d7",
+    "typeCount": [
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "fun",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "helpful",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "wannago",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "cool",
+        "count": 0
+      }
+    ],
+    "totalCount": 0
+  },
+  "HasViewerReacted:60bb1cf4c7cb57005034e2d7": {
+    "__typename": "HasViewerReacted",
+    "id": "60bb1cf4c7cb57005034e2d7",
+    "reacted": false
+  },
+  "VisitorReview:60bb1cf4c7cb57005034e2d7": {
+    "__typename": "VisitorReview",
+    "id": "60bb1cf4c7cb57005034e2d7",
+    "cursor": "d3F0Qm9pdFFPTk5kNFI0dXpZbkxxbFRERUVRemw3aFRZQVprUW16MVorU3dSSUlMUUllQU9wNmdJSDJ1a3YzNTgweEE4OFpaZnZ0dDhJMTlTeWJTMVdmbGxSVW1jUndud29VUlR5QTBEb3NuUlhrSi9LeXJFUVo1ZEdWeGNCK3R5bWpENXdNYzlMMGo3YkVQN0R5V3p3SXlVcUp1dENjPQ==",
+    "rating": 5,
+    "author": {
+      "__ref": "VisitorReviewAuthor:IFbW"
+    },
+    "visitCount": 1,
+    "visited": "21.6.5.토",
+    "originType": "영수증",
+    "reply": {
+      "__typename": "VisitorReviewReply",
+      "editUrl": "https://new-m.smartplace.naver.com/bizes/place-id/1272285133/reviews/60bb1cf4c7cb57005034e2d7",
+      "body": null,
+      "editedBy": null,
+      "created": null,
+      "date": null,
+      "replyTitle": null,
+      "isReported": false,
+      "isSuspended": false,
+      "status": null
+    },
+    "votedKeywords": [],
+    "businessName": "해아림한의원 분당점",
+    "status": "ACTIVE",
+    "userIdno": "IFbW",
+    "loginIdno": "",
+    "receiptInfoUrl": "https://m.place.naver.com/my/review/60bb1cf4c7cb57005034e2d7/paymentInfo",
+    "reactionStat": {
+      "__ref": "ReactionStat:60bb1cf4c7cb57005034e2d7"
+    },
+    "hasViewerReacted": {
+      "__ref": "HasViewerReacted:60bb1cf4c7cb57005034e2d7"
+    },
+    "nickname": ""
+  },
+  "ReactionStat:60bcaddbaa2e2a005066bf50": {
+    "__typename": "ReactionStat",
+    "id": "60bcaddbaa2e2a005066bf50",
+    "typeCount": [
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "fun",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "helpful",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "wannago",
+        "count": 0
+      },
+      {
+        "__typename": "ReactionStatTypeCount",
+        "name": "cool",
+        "count": 0
+      }
+    ],
+    "totalCount": 0
+  },
+  "HasViewerReacted:60bcaddbaa2e2a005066bf50": {
+    "__typename": "HasViewerReacted",
+    "id": "60bcaddbaa2e2a005066bf50",
+    "reacted": false
+  },
+  "VisitorReview:60bcaddbaa2e2a005066bf50": {
+    "__typename": "VisitorReview",
+    "id": "60bcaddbaa2e2a005066bf50",
+    "cursor": "d01rcjhXZmcrNmZqS0tROVorQ1hadVA4ak5YNWVkTEtiVnA5U0Z2aE9WZXlRMy9kQ0ZmaU9MNGR0RDhJREtXREZoWk5VM1l0WmpTRDdaTDBpU2ZNcmpjWTlQNzNYMDNyRW1BT3VuT1NCVkNObjZHaElFOWlBelZMdjNhU2pRTzNiZHNGZnQxcVRqWnh3RXVTT1VPZ2FEbGhQNWJNMlhFPQ==",
+    "rating": 5,
+    "author": {
+      "__ref": "VisitorReviewAuthor:1ysJ5"
+    },
+    "visitCount": 4,
+    "visited": "21.6.4.금",
+    "originType": "영수증",
+    "reply": {
+      "__typename": "VisitorReviewReply",
+      "editUrl": "https://new-m.smartplace.naver.com/bizes/place-id/1272285133/reviews/60bcaddbaa2e2a005066bf50",
+      "body": null,
+      "editedBy": null,
+      "created": null,
+      "date": null,
+      "replyTitle": null,
+      "isReported": false,
+      "isSuspended": false,
+      "status": null
+    },
+    "votedKeywords": [],
+    "businessName": "해아림한의원 분당점",
+    "status": "ACTIVE",
+    "userIdno": "1ysJ5",
+    "loginIdno": "",
+    "receiptInfoUrl": "https://m.place.naver.com/my/review/60bcaddbaa2e2a005066bf50/paymentInfo",
+    "reactionStat": {
+      "__ref": "ReactionStat:60bcaddbaa2e2a005066bf50"
+    },
+    "hasViewerReacted": {
+      "__ref": "HasViewerReacted:60bcaddbaa2e2a005066bf50"
+    },
+    "nickname": ""
+  }
+}
