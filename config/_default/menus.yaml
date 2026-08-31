@@ -5,7 +5,7 @@ main:
   - name: 진료과목
     url: 'treatments/'
     weight: 20
-  - name: 치료사례
+  - name: 치료후기
     url: 'reviews/'
     weight: 30
   - name: 원장 칼럼

@@ -4,13 +4,13 @@
     <div class="modal-header">
       <div class="modal-header-title-wrap">
         <div class="admin-badge-icon"><i class="ph-bold ph-lock-key"></i></div>
-        <h3 id="admin-auth-title" class="modal-title"><strong>관리자 인증</strong> (치료사례 직접 등록)</h3>
+        <h3 id="admin-auth-title" class="modal-title"><strong>관리자 인증</strong> (치료후기 직접 등록)</h3>
       </div>
       <button class="modal-close" onclick="closeAdminAuthModal()" aria-label="닫기">
         <i class="ph ph-x"></i>
       </button>
     </div>
-    <p class="modal-subtitle">치료사례를 직접 작성하고 사진을 업로드하려면 관리자 비밀번호를 입력해주세요.</p>
+    <p class="modal-subtitle">치료후기를 직접 작성하고 사진을 업로드하려면 관리자 비밀번호를 입력해주세요.</p>
     
     <form id="admin-auth-form" onsubmit="handleAdminAuthSubmit(event)">
       <div class="form-group">
@@ -32,13 +32,13 @@
   <div class="modal-overlay" onclick="closeAdminAuthModal()"></div>
 </div>
 
-<!-- Admin Case Writer Modal (원내 치료사례 직접 등록 에디터) -->
+<!-- Admin Case Writer Modal (원내 치료후기 직접 등록 에디터) -->
 <div class="admin-modal" id="admin-case-writer-modal" role="dialog" aria-modal="true" aria-labelledby="admin-writer-title">
   <div class="modal-card admin-writer-card">
     <div class="modal-header">
       <div class="modal-header-title-wrap">
         <div class="admin-badge-icon writer-icon"><i class="ph-bold ph-note-pencil"></i></div>
-        <h3 id="admin-writer-title" class="modal-title">원내 치료사례 <strong>직접 글쓰기</strong></h3>
+        <h3 id="admin-writer-title" class="modal-title">원내 치료후기 <strong>직접 글쓰기</strong></h3>
       </div>
       <button class="modal-close" onclick="closeAdminWriterModal()" aria-label="닫기">
         <i class="ph ph-x"></i>
@@ -84,7 +84,7 @@
 
       <!-- Image Upload Area -->
       <div class="form-group">
-        <label>치료사례 사진 첨부 (자필 수기 / 진료 사진) <span class="required">*</span></label>
+        <label>치료후기 사진 첨부 (자필 수기 / 진료 사진) <span class="required">*</span></label>
         <div class="case-photo-uploader" id="case-photo-dropzone">
           <input type="file" id="case-photo-file-input" accept="image/*" onchange="handleCasePhotoSelect(event)" style="display: none;">
           <div class="uploader-prompt" id="uploader-prompt" onclick="document.getElementById('case-photo-file-input').click()">
@@ -128,7 +128,7 @@
     <div class="modal-header">
       <div class="modal-header-title-wrap">
         <span class="case-tag-pill" id="custom-reader-category">소아 틱장애</span>
-        <h3 id="custom-case-reader-title" class="modal-title">임상 치료사례</h3>
+        <h3 id="custom-case-reader-title" class="modal-title">임상 치료후기</h3>
       </div>
       <button class="modal-close" onclick="closeCustomCaseReader()" aria-label="닫기">
         <i class="ph ph-x"></i>
@@ -142,7 +142,7 @@
     <!-- 1. 업로드한 사진 -->
     <div class="case-single-photo-box" id="custom-reader-photo-box">
       <div class="photo-box-frame">
-        <img id="custom-reader-photo" src="" alt="치료사례 원본 사진" class="case-full-photo-img">
+        <img id="custom-reader-photo" src="" alt="치료후기 원본 사진" class="case-full-photo-img">
       </div>
     </div>
 

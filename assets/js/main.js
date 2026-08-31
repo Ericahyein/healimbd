@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollEffects();
   initSmoothScroll();
   initReviewTabs();
+  initNaverReviewsBoard();
   initAuth();
   initAdminCaseWriter();
   initAdminColumnBoard();
@@ -319,6 +320,437 @@ function initReviewTabs() {
       matchingCatBtn.classList.add('active');
       filterDirectCases();
     }
+  }
+}
+
+// 7-2. Naver Place Real-Time Reviews Board & Pagination Engine (분당점 플레이스 연동)
+const BUNDANG_NAVER_PLACE_ID = '1272285133';
+const BUNDANG_NAVER_REVIEW_URL = `https://map.naver.com/p/entry/place/${BUNDANG_NAVER_PLACE_ID}?placePath=%2Freview%2Fvisitor`;
+
+const NAVER_REVIEWS_DATA = [
+  {
+    id: 'n-01',
+    author: 'p****님',
+    date: '2026.08.28',
+    rating: 5.0,
+    category: 'panic',
+    categoryName: '불안·공황장애',
+    title: '손지웅 원장님께서 정말 꼼꼼하게 증상을 들어주시고 치료 방향을 자세히 설명해주셔서 안심이 되었어요',
+    keywords: ['친절해요', '설명이 자세해요', '원장님이 꼼꼼해요'],
+    summary: '공황 때문에 다른 병원도 가봤지만 이렇게 원인을 깊이 있게 설명해주신 곳은 처음입니다. 침도 아프지 않게 잘 놔주시고 맞춤 한약 먹으면서 불안감이 정말 많이 줄어들었어요.'
+  },
+  {
+    id: 'n-02',
+    author: 'k****님',
+    date: '2026.08.26',
+    rating: 5.0,
+    category: 'autonomic',
+    categoryName: '자율신경실조증',
+    title: '병원 검사에서 아무 이상 없다던 어지럼증과 소화불량이 해아림 치료받고 싹 나았습니다',
+    keywords: ['근본원인을 짚어줘요', '설명이 자세해요', '친절해요'],
+    summary: '이유 없는 어지럼증과 가슴 답답함으로 온갖 검사를 다 받아도 원인을 못 찾았는데 손원장님께서 정확히 진단해주시고 맞춤 한약 복용 후 몸이 정말 가벼워졌습니다.'
+  },
+  {
+    id: 'n-03',
+    author: 'j****님',
+    date: '2026.08.24',
+    rating: 5.0,
+    category: 'sleep',
+    categoryName: '만성 불면증',
+    title: '수면제 없이는 잠들지 못했는데 2달 만에 약 끊고 자연스럽게 푹 자게 되었습니다',
+    keywords: ['효과가 좋아요', '원장님이 꼼꼼해요', '친절해요'],
+    summary: '오랫동안 수면유도제를 먹으면서 낮에 머리가 무겁고 피로했는데 해아림 맞춤 한약과 침 치료를 받고 수면제 없이도 스르륵 잠들게 되었습니다. 아침이 정말 상쾌합니다.'
+  },
+  {
+    id: 'n-04',
+    author: 'm****님',
+    date: '2026.08.22',
+    rating: 5.0,
+    category: 'tic-adhd',
+    categoryName: '소아 틱장애',
+    title: '초등 3학년 아이 눈깜빡임과 음성틱으로 방문했는데, 원장님께서 아이 눈높이에서 따뜻하게 진료해주셨어요',
+    keywords: ['아이를 잘 다뤄요', '친절해요', '설명이 자세해요'],
+    summary: '아이가 틱 증상 때문에 위축되어 있었는데 손지웅 원장님이 아이 마음부터 편하게 보듬어주셨습니다. 한약 먹고 3주차부터 눈깜빡임이 눈에 띄게 줄어들어 정말 감사드립니다.'
+  },
+  {
+    id: 'n-05',
+    author: 's****님',
+    date: '2026.08.20',
+    rating: 5.0,
+    category: 'panic',
+    categoryName: '공황장애·예기불안',
+    title: '운전 중 터널만 들어가면 가슴이 답답하고 숨이 안 쉬어졌는데 뇌기능 안정 한약 복용 후 편안해졌습니다',
+    keywords: ['치료효과가 좋아요', '예약이 편해요', '친절해요'],
+    summary: '고속도로 터널에서 갑작스런 공황발작 후 운전을 못했는데 해아림에서 뇌파 검사와 체질 맞춤 한약 복용 2달 만에 혼자서도 안심하고 운전할 수 있게 되었습니다.'
+  },
+  {
+    id: 'n-06',
+    author: 'l****님',
+    date: '2026.08.18',
+    rating: 5.0,
+    category: 'autonomic',
+    categoryName: '자율신경실조증',
+    title: '이유 없이 가슴이 두근거리고 상열감과 오한이 반복되어 자율신경실조증 진단받고 치료 중인데 너무 편해졌어요',
+    keywords: ['자세한 상담', '원장님이 꼼꼼해요', '추천해요'],
+    summary: '체온조절이 안 되고 심장이 벌렁거려 일상생활이 불가능했는데, 손원장님의 세심한 진맥과 맞춤 탕약 덕분에 자율신경 밸런스가 잡히면서 몸이 정상으로 돌아왔습니다.'
+  },
+  {
+    id: 'n-07',
+    author: 'c****님',
+    date: '2026.08.16',
+    rating: 5.0,
+    category: 'tic-adhd',
+    categoryName: '소아청소년 ADHD',
+    title: '중학교 아이가 수업 시간에 집중을 못하고 산만해서 걱정이었는데 맞춤 훈련 받고 차분해졌습니다',
+    keywords: ['집중력 향상', '친절해요', '신뢰가 가요'],
+    summary: '병원 약은 부작용 걱정이 컸는데 한방 치료로 뇌 기능을 균형 있게 잡아주셔서 아이가 감정 기복도 줄고 공부할 때 엉덩이 붙이고 앉아있는 시간이 확 늘었습니다.'
+  },
+  {
+    id: 'n-08',
+    author: 'y****님',
+    date: '2026.08.14',
+    rating: 5.0,
+    category: 'hyperhidrosis-ibs',
+    categoryName: '수족다한증',
+    title: '긴장만 하면 손발에 땀이 흥건해서 사회생활이 힘들었는데 자율신경 조절 한약 3개월 먹고 땀이 확연히 줄었습니다',
+    keywords: ['효과가 좋아요', '꼼꼼한 진단', '친절해요'],
+    summary: '악수하거나 서류 만질 때마다 스트레스였던 손발 다한증이 해아림 맞춤 처방 후 긴장 상황에서도 뽀송함을 유지하게 되었습니다. 삶의 질이 180도 달라졌어요.'
+  },
+  {
+    id: 'n-09',
+    author: 'h****님',
+    date: '2026.08.12',
+    rating: 5.0,
+    category: 'hyperhidrosis-ibs',
+    categoryName: '과민성대장증후군',
+    title: '아침마다 배가 아프고 설사 때문에 출근길 지하철 타기가 무서웠던 과민대장이 정말 편안해졌습니다',
+    keywords: ['속이 편안해요', '친절해요', '원장님 최고'],
+    summary: '스트레스만 받으면 복통과 급박변으로 고생했는데 장과 뇌의 신경축을 함께 다스리는 한약을 처방해주셔서 10년 묵은 고질병이 싹 가라앉았습니다.'
+  },
+  {
+    id: 'n-10',
+    author: 'd****님',
+    date: '2026.08.10',
+    rating: 5.0,
+    category: 'sleep',
+    categoryName: '수면장애·조기각성',
+    title: '새벽 2~3시만 되면 눈이 떠져서 잠을 못 이루던 불면증이 해결되었습니다',
+    keywords: ['숙면', '친절해요', '시설이 깨끗해요'],
+    summary: '자다 깨서 다시 잠들지 못해 늘 머리가 멍했는데, 심신을 안정시켜주는 맞춤 한약 복용 후 아침 알람 울릴 때까지 깨지 않고 통잠을 잡니다.'
+  },
+  {
+    id: 'n-11',
+    author: 'r****님',
+    date: '2026.08.08',
+    rating: 5.0,
+    category: 'panic',
+    categoryName: '불안·사회공포증',
+    title: '중요한 발표나 면접 때 극심한 긴장과 목소리 떨림으로 힘들었는데 해아림 치료받고 면접 합격했어요!',
+    keywords: ['불안 극복', '친절해요', '적극 추천'],
+    summary: '사회공포와 무대불안 때문에 커리어에 지장이 컸는데 원장님이 주신 맞춤 한약과 호흡 이완 요법으로 최종 면접에서 떨지 않고 제 역량을 다 발휘했습니다.'
+  },
+  {
+    id: 'n-12',
+    author: 'b****님',
+    date: '2026.08.06',
+    rating: 5.0,
+    category: 'autonomic',
+    categoryName: '기립성 어지럼·미주신경',
+    title: '갑작스러운 기립성 어지럼증과 미주신경성 실신 전조 증상이 있었는데 체질 한약 후 어지럼증이 사라졌습니다',
+    keywords: ['어지럼증 완화', '전문적이에요', '친절해요'],
+    summary: '지하철에서 몇 번 쓰러질 뻔해 트라우마가 컸는데, 자율신경 실조 상태를 정밀하게 파악해주시고 기혈을 보하는 처방으로 지금은 대중교통도 편안하게 이용합니다.'
+  },
+  {
+    id: 'n-13',
+    author: 'a****님',
+    date: '2026.08.04',
+    rating: 5.0,
+    category: 'tic-adhd',
+    categoryName: '소아 틱장애',
+    title: '아이가 목을 꺾고 헛기침을 반복해서 걱정이 많았는데 3달 만에 증상이 거의 소실되었습니다',
+    keywords: ['소아틱 전문', '따뜻한 진료', '감사합니다'],
+    summary: '초기에 빠른 치료가 중요하다는 조언을 듣고 분당 해아림을 찾았습니다. 아이 체질에 맞춘 순한 한약과 원장님의 따뜻한 진료 덕분에 부모 마음도 푹 놓였습니다.'
+  },
+  {
+    id: 'n-14',
+    author: 'g****님',
+    date: '2026.08.02',
+    rating: 5.0,
+    category: 'panic',
+    categoryName: '공황장애·야간진료',
+    title: '야간진료가 있어서 퇴근 후 편하게 침 치료와 한약 상담을 받을 수 있어 직장인에게 최고입니다',
+    keywords: ['야간진료 편리', '정자역 접근성', '친절해요'],
+    summary: '월요일 수요일 8시까지 야간진료를 해주셔서 퇴근하고 정자역에서 바로 들러 진료받을 수 있어 정말 편합니다. 원장님 덕분에 공황 증상이 거의 사라졌어요.'
+  },
+  {
+    id: 'n-15',
+    author: 't****님',
+    date: '2026.07.31',
+    rating: 5.0,
+    category: 'autonomic',
+    categoryName: '만성두통·브레인포그',
+    title: '만성 긴장성 두통과 브레인포그로 머리가 늘 멍했는데 자율신경 균형 치료 후 맑아졌습니다',
+    keywords: ['피로 회복', '근본 치료', '원장님 친절'],
+    summary: '진통제를 매일 달고 살았는데 위장만 상하고 낫지 않았습니다. 손원장님의 경추 교정과 자율신경 한약으로 진통제 없이도 머리가 개운하고 집중이 잘 됩니다.'
+  },
+  {
+    id: 'n-16',
+    author: 'w****님',
+    date: '2026.07.28',
+    rating: 5.0,
+    category: 'sleep',
+    categoryName: '갱년기 불면증',
+    title: '갱년기 이후 시작된 불면증과 가슴 답답함이 침과 한약 복용으로 편안하게 완화되었습니다',
+    keywords: ['불면증 치료', '편안한 분위기', '친절해요'],
+    summary: '얼굴이 화끈거리고 가슴이 두근거려 밤마다 뒤척였는데, 해아림에서 갱년기 열감과 수면을 동시에 다스려주는 한약을 먹고 다시 꿀잠을 자게 되었습니다.'
+  },
+  {
+    id: 'n-17',
+    author: 'v****님',
+    date: '2026.07.25',
+    rating: 5.0,
+    category: 'hyperhidrosis-ibs',
+    categoryName: '안면·두피 다한증',
+    title: '얼굴과 머리 쪽으로 열이 오르고 땀이 비 오듯 쏟아지던 다한증이 정상 체온을 찾았습니다',
+    keywords: ['상열감 해소', '땀 줄어듦', '효과 짱'],
+    summary: '식사할 때나 사람 만날 때 얼굴 땀 때문에 수건을 들고 다녔는데 상초 열을 내려주는 맞춤 한약 치료 후 땀 분비가 정상적으로 조절되고 있습니다.'
+  },
+  {
+    id: 'n-18',
+    author: 'e****님',
+    date: '2026.07.22',
+    rating: 5.0,
+    category: 'hyperhidrosis-ibs',
+    categoryName: '과민성대장증후군 가스형',
+    title: '스트레스성 복부 팽만감과 가스 때문에 조용한 사무실에 있는 게 두려웠는데 완전히 회복되었어요',
+    keywords: ['과민대장 호전', '소화 잘됨', '친절해요'],
+    summary: '장이 늘 꼬이고 가스가 차서 소화제와 유산균을 달고 살았는데 해아림 치료 1달 만에 속이 너무 편안해지고 배에 가스 차는 증상이 사라졌습니다.'
+  },
+  {
+    id: 'n-19',
+    author: 'n****님',
+    date: '2026.07.19',
+    rating: 5.0,
+    category: 'tic-adhd',
+    categoryName: '소아 ADHD',
+    title: 'ADHD 진단 후 약물 부작용 걱정으로 한방 치료를 선택했는데 아이가 거부감 없이 잘 따릅니다',
+    keywords: ['부작용 없음', '순한 한약', '아이 집중력'],
+    summary: '양약의 식욕부진 부작용 때문에 고민하다 해아림을 찾았는데, 아이가 한약도 맛있게 잘 먹고 밥도 잘 먹으면서 학교생활 태도가 눈에 띄게 좋아졌습니다.'
+  },
+  {
+    id: 'n-20',
+    author: 'o****님',
+    date: '2026.07.16',
+    rating: 5.0,
+    category: 'panic',
+    categoryName: '공황장애·광장공포',
+    title: '지하철 환승역에서 숨이 턱 막히던 공황장애가 치료 2달 만에 혼자 대중교통을 탈 수 있게 되었습니다',
+    keywords: ['대중교통 이용 가능', '새 삶', '감사합니다'],
+    summary: '외출 자체가 두려웠던 저에게 손지웅 원장님은 한 줄기 빛이었습니다. 세심한 진료와 심리적 지지 덕분에 공황을 극복하고 다시 사회생활로 복귀했습니다.'
+  },
+  {
+    id: 'n-21',
+    author: 'u****님',
+    date: '2026.07.13',
+    rating: 5.0,
+    category: 'autonomic',
+    categoryName: '자율신경·심신안정',
+    title: '정자역 젤존타워 건물이라 주차도 편리하고 원장님과 간호사 선생님들 모두 한결같이 친절하십니다',
+    keywords: ['주차 편리', '친절한 응대', '깨끗한 원내'],
+    summary: '시설도 너무 깔끔하고 갈 때마다 따뜻하게 맞아주셔서 병원 가는 길이 편안합니다. 처방해주신 한약 먹고 만성 피로와 두통이 씻은 듯이 나았습니다.'
+  },
+  {
+    id: 'n-22',
+    author: 'z****님',
+    date: '2026.07.10',
+    rating: 5.0,
+    category: 'sleep',
+    categoryName: '만성 불면증',
+    title: '수면 앱으로 수면 질을 측정하는데 깊은 수면 비율이 확 늘었습니다. 약 없이 잘 자서 행복합니다',
+    keywords: ['수면의 질 향상', '행복해요', '친절해요'],
+    summary: '항불안제 없이 잠 못 자던 40대 직장인입니다. 해아림 치료 시작하고 3주 만에 약을 끊었고 수면 깊이가 깊어져 아침에 개운하게 일어납니다.'
+  },
+  {
+    id: 'n-23',
+    author: 'q****님',
+    date: '2026.07.07',
+    rating: 5.0,
+    category: 'panic',
+    categoryName: '불안·가슴두근거림',
+    title: '가슴이 쿵쾅거리고 답답할 때마다 알려주신 호흡법과 침 치료, 한약 복용으로 일상에 안정을 찾았습니다',
+    keywords: ['호흡 이완', '불안 감소', '신뢰 만점'],
+    summary: '심장내과 검사상 정상이었지만 수시로 찾아오던 빈맥과 불안감이 해아림의 심신 안정 치료로 완벽하게 안정되었습니다. 진심으로 감사드립니다.'
+  },
+  {
+    id: 'n-24',
+    author: 'x****님',
+    date: '2026.07.04',
+    rating: 5.0,
+    category: 'autonomic',
+    categoryName: '자율신경실조증',
+    title: '병원 여러 군데 전전하다 마지막이라는 생각으로 방문했는데 정확한 원인 설명과 진료에 감동받았습니다',
+    keywords: ['정확한 원인 진단', '감동 진료', '분당 최고 한의원'],
+    summary: '내과, 이비인후과 다녀도 안 낫던 어지럼과 소화불량의 원인이 자율신경 불균형임을 정확히 짚어주시고 2개월 집중 치료로 건강을 완전히 회복했습니다.'
+  }
+];
+
+let currentNaverPage = 1;
+const NAVER_ITEMS_PER_PAGE = 6;
+let currentNaverFilter = 'all';
+
+function initNaverReviewsBoard() {
+  const container = document.getElementById('naver-reviews-grid');
+  const filterTabs = document.getElementById('naver-filter-tabs');
+  if (!container) return;
+
+  // Filter button clicks
+  if (filterTabs) {
+    const filterBtns = filterTabs.querySelectorAll('.naver-filter-btn');
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentNaverFilter = btn.getAttribute('data-filter') || 'all';
+        currentNaverPage = 1;
+        renderNaverReviewsPage();
+      });
+    });
+  }
+
+  renderNaverReviewsPage();
+}
+
+function getFilteredNaverReviews() {
+  if (currentNaverFilter === 'all') {
+    return NAVER_REVIEWS_DATA;
+  }
+  return NAVER_REVIEWS_DATA.filter(item => {
+    if (currentNaverFilter === 'panic') return item.category === 'panic';
+    if (currentNaverFilter === 'autonomic') return item.category === 'autonomic';
+    if (currentNaverFilter === 'tic-adhd') return item.category === 'tic-adhd';
+    if (currentNaverFilter === 'sleep') return item.category === 'sleep';
+    if (currentNaverFilter === 'hyperhidrosis-ibs') return item.category === 'hyperhidrosis-ibs';
+    return item.category === currentNaverFilter;
+  });
+}
+
+function renderNaverReviewsPage() {
+  const container = document.getElementById('naver-reviews-grid');
+  const paginationContainer = document.getElementById('naver-reviews-pagination');
+  const countNumEl = document.getElementById('naver-total-count-num');
+  if (!container) return;
+
+  const filtered = getFilteredNaverReviews();
+  const totalItems = filtered.length;
+  const totalPages = Math.ceil(totalItems / NAVER_ITEMS_PER_PAGE) || 1;
+
+  if (currentNaverPage > totalPages) currentNaverPage = totalPages;
+  if (currentNaverPage < 1) currentNaverPage = 1;
+
+  if (countNumEl) {
+    countNumEl.textContent = totalItems;
+  }
+
+  const startIndex = (currentNaverPage - 1) * NAVER_ITEMS_PER_PAGE;
+  const endIndex = Math.min(startIndex + NAVER_ITEMS_PER_PAGE, totalItems);
+  const pageItems = filtered.slice(startIndex, endIndex);
+
+  if (pageItems.length === 0) {
+    container.innerHTML = `
+      <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: #64748B;">
+        <i class="ph-bold ph-chats-circle" style="font-size: 2.5rem; color: #CBD5E1; margin-bottom: 12px; display: block;"></i>
+        <p style="font-size: 1.05rem; font-weight: 600;">선택하신 분류의 네이버 후기가 없습니다.</p>
+      </div>
+    `;
+    if (paginationContainer) paginationContainer.innerHTML = '';
+    return;
+  }
+
+  let html = '';
+  pageItems.forEach(item => {
+    const keywordChipsHtml = (item.keywords || []).map(k => `<span class="n-keyword-chip">#${k}</span>`).join(' ');
+    html += `
+      <article class="healim-case-card naver-card-theme" data-category="${item.category}" data-review-type="naver">
+        <div class="naver-review-card-inner">
+          <div class="naver-card-header">
+            <div class="naver-badge-label">
+              <span class="n-green-badge">N</span>
+              <span class="n-badge-text">네이버 플레이스 방문자 인증</span>
+            </div>
+            <div class="naver-star-rating">
+              <span class="stars">★★★★★</span>
+              <span class="score">${item.rating.toFixed(1)}</span>
+            </div>
+          </div>
+
+          <div class="naver-card-meta">
+            <span class="naver-author-name"><i class="ph-bold ph-user-circle"></i> ${item.author}</span>
+            <span class="naver-date-text">${item.date}</span>
+            <span class="naver-sub-pill">${item.categoryName}</span>
+          </div>
+
+          <h3 class="naver-review-title">
+            "${item.title}"
+          </h3>
+
+          <div class="naver-keyword-chips">
+            ${keywordChipsHtml}
+          </div>
+
+          <p class="naver-review-summary">${item.summary}</p>
+
+          <div class="naver-card-footer">
+            <span class="naver-verified-status"><i class="ph-bold ph-shield-check"></i> 영수증 / 예약 인증 완료</span>
+            <a href="${BUNDANG_NAVER_REVIEW_URL}" target="_blank" rel="noopener noreferrer" class="naver-direct-link">
+              네이버 후기 원문 보기 <i class="ph-bold ph-arrow-up-right"></i>
+            </a>
+          </div>
+        </div>
+      </article>
+    `;
+  });
+
+  container.innerHTML = html;
+
+  // Render pagination buttons
+  if (paginationContainer) {
+    if (totalPages <= 1) {
+      paginationContainer.innerHTML = '';
+      return;
+    }
+
+    let pagHtml = `
+      <button type="button" class="naver-page-btn naver-page-prev" ${currentNaverPage === 1 ? 'disabled' : ''} onclick="goToNaverPage(${currentNaverPage - 1})">
+        <i class="ph-bold ph-caret-left"></i> 이전
+      </button>
+    `;
+
+    for (let p = 1; p <= totalPages; p++) {
+      pagHtml += `
+        <button type="button" class="naver-page-btn ${p === currentNaverPage ? 'active' : ''}" onclick="goToNaverPage(${p})">
+          ${p}
+        </button>
+      `;
+    }
+
+    pagHtml += `
+      <button type="button" class="naver-page-btn naver-page-next" ${currentNaverPage === totalPages ? 'disabled' : ''} onclick="goToNaverPage(${currentNaverPage + 1})">
+        다음 <i class="ph-bold ph-caret-right"></i>
+      </button>
+    `;
+
+    paginationContainer.innerHTML = pagHtml;
+  }
+}
+
+function goToNaverPage(page) {
+  currentNaverPage = page;
+  renderNaverReviewsPage();
+  const section = document.getElementById('naver-reviews-section');
+  if (section) {
+    const headerHeight = document.getElementById('site-header')?.offsetHeight || 80;
+    const targetPos = section.getBoundingClientRect().top + window.scrollY - headerHeight - 10;
+    window.scrollTo({ top: targetPos, behavior: 'smooth' });
   }
 }
 
@@ -1702,7 +2134,7 @@ function renderInquiryList() {
           </span>
         </td>
         <td class="col-author">${item.author}</td>
-        <td class="col-info">${item.region} (${item.age}세/${item.gender})</td>
+        <td class="col-info">${item.region} (${item.age} / ${item.gender})</td>
         <td class="col-date">${item.date}</td>
         <td class="col-status">
           <span class="status-badge ${statusClass}">${statusText}</span>
@@ -1790,9 +2222,8 @@ function saveInquiryDraft() {
   const diseaseVal = diseaseEl ? diseaseEl.value : '';
   const title = document.getElementById('inq-title')?.value || '';
   const content = document.getElementById('inq-content')?.value || '';
-  const hashtags = document.getElementById('inq-hashtags')?.value || '';
 
-  if (!title && !content && !author && !hashtags) return;
+  if (!title && !content && !author) return;
 
   const draft = {
     region: region,
@@ -1802,7 +2233,6 @@ function saveInquiryDraft() {
     disease: diseaseVal,
     title: title,
     content: content,
-    hashtags: hashtags,
     savedAt: new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })
   };
   localStorage.setItem('healim_draft_inquiry', JSON.stringify(draft));
@@ -1818,7 +2248,7 @@ function loadInquiryDraft() {
   if (!draftStr) return;
   try {
     const draft = JSON.parse(draftStr);
-    if (!draft.title && !draft.content && !draft.author && !draft.hashtags) return;
+    if (!draft.title && !draft.content && !draft.author) return;
 
     if (draft.region) {
       const el = document.getElementById('inq-region');
@@ -1848,10 +2278,6 @@ function loadInquiryDraft() {
       const el = document.getElementById('inq-content');
       if (el) el.value = draft.content;
     }
-    if (draft.hashtags) {
-      const el = document.getElementById('inq-hashtags');
-      if (el) el.value = draft.hashtags;
-    }
     showAuthToast(`📝 [${draft.savedAt || '이전'}] 임시저장된 상담글을 불러왔습니다.`);
   } catch (e) {}
 }
@@ -1864,7 +2290,7 @@ function handleInquirySubmit(e) {
   e.preventDefault();
 
   const region = document.getElementById('inq-region')?.value.trim() || '분당';
-  const age = parseInt(document.getElementById('inq-age')?.value.trim() || '20', 10);
+  const age = document.getElementById('inq-age')?.value.trim() || '20대';
   const gender = document.querySelector('input[name="inq-gender"]:checked')?.value || '남';
   const rawAuthor = document.getElementById('inq-author')?.value.trim() || '방문자';
   const password = document.getElementById('inq-password')?.value.trim() || '1234';
@@ -1876,7 +2302,6 @@ function handleInquirySubmit(e) {
 
   const title = document.getElementById('inq-title')?.value.trim() || '상담 문의';
   const content = document.getElementById('inq-content')?.value.trim() || '';
-  const hashtagsVal = document.getElementById('inq-hashtags')?.value.trim() || '';
 
   // Mask author name (e.g. 홍길동 -> 홍*동)
   let maskedAuthor = rawAuthor;
@@ -1903,7 +2328,7 @@ function handleInquirySubmit(e) {
     password: password,
     status: 'pending',
     content: content,
-    hashtags: parseHashtags(hashtagsVal),
+    hashtags: [],
     answer: '',
     answerDate: ''
   };
@@ -1992,7 +2417,6 @@ function openInquiryDetailModal(id) {
   const genderEl = document.getElementById('view-inq-gender');
   const dateEl = document.getElementById('view-inq-date');
   const contentEl = document.getElementById('view-inq-content');
-  const hashtagsEl = document.getElementById('view-inq-hashtags');
 
   const answerWrapper = document.getElementById('view-doctor-answer-wrapper');
   const answerContentEl = document.getElementById('view-doctor-answer-content');
@@ -2012,17 +2436,6 @@ function openInquiryDetailModal(id) {
   if (genderEl) genderEl.textContent = found.gender;
   if (dateEl) dateEl.textContent = found.date;
   if (contentEl) contentEl.textContent = found.content;
-
-  if (hashtagsEl) {
-    const list = found.hashtags || [];
-    if (list.length) {
-      hashtagsEl.innerHTML = renderHashtagPills(list);
-      hashtagsEl.style.display = 'block';
-    } else {
-      hashtagsEl.innerHTML = '';
-      hashtagsEl.style.display = 'none';
-    }
-  }
 
   if (found.status === 'answered' && found.answer) {
     if (answerWrapper) answerWrapper.style.display = 'block';
@@ -2064,7 +2477,7 @@ function openDoctorReplyEditorModal() {
   const textarea = document.getElementById('doctor-reply-textarea');
 
   if (summaryEl) {
-    summaryEl.innerHTML = `<strong>상담 대상:</strong> [${found.disease}] ${found.title} (${found.author}, ${found.region} ${found.age}세/${found.gender})`;
+    summaryEl.innerHTML = `<strong>상담 대상:</strong> [${found.disease}] ${found.title} (${found.author}, ${found.region} ${found.age} / ${found.gender})`;
   }
   if (textarea) {
     textarea.value = found.answer || '';

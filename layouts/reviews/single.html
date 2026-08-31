@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ .Title }} | 해아림한의원 분당점 치료사례</title>
+  <title>{{ .Title }} | 해아림한의원 분당점 치료후기</title>
   <meta name="description" content="{{ .Params.summary }}">
   <link rel="canonical" href="{{ .Permalink }}">
 
@@ -28,7 +28,7 @@
         <div class="case-single-header">
           <div class="case-nav-row">
             <a href="{{ "/reviews/" | relURL }}" class="case-back-btn">
-              <i class="ph-bold ph-arrow-left"></i> 치료사례 목록으로
+              <i class="ph-bold ph-arrow-left"></i> 치료후기 목록으로
             </a>
             <span class="case-tag-pill {{ .Params.category }}">{{ .Params.category_name }}</span>
           </div>
@@ -51,7 +51,7 @@
         <div class="case-unlocked-banner" id="case-unlocked-banner" style="display: none;">
           <div class="unlocked-left">
             <i class="ph-bold ph-seal-check"></i>
-            <span><strong>인증 회원 로그인 완료:</strong> <span id="unlocked-user-name">회원</span>님, 자필 체험 수기 및 등록 치료사례를 열람 중입니다.</span>
+            <span><strong>인증 회원 로그인 완료:</strong> <span id="unlocked-user-name">회원</span>님, 자필 체험 수기 및 등록 치료후기를 열람 중입니다.</span>
           </div>
           <button class="btn-logout-small" onclick="logoutUser()">로그아웃</button>
         </div>
@@ -81,7 +81,7 @@
               </div>
               <h2 class="gate-title">의료법에 따른 <strong>로그인 / 본인인증 안내</strong></h2>
               <p class="gate-desc">
-                의료법 제56조(의료광고 금지 기준)에 따라, 실제 환자분의 자필 체험 수기 및 상세 임상 치료사례는 <strong>회원 로그인(본인인증) 후 열람</strong>하실 수 있습니다.
+                의료법 제56조(의료광고 금지 기준)에 따라, 실제 환자분의 자필 체험 수기 및 상세 임상 치료후기는 <strong>회원 로그인(본인인증) 후 열람</strong>하실 수 있습니다.
               </p>
 
               <!-- 1-Click Social Login Buttons -->
@@ -132,7 +132,7 @@
         <!-- Bottom Navigation Button -->
         <div class="case-bottom-nav">
           <a href="{{ "/reviews/" | relURL }}" class="btn btn-outline-cases">
-            <i class="ph-bold ph-list-dashes"></i> 전체 치료사례 목록 보기
+            <i class="ph-bold ph-list-dashes"></i> 전체 치료후기 목록 보기
           </a>
         </div>
       </div>

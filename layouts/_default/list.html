@@ -122,18 +122,18 @@
   <div class="container">
     <div class="section-header text-center">
       <span class="section-tag">REVIEWS & CLINICAL CASES</span>
-      <h2 class="section-title">마음과 몸을 되찾은 <strong>치료사례<span class="desktop-only"> & 실시간 환자후기</span></strong></h2>
-      <p class="section-desc reviews-header-desc">원내 직접 등록 임상 치료사례와 네이버 영수증 인증 실시간 방문자 후기를 투명하게 공개합니다.</p>
+      <h2 class="section-title">마음과 몸을 되찾은 <strong>치료후기<span class="desktop-only"> & 실시간 환자후기</span></strong></h2>
+      <p class="section-desc reviews-header-desc">원내 직접 등록 임상 치료후기와 네이버 영수증 인증 실시간 방문자 후기를 투명하게 공개합니다.</p>
     </div>
 
-    <!-- Quick Type Toggle Links (Mobile 2-Tier Stacked: Top '전체 치료후기' / Bottom '원내 치료사례' + '네이버 실시간 후기') -->
+    <!-- Quick Type Toggle Links (Mobile 2-Tier Stacked: Top '전체 치료후기' / Bottom '원내 치료후기' + '네이버 실시간 후기') -->
     <div class="review-type-switcher">
       <a href="{{ "/reviews/" | relURL }}" class="type-switch-btn btn-all active">
         <i class="ph-bold ph-squares-four"></i> 전체 치료후기
       </a>
       <div class="type-switch-subgroup">
         <a href="{{ "/reviews/?type=direct" | relURL }}" class="type-switch-btn btn-direct">
-          <i class="ph-bold ph-clipboard-text"></i> 원내 치료사례
+          <i class="ph-bold ph-clipboard-text"></i> 원내 치료후기
         </a>
         <a href="{{ "/reviews/?type=naver" | relURL }}" class="type-switch-btn btn-naver">
           <span class="n-pill-icon">N</span> 네이버 실시간 후기
@@ -153,19 +153,11 @@
           </div>
           <div class="case-body-wrap">
             <div class="case-meta-top">
-              <span class="case-author-text">소아 틱장애 환아 보호자 자필 수기</span>
-              <span class="case-date-text">2026.08.25</span>
+              <span class="case-duration-text"><i class="ph-bold ph-calendar-blank"></i> 치료기간: 2026.04 ~ 2026.07 (총 4개월)</span>
             </div>
-            <h3 class="case-title-text">
-              "틱장애 치료 잘하는 곳이라고 소개를 받아 내원했습니다"
-            </h3>
             <p class="case-summary-text">
-              7세 때 눈깜빡임으로 시작해 10세에 재발하며 킁킁거림, 찡그림, 머리 끄덕임으로 악화되었습니다. 맞춤 한약과 환약 복용 후 복합 증상이 줄어들고 현재는 눈깜빡임도 거의 없이 호전되었습니다.
+              7세 때 눈깜빡임으로 시작해 나아졌다가 10세부터 재발함. 눈깜빡임이 심해지고 킁킁거림, 찡그림, 머리를 끄덕이고 몸을 움직이는 등 복합 증세가 나타남. 맞춤 한약과 비염약, 환 복용 후 복합적 증세가 줄어들고 현재는 눈깜빡임도 거의 없음.
             </p>
-            <div class="case-footer-row">
-              <span class="case-diag-badge"><i class="ph-bold ph-check"></i> 복합 틱장애 (한약·환약 치료)</span>
-              <span class="case-more-arrow">자필 수기 전문 보기 <i class="ph-bold ph-arrow-right"></i></span>
-            </div>
           </div>
         </a>
       </article>
@@ -201,38 +193,49 @@
           </p>
           <div class="naver-card-footer">
             <span class="naver-verified-status"><i class="ph-bold ph-shield-check"></i> 영수증 / 예약 인증 완료</span>
-            <a href="https://map.naver.com/p/entry/place/1240708998" target="_blank" rel="noopener noreferrer" class="naver-direct-link">
+            <a href="https://map.naver.com/p/entry/place/1272285133?placePath=%2Freview%2Fvisitor" target="_blank" rel="noopener noreferrer" class="naver-direct-link">
               네이버 후기 원문 <i class="ph-bold ph-arrow-up-right"></i>
             </a>
           </div>
         </div>
       </article>
 
-      <!-- Case Card 3 (Direct) -->
-      <article class="healim-case-card" data-category="panic">
-        <a href="{{ "/reviews/case-03-panic/" | relURL }}" class="case-card-anchor">
-          <div class="case-thumb-wrap">
-            <img src="{{ "images/reviews/case-03.jpg" | relURL }}" alt="공황불안장애 극복 치료사례" class="case-thumb-img" loading="lazy">
-            <span class="case-tag-pill panic">불안장애·공황장애</span>
-            <span class="case-direct-badge">📝 임상 치료사례</span>
-          </div>
-          <div class="case-body-wrap">
-            <div class="case-meta-top">
-              <span class="case-author-text">30대 직장인 박O수 님</span>
-              <span class="case-date-text">2026.08.15</span>
+      <!-- Case Card 3 (Naver Review) -->
+      <article class="healim-case-card naver-card-theme" data-category="autonomic">
+        <div class="naver-review-card-inner">
+          <div class="naver-card-header">
+            <div class="naver-badge-label">
+              <span class="n-green-badge">N</span>
+              <span class="n-badge-text">네이버 플레이스 방문자 인증</span>
             </div>
-            <h3 class="case-title-text">
-              "숨가쁘고, 손떨림, 호흡곤란 등의 증상이 개선되었으며 출퇴근이 편안해졌습니다"
-            </h3>
-            <p class="case-summary-text">
-              지하철이나 터널 운전 시 갑자기 숨이 막히고 심장이 터질 것 같아 응급실을 자주 찾았습니다. 손지웅 원장님의 뇌기능 검사와 맞춤 한약 치료로 일상을 완전히 회복했습니다.
-            </p>
-            <div class="case-footer-row">
-              <span class="case-diag-badge"><i class="ph-bold ph-check"></i> 급성 공황장애 (3개월 치료)</span>
-              <span class="case-more-arrow">상세 코멘트 보기 <i class="ph-bold ph-arrow-right"></i></span>
+            <div class="naver-star-rating">
+              <span class="stars">★★★★★</span>
+              <span class="score">5.0</span>
             </div>
           </div>
-        </a>
+          <div class="naver-card-meta">
+            <span class="naver-author-name"><i class="ph-bold ph-user-circle"></i> 네이버 예약 환자 (k****님)</span>
+            <span class="naver-date-text">2026.08.08</span>
+            <span class="naver-sub-pill">자율신경실조증</span>
+          </div>
+          <h3 class="naver-review-title">
+            "병원 검사에서 아무 이상 없다던 어지럼증과 소화불량이 해아림 치료받고 싹 나았습니다"
+          </h3>
+          <div class="naver-keyword-chips">
+            <span class="n-keyword-chip">#근본원인을 짚어줘요</span>
+            <span class="n-keyword-chip">#설명이 자세해요</span>
+            <span class="n-keyword-chip">#친절해요</span>
+          </div>
+          <p class="naver-review-summary">
+            이유 없는 어지럼증과 가슴 답답함으로 온갖 검사를 다 받아도 원인을 못 찾았는데 손원장님께서 정확히 진단해주시고 맞춤 한약 복용 후 몸이 정말 가벼워졌습니다.
+          </p>
+          <div class="naver-card-footer">
+            <span class="naver-verified-status"><i class="ph-bold ph-shield-check"></i> 영수증 / 예약 인증 완료</span>
+            <a href="https://map.naver.com/p/entry/place/1272285133?placePath=%2Freview%2Fvisitor" target="_blank" rel="noopener noreferrer" class="naver-direct-link">
+              네이버 후기 원문 <i class="ph-bold ph-arrow-up-right"></i>
+            </a>
+          </div>
+        </div>
       </article>
 
       <!-- Case Card 4 (Naver Review) -->
@@ -266,7 +269,7 @@
           </p>
           <div class="naver-card-footer">
             <span class="naver-verified-status"><i class="ph-bold ph-shield-check"></i> 영수증 / 예약 인증 완료</span>
-            <a href="https://map.naver.com/p/entry/place/1240708998" target="_blank" rel="noopener noreferrer" class="naver-direct-link">
+            <a href="https://map.naver.com/p/entry/place/1272285133?placePath=%2Freview%2Fvisitor" target="_blank" rel="noopener noreferrer" class="naver-direct-link">
               네이버 후기 원문 <i class="ph-bold ph-arrow-up-right"></i>
             </a>
           </div>
@@ -275,13 +278,17 @@
     </div>
 
     <!-- Action Buttons -->
-    <div class="cases-cta-center">
-      <a href="{{ "/reviews/" | relURL }}" class="btn btn-primary-board">
-        <i class="ph-bold ph-newspaper"></i> 치료사례 & 후기 게시판 전체보기
-      </a>
-      <a href="https://map.naver.com/p/entry/place/1240708998" target="_blank" rel="noopener noreferrer" class="btn btn-outline-reviews">
-        <i class="ph-bold ph-arrow-up-right"></i> 네이버 플레이스 실시간 리뷰 보기
-      </a>
+    <div class="cases-bottom-layout">
+      <div class="cases-naver-cta-center text-center">
+        <a href="https://map.naver.com/p/entry/place/1272285133?placePath=%2Freview%2Fvisitor" target="_blank" rel="noopener noreferrer" class="btn btn-naver-review-cta">
+          <span class="n-pill-icon">N</span> 네이버 실시간 리뷰 보기 <i class="ph-bold ph-arrow-up-right"></i>
+        </a>
+      </div>
+      <div class="cases-admin-write-wrap">
+        <button type="button" class="btn btn-case-write-bottom admin-only-btn" onclick="openAdminCaseWriter()">
+          <i class="ph ph-plus-circle"></i> 치료후기 등록하기
+        </button>
+      </div>
     </div>
   </div>
 </section>

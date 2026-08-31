@@ -127,8 +127,8 @@
               <input type="text" id="inq-region" placeholder="예) 서울 송파, 분당 정자" required>
             </div>
             <div class="form-field-group">
-              <label for="inq-age">나이</label>
-              <input type="number" id="inq-age" placeholder="예) 24" min="1" max="120" required>
+              <label for="inq-age">나이 / 연령대</label>
+              <input type="text" id="inq-age" placeholder="예) 30대, 10세 남아 등" required>
             </div>
             <div class="form-field-group">
               <label>성별</label>
@@ -194,13 +194,9 @@
             <label for="inq-title">제목</label>
             <input type="text" id="inq-title" placeholder="상담 제목을 입력해주세요" required>
           </div>
-          <div class="form-field-group mb-12">
+          <div class="form-field-group">
             <label for="inq-content">내용</label>
             <textarea id="inq-content" rows="6" placeholder="증상 발현 시기, 주요 불편 증상, 병원 치료 경험 등 상세한 내용을 적어주시면 더욱 정밀한 답변을 드릴 수 있습니다." required></textarea>
-          </div>
-          <div class="form-field-group">
-            <label for="inq-hashtags">해시태그 <span style="color:#64748B; font-weight: normal;">(선택, 쉼표나 띄어쓰기로 구분)</span></label>
-            <input type="text" id="inq-hashtags" placeholder="예) #불면증극복 #수면제단약 #자율신경실조증 #분당한의원">
           </div>
         </div>
 
@@ -268,7 +264,7 @@
         <h2 class="detail-main-title" id="view-inq-title">상담 제목이 들어갑니다</h2>
         <div class="detail-meta-info">
           <span><i class="ph-bold ph-user"></i> <strong id="view-inq-author">홍길동</strong></span>
-          <span><i class="ph-bold ph-map-pin"></i> <span id="view-inq-region">분당</span> (<span id="view-inq-age">24</span>세/<span id="view-inq-gender">남</span>)</span>
+          <span><i class="ph-bold ph-map-pin"></i> <span id="view-inq-region">분당</span> (<span id="view-inq-age">30대</span> / <span id="view-inq-gender">남</span>)</span>
           <span><i class="ph-bold ph-calendar"></i> <span id="view-inq-date">2026.08.29</span></span>
         </div>
         <button type="button" class="modal-close-btn" onclick="closeInquiryDetailModal()"><i class="ph ph-x"></i></button>
@@ -281,8 +277,6 @@
           <div class="question-content" id="view-inq-content">
             문의 내용이 표시됩니다.
           </div>
-          <!-- 해시태그 영역 -->
-          <div class="inquiry-hashtags-box" id="view-inq-hashtags" style="display: none;"></div>
         </div>
 
         <!-- 2. Doctor Consultation Answer Box -->

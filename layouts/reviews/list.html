@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>치료사례 & 환자후기 | 해아림한의원 분당점</title>
-  <meta name="description" content="해아림한의원 분당점의 원내 직접 등록 임상 치료사례와 네이버 플레이스 영수증 인증 실시간 환자 후기입니다.">
+  <title>치료후기 & 실시간 환자후기 | 해아림한의원 분당점</title>
+  <meta name="description" content="해아림한의원 분당점의 원내 직접 등록 임상 치료후기와 네이버 플레이스 영수증 인증 실시간 환자 후기입니다.">
   <link rel="canonical" href="{{ .Permalink }}">
 
   <!-- Fonts (Pretendard & Outfit) -->
@@ -26,13 +26,13 @@
     <section class="cases-page-header">
       <div class="container text-center">
         <span class="cases-top-pill">REVIEWS & CLINICAL CASES</span>
-        <h1 class="cases-main-title">치료사례 & 실시간 환자후기</h1>
+        <h1 class="cases-main-title">치료후기 & 실시간 환자후기</h1>
 
         <!-- Fast Section Jump Buttons -->
         <div class="reviews-section-nav">
           <a href="#direct-cases-section" class="btn btn-review-nav direct-nav">
             <i class="ph-bold ph-clipboard-text"></i>
-            <span>원내 치료사례 (질환별 검색)</span>
+            <span>원내 치료후기 (질환별 검색)</span>
           </a>
           <a href="#naver-reviews-section" class="btn btn-review-nav naver-nav">
             <span class="n-pill-icon">N</span>
@@ -58,7 +58,7 @@
           </div>
         </div>
 
-        <!-- Disease Category Tabs Toolbar with subtle right-aligned '치료사례 등록하기' button -->
+        <!-- Disease Category Tabs Toolbar with subtle right-aligned '치료후기 등록하기' button -->
         <div class="cases-toolbar-clean">
           <div class="cases-category-tabs" id="category-tabs-container">
             <button class="cases-tab-btn active" data-filter="all">전체 질환</button>
@@ -70,8 +70,8 @@
             <button class="cases-tab-btn" data-filter="ibs">과민성대장증후군</button>
           </div>
 
-          <button type="button" class="btn-subtle-write admin-only-btn" onclick="openAdminCaseWriter()" title="치료사례 등록">
-            <i class="ph ph-plus-circle"></i> <span>치료사례 등록하기</span>
+          <button type="button" class="btn-subtle-write admin-only-btn" onclick="openAdminCaseWriter()" title="치료후기 등록">
+            <i class="ph ph-plus-circle"></i> <span>치료후기 등록하기</span>
           </button>
         </div>
 
@@ -109,7 +109,7 @@
       </div>
     </section>
 
-    <!-- 2. NAVER REAL-TIME REVIEWS SECTION (네이버 실시간 환자 후기 - 필터 없이 전체 나열) -->
+    <!-- 2. NAVER REAL-TIME REVIEWS SECTION (네이버 실시간 환자 후기 - 전체 페이징 게시판) -->
     <section class="section naver-reviews-section" id="naver-reviews-section">
       <div class="container">
         
@@ -124,7 +124,7 @@
             </p>
           </div>
           <div class="naver-header-right">
-            <a href="https://map.naver.com/p/entry/place/1240708998" target="_blank" rel="noopener noreferrer" class="btn btn-naver-full-link">
+            <a href="https://map.naver.com/p/entry/place/1272285133?placePath=%2Freview%2Fvisitor" target="_blank" rel="noopener noreferrer" class="btn btn-naver-full-link">
               <span class="n-symbol-auth">N</span>
               <span>네이버 플레이스 실시간 리뷰 전체보기</span>
               <i class="ph-bold ph-arrow-up-right"></i>
@@ -132,53 +132,29 @@
           </div>
         </div>
 
-        <!-- Naver Reviews Grid (Unfiltered Stream List) -->
+        <!-- Naver Filter & Total Count Toolbar -->
+        <div class="naver-controls-wrap">
+          <div class="naver-category-chips" id="naver-filter-tabs">
+            <button class="naver-filter-btn active" data-filter="all">전체 후기</button>
+            <button class="naver-filter-btn" data-filter="panic">불안·공황장애</button>
+            <button class="naver-filter-btn" data-filter="autonomic">자율신경실조증</button>
+            <button class="naver-filter-btn" data-filter="tic-adhd">소아 틱·ADHD</button>
+            <button class="naver-filter-btn" data-filter="sleep">만성 불면증</button>
+            <button class="naver-filter-btn" data-filter="hyperhidrosis-ibs">다한증·과민성대장</button>
+          </div>
+          <div class="naver-count-info">
+            <i class="ph-bold ph-chats-circle"></i> <span id="naver-total-count-text">총 <strong id="naver-total-count-num">149</strong>개의 방문자 영수증 인증 리뷰</span>
+          </div>
+        </div>
+
+        <!-- Naver Reviews Grid (Dynamically Rendered with Pagination) -->
         <div class="cases-grid-container naver-stream-grid" id="naver-reviews-grid">
-          {{ range where .Pages "Params.review_type" "naver" }}
-          <article class="healim-case-card naver-card-theme" 
-                   data-category="{{ .Params.category }}" 
-                   data-review-type="naver">
-            <div class="naver-review-card-inner">
-              <div class="naver-card-header">
-                <div class="naver-badge-label">
-                  <span class="n-green-badge">N</span>
-                  <span class="n-badge-text">네이버 플레이스 방문자 인증</span>
-                </div>
-                <div class="naver-star-rating">
-                  <span class="stars">★★★★★</span>
-                  <span class="score">5.0</span>
-                </div>
-              </div>
+          <!-- Dynamically populated by JS with pagination -->
+        </div>
 
-              <div class="naver-card-meta">
-                <span class="naver-author-name"><i class="ph-bold ph-user-circle"></i> {{ .Params.author }}</span>
-                <span class="naver-date-text">{{ .Date.Format "2006.01.02" }}</span>
-                <span class="naver-sub-pill">{{ .Params.category_name }}</span>
-              </div>
-
-              <h3 class="naver-review-title">
-                "{{ .Title }}"
-              </h3>
-
-              {{ if .Params.naver_keywords }}
-              <div class="naver-keyword-chips">
-                {{ range .Params.naver_keywords }}
-                <span class="n-keyword-chip">#{{ . }}</span>
-                {{ end }}
-              </div>
-              {{ end }}
-
-              <p class="naver-review-summary">{{ .Params.summary }}</p>
-
-              <div class="naver-card-footer">
-                <span class="naver-verified-status"><i class="ph-bold ph-shield-check"></i> 영수증 / 예약 인증 완료</span>
-                <a href="https://map.naver.com/p/entry/place/1240708998" target="_blank" rel="noopener noreferrer" class="naver-direct-link">
-                  네이버 후기 원문 보기 <i class="ph-bold ph-arrow-up-right"></i>
-                </a>
-              </div>
-            </div>
-          </article>
-          {{ end }}
+        <!-- Naver Pagination Container -->
+        <div class="naver-pagination-wrap" id="naver-reviews-pagination">
+          <!-- Page buttons generated by JS -->
         </div>
       </div>
     </section>
