@@ -1444,33 +1444,51 @@ ul {
   padding: 85px 0 65px;
 }
 
-.cases-top-pill {
+.cases-top-pill,
+.story-tag-en {
   display: inline-block;
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(56, 189, 248, 0.14);
+  border: 1px solid rgba(56, 189, 248, 0.3);
   color: #38BDF8;
-  font-size: 0.82rem;
-  font-weight: 800;
-  padding: 5px 14px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.86rem;
+  font-weight: 700;
+  padding: 6px 18px;
   border-radius: var(--radius-full);
-  margin-bottom: 16px;
-  letter-spacing: 1px;
+  margin-bottom: 18px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
 }
 
-.cases-main-title {
-  font-size: 2.6rem;
+.cases-main-title,
+.story-main-title {
+  font-size: 2.5rem;
   font-weight: 800;
   color: white;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
   letter-spacing: -0.8px;
+  line-height: 1.35;
 }
 
-.cases-main-desc {
-  font-size: 1.12rem;
+.story-highlight {
+  color: #38BDF8;
+  background: linear-gradient(135deg, #38BDF8 0%, #2DD4BF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.cases-main-desc,
+.story-desc-text {
+  font-size: 1.1rem;
   color: #94A3B8;
-  max-width: 680px;
+  max-width: 720px;
   margin: 0 auto;
   line-height: 1.75;
+}
+
+.story-desc-text strong {
+  color: #E2E8F0;
+  font-weight: 600;
 }
 
 .cases-board-section {

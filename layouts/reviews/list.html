@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>치료후기 & 실시간 환자후기 | 해아림한의원 분당점</title>
-  <meta name="description" content="해아림한의원 분당점의 원내 직접 등록 임상 치료후기와 네이버 플레이스 영수증 인증 실시간 환자 후기입니다.">
+  <title>치료후기 | 해아림한의원 분당점</title>
+  <meta name="description" content="분당 해아림에서 시작된 진짜 변화의 기록. 해아림한의원 분당점에서 치료 종결하신 환자분들의 자필 치료 후기와 네이버 실시간 영수증 인증 환자 후기입니다.">
   <link rel="canonical" href="{{ .Permalink }}">
 
   <!-- Fonts (Pretendard & Outfit) -->
@@ -22,43 +22,50 @@
   {{ partial "header.html" . }}
 
   <main id="main-content">
-    <!-- Cases Board Header Banner -->
+    <!-- Top Hero Banner: Stories of Real Recovery -->
     <section class="cases-page-header">
       <div class="container text-center">
-        <span class="cases-top-pill">REVIEWS & CLINICAL CASES</span>
-        <h1 class="cases-main-title">치료후기 & 실시간 환자후기</h1>
+        <span class="story-tag-en">Stories of Real Recovery</span>
+        <h1 class="story-main-title">분당 해아림에서 시작된 <strong class="story-highlight">진짜 변화의 기록</strong></h1>
+        <p class="story-desc-text">
+          작은 변화부터 큰 회복까지, <strong>분당 해아림을 찾은 분들의 실제 치료 경험</strong>을 담았습니다.<br>
+          비슷한 고민을 가진 분들에게 조금이라도 도움이 되길 바랍니다.
+        </p>
 
         <!-- Fast Section Jump Buttons -->
         <div class="reviews-section-nav">
           <a href="#direct-cases-section" class="btn btn-review-nav direct-nav">
-            <i class="ph-bold ph-clipboard-text"></i>
-            <span>원내 치료후기 (질환별 검색)</span>
+            <i class="ph-bold ph-pencil-line"></i>
+            <span>자필 치료 후기 바로가기</span>
           </a>
           <a href="#naver-reviews-section" class="btn btn-review-nav naver-nav">
             <span class="n-pill-icon">N</span>
-            <span>네이버 실시간 환자 후기 (전체 나열)</span>
+            <span>네이버 실시간 환자 후기 바로가기</span>
           </a>
         </div>
       </div>
     </section>
 
-    <!-- 1. DIRECT CLINICAL CASES SECTION -->
+    <!-- 1. DIRECT CLINICAL CASES SECTION (자필 치료 후기) -->
     <section class="section direct-cases-section" id="direct-cases-section">
       <div class="container">
         
-        <!-- Stories of Real Recovery Header matching the user's reference image -->
-        <div class="recovery-story-header-wrap">
-          <div class="recovery-story-text-center">
-            <span class="story-tag-en">Stories of Real Recovery</span>
-            <h2 class="story-main-title">분당 해아림에서 시작된 <strong class="story-highlight">진짜 변화의 기록</strong></h2>
-            <p class="story-desc-text">
-              작은 변화부터 큰 회복까지, <strong>분당 해아림을 찾은 분들의 실제 치료 경험</strong>을 담았습니다.<br>
-              비슷한 고민을 가진 분들에게 조금이라도 도움이 되길 바랍니다.
+        <!-- Section Header -->
+        <div class="naver-section-header">
+          <div class="naver-header-left">
+            <h2 class="section-main-title">자필 치료 후기</h2>
+            <p class="section-desc">
+              해아림한의원 분당점에서 치료 종결하신 환자 분들의 실제 이야기
             </p>
+          </div>
+          <div class="naver-header-right">
+            <button type="button" class="btn-subtle-write admin-only-btn" onclick="openAdminCaseWriter()" title="치료후기 등록">
+              <i class="ph ph-plus-circle"></i> <span>치료후기 등록하기</span>
+            </button>
           </div>
         </div>
 
-        <!-- Disease Category Tabs Toolbar with subtle right-aligned '치료후기 등록하기' button -->
+        <!-- Disease Category Tabs Toolbar -->
         <div class="cases-toolbar-clean">
           <div class="cases-category-tabs" id="category-tabs-container">
             <button class="cases-tab-btn active" data-filter="all">전체 질환</button>
@@ -69,10 +76,6 @@
             <button class="cases-tab-btn" data-filter="hyperhidrosis">다한증</button>
             <button class="cases-tab-btn" data-filter="ibs">과민성대장증후군</button>
           </div>
-
-          <button type="button" class="btn-subtle-write admin-only-btn" onclick="openAdminCaseWriter()" title="치료후기 등록">
-            <i class="ph ph-plus-circle"></i> <span>치료후기 등록하기</span>
-          </button>
         </div>
 
         <!-- Direct Clinical Cases Grid -->
@@ -100,6 +103,7 @@
                   <span class="case-duration-text"><i class="ph-bold ph-calendar-blank"></i> 치료기간: {{ .Params.duration | default (.Date.Format "2006.01.02") }}</span>
                 </div>
 
+                <h3 class="case-card-title">{{ .Title }}</h3>
                 <p class="case-summary-text">{{ .Params.summary }}</p>
               </div>
             </a>
@@ -109,7 +113,7 @@
       </div>
     </section>
 
-    <!-- 2. NAVER REAL-TIME REVIEWS SECTION (네이버 실시간 환자 후기 - 전체 페이징 게시판) -->
+    <!-- 2. NAVER REAL-TIME REVIEWS SECTION (네이버 실시간 환자 후기) -->
     <section class="section naver-reviews-section" id="naver-reviews-section">
       <div class="container">
         
@@ -140,7 +144,7 @@
             <button class="naver-filter-btn" data-filter="hyperhidrosis-ibs">다한증·과민성대장</button>
           </div>
           <div class="naver-count-info">
-            <i class="ph-bold ph-chats-circle"></i> <span id="naver-total-count-text">총 <strong id="naver-total-count-num">149</strong>개의 방문자 영수증 인증 리뷰</span>
+            <i class="ph-bold ph-chats-circle"></i> <span id="naver-total-count-text">총 <strong id="naver-total-count-num">50</strong>개의 방문자 영수증 인증 리뷰</span>
           </div>
         </div>
 
