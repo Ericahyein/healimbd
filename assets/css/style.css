@@ -2221,6 +2221,219 @@ ul {
   gap: 4px;
 }
 
+/* Eye-Catching Key Summary Box (핵심 요약) */
+.column-key-summary-box {
+  background: linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%);
+  border: 1.5px solid #BAE6FD;
+  border-left: 5px solid #0284C7;
+  border-radius: 12px;
+  padding: 24px 28px;
+  margin: 28px 0 36px;
+  box-shadow: 0 4px 16px rgba(2, 132, 199, 0.08);
+}
+
+.column-key-summary-box .summary-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.18rem;
+  font-weight: 800;
+  color: #0369A1;
+  margin-bottom: 12px;
+}
+
+.column-key-summary-box .summary-header i {
+  font-size: 1.35rem;
+  color: #0284C7;
+}
+
+.column-key-summary-box .summary-text {
+  font-size: 1rem;
+  line-height: 1.85;
+  color: #1E293B;
+  margin: 0;
+  word-break: keep-all;
+}
+
+.column-key-summary-box .summary-text strong {
+  color: #0C4A6E;
+  background: rgba(254, 240, 138, 0.6);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+/* Beautiful Visual Diagram: Sympathetic vs Parasympathetic Comparison Grid */
+.diagram-compare-container {
+  margin: 32px 0;
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 14px;
+  padding: 24px;
+}
+
+.diagram-compare-title {
+  text-align: center;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.diagram-compare-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+@media (max-width: 640px) {
+  .diagram-compare-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.diagram-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  border: 1.5px solid #E2E8F0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.diagram-card.sympathetic {
+  border-color: #FECDD3;
+  background: #FFF1F2;
+}
+
+.diagram-card.parasympathetic {
+  border-color: #A7F3D0;
+  background: #F0FDF4;
+}
+
+.diagram-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed rgba(0,0,0,0.1);
+}
+
+.diagram-card-badge {
+  font-size: 0.82rem;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.diagram-card.sympathetic .diagram-card-badge {
+  background: #E11D48;
+  color: white;
+}
+
+.diagram-card.parasympathetic .diagram-card-badge {
+  background: #059669;
+  color: white;
+}
+
+.diagram-card-title {
+  font-size: 1.08rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin: 0;
+}
+
+.diagram-card-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.diagram-card-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.93rem;
+  line-height: 1.6;
+  color: #334155;
+  margin-bottom: 8px;
+}
+
+.diagram-card-list li i {
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+
+.diagram-card.sympathetic .diagram-card-list li i { color: #E11D48; }
+.diagram-card.parasympathetic .diagram-card-list li i { color: #059669; }
+
+/* Visual Step Flow Process */
+.flow-process-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 32px 0;
+}
+
+.flow-step-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: white;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  padding: 16px 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+  transition: all 0.2s ease;
+}
+
+.flow-step-item:hover {
+  border-color: #0284C7;
+  transform: translateX(4px);
+}
+
+.flow-step-num {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #0284C7;
+  color: white;
+  font-weight: 800;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.flow-step-content {
+  flex: 1;
+}
+
+.flow-step-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0F172A;
+  margin-bottom: 2px;
+}
+
+.flow-step-desc {
+  font-size: 0.88rem;
+  color: #64748B;
+  margin: 0;
+}
+
+.flow-step-arrow {
+  text-align: center;
+  color: #0284C7;
+  font-size: 1.1rem;
+  margin: -2px 0;
+  opacity: 0.7;
+}
+
 /* Header Auth Container & Member Login */
 .header-auth-container {
   display: inline-flex;
