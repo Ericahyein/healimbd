@@ -1,3 +1,14 @@
+// Generic Debounce Utility (Used for auto-save and input handlers)
+function debounce(fn, delay = 300) {
+  let timer = null;
+  return function (...args) {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      fn.apply(this, args);
+    }, delay);
+  };
+}
+
 // Author demographic formatter with legacy nickname fallback
 function formatAuthorInfo(item) {
   if (!item) return '익명';
