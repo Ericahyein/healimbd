@@ -2582,7 +2582,7 @@ function escapeHtml(str) {
 }
 
 // ReCAPTCHA Enterprise Site Key for Firebase App Check
-const RECAPTCHA_ENTERPRISE_SITE_KEY = "6LfP16ItAAAAAMaUadL33uzJNgDbGiNluoxZcLXh";
+const RECAPTCHA_ENTERPRISE_SITE_KEY = "6Lc48KItAAAAAFD-0iaoa_Q7WeLAouQWWk_MGjCW";
 let appCheck = null;
 
 function initFirebase() {

@@ -483,7 +483,7 @@ const testCases = [
     name: '16. [APPCHECK] assets/js/main.js 내 App Check 초기화 및 Site Key 등록 정상 유지 확인',
     testFn: () => {
       const js = fs.readFileSync('assets/js/main.js', 'utf-8');
-      const hasSiteKey = js.includes('6LfP16ItAAAAAMaUadL33uzJNgDbGiNluoxZcLXh');
+      const hasSiteKey = js.includes('6Lc48KItAAAAAFD-0iaoa_Q7WeLAouQWWk_MGjCW');
       const hasAppCheckInit = js.includes('initFirebaseAppCheck()');
       const hasProvider = js.includes('ReCaptchaEnterpriseProvider');
       return hasSiteKey && hasAppCheckInit && hasProvider;
