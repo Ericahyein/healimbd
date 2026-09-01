@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>reCAPTCHA Enterprise Diagnostic Test</title>
+  <script src="https://www.google.com/recaptcha/enterprise.js?render=6LfP16ItAAAAAMaUadL33uzJNgDbGiNluoxZcLXh"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #F8FAFC;
+      color: #0F172A;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .card {
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 12px;
+      padding: 32px;
+      max-width: 540px;
+      width: 100%;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    h1 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    p {
+      color: #64748B;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      background: #0077ED;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn:hover { background: #0060C0; }
+    .btn:disabled { background: #94A3B8; cursor: not-allowed; }
+    .result-box {
+      margin-top: 20px;
+      padding: 16px;
+      border-radius: 8px;
+      font-family: monospace;
+      font-size: 0.88rem;
+      display: none;
+      word-break: break-all;
+      line-height: 1.4;
+    }
+    .result-ok {
+      background: #F0FDF4;
+      border: 1px solid #86EFAC;
+      color: #166534;
+    }
+    .result-fail {
+      background: #FEF2F2;
+      border: 1px solid #FECACA;
+      color: #991B1B;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>reCAPTCHA Enterprise 독립 진단 테스트</h1>
+    <p>Site Key: <code>6LfP16ItAAAAAMaUadL33uzJNgDbGiNluoxZcLXh</code><br>도메인(healimbd.com)에서 단독으로 토큰 발급이 정상 동작하는지 테스트합니다.</p>
+    
+    <button type="button" id="test-btn" class="btn" onclick="runDiagnosticTest()">reCAPTCHA 테스트 실행</button>
+
+    <div id="result-box" class="result-box"></div>
+  </div>
+
+  <script>
+    const SITE_KEY = '6LfP16ItAAAAAMaUadL33uzJNgDbGiNluoxZcLXh';
+
+    async function runDiagnosticTest() {
+      const btn = document.getElementById('test-btn');
+      const box = document.getElementById('result-box');
+
+      btn.disabled = true;
+      btn.textContent = '토큰 생성 중...';
+      box.style.display = 'none';
+      box.className = 'result-box';
+
+      if (typeof grecaptcha === 'undefined' || !grecaptcha.enterprise) {
+        box.className = 'result-box result-fail';
+        box.style.display = 'block';
+        box.innerHTML = '<strong>RECAPTCHA FAIL</strong><br>grecaptcha.enterprise SDK가 로드되지 않았습니다. 네트워크 연결을 확인해주세요.';
+        console.error('grecaptcha.enterprise is undefined');
+        btn.disabled = false;
+        btn.textContent = 'reCAPTCHA 테스트 실행';
+        return;
+      }
+
+      grecaptcha.enterprise.ready(async () => {
+        try {
+          const token = await grecaptcha.enterprise.execute(SITE_KEY, {
+            action: 'appcheck_test'
+          });
+
+          box.className = 'result-box result-ok';
+          box.style.display = 'block';
+          box.innerHTML = '<strong>RECAPTCHA OK</strong><br>Token (앞 40자): ' + token.substring(0, 40) + '...';
+          console.log('reCAPTCHA Enterprise execution success. Full Token:', token);
+        } catch (error) {
+          box.className = 'result-box result-fail';
+          box.style.display = 'block';
+          box.innerHTML = '<strong>RECAPTCHA FAIL</strong><br>Error: ' + (error && error.message ? error.message : String(error));
+          console.error('reCAPTCHA Enterprise Execution Error:', error);
+        } finally {
+          btn.disabled = false;
+          btn.textContent = 'reCAPTCHA 테스트 실행';
+        }
+      });
+    }
+  </script>
+</body>
+</html>
