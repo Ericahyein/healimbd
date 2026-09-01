@@ -2601,9 +2601,8 @@ function initFirebase() {
     // 2. Initialize Firebase App Check IMMEDIATELY AFTER app initialization AND BEFORE Firestore calls
     initFirebaseAppCheck();
 
-    // 3. Initialize Firestore & Auth AFTER App Check is initialized
+    // 3. Initialize Firestore AFTER App Check is initialized
     db = firebase.firestore();
-    auth = firebase.auth ? firebase.auth() : null;
     isFirebaseConnected = true;
 
     // 4. Listen to real-time updates from Cloud Firestore
@@ -3438,10 +3437,12 @@ function initAdminDashboard() {
   const loginCard = document.getElementById('admin-auth-login-card');
   if (!adminPanel && !loginCard) return;
 
-  // Initialize Firebase
+  // Initialize Firebase base services
   initFirebase();
 
-  if (auth) {
+  // Initialize Firebase Auth ONLY on the admin dashboard page
+  if (typeof firebase !== 'undefined' && typeof firebase.auth === 'function') {
+    auth = firebase.auth();
     auth.onAuthStateChanged((user) => {
       if (user) {
         if (loginCard) loginCard.style.display = 'none';
