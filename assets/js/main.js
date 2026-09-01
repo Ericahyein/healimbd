@@ -2568,6 +2568,10 @@ function escapeHtml(str) {
     .replace(/'/g, '&#039;');
 }
 
+// ReCAPTCHA Enterprise Site Key for Firebase App Check
+const RECAPTCHA_ENTERPRISE_SITE_KEY = "6LfP16ItAAAAAMaUadL33uzJNgDbGiNluoxZcLXh";
+let appCheck = null;
+
 function initFirebase() {
   if (typeof firebase === 'undefined') {
     return;
@@ -2575,32 +2579,51 @@ function initFirebase() {
 
   try {
     const config = getFirebaseConfig();
-    if (!firebase.apps || !firebase.apps.length) {
-      firebase.initializeApp(config);
-    }
+    
+    // 1. Initialize Firebase App or reuse existing instance
+    const app = (!firebase.apps || !firebase.apps.length)
+      ? firebase.initializeApp(config)
+      : firebase.app();
+
+    // 2. Initialize Firebase App Check IMMEDIATELY AFTER app initialization AND BEFORE Firestore calls
+    initFirebaseAppCheck(app);
+
+    // 3. Initialize Firestore & Auth AFTER App Check is initialized
     db = firebase.firestore();
     auth = firebase.auth ? firebase.auth() : null;
     isFirebaseConnected = true;
 
-    // Initialize App Check if available
-    initFirebaseAppCheck();
-
-    // Listen to real-time updates from Cloud Firestore
+    // 4. Listen to real-time updates from Cloud Firestore
     listenToCloudInquiries();
   } catch (err) {
+    console.warn('Firebase initialization notice:', err);
     isFirebaseConnected = false;
   }
 }
 
-function initFirebaseAppCheck() {
-  if (typeof firebase !== 'undefined' && firebase.appCheck) {
-    try {
-      const appCheck = firebase.appCheck();
-      // In development / testing or configured with ReCaptchaEnterprise
-      if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
-        self.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
-      }
-    } catch (e) {}
+function initFirebaseAppCheck(app) {
+  if (typeof firebase === 'undefined' || typeof firebase.appCheck !== 'function') {
+    return null;
+  }
+
+  try {
+    // Development / Localhost Debug Token: separated so it only runs on local dev hostnames
+    if (typeof location !== 'undefined' && (location.hostname === 'localhost' || location.hostname === '127.0.0.1')) {
+      self.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
+    }
+
+    const appCheckInstance = firebase.appCheck(app);
+    if (firebase.appCheck.ReCaptchaEnterpriseProvider) {
+      appCheckInstance.activate(
+        new firebase.appCheck.ReCaptchaEnterpriseProvider(RECAPTCHA_ENTERPRISE_SITE_KEY),
+        true // isTokenAutoRefreshEnabled: true
+      );
+      appCheck = appCheckInstance;
+    }
+    return appCheckInstance;
+  } catch (e) {
+    console.warn('Firebase App Check initialization notice:', e);
+    return null;
   }
 }
 
