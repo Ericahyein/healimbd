@@ -2549,14 +2549,15 @@ let db = null;
 let auth = null;
 let isFirebaseConnected = false;
 
-// Default Firebase Configuration (Can be customized via Admin or Code)
+// Default Firebase Configuration (Official Production healimbd-web app)
 const DEFAULT_FIREBASE_CONFIG = {
-  apiKey: "AIzaSyDummyKeyForHealimFirebaseProject",
-  authDomain: "healimbd-online-inquiry.firebaseapp.com",
-  projectId: "healimbd-online-inquiry",
-  storageBucket: "healimbd-online-inquiry.appspot.com",
-  messagingSenderId: "123456789012",
-  appId: "1:123456789012:web:abcdef1234567890"
+  apiKey: "AIzaSyDkvUH811bBK5FepUZqIk7s7_n-yYydMn4",
+  authDomain: "healimbd-b726f.firebaseapp.com",
+  projectId: "healimbd-b726f",
+  storageBucket: "healimbd-b726f.firebasestorage.app",
+  messagingSenderId: "456254993853",
+  appId: "1:456254993853:web:e4d01aa0f32607bb5eced4",
+  measurementId: "G-VT6QHEM9MR"
 };
 
 function getFirebaseConfig() {
@@ -3094,17 +3095,13 @@ function clearInquiryDraft() {
 async function handleInquirySubmit(e) {
   e.preventDefault();
 
+  const submitBtn = document.getElementById('inquiry-submit-btn');
+
   // Rate Limiting & Cooldown Protection (Anti-Spam)
   const now = Date.now();
   if (now - lastInquirySubmitTime < 5000) {
     alert('상담글은 5초 간격으로 등록하실 수 있습니다. 잠시 후 다시 시도해주세요.');
     return;
-  }
-
-  const submitBtn = document.getElementById('inquiry-submit-btn');
-  if (submitBtn) {
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = '<i class="ph-bold ph-spinner ph-spin"></i> <span>등록 중...</span>';
   }
 
   const region = document.getElementById('inq-region')?.value.trim() || '';
@@ -3120,62 +3117,62 @@ async function handleInquirySubmit(e) {
   // Input Validation
   if (!region || region.length < 1 || region.length > 30) {
     alert('거주지역을 1자 이상 30자 이하로 입력해주세요. (예: 분당 / 성남시 / 서울 강남구)');
-    if (submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = '<i class="ph-bold ph-paper-plane-tilt"></i> <span>상담글 등록하기</span>'; }
     return;
   }
 
   if (!ageText || ageText.length < 1 || ageText.length > 20) {
     alert('나이를 1자 이상 20자 이하로 입력해주세요. (예: 35세 또는 30대)');
-    if (submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = '<i class="ph-bold ph-paper-plane-tilt"></i> <span>상담글 등록하기</span>'; }
     return;
   }
 
   if (!['male', 'female'].includes(gender)) {
     alert('성별을 올바르게 선택해주세요.');
-    if (submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = '<i class="ph-bold ph-paper-plane-tilt"></i> <span>상담글 등록하기</span>'; }
     return;
   }
 
   if (title.length < 2 || title.length > 100) {
     alert('제목은 2자 이상 100자 이하로 입력해주세요.');
-    if (submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = '<i class="ph-bold ph-paper-plane-tilt"></i> <span>상담글 등록하기</span>'; }
     return;
   }
   if (content.length < 5 || content.length > 3000) {
     alert('상담 내용은 5자 이상 3000자 이하로 입력해주세요.');
-    if (submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = '<i class="ph-bold ph-paper-plane-tilt"></i> <span>상담글 등록하기</span>'; }
     return;
   }
 
-  const today = new Date();
-  const dateStr = `${today.getFullYear()}.${String(today.getMonth() + 1).padStart(2, '0')}.${String(today.getDate()).padStart(2, '0')}`;
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="ph-bold ph-spinner ph-spin"></i> <span>등록 중...</span>';
+  }
 
-  const newDocId = `inq_${Date.now()}`;
+  try {
+    const today = new Date();
+    const dateStr = `${today.getFullYear()}.${String(today.getMonth() + 1).padStart(2, '0')}.${String(today.getDate()).padStart(2, '0')}`;
 
-  // Local fallback object
-  const newInquiryLocal = {
-    id: newDocId,
-    region: region,
-    ageText: ageText,
-    gender: gender,
-    category: category,
-    disease: disease,
-    title: title,
-    content: content,
-    status: 'pending',
-    date: dateStr,
-    answer: '',
-    answerDate: ''
-  };
+    const newDocId = `inq_${Date.now()}`;
 
-  // 1. Save to Local
-  const stored = getStoredInquiries();
-  stored.unshift(newInquiryLocal);
-  localStorage.setItem('healim_online_inquiries', JSON.stringify(stored));
+    // Local fallback object
+    const newInquiryLocal = {
+      id: newDocId,
+      region: region,
+      ageText: ageText,
+      gender: gender,
+      category: category,
+      disease: disease,
+      title: title,
+      content: content,
+      status: 'pending',
+      date: dateStr,
+      answer: '',
+      answerDate: ''
+    };
 
-  // 2. Sync to Firebase Cloud Firestore (Strict demographic schema: region, ageText, gender)
-  if (db && isFirebaseConnected) {
-    try {
+    // 1. Save to Local
+    const stored = getStoredInquiries();
+    stored.unshift(newInquiryLocal);
+    localStorage.setItem('healim_online_inquiries', JSON.stringify(stored));
+
+    // 2. Sync to Firebase Cloud Firestore (Strict demographic schema: region, ageText, gender)
+    if (db && isFirebaseConnected) {
       await db.collection('online_inquiries').doc(newDocId).set({
         region: region,
         ageText: ageText,
@@ -3186,21 +3183,23 @@ async function handleInquirySubmit(e) {
         status: 'pending',
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
       });
-    } catch (err) {
-      console.warn('Firebase Cloud write notice:', err);
+    }
+
+    lastInquirySubmitTime = Date.now();
+
+    document.getElementById('inquiry-submit-form')?.reset();
+    closeInquiryWriteModal();
+    showAuthToast('🎉 온라인 상담글이 성공적으로 등록되었습니다. 손지웅 원장님이 확인 후 성심성의껏 전문 답변을 등록해 드립니다.');
+    renderInquiryList();
+  } catch (err) {
+    console.error('Inquiry submit error:', err);
+    alert('상담글 등록 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+  } finally {
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<i class="ph-bold ph-paper-plane-tilt"></i> <span>상담글 등록하기</span>';
     }
   }
-
-  lastInquirySubmitTime = Date.now();
-
-  document.getElementById('inquiry-submit-form')?.reset();
-  closeInquiryWriteModal();
-  if (submitBtn) {
-    submitBtn.disabled = false;
-    submitBtn.innerHTML = '<i class="ph-bold ph-paper-plane-tilt"></i> <span>상담글 등록하기</span>';
-  }
-  showAuthToast('🎉 온라인 상담글이 성공적으로 등록되었습니다. 손지웅 원장님이 확인 후 성심성의껏 전문 답변을 등록해 드립니다.');
-  renderInquiryList();
 }
 
 function handleInquiryClick(id) {
