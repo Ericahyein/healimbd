@@ -3099,7 +3099,6 @@ async function handleInquirySubmit(e) {
   if (db && isFirebaseConnected) {
     try {
       await db.collection('online_inquiries').doc(newDocId).set({
-        id: newDocId,
         nickname: nickname,
         category: category,
         title: title,
@@ -3298,11 +3297,19 @@ async function handleDoctorReplySubmit(e) {
   // Sync answer to Cloud Firestore
   if (db && isFirebaseConnected && currentOpenedInquiryId) {
     try {
-      await db.collection('online_inquiries').doc(currentOpenedInquiryId).update({
+      const existing = items.find(i => i.id === currentOpenedInquiryId);
+      const isFirstAnswer = !existing || existing.status !== 'answered';
+
+      const updateData = {
         answer: answerText,
-        answerDate: dateStr,
-        status: 'answered'
-      });
+        status: 'answered',
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      };
+      if (isFirstAnswer) {
+        updateData.answeredAt = firebase.firestore.FieldValue.serverTimestamp();
+      }
+
+      await db.collection('online_inquiries').doc(currentOpenedInquiryId).update(updateData);
       console.log('☁️ Doctor answer synced to Cloud Firestore!');
     } catch (err) {
       console.warn('Cloud Firestore reply update notice:', err);
@@ -3603,12 +3610,20 @@ async function handleAdminSaveDoctorReply(e) {
   }
 
   try {
-    await db.collection('online_inquiries').doc(editingInquiryId).update({
+    const existing = adminInquiriesCache.find(i => i.id === editingInquiryId);
+    const isFirstAnswer = !existing || existing.status !== 'answered';
+
+    const updatePayload = {
       answer: answerText,
       status: 'answered',
-      answeredAt: firebase.firestore.FieldValue.serverTimestamp(),
       updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
+    };
+
+    if (isFirstAnswer) {
+      updatePayload.answeredAt = firebase.firestore.FieldValue.serverTimestamp();
+    }
+
+    await db.collection('online_inquiries').doc(editingInquiryId).update(updatePayload);
 
     closeAdminDoctorReplyModal();
     showAuthToast('🩺 손지웅 대표원장의 전문 답변이 실시간 등록되었습니다.');

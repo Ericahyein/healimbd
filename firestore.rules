@@ -23,13 +23,37 @@ service cloud.firestore {
       ];
     }
 
+    // Status and Answer consistency check
+    function isStatusAnswerConsistent() {
+      let reqData = request.resource.data;
+      let resData = resource.data;
+
+      return (
+        // Case A: Status is 'pending' -> must NOT have answer or answeredAt
+        (reqData.status == 'pending' &&
+         !('answer' in reqData) &&
+         !('answeredAt' in reqData)) ||
+
+        // Case B: Status is 'answered' -> must have valid answer and answeredAt
+        (reqData.status == 'answered' &&
+         'answer' in reqData &&
+         reqData.answer is string &&
+         reqData.answer.size() >= 1 &&
+         reqData.answer.size() <= 5000 &&
+         'answeredAt' in reqData &&
+         reqData.answeredAt is timestamp &&
+         // Transition pending -> answered requires server timestamp; editing answered post preserves existing answeredAt
+         (resData.status == 'pending' ? reqData.answeredAt == request.time : reqData.answeredAt == resData.answeredAt))
+      );
+    }
+
     // Validation for new question creation (Anonymous / Public)
     function isCreateValid() {
       let data = request.resource.data;
-      let allowedCreateKeys = ['nickname', 'title', 'content', 'category', 'status', 'createdAt', 'id'];
+      let allowedCreateKeys = ['nickname', 'title', 'content', 'category', 'status', 'createdAt'];
 
       return (
-        // 1. Must only contain strictly allowed public fields (No extra/private fields)
+        // 1. Must only contain strictly allowed public fields (No redundant ID or private fields)
         data.keys().hasOnly(allowedCreateKeys) &&
 
         // 2. Status must strictly be 'pending' upon creation
@@ -48,13 +72,13 @@ service cloud.firestore {
         data.content.size() >= 5 &&
         data.content.size() <= 3000 &&
 
-        // 4. Category must belong to whitelist
+        // 4. Category whitelist
         isValidCategory(data.category) &&
 
-        // 5. Server timestamp validation
+        // 5. Creation timestamp must be server timestamp
         data.createdAt == request.time &&
 
-        // 6. Prohibit unauthorized answer and admin fields
+        // 6. Prohibit answer and admin fields on creation
         !('answer' in data) &&
         !('answeredAt' in data) &&
         !('updatedAt' in data) &&
@@ -68,7 +92,7 @@ service cloud.firestore {
     // Validation for question updating (Admin only)
     function isUpdateValid() {
       let data = request.resource.data;
-      let allowedUpdateKeys = ['nickname', 'title', 'content', 'category', 'status', 'createdAt', 'answer', 'answeredAt', 'updatedAt', 'id'];
+      let allowedUpdateKeys = ['nickname', 'title', 'content', 'category', 'status', 'createdAt', 'answer', 'answeredAt', 'updatedAt'];
 
       return (
         // 1. Must strictly restrict updated document to allowed schema fields (Prevents PII / arbitrary field injection)
@@ -77,7 +101,7 @@ service cloud.firestore {
         // 2. Immutable creation timestamp
         data.createdAt == resource.data.createdAt &&
 
-        // 3. Status must strictly be either 'pending' or 'answered'
+        // 3. Status must strictly be 'pending' or 'answered'
         data.status in ['pending', 'answered'] &&
 
         // 4. Base fields validation
@@ -95,12 +119,11 @@ service cloud.firestore {
 
         isValidCategory(data.category) &&
 
-        // 5. Answer validation: optional string up to 5000 characters
-        (!('answer' in data) || (data.answer is string && data.answer.size() <= 5000)) &&
+        // 5. Status & Answer consistency check
+        isStatusAnswerConsistent() &&
 
-        // 6. Optional timestamp validations
-        (!('answeredAt' in data) || data.answeredAt is timestamp) &&
-        (!('updatedAt' in data) || data.updatedAt is timestamp)
+        // 6. updatedAt must strictly be server timestamp on every update
+        data.updatedAt == request.time
       );
     }
 
@@ -114,7 +137,7 @@ service cloud.firestore {
       // 2. Public Create (Subject to strict schema and 'pending' status)
       allow create: if isCreateValid();
 
-      // 3. Admin Update (Strictly validated schema, immutable createdAt, answer length limit)
+      // 3. Admin Update (Strictly validated schema, immutable createdAt, serverTimestamp updatedAt, answer consistency)
       allow update: if isAdmin() && isUpdateValid();
 
       // 4. Admin Delete
