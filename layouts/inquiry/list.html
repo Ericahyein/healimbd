@@ -336,9 +336,9 @@
   {{ partial "floating_bar.html" . }}
 
   <!-- Firebase Cloud SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-check-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/12.17.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/12.17.1/firebase-app-check-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore-compat.js"></script>
 
   <!-- Scripts -->
   {{ $js := resources.Get "js/main.js" | resources.Minify | resources.Fingerprint }}
