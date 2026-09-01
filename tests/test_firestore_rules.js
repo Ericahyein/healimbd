@@ -484,7 +484,7 @@ const testCases = [
     testFn: () => {
       const js = fs.readFileSync('assets/js/main.js', 'utf-8');
       const hasSiteKey = js.includes('6LfP16ItAAAAAMaUadL33uzJNgDbGiNluoxZcLXh');
-      const hasAppCheckInit = js.includes('initFirebaseAppCheck(app)');
+      const hasAppCheckInit = js.includes('initFirebaseAppCheck()');
       const hasProvider = js.includes('ReCaptchaEnterpriseProvider');
       return hasSiteKey && hasAppCheckInit && hasProvider;
     },

@@ -2594,12 +2594,12 @@ function initFirebase() {
     const config = getFirebaseConfig();
     
     // 1. Initialize Firebase App or reuse existing instance
-    const app = (!firebase.apps || !firebase.apps.length)
-      ? firebase.initializeApp(config)
-      : firebase.app();
+    if (!firebase.apps || !firebase.apps.length) {
+      firebase.initializeApp(config);
+    }
 
     // 2. Initialize Firebase App Check IMMEDIATELY AFTER app initialization AND BEFORE Firestore calls
-    initFirebaseAppCheck(app);
+    initFirebaseAppCheck();
 
     // 3. Initialize Firestore & Auth AFTER App Check is initialized
     db = firebase.firestore();
@@ -2614,7 +2614,7 @@ function initFirebase() {
   }
 }
 
-function initFirebaseAppCheck(app) {
+function initFirebaseAppCheck() {
   if (typeof firebase === 'undefined' || typeof firebase.appCheck !== 'function') {
     return null;
   }
@@ -2625,7 +2625,7 @@ function initFirebaseAppCheck(app) {
       self.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
     }
 
-    const appCheckInstance = firebase.appCheck(app);
+    const appCheckInstance = firebase.appCheck();
     if (firebase.appCheck.ReCaptchaEnterpriseProvider) {
       appCheckInstance.activate(
         new firebase.appCheck.ReCaptchaEnterpriseProvider(RECAPTCHA_ENTERPRISE_SITE_KEY),
