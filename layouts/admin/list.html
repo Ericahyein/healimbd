@@ -112,7 +112,7 @@
           </div>
           <div class="admin-search-wrap">
             <i class="ph-bold ph-magnifying-glass"></i>
-            <input type="text" id="admin-search-input" placeholder="질문 제목/내용/닉네임 검색..." oninput="handleAdminSearch(this.value)">
+            <input type="text" id="admin-search-input" placeholder="질문 제목/내용/지역/작성자 검색..." oninput="handleAdminSearch(this.value)">
           </div>
         </div>
 
@@ -124,7 +124,7 @@
                 <th style="width: 70px;">번호</th>
                 <th style="width: 120px;">상담과목</th>
                 <th>상담 제목 및 내용 요약</th>
-                <th style="width: 110px;">작성자</th>
+                <th style="width: 130px;">작성자 정보</th>
                 <th style="width: 120px;">작성일시</th>
                 <th style="width: 100px;">상태</th>
                 <th style="width: 140px;">관리</th>
@@ -162,7 +162,8 @@
       <div class="admin-reply-question-box">
         <div class="badge-row">
           <span id="admin-modal-q-category" class="cat-badge">과목</span>
-          <span id="admin-modal-q-nickname" class="badge-author">작성자</span>
+          <span id="admin-modal-q-author" class="badge-author">작성자</span>
+          <span id="admin-modal-q-nickname" style="display:none;"></span>
           <span id="admin-modal-q-date" class="badge-date">작성일</span>
         </div>
         <h4 id="admin-modal-q-title" class="admin-modal-title-text">질문 제목</h4>

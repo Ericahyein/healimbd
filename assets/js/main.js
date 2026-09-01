@@ -1,3 +1,15 @@
+// Author demographic formatter with legacy nickname fallback
+function formatAuthorInfo(item) {
+  if (!item) return '익명';
+  if (item.region && item.ageText && item.gender) {
+    const genderText = (item.gender === 'male' || item.gender === '남') ? '남' : ((item.gender === 'female' || item.gender === '여') ? '여' : item.gender);
+    return `${item.region} · ${item.ageText} · ${genderText}`;
+  }
+  if (item.nickname) {
+    return item.nickname;
+  }
+  return '익명';
+}
 // Healim Bundang Clinic - Interactions & UI Script
 document.addEventListener('DOMContentLoaded', () => {
   initMobileMenu();
@@ -2655,7 +2667,10 @@ function listenToCloudInquiries() {
 
           cloudItems.push({
             id: doc.id,
-            nickname: data.nickname || '익명',
+            region: data.region || '',
+            ageText: data.ageText || '',
+            gender: data.gender || '',
+            nickname: data.nickname || '',
             category: data.category || 'etc',
             disease: getCategoryTitle(data.category || 'etc'),
             title: data.title || '',
@@ -2690,7 +2705,10 @@ const PERMANENT_BASE_INQUIRIES = [
     "id": "inq_01_autonomic",
     "category": "autonomic",
     "disease": "자율신경실조증",
-    "nickname": "분당 (40대/여)",
+    "region": "분당",
+    "ageText": "40대",
+    "gender": "female",
+    "nickname": "분당 · 40대 · 여",
     "title": "자율신경실조증 때문에 증상이 여러 가지로 나타날 수 있나요?",
     "date": "2026.08.31",
     "status": "answered",
@@ -2702,7 +2720,10 @@ const PERMANENT_BASE_INQUIRIES = [
     "id": "inq_02_adhd",
     "category": "adhd",
     "disease": "ADHD·집중력",
-    "nickname": "성남 (초등학생/남)",
+    "region": "성남시",
+    "ageText": "초등학생",
+    "gender": "male",
+    "nickname": "성남시 · 초등학생 · 남",
     "title": "adhd 때문에 아이가 실수가 너무 많아요",
     "date": "2026.08.31",
     "status": "answered",
@@ -2714,7 +2735,10 @@ const PERMANENT_BASE_INQUIRIES = [
     "id": "inq_03_sleep",
     "category": "sleep",
     "disease": "수면·불면증",
-    "nickname": "용인 (직장인/남)",
+    "region": "용인",
+    "ageText": "직장인",
+    "gender": "male",
+    "nickname": "용인 · 직장인 · 남",
     "title": "불면증이 오래가면 어떻게 치료해야 하나요?",
     "date": "2026.08.31",
     "status": "answered",
@@ -2726,7 +2750,10 @@ const PERMANENT_BASE_INQUIRIES = [
     "id": "inq_04_tic",
     "category": "tic",
     "disease": "틱장애·뚜렛",
-    "nickname": "분당 (초등학생/남)",
+    "region": "분당",
+    "ageText": "초등학생",
+    "gender": "male",
+    "nickname": "분당 · 초등학생 · 남",
     "title": "틱장애가 심해지는 이유가 뭘까요?",
     "date": "2026.08.31",
     "status": "answered",
@@ -2802,7 +2829,9 @@ function renderInquiryList() {
       (item.title && item.title.toLowerCase().includes(q)) ||
       (item.disease && item.disease.toLowerCase().includes(q)) ||
       (item.content && item.content.toLowerCase().includes(q)) ||
-      (item.nickname && item.nickname.toLowerCase().includes(q))
+      (item.nickname && item.nickname.toLowerCase().includes(q)) ||
+      (item.region && item.region.toLowerCase().includes(q)) ||
+      (item.ageText && item.ageText.toLowerCase().includes(q))
     );
   }
 
@@ -2824,7 +2853,8 @@ function renderInquiryList() {
     const statusText = isAnswered ? '답변완료' : '답변대기';
     const statusClass = isAnswered ? 'answered' : 'pending';
     const cleanTitle = escapeHtml(item.title);
-    const cleanNickname = escapeHtml(item.nickname || '익명');
+    const authorInfo = formatAuthorInfo(item);
+    const cleanNickname = escapeHtml(authorInfo);
     const cleanDate = escapeHtml(item.date || '');
     const cleanDisease = escapeHtml(item.disease || getCategoryTitle(item.category));
     const cleanId = escapeHtml(item.id);
@@ -2920,7 +2950,9 @@ function openInquiryDetailModal(id) {
     statusEl.className = 'detail-status-tag ' + (isAnswered ? 'answered' : 'pending');
   }
   if (titleEl) titleEl.textContent = inquiry.title;
-  if (nicknameEl) nicknameEl.textContent = inquiry.nickname || '익명';
+  const authorEl = document.getElementById('view-inq-author') || nicknameEl;
+  if (authorEl) authorEl.textContent = formatAuthorInfo(inquiry);
+  if (nicknameEl && nicknameEl !== authorEl) nicknameEl.textContent = formatAuthorInfo(inquiry);
   if (dateEl) dateEl.textContent = inquiry.date || '';
   if (contentEl) contentEl.textContent = inquiry.content;
 
@@ -3075,14 +3107,35 @@ async function handleInquirySubmit(e) {
     submitBtn.innerHTML = '<i class="ph-bold ph-spinner ph-spin"></i> <span>등록 중...</span>';
   }
 
-  const nickname = document.getElementById('inq-nickname')?.value.trim() || '익명';
+  const region = document.getElementById('inq-region')?.value.trim() || '';
+  const ageText = document.getElementById('inq-age')?.value.trim() || '';
+  const gender = document.querySelector('input[name="inq-gender"]:checked')?.value || 'male';
+
   const selectedDiseaseEl = document.querySelector('input[name="inq-disease"]:checked');
   const category = selectedDiseaseEl ? selectedDiseaseEl.getAttribute('data-category') : 'tic';
   const disease = selectedDiseaseEl ? selectedDiseaseEl.value : '틱장애·뚜렛';
   const title = document.getElementById('inq-title')?.value.trim() || '';
   const content = document.getElementById('inq-content')?.value.trim() || '';
 
-  // Input Length Validation
+  // Input Validation
+  if (!region || region.length < 1 || region.length > 30) {
+    alert('거주지역을 1자 이상 30자 이하로 입력해주세요. (예: 분당 / 성남시 / 서울 강남구)');
+    if (submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = '<i class="ph-bold ph-paper-plane-tilt"></i> <span>상담글 등록하기</span>'; }
+    return;
+  }
+
+  if (!ageText || ageText.length < 1 || ageText.length > 20) {
+    alert('나이를 1자 이상 20자 이하로 입력해주세요. (예: 35세 또는 30대)');
+    if (submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = '<i class="ph-bold ph-paper-plane-tilt"></i> <span>상담글 등록하기</span>'; }
+    return;
+  }
+
+  if (!['male', 'female'].includes(gender)) {
+    alert('성별을 올바르게 선택해주세요.');
+    if (submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = '<i class="ph-bold ph-paper-plane-tilt"></i> <span>상담글 등록하기</span>'; }
+    return;
+  }
+
   if (title.length < 2 || title.length > 100) {
     alert('제목은 2자 이상 100자 이하로 입력해주세요.');
     if (submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = '<i class="ph-bold ph-paper-plane-tilt"></i> <span>상담글 등록하기</span>'; }
@@ -3102,7 +3155,9 @@ async function handleInquirySubmit(e) {
   // Local fallback object
   const newInquiryLocal = {
     id: newDocId,
-    nickname: nickname,
+    region: region,
+    ageText: ageText,
+    gender: gender,
     category: category,
     disease: disease,
     title: title,
@@ -3118,11 +3173,13 @@ async function handleInquirySubmit(e) {
   stored.unshift(newInquiryLocal);
   localStorage.setItem('healim_online_inquiries', JSON.stringify(stored));
 
-  // 2. Sync to Firebase Cloud Firestore (Strictly validated public schema)
+  // 2. Sync to Firebase Cloud Firestore (Strict demographic schema: region, ageText, gender)
   if (db && isFirebaseConnected) {
     try {
       await db.collection('online_inquiries').doc(newDocId).set({
-        nickname: nickname,
+        region: region,
+        ageText: ageText,
+        gender: gender,
         category: category,
         title: title,
         content: content,
@@ -3477,7 +3534,10 @@ function listenToAdminInquiries() {
         }
         adminInquiriesCache.push({
           id: doc.id,
-          nickname: d.nickname || '익명',
+          region: d.region || '',
+          ageText: d.ageText || '',
+          gender: d.gender || '',
+          nickname: d.nickname || '',
           category: d.category || 'etc',
           disease: getCategoryTitle(d.category || 'etc'),
           title: d.title || '',
@@ -3537,7 +3597,9 @@ function renderAdminInquiries() {
     list = list.filter(i => 
       i.title.toLowerCase().includes(currentAdminSearch) ||
       i.content.toLowerCase().includes(currentAdminSearch) ||
-      i.nickname.toLowerCase().includes(currentAdminSearch)
+      (i.nickname && i.nickname.toLowerCase().includes(currentAdminSearch)) ||
+      (i.region && i.region.toLowerCase().includes(currentAdminSearch)) ||
+      (i.ageText && i.ageText.toLowerCase().includes(currentAdminSearch))
     );
   }
 
@@ -3558,7 +3620,7 @@ function renderAdminInquiries() {
 
     const safeTitle = escapeHtml(item.title);
     const safeContent = escapeHtml(item.content.substring(0, 70)) + (item.content.length > 70 ? '...' : '');
-    const safeNick = escapeHtml(item.nickname);
+    const safeNick = escapeHtml(formatAuthorInfo(item));
     const safeDate = escapeHtml(item.date);
     const safeDisease = escapeHtml(item.disease);
     const safeId = escapeHtml(item.id);
@@ -3603,7 +3665,9 @@ function openAdminDoctorReplyModal(id) {
   const textarea = document.getElementById('admin-doctor-reply-text');
 
   if (catEl) catEl.textContent = item.disease;
-  if (nickEl) nickEl.textContent = '작성자: ' + item.nickname;
+  const authorEl = document.getElementById('admin-modal-q-author') || nickEl;
+  if (authorEl) authorEl.textContent = '작성자: ' + formatAuthorInfo(item);
+  if (nickEl && nickEl !== authorEl) nickEl.textContent = '작성자: ' + formatAuthorInfo(item);
   if (dateEl) dateEl.textContent = item.date;
   if (titleEl) titleEl.textContent = item.title;
   if (contentEl) contentEl.textContent = item.content;

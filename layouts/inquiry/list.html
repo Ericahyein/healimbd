@@ -124,16 +124,35 @@
       </div>
 
       <form id="inquiry-submit-form" onsubmit="handleInquirySubmit(event)">
-        <!-- Section 1: 작성자 닉네임 -->
+        <!-- Section 1: 작성자 정보 (거주지역 / 나이 / 성별) -->
         <div class="form-block-section">
           <div class="form-block-header">
-            <h4>작성자 닉네임</h4>
+            <h4>작성자 정보 (필수)</h4>
           </div>
-          <div class="form-field-group">
-            <label for="inq-nickname">닉네임 / 호칭 (공개용)</label>
-            <input type="text" id="inq-nickname" placeholder="예) 익명, 분당맘, 30대직장인" maxlength="20" value="익명" required>
-            <small style="color: #64748B; font-size: 0.8rem; margin-top: 4px; display: block;">* 실명 대신 닉네임이나 가명을 사용해주세요.</small>
+          <div class="form-grid-row">
+            <div class="form-field-group">
+              <label for="inq-region">거주지역</label>
+              <input type="text" id="inq-region" placeholder="예) 분당 / 성남시 / 서울 강남구" maxlength="30" required>
+            </div>
+            <div class="form-field-group">
+              <label for="inq-age">나이</label>
+              <input type="text" id="inq-age" placeholder="예) 35세 또는 30대" maxlength="20" required>
+            </div>
+            <div class="form-field-group">
+              <label>성별</label>
+              <div class="radio-inline-group">
+                <label class="radio-label">
+                  <input type="radio" name="inq-gender" value="male" checked>
+                  <span>남</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="inq-gender" value="female">
+                  <span>여</span>
+                </label>
+              </div>
+            </div>
           </div>
+          <small style="color: #64748B; font-size: 0.8rem; margin-top: 6px; display: block;">* 이름/연락처 대신 통계 및 맞춤 진료 상담을 위한 최소 정보(지역·나이·성별)만 입력받습니다.</small>
         </div>
 
         <!-- Section 2: 상담 질환 선택 -->
@@ -227,7 +246,7 @@
         </div>
         <h2 class="detail-main-title" id="view-inq-title">상담 제목이 들어갑니다</h2>
         <div class="detail-meta-info">
-          <span><i class="ph-bold ph-user"></i> 작성자: <span id="view-inq-nickname">익명</span></span>
+          <span><i class="ph-bold ph-user"></i> 작성자: <span id="view-inq-author">분당 · 30대 · 여</span><span id="view-inq-nickname" style="display:none;"></span></span>
           <span><i class="ph-bold ph-calendar"></i> 작성일: <span id="view-inq-date">2026.08.31</span></span>
         </div>
         <button type="button" class="modal-close-btn" onclick="closeInquiryDetailModal()"><i class="ph ph-x"></i></button>

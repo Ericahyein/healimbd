@@ -50,20 +50,27 @@ service cloud.firestore {
     // Validation for new question creation (Anonymous / Public)
     function isCreateValid() {
       let data = request.resource.data;
-      let allowedCreateKeys = ['nickname', 'title', 'content', 'category', 'status', 'createdAt'];
+      let allowedCreateKeys = ['region', 'ageText', 'gender', 'title', 'content', 'category', 'status', 'createdAt'];
 
       return (
-        // 1. Must only contain strictly allowed public fields (No redundant ID or private fields)
+        // 1. Must only contain strictly allowed public fields (No nickname, No redundant ID or private fields)
         data.keys().hasOnly(allowedCreateKeys) &&
 
         // 2. Status must strictly be 'pending' upon creation
         data.status == 'pending' &&
 
-        // 3. Field type and length limits
-        data.nickname is string &&
-        data.nickname.size() >= 1 &&
-        data.nickname.size() <= 30 &&
+        // 3. Mandatory author demographic fields (Region, Age, Gender)
+        data.region is string &&
+        data.region.size() >= 1 &&
+        data.region.size() <= 30 &&
 
+        data.ageText is string &&
+        data.ageText.size() >= 1 &&
+        data.ageText.size() <= 20 &&
+
+        data.gender in ['male', 'female'] &&
+
+        // 4. Content fields validation
         data.title is string &&
         data.title.size() >= 2 &&
         data.title.size() <= 100 &&
@@ -72,27 +79,28 @@ service cloud.firestore {
         data.content.size() >= 5 &&
         data.content.size() <= 3000 &&
 
-        // 4. Category whitelist
+        // 5. Category whitelist
         isValidCategory(data.category) &&
 
-        // 5. Creation timestamp must be server timestamp
+        // 6. Creation timestamp must be server timestamp
         data.createdAt == request.time &&
 
-        // 6. Prohibit answer and admin fields on creation
+        // 7. Prohibit answer and admin fields on creation (and reject nickname on new creation)
         !('answer' in data) &&
         !('answeredAt' in data) &&
         !('updatedAt' in data) &&
         !('admin' in data) &&
         !('isAdmin' in data) &&
         !('role' in data) &&
-        !('answeredBy' in data)
+        !('answeredBy' in data) &&
+        !('nickname' in data)
       );
     }
 
-    // Validation for question updating (Admin only)
+    // Validation for question updating (Admin only, backward-compatible with legacy nickname posts)
     function isUpdateValid() {
       let data = request.resource.data;
-      let allowedUpdateKeys = ['nickname', 'title', 'content', 'category', 'status', 'createdAt', 'answer', 'answeredAt', 'updatedAt'];
+      let allowedUpdateKeys = ['region', 'ageText', 'gender', 'nickname', 'title', 'content', 'category', 'status', 'createdAt', 'answer', 'answeredAt', 'updatedAt'];
 
       return (
         // 1. Must strictly restrict updated document to allowed schema fields (Prevents PII / arbitrary field injection)
@@ -104,11 +112,14 @@ service cloud.firestore {
         // 3. Status must strictly be 'pending' or 'answered'
         data.status in ['pending', 'answered'] &&
 
-        // 4. Base fields validation
-        data.nickname is string &&
-        data.nickname.size() >= 1 &&
-        data.nickname.size() <= 30 &&
+        // 4. Author demographic validation (supports both new region/age/gender and legacy nickname)
+        (!('region' in data) || (data.region is string && data.region.size() >= 1 && data.region.size() <= 30)) &&
+        (!('ageText' in data) || (data.ageText is string && data.ageText.size() >= 1 && data.ageText.size() <= 20)) &&
+        (!('gender' in data) || data.gender in ['male', 'female']) &&
+        (!('nickname' in data) || (data.nickname is string && data.nickname.size() >= 1 && data.nickname.size() <= 30)) &&
+        (('region' in data && 'ageText' in data && 'gender' in data) || ('nickname' in data)) &&
 
+        // 5. Base content fields validation
         data.title is string &&
         data.title.size() >= 2 &&
         data.title.size() <= 100 &&
@@ -119,10 +130,10 @@ service cloud.firestore {
 
         isValidCategory(data.category) &&
 
-        // 5. Status & Answer consistency check
+        // 6. Status & Answer consistency check
         isStatusAnswerConsistent() &&
 
-        // 6. updatedAt must strictly be server timestamp on every update
+        // 7. updatedAt must strictly be server timestamp on every update
         data.updatedAt == request.time
       );
     }
