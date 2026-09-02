@@ -1336,32 +1336,77 @@ function switchAuthTab(tab) {
   }
 }
 
-function handleDedicatedAdminLogin(e) {
+async function handleDedicatedAdminLogin(e) {
   e.preventDefault();
+  const emailInput = document.getElementById('admin-email');
   const pwdInput = document.getElementById('admin-direct-pwd');
-  const pwd = pwdInput ? pwdInput.value.trim() : '';
+  const errorEl = document.getElementById('admin-login-error');
+  const submitBtn = document.getElementById('admin-login-btn');
 
-  if (pwd === ADMIN_MASTER_PIN) {
-    const adminUser = {
-      name: '관리자',
-      email: 'admin@healimbd.com',
-      provider: 'admin',
-      isAdmin: true,
-      loginAt: new Date().toISOString()
-    };
-    sessionStorage.setItem('healim_admin_auth', 'true');
-    localStorage.setItem('healim_auth_user', JSON.stringify(adminUser));
-    updateAuthUI(adminUser);
+  const email = emailInput ? emailInput.value.trim() : '';
+  const password = pwdInput ? pwdInput.value.trim() : '';
+
+  if (!email || !password) {
+    if (errorEl) {
+      errorEl.textContent = '관리자 이메일과 비밀번호를 모두 입력해주세요.';
+      errorEl.style.display = 'block';
+    }
+    return;
+  }
+
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="ph-bold ph-spinner ph-spin"></i> <span>인증 확인 중...</span>';
+  }
+  if (errorEl) errorEl.style.display = 'none';
+
+  try {
+    if (!auth) {
+      throw new Error('Firebase Auth 모듈이 초기화되지 않았습니다. 페이지를 새로고침해주세요.');
+    }
+
+    // Set SESSION persistence so login clears on browser close
+    await auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
+
+    // 1. Firebase Authentication
+    const userCredential = await auth.signInWithEmailAndPassword(email, password);
+    const user = userCredential.user;
+
+    // 2. Real admins/{uid} document existence check
+    const adminDoc = await db.collection('admins').doc(user.uid).get();
+    if (!adminDoc.exists || adminDoc.data()?.role !== 'admin') {
+      await auth.signOut();
+      isAdminVerified = false;
+      throw new Error('관리자로 등록되지 않은 계정입니다. (admins 권한 없음)');
+    }
+
+    isAdminVerified = true;
     closeAuthModal();
-    showAuthToast('👑 관리자 인증 완료! 모든 글쓰기 및 답변 관리 기능이 활성화되었습니다.');
+    showAuthToast('👑 대표원장 관리자 인증이 완료되었습니다. 온라인문의 답변 및 관리 권한이 활성화되었습니다.');
+
     if (typeof renderInquiryList === 'function') {
       renderInquiryList();
     }
-  } else {
-    alert('비밀번호가 일치하지 않습니다. 관리자 비밀번호를 다시 확인해주세요.');
-    if (pwdInput) {
-      pwdInput.focus();
-      pwdInput.select();
+    if (currentOpenedInquiryId) {
+      openInquiryDetailModal(currentOpenedInquiryId);
+    }
+  } catch (err) {
+    console.error('[ADMIN AUTH ERROR]', err);
+    isAdminVerified = false;
+    if (errorEl) {
+      let msg = '로그인에 실패했습니다.';
+      if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
+        msg = '이메일 또는 비밀번호가 일치하지 않습니다.';
+      } else if (err.message) {
+        msg = err.message;
+      }
+      errorEl.textContent = msg;
+      errorEl.style.display = 'block';
+    }
+  } finally {
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<span>👑 관리자 로그인</span> <i class="ph-bold ph-arrow-right"></i>';
     }
   }
 }
@@ -1389,38 +1434,19 @@ function handleEmailLogin(e) {
   const password = passwordInput ? passwordInput.value.trim() : '';
 
   let name = email.split('@')[0] || '회원';
-  let isAdmin = false;
-
-  // Check if admin login
-  if (password === ADMIN_MASTER_PIN || email.toLowerCase() === 'admin' || email.toLowerCase() === 'healim') {
-    if (password === ADMIN_MASTER_PIN) {
-      isAdmin = true;
-      name = '관리자';
-      sessionStorage.setItem('healim_admin_auth', 'true');
-    }
-  }
 
   const user = {
     name: name,
     email: email,
     provider: 'email',
-    isAdmin: isAdmin,
+    isAdmin: false,
     loginAt: new Date().toISOString()
   };
 
   localStorage.setItem('healim_auth_user', JSON.stringify(user));
   updateAuthUI(user);
   closeAuthModal();
-
-  if (isAdmin) {
-    showAuthToast('👑 관리자로 로그인되었습니다. 모든 관리자 글쓰기 및 답변 기능이 활성화되었습니다.');
-  } else {
-    showAuthToast(`🎉 ${name}님 환영합니다! 로그인되어 자필 수기를 열람하실 수 있습니다.`);
-  }
-
-  if (typeof renderInquiryList === 'function') {
-    renderInquiryList();
-  }
+  showAuthToast(`🎉 ${name}님 환영합니다! 로그인되어 자필 수기를 열람하실 수 있습니다.`);
 }
 
 function handleEmailSignup(e) {
@@ -1444,14 +1470,26 @@ function handleEmailSignup(e) {
   showAuthToast(`🎉 회원가입이 완료되었습니다! ${name}님 환영합니다.`);
 }
 
-function logoutUser() {
+async function logoutUser() {
+  try {
+    if (auth) {
+      await auth.signOut();
+    }
+  } catch (e) {
+    console.warn('Firebase signOut notice:', e);
+  }
+  isAdminVerified = false;
   localStorage.removeItem('healim_auth_user');
   sessionStorage.removeItem('healim_admin_auth');
+  localStorage.removeItem('healim_admin_logged');
   document.body.classList.remove('is-admin');
   updateAuthUI(null);
   showAuthToast('로그아웃 되었습니다.');
   if (typeof renderInquiryList === 'function') {
     renderInquiryList();
+  }
+  if (currentOpenedInquiryId) {
+    openInquiryDetailModal(currentOpenedInquiryId);
   }
 }
 
@@ -1532,7 +1570,6 @@ function showAuthToast(message) {
 // ==========================================================================
 // 10. Admin Direct Case Writer & Reader (관리자 직접 글쓰기 및 사진 업로드 시스템)
 // ==========================================================================
-const ADMIN_MASTER_PIN = 'tmfltmfl11!';
 let currentUploadedImageDataUrl = '';
 let currentOpenedCustomCaseId = null;
 
@@ -1550,12 +1587,7 @@ const CATEGORY_NAME_MAP = {
 };
 
 function isUserAdmin() {
-  if (sessionStorage.getItem('healim_admin_auth') === 'true') return true;
-  try {
-    const user = JSON.parse(localStorage.getItem('healim_auth_user') || 'null');
-    if (user && user.isAdmin) return true;
-  } catch (e) {}
-  return false;
+  return isAdminVerified && auth && auth.currentUser !== null;
 }
 
 function initAdminCaseWriter() {
@@ -1607,40 +1639,8 @@ function closeAdminAuthModal() {
 
 function handleAdminAuthSubmit(e) {
   e.preventDefault();
-  const pwdInput = document.getElementById('admin-password-input');
-  const errEl = document.getElementById('admin-auth-error');
-  const enteredPwd = pwdInput ? pwdInput.value.trim() : '';
-
-  if (enteredPwd === ADMIN_MASTER_PIN) {
-    sessionStorage.setItem('healim_admin_auth', 'true');
-    const adminUser = {
-      name: '대표원장 (관리자)',
-      email: 'admin@healimbd.com',
-      provider: 'admin',
-      isAdmin: true,
-      loginAt: new Date().toISOString()
-    };
-    localStorage.setItem('healim_auth_user', JSON.stringify(adminUser));
-    updateAuthUI(adminUser);
-
-    closeAdminAuthModal();
-    const isColumn = window.adminTargetModal === 'column';
-    showAuthToast(isColumn ? '🔓 관리자 인증 완료! 원장 칼럼 작성창이 열립니다.' : '🔓 관리자 인증 완료! 치료사례 작성창이 열립니다.');
-    setTimeout(() => {
-      if (isColumn) {
-        openAdminColumnWriterModal();
-      } else {
-        openAdminWriterModal();
-      }
-      window.adminTargetModal = null;
-    }, 200);
-  } else {
-    if (errEl) errEl.style.display = 'flex';
-    if (pwdInput) {
-      pwdInput.classList.add('error');
-      pwdInput.focus();
-    }
-  }
+  closeAdminAuthModal();
+  openAuthModal('admin');
 }
 
 function openAdminWriterModal() {
@@ -2598,6 +2598,8 @@ function escapeHtml(str) {
 const RECAPTCHA_ENTERPRISE_SITE_KEY = "6Lc48KItAAAAAFD-0iaoa_Q7WeLAouQWWk_MGjCW";
 let appCheck = null;
 
+let isAdminVerified = false;
+
 function initFirebase() {
   if (typeof firebase === 'undefined') {
     return;
@@ -2614,11 +2616,45 @@ function initFirebase() {
     // 2. Initialize Firebase App Check IMMEDIATELY AFTER app initialization AND BEFORE Firestore calls
     initFirebaseAppCheck();
 
-    // 3. Initialize Firestore AFTER App Check is initialized
+    // 3. Initialize Firebase Auth
+    auth = firebase.auth ? firebase.auth() : null;
+
+    // 4. Initialize Firestore AFTER App Check is initialized
     db = firebase.firestore();
     isFirebaseConnected = true;
 
-    // 4. Listen to real-time updates from Cloud Firestore
+    // 5. Setup Firebase Auth state listener
+    if (auth) {
+      auth.onAuthStateChanged(async (user) => {
+        if (user) {
+          try {
+            const adminDoc = await db.collection('admins').doc(user.uid).get();
+            if (adminDoc.exists && adminDoc.data()?.role === 'admin') {
+              isAdminVerified = true;
+              updateAuthUI({ name: '대표원장', email: user.email, isAdmin: true });
+            } else {
+              isAdminVerified = false;
+              updateAuthUI(null);
+            }
+          } catch (e) {
+            console.warn('Admin verification check notice:', e);
+            isAdminVerified = false;
+            updateAuthUI(null);
+          }
+        } else {
+          isAdminVerified = false;
+          updateAuthUI(null);
+        }
+
+        // Update inquiry detail modal controls if open
+        const adminControls = document.getElementById('inquiry-admin-controls');
+        if (adminControls) {
+          adminControls.style.display = isAdminVerified ? 'flex' : 'none';
+        }
+      });
+    }
+
+    // 6. Listen to real-time updates from Cloud Firestore
     listenToCloudInquiries();
   } catch (err) {
     console.warn('Firebase initialization notice:', err);
@@ -2994,8 +3030,7 @@ function closeInquiryDetailModal() {
 }
 
 function checkIsAdminUser() {
-  if (auth && auth.currentUser) return true;
-  return localStorage.getItem('healim_admin_logged') === 'true';
+  return isAdminVerified && auth && auth.currentUser !== null;
 }
 
 function openInquiryWriteModal() {
@@ -3277,7 +3312,7 @@ function handleInquiryPwdSubmit(e) {
   const items = getStoredInquiries();
   const found = items.find(item => item.id === currentPendingVerifyInquiryId);
 
-  if (found && (enteredPwd === found.password || enteredPwd === ADMIN_MASTER_PIN)) {
+  if (found && enteredPwd === found.password) {
     sessionStorage.setItem(`inq_verified_${found.id}`, 'true');
     const targetId = found.id;
     closeInquiryPwdModal();
@@ -3393,69 +3428,93 @@ async function handleDoctorReplySubmit(e) {
 
   const textarea = document.getElementById('doctor-reply-textarea');
   const answerText = textarea ? textarea.value.trim() : '';
-  if (!answerText) return;
-
-  const today = new Date();
-  const dateStr = `${today.getFullYear()}.${String(today.getMonth() + 1).padStart(2, '0')}.${String(today.getDate()).padStart(2, '0')}`;
-
-  const items = getStoredInquiries();
-  const targetIndex = items.findIndex(item => item.id === currentOpenedInquiryId);
-  if (targetIndex !== -1) {
-    items[targetIndex].answer = answerText;
-    items[targetIndex].answerDate = dateStr;
-    items[targetIndex].status = 'answered';
-    localStorage.setItem('healim_online_inquiries', JSON.stringify(items));
+  if (!answerText) {
+    alert('답변 내용을 입력해주세요.');
+    return;
   }
 
-  // Sync answer to Cloud Firestore
-  if (db && isFirebaseConnected && currentOpenedInquiryId) {
-    try {
-      const existing = items.find(i => i.id === currentOpenedInquiryId);
-      const isFirstAnswer = !existing || existing.status !== 'answered';
+  // 1. Check if user is logged in with verified admin privileges
+  if (!auth || !auth.currentUser || !isAdminVerified) {
+    alert('관리자 인증이 필요하거나 권한이 없습니다. 다시 로그인해주세요.');
+    return;
+  }
 
-      const updateData = {
-        answer: answerText,
-        status: 'answered',
-        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-      };
-      if (isFirstAnswer) {
-        updateData.answeredAt = firebase.firestore.FieldValue.serverTimestamp();
-      }
+  const submitBtn = document.querySelector('#inquiry-reply-editor-modal button[type="submit"]');
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="ph-bold ph-spinner ph-spin"></i> <span>저장 중...</span>';
+  }
 
-      await db.collection('online_inquiries').doc(currentOpenedInquiryId).update(updateData);
-      console.log('☁️ Doctor answer synced to Cloud Firestore!');
-    } catch (err) {
-      console.warn('Cloud Firestore reply update notice:', err);
+  try {
+    const items = getStoredInquiries();
+    const existing = items.find(i => i.id === currentOpenedInquiryId);
+    const isFirstAnswer = !existing || existing.status !== 'answered';
+
+    const updateData = {
+      answer: answerText,
+      status: 'answered',
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    };
+    if (isFirstAnswer) {
+      updateData.answeredAt = firebase.firestore.FieldValue.serverTimestamp();
+    }
+
+    // 2. Direct Cloud Firestore write and await acknowledgment
+    await db.collection('online_inquiries').doc(currentOpenedInquiryId).update(updateData);
+    console.log('[DOCTOR REPLY SUBMIT] Successfully saved to Cloud Firestore for doc:', currentOpenedInquiryId);
+
+    // 3. Update local storage only AFTER Firestore succeeds
+    const today = new Date();
+    const dateStr = `${today.getFullYear()}.${String(today.getMonth() + 1).padStart(2, '0')}.${String(today.getDate()).padStart(2, '0')}`;
+    const targetIndex = items.findIndex(item => item.id === currentOpenedInquiryId);
+    if (targetIndex !== -1) {
+      items[targetIndex].answer = answerText;
+      items[targetIndex].answerDate = dateStr;
+      items[targetIndex].status = 'answered';
+      localStorage.setItem('healim_online_inquiries', JSON.stringify(items));
+    }
+
+    closeDoctorReplyEditorModal();
+    showAuthToast('🩺 손지웅 대표원장의 전문 답변이 성공적으로 등록되었습니다.');
+
+    openInquiryDetailModal(currentOpenedInquiryId);
+    renderInquiryList();
+  } catch (err) {
+    console.error('[DOCTOR REPLY SUBMIT ERROR]', err.code, err.message);
+    alert('답변 저장에 실패했습니다. (오류: ' + (err.code || err.message) + ')');
+  } finally {
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '답변 등록 및 완료 처리';
     }
   }
-
-  closeDoctorReplyEditorModal();
-  showAuthToast('🩺 손지웅 대표원장의 전문 답변이 성공적으로 등록되었습니다.');
-
-  openInquiryDetailModal(currentOpenedInquiryId);
-  renderInquiryList();
 }
 
 async function handleAdminDeleteInquiry() {
   if (!currentOpenedInquiryId) return;
+  if (!auth || !auth.currentUser || !isAdminVerified) {
+    alert('관리자 인증이 필요합니다.');
+    return;
+  }
   if (!confirm('정말 이 상담글을 삭제하시겠습니까?')) return;
 
   const targetId = currentOpenedInquiryId;
-  let items = getStoredInquiries();
-  items = items.filter(item => item.id !== targetId);
-  localStorage.setItem('healim_online_inquiries', JSON.stringify(items));
 
-  // Delete from Cloud Firestore
-  if (db && isFirebaseConnected && targetId) {
-    try {
-      await db.collection('online_inquiries').doc(targetId).delete();
-      console.log('☁️ Deleted from Cloud Firestore!');
-    } catch (err) {}
+  try {
+    await db.collection('online_inquiries').doc(targetId).delete();
+    console.log('[ADMIN DELETE] Deleted doc:', targetId);
+
+    let items = getStoredInquiries();
+    items = items.filter(item => item.id !== targetId);
+    localStorage.setItem('healim_online_inquiries', JSON.stringify(items));
+
+    closeInquiryDetailModal();
+    showAuthToast('상담글이 삭제되었습니다.');
+    renderInquiryList();
+  } catch (err) {
+    console.error('[ADMIN DELETE ERROR]', err.code, err.message);
+    alert('상담글 삭제에 실패했습니다. (오류: ' + (err.code || err.message) + ')');
   }
-
-  closeInquiryDetailModal();
-  showAuthToast('🗑️ 상담글이 삭제되었습니다.');
-  renderInquiryList();
 }
 
 
