@@ -86,8 +86,7 @@ async function generateTopicOutline(plan, knowledge, apiKey, telemetry) {
       { role: 'system', content: '당신은 한의학 전문 칼럼 플래너입니다. JSON 형식으로만 응답합니다.' },
       { role: 'user', content: prompt }
     ],
-    response_format: { type: 'json_object' },
-    temperature: 0.3
+    response_format: { type: 'json_object' }
   });
 
   if (telemetry && response.usage) {
@@ -194,8 +193,7 @@ ${internalLinksMd ? `\n---\n\n### 🔗 함께 읽어보면 좋은 연관 칼럼\
     messages: [
       { role: 'system', content: '당신은 보수적이고 신뢰성 높은 한의학 전문 칼럼니스트입니다.' },
       { role: 'user', content: prompt }
-    ],
-    temperature: 0.4
+    ]
   });
 
   if (telemetry && response.usage) {
@@ -238,8 +236,7 @@ JSON 형식으로 응답:
       { role: 'system', content: '당신은 썸네일 카피라이터입니다. JSON 형식으로만 응답합니다.' },
       { role: 'user', content: prompt }
     ],
-    response_format: { type: 'json_object' },
-    temperature: 0.3
+    response_format: { type: 'json_object' }
   });
 
   if (telemetry && response.usage) {
