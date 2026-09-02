@@ -251,22 +251,27 @@ async function testThumbnail() {
   console.log(`✅ PASS: Ultra high-impact 800x800 Sharp+SVG composite thumbnail generated successfully (${buffer.length} bytes).`);
 }
 
-// 7. Disease-Tailored Single-Photo Prompt Check in gpt-image-2
-console.log('\n--- 7. gpt-image-2 Disease-Tailored Single Photo Prompt Compliance Tests ---');
-const { buildImagePrompt } = require('../scripts/auto_column/ai_generator');
+// 7. Disease-Tailored Single-Photo Prompt & Fallback Check in gpt-image-2
+console.log('\n--- 7. gpt-image-2 Disease-Tailored Safe Photo & Fallback Tests ---');
+const { buildImagePrompt, buildFallbackImagePrompt } = require('../scripts/auto_column/ai_generator');
 
 const ticPrompt = buildImagePrompt('tic', '틱장애', '미디어 노출');
-assert(ticPrompt.includes('child or adolescent'), 'Tic image prompt must feature a child or adolescent');
-assert(ticPrompt.includes('Strictly NO adult, NO woman clutching chest or stomach'), 'Tic prompt must ban adult woman clutching chest or stomach');
+assert(ticPrompt.includes('Korean school-age child'), 'Tic image prompt must feature a Korean school-age child');
+assert(ticPrompt.includes('NOT depict or simulate a medical symptom'), 'Tic prompt must not simulate symptoms');
+assert(ticPrompt.includes('no forced blinking or facial tic simulation'), 'Tic prompt must ban forced blinking');
+
+const ticFallback = buildFallbackImagePrompt('tic', '틱장애');
+assert(ticFallback.includes('Korean school-age child'), 'Fallback must feature Korean school-age child');
+assert(ticFallback.includes('no medical symptoms'), 'Fallback must state no medical symptoms');
 
 const adultPrompt = buildImagePrompt('autonomic', '자율신경', '어지럼증');
-assert(adultPrompt.includes('ONE adult'), 'Autonomic prompt must feature adult context');
+assert(adultPrompt.includes('Korean adult'), 'Autonomic prompt must feature adult context');
 
-// Validation failure check when tic has adult prompt
-const badTicImageRes = validateArticleContent(validArticle, { imagePrompt: 'A photo of ONE adult woman clutching chest and stomach' });
+// Validation failure check when tic has adult clutching chest prompt
+const badTicImageRes = validateArticleContent(validArticle, { imagePrompt: 'A photo of ONE adult woman clutching chest and stomach in pain' });
 assert.strictEqual(badTicImageRes.valid, false, 'Tic validation must fail if adult woman clutching chest is in image prompt');
 
-console.log('✅ PASS: Disease-tailored image prompts strictly verified (Child for tic, adult for autonomic, no multi-panel).');
+console.log('✅ PASS: Safe disease-tailored image prompts & neutral fallbacks strictly verified.');
 
 // 8. End-to-End Dry-Run Orchestrator
 console.log('\n--- 8. End-to-End Dry-Run Orchestrator ---');

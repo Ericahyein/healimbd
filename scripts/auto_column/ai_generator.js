@@ -31,35 +31,57 @@ async function callOpenAiApi(apiKey, endpoint, body) {
 
   if (!resp.ok) {
     const errorText = await resp.text();
-    throw new Error(`OpenAI API error (${resp.status} ${resp.statusText}): ${errorText}`);
+    const error = new Error(`OpenAI API error (${resp.status} ${resp.statusText}): ${errorText}`);
+    error.status = resp.status;
+    error.errorBody = errorText;
+    if (errorText.includes('moderation_blocked')) {
+      error.isModerationBlocked = true;
+    }
+    throw error;
   }
 
   return await resp.json();
 }
 
 /**
- * Builds disease-tailored single-subject photorealistic prompts
+ * Builds disease-tailored primary photorealistic prompt (Safe & Non-symptom-simulating)
  */
 function buildImagePrompt(diseaseId, diseaseName, topicFocus) {
   if (diseaseId === 'tic' || (diseaseName && diseaseName.includes('틱'))) {
-    return `A single, focused, realistic portrait of ONE Asian child or adolescent (around 8-12 years old) sitting in a warm home room, showing subtle natural tension such as blinking eyes, touching neck or collar gently, or looking thoughtful. Highly realistic, natural soft lighting, quiet atmosphere. Strictly ONE child/adolescent only. Strictly NO adult, NO woman clutching chest or stomach, NO medical tools, NO collage, NO split screen, NO multi-panel, NO text, NO letters, NO words, NO logos, NO signs, NO watermark.`;
+    return `A realistic single photo of one Korean school-age child in a calm home environment. The child is sitting naturally with a thoughtful or slightly distracted expression. Warm, realistic lifestyle photography, natural posture, soft indoor lighting, neutral and non-distressing scene. The image should visually fit a pediatric health / child development article, but should NOT depict or simulate a medical symptom. Strictly: ONE child only, no adult as main subject, no medical procedure, no visible illness, no pain, no distress, no clutching chest/stomach/neck, no forced blinking or facial tic simulation, no collage, no split screen, no multi-panel, no text, no letters, no logo, no watermark.`;
   }
   if (diseaseId === 'adhd' || (diseaseName && diseaseName.includes('ADHD'))) {
-    return `A single, focused, realistic photo of ONE child or youth sitting at a study desk with a book, looking thoughtful with gentle natural focus. Single subject only, centered composition, soft natural lighting. Strictly NO collage, NO split screen, NO multi-panel, NO text, NO letters, NO words, NO logos, NO watermark.`;
+    return `A realistic single lifestyle photo of one Korean school-age child sitting at a study desk at home with a book, natural posture, thoughtful expression, warm soft indoor light, child health editorial photography, no distress, no visible illness, no text.`;
+  }
+  if (diseaseId === 'child' || (diseaseName && diseaseName.includes('소아') || diseaseName.includes('성장') || diseaseName.includes('비염'))) {
+    return `A realistic single lifestyle photo of one Korean child in a bright comfortable living room, natural relaxed posture, soft daylight, pediatric wellness photography, no distress, no visible illness, no text.`;
   }
   if (diseaseId === 'panic' || (diseaseName && diseaseName.includes('공황'))) {
-    return `A single, focused, realistic photo of ONE adult sitting quietly by a window, taking a deep breath with hand lightly near chest, seeking calm. Single subject only, centered composition, soft natural lighting. Strictly NO collage, NO split screen, NO multi-panel, NO text, NO letters, NO words, NO logos, NO watermark.`;
+    return `A realistic single lifestyle photo of one Korean adult sitting quietly by a bright window at home, resting thoughtfully in calm natural daylight, mental wellness editorial photography, no distress, no pain, no clutching chest, no text.`;
+  }
+  if (diseaseId === 'anxiety' || (diseaseName && diseaseName.includes('불안'))) {
+    return `A realistic single lifestyle photo of one Korean adult sitting calmly in a quiet living space, thoughtful expression, soft ambient lighting, wellness editorial photography, no distress, no pain, no text.`;
   }
   if (diseaseId === 'sleep' || (diseaseName && (diseaseName.includes('수면') || diseaseName.includes('불면')))) {
-    return `A single, focused, realistic photo of ONE adult sitting on the edge of a bed at night, looking thoughtful and tired in soft ambient bedside light. Single subject only, centered composition. Strictly NO collage, NO split screen, NO multi-panel, NO text, NO letters, NO words, NO logos, NO watermark.`;
+    return `A realistic single lifestyle photo of one Korean adult sitting calmly on a sofa in the evening in soft warm ambient home light, preparing to rest, wellness editorial photography, no distress, no illness, no text.`;
   }
   if (diseaseId === 'autonomic' || (diseaseName && diseaseName.includes('자율신경'))) {
-    return `A single, focused, realistic photo of ONE adult sitting on a living room sofa, resting their hand on their forehead or chest with a weary expression from fatigue and dizziness. Single subject only, centered composition. Strictly NO collage, NO split screen, NO multi-panel, NO text, NO letters, NO words, NO logos, NO watermark.`;
+    return `A realistic single lifestyle photo of one Korean adult sitting comfortably on a living room couch, resting peacefully in soft natural light, health and wellness editorial photography, no distress, no clutching chest or stomach, no text.`;
   }
   if (diseaseId === 'ibs' || (diseaseName && diseaseName.includes('과민성대장'))) {
-    return `A single, focused, realistic photo of ONE adult sitting comfortably, resting a hand gently on their lower abdomen with a subtle uncomfortable expression. Single subject only, centered composition. Strictly NO collage, NO split screen, NO multi-panel, NO text, NO letters, NO words, NO logos, NO watermark.`;
+    return `A realistic single lifestyle photo of one Korean adult sitting in a cozy kitchen or living area, holding a warm mug of tea with a peaceful expression, healthy lifestyle editorial photography, no pain, no clutching stomach, no text.`;
   }
-  return `A single, focused, realistic photo of ONE person representing comfort and clinical mindfulness for ${diseaseName} (${topicFocus}). Single subject only, centered composition, soft natural lighting, photorealistic. Strictly NO collage, NO split screen, NO multi-panel, NO text, NO letters, NO words, NO logos, NO signs, NO watermark.`;
+  return `A realistic single lifestyle photo of one Korean person in a calm, warm home setting, peaceful natural expression, healthcare wellness editorial photography, no distress, no illness, no text.`;
+}
+
+/**
+ * Builds neutral fallback prompt if primary prompt encounters moderation
+ */
+function buildFallbackImagePrompt(diseaseId, diseaseName) {
+  if (diseaseId === 'tic' || diseaseId === 'adhd' || diseaseId === 'child' || (diseaseName && (diseaseName.includes('틱') || diseaseName.includes('소아')))) {
+    return `A realistic lifestyle portrait of one Korean school-age child sitting calmly at home, thoughtful expression, natural posture, soft indoor light, clean neutral background, child health editorial photography, no distress, no medical symptoms, no text.`;
+  }
+  return `A realistic lifestyle portrait of one Korean adult resting peacefully in a calm, naturally lit home environment, neutral clean background, health editorial photography, no distress, no symptoms, no text.`;
 }
 
 /**
@@ -364,48 +386,95 @@ async function generateThumbnailCopy(plan, articleBody, apiKey, telemetry, retry
 }
 
 /**
- * 4. Generate Single Photo Background Image using gpt-image-2 (Disease-Tailored Single-Subject Photo)
+ * 4. Generate Single Photo Background Image with Moderation Retry & Neutral Fallback
  */
 async function generateBackgroundImage(diseaseId, diseaseName, topicFocus, apiKey, telemetry) {
   if (!apiKey) {
     return null;
   }
 
-  const imagePrompt = buildImagePrompt(diseaseId, diseaseName, topicFocus);
+  const primaryPrompt = buildImagePrompt(diseaseId, diseaseName, topicFocus);
+  const fallbackPrompt = buildFallbackImagePrompt(diseaseId, diseaseName);
 
-  const response = await callOpenAiApi(apiKey, 'images/generations', {
-    model: IMAGE_MODEL,
-    prompt: imagePrompt,
-    n: 1,
-    size: '1024x1024'
-  });
+  let attempts = 0;
+  let moderationRetries = 0;
+  let lastError = null;
 
-  if (telemetry) {
-    telemetry.imageCount += 1;
-  }
+  // Track attempts metadata in telemetry
+  telemetry.imageGenerationAttempts = 0;
+  telemetry.imageModerationRetries = 0;
+  telemetry.imageGenerationStatus = 'pending';
 
-  const item = response.data && response.data[0];
-  if (!item) {
-    throw new Error('No image item found in OpenAI Images API response.');
-  }
+  // Strategy:
+  // Attempt 1: primaryPrompt
+  // Attempt 2 (Retry 1): primaryPrompt retry
+  // Attempt 3 (Retry 2): fallbackPrompt
+  const promptQueue = [
+    { prompt: primaryPrompt, isFallback: false },
+    { prompt: primaryPrompt, isFallback: false },
+    { prompt: fallbackPrompt, isFallback: true }
+  ];
 
-  if (item.b64_json) {
-    return Buffer.from(item.b64_json, 'base64');
-  } else if (item.url) {
-    const imgFetch = await fetch(item.url);
-    if (!imgFetch.ok) {
-      throw new Error(`Failed to download image from OpenAI URL: ${imgFetch.statusText}`);
+  for (let i = 0; i < promptQueue.length; i++) {
+    attempts++;
+    telemetry.imageGenerationAttempts = attempts;
+    const currentConfig = promptQueue[i];
+
+    try {
+      console.log(`🖼️ [Images API] Requesting background image (Attempt ${attempts}/3, fallback=${currentConfig.isFallback})...`);
+      const response = await callOpenAiApi(apiKey, 'images/generations', {
+        model: IMAGE_MODEL,
+        prompt: currentConfig.prompt,
+        n: 1,
+        size: '1024x1024'
+      });
+
+      telemetry.imageCount = (telemetry.imageCount || 0) + 1;
+      telemetry.imageGenerationStatus = moderationRetries > 0 ? 'success_after_retry' : 'success';
+
+      const item = response.data && response.data[0];
+      if (!item) {
+        throw new Error('No image item found in OpenAI Images API response.');
+      }
+
+      if (item.b64_json) {
+        return Buffer.from(item.b64_json, 'base64');
+      } else if (item.url) {
+        const imgFetch = await fetch(item.url);
+        if (!imgFetch.ok) {
+          throw new Error(`Failed to download image from OpenAI URL: ${imgFetch.statusText}`);
+        }
+        const arrayBuf = await imgFetch.arrayBuffer();
+        return Buffer.from(arrayBuf);
+      } else {
+        throw new Error(`Unexpected image response data structure: ${JSON.stringify(item)}`);
+      }
+    } catch (err) {
+      lastError = err;
+      if (err.isModerationBlocked || (err.errorBody && err.errorBody.includes('moderation_blocked'))) {
+        moderationRetries++;
+        telemetry.imageModerationRetries = moderationRetries;
+        console.warn(`⚠️ [Images API] Moderation blocked on attempt ${attempts}/3. Retrying with next safe config...`);
+        if (i < promptQueue.length - 1) {
+          continue; // Try next attempt
+        }
+      } else {
+        // Non-moderation error (e.g. network/auth/quota)
+        telemetry.imageGenerationStatus = 'failed_error';
+        throw err;
+      }
     }
-    const arrayBuf = await imgFetch.arrayBuffer();
-    return Buffer.from(arrayBuf);
-  } else {
-    throw new Error(`Unexpected image response data structure: ${JSON.stringify(item)}`);
   }
+
+  // If all attempts failed with moderation
+  telemetry.imageGenerationStatus = 'failed_moderation';
+  throw new Error(`Image generation failed after ${moderationRetries} moderation retry attempts: ${lastError?.message || 'moderation_blocked'}`);
 }
 
 module.exports = {
   loadMedicalKnowledge,
   buildImagePrompt,
+  buildFallbackImagePrompt,
   generateTopicOutline,
   generateArticleBody,
   generateThumbnailCopy,

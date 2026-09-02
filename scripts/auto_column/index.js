@@ -208,6 +208,11 @@ ${articleBody}
     plan,
     thumbnailCopy,
     internalLinks: validation.internalLinks,
+    imageMetrics: {
+      imageGenerationAttempts: telemetry.imageGenerationAttempts || 0,
+      imageModerationRetries: telemetry.imageModerationRetries || 0,
+      imageGenerationStatus: telemetry.imageGenerationStatus || 'none'
+    },
     modelsUsed: {
       planner: process.env.OPENAI_PLANNER_MODEL || 'gpt-5.6-luna',
       writer: process.env.OPENAI_WRITER_MODEL || 'gpt-5.6-terra',
