@@ -191,6 +191,14 @@ const resDopamine = validateArticleContent(dopamineBurstArticle);
 assert.strictEqual(resDopamine.valid, false, 'Dopamine burst claim must fail');
 console.log('✅ PASS: Oversimplified claim ("도파민이 폭발하여 틱 발생") strictly blocked.');
 
+const mediaGuaranteeArticle = {
+  ...validArticle,
+  body: validArticle.body + '\n미디어를 줄이면 틱이 좋아집니다. 노출 감소의 개선 효과가 더 큽니다.'
+};
+const resMediaGuarantee = validateArticleContent(mediaGuaranteeArticle);
+assert.strictEqual(resMediaGuarantee.valid, false, 'Media outcome guarantee claim must fail');
+console.log('✅ PASS: Media outcome guarantee ("미디어를 줄이면 틱이 좋아집니다") strictly blocked.');
+
 const badSpacingThumb = {
   ...validArticle,
   thumbnailCopy: {
