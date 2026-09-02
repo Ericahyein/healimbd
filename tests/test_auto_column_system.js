@@ -192,22 +192,28 @@ bannedCases.forEach(bannedPhrase => {
 });
 console.log('✅ PASS: All banned medical overclaims and assertive physiological mechanisms strictly blocked.');
 
-// 6. Thumbnail Engine Synthesis (Sharp + SVG Vector)
-console.log('\n--- 6. Thumbnail Synthesis Engine (Sharp + SVG) ---');
-const { compositeThumbnail } = require('../scripts/auto_column/thumbnail_engine');
+// 6. Thumbnail Engine Synthesis (Sharp + SVG Vector & Noto Sans CJK KR)
+console.log('\n--- 6. Thumbnail Synthesis Engine (Sharp + SVG & Korean Fonts) ---');
+const { compositeThumbnail, generateSvgOverlay } = require('../scripts/auto_column/thumbnail_engine');
 
 async function testThumbnail() {
+  const svg = generateSvgOverlay('아이의 틱', '스마트폰 사용이 늘었다면', '틱장애');
+  assert(svg.includes('Noto Sans CJK KR'), 'SVG must specify Noto Sans CJK KR in font-family');
+  assert(svg.includes('아이의 틱'), 'SVG must contain yellow text');
+  assert(svg.includes('스마트폰 사용이 늘었다면'), 'SVG must contain white text');
+  assert(svg.includes('틱장애'), 'SVG must contain green text');
+
   const testOutputPath = path.join(__dirname, '../scratch/test_generated_thumb.jpg');
   const buffer = await compositeThumbnail({
     outputPath: testOutputPath,
-    yellowText: '원인모를',
-    whiteText: '어지럼증·소화불량',
-    greenText: '자율신경실조증'
+    yellowText: '아이의 틱',
+    whiteText: '스마트폰 사용이 늘었다면',
+    greenText: '틱장애'
   });
 
   assert(fs.existsSync(testOutputPath), 'Thumbnail file must be generated');
   assert(buffer.length > 5000, 'Thumbnail buffer must be non-empty');
-  console.log(`✅ PASS: 800x800 Sharp+SVG composite thumbnail generated successfully (${buffer.length} bytes).`);
+  console.log(`✅ PASS: 800x800 Sharp+SVG composite thumbnail generated successfully with Korean fonts (${buffer.length} bytes).`);
 }
 
 // 7. gpt-image-2 Image Response & Payload Compliance Tests

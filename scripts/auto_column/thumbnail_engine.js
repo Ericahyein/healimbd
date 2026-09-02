@@ -1,8 +1,29 @@
 const fs = require('fs');
 const path = require('path');
+const { execSync } = require('child_process');
 const sharp = require('sharp');
 
 const LOGO_DEFAULT_PATH = path.join(__dirname, '../../static/images/healim-logo-white-text.png');
+
+/**
+ * Checks if Korean fonts are available in the system
+ */
+function verifyKoreanFontAvailable() {
+  if (process.platform === 'linux') {
+    try {
+      const output = execSync('fc-list :lang=ko file', { encoding: 'utf-8', stdio: ['pipe', 'pipe', 'ignore'] });
+      if (!output || output.trim().length === 0) {
+        console.warn('⚠️ WARNING: No Korean fonts found in fontconfig cache. Text may render as tofu boxes.');
+        return false;
+      }
+      return true;
+    } catch (err) {
+      // fontconfig tool might not be installed in all test environments
+      return true;
+    }
+  }
+  return true;
+}
 
 /**
  * Escapes special XML characters for SVG text
@@ -17,6 +38,16 @@ function escapeXml(unsafe) {
 }
 
 /**
+ * Dynamically scales font size based on text character count to prevent clipping
+ */
+function getScaledFontSize(text, defaultSize, maxSafeChars, minSize = 28) {
+  const len = (text || '').trim().length;
+  if (len <= maxSafeChars) return defaultSize;
+  const scaled = Math.floor(defaultSize * (maxSafeChars / len));
+  return Math.max(scaled, minSize);
+}
+
+/**
  * Generates an SVG overlay containing the 3-line outlined text, neon border, and backdrop
  */
 function generateSvgOverlay(yellowText, whiteText, greenText, width = 800, height = 800) {
@@ -24,40 +55,48 @@ function generateSvgOverlay(yellowText, whiteText, greenText, width = 800, heigh
   const safeWhite = escapeXml(whiteText);
   const safeGreen = escapeXml(greenText);
 
+  // Dynamic font sizing
+  const yellowSize = getScaledFontSize(yellowText, 44, 8, 30);
+  const whiteSize = getScaledFontSize(whiteText, 48, 10, 32);
+  const greenSize = getScaledFontSize(greenText, 54, 8, 36);
+
+  const yellowStroke = Math.max(6, Math.floor(yellowSize * 0.16));
+  const whiteStroke = Math.max(7, Math.floor(whiteSize * 0.17));
+  const greenStroke = Math.max(8, Math.floor(greenSize * 0.18));
+
   return `
     <svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <filter id="text-shadow" x="-20%" y="-20%" width="140%" height="140%">
-          <feDropShadow dx="4" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.8"/>
+          <feDropShadow dx="3" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.85"/>
         </filter>
         <style>
-          @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
           .title-text {
-            font-family: 'Pretendard', 'Malgun Gothic', sans-serif;
+            font-family: 'Noto Sans CJK KR', 'Noto Sans KR', 'NanumGothic', 'Pretendard', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
             font-weight: 800;
             text-anchor: middle;
             paint-order: stroke fill;
             stroke-linejoin: round;
           }
           .yellow-line {
-            font-size: 46px;
+            font-size: ${yellowSize}px;
             fill: #FFEA00;
             stroke: #000000;
-            stroke-width: 8px;
+            stroke-width: ${yellowStroke}px;
             filter: url(#text-shadow);
           }
           .white-line {
-            font-size: 52px;
+            font-size: ${whiteSize}px;
             fill: #FFFFFF;
             stroke: #000000;
-            stroke-width: 9px;
+            stroke-width: ${whiteStroke}px;
             filter: url(#text-shadow);
           }
           .green-line {
-            font-size: 56px;
+            font-size: ${greenSize}px;
             fill: #00FF66;
             stroke: #000000;
-            stroke-width: 10px;
+            stroke-width: ${greenStroke}px;
             filter: url(#text-shadow);
           }
         </style>
@@ -73,10 +112,10 @@ function generateSvgOverlay(yellowText, whiteText, greenText, width = 800, heigh
       <text x="${width / 2}" y="270" class="title-text yellow-line">${safeYellow}</text>
 
       <!-- 4. Line 2: White (#FFFFFF) -->
-      <text x="${width / 2}" y="380" class="title-text white-line">${safeWhite}</text>
+      <text x="${width / 2}" y="385" class="title-text white-line">${safeWhite}</text>
 
       <!-- 5. Line 3: Neon Green (#00FF66) -->
-      <text x="${width / 2}" y="495" class="title-text green-line">${safeGreen}</text>
+      <text x="${width / 2}" y="500" class="title-text green-line">${safeGreen}</text>
     </svg>
   `;
 }
@@ -100,6 +139,8 @@ async function compositeThumbnail(options = {}) {
   if (!yellowText || !whiteText || !greenText) {
     throw new Error('All 3 text lines (yellowText, whiteText, greenText) are required for thumbnail generation.');
   }
+
+  verifyKoreanFontAvailable();
 
   // 1. Prepare Base Background
   let baseSharp;
@@ -158,6 +199,7 @@ async function compositeThumbnail(options = {}) {
 }
 
 module.exports = {
+  verifyKoreanFontAvailable,
   generateSvgOverlay,
   compositeThumbnail
 };
