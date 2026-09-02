@@ -1,0 +1,38 @@
+{
+  "diseaseId": "autonomic",
+  "category": "autonomic",
+  "categoryName": "자율신경",
+  "reviewStatus": "pending",
+  "approvedDefinition": "교감신경과 부교감신경의 상호 조절 균형이 흔들려 혈압, 맥박, 체온, 소화 등 신체 전반의 자율 기능 조절에 불편이 나타나는 상태",
+  "commonSymptoms": [
+    "원인 모를 어지럼증과 기립 시 아찔함",
+    "가슴 두근거림 및 숨참",
+    "소화불량, 복부 팽만감, 메스꺼움",
+    "상열감(얼굴 화끈거림)과 수족냉증의 공존",
+    "만성 피로감 및 머리가 멍한 브레인포그"
+  ],
+  "possibleAggravatingFactors": [
+    "만성적인 스트레스와 휴식 부족",
+    "불규칙한 수면 및 식사 패턴",
+    "급격한 기온 변화 및 환절기"
+  ],
+  "redFlags": [
+    "지속적인 실신 발작 또는 심장 기질적 이상 소견"
+  ],
+  "evaluationGuidance": "신체 전반의 균형 상태를 살펴보기 위해 문진, 자율신경 반응도 참고 지표, 설진·복진·맥진을 활용할 수 있습니다.",
+  "treatmentGuidance": "자율신경 안정을 돕는 맞춤 한약 처방, 자율신경 조절 혈자리 침구 요법, 생활 습관 지도",
+  "lifestyleTips": [
+    "충분한 수분 섭취와 규칙적인 식사",
+    "급격한 자세 변화 피하기",
+    "가벼운 스트레칭과 심호흡"
+  ],
+  "bannedPhrases": [
+    "완치", "자율신경 완벽 정상화", "근본 치료", "모든 어지럼증 100% 해소"
+  ],
+  "faqCandidates": [
+    {"q": "종합병원 검사에서 왜 이상이 없다고 나오나요?", "a": "기질적인 조직 손상이 아니라 신경계의 기능적인 조절 불균형 상태일 때 검사상 정상으로 나올 수 있습니다."}
+  ],
+  "internalLinkCandidates": [
+    {"title": "분당 자율신경실조증 회복 가이드", "url": "/blog/bundang-autonomic-nervous-system-recovery/"}
+  ]
+}

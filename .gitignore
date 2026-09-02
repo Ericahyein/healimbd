@@ -12,3 +12,7 @@ resources/_gen/
 Thumbs.db
 .gemini/
 *.log
+
+# Auto Column Dry-Run Output
+auto_column_artifacts/
+

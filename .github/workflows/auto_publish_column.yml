@@ -1,0 +1,83 @@
+name: Doctor Column AI Auto Publisher (Phase 1 Dry-Run Ready)
+
+on:
+  schedule:
+    # 00:07 UTC = 09:07 KST (오전 1회차)
+    - cron: '7 0 * * *'
+    # 08:07 UTC = 17:07 KST (오후 2회차)
+    - cron: '7 8 * * *'
+  workflow_dispatch:
+    inputs:
+      force_publish:
+        description: '강제 프로덕션 발행 여부 (기본값 false: Dry-run 미리보기만 수행)'
+        required: false
+        default: false
+        type: boolean
+
+concurrency:
+  group: auto-column-publish
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  auto-column-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Setup Hugo Extended
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: 'latest'
+          extended: true
+
+      - name: Install Node Dependencies
+        run: npm ci
+
+      - name: Execute Doctor Column Pipeline
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_PLANNER_MODEL: ${{ vars.OPENAI_PLANNER_MODEL || 'gpt-5.6-luna' }}
+          OPENAI_WRITER_MODEL: ${{ vars.OPENAI_WRITER_MODEL || 'gpt-5.6-terra' }}
+          OPENAI_IMAGE_MODEL: ${{ vars.OPENAI_IMAGE_MODEL || 'gpt-image-2' }}
+          AUTO_COLUMN_ENABLED: ${{ vars.AUTO_COLUMN_ENABLED || 'false' }}
+          FORCE_PUBLISH: ${{ github.event.inputs.force_publish || 'false' }}
+        run: node scripts/auto_column/index.js
+
+      - name: Upload Dry-Run Artifacts (If Generated)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: column-dry-run-preview-${{ github.run_number }}
+          path: auto_column_artifacts/
+          if-no-files-found: ignore
+          retention-days: 7
+
+      - name: Validate Hugo Static Build (Production Mode Only)
+        if: env.AUTO_COLUMN_ENABLED == 'true' || github.event.inputs.force_publish == 'true'
+        run: hugo --minify -d public
+
+      - name: Commit and Push to Main (Production Mode Only)
+        if: env.AUTO_COLUMN_ENABLED == 'true' || github.event.inputs.force_publish == 'true'
+        run: |
+          git config --global user.name "Healim Column Publisher Bot"
+          git config --global user.email "bot@healim-bundang.com"
+          git add content/blog/ static/images/blog/ data/auto_column_history.json
+          if git diff --staged --quiet; then
+            echo "No new column to commit."
+          else
+            NEW_TITLE=$(node -e "const h=require('./data/auto_column_history.json'); if(h.length>0) console.log(h[h.length-1].title); else console.log('new column');")
+            git commit -m "auto(column): publish ${NEW_TITLE}"
+            git push origin main
+          fi

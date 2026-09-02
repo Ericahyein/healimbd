@@ -1,0 +1,146 @@
+{
+  "diseases": [
+    {
+      "id": "tic",
+      "name": "틱장애",
+      "category": "tic",
+      "categoryName": "틱장애·뚜렛",
+      "defaultKeywords": ["소아 틱장애", "음성틱", "운동틱", "뚜렛증후군", "틱 증상 악화"],
+      "topicAngles": [
+        {"id": "media-exposure", "titleSuffix": "미디어 및 스마트폰 사용이 증상에 미치는 영향", "focus": "영상 노출, 자극과 긴장, 수면 리듬과의 관계"},
+        {"id": "school-stress", "titleSuffix": "새 학기 환경 변화와 긴장으로 증상이 두드러질 때", "focus": "학교 생활 스트레스, 심리적 압박, 관찰 방법"},
+        {"id": "cough-distinction", "titleSuffix": "잦은 헛기침과 비염 증상과의 구별 포인트", "focus": "단순 감기/호흡기 질환과의 차이, 음성틱 관찰"},
+        {"id": "eye-blinking", "titleSuffix": "눈 깜빡임이 잦아질 때 억지로 참게 하면 안 되는 이유", "focus": "초기 운동틱의 특징, 지적과 훈육의 부작용"},
+        {"id": "parent-guidance", "titleSuffix": "가정에서 부모가 지켜주어야 할 대처 원칙과 소통법", "focus": "불안 완화, 일상 지지, 증상 무관심화 요령"}
+      ]
+    },
+    {
+      "id": "adhd",
+      "name": "ADHD",
+      "category": "adhd",
+      "categoryName": "ADHD·집중력",
+      "defaultKeywords": ["소아 ADHD", "성인 ADHD", "집중력 저하", "충동성 조절", "실행기능"],
+      "topicAngles": [
+        {"id": "adult-work-mistakes", "titleSuffix": "성인 업무 중 실수가 반복되고 마무리가 어려울 때", "focus": "직장 생활 실행기능 저하, 우선순위 설정의 어려움"},
+        {"id": "child-impulsivity", "titleSuffix": "산만함과 충동성이 훈육만으로 조절되지 않을 때", "focus": "자기조절력 미성숙, 정서적 지지와 환경 구조화"},
+        {"id": "focus-fluctuation", "titleSuffix": "좋아하는 일에는 과몰입하고 일상 과제는 미루는 이유", "focus": "선택적 주의집중, 실행 동기 체계 이해"},
+        {"id": "tic-comorbidity", "titleSuffix": "틱장애나 불안감이 함께 나타날 때 살펴볼 점", "focus": "신경학적 동반 증상, 종합적인 상태 평가의 필요성"}
+      ]
+    },
+    {
+      "id": "panic",
+      "name": "공황장애",
+      "category": "panic",
+      "categoryName": "공황장애",
+      "defaultKeywords": ["공황장애", "공황발작", "가슴 두근거림", "호흡곤란", "예기불안"],
+      "topicAngles": [
+        {"id": "sudden-palpitation", "titleSuffix": "갑자기 숨이 차고 심장이 빨라질 때 먼저 살펴볼 부분", "focus": "응급실 검사상 이상 없음, 급격한 자율신경 흥분 반응"},
+        {"id": "subway-tunnel", "titleSuffix": "출퇴근 대중교통이나 터널에서 답답함이 심해질 때", "focus": "밀폐 공간 공포, 신체 감각 과민화, 이완 호흡법"},
+        {"id": "anticipatory-anxiety", "titleSuffix": "증상이 다시 나타날까 두려운 예기불안의 악순환 끊기", "focus": "외출 위축, 회피 행동 완화, 점진적 대처"},
+        {"id": "caffeine-alcohol", "titleSuffix": "커피와 음주가 공황 유사 증상을 유발하는 기전", "focus": "카페인 각성 자극, 자율신경계 민감도와 생활 조절"}
+      ]
+    },
+    {
+      "id": "anxiety",
+      "name": "불안장애",
+      "category": "anxiety",
+      "categoryName": "불안·사회공포",
+      "defaultKeywords": ["불안장애", "발표불안", "사회공포증", "신체화증상", "만성 긴장"],
+      "topicAngles": [
+        {"id": "presentation-anxiety", "titleSuffix": "발표나 미팅 때 목소리가 떨리고 시선이 두려울 때", "focus": "사회불안, 교감신경 긴장, 심신 안정 유도"},
+        {"id": "chronic-worry", "titleSuffix": "사소한 일에도 걱정이 꼬리를 물고 가슴이 답답할 때", "focus": "범불안 증상, 과도한 경계 반응, 신체 긴장 이완"},
+        {"id": "somatization", "titleSuffix": "불안이 신체 통증이나 어지럼증으로 나타나는 과정", "focus": "신체화 반응 이해, 몸과 마음의 상호작용"}
+      ]
+    },
+    {
+      "id": "sleep",
+      "name": "불면증",
+      "category": "sleep",
+      "categoryName": "수면·불면증",
+      "defaultKeywords": ["만성 불면증", "입면장애", "새벽 각성", "수면유지장애", "수면리듬"],
+      "topicAngles": [
+        {"id": "early-awakening", "titleSuffix": "잠은 드는데 새벽마다 깨서 다시 잠들지 못하는 이유", "focus": "수면 유지 장애, 교감신경 잔여 긴장, 수면 위생"},
+        {"id": "racing-thoughts", "titleSuffix": "베개에 누우면 잡생각이 멈추지 않고 뇌가 깨어있을 때", "focus": "뇌 과각성 상태, 취침 전 루틴, 자극 제한"},
+        {"id": "sleeping-pill-concern", "titleSuffix": "수면유도제 없이 자연스러운 수면 리듬을 회복하는 길", "focus": "체질별 심신 안정 한방 요법, 규칙적인 생체 리듬"}
+      ]
+    },
+    {
+      "id": "autonomic",
+      "name": "자율신경실조증",
+      "category": "autonomic",
+      "categoryName": "자율신경",
+      "defaultKeywords": ["자율신경실조증", "교감신경항진", "어지럼증", "가슴답답함", "브레인포그"],
+      "topicAngles": [
+        {"id": "digestive-dizziness", "titleSuffix": "원인 모를 어지럼증과 소화불량이 동시에 나타날 때", "focus": "미주신경 및 교감-부교감 불균형, 복합 신체 증상"},
+        {"id": "hot-cold-dysregulation", "titleSuffix": "얼굴은 화끈거리는데 손발은 차가운 상열하한 현상", "focus": "체온 조절 불균형, 혈액순환과 자율신경 관계"},
+        {"id": "brain-fog-fatigue", "titleSuffix": "머리에 안개가 낀 듯 멍하고 피로가 가시지 않을 때", "focus": "브레인포그, 신경계 과부하, 충분한 휴식과 회복"}
+      ]
+    },
+    {
+      "id": "hyperhidrosis",
+      "name": "다한증",
+      "category": "hyperhidrosis",
+      "categoryName": "다한증",
+      "defaultKeywords": ["수족다한증", "손발 땀", "겨드랑이 다한증", "교감신경 과민", "체온조절"],
+      "topicAngles": [
+        {"id": "hands-feet-sweat", "titleSuffix": "긴장할 때마다 손발이 축축해지고 일상이 불편할 때", "focus": "정서적 자극과 교감신경 흥분, 한방 체질 조절"},
+        {"id": "compensatory-concern", "titleSuffix": "수술 후 보상성 다한증 걱정 없이 조절하는 관점", "focus": "비수술적 신경안정 접근, 전신 균형 회복"}
+      ]
+    },
+    {
+      "id": "ibs",
+      "name": "과민성대장증후군",
+      "category": "ibs",
+      "categoryName": "과민성대장",
+      "defaultKeywords": ["과민성대장증후군", "스트레스성 복통", "신경성 설사", "장뇌축", "복부팽만"],
+      "topicAngles": [
+        {"id": "morning-diarrhea", "titleSuffix": "출근길이나 긴장되는 순간마다 화장실을 찾게 되는 이유", "focus": "장-뇌 축(Gut-Brain Axis) 상호작용, 장 신경계 안정"},
+        {"id": "bloating-gas", "titleSuffix": "검사에는 이상 없는데 가스가 차고 아랫배가 더부룩할 때", "focus": "장내 환경과 자율신경, 식습관 및 스트레스 관리"}
+      ]
+    },
+    {
+      "id": "syncope",
+      "name": "미주신경성 실신",
+      "category": "syncope",
+      "categoryName": "실신",
+      "defaultKeywords": ["미주신경성 실신", "기립성 어지럼", "혈관미주신경반사", "어지럼증", "전조증상"],
+      "topicAngles": [
+        {"id": "subway-dizziness", "titleSuffix": "지하철이나 만원 버스에서 눈앞이 캄캄해지고 식은땀이 날 때", "focus": "미주신경 반사, 기립 상태 혈압 조절 저하, 전조증상 대처"},
+        {"id": "blood-draw-fainting", "titleSuffix": "주사나 긴장 상황에서 아찔함을 느끼는 체질적 요인", "focus": "급격한 부교감신경 항진, 심신 안정 요령"}
+      ]
+    },
+    {
+      "id": "headache",
+      "name": "두통·어지럼",
+      "category": "headache",
+      "categoryName": "두통·어지럼",
+      "defaultKeywords": ["경추성 두통", "긴장성 두통", "만성 어지럼증", "후두부 통증", "목어깨결림"],
+      "topicAngles": [
+        {"id": "tension-headache", "titleSuffix": "오후만 되면 뒷목이 뻣뻣하고 머리를 조이는 듯 아플 때", "focus": "경추 및 두경부 근육 긴장, 스트레스성 두통"},
+        {"id": "chronic-dizziness", "titleSuffix": "이비인후과 검사 후에도 지속되는 붕 뜨는 어지럼증", "focus": "비회전성 어지럼, 자율신경계 안정과 한방 치료"}
+      ]
+    },
+    {
+      "id": "depression",
+      "name": "우울·강박",
+      "category": "depression",
+      "categoryName": "우울·강박",
+      "defaultKeywords": ["만성 무기력", "번아웃", "강박적 사고", "확인강박", "마음건강"],
+      "topicAngles": [
+        {"id": "burnout-lethargy", "titleSuffix": "쉬어도 충전되지 않고 모든 일에 의욕이 사라질 때", "focus": "번아웃 증후군, 심신 에너지 고갈, 점진적 회복"},
+        {"id": "intrusive-thoughts", "titleSuffix": "원치 않는 불안한 생각이 반복적으로 떠오를 때", "focus": "침투적 사고, 수용과 이완, 인지적 거리두기"}
+      ]
+    },
+    {
+      "id": "child",
+      "name": "소아신경",
+      "category": "child",
+      "categoryName": "소아신경",
+      "defaultKeywords": ["소아 분리불안", "소아 야뇨증", "야경증", "소아 스트레스", "성장기 심신안정"],
+      "topicAngles": [
+        {"id": "separation-anxiety", "titleSuffix": "유치원이나 학교 갈 때마다 배가 아프다고 우는 아이", "focus": "소아 분리불안 및 신체화 증상, 부모의 따뜻한 지지"},
+        {"id": "night-terrors", "titleSuffix": "밤마다 자다 깨서 자지러지게 울거나 악몽을 꿀 때", "focus": "소아 야경증, 수면 뇌파 안정, 취침 환경 관리"}
+      ]
+    }
+  ]
+}
