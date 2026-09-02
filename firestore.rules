@@ -164,6 +164,13 @@ service cloud.firestore {
     }
 
     // ========================================================================
+    // INQUIRY DELETE CREDENTIALS COLLECTION (Strictly Private & Isolated)
+    // ========================================================================
+    match /inquiry_delete_credentials/{inquiryId} {
+      allow read, write: if false; // Managed exclusively via Server API
+    }
+
+    // ========================================================================
     // DEFAULT DENY FOR ALL OTHER PATHS
     // ========================================================================
     match /{document=**} {

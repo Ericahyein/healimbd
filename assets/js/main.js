@@ -2971,6 +2971,101 @@ function handleInquiryClick(id) {
   openInquiryDetailModal(id);
 }
 
+function openAuthorDeleteModal() {
+  const modal = document.getElementById('inquiry-author-delete-modal');
+  const input = document.getElementById('author-delete-pwd-input');
+  const errorEl = document.getElementById('author-delete-pwd-error');
+  if (input) input.value = '';
+  if (errorEl) errorEl.style.display = 'none';
+  if (modal) modal.style.display = 'flex';
+  setTimeout(() => { if (input) input.focus(); }, 100);
+}
+
+function closeAuthorDeleteModal() {
+  const modal = document.getElementById('inquiry-author-delete-modal');
+  if (modal) modal.style.display = 'none';
+}
+
+async function handleAuthorDeleteSubmit(e) {
+  e.preventDefault();
+  if (!currentOpenedInquiryId) return;
+
+  const input = document.getElementById('author-delete-pwd-input');
+  const errorEl = document.getElementById('author-delete-pwd-error');
+  const submitBtn = document.getElementById('author-delete-confirm-btn');
+  const pwd = input ? input.value.trim() : '';
+
+  if (!/^\d{6}$/.test(pwd)) {
+    if (errorEl) {
+      errorEl.textContent = '삭제 비밀번호는 숫자 6자리여야 합니다.';
+      errorEl.style.display = 'block';
+    }
+    return;
+  }
+
+  if (!confirm('문의를 삭제하시겠습니까?\n문의와 등록된 답변이 모두 삭제되며 복구할 수 없습니다.')) {
+    return;
+  }
+
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.textContent = '삭제 확인 중...';
+  }
+  if (errorEl) errorEl.style.display = 'none';
+
+  try {
+    let appCheckToken = '';
+    if (typeof firebase !== 'undefined' && typeof firebase.appCheck === 'function') {
+      try {
+        const tokenObj = await firebase.appCheck().getToken();
+        if (tokenObj && tokenObj.token) {
+          appCheckToken = tokenObj.token;
+        }
+      } catch (err) {
+        console.warn('App Check token notice:', err);
+      }
+    }
+
+    const resp = await fetch('/api/delete-inquiry', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Firebase-AppCheck': appCheckToken
+      },
+      body: JSON.stringify({
+        inquiryId: currentOpenedInquiryId,
+        password: pwd
+      })
+    });
+
+    const result = await resp.json();
+
+    if (!resp.ok || !result.success) {
+      if (errorEl) {
+        errorEl.textContent = result.message || '삭제 비밀번호가 일치하지 않습니다.';
+        errorEl.style.display = 'block';
+      }
+      return;
+    }
+
+    closeAuthorDeleteModal();
+    closeInquiryDetailModal();
+    showAuthToast('상담글이 성공적으로 삭제되었습니다.');
+  } catch (err) {
+    console.error('[AUTHOR DELETE ERROR]', err);
+    if (errorEl) {
+      errorEl.textContent = '문의 삭제 처리 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
+      errorEl.style.display = 'block';
+    }
+  } finally {
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = '삭제하기';
+    }
+  }
+}
+
+
 function openInquiryDetailModal(id) {
   const items = getStoredInquiries();
   const inquiry = items.find(item => item.id === id);
@@ -3161,6 +3256,9 @@ async function handleInquirySubmit(e) {
   const title = document.getElementById('inq-title')?.value.trim() || '';
   const content = document.getElementById('inq-content')?.value.trim() || '';
 
+  const deletePwd = document.getElementById('inq-delete-password')?.value.trim() || '';
+  const deletePwdConfirm = document.getElementById('inq-delete-password-confirm')?.value.trim() || '';
+
   // Input Validation
   if (!region || region.length < 1 || region.length > 30) {
     alert('거주지역을 1자 이상 30자 이하로 입력해주세요. (예: 분당 / 성남시 / 서울 강남구)');
@@ -3186,6 +3284,16 @@ async function handleInquirySubmit(e) {
     return;
   }
 
+  if (!/^d{6}$/.test(deletePwd)) {
+    alert('삭제 비밀번호는 정확히 숫자 6자리로 입력해주세요. (문자/특수문자/공백 불가)');
+    return;
+  }
+
+  if (deletePwd !== deletePwdConfirm) {
+    alert('삭제 비밀번호와 비밀번호 확인이 일치하지 않습니다. 다시 확인해주세요.');
+    return;
+  }
+
   console.log('[INQUIRY SUBMIT] 2. validation passed');
 
   if (submitBtn) {
@@ -3194,49 +3302,57 @@ async function handleInquirySubmit(e) {
   }
 
   try {
-    const newDocId = `inq_${Date.now()}`;
+    console.log('[INQUIRY SUBMIT] 3. obtaining app check token & calling /api/create-inquiry');
 
-    console.log('[INQUIRY SUBMIT] 3. payload ready [fields: region, ageText, gender, category, title, content, status, createdAt]');
+    let appCheckToken = '';
+    if (typeof firebase !== 'undefined' && typeof firebase.appCheck === 'function') {
+      try {
+        const tokenObj = await firebase.appCheck().getToken();
+        if (tokenObj && tokenObj.token) {
+          appCheckToken = tokenObj.token;
+        }
+      } catch (err) {
+        console.warn('App Check token notice:', err);
+      }
+    }
 
-    // Direct Sync to Firebase Cloud Firestore with 15s diagnostic timeout
-    if (db && isFirebaseConnected) {
-      console.log('[INQUIRY SUBMIT] 4. firestore write start -> docId: ' + newDocId);
-
-      const writePromise = db.collection('online_inquiries').doc(newDocId).set({
+    const resp = await fetch('/api/create-inquiry', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Firebase-AppCheck': appCheckToken
+      },
+      body: JSON.stringify({
         region: region,
         ageText: ageText,
         gender: gender,
         category: category,
         title: title,
         content: content,
-        status: 'pending',
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      });
+        deletePassword: deletePwd
+      })
+    });
 
-      const timeoutPromise = new Promise((_, reject) => {
-        setTimeout(() => {
-          reject(new Error('Firestore write timeout (15000ms exceeded). online=' + navigator.onLine + ', host=' + location.hostname));
-        }, 15000);
-      });
+    const result = await resp.json();
 
-      await Promise.race([writePromise, timeoutPromise]);
-      console.log('[INQUIRY SUBMIT] 5. firestore write success');
-    } else {
-      throw new Error('데이터베이스에 연결할 수 없습니다. 네트워크 상태를 확인해주세요.');
+    if (!resp.ok || !result.success) {
+      throw new Error(result.message || '상담글 등록에 실패했습니다. 잠시 후 다시 시도해주세요.');
     }
+
+    console.log('[INQUIRY SUBMIT] 4. server create success -> docId:', result.inquiryId);
 
     lastInquirySubmitTime = Date.now();
     clearInquiryDraft();
 
-    console.log('[INQUIRY SUBMIT] 6. cleanup and closing modal');
+    console.log('[INQUIRY SUBMIT] 5. cleanup and closing modal');
     document.getElementById('inquiry-submit-form')?.reset();
     closeInquiryWriteModal();
     showAuthToast('🎉 온라인 상담글이 성공적으로 등록되었습니다. 손지웅 원장님이 확인 후 성심성의껏 전문 답변을 등록해 드립니다.');
   } catch (err) {
     console.error('[INQUIRY SUBMIT] Error caught:', err);
-    alert('상담글 등록에 실패했습니다. 잠시 후 다시 시도해주세요.');
+    alert(err.message || '상담글 등록에 실패했습니다. 잠시 후 다시 시도해주세요.');
   } finally {
-    console.log('[INQUIRY SUBMIT] 7. finally block executed - button state restored');
+    console.log('[INQUIRY SUBMIT] 6. finally block executed - button state restored');
     if (submitBtn) {
       submitBtn.disabled = false;
       submitBtn.innerHTML = '<i class="ph-bold ph-paper-plane-tilt"></i> <span>상담글 등록하기</span>';
