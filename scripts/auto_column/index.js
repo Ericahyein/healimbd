@@ -84,17 +84,35 @@ async function runAutoColumnPipeline() {
   console.log('🎨 Thumbnail Copy generated:', thumbnailCopy);
   console.log('📝 Summary generated:', outline.summary);
 
-  // 4. Content & Medical Safety Validation (STRICT GATEKEEPER)
-  console.log('\n[4/6] Running Content & Medical Safety Validator...');
+  // Dynamic consistent Geo hashtags & keywords (Strictly limited to current GEO)
+  const hashtags = [
+    `${plan.geo.displayName}${plan.disease.name.replace(/[^가-힣a-zA-Z0-9]/g, '')}`,
+    `${plan.geo.displayName}한의원`,
+    `${plan.disease.name}치료`,
+    `${plan.disease.name}관리`,
+    `해아림한의원`
+  ];
+  const keywords = [
+    `${plan.geo.displayName} ${plan.disease.name}`,
+    `${plan.geo.fullName} ${plan.disease.name}`,
+    `${plan.disease.name} 한방치료`,
+    `${plan.topicAngle.titleSuffix}`
+  ];
+
+  // 4. 3-Tier Content, GEO Consistency & Medical Safety Validation (STRICT GATEKEEPER)
+  console.log('\n[4/6] Running 3-Tier Validator (Global + GEO Consistency + Disease Specific)...');
   const history = loadHistory();
   const validation = validateArticleContent({
     title: plan.titleCandidate,
     summary: outline.summary || '',
     category: plan.disease.category,
     body: articleBody,
+    hashtags,
+    keywords,
     geoId: plan.geo.id,
     diseaseId: plan.disease.id,
     thumbnailCopy,
+    knowledge,
     history
   });
 
@@ -111,6 +129,7 @@ async function runAutoColumnPipeline() {
         mode: 'DRY_RUN_FAILED_VALIDATION',
         plan,
         thumbnailCopy,
+        internalLinks: validation.internalLinks,
         errors: validation.errors,
         telemetry,
         generatedAt: new Date().toISOString()
@@ -120,7 +139,8 @@ async function runAutoColumnPipeline() {
     throw new Error(`Article validation failed with ${validation.errors.length} error(s). Check auto_column_artifacts/validation-report.json`);
   }
 
-  console.log('✅ Article validation passed 100% with 0 errors.');
+  console.log('✅ 3-Tier Article validation passed 100% with 0 errors.');
+  console.log(`🔗 Verified internal links attached: ${validation.internalLinks.length}`);
   if (validation.warnings.length > 0) {
     console.warn('⚠️ Validation Warnings:', validation.warnings);
   }
@@ -146,6 +166,9 @@ async function runAutoColumnPipeline() {
 
   // 6. Build Final Front Matter & Markdown Document
   const todayIso = new Date().toISOString();
+  const hashtagsYaml = hashtags.map(h => `  - "${h}"`).join('\n');
+  const keywordsYaml = keywords.map(k => `  - "${k}"`).join('\n');
+
   const finalMarkdown = `---
 title: "${plan.titleCandidate.replace(/"/g, '\\"')}"
 date: ${todayIso}
@@ -155,16 +178,9 @@ author: "손지웅 대표원장"
 image: "${thumbRelativePath}"
 summary: "${(outline.summary || '').replace(/"/g, '\\"')}"
 hashtags:
-  - "${plan.geo.displayName}${plan.disease.name.replace(/[^가-힣a-zA-Z0-9]/g, '')}"
-  - "${plan.geo.displayName}한의원"
-  - "${plan.disease.name}치료"
-  - "정자역한의원"
-  - "해아림한의원"
+${hashtagsYaml}
 keywords:
-  - "${plan.geo.displayName} ${plan.disease.name}"
-  - "${plan.geo.fullName} ${plan.disease.name}"
-  - "${plan.disease.name} 한방치료"
-  - "${plan.topicAngle.titleSuffix}"
+${keywordsYaml}
 ---
 
 ${articleBody}
@@ -191,6 +207,7 @@ ${articleBody}
     reviewStatusNotice: knowledge.reviewStatus !== 'approved' ? 'DRY RUN - MEDICAL KNOWLEDGE NOT YET HUMAN APPROVED' : 'HUMAN APPROVED',
     plan,
     thumbnailCopy,
+    internalLinks: validation.internalLinks,
     modelsUsed: {
       planner: process.env.OPENAI_PLANNER_MODEL || 'gpt-5.6-luna',
       writer: process.env.OPENAI_WRITER_MODEL || 'gpt-5.6-terra',

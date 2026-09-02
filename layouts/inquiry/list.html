@@ -260,16 +260,20 @@
   <div class="inquiry-detail-modal" id="inquiry-detail-modal" role="dialog" aria-modal="true">
     <div class="inquiry-detail-card">
       <div class="inquiry-detail-header">
-        <div class="detail-badge-row">
-          <span class="detail-disease-tag" id="view-inq-disease">틱장애</span>
-          <span class="detail-status-tag" id="view-inq-status">답변완료</span>
+        <div class="detail-top-row">
+          <div class="detail-badge-row">
+            <span class="detail-disease-tag" id="view-inq-disease">틱장애</span>
+            <span class="detail-status-tag" id="view-inq-status">답변완료</span>
+          </div>
+          <button type="button" class="modal-close-btn-sky" onclick="closeInquiryDetailModal()" aria-label="닫기">
+            <i class="ph-bold ph-x"></i> <span>닫기</span>
+          </button>
         </div>
         <h2 class="detail-main-title" id="view-inq-title">상담 제목이 들어갑니다</h2>
         <div class="detail-meta-info">
           <span><i class="ph-bold ph-user"></i> 작성자: <span id="view-inq-author">분당 · 30대 · 여</span><span id="view-inq-nickname" style="display:none;"></span></span>
           <span><i class="ph-bold ph-calendar"></i> 작성일: <span id="view-inq-date">2026.08.31</span></span>
         </div>
-        <button type="button" class="modal-close-btn" onclick="closeInquiryDetailModal()"><i class="ph ph-x"></i></button>
       </div>
 
       <div class="inquiry-detail-body">

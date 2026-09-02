@@ -7916,11 +7916,18 @@ body.is-admin .admin-only-btn {
   position: relative;
 }
 
+.detail-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  gap: 12px;
+}
+
 .detail-badge-row {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 10px;
 }
 
 .detail-disease-tag {
@@ -7928,17 +7935,48 @@ body.is-admin .admin-only-btn {
   color: white;
   font-weight: 700;
   font-size: 0.82rem;
-  padding: 4px 10px;
+  padding: 5px 12px;
   border-radius: 6px;
 }
 
 .detail-status-tag {
   background: #E0F2FE;
   color: #0284C7;
-  font-weight: 700;
+  font-weight: 800;
   font-size: 0.82rem;
-  padding: 4px 10px;
+  padding: 5px 12px;
   border-radius: 6px;
+  border: 1px solid #BAE6FD;
+}
+
+.modal-close-btn-sky {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  background: #E0F2FE;
+  color: #0284C7;
+  border: 1.5px solid #BAE6FD;
+  border-radius: 8px;
+  padding: 5px 14px;
+  font-size: 0.88rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  line-height: 1;
+}
+
+.modal-close-btn-sky i {
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+.modal-close-btn-sky:hover {
+  background: #0284C7;
+  color: white;
+  border-color: #0284C7;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
 }
 
 .detail-main-title {

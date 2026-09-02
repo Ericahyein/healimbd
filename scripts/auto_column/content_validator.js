@@ -1,7 +1,8 @@
 const geoHierarchy = require('./geo_hierarchy.json');
 const diseaseTaxonomy = require('./disease_taxonomy.json');
+const { isInternalUrlValid } = require('./internal_linker');
 
-const BANNED_MEDICAL_PATTERNS = [
+const GLOBAL_BANNED_MEDICAL_PATTERNS = [
   { pattern: /완치\s*보장/i, reason: '의료법 위반: 완치 보장 표현 금지' },
   { pattern: /반드시\s*(치료|완치|좋아|낫)/i, reason: '치료 단정적 확신 표현 금지' },
   { pattern: /무조건\s*(치료|완치|회복|해결)/i, reason: '무조건적 치료 표현 금지' },
@@ -15,7 +16,11 @@ const BANNED_MEDICAL_PATTERNS = [
   { pattern: /신경전달물질(을|의|\s*)*조절/i, reason: '신경전달물질 직접 조절 단정 금지' },
   { pattern: /뇌\s*기능(을|의|\s*)*정상화/i, reason: '뇌 기능 정상화 단정 표현 금지' },
   { pattern: /최고의\s*(한의원|치료|명의)/i, reason: '최고 표현 금지' },
-  { pattern: /국내\s*유일/i, reason: '유일 표현 금지' }
+  { pattern: /국내\s*유일/i, reason: '유일 표현 금지' },
+  { pattern: /(유명한\s*한의원|추천\s*한의원|치료\s*잘하는\s*곳)/i, reason: '광고성 수식어 금지' },
+  // Arbitrary rigid time limits or direct single-cause assertion patterns
+  { pattern: /취침\s*전\s*(1~2|1|2|3)시간만\s*제한/i, reason: '일률적 시간 수치 강제 표현 금지' },
+  { pattern: /스마트폰(이|은|을)\s*(틱|ADHD)의\s*(직접적\s*)?(원인|유발)/i, reason: '미디어와 질환의 직접 인과관계 단정 금지' }
 ];
 
 /**
@@ -71,44 +76,72 @@ function jaroWinkler(s1, s2) {
 }
 
 /**
- * Comprehensive Validation of Generated Column
+ * Extracts markdown links from text, supporting balanced brackets
+ */
+function extractInternalLinks(text) {
+  const linkRegex = /\[([^\[\]]*(?:\[[^\[\]]*\][^\[\]]*)*)\]\(([^)\s]+)\)/g;
+  const links = [];
+  let match;
+  while ((match = linkRegex.exec(text)) !== null) {
+    const linkText = match[1].trim();
+    const url = match[2].trim();
+    if (url.startsWith('/') || url.startsWith('./') || url.startsWith('../')) {
+      links.push({ text: linkText, url });
+    }
+  }
+  return links;
+}
+
+/**
+ * 3-Tier Comprehensive Validation of Generated Column
+ * Tier 1: Global Policy (Structure, Length, Headings, Banned Phrases, Internal Links)
+ * Tier 2: GEO Consistency Policy (No unrelated active GEO or station keywords)
+ * Tier 3: Disease-Specific Policy (medical_knowledge constraints)
  */
 function validateArticleContent(articleData, options = {}) {
   const errors = [];
   const warnings = [];
 
   const {
-    title,
-    summary,
-    category,
-    body,
-    geoId,
-    diseaseId,
+    title = '',
+    summary = '',
+    category = '',
+    body = '',
+    hashtags = [],
+    keywords = [],
+    geoId = '',
+    diseaseId = '',
     thumbnailCopy,
-    history = []
+    knowledge,
+    history = [],
+    blogDir
   } = articleData;
 
-  // 1. Basic Field Existence
-  if (!title || title.trim().length < 5) errors.push('Title is missing or too short.');
-  if (!summary || summary.trim().length < 20) errors.push('Summary description is missing or too short.');
+  // ==========================================
+  // TIER 1: GLOBAL CONTENT VALIDATION
+  // ==========================================
+
+  // 1. Basic Field Existence & Length
+  if (!title || title.trim().length < 5) errors.push('Title is missing or too short (< 5 chars).');
+  if (!summary || summary.trim().length < 20) errors.push('Summary description is missing or too short (< 20 chars).');
   if (!body || body.trim().length < 300) errors.push('Article body is missing or too short (< 300 chars).');
 
-  // 2. Geo & Disease Validation
+  // 2. Geo & Disease Validity Check
   const validGeo = geoHierarchy.regions.find(r => r.id === geoId);
   if (!validGeo) errors.push(`Invalid geoId: ${geoId}`);
 
   const validDisease = diseaseTaxonomy.diseases.find(d => d.id === diseaseId);
   if (!validDisease) errors.push(`Invalid diseaseId: ${diseaseId}`);
 
-  // 3. Title Format Check
+  // 3. Title Format Check '[지역 질환] 구체적 질문/주제'
   const titlePattern = /^\[([가-힣\s]+)\s+([가-힣\s]+)\]\s+.+$/;
   if (!titlePattern.test(title)) {
     errors.push(`Title must match format '[지역 질환] 구체적 질문/주제'. Given: ${title}`);
   }
 
-  // 4. Medical Banned Expressions Check
-  const fullText = `${title}\n${summary}\n${body}`;
-  for (const { pattern, reason } of BANNED_MEDICAL_PATTERNS) {
+  // 4. Global Banned Medical Patterns
+  const fullText = `${title}\n${summary}\n${body}\n${hashtags.join(' ')}\n${keywords.join(' ')}`;
+  for (const { pattern, reason } of GLOBAL_BANNED_MEDICAL_PATTERNS) {
     if (pattern.test(fullText)) {
       errors.push(`Medical safety violation: ${reason} (Matched: ${pattern})`);
     }
@@ -130,18 +163,50 @@ function validateArticleContent(articleData, options = {}) {
     errors.push('Article must contain FAQ questions and answers.');
   }
 
-  // 6. Regional Keyword Density Check in Body (Max 3 mentions)
-  if (validGeo) {
-    const regionName = validGeo.displayName;
-    const bodyOnly = body.replace(/^##.+$/gm, ''); // remove headings
-    const regex = new RegExp(regionName, 'g');
-    const matches = (bodyOnly.match(regex) || []).length;
-    if (matches > 3) {
-      warnings.push(`Regional keyword '${regionName}' appears ${matches} times in body (recommended: 1~3 times).`);
+  // 6. Internal Links Verification (Must have 2~4 real verified links)
+  const links = extractInternalLinks(body);
+  const validatedLinks = [];
+
+  for (const l of links) {
+    const isValid = isInternalUrlValid(l.url, blogDir);
+    validatedLinks.push({ ...l, exists: isValid });
+    if (!isValid) {
+      errors.push(`Internal Link validation failed: URL '${l.url}' does not exist in repository.`);
     }
   }
 
-  // 7. Title Similarity against Past History
+  if (links.length < 2) {
+    errors.push(`Article must contain at least 2 real internal links. Found: ${links.length}`);
+  } else if (links.length > 5) {
+    warnings.push(`Article contains ${links.length} internal links (recommended: 2~4).`);
+  }
+
+  // 7. Thumbnail Copy Validation
+  if (thumbnailCopy) {
+    const { yellowText, whiteText, greenText } = thumbnailCopy;
+    if (!yellowText || yellowText.trim().length < 1 || yellowText.length > 15) {
+      errors.push('Thumbnail yellowText must be 1~15 characters.');
+    }
+    if (!whiteText || whiteText.trim().length < 1 || whiteText.length > 18) {
+      errors.push('Thumbnail whiteText must be 1~18 characters.');
+    }
+    if (!greenText || greenText.trim().length < 1 || greenText.length > 12) {
+      errors.push('Thumbnail greenText must be 1~12 characters.');
+    }
+
+    // No regional names in thumbnail
+    for (const r of geoHierarchy.regions) {
+      if (
+        (yellowText && yellowText.includes(r.displayName)) ||
+        (whiteText && whiteText.includes(r.displayName)) ||
+        (greenText && greenText.includes(r.displayName))
+      ) {
+        errors.push(`Thumbnail copy must NOT contain regional names like '${r.displayName}'.`);
+      }
+    }
+  }
+
+  // 8. Title Similarity against Past History
   for (const past of history) {
     if (past.title) {
       const sim = jaroWinkler(title, past.title);
@@ -151,21 +216,49 @@ function validateArticleContent(articleData, options = {}) {
     }
   }
 
-  // 8. Thumbnail Copy Validation
-  if (thumbnailCopy) {
-    const { yellowText, whiteText, greenText } = thumbnailCopy;
-    if (!yellowText || yellowText.length > 15) errors.push('Thumbnail yellowText must be 1~15 characters.');
-    if (!whiteText || whiteText.length > 18) errors.push('Thumbnail whiteText must be 1~18 characters.');
-    if (!greenText || greenText.length > 12) errors.push('Thumbnail greenText must be 1~12 characters.');
+  // ==========================================
+  // TIER 2: GEO CONSISTENCY VALIDATION
+  // ==========================================
+  if (validGeo) {
+    const allowedRegions = [validGeo.displayName, validGeo.fullName, ...validGeo.aliases];
+    const otherActiveRegions = geoHierarchy.regions
+      .filter(r => r.id !== validGeo.id)
+      .flatMap(r => [r.displayName, ...r.aliases]);
 
-    // No regional names in thumbnail
-    for (const r of geoHierarchy.regions) {
-      if (
-        yellowText.includes(r.displayName) ||
-        whiteText.includes(r.displayName) ||
-        greenText.includes(r.displayName)
-      ) {
-        errors.push(`Thumbnail copy must NOT contain regional names like '${r.displayName}'.`);
+    // Disallowed station/subway/unrelated keywords that must not be in tags/keywords/title
+    const specificForbiddenKeywords = ['정자역', '미금역', '오리역', '야탑역', '서현역', '수내역', '판교역', '수지구청역'];
+
+    // Check hashtags and keywords strictly
+    const checkList = [...hashtags, ...keywords, title, summary];
+    for (const item of checkList) {
+      for (const other of otherActiveRegions) {
+        if (item.includes(other) && !allowedRegions.includes(other)) {
+          errors.push(`Geo consistency violation: Targeted for '${validGeo.displayName}', but found unrelated region keyword '${other}' in '${item}'.`);
+        }
+      }
+      for (const forbidden of specificForbiddenKeywords) {
+        if (item.includes(forbidden) && !allowedRegions.includes(forbidden)) {
+          errors.push(`Geo consistency violation: Found unrelated local station keyword '${forbidden}' in '${item}'.`);
+        }
+      }
+    }
+
+    // Check body regional density (Max 3 mentions of current geo)
+    const bodyOnly = body.replace(/^##.+$/gm, '');
+    const regex = new RegExp(validGeo.displayName, 'g');
+    const matches = (bodyOnly.match(regex) || []).length;
+    if (matches > 3) {
+      warnings.push(`Regional keyword '${validGeo.displayName}' appears ${matches} times in body (recommended: 1~3 times).`);
+    }
+  }
+
+  // ==========================================
+  // TIER 3: DISEASE-SPECIFIC VALIDATION
+  // ==========================================
+  if (knowledge && Array.isArray(knowledge.bannedPhrases)) {
+    for (const phrase of knowledge.bannedPhrases) {
+      if (fullText.includes(phrase)) {
+        errors.push(`Disease-specific safety violation (${diseaseId}): Contains banned phrase '${phrase}'.`);
       }
     }
   }
@@ -173,12 +266,14 @@ function validateArticleContent(articleData, options = {}) {
   return {
     valid: errors.length === 0,
     errors,
-    warnings
+    warnings,
+    internalLinks: validatedLinks
   };
 }
 
 module.exports = {
-  BANNED_MEDICAL_PATTERNS,
+  GLOBAL_BANNED_MEDICAL_PATTERNS,
   jaroWinkler,
+  extractInternalLinks,
   validateArticleContent
 };
