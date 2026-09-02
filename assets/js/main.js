@@ -2544,137 +2544,6 @@ ${content}
 }
 
 
-async function handleInquirySubmit(e) {
-  e.preventDefault();
-
-  console.log('[INQUIRY SUBMIT] 1. start');
-
-  const submitBtn = document.getElementById('inquiry-submit-btn');
-
-  // Rate Limiting & Cooldown Protection (Anti-Spam)
-  const now = Date.now();
-  if (now - lastInquirySubmitTime < 5000) {
-    alert('상담글은 5초 간격으로 등록하실 수 있습니다. 잠시 후 다시 시도해주세요.');
-    return;
-  }
-
-  const region = document.getElementById('inq-region')?.value.trim() || '';
-  const ageText = document.getElementById('inq-age')?.value.trim() || '';
-  const gender = document.querySelector('input[name="inq-gender"]:checked')?.value || 'male';
-
-  const selectedDiseaseEl = document.querySelector('input[name="inq-disease"]:checked');
-  const category = selectedDiseaseEl ? selectedDiseaseEl.getAttribute('data-category') : 'tic';
-  const disease = selectedDiseaseEl ? selectedDiseaseEl.value : '틱장애·뚜렛';
-  const title = document.getElementById('inq-title')?.value.trim() || '';
-  const content = document.getElementById('inq-content')?.value.trim() || '';
-
-  // Input Validation
-  if (!region || region.length < 1 || region.length > 30) {
-    alert('거주지역을 1자 이상 30자 이하로 입력해주세요. (예: 분당 / 성남시 / 서울 강남구)');
-    return;
-  }
-
-  if (!ageText || ageText.length < 1 || ageText.length > 20) {
-    alert('나이를 1자 이상 20자 이하로 입력해주세요. (예: 35세 또는 30대)');
-    return;
-  }
-
-  if (!['male', 'female'].includes(gender)) {
-    alert('성별을 올바르게 선택해주세요.');
-    return;
-  }
-
-  if (title.length < 2 || title.length > 100) {
-    alert('제목은 2자 이상 100자 이하로 입력해주세요.');
-    return;
-  }
-  if (content.length < 5 || content.length > 3000) {
-    alert('상담 내용은 5자 이상 3000자 이하로 입력해주세요.');
-    return;
-  }
-
-  console.log('[INQUIRY SUBMIT] 2. validation passed');
-
-  if (submitBtn) {
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = '<i class="ph-bold ph-spinner ph-spin"></i> <span>등록 중...</span>';
-  }
-
-  try {
-    const today = new Date();
-    const dateStr = `${today.getFullYear()}.${String(today.getMonth() + 1).padStart(2, '0')}.${String(today.getDate()).padStart(2, '0')}`;
-    const newDocId = `inq_${Date.now()}`;
-
-    console.log('[INQUIRY SUBMIT] 3. payload ready [fields: region, ageText, gender, category, title, content, status, createdAt]');
-
-    // Local fallback object
-    const newInquiryLocal = {
-      id: newDocId,
-      region: region,
-      ageText: ageText,
-      gender: gender,
-      category: category,
-      disease: disease,
-      title: title,
-      content: content,
-      status: 'pending',
-      date: dateStr,
-      answer: '',
-      answerDate: ''
-    };
-
-    // 1. Save to LocalStorage
-    const stored = getStoredInquiries();
-    stored.unshift(newInquiryLocal);
-    localStorage.setItem('healim_online_inquiries', JSON.stringify(stored));
-    console.log('[INQUIRY SUBMIT] 4. local storage saved');
-
-    // 2. Sync to Firebase Cloud Firestore with 15s diagnostic timeout
-    if (db && isFirebaseConnected) {
-      console.log('[INQUIRY SUBMIT] 5. firestore write start -> docId: ' + newDocId);
-
-      const writePromise = db.collection('online_inquiries').doc(newDocId).set({
-        region: region,
-        ageText: ageText,
-        gender: gender,
-        category: category,
-        title: title,
-        content: content,
-        status: 'pending',
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      });
-
-      const timeoutPromise = new Promise((_, reject) => {
-        setTimeout(() => {
-          reject(new Error('Firestore write timeout (15000ms exceeded). online=' + navigator.onLine + ', host=' + location.hostname));
-        }, 15000);
-      });
-
-      await Promise.race([writePromise, timeoutPromise]);
-      console.log('[INQUIRY SUBMIT] 6. firestore write success');
-    } else {
-      console.warn('[INQUIRY SUBMIT] 5. skipped firestore write: db=' + Boolean(db) + ', isFirebaseConnected=' + isFirebaseConnected);
-    }
-
-    lastInquirySubmitTime = Date.now();
-    clearInquiryDraft();
-
-    console.log('[INQUIRY SUBMIT] 7. cleanup and closing modal');
-    document.getElementById('inquiry-submit-form')?.reset();
-    closeInquiryWriteModal();
-    showAuthToast('🎉 온라인 상담글이 성공적으로 등록되었습니다. 손지웅 원장님이 확인 후 성심성의껏 전문 답변을 등록해 드립니다.');
-    renderInquiryList();
-  } catch (err) {
-    console.error('[INQUIRY SUBMIT] Error caught:', err);
-    alert('상담글 등록에 실패했습니다. 잠시 후 다시 시도해주세요.');
-  } finally {
-    console.log('[INQUIRY SUBMIT] 8. finally block executed - button state restored');
-    if (submitBtn) {
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = '<i class="ph-bold ph-paper-plane-tilt"></i> <span>상담글 등록하기</span>';
-    }
-  }
-}
 
 // ==========================================================================
 // 12. ONLINE INQUIRY & 1:1 Q&A CONSULTATION ENGINE
@@ -3238,6 +3107,8 @@ function clearInquiryDraft() {
 async function handleInquirySubmit(e) {
   e.preventDefault();
 
+  console.log('[INQUIRY SUBMIT] 1. start');
+
   const submitBtn = document.getElementById('inquiry-submit-btn');
 
   // Rate Limiting & Cooldown Protection (Anti-Spam)
@@ -3282,6 +3153,8 @@ async function handleInquirySubmit(e) {
     return;
   }
 
+  console.log('[INQUIRY SUBMIT] 2. validation passed');
+
   if (submitBtn) {
     submitBtn.disabled = true;
     submitBtn.innerHTML = '<i class="ph-bold ph-spinner ph-spin"></i> <span>등록 중...</span>';
@@ -3290,8 +3163,9 @@ async function handleInquirySubmit(e) {
   try {
     const today = new Date();
     const dateStr = `${today.getFullYear()}.${String(today.getMonth() + 1).padStart(2, '0')}.${String(today.getDate()).padStart(2, '0')}`;
-
     const newDocId = `inq_${Date.now()}`;
+
+    console.log('[INQUIRY SUBMIT] 3. payload ready [fields: region, ageText, gender, category, title, content, status, createdAt]');
 
     // Local fallback object
     const newInquiryLocal = {
@@ -3309,14 +3183,17 @@ async function handleInquirySubmit(e) {
       answerDate: ''
     };
 
-    // 1. Save to Local
+    // 1. Save to LocalStorage
     const stored = getStoredInquiries();
     stored.unshift(newInquiryLocal);
     localStorage.setItem('healim_online_inquiries', JSON.stringify(stored));
+    console.log('[INQUIRY SUBMIT] 4. local storage saved');
 
-    // 2. Sync to Firebase Cloud Firestore (Strict demographic schema: region, ageText, gender)
+    // 2. Sync to Firebase Cloud Firestore with 15s diagnostic timeout
     if (db && isFirebaseConnected) {
-      await db.collection('online_inquiries').doc(newDocId).set({
+      console.log('[INQUIRY SUBMIT] 5. firestore write start -> docId: ' + newDocId);
+
+      const writePromise = db.collection('online_inquiries').doc(newDocId).set({
         region: region,
         ageText: ageText,
         gender: gender,
@@ -3326,18 +3203,32 @@ async function handleInquirySubmit(e) {
         status: 'pending',
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
       });
+
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => {
+          reject(new Error('Firestore write timeout (15000ms exceeded). online=' + navigator.onLine + ', host=' + location.hostname));
+        }, 15000);
+      });
+
+      await Promise.race([writePromise, timeoutPromise]);
+      console.log('[INQUIRY SUBMIT] 6. firestore write success');
+    } else {
+      console.warn('[INQUIRY SUBMIT] 5. skipped firestore write: db=' + Boolean(db) + ', isFirebaseConnected=' + isFirebaseConnected);
     }
 
     lastInquirySubmitTime = Date.now();
+    clearInquiryDraft();
 
+    console.log('[INQUIRY SUBMIT] 7. cleanup and closing modal');
     document.getElementById('inquiry-submit-form')?.reset();
     closeInquiryWriteModal();
     showAuthToast('🎉 온라인 상담글이 성공적으로 등록되었습니다. 손지웅 원장님이 확인 후 성심성의껏 전문 답변을 등록해 드립니다.');
     renderInquiryList();
   } catch (err) {
-    console.error('Inquiry submit error:', err);
-    alert('상담글 등록 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+    console.error('[INQUIRY SUBMIT] Error caught:', err);
+    alert('상담글 등록에 실패했습니다. 잠시 후 다시 시도해주세요.');
   } finally {
+    console.log('[INQUIRY SUBMIT] 8. finally block executed - button state restored');
     if (submitBtn) {
       submitBtn.disabled = false;
       submitBtn.innerHTML = '<i class="ph-bold ph-paper-plane-tilt"></i> <span>상담글 등록하기</span>';
