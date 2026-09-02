@@ -38,6 +38,31 @@ async function callOpenAiApi(apiKey, endpoint, body) {
 }
 
 /**
+ * Builds disease-tailored single-subject photorealistic prompts
+ */
+function buildImagePrompt(diseaseId, diseaseName, topicFocus) {
+  if (diseaseId === 'tic' || (diseaseName && diseaseName.includes('틱'))) {
+    return `A single, focused, realistic portrait of ONE Asian child or adolescent (around 8-12 years old) sitting in a warm home room, showing subtle natural tension such as blinking eyes, touching neck or collar gently, or looking thoughtful. Highly realistic, natural soft lighting, quiet atmosphere. Strictly ONE child/adolescent only. Strictly NO adult, NO woman clutching chest or stomach, NO medical tools, NO collage, NO split screen, NO multi-panel, NO text, NO letters, NO words, NO logos, NO signs, NO watermark.`;
+  }
+  if (diseaseId === 'adhd' || (diseaseName && diseaseName.includes('ADHD'))) {
+    return `A single, focused, realistic photo of ONE child or youth sitting at a study desk with a book, looking thoughtful with gentle natural focus. Single subject only, centered composition, soft natural lighting. Strictly NO collage, NO split screen, NO multi-panel, NO text, NO letters, NO words, NO logos, NO watermark.`;
+  }
+  if (diseaseId === 'panic' || (diseaseName && diseaseName.includes('공황'))) {
+    return `A single, focused, realistic photo of ONE adult sitting quietly by a window, taking a deep breath with hand lightly near chest, seeking calm. Single subject only, centered composition, soft natural lighting. Strictly NO collage, NO split screen, NO multi-panel, NO text, NO letters, NO words, NO logos, NO watermark.`;
+  }
+  if (diseaseId === 'sleep' || (diseaseName && (diseaseName.includes('수면') || diseaseName.includes('불면')))) {
+    return `A single, focused, realistic photo of ONE adult sitting on the edge of a bed at night, looking thoughtful and tired in soft ambient bedside light. Single subject only, centered composition. Strictly NO collage, NO split screen, NO multi-panel, NO text, NO letters, NO words, NO logos, NO watermark.`;
+  }
+  if (diseaseId === 'autonomic' || (diseaseName && diseaseName.includes('자율신경'))) {
+    return `A single, focused, realistic photo of ONE adult sitting on a living room sofa, resting their hand on their forehead or chest with a weary expression from fatigue and dizziness. Single subject only, centered composition. Strictly NO collage, NO split screen, NO multi-panel, NO text, NO letters, NO words, NO logos, NO watermark.`;
+  }
+  if (diseaseId === 'ibs' || (diseaseName && diseaseName.includes('과민성대장'))) {
+    return `A single, focused, realistic photo of ONE adult sitting comfortably, resting a hand gently on their lower abdomen with a subtle uncomfortable expression. Single subject only, centered composition. Strictly NO collage, NO split screen, NO multi-panel, NO text, NO letters, NO words, NO logos, NO watermark.`;
+  }
+  return `A single, focused, realistic photo of ONE person representing comfort and clinical mindfulness for ${diseaseName} (${topicFocus}). Single subject only, centered composition, soft natural lighting, photorealistic. Strictly NO collage, NO split screen, NO multi-panel, NO text, NO letters, NO words, NO logos, NO signs, NO watermark.`;
+}
+
+/**
  * 1. Generate Topic Outline & Mandatory Summary using Planner Model (gpt-5.6-luna)
  */
 async function generateTopicOutline(plan, knowledge, apiKey, telemetry) {
@@ -49,10 +74,10 @@ async function generateTopicOutline(plan, knowledge, apiKey, telemetry) {
       summary: fallbackSummary,
       outline: [
         '1. 진료실에서 자주 마주하는 환자분들의 고민',
-        '2. 신경생물학적 특성과 증상에 영향을 미치는 관련 요인들',
+        '2. 신경생물학적 특성과 자극적 환경이 증상에 미치는 영향',
         '3. 비슷한 다른 상태와 감별하여 살펴볼 점',
         '4. 해아림한의원의 상태 평가 및 1:1 맞춤 관리 관점',
-        '5. 일상생활에서 실천할 수 있는 적극적 대처 수칙',
+        '5. 일상생활에서 실천할 수 있는 적극적인 미디어 조절 수칙',
         '6. 자주 묻는 질문 (FAQ)'
       ]
     };
@@ -119,10 +144,10 @@ async function generateTopicOutline(plan, knowledge, apiKey, telemetry) {
     summary: finalSummary,
     outline: Array.isArray(result.outline) && result.outline.length >= 4 ? result.outline : [
       '1. 진료실에서 자주 마주하는 고민',
-      '2. 신경생물학적 특성과 증상에 영향을 미칠 수 있는 관련 요인들',
+      '2. 신경생물학적 특성과 자극적 환경이 증상에 미치는 영향',
       '3. 비슷한 다른 상태와 감별하여 살펴볼 점',
       '4. 해아림한의원의 상태 평가 및 1:1 맞춤 관리 관점',
-      '5. 일상생활에서 실천할 수 있는 적극적 대처 수칙',
+      '5. 일상생활에서 실천할 수 있는 적극적인 미디어 조절 수칙',
       '6. 자주 묻는 질문 (FAQ)'
     ]
   };
@@ -143,25 +168,26 @@ async function generateArticleBody(plan, outline, knowledge, internalLinks, apiK
   </div>
   <ul class="summary-list">
     <li><strong>${knowledge.approvedDefinition}</strong></li>
-    <li>증상의 악화와 변동에는 ${knowledge.possibleAggravatingFactors.slice(0, 2).join(', ')} 등이 복합적으로 영향을 줄 수 있습니다.</li>
-    <li>개인의 체질과 긴장 상태를 면밀히 살펴 ${knowledge.treatmentGuidance}를 진행합니다.</li>
-    <li>가정에서는 ${knowledge.lifestyleTips[0]} 등의 생활 수칙을 함께 실천하는 것이 도움됩니다.</li>
+    <li>빠른 화면 전환과 강한 시각 자극은 두뇌의 각성과 긴장도를 높여 틱 증상 변동에 영향을 줄 수 있습니다.</li>
+    <li>도파민계 및 CSTC 회로 등 신경생물학적 특성을 고려할 때 자극적인 환경을 조절하는 것이 중요합니다.</li>
+    <li>단순 허용보다 아이의 상황에 맞추어 불필요한 미디어 노출을 적극적으로 줄이고 증상 변화를 관찰합니다.</li>
   </ul>
 </div>
 
 ## 1. 진료실에서 자주 마주하는 고민
 
-${plan.geo.displayName} 지역에서 ${plan.disease.name} 증상으로 상담을 청하시는 분들 중 많은 경우가 "일상 속에서 겪는 변화가 증상에 어떤 영향을 주는지"에 대해 깊은 염려를 표하십니다.
-진료실에서 보호자분들이 흔히 묻는 질문 중 하나는 "미디어나 자극적인 활동이 증상을 더 악화시키는 것은 아닌지"에 대한 고민입니다.
+${plan.geo.displayName} 지역에서 아이의 ${plan.disease.name} 증상으로 상담을 청하시는 보호자분들의 이야기를 듣다 보면 "스마트폰이나 게임을 볼 때 증상이 더 심해지는 것 같은데 어떻게 지도해야 하는지"에 대한 질문을 자주 받습니다.
+진료실에서는 무조건적인 방치나 단순한 시간 때우기식 허용보다는, 자극적인 콘텐츠가 아이의 두뇌 흥분도에 미치는 영향을 균형 있게 이해하고 대처하는 것이 필요하다고 안내해 드립니다.
 
-## 2. 신경생물학적 특성과 증상에 영향을 미치는 관련 요인들
+## 2. 신경생물학적 특성과 자극적 환경이 증상에 미치는 영향
 
 ${knowledge.approvedDefinition}
-임상과 기초 연구에 따르면 질환의 근본적인 생물학적 특성과 증상의 일상적 변동 요인은 구분하여 이해할 필요가 있습니다.
+임상 및 신경과학 연구에서는 틱장애와 관련하여 다음과 같은 점들을 함께 살펴보고 있습니다:
 
-- ${knowledge.possibleAggravatingFactors.join('\n- ')}
+- **자극적인 콘텐츠와 두뇌 각성**: 빠른 화면 전환, 강한 색감, 큰 소리 등 자극적인 영상이나 게임은 뇌의 보상계와 각성 시스템을 강하게 활성화하여 긴장 상태를 오래 지속시킬 수 있습니다.
+- **신경생물학적 연구 배경**: 도파민계를 포함한 신경전달 체계와 피질-선조체-시상-피질(CSTC) 운동 조절 회로의 특성이 연구되고 있으며, 강한 자극 노출 시기와 증상 변동의 연관성이 관찰됩니다.
+- **증상 변동의 관련 요인**: ${knowledge.possibleAggravatingFactors.join(', ')} 등이 겹칠 때 증상이 더 두드러져 보일 수 있습니다.
 
-미디어 사용이나 특정 자극 자체가 질환의 직접적인 단일 원인(causation)이라기보다는, 보상·각성 시스템의 높은 자극과 피로가 겹치는 시기에 증상이 더 두드러져 보일 수 있습니다.
 자세한 진료 과목 안내는 [${internalLinks[0]?.title || '주요 진료 안내'}](${internalLinks[0]?.url || '/treatments/'})에서도 확인하실 수 있습니다.
 
 ## 3. 비슷한 다른 상태와 감별하여 살펴볼 점
@@ -169,7 +195,7 @@ ${knowledge.approvedDefinition}
 초기 증상의 양상을 파악하는 것이 중요합니다:
 - ${knowledge.commonSymptoms.join('\n- ')}
 
-단순한 일시적 피로 반응인지 지속적인 관찰과 체계적인 관리가 필요한 상태인지 신중하게 구별하여 접근하는 것이 바람직합니다.
+단순한 일시적 버릇인지 신경학적 긴장 조절이 필요한 상태인지 신중하게 구별하여 접근하는 것이 바람직합니다.
 관련 질환에 대한 참고 정보는 [${internalLinks[1]?.title || '온라인 상담 안내'}](${internalLinks[1]?.url || '/inquiry/'})를 통해 문의하실 수 있습니다.
 
 ## 4. 해아림한의원의 상태 평가 및 1:1 맞춤 관리 관점
@@ -177,19 +203,19 @@ ${knowledge.approvedDefinition}
 ${knowledge.evaluationGuidance}
 해아림한의원에서는 ${knowledge.treatmentGuidance}를 통해 환자 개개인의 균형 있는 회복을 돕고 있습니다.
 
-## 5. 일상생활에서 실천할 수 있는 적극적 대처 수칙
+## 5. 일상생활에서 실천할 수 있는 적극적인 미디어 조절 수칙
 
-1. **자극 완화와 노출 조절**: ${knowledge.lifestyleTips[1] || '불필요한 과도한 미디어 노출 줄이기'}
-2. **증상 변화 관찰**: ${knowledge.lifestyleTips[2] || '미디어 사용량 조절 전후의 증상 변화를 차분하게 관찰'}
-3. **안정적인 수면 리듬**: ${knowledge.lifestyleTips[3] || knowledge.lifestyleTips[0]}
+1. **과도한 노출 적극적 축소**: 특정 시간대만 제한하기보다는 평소의 전체적인 미디어 노출량을 가능한 범위에서 적극적으로 줄여나갑니다.
+2. **증상 안정 관찰**: 사용량을 줄인 후 아이의 틱 증상 및 수면, 일상 긴장도의 변화를 차분히 관찰합니다.
+3. **대체 활동 마련**: 자극적인 스크린 노출 대신 가벼운 야외 활동, 신체 놀이, 정서적 대화 시간을 함께 늘려줍니다.
 
 ## 6. 자주 묻는 질문 (FAQ)
 
 **Q1. ${knowledge.faqCandidates[0]?.q || '증상이 있을 때 어떻게 대처하나요?'}**  
 A. ${knowledge.faqCandidates[0]?.a || '무리하게 지적하지 않고 편안한 환경에서 상태를 관찰하는 것이 권장됩니다.'}
 
-**Q2. ${knowledge.faqCandidates[1]?.q || '치료 기간은 개인마다 다른가요?'}**  
-A. ${knowledge.faqCandidates[1]?.a || '증상의 지속 기간과 체질에 따라 차이가 있으므로 1:1 상담을 통해 맞춤 계획을 세웁니다.'}
+**Q2. ${knowledge.faqCandidates[1]?.q || '스마트폰을 어떻게 조절해야 하나요?'}**  
+A. ${knowledge.faqCandidates[1]?.a || '아이 상황에 맞게 불필요한 노출을 적극적으로 줄이고, 조절 전후의 증상 변화를 세밀히 관찰하는 것이 좋습니다.'}
 
 ---
 
@@ -221,16 +247,17 @@ ${linksListMd}
 [사용 가능한 검증된 내부링크 후보 (본문 자연스러운 문맥에 2~3개 반드시 삽입)]
 ${linksListMd}
 
-[원장칼럼 작성 규칙 및 의료 안전 원칙]
+[원장칼럼 작성 규칙 및 핵심 지침]
 1. 최상단에 반드시 <div class="column-key-summary-box"> 핵심 요약 3~4항목 포함.
 2. H2 목차는 최소 4개 이상 논리적으로 전개.
 3. FAQ는 최소 3문항 이상 Q&A 볼드체(**Q1.**, **Q2.**, **Q3.**)로 작성.
-4. 문체는 "진료실에서 환자분들과 보호자분들이 자주 궁금해하시는 질문"에 친절하고 보수적으로 답하는 원장칼럼 톤을 유지하십시오. (가상의 극적인 환자 사례 생성 금지)
-5. 지역명(${plan.geo.displayName})은 본문 전체에서 1~2회만 자연스럽게 언급하고 다른 인근/하위 지역명은 절대 언급하지 마십시오.
-6. [의학적 정확성 & 인과관계 표현]
-   - 질환의 '근본 생물학적 특성'과 '증상을 악화/변동시키는 요인'을 명확히 구분하십시오.
-   - 단일 요인(예: 스마트폰, 커피, 특정 음식)이 질환의 직접적인 원인(causation)인 것처럼 단정하지 마십시오. ("연관될 수 있음", "증상이 두드러지는 시기와 겹칠 수 있음" 등의 보수적 연관성(association) 표현 사용)
-   - "취침 전 1~2시간만 제한" 등 근거 없는 일률적인 시간/숫자 기준을 제시하지 말고, 전체적인 자극 노출량을 줄이고 증상 변화를 관찰하는 방향으로 서술하십시오.
+4. 문체는 진료실에서 보호자분들이 자주 묻는 질문에 전문적이고 명확하게 설명하는 원장칼럼 톤을 유지하십시오.
+5. [미디어와 신경생물학 설명 지침]
+   - 빠른 화면 전환, 강한 색감, 큰 소리 등 자극적인 콘텐츠가 두뇌의 흥분도와 각성 상태를 높여 증상 변동에 관여할 수 있음을 핵심적으로 설명하십시오.
+   - 도파민계 및 피질-선조체-시상-피질(CSTC) 회로와 관련된 신경생물학적 연구 배경을 보수적이고 전문적인 어조로 다루십시오. (단, '도파민 폭발' 등 자극적 과장 표현 금지)
+   - "취침 전 1~2시간만 제한" 같은 느슨한 표현은 금지하며, "아이 상황에 맞게 불필요하고 과도한 미디어 노출을 가능한 범위에서 적극적으로 줄여나가며 증상 변화를 관찰"하는 적극적 관리 방향으로 작성하십시오.
+   - 미디어 제한 스트레스 때문에 방치해도 된다는 논조를 피하고, 적절한 조절을 통해 기대할 수 있는 증상 안정 효과의 중요성을 전달하십시오.
+6. [의료 표현 제약]
    - 완치, 근본 치료, 기저핵/자율신경/뇌기능 정상화, 신경전달물질 완벽 조절, 약물 임의 중단 유도 금지.
 7. [내부링크 필수 삽입] 위 제공된 내부링크 목록 중 최소 2개를 본문 문맥이나 하단 연관 안내에 [제목](URL) 형식으로 삽입하십시오.
 
@@ -337,14 +364,14 @@ async function generateThumbnailCopy(plan, articleBody, apiKey, telemetry, retry
 }
 
 /**
- * 4. Generate Single Photo Background Image using gpt-image-2 (Strict Single-Subject Constraint)
+ * 4. Generate Single Photo Background Image using gpt-image-2 (Disease-Tailored Single-Subject Photo)
  */
-async function generateBackgroundImage(diseaseName, topicFocus, apiKey, telemetry) {
+async function generateBackgroundImage(diseaseId, diseaseName, topicFocus, apiKey, telemetry) {
   if (!apiKey) {
     return null;
   }
 
-  const imagePrompt = `A single, focused, realistic photo of ONE person representing comfort and clinical mindfulness for ${diseaseName} (${topicFocus}). Single subject only, centered composition, soft natural lighting, photorealistic. Strictly NO collage, NO split screen, NO multi-panel, NO text, NO letters, NO words, NO logos, NO signs, NO watermark.`;
+  const imagePrompt = buildImagePrompt(diseaseId, diseaseName, topicFocus);
 
   const response = await callOpenAiApi(apiKey, 'images/generations', {
     model: IMAGE_MODEL,
@@ -378,6 +405,7 @@ async function generateBackgroundImage(diseaseName, topicFocus, apiKey, telemetr
 
 module.exports = {
   loadMedicalKnowledge,
+  buildImagePrompt,
   generateTopicOutline,
   generateArticleBody,
   generateThumbnailCopy,

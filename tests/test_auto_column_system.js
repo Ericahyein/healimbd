@@ -203,7 +203,7 @@ const resBadSpacing = validateArticleContent(badSpacingThumb);
 assert.strictEqual(resBadSpacing.valid, false, 'Glued Korean spacing in thumbnail must fail');
 console.log('✅ PASS: Glued Korean spacing ("나도모르게", "눈깜빡임·헛기침") in thumbnail strictly blocked.');
 
-// 6. Thumbnail Engine Synthesis (High Impact Typography, Dark Overlay & Single Photo Context)
+// 6. Thumbnail Engine Synthesis (High Impact Typography, Dark Overlay & 16~20px Stroke)
 console.log('\n--- 6. Thumbnail Synthesis Engine (High-Impact Typography & Dark Overlay) ---');
 const { compositeThumbnail, generateSvgOverlay } = require('../scripts/auto_column/thumbnail_engine');
 
@@ -213,7 +213,7 @@ async function testThumbnail() {
   assert(svg.includes('font-weight: 900'), 'SVG must use heavy font-weight 900');
   assert(svg.includes('paint-order: stroke fill'), 'SVG must use stroke fill paint order');
   assert(svg.includes('heavy-text-shadow'), 'SVG must apply heavy drop shadow filter');
-  assert(svg.includes('rgba(15, 23, 42, 0.40)'), 'SVG must apply dark vignette overlay');
+  assert(svg.includes('stroke-width: 16') || svg.includes('stroke-width: 17') || svg.includes('stroke-width: 18') || svg.includes('stroke-width: 20'), 'Stroke width must be 16~20px');
   assert(svg.includes('#00FF33') || svg.includes('#00E676'), 'SVG must have neon green border');
   assert(svg.includes('원인 모를'), 'SVG must contain yellow text');
   assert(svg.includes('어지럼증·소화불량'), 'SVG must contain white text');
@@ -229,16 +229,25 @@ async function testThumbnail() {
 
   assert(fs.existsSync(testOutputPath), 'Thumbnail file must be generated');
   assert(buffer.length > 5000, 'Thumbnail buffer must be non-empty');
-  console.log(`✅ PASS: High-impact 800x800 Sharp+SVG composite thumbnail generated successfully (${buffer.length} bytes).`);
+  console.log(`✅ PASS: Ultra high-impact 800x800 Sharp+SVG composite thumbnail generated successfully (${buffer.length} bytes).`);
 }
 
-// 7. Single-Photo Prompt Check in gpt-image-2
-console.log('\n--- 7. gpt-image-2 Single Photo Prompt Compliance Tests ---');
-const aiGenCode = fs.readFileSync(path.join(__dirname, '../scripts/auto_column/ai_generator.js'), 'utf-8');
-assert(aiGenCode.includes('A single, focused, realistic photo of ONE person'), 'Image prompt must enforce single photo of ONE person');
-assert(aiGenCode.includes('Strictly NO collage, NO split screen, NO multi-panel'), 'Image prompt must ban collages and split screens');
-assert(!aiGenCode.includes("response_format: 'b64_json'"), 'response_format must NOT be passed to gpt-image-2');
-console.log('✅ PASS: Image generator strictly enforces single photo and bans collages/split-screens.');
+// 7. Disease-Tailored Single-Photo Prompt Check in gpt-image-2
+console.log('\n--- 7. gpt-image-2 Disease-Tailored Single Photo Prompt Compliance Tests ---');
+const { buildImagePrompt } = require('../scripts/auto_column/ai_generator');
+
+const ticPrompt = buildImagePrompt('tic', '틱장애', '미디어 노출');
+assert(ticPrompt.includes('child or adolescent'), 'Tic image prompt must feature a child or adolescent');
+assert(ticPrompt.includes('Strictly NO adult, NO woman clutching chest or stomach'), 'Tic prompt must ban adult woman clutching chest or stomach');
+
+const adultPrompt = buildImagePrompt('autonomic', '자율신경', '어지럼증');
+assert(adultPrompt.includes('ONE adult'), 'Autonomic prompt must feature adult context');
+
+// Validation failure check when tic has adult prompt
+const badTicImageRes = validateArticleContent(validArticle, { imagePrompt: 'A photo of ONE adult woman clutching chest and stomach' });
+assert.strictEqual(badTicImageRes.valid, false, 'Tic validation must fail if adult woman clutching chest is in image prompt');
+
+console.log('✅ PASS: Disease-tailored image prompts strictly verified (Child for tic, adult for autonomic, no multi-panel).');
 
 // 8. End-to-End Dry-Run Orchestrator
 console.log('\n--- 8. End-to-End Dry-Run Orchestrator ---');

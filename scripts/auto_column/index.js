@@ -147,7 +147,7 @@ async function runAutoColumnPipeline() {
 
   // 5. Generate Thumbnail & Composite (ONLY REACHED AFTER 100% VALIDATION PASS)
   console.log('\n[5/6] Validation passed. Generating background image & compositing 800x800 thumbnail...');
-  const bgImageBuffer = await generateBackgroundImage(plan.disease.name, plan.topicAngle.focus, apiKey, telemetry);
+  const bgImageBuffer = await generateBackgroundImage(plan.disease.id, plan.disease.name, plan.topicAngle.focus, apiKey, telemetry);
 
   const thumbFilename = `${plan.slug}.jpg`;
   const thumbRelativePath = `images/blog/${thumbFilename}`;

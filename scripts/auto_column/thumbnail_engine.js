@@ -37,36 +37,32 @@ function escapeXml(unsafe) {
 }
 
 /**
- * Dynamically scales font size to fit width perfectly while maintaining massive visual impact
+ * Dynamically scales font size to fit width (85~92% of canvas) while maintaining massive visual dominance
  */
-function getTargetFontSize(text, baseSize, maxTargetWidthPx = 700, minSize = 48) {
+function getTargetFontSize(text, baseSize, maxTargetWidthPx = 730, minSize = 56) {
   const len = (text || '').trim().length;
   if (len === 0) return baseSize;
-  // Korean characters in bold Gothic typically occupy ~0.95 - 1.05 * fontSize in width
-  const estimatedWidth = len * (baseSize * 1.02);
+  const estimatedWidth = len * (baseSize * 1.04);
   if (estimatedWidth <= maxTargetWidthPx) {
     return baseSize;
   }
-  const scaled = Math.floor(maxTargetWidthPx / (len * 1.02));
+  const scaled = Math.floor(maxTargetWidthPx / (len * 1.04));
   return Math.max(scaled, minSize);
 }
 
 /**
- * Generates an exact SVG overlay matching the reference design:
- * - Massive 3-line bold Gothic typography
- * - Heavy black stroke outline (12~14px)
- * - Vivid Yellow (#FFE600) / Pure White (#FFFFFF) / Neon Green (#00FF33)
- * - Neon Green Border & Dark Vignette
+ * Generates an SVG overlay with ultra-heavy 3-line typography, 16~20px black stroke, and high-contrast dark overlay
  */
 function generateSvgOverlay(yellowText, whiteText, greenText, width = 800, height = 800) {
-  // Target width for text is 700px (approx 88% of 800px width)
-  const yellowSize = getTargetFontSize(yellowText, 86, 680, 54);
-  const whiteSize = getTargetFontSize(whiteText, 80, 710, 50);
-  const greenSize = getTargetFontSize(greenText, 96, 720, 60);
+  // Ultra-bold sizing - 85~92% canvas coverage
+  const yellowSize = getTargetFontSize(yellowText, 88, 700, 58);
+  const whiteSize = getTargetFontSize(whiteText, 86, 730, 56);
+  const greenSize = getTargetFontSize(greenText, 104, 740, 68);
 
-  const yellowStroke = Math.max(10, Math.round(yellowSize * 0.14));
-  const whiteStroke = Math.max(10, Math.round(whiteSize * 0.14));
-  const greenStroke = Math.max(12, Math.round(greenSize * 0.15));
+  // Heavy 16~20px stroke outline for crystal clear legibility on mobile cards
+  const yellowStroke = Math.max(16, Math.min(20, Math.round(yellowSize * 0.20)));
+  const whiteStroke = Math.max(16, Math.min(20, Math.round(whiteSize * 0.20)));
+  const greenStroke = Math.max(18, Math.min(22, Math.round(greenSize * 0.20)));
 
   const safeYellow = escapeXml(yellowText);
   const safeWhite = escapeXml(whiteText);
@@ -75,8 +71,9 @@ function generateSvgOverlay(yellowText, whiteText, greenText, width = 800, heigh
   return `
     <svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <filter id="heavy-text-shadow" x="-20%" y="-20%" width="140%" height="140%">
-          <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.85"/>
+        <filter id="heavy-text-shadow" x="-25%" y="-25%" width="150%" height="150%">
+          <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#000000" flood-opacity="0.95"/>
+          <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#000000" flood-opacity="0.85"/>
         </filter>
         <style>
           .title-text {
@@ -86,7 +83,7 @@ function generateSvgOverlay(yellowText, whiteText, greenText, width = 800, heigh
             paint-order: stroke fill;
             stroke-linejoin: round;
             stroke-linecap: round;
-            letter-spacing: -1px;
+            letter-spacing: -1.5px;
           }
           .yellow-line {
             font-size: ${yellowSize}px;
@@ -112,20 +109,23 @@ function generateSvgOverlay(yellowText, whiteText, greenText, width = 800, heigh
         </style>
       </defs>
 
-      <!-- 1. Dark Overlay over whole photo -->
-      <rect x="0" y="0" width="${width}" height="${height}" fill="rgba(15, 23, 42, 0.40)" />
+      <!-- 1. Overall Dark Vignette Overlay -->
+      <rect x="0" y="0" width="${width}" height="${height}" fill="rgba(15, 23, 42, 0.45)" />
 
-      <!-- 2. Neon Green Outer/Inner Border -->
-      <rect x="14" y="14" width="${width - 28}" height="${height - 28}" fill="none" stroke="#00FF33" stroke-width="4" rx="4" />
+      <!-- 2. Central Dark Backdrop Band for Ultra High Contrast -->
+      <rect x="0" y="180" width="${width}" height="460" fill="rgba(10, 15, 30, 0.40)" />
 
-      <!-- 3. Line 1: Yellow Hook (Y ~ 305) -->
-      <text x="${width / 2}" y="305" class="title-text yellow-line">${safeYellow}</text>
+      <!-- 3. Neon Green Border -->
+      <rect x="14" y="14" width="${width - 28}" height="${height - 28}" fill="none" stroke="#00FF33" stroke-width="4" rx="6" />
 
-      <!-- 4. Line 2: White Symptom / Condition (Y ~ 445) -->
-      <text x="${width / 2}" y="445" class="title-text white-line">${safeWhite}</text>
+      <!-- 4. Line 1: Yellow Hook (Y ~ 290) -->
+      <text x="${width / 2}" y="290" class="title-text yellow-line">${safeYellow}</text>
 
-      <!-- 5. Line 3: Neon Green Disease Name (Y ~ 590) -->
-      <text x="${width / 2}" y="590" class="title-text green-line">${safeGreen}</text>
+      <!-- 5. Line 2: White Core Symptom (Y ~ 430) -->
+      <text x="${width / 2}" y="430" class="title-text white-line">${safeWhite}</text>
+
+      <!-- 6. Line 3: Neon Green Disease Name - The Main Hero (Y ~ 580) -->
+      <text x="${width / 2}" y="580" class="title-text green-line">${safeGreen}</text>
     </svg>
   `;
 }

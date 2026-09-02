@@ -226,6 +226,17 @@ function validateArticleContent(articleData, options = {}) {
     }
   }
 
+  // 9. Disease Image Prompt Context Validation (if imagePrompt provided)
+  if (diseaseId === 'tic' && options.imagePrompt) {
+    const promptLower = options.imagePrompt.toLowerCase();
+    if (!promptLower.includes('child') && !promptLower.includes('adolescent')) {
+      errors.push('Tic disorder thumbnail prompt must feature a child or adolescent.');
+    }
+    if (promptLower.includes('woman clutching') || promptLower.includes('chest or stomach')) {
+      errors.push('Tic disorder thumbnail prompt must not feature adult woman clutching chest or stomach.');
+    }
+  }
+
   // ==========================================
   // TIER 2: GEO CONSISTENCY VALIDATION
   // ==========================================
