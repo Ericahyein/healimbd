@@ -386,7 +386,7 @@ async function generateThumbnailCopy(plan, articleBody, apiKey, telemetry, retry
 }
 
 /**
- * 4. Generate Single Photo Background Image with Moderation Retry & Neutral Fallback
+ * 4. Generate Single Photo Background Image with Optimized Moderation Transition & Error Classification
  */
 async function generateBackgroundImage(diseaseId, diseaseName, topicFocus, apiKey, telemetry) {
   if (!apiKey) {
@@ -398,33 +398,22 @@ async function generateBackgroundImage(diseaseId, diseaseName, topicFocus, apiKe
 
   let attempts = 0;
   let moderationRetries = 0;
-  let lastError = null;
+  let currentPrompt = primaryPrompt;
+  let isFallback = false;
 
-  // Track attempts metadata in telemetry
   telemetry.imageGenerationAttempts = 0;
   telemetry.imageModerationRetries = 0;
   telemetry.imageGenerationStatus = 'pending';
 
-  // Strategy:
-  // Attempt 1: primaryPrompt
-  // Attempt 2 (Retry 1): primaryPrompt retry
-  // Attempt 3 (Retry 2): fallbackPrompt
-  const promptQueue = [
-    { prompt: primaryPrompt, isFallback: false },
-    { prompt: primaryPrompt, isFallback: false },
-    { prompt: fallbackPrompt, isFallback: true }
-  ];
-
-  for (let i = 0; i < promptQueue.length; i++) {
+  while (attempts < 2) {
     attempts++;
     telemetry.imageGenerationAttempts = attempts;
-    const currentConfig = promptQueue[i];
 
     try {
-      console.log(`🖼️ [Images API] Requesting background image (Attempt ${attempts}/3, fallback=${currentConfig.isFallback})...`);
+      console.log(`🖼️ [Images API] Requesting background image (Attempt ${attempts}/2, fallback=${isFallback})...`);
       const response = await callOpenAiApi(apiKey, 'images/generations', {
         model: IMAGE_MODEL,
-        prompt: currentConfig.prompt,
+        prompt: currentPrompt,
         n: 1,
         size: '1024x1024'
       });
@@ -450,25 +439,38 @@ async function generateBackgroundImage(diseaseId, diseaseName, topicFocus, apiKe
         throw new Error(`Unexpected image response data structure: ${JSON.stringify(item)}`);
       }
     } catch (err) {
-      lastError = err;
+      // 1. Check Moderation Blocked -> Immediately switch to Fallback
       if (err.isModerationBlocked || (err.errorBody && err.errorBody.includes('moderation_blocked'))) {
         moderationRetries++;
         telemetry.imageModerationRetries = moderationRetries;
-        console.warn(`⚠️ [Images API] Moderation blocked on attempt ${attempts}/3. Retrying with next safe config...`);
-        if (i < promptQueue.length - 1) {
-          continue; // Try next attempt
+
+        if (!isFallback && attempts < 2) {
+          console.warn(`⚠️ [Images API] Primary prompt was moderation_blocked. Switching IMMEDIATELY to Neutral Fallback Prompt for Attempt 2...`);
+          currentPrompt = fallbackPrompt;
+          isFallback = true;
+          continue;
+        } else {
+          telemetry.imageGenerationStatus = 'failed_moderation';
+          throw new Error(`Image generation failed due to moderation_blocked on ${isFallback ? 'fallback' : 'primary'} prompt: ${err.message}`);
         }
-      } else {
-        // Non-moderation error (e.g. network/auth/quota)
-        telemetry.imageGenerationStatus = 'failed_error';
-        throw err;
       }
+
+      // 2. Check Transient Network / Rate Limit / 5xx error -> Allowed single quick retry
+      const isTransient = err.status === 429 || (err.status >= 500 && err.status < 600) || err.message.includes('fetch');
+      if (isTransient && attempts < 2) {
+        console.warn(`⚠️ [Images API] Transient error (${err.status || err.message}). Retrying in 1.5s...`);
+        await new Promise(res => setTimeout(res, 1500));
+        continue;
+      }
+
+      // 3. Other Non-retryable error (e.g. invalid request 400 with other reasons)
+      telemetry.imageGenerationStatus = 'failed_error';
+      throw err;
     }
   }
 
-  // If all attempts failed with moderation
-  telemetry.imageGenerationStatus = 'failed_moderation';
-  throw new Error(`Image generation failed after ${moderationRetries} moderation retry attempts: ${lastError?.message || 'moderation_blocked'}`);
+  telemetry.imageGenerationStatus = 'failed_exhausted';
+  throw new Error('Image generation exhausted maximum attempts.');
 }
 
 module.exports = {
