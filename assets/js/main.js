@@ -3284,13 +3284,23 @@ async function handleInquirySubmit(e) {
     return;
   }
 
-  if (!/^d{6}$/.test(deletePwd)) {
+  const sixDigitPinPattern = /^[0-9]{6}$/;
+
+  console.log('[DELETE PIN VALIDATION]', {
+    passwordLength: deletePwd.length,
+    confirmLength: deletePwdConfirm.length,
+    passwordValid: sixDigitPinPattern.test(deletePwd),
+    confirmValid: sixDigitPinPattern.test(deletePwdConfirm),
+    valuesMatch: deletePwd === deletePwdConfirm
+  });
+
+  if (!sixDigitPinPattern.test(deletePwd)) {
     alert('삭제 비밀번호는 정확히 숫자 6자리로 입력해주세요. (문자/특수문자/공백 불가)');
     return;
   }
 
   if (deletePwd !== deletePwdConfirm) {
-    alert('삭제 비밀번호와 비밀번호 확인이 일치하지 않습니다. 다시 확인해주세요.');
+    alert('삭제 비밀번호가 일치하지 않습니다.');
     return;
   }
 
@@ -3586,6 +3596,102 @@ async function handleAdminDeleteInquiry() {
   } catch (err) {
     console.error('[ADMIN DELETE ERROR]', err.code, err.message);
     alert('상담글 삭제에 실패했습니다. (오류: ' + (err.code || err.message) + ')');
+  }
+}
+
+function openAuthorDeleteModal() {
+  const modal = document.getElementById('inquiry-author-delete-modal');
+  const input = document.getElementById('author-delete-pwd-input');
+  const errorEl = document.getElementById('author-delete-pwd-error');
+  if (input) input.value = '';
+  if (errorEl) errorEl.style.display = 'none';
+  if (modal) modal.style.display = 'flex';
+  setTimeout(() => { if (input) input.focus(); }, 100);
+}
+
+function closeAuthorDeleteModal() {
+  const modal = document.getElementById('inquiry-author-delete-modal');
+  if (modal) modal.style.display = 'none';
+}
+
+async function handleAuthorDeleteSubmit(e) {
+  e.preventDefault();
+  if (!currentOpenedInquiryId) return;
+
+  const input = document.getElementById('author-delete-pwd-input');
+  const errorEl = document.getElementById('author-delete-pwd-error');
+  const submitBtn = document.getElementById('author-delete-confirm-btn');
+  const pwd = input ? input.value.trim() : '';
+
+  const sixDigitPinPattern = /^[0-9]{6}$/;
+
+  if (!sixDigitPinPattern.test(pwd)) {
+    if (errorEl) {
+      errorEl.textContent = '삭제 비밀번호는 숫자 6자리여야 합니다.';
+      errorEl.style.display = 'block';
+    }
+    return;
+  }
+
+  if (!confirm('문의를 삭제하시겠습니까?\n문의와 등록된 답변이 모두 삭제되며 복구할 수 없습니다.')) {
+    return;
+  }
+
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.textContent = '삭제 확인 중...';
+  }
+  if (errorEl) errorEl.style.display = 'none';
+
+  try {
+    let appCheckToken = '';
+    if (typeof firebase !== 'undefined' && typeof firebase.appCheck === 'function') {
+      try {
+        const tokenObj = await firebase.appCheck().getToken();
+        if (tokenObj && tokenObj.token) {
+          appCheckToken = tokenObj.token;
+        }
+      } catch (err) {
+        console.warn('App Check token notice:', err);
+      }
+    }
+
+    const resp = await fetch('/api/delete-inquiry', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Firebase-AppCheck': appCheckToken
+      },
+      body: JSON.stringify({
+        inquiryId: currentOpenedInquiryId,
+        password: pwd
+      })
+    });
+
+    const result = await resp.json();
+
+    if (!resp.ok || !result.success) {
+      if (errorEl) {
+        errorEl.textContent = result.message || '삭제 비밀번호가 일치하지 않습니다.';
+        errorEl.style.display = 'block';
+      }
+      return;
+    }
+
+    closeAuthorDeleteModal();
+    closeInquiryDetailModal();
+    showAuthToast('상담글이 성공적으로 삭제되었습니다.');
+  } catch (err) {
+    console.error('[AUTHOR DELETE ERROR]', err);
+    if (errorEl) {
+      errorEl.textContent = '문의 삭제 처리 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
+      errorEl.style.display = 'block';
+    }
+  } finally {
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = '삭제하기';
+    }
   }
 }
 

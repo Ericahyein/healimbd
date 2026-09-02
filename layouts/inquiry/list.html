@@ -200,11 +200,11 @@
           <div class="form-grid-row">
             <div class="form-field-group">
               <label for="inq-delete-password">삭제 비밀번호 <span style="color:#DC2626;">*</span></label>
-              <input type="password" id="inq-delete-password" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" minlength="6" placeholder="숫자 6자리 입력" required autocomplete="new-password">
+              <input type="password" id="inq-delete-password" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" minlength="6" placeholder="숫자 6자리 입력" required autocomplete="new-password" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 6);">
             </div>
             <div class="form-field-group">
               <label for="inq-delete-password-confirm">삭제 비밀번호 확인 <span style="color:#DC2626;">*</span></label>
-              <input type="password" id="inq-delete-password-confirm" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" minlength="6" placeholder="숫자 6자리 재입력" required autocomplete="new-password">
+              <input type="password" id="inq-delete-password-confirm" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" minlength="6" placeholder="숫자 6자리 재입력" required autocomplete="new-password" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 6);">
             </div>
           </div>
           <small style="color: #64748B; font-size: 0.8rem; margin-top: 6px; display: block;">
@@ -367,7 +367,7 @@
         작성 시 설정한 <strong>숫자 6자리 삭제 비밀번호</strong>를 입력해주세요.
       </p>
       <form onsubmit="handleAuthorDeleteSubmit(event)">
-        <input type="password" id="author-delete-pwd-input" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" minlength="6" placeholder="숫자 6자리 입력" required autofocus style="letter-spacing: 6px; text-align: center; font-size: 1.2rem; padding: 10px; width: 100%; border: 1px solid #CBD5E1; border-radius: 8px;">
+        <input type="password" id="author-delete-pwd-input" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" minlength="6" placeholder="숫자 6자리 입력" required autofocus style="letter-spacing: 6px; text-align: center; font-size: 1.2rem; padding: 10px; width: 100%; border: 1px solid #CBD5E1; border-radius: 8px;" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 6);">
         <div class="pwd-error-msg" id="author-delete-pwd-error" style="display: none; color: #DC2626; font-size: 0.85rem; margin-top: 8px;"></div>
         <div class="pwd-btn-group" style="margin-top: 18px;">
           <button type="button" class="btn btn-cancel" onclick="closeAuthorDeleteModal()">취소</button>
