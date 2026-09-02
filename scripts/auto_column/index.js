@@ -74,7 +74,7 @@ async function runAutoColumnPipeline() {
     process.exit(1);
   }
 
-  // 3. AI Generation (Luna + Terra)
+  // 3. AI Generation (Luna: Outline & Summary & Copy, Terra: Article Body)
   console.log('\n[3/6] Generating content via OpenAI Models (Luna: Planner, Terra: Writer)...');
   const internalLinks = getRecommendedInternalLinks(plan.disease.category, plan.slug);
   const outline = await generateTopicOutline(plan, knowledge, apiKey, telemetry);
@@ -82,8 +82,9 @@ async function runAutoColumnPipeline() {
   const thumbnailCopy = await generateThumbnailCopy(plan, articleBody, apiKey, telemetry);
 
   console.log('🎨 Thumbnail Copy generated:', thumbnailCopy);
+  console.log('📝 Summary generated:', outline.summary);
 
-  // 4. Content & Medical Safety Validation
+  // 4. Content & Medical Safety Validation (STRICT GATEKEEPER)
   console.log('\n[4/6] Running Content & Medical Safety Validator...');
   const history = loadHistory();
   const validation = validateArticleContent({
@@ -99,17 +100,33 @@ async function runAutoColumnPipeline() {
 
   if (!validation.valid) {
     console.error('❌ Validation Failed with errors:', validation.errors);
-    if (!isDryRun) process.exit(1);
-  } else {
-    console.log('✅ Article validation passed 100% with 0 errors.');
+    console.warn('🛑 HALTING PIPELINE: Background image generation and Sharp synthesis are ABORTED to avoid unnecessary API costs.');
+
+    if (isDryRun) {
+      const artifactDir = path.join(__dirname, '../../auto_column_artifacts');
+      if (!fs.existsSync(artifactDir)) fs.mkdirSync(artifactDir, { recursive: true });
+
+      fs.writeFileSync(path.join(artifactDir, 'validation-report.json'), JSON.stringify(validation, null, 2), 'utf-8');
+      fs.writeFileSync(path.join(artifactDir, 'generation-metadata.json'), JSON.stringify({
+        mode: 'DRY_RUN_FAILED_VALIDATION',
+        plan,
+        thumbnailCopy,
+        errors: validation.errors,
+        telemetry,
+        generatedAt: new Date().toISOString()
+      }, null, 2), 'utf-8');
+    }
+
+    throw new Error(`Article validation failed with ${validation.errors.length} error(s). Check auto_column_artifacts/validation-report.json`);
   }
 
+  console.log('✅ Article validation passed 100% with 0 errors.');
   if (validation.warnings.length > 0) {
     console.warn('⚠️ Validation Warnings:', validation.warnings);
   }
 
-  // 5. Generate Thumbnail & Composite
-  console.log('\n[5/6] Generating background image & compositing 800x800 thumbnail...');
+  // 5. Generate Thumbnail & Composite (ONLY REACHED AFTER 100% VALIDATION PASS)
+  console.log('\n[5/6] Validation passed. Generating background image & compositing 800x800 thumbnail...');
   const bgImageBuffer = await generateBackgroundImage(plan.disease.name, plan.topicAngle.focus, apiKey, telemetry);
 
   const thumbFilename = `${plan.slug}.jpg`;
@@ -221,7 +238,7 @@ ${articleBody}
 
 if (require.main === module) {
   runAutoColumnPipeline().catch(err => {
-    console.error('💥 Fatal Pipeline Error:', err);
+    console.error('💥 Pipeline Execution Ended:', err.message);
     process.exit(1);
   });
 }

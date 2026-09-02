@@ -98,7 +98,7 @@ assert(plan.titleCandidate.startsWith(`[${plan.geo.displayName} ${plan.disease.n
 console.log(`✅ PASS: Topic Planner selected target -> [${plan.geo.displayName}] ${plan.disease.name} (${plan.titleCandidate})`);
 
 // 5. Medical Safety & Content Validator Tests
-console.log('\n--- 5. Medical Safety & Content Validator ---');
+console.log('\n--- 5. Medical Safety & Content Validator (Summary & Thumbnail Copy Checks) ---');
 const { validateArticleContent } = require('../scripts/auto_column/content_validator');
 
 // A. Valid Article
@@ -148,7 +148,35 @@ const validRes = validateArticleContent(validArticle);
 assert.strictEqual(validRes.valid, true, `Valid article must pass validation: ${JSON.stringify(validRes.errors)}`);
 console.log('✅ PASS: Compliant medical article passed validation 100%.');
 
-// B. Overclaim Banned Phrase Check
+// B. Summary Validation Regression Tests
+const emptySummaryArticle = { ...validArticle, summary: '' };
+assert.strictEqual(validateArticleContent(emptySummaryArticle).valid, false, 'Empty summary must fail validation');
+
+const shortSummaryArticle = { ...validArticle, summary: '너무 짧은 요약' };
+assert.strictEqual(validateArticleContent(shortSummaryArticle).valid, false, 'Short summary (< 20 chars) must fail validation');
+console.log('✅ PASS: Summary missing/empty/short validation strictly enforced.');
+
+// C. Thumbnail Copy Regression Tests
+const emptyYellowThumb = {
+  ...validArticle,
+  thumbnailCopy: { yellowText: '', whiteText: '어지럼증', greenText: '틱장애' }
+};
+assert.strictEqual(validateArticleContent(emptyYellowThumb).valid, false, 'Empty yellowText must fail validation');
+
+const emptyGreenThumb = {
+  ...validArticle,
+  thumbnailCopy: { yellowText: '원인모를', whiteText: '어지럼증', greenText: '' }
+};
+assert.strictEqual(validateArticleContent(emptyGreenThumb).valid, false, 'Empty greenText must fail validation');
+
+const regionalThumb = {
+  ...validArticle,
+  thumbnailCopy: { yellowText: '분당 틱장애', whiteText: '어지럼증', greenText: '틱장애' }
+};
+assert.strictEqual(validateArticleContent(regionalThumb).valid, false, 'Regional name in thumbnail copy must be rejected');
+console.log('✅ PASS: Thumbnail empty yellow/green text & regional name strictly rejected.');
+
+// D. Overclaim Banned Phrase Check
 const bannedCases = [
   '완치 보장되는 치료법을 전해드립니다.',
   '이 방법으로 자율신경을 정상화합니다.',
@@ -163,19 +191,6 @@ bannedCases.forEach(bannedPhrase => {
   assert.strictEqual(res.valid, false, `Must fail on banned phrase: ${bannedPhrase}`);
 });
 console.log('✅ PASS: All banned medical overclaims and assertive physiological mechanisms strictly blocked.');
-
-// C. Regional Name in Thumbnail Copy Check
-const badThumbArticle = {
-  ...validArticle,
-  thumbnailCopy: {
-    yellowText: '분당 틱장애',
-    whiteText: '스마트폰 사용',
-    greenText: '틱장애'
-  }
-};
-const thumbRes = validateArticleContent(badThumbArticle);
-assert.strictEqual(thumbRes.valid, false, 'Regional name in thumbnail copy must be rejected');
-console.log('✅ PASS: Regional name in thumbnail copy strictly rejected.');
 
 // 6. Thumbnail Engine Synthesis (Sharp + SVG Vector)
 console.log('\n--- 6. Thumbnail Synthesis Engine (Sharp + SVG) ---');
@@ -195,8 +210,15 @@ async function testThumbnail() {
   console.log(`✅ PASS: 800x800 Sharp+SVG composite thumbnail generated successfully (${buffer.length} bytes).`);
 }
 
-// 7. End-to-End Dry-Run Orchestration Test
-console.log('\n--- 7. End-to-End Dry-Run Orchestrator ---');
+// 7. gpt-image-2 Image Response & Payload Compliance Tests
+console.log('\n--- 7. gpt-image-2 API Payload & Response Parsing Tests ---');
+const aiGenCode = fs.readFileSync(path.join(__dirname, '../scripts/auto_column/ai_generator.js'), 'utf-8');
+assert(!aiGenCode.includes("response_format: 'b64_json'"), 'response_format must NOT be passed to gpt-image-2');
+assert(!aiGenCode.includes('response_format: "b64_json"'), 'response_format must NOT be passed to gpt-image-2');
+console.log('✅ PASS: gpt-image-2 request payload contains only official parameters without response_format.');
+
+// 8. End-to-End Dry-Run Orchestration Test
+console.log('\n--- 8. End-to-End Dry-Run Orchestrator ---');
 const { runAutoColumnPipeline } = require('../scripts/auto_column/index');
 
 async function testDryRun() {
@@ -224,7 +246,7 @@ async function runAll() {
   await testThumbnail();
   await testDryRun();
   console.log('\n====================================================');
-  console.log('🎉 ALL AUTO COLUMN SYSTEM TESTS PASSED 100%!');
+  console.log('🎉 ALL AUTO COLUMN SYSTEM & REGRESSION TESTS PASSED 100%!');
   console.log('====================================================');
 }
 
