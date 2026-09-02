@@ -207,8 +207,13 @@ const mediaGuaranteeArticle = {
   body: validArticle.body + '\n미디어를 줄이면 틱이 좋아집니다. 노출 감소의 개선 효과가 더 큽니다.'
 };
 const resMediaGuarantee = validateArticleContent(mediaGuaranteeArticle);
-assert.strictEqual(resMediaGuarantee.valid, false, 'Media outcome guarantee claim must fail');
-console.log('✅ PASS: Media outcome guarantee ("미디어를 줄이면 틱이 좋아집니다") strictly blocked.');
+const arbitraryDurationArticle = {
+  ...validArticle,
+  body: validArticle.body + '\n일주일 정도 기록해 보십시오.'
+};
+const resArbitraryDuration = validateArticleContent(arbitraryDurationArticle);
+assert.strictEqual(resArbitraryDuration.valid, false, 'Arbitrary duration ("일주일 정도 기록") must fail validation');
+console.log('✅ PASS: Arbitrary duration ("일주일 정도 기록") strictly blocked.');
 
 const badSpacingThumb = {
   ...validArticle,
@@ -222,8 +227,8 @@ const resBadSpacing = validateArticleContent(badSpacingThumb);
 assert.strictEqual(resBadSpacing.valid, false, 'Glued Korean spacing in thumbnail must fail');
 console.log('✅ PASS: Glued Korean spacing ("나도모르게", "눈깜빡임·헛기침") in thumbnail strictly blocked.');
 
-// 6. Thumbnail Engine Synthesis (High Impact Typography, Dark Overlay & 16~20px Stroke)
-console.log('\n--- 6. Thumbnail Synthesis Engine (High-Impact Typography & Dark Overlay) ---');
+// 6. Thumbnail Engine Synthesis (High Impact Typography, Smooth Natural Vignette & 16~20px Stroke)
+console.log('\n--- 6. Thumbnail Synthesis Engine (High-Impact Typography & Natural Vignette) ---');
 const { compositeThumbnail, generateSvgOverlay } = require('../scripts/auto_column/thumbnail_engine');
 
 async function testThumbnail() {
@@ -232,6 +237,8 @@ async function testThumbnail() {
   assert(svg.includes('font-weight: 900'), 'SVG must use heavy font-weight 900');
   assert(svg.includes('paint-order: stroke fill'), 'SVG must use stroke fill paint order');
   assert(svg.includes('heavy-text-shadow'), 'SVG must apply heavy drop shadow filter');
+  assert(svg.includes('natural-vignette'), 'SVG must apply smooth natural vignette gradient');
+  assert(!svg.includes('height="460"'), 'SVG must NOT contain flat dark rectangular band');
   assert(svg.includes('stroke-width: 16') || svg.includes('stroke-width: 17') || svg.includes('stroke-width: 18') || svg.includes('stroke-width: 20'), 'Stroke width must be 16~20px');
   assert(svg.includes('#00FF33') || svg.includes('#00E676'), 'SVG must have neon green border');
   assert(svg.includes('원인 모를'), 'SVG must contain yellow text');
@@ -248,30 +255,34 @@ async function testThumbnail() {
 
   assert(fs.existsSync(testOutputPath), 'Thumbnail file must be generated');
   assert(buffer.length > 5000, 'Thumbnail buffer must be non-empty');
-  console.log(`✅ PASS: Ultra high-impact 800x800 Sharp+SVG composite thumbnail generated successfully (${buffer.length} bytes).`);
+  console.log(`✅ PASS: Natural vignette 800x800 Sharp+SVG composite thumbnail generated successfully (${buffer.length} bytes).`);
 }
 
-// 7. Disease-Tailored Single-Photo Prompt & Fallback Check in gpt-image-2
-console.log('\n--- 7. gpt-image-2 Disease-Tailored Safe Photo & Fallback Tests ---');
+// 7. Disease + TopicAngle Tailored Single-Photo Prompt & Fallback Check in gpt-image-2
+console.log('\n--- 7. gpt-image-2 Disease + TopicAngle Tailored Safe Photo & Fallback Tests ---');
 const { buildImagePrompt, buildFallbackImagePrompt } = require('../scripts/auto_column/ai_generator');
 
-const ticPrompt = buildImagePrompt('tic', '틱장애', '미디어 노출');
-assert(ticPrompt.includes('Korean school-age child'), 'Tic image prompt must feature a Korean school-age child');
-assert(ticPrompt.includes('NOT depict or simulate a medical symptom'), 'Tic prompt must not simulate symptoms');
-assert(ticPrompt.includes('no forced blinking or facial tic simulation'), 'Tic prompt must ban forced blinking');
+const ticMediaPrompt = buildImagePrompt('tic', '틱장애', 'media-exposure', '미디어 및 스마트폰 사용이 증상에 미치는 영향');
+assert(ticMediaPrompt.includes('Korean school-age child'), 'Tic image prompt must feature a Korean school-age child');
+assert(ticMediaPrompt.includes('tablet or smartphone resting quietly on a side table'), 'Tic+media prompt must reflect turned-off tablet/smartphone background');
+assert(ticMediaPrompt.includes('NOT depict or simulate a medical symptom'), 'Tic prompt must not simulate symptoms');
+assert(ticMediaPrompt.includes('no forced blinking or facial tic simulation'), 'Tic prompt must ban forced blinking');
 
-const ticFallback = buildFallbackImagePrompt('tic', '틱장애');
+const panicTransitPrompt = buildImagePrompt('panic', '공황장애', 'subway', '지하철 등 밀폐 공간');
+assert(panicTransitPrompt.includes('transit or commute environment'), 'Panic+transit prompt must reflect transit environment');
+
+const ticFallback = buildFallbackImagePrompt('tic', '틱장애', 'media-exposure', '미디어 노출');
 assert(ticFallback.includes('Korean school-age child'), 'Fallback must feature Korean school-age child');
 assert(ticFallback.includes('no medical symptoms'), 'Fallback must state no medical symptoms');
 
-const adultPrompt = buildImagePrompt('autonomic', '자율신경', '어지럼증');
+const adultPrompt = buildImagePrompt('autonomic', '자율신경', 'general', '어지럼증');
 assert(adultPrompt.includes('Korean adult'), 'Autonomic prompt must feature adult context');
 
 // Validation failure check when tic has adult clutching chest prompt
 const badTicImageRes = validateArticleContent(validArticle, { imagePrompt: 'A photo of ONE adult woman clutching chest and stomach in pain' });
 assert.strictEqual(badTicImageRes.valid, false, 'Tic validation must fail if adult woman clutching chest is in image prompt');
 
-console.log('✅ PASS: Safe disease-tailored image prompts & neutral fallbacks strictly verified.');
+console.log('✅ PASS: Disease + TopicAngle tailored image prompts & neutral fallbacks strictly verified.');
 
 // 8. End-to-End Dry-Run Orchestrator
 console.log('\n--- 8. End-to-End Dry-Run Orchestrator ---');

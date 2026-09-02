@@ -75,6 +75,11 @@ function generateSvgOverlay(yellowText, whiteText, greenText, width = 800, heigh
           <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#000000" flood-opacity="0.95"/>
           <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#000000" flood-opacity="0.85"/>
         </filter>
+        <radialGradient id="natural-vignette" cx="50%" cy="50%" r="75%">
+          <stop offset="0%" stop-color="#0F172A" stop-opacity="0.55"/>
+          <stop offset="65%" stop-color="#0F172A" stop-opacity="0.48"/>
+          <stop offset="100%" stop-color="#0F172A" stop-opacity="0.62"/>
+        </radialGradient>
         <style>
           .title-text {
             font-family: 'Noto Sans CJK KR', 'Noto Sans KR', 'NanumGothic', 'Pretendard', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
@@ -109,13 +114,10 @@ function generateSvgOverlay(yellowText, whiteText, greenText, width = 800, heigh
         </style>
       </defs>
 
-      <!-- 1. Overall Dark Vignette Overlay -->
-      <rect x="0" y="0" width="${width}" height="${height}" fill="rgba(15, 23, 42, 0.45)" />
+      <!-- 1. Smooth Natural Dark Vignette Overlay across photo -->
+      <rect x="0" y="0" width="${width}" height="${height}" fill="url(#natural-vignette)" />
 
-      <!-- 2. Central Dark Backdrop Band for Ultra High Contrast -->
-      <rect x="0" y="180" width="${width}" height="460" fill="rgba(10, 15, 30, 0.40)" />
-
-      <!-- 3. Neon Green Border -->
+      <!-- 2. Neon Green Border -->
       <rect x="14" y="14" width="${width - 28}" height="${height - 28}" fill="none" stroke="#00FF33" stroke-width="4" rx="6" />
 
       <!-- 4. Line 1: Yellow Hook (Y ~ 290) -->

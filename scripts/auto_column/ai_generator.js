@@ -44,42 +44,69 @@ async function callOpenAiApi(apiKey, endpoint, body) {
 }
 
 /**
- * Builds disease-tailored primary photorealistic prompt (Safe & Non-symptom-simulating)
+ * Builds disease + topicAngle tailored primary photorealistic prompt (Safe & Non-symptom-simulating)
  */
-function buildImagePrompt(diseaseId, diseaseName, topicFocus) {
+function buildImagePrompt(diseaseId, diseaseName, topicAngleId = '', topicAngleFocus = '') {
+  const focusLower = `${topicAngleFocus} ${topicAngleId}`.toLowerCase();
+
+  // 1. TIC
   if (diseaseId === 'tic' || (diseaseName && diseaseName.includes('틱'))) {
-    return `A realistic single photo of one Korean school-age child in a calm home environment. The child is sitting naturally with a thoughtful or slightly distracted expression. Warm, realistic lifestyle photography, natural posture, soft indoor lighting, neutral and non-distressing scene. The image should visually fit a pediatric health / child development article, but should NOT depict or simulate a medical symptom. Strictly: ONE child only, no adult as main subject, no medical procedure, no visible illness, no pain, no distress, no clutching chest/stomach/neck, no forced blinking or facial tic simulation, no collage, no split screen, no multi-panel, no text, no letters, no logo, no watermark.`;
+    if (focusLower.includes('media') || focusLower.includes('스마트폰') || focusLower.includes('영상') || focusLower.includes('게임')) {
+      return `A realistic single photo of one Korean school-age child sitting naturally in a calm living room or bedroom, with a turned-off tablet or smartphone resting quietly on a side table in the background. The child has a thoughtful or slightly distracted expression. Warm, realistic lifestyle photography, natural posture, soft indoor lighting, neutral and non-distressing scene. The image should visually fit a pediatric health / child development article, but should NOT depict or simulate a medical symptom. Strictly: ONE child only, no adult as main subject, no medical procedure, no visible illness, no pain, no distress, no clutching chest/stomach/neck, no forced blinking or facial tic simulation, no collage, no split screen, no multi-panel, no text, no letters, no logo, no watermark.`;
+    }
+    if (focusLower.includes('school') || focusLower.includes('학습') || focusLower.includes('새 학기') || focusLower.includes('시험') || focusLower.includes('스트레스')) {
+      return `A realistic single photo of one Korean school-age child in a home study room, sitting naturally near a desk with a book or notebook, looking thoughtfully toward a window. Warm realistic lifestyle photography, natural posture, soft indoor light, child development editorial photography, no distress, no visible illness, no text.`;
+    }
+    return `A realistic single photo of one Korean school-age child in a calm home environment, sitting naturally with a thoughtful expression. Warm realistic lifestyle photography, soft indoor light, child health editorial photography, no distress, no medical symptoms, no text.`;
   }
+
+  // 2. ADHD
   if (diseaseId === 'adhd' || (diseaseName && diseaseName.includes('ADHD'))) {
-    return `A realistic single lifestyle photo of one Korean school-age child sitting at a study desk at home with a book, natural posture, thoughtful expression, warm soft indoor light, child health editorial photography, no distress, no visible illness, no text.`;
+    return `A realistic single lifestyle photo of one Korean school-age child sitting near a study desk at home with notebooks, natural posture, thoughtful expression, warm soft indoor light, child health editorial photography, no distress, no visible illness, no text.`;
   }
-  if (diseaseId === 'child' || (diseaseName && diseaseName.includes('소아') || diseaseName.includes('성장') || diseaseName.includes('비염'))) {
+
+  // 3. CHILD (소아보약/성장/비염)
+  if (diseaseId === 'child' || (diseaseName && (diseaseName.includes('소아') || diseaseName.includes('성장') || diseaseName.includes('비염')))) {
     return `A realistic single lifestyle photo of one Korean child in a bright comfortable living room, natural relaxed posture, soft daylight, pediatric wellness photography, no distress, no visible illness, no text.`;
   }
+
+  // 4. PANIC
   if (diseaseId === 'panic' || (diseaseName && diseaseName.includes('공황'))) {
+    if (focusLower.includes('subway') || focusLower.includes('교통') || focusLower.includes('밀폐') || focusLower.includes('터널') || focusLower.includes('운전')) {
+      return `A realistic single photo of one Korean adult in a transit or commute environment, looking thoughtfully toward a window or quiet area, calm natural posture, mental wellness editorial photography, no distress, no pain, no clutching chest, no text.`;
+    }
     return `A realistic single lifestyle photo of one Korean adult sitting quietly by a bright window at home, resting thoughtfully in calm natural daylight, mental wellness editorial photography, no distress, no pain, no clutching chest, no text.`;
   }
+
+  // 5. ANXIETY
   if (diseaseId === 'anxiety' || (diseaseName && diseaseName.includes('불안'))) {
     return `A realistic single lifestyle photo of one Korean adult sitting calmly in a quiet living space, thoughtful expression, soft ambient lighting, wellness editorial photography, no distress, no pain, no text.`;
   }
+
+  // 6. SLEEP
   if (diseaseId === 'sleep' || (diseaseName && (diseaseName.includes('수면') || diseaseName.includes('불면')))) {
-    return `A realistic single lifestyle photo of one Korean adult sitting calmly on a sofa in the evening in soft warm ambient home light, preparing to rest, wellness editorial photography, no distress, no illness, no text.`;
+    return `A realistic single lifestyle photo of one Korean adult sitting calmly in a peaceful bedroom in soft ambient evening or dawn light, preparing to rest, wellness editorial photography, no distress, no illness, no text.`;
   }
+
+  // 7. AUTONOMIC
   if (diseaseId === 'autonomic' || (diseaseName && diseaseName.includes('자율신경'))) {
     return `A realistic single lifestyle photo of one Korean adult sitting comfortably on a living room couch, resting peacefully in soft natural light, health and wellness editorial photography, no distress, no clutching chest or stomach, no text.`;
   }
+
+  // 8. IBS
   if (diseaseId === 'ibs' || (diseaseName && diseaseName.includes('과민성대장'))) {
-    return `A realistic single lifestyle photo of one Korean adult sitting in a cozy kitchen or living area, holding a warm mug of tea with a peaceful expression, healthy lifestyle editorial photography, no pain, no clutching stomach, no text.`;
+    return `A realistic single lifestyle photo of one Korean adult sitting in a cozy kitchen or dining area, holding a warm cup of tea with a peaceful expression, healthy lifestyle editorial photography, no pain, no clutching stomach, no text.`;
   }
+
   return `A realistic single lifestyle photo of one Korean person in a calm, warm home setting, peaceful natural expression, healthcare wellness editorial photography, no distress, no illness, no text.`;
 }
 
 /**
  * Builds neutral fallback prompt if primary prompt encounters moderation
  */
-function buildFallbackImagePrompt(diseaseId, diseaseName) {
+function buildFallbackImagePrompt(diseaseId, diseaseName, topicAngleId = '', topicAngleFocus = '') {
   if (diseaseId === 'tic' || diseaseId === 'adhd' || diseaseId === 'child' || (diseaseName && (diseaseName.includes('틱') || diseaseName.includes('소아')))) {
-    return `A realistic lifestyle portrait of one Korean school-age child sitting calmly at home, thoughtful expression, natural posture, soft indoor light, clean neutral background, child health editorial photography, no distress, no medical symptoms, no text.`;
+    return `A realistic lifestyle portrait of one Korean school-age child sitting calmly at home in a clean room, thoughtful expression, natural posture, soft indoor light, clean neutral background, child health editorial photography, no distress, no medical symptoms, no text.`;
   }
   return `A realistic lifestyle portrait of one Korean adult resting peacefully in a calm, naturally lit home environment, neutral clean background, health editorial photography, no distress, no symptoms, no text.`;
 }
@@ -204,11 +231,11 @@ ${plan.geo.displayName} 지역에서 아이의 ${plan.disease.name} 증상으로
 ## 2. 신경생물학적 특성과 자극적 환경이 증상에 미치는 영향
 
 ${knowledge.approvedDefinition}
-임상 및 신경과학 연구에서는 틱장애와 관련하여 다음과 같은 점들을 함께 살펴보고 있습니다:
+임상 및 신경과학 연구에서는 틱장애와 관련하여 다음과 같은 점들을 명확히 구분하여 살펴보고 있습니다:
 
+- **질환의 발생 및 신경학적 배경**: 도파민계를 포함한 신경전달 체계와 피질-선조체-시상-피질(CSTC) 운동 조절 회로의 특성이 주요 신경생물학적 배경으로 연구되고 있습니다.
+- **증상의 악화 및 변동 요인**: 질환의 기저 특성과 별개로, 이미 나타나는 틱 증상의 정도는 피로, 수면 상태, 정서적 긴장 및 ${knowledge.possibleAggravatingFactors.join(', ')} 등에 따라 변동될 수 있습니다.
 - **자극적인 콘텐츠와 두뇌 각성**: 빠른 화면 전환, 강한 색감, 큰 소리 등 자극적인 영상이나 게임은 뇌의 보상계와 각성 시스템을 강하게 활성화하여 긴장 상태를 오래 지속시킬 수 있습니다.
-- **신경생물학적 연구 배경**: 도파민계를 포함한 신경전달 체계와 피질-선조체-시상-피질(CSTC) 운동 조절 회로의 특성이 연구되고 있으며, 강한 자극 노출 시기와 증상 변동의 연관성이 관찰됩니다.
-- **증상 변동의 관련 요인**: ${knowledge.possibleAggravatingFactors.join(', ')} 등이 겹칠 때 증상이 더 두드러져 보일 수 있습니다.
 
 자세한 진료 과목 안내는 [${internalLinks[0]?.title || '주요 진료 안내'}](${internalLinks[0]?.url || '/treatments/'})에서도 확인하실 수 있습니다.
 
@@ -228,7 +255,7 @@ ${knowledge.evaluationGuidance}
 ## 5. 일상생활에서 실천할 수 있는 적극적인 미디어 조절 수칙
 
 1. **과도한 노출 적극적 축소**: 특정 시간대만 제한하기보다는 평소의 전체적인 미디어 노출량을 가능한 범위에서 적극적으로 줄여나갑니다.
-2. **증상 안정 관찰**: 사용량을 줄인 후 아이의 틱 증상 및 수면, 일상 긴장도의 변화를 차분히 관찰합니다.
+2. **증상 안정 관찰**: 사용량을 줄인 후 일정 기간 동안 아이의 틱 증상 및 수면, 일상 긴장도의 변화를 차분히 관찰합니다.
 3. **대체 활동 마련**: 자극적인 스크린 노출 대신 가벼운 야외 활동, 신체 놀이, 정서적 대화 시간을 함께 늘려줍니다.
 
 ## 6. 자주 묻는 질문 (FAQ)
@@ -252,6 +279,7 @@ ${linksListMd}
 [칼럼 기본 정보]
 - 지역: ${plan.geo.displayName} (${plan.geo.fullName})
 - 질환: ${plan.disease.name}
+- 주제 앵글: ${plan.topicAngle.titleSuffix} (${plan.topicAngle.focus})
 - 제목: ${plan.titleCandidate}
 - 요약: ${outline.summary}
 
@@ -269,19 +297,25 @@ ${linksListMd}
 [사용 가능한 검증된 내부링크 후보 (본문 자연스러운 문맥에 2~3개 반드시 삽입)]
 ${linksListMd}
 
-[원장칼럼 작성 규칙 및 핵심 지침]
+[원장칼럼 작성 규칙 및 핵심 지침 (GLOBAL MEDICAL POLICY)]
 1. 최상단에 반드시 <div class="column-key-summary-box"> 핵심 요약 3~4항목 포함.
 2. H2 목차는 최소 4개 이상 논리적으로 전개.
 3. FAQ는 최소 3문항 이상 Q&A 볼드체(**Q1.**, **Q2.**, **Q3.**)로 작성.
-4. 문체는 진료실에서 보호자분들이 자주 묻는 질문에 전문적이고 명확하게 설명하는 원장칼럼 톤을 유지하십시오.
-5. [미디어와 신경생물학 설명 지침]
-   - 빠른 화면 전환, 강한 색감, 큰 소리 등 자극적인 콘텐츠가 두뇌의 흥분도와 각성 상태를 높여 증상 변동에 관여할 수 있음을 핵심적으로 설명하십시오.
+4. 문체는 진료실에서 환자/보호자분들이 자주 묻는 질문에 전문적이고 명확하게 설명하는 원장칼럼 톤을 유지하십시오.
+5. [원인 vs 증상 변동 요인 명확한 분리 - 필수]
+   - 질환의 발생 배경/신경생물학적 병태생리와 증상의 악화/변동 요인을 한 문장에 섞어 나열하지 마십시오.
+   - 반드시 "해당 질환은 신경생물학적·체질적 특성이 관여하는 질환이며, 이미 나타나는 증상의 정도는 피로, 수면 상태, 정서적 긴장이나 환경 변화 등에 따라 달라질 수 있습니다"처럼 명확히 분리하여 서술하십시오.
+6. [임의 수치/기간 생성 금지 - 필수]
+   - "일주일 정도 기록", "3일간", "2주간", "한 달 동안", "하루 N회", "N분 동안" 등 승인된 지식에 없는 구체적인 기간/횟수 수치를 임의 생성하지 마십시오.
+   - "일정 기간 동안", "규칙적으로", "꾸준히", "차분하게" 등으로 표현하십시오.
+7. [미디어와 신경생물학 설명 지침]
+   - 빠른 화면 전환, 강한 색감, 큰 소리 등 자극적인 콘텐츠가 두뇌의 흥분도와 각성 상태를 높여 증상 변동에 관여할 수 있음을 설명하십시오.
    - 도파민계 및 피질-선조체-시상-피질(CSTC) 회로와 관련된 신경생물학적 연구 배경을 보수적이고 전문적인 어조로 다루십시오. (단, '도파민 폭발' 등 자극적 과장 표현 금지)
    - "취침 전 1~2시간만 제한" 같은 느슨한 표현은 금지하며, "아이 상황에 맞게 불필요하고 과도한 미디어 노출을 가능한 범위에서 적극적으로 줄여나가며 증상 변화를 관찰"하는 적극적 관리 방향으로 작성하십시오.
-   - 미디어 제한 스트레스 때문에 방치해도 된다는 논조를 피하고, 적절한 조절을 통해 기대할 수 있는 증상 안정 효과의 중요성을 전달하십시오.
-6. [의료 표현 제약]
+   - 미디어를 줄인다고 틱이 100% 호전된다거나 결과가 보장된다는 식의 단정적 표현을 금지합니다.
+8. [의료 표현 제약]
    - 완치, 근본 치료, 기저핵/자율신경/뇌기능 정상화, 신경전달물질 완벽 조절, 약물 임의 중단 유도 금지.
-7. [내부링크 필수 삽입] 위 제공된 내부링크 목록 중 최소 2개를 본문 문맥이나 하단 연관 안내에 [제목](URL) 형식으로 삽입하십시오.
+9. [내부링크 필수 삽입] 위 제공된 내부링크 목록 중 최소 2개를 본문 문맥이나 하단 연관 안내에 [제목](URL) 형식으로 삽입하십시오.
 
 마크다운 형식으로만 반환하십시오.
 `;
@@ -388,13 +422,13 @@ async function generateThumbnailCopy(plan, articleBody, apiKey, telemetry, retry
 /**
  * 4. Generate Single Photo Background Image with Optimized Moderation Transition & Error Classification
  */
-async function generateBackgroundImage(diseaseId, diseaseName, topicFocus, apiKey, telemetry) {
+async function generateBackgroundImage(diseaseId, diseaseName, topicAngleId, topicAngleFocus, apiKey, telemetry) {
   if (!apiKey) {
     return null;
   }
 
-  const primaryPrompt = buildImagePrompt(diseaseId, diseaseName, topicFocus);
-  const fallbackPrompt = buildFallbackImagePrompt(diseaseId, diseaseName);
+  const primaryPrompt = buildImagePrompt(diseaseId, diseaseName, topicAngleId, topicAngleFocus);
+  const fallbackPrompt = buildFallbackImagePrompt(diseaseId, diseaseName, topicAngleId, topicAngleFocus);
 
   let attempts = 0;
   let moderationRetries = 0;
