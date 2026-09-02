@@ -20,7 +20,9 @@ const GLOBAL_BANNED_MEDICAL_PATTERNS = [
   { pattern: /(유명한\s*한의원|추천\s*한의원|치료\s*잘하는\s*곳)/i, reason: '광고성 수식어 금지' },
   // Arbitrary rigid time limits or direct single-cause assertion patterns
   { pattern: /취침\s*전\s*(1~2|1|2|3)시간만\s*제한/i, reason: '일률적 시간 수치 강제 표현 금지' },
-  { pattern: /스마트폰(이|은|을)\s*(틱|ADHD)의\s*(직접적\s*)?(원인|유발)/i, reason: '미디어와 질환의 직접 인과관계 단정 금지' }
+  { pattern: /스마트폰(이|은|을)\s*(틱|ADHD)의\s*(직접적\s*)?(원인|유발)/i, reason: '미디어와 질환의 직접 인과관계 단정 금지' },
+  { pattern: /도파민(이|\s*)*폭발/i, reason: '도파민 기전 비과학적 과장 표현 금지' },
+  { pattern: /도파민\s*(과다|분비|수치).{0,10}(틱|ADHD)\s*(발생|유발|원인)/i, reason: '도파민 단일 원인 단정 금지' }
 ];
 
 /**
@@ -192,6 +194,14 @@ function validateArticleContent(articleData, options = {}) {
     }
     if (!greenText || greenText.trim().length < 1 || greenText.length > 12) {
       errors.push('Thumbnail greenText must be 1~12 characters.');
+    }
+
+    // Check for glued unspaced common patterns (e.g. "나도모르게", "눈깜빡임·헛기침" without space)
+    if (yellowText === '나도모르게') {
+      errors.push('Thumbnail yellowText must have natural Korean spacing: "나도 모르게".');
+    }
+    if (whiteText === '눈깜빡임·헛기침') {
+      errors.push('Thumbnail whiteText must have natural Korean spacing: "눈 깜빡임·헛기침".');
     }
 
     // No regional names in thumbnail

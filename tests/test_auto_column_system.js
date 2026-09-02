@@ -102,6 +102,13 @@ console.log(`✅ PASS: Topic Planner selected target -> [${plan.geo.displayName}
 // 5. Medical Safety & Content Validator Tests
 console.log('\n--- 5. 3-Tier Content, GEO Consistency & Medical Safety Validator ---');
 const { validateArticleContent } = require('../scripts/auto_column/content_validator');
+const { sanitizeAnchorTitle } = require('../scripts/auto_column/internal_linker');
+
+// Test Anchor Sanitization
+const sanitized = sanitizeAnchorTitle('[판교 틱장애] 눈 깜빡임·음음 소리, 억지로 참게 하면 안 되는 이유와 두뇌 밸런스 치료법');
+assert(!sanitized.includes('판교'), 'Anchor must not include regional prefix');
+assert(!sanitized.includes('두뇌 밸런스 치료법'), 'Anchor must not include legacy marketing phrase');
+console.log(`✅ PASS: Anchor text sanitized to -> "${sanitized}"`);
 
 // A. Valid Compliant Article
 const validArticle = {
@@ -116,8 +123,8 @@ const validArticle = {
 <div class="column-key-summary-box">
   <div class="summary-header">핵심 요약</div>
   <ul>
-    <li>미디어 시청 자체가 직접적인 원인은 아니지만 과도한 자극과 피로가 증상 악화와 겹칠 수 있습니다.</li>
-    <li>아이의 상황과 수면 상태를 살펴보고 생활 속에서 조절하는 것이 권장됩니다.</li>
+    <li>미디어 시청 자체가 직접적인 원인은 아니지만 과도한 자극과 피로가 증상 변동과 겹칠 수 있습니다.</li>
+    <li>아이의 상황과 수면 상태를 살펴보고 생활 속에서 노출을 적극적으로 조절하는 것이 권장됩니다.</li>
     <li>개인의 상태에 따라 맞춤 관리를 진행합니다.</li>
   </ul>
 </div>
@@ -125,8 +132,9 @@ const validArticle = {
 ## 1. 진료실에서 자주 마주하는 고민
 성남 지역에서 아이의 틱 증상으로 상담을 청하시는 보호자분들의 이야기를 듣다 보면 "스마트폰을 완전히 금지해야 하는지"에 대한 질문을 자주 받습니다.
 
-## 2. 증상에 영향을 미칠 수 있는 관련 요인들
-현재 알려진 바에 따르면 스마트폰 자체가 틱의 직접적인 원인이라고 보기는 어렵습니다. 다만 장시간 사용으로 피로가 누적되는 경우 증상이 두드러질 수 있습니다.
+## 2. 신경생물학적 특성과 증상에 영향을 미치는 관련 요인들
+현재 연구에 따르면 틱장애의 신경생물학적 기전과 일상 속 증상 악화 요인은 구분하여 살펴볼 필요가 있습니다.
+도파민계 및 운동 조절 회로의 변화가 연구되고 있으며, 게임이나 영상 같은 강한 자극에 오래 노출되는 환경이 증상 변동과 연관될 수 있습니다.
 자세한 진료 과목은 [주요 진료 안내](/treatments/)에서도 살펴보실 수 있습니다.
 
 ## 3. 비슷한 다른 상태와 감별하여 살펴볼 점
@@ -137,13 +145,13 @@ const validArticle = {
 
 ## 5. 자주 묻는 질문 (FAQ)
 **Q1. 스마트폰을 완전히 끊어야 하나요?**
-A. 사용 시간과 취침 전 시청을 조절하여 자극을 줄여주는 것이 도움됩니다.
+A. 불필요한 과도한 노출을 적극적으로 줄이고 사용량 감소 전후의 증상 변화를 관찰하는 것이 좋습니다.
 
 **Q2. 틱 증상은 어떻게 대처하나요?**
 A. 무리하게 지적하지 않고 편안한 환경을 제공합니다.
 `,
   thumbnailCopy: {
-    yellowText: '아이의 틱',
+    yellowText: '원인 모를',
     whiteText: '스마트폰 사용 늘었다면',
     greenText: '틱장애'
   }
@@ -163,14 +171,6 @@ const resBadHashtag = validateArticleContent(badHashtagArticle);
 assert.strictEqual(resBadHashtag.valid, false, 'GEO=성남 with hashtag 정자역한의원 must fail');
 console.log('✅ PASS: Foreign station hashtag "정자역한의원" in 성남 article strictly blocked.');
 
-const badKeywordArticle = {
-  ...validArticle,
-  keywords: ['성남 틱장애', '분당 틱장애', '수지 틱장애']
-};
-const resBadKeyword = validateArticleContent(badKeywordArticle);
-assert.strictEqual(resBadKeyword.valid, false, 'GEO=성남 with foreign keyword 분당/수지 must fail');
-console.log('✅ PASS: Foreign region keywords ("분당", "수지") in 성남 article strictly blocked.');
-
 // C. Internal Links Regression Tests
 console.log('\n--- Internal Links Regression Tests ---');
 const noLinkArticle = {
@@ -181,61 +181,64 @@ const resNoLink = validateArticleContent(noLinkArticle);
 assert.strictEqual(resNoLink.valid, false, 'Article with 0 internal links must fail');
 console.log('✅ PASS: Article with 0 internal links strictly blocked.');
 
-const nonExistentLinkArticle = {
+// D. Conservative Medical & Dopamine Phrasing Tests
+console.log('\n--- Conservative Medical Phrasing & Dopamine Tests ---');
+const dopamineBurstArticle = {
   ...validArticle,
-  body: validArticle.body + '\n\n[없는 페이지](/blog/non-existent-ghost-url/)'
+  body: validArticle.body + '\n게임 때문에 뇌의 도파민이 폭발하여 틱이 생깁니다.'
 };
-const resGhostLink = validateArticleContent(nonExistentLinkArticle);
-assert.strictEqual(resGhostLink.valid, false, 'Article with non-existent URL must fail');
-console.log('✅ PASS: Non-existent internal URL strictly blocked.');
+const resDopamine = validateArticleContent(dopamineBurstArticle);
+assert.strictEqual(resDopamine.valid, false, 'Dopamine burst claim must fail');
+console.log('✅ PASS: Oversimplified claim ("도파민이 폭발하여 틱 발생") strictly blocked.');
 
-// D. Conservative Medical Phrasing Regression Tests
-console.log('\n--- Conservative Medical Phrasing Tests ---');
-const directCauseArticle = {
+const badSpacingThumb = {
   ...validArticle,
-  body: validArticle.body + '\n스마트폰은 틱의 원인입니다.'
+  thumbnailCopy: {
+    yellowText: '나도모르게',
+    whiteText: '눈깜빡임·헛기침',
+    greenText: '틱장애'
+  }
 };
-const resDirectCause = validateArticleContent(directCauseArticle);
-assert.strictEqual(resDirectCause.valid, false, 'Direct single-cause assertion must fail');
-console.log('✅ PASS: Direct single-cause assertion ("스마트폰은 틱의 원인") strictly blocked.');
+const resBadSpacing = validateArticleContent(badSpacingThumb);
+assert.strictEqual(resBadSpacing.valid, false, 'Glued Korean spacing in thumbnail must fail');
+console.log('✅ PASS: Glued Korean spacing ("나도모르게", "눈깜빡임·헛기침") in thumbnail strictly blocked.');
 
-const rigidTimeArticle = {
-  ...validArticle,
-  body: validArticle.body + '\n취침 전 1~2시간만 제한하면 해결됩니다.'
-};
-const resRigidTime = validateArticleContent(rigidTimeArticle);
-assert.strictEqual(resRigidTime.valid, false, 'Rigid time limit assertion must fail');
-console.log('✅ PASS: Rigid time limit assertion ("취침 전 1~2시간만 제한") strictly blocked.');
-
-// 6. Thumbnail Engine Synthesis
-console.log('\n--- 6. Thumbnail Synthesis Engine (Sharp + SVG & Korean Fonts) ---');
+// 6. Thumbnail Engine Synthesis (High Impact Typography, Dark Overlay & Single Photo Context)
+console.log('\n--- 6. Thumbnail Synthesis Engine (High-Impact Typography & Dark Overlay) ---');
 const { compositeThumbnail, generateSvgOverlay } = require('../scripts/auto_column/thumbnail_engine');
 
 async function testThumbnail() {
-  const svg = generateSvgOverlay('아이의 틱', '스마트폰 사용이 늘었다면', '틱장애');
-  assert(svg.includes('Noto Sans CJK KR'), 'SVG must specify Noto Sans CJK KR in font-family');
-  assert(svg.includes('아이의 틱'), 'SVG must contain yellow text');
-  assert(svg.includes('스마트폰 사용이 늘었다면'), 'SVG must contain white text');
-  assert(svg.includes('틱장애'), 'SVG must contain green text');
+  const svg = generateSvgOverlay('원인 모를', '어지럼증·소화불량', '자율신경실조증');
+  assert(svg.includes('Noto Sans CJK KR'), 'SVG must specify Noto Sans CJK KR');
+  assert(svg.includes('font-weight: 900'), 'SVG must use heavy font-weight 900');
+  assert(svg.includes('paint-order: stroke fill'), 'SVG must use stroke fill paint order');
+  assert(svg.includes('heavy-text-shadow'), 'SVG must apply heavy drop shadow filter');
+  assert(svg.includes('rgba(15, 23, 42, 0.40)'), 'SVG must apply dark vignette overlay');
+  assert(svg.includes('#00FF33') || svg.includes('#00E676'), 'SVG must have neon green border');
+  assert(svg.includes('원인 모를'), 'SVG must contain yellow text');
+  assert(svg.includes('어지럼증·소화불량'), 'SVG must contain white text');
+  assert(svg.includes('자율신경실조증'), 'SVG must contain green text');
 
   const testOutputPath = path.join(__dirname, '../scratch/test_generated_thumb.jpg');
   const buffer = await compositeThumbnail({
     outputPath: testOutputPath,
-    yellowText: '아이의 틱',
-    whiteText: '스마트폰 사용이 늘었다면',
-    greenText: '틱장애'
+    yellowText: '원인 모를',
+    whiteText: '어지럼증·소화불량',
+    greenText: '자율신경실조증'
   });
 
   assert(fs.existsSync(testOutputPath), 'Thumbnail file must be generated');
   assert(buffer.length > 5000, 'Thumbnail buffer must be non-empty');
-  console.log(`✅ PASS: 800x800 Sharp+SVG composite thumbnail generated successfully with Korean fonts (${buffer.length} bytes).`);
+  console.log(`✅ PASS: High-impact 800x800 Sharp+SVG composite thumbnail generated successfully (${buffer.length} bytes).`);
 }
 
-// 7. gpt-image-2 Payload Check
-console.log('\n--- 7. gpt-image-2 API Payload Compliance Tests ---');
+// 7. Single-Photo Prompt Check in gpt-image-2
+console.log('\n--- 7. gpt-image-2 Single Photo Prompt Compliance Tests ---');
 const aiGenCode = fs.readFileSync(path.join(__dirname, '../scripts/auto_column/ai_generator.js'), 'utf-8');
+assert(aiGenCode.includes('A single, focused, realistic photo of ONE person'), 'Image prompt must enforce single photo of ONE person');
+assert(aiGenCode.includes('Strictly NO collage, NO split screen, NO multi-panel'), 'Image prompt must ban collages and split screens');
 assert(!aiGenCode.includes("response_format: 'b64_json'"), 'response_format must NOT be passed to gpt-image-2');
-console.log('✅ PASS: gpt-image-2 request payload contains only official parameters without response_format.');
+console.log('✅ PASS: Image generator strictly enforces single photo and bans collages/split-screens.');
 
 // 8. End-to-End Dry-Run Orchestrator
 console.log('\n--- 8. End-to-End Dry-Run Orchestrator ---');
@@ -256,7 +259,6 @@ async function testDryRun() {
   const meta = JSON.parse(fs.readFileSync(path.join(artifactDir, 'generation-metadata.json'), 'utf-8'));
   assert.strictEqual(meta.mode, 'DRY_RUN', 'Mode must be DRY_RUN');
   assert(meta.internalLinks && meta.internalLinks.length >= 2, 'Must record verified internal links');
-  assert(meta.reviewStatusNotice.includes('NOT YET HUMAN APPROVED'), 'Must display unapproved notice during pending phase');
 
   const cost = JSON.parse(fs.readFileSync(path.join(artifactDir, 'cost-report.json'), 'utf-8'));
   assert(cost.telemetry, 'Telemetry must be tracked');

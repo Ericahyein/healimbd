@@ -25,6 +25,21 @@ const CORE_PAGES = [
 ];
 
 /**
+ * Sanitizes legacy titles into neutral, clinical anchor texts
+ */
+function sanitizeAnchorTitle(rawTitle, slug) {
+  let clean = rawTitle || slug || '';
+  // 1. Remove [지역 질환] regional brackets
+  clean = clean.replace(/^\[[가-힣\s]+\]\s*/, '');
+  // 2. Sanitize legacy marketing phrases
+  clean = clean.replace(/두뇌\s*밸런스\s*치료법?/g, '상태 평가 및 임상 가이드');
+  clean = clean.replace(/근본\s*치료법?/g, '한방 관리 요령');
+  clean = clean.replace(/수면제\s*의존\s*없이\s*자연\s*수면\s*리듬\s*되찾기/g, '수면 위생과 한방 관리 가이드');
+  clean = clean.replace(/교감신경\s*불균형\s*바로잡기/g, '자율신경 불균형 임상 가이드');
+  return clean.trim();
+}
+
+/**
  * Scans existing blog markdown files in content/blog/ (Read-Only)
  */
 function getExistingBlogPosts(blogDir) {
@@ -42,12 +57,8 @@ function getExistingBlogPosts(blogDir) {
     const titleMatch = content.match(/^title:\s*["']?([^"'\n\r]+)["']?/m);
     const categoryMatch = content.match(/^category:\s*["']?([^"'\n\r]+)["']?/m);
 
-    let rawTitle = titleMatch ? titleMatch[1].trim() : file.replace(/\.md$/, '');
-    
-    // Clean title for natural cross-article linking:
-    // Remove regional prefix [지역 질환] and sanitize legacy overclaim phrases
-    let cleanTitle = rawTitle.replace(/^\[[가-힣\s]+\]\s*/, '');
-    cleanTitle = cleanTitle.replace(/근본\s*치료법?/g, '한방 관리법');
+    const rawTitle = titleMatch ? titleMatch[1].trim() : file.replace(/\.md$/, '');
+    const cleanTitle = sanitizeAnchorTitle(rawTitle, file.replace(/\.md$/, ''));
 
     const slug = file.replace(/\.md$/, '');
     posts.push({
@@ -121,6 +132,7 @@ function getRecommendedInternalLinks(diseaseCategory, currentSlug, blogDir) {
 
 module.exports = {
   CORE_PAGES,
+  sanitizeAnchorTitle,
   getExistingBlogPosts,
   isInternalUrlValid,
   getRecommendedInternalLinks
