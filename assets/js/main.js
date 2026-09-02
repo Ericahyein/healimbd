@@ -3474,6 +3474,12 @@ function openInquiryDetailModal(id) {
     if (replyBtnText) replyBtnText.textContent = '원장님 답변 작성하기';
   }
 
+  const authorDeleteTrigger = document.getElementById('btn-author-delete-trigger');
+  if (authorDeleteTrigger) {
+    authorDeleteTrigger.setAttribute('onclick', `openAuthorDeleteModal('${id}')`);
+    authorDeleteTrigger.style.display = 'inline-flex';
+  }
+
   if (modal) {
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
@@ -3599,19 +3605,36 @@ async function handleAdminDeleteInquiry() {
   }
 }
 
-function openAuthorDeleteModal() {
+function openAuthorDeleteModal(id) {
+  const targetId = id || currentOpenedInquiryId;
+  console.log('[AUTHOR DELETE] button clicked', {
+    inquiryIdPresent: !!targetId
+  });
+
+  if (!targetId) {
+    console.warn('[AUTHOR DELETE] inquiryId missing');
+  } else {
+    currentOpenedInquiryId = targetId;
+  }
+
   const modal = document.getElementById('inquiry-author-delete-modal');
   const input = document.getElementById('author-delete-pwd-input');
   const errorEl = document.getElementById('author-delete-pwd-error');
   if (input) input.value = '';
   if (errorEl) errorEl.style.display = 'none';
-  if (modal) modal.style.display = 'flex';
-  setTimeout(() => { if (input) input.focus(); }, 100);
+  if (modal) {
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => { if (input) input.focus(); }, 100);
+  }
 }
 
 function closeAuthorDeleteModal() {
   const modal = document.getElementById('inquiry-author-delete-modal');
-  if (modal) modal.style.display = 'none';
+  if (modal) {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
 }
 
 async function handleAuthorDeleteSubmit(e) {
