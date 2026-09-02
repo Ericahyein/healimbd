@@ -24,6 +24,21 @@ const CORE_PAGES = [
   }
 ];
 
+const DISEASE_RELEVANCE_MAP = {
+  tic: ['tic', 'adhd', 'child', 'sleep'],
+  adhd: ['adhd', 'tic', 'child', 'sleep'],
+  child: ['child', 'tic', 'adhd', 'sleep'],
+  panic: ['panic', 'anxiety', 'autonomic', 'sleep', 'syncope'],
+  anxiety: ['anxiety', 'panic', 'autonomic', 'sleep', 'depression'],
+  sleep: ['sleep', 'anxiety', 'panic', 'depression', 'autonomic'],
+  autonomic: ['autonomic', 'panic', 'anxiety', 'syncope', 'hyperhidrosis', 'ibs'],
+  hyperhidrosis: ['hyperhidrosis', 'autonomic', 'anxiety'],
+  ibs: ['ibs', 'autonomic', 'anxiety', 'panic'],
+  syncope: ['syncope', 'autonomic', 'panic', 'anxiety'],
+  headache: ['headache', 'autonomic', 'sleep', 'anxiety'],
+  depression: ['depression', 'anxiety', 'sleep', 'autonomic']
+};
+
 /**
  * Sanitizes legacy titles into neutral, clinical anchor texts
  */
@@ -96,16 +111,24 @@ function isInternalUrlValid(url, baseDir) {
 }
 
 /**
- * Returns 2~4 recommended internal link suggestions for the target disease
+ * Returns 2~4 strictly relevant internal link suggestions for the target disease
+ * - Prioritizes same-category articles
+ * - Allows clinically related categories only (e.g. tic -> adhd/sleep, panic -> anxiety/autonomic)
+ * - Excludes unrelated categories to prevent forced irrelevant links
  */
 function getRecommendedInternalLinks(diseaseCategory, currentSlug, blogDir) {
   const allBlogPosts = getExistingBlogPosts(blogDir);
   const candidates = allBlogPosts.filter(p => p.slug !== currentSlug);
 
-  // 1. Same category blog matches
+  const allowedRelated = DISEASE_RELEVANCE_MAP[diseaseCategory] || [diseaseCategory];
+
+  // 1. Same category blog matches (up to 2)
   const sameCat = candidates.filter(p => p.category === diseaseCategory || p.category.includes(diseaseCategory));
-  // 2. Related category blog posts
-  const otherCat = candidates.filter(p => p.category !== diseaseCategory && !p.category.includes(diseaseCategory));
+  // 2. Strictly related category blog posts (up to 1~2)
+  const relatedCat = candidates.filter(p => 
+    p.category !== diseaseCategory && 
+    allowedRelated.some(rel => p.category === rel || p.category.includes(rel))
+  );
 
   const selected = [];
 
@@ -113,14 +136,14 @@ function getRecommendedInternalLinks(diseaseCategory, currentSlug, blogDir) {
     selected.push(...sameCat.slice(0, 2));
   }
 
-  if (otherCat.length > 0 && selected.length < 3) {
-    selected.push(...otherCat.slice(0, 3 - selected.length));
+  if (relatedCat.length > 0 && selected.length < 3) {
+    selected.push(...relatedCat.slice(0, 3 - selected.length));
   }
 
-  // Fill with core site pages if needed to guarantee at least 2~3 verified links
+  // Fill with core site pages if needed to guarantee 2~3 verified links
   if (selected.length < 2) {
     for (const core of CORE_PAGES) {
-      if (selected.length >= 3) break;
+      if (selected.length >= 2) break;
       if (!selected.some(s => s.url === core.url)) {
         selected.push(core);
       }
@@ -132,6 +155,7 @@ function getRecommendedInternalLinks(diseaseCategory, currentSlug, blogDir) {
 
 module.exports = {
   CORE_PAGES,
+  DISEASE_RELEVANCE_MAP,
   sanitizeAnchorTitle,
   getExistingBlogPosts,
   isInternalUrlValid,

@@ -207,6 +207,17 @@ const mediaGuaranteeArticle = {
   body: validArticle.body + '\n미디어를 줄이면 틱이 좋아집니다. 노출 감소의 개선 효과가 더 큽니다.'
 };
 const resMediaGuarantee = validateArticleContent(mediaGuaranteeArticle);
+assert.strictEqual(resMediaGuarantee.valid, false, 'Media outcome guarantee claim must fail');
+console.log('✅ PASS: Media outcome guarantee ("미디어를 줄이면 틱이 좋아집니다") strictly blocked.');
+
+const mixedConstitutionArticle = {
+  ...validArticle,
+  body: validArticle.body + '\n틱은 신경생물학적·체질적 특성이 관여하는 상태입니다.'
+};
+const resMixedConstitution = validateArticleContent(mixedConstitutionArticle);
+assert.strictEqual(resMixedConstitution.valid, false, 'Mixing neurobiology and constitution in etiology must fail');
+console.log('✅ PASS: Mixing neurobiology and constitution in etiology strictly blocked.');
+
 const arbitraryDurationArticle = {
   ...validArticle,
   body: validArticle.body + '\n일주일 정도 기록해 보십시오.'
