@@ -56,8 +56,19 @@ expectedCategories.forEach(catId => {
   assert(km.lifestyleTips && km.lifestyleTips.length >= 2);
   assert(km.specificRules && km.specificRules.length >= 2, `${catId}.json must have specificRules`);
   assert(km.bannedPhrases && km.bannedPhrases.length >= 2);
+
+  if (km.evidenceNotes) {
+    km.evidenceNotes.forEach(note => {
+      assert(note.claim, 'Evidence note must have claim');
+      assert(note.evidenceLevel, 'Evidence note must have evidenceLevel');
+      if (note.verified === true) {
+        assert(note.sourceTitle, 'Verified note must have sourceTitle');
+        assert(note.doi || note.pmid || note.sourceUrl, 'Verified note must have DOI, PMID, or sourceUrl');
+      }
+    });
+  }
 });
-console.log('✅ PASS: All 12 medical knowledge files verified with specificRules and pending reviewStatus.');
+console.log('✅ PASS: All 12 medical knowledge files verified with specificRules and structured evidenceNotes.');
 
 // 4. Topic Planner & Rotation Tests
 console.log('\n--- 4. Topic Planner & History Cooldown Rules ---');

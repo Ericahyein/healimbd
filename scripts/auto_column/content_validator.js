@@ -285,6 +285,18 @@ function validateArticleContent(articleData, options = {}) {
     }
   }
 
+  // Evidence Notes Citation & Identifier Validation
+  if (knowledge && Array.isArray(knowledge.evidenceNotes)) {
+    for (const note of knowledge.evidenceNotes) {
+      if (note.verified === true) {
+        const hasIdentifier = Boolean(note.doi || note.pmid || note.sourceUrl);
+        if (!note.sourceTitle || !hasIdentifier) {
+          errors.push(`Evidence Note validation failed: Claim '${(note.claim || '').slice(0, 30)}...' marked verified=true but missing valid sourceTitle or source identifier (DOI, PMID, sourceUrl).`);
+        }
+      }
+    }
+  }
+
   return {
     valid: errors.length === 0,
     errors,

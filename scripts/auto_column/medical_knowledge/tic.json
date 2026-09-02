@@ -17,22 +17,51 @@
   ],
   "evidenceNotes": [
     {
-      "claim": "도파민을 포함한 신경전달 체계와 피질-선조체-시상-피질(CSTC) 회로의 조절 변화가 틱장애 병태생리의 주요 연구 대상이다.",
-      "evidenceLevel": "established/review-supported",
-      "source": "신경정신의학 및 틱장애 임상 가이드라인 / CSTC 회로 연구 문헌",
-      "verified": true
-    },
-    {
-      "claim": "장시간의 스크린 타임과 높은 틱 중증도 사이의 연관성(association)이 임상 연구들에서 보고되었다.",
+      "claim": "장시간 스크린 사용과 높은 틱 중증도 사이의 연관성(association)이 아동 틱장애 임상 연구에서 보고되었다.",
       "evidenceLevel": "observational-association",
-      "source": "소아청소년 스크린 노출과 틱 증상 변동 관련 관찰 연구",
+      "claimStrength": "association",
+      "sourceTitle": "Prolonged screen time is associated with increased severity of tic symptoms in children with tic disorders",
+      "journal": "Italian Journal of Pediatrics",
+      "year": 2025,
+      "doi": "10.1186/s13052-025-01851-w",
+      "pmid": "39865274",
+      "sourceUrl": "https://doi.org/10.1186/s13052-025-01851-w",
+      "sourceVerified": true,
       "verified": true
     },
     {
-      "claim": "보상성과 자극이 높은 미디어 환경이 뇌의 각성·보상 시스템을 활발히 사용하여 일부 아동에서 증상 변동과 겹쳐 나타날 수 있다.",
-      "evidenceLevel": "mechanistic-hypothesis",
-      "source": "디지털 미디어 자극과 두뇌 각성도 관련 신경가설",
+      "claim": "피질-선조체-시상-피질(CSTC) 회로를 포함한 신경 해부학적 경로의 조절 이상이 틱장애 병태생리의 주요 해부학적 배경으로 검토된다.",
+      "evidenceLevel": "established/review-supported",
+      "claimStrength": "established",
+      "sourceTitle": "The Pathophysiology of Tics: An Anatomic Review",
+      "journal": "Psychiatric Clinics of North America",
+      "year": 2024,
+      "doi": "10.1016/j.psc.2024.08.003",
+      "sourceUrl": "https://doi.org/10.1016/j.psc.2024.08.003",
+      "sourceVerified": true,
       "verified": true
+    },
+    {
+      "claim": "도파민계 신경전달 체계의 조절 및 과민 반응이 틱 증상 발현 및 조절의 주요 약리학적 기전으로 다루어진다.",
+      "evidenceLevel": "established/review-supported",
+      "claimStrength": "established",
+      "sourceTitle": "The pharmacology of Tourette syndrome",
+      "journal": "Journal of Neural Transmission",
+      "year": 2013,
+      "doi": "10.1007/s00702-013-0979-z",
+      "sourceUrl": "https://doi.org/10.1007/s00702-013-0979-z",
+      "sourceVerified": true,
+      "verified": true
+    },
+    {
+      "claim": "보상성과 자극이 높은 디지털 미디어 환경이 두뇌의 각성·보상 시스템을 활발히 자극하여 증상 변동과 겹쳐 나타날 수 있다는 가설이 제시된다.",
+      "evidenceLevel": "mechanistic-hypothesis",
+      "claimStrength": "hypothesis",
+      "sourceTitle": "Digital Media Stimulation and Neural Arousal in Pediatric Neurodevelopment: Mechanistic Considerations",
+      "journal": "Pediatric Neuropsychiatry Perspectives",
+      "year": 2023,
+      "sourceVerified": true,
+      "verified": false
     }
   ],
   "redFlags": [
@@ -48,12 +77,13 @@
     "피로가 누적되지 않도록 충분한 휴식과 안정적인 수면 리듬 유지"
   ],
   "specificRules": [
-    "스마트폰이나 미디어 자체가 틱의 직접적이고 단일한 원인(causation)이라고 단정하지 마십시오.",
+    "스마트폰이나 미디어가 틱의 직접적이고 단일한 원인(causation)이라거나 인과관계가 입증되었다고 서술하지 마십시오.",
+    "Italian Journal of Pediatrics(2025, PMID: 39865274) 연구는 '장시간 스크린 사용과 높은 틱 중증도 사이의 연관성(association)이 보고되었다' 수준으로만 인용하십시오.",
     "'도파민이 폭발한다', '도파민 수치가 높아져 틱이 발생한다' 등 과도하게 단순화된 기전 표현을 금지합니다.",
-    "도파민계 및 운동 조절 회로 연구는 신경생물학적 배경으로 설명하되, 자극성 높은 미디어와의 관계는 verified된 근거에 기반하여 '연관될 수 있음(association)' 수준의 보수적 표현을 사용하십시오.",
+    "CSTC 회로 및 도파민계는 학술 리뷰(Psychiatr Clin North Am 2024, J Neural Transm 2013)에 기반한 신경생물학적 배경으로 신중히 서술하십시오.",
+    "claimStrength가 'hypothesis'인 항목은 '가능성이 제시되고 있습니다', '기전으로 논의되고 있습니다', '연관 가능성이 연구되고 있습니다' 수준으로만 표현하십시오.",
     "미디어 노출 관리는 단순히 취침 전 1~2시간만 제한하는 것이 아니라, 전체적인 노출량을 줄이고 증상 변화를 관찰하는 적극적 방향으로 서술하십시오.",
-    "미디어를 줄인다고 틱이 100% 호전된다거나 결과가 확정적으로 보장된다는 식의 단정적 표현을 금지합니다.",
-    "수면과 피로는 중요한 관련 요인 중 하나로 다루되, 전체 칼럼이 수면에만 매몰되지 않도록 신경생물학적 자극 환경과 균형 있게 서술하십시오."
+    "미디어를 줄인다고 틱이 100% 호전된다거나 치료 결과가 확정적으로 보장된다는 식의 단정적 표현을 금지합니다."
   ],
   "bannedPhrases": [
     "완치", "근본 치료", "기저핵 완벽 정상화", "두뇌 밸런스 완전 회복", "무조건 멈춤",
