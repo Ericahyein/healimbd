@@ -2689,8 +2689,16 @@ function initFirebaseAppCheck() {
 }
 
 // Singleton Realtime Listener with Duplicate Prevention & Limit
+let cloudInquiriesCache = [];
+
+// Singleton Realtime Listener with Duplicate Prevention & Limit (Pure Firestore Source of Truth)
 function listenToCloudInquiries() {
   if (!db) return;
+
+  // Purge any stale legacy local inquiries cache
+  try {
+    localStorage.removeItem('healim_online_inquiries');
+  } catch (e) {}
 
   // Unsubscribe existing listener if already active
   if (inquiryUnsubscribe) {
@@ -2703,8 +2711,16 @@ function listenToCloudInquiries() {
       .orderBy('createdAt', 'desc')
       .limit(50)
       .onSnapshot((snapshot) => {
+        // Track doc changes for logging / removed events
+        snapshot.docChanges().forEach((change) => {
+          if (change.type === 'removed') {
+            console.log('[FIRESTORE STREAM] Document removed:', change.doc.id);
+          }
+        });
+
+        // Authoritative reconstruction directly from current snapshot docs
         const cloudItems = [];
-        snapshot.forEach(doc => {
+        snapshot.docs.forEach(doc => {
           const data = doc.data();
           let dateStr = '';
           if (data.createdAt && typeof data.createdAt.toDate === 'function') {
@@ -2730,7 +2746,12 @@ function listenToCloudInquiries() {
           });
         });
 
-        localStorage.setItem('healim_cloud_inquiries', JSON.stringify(cloudItems));
+        cloudInquiriesCache = cloudItems;
+        try {
+          localStorage.setItem('healim_cloud_inquiries', JSON.stringify(cloudItems));
+        } catch (e) {}
+
+        // Re-render UI strictly from current Firestore snapshot
         renderInquiryList();
       }, (error) => {
         console.warn('Cloud Firestore stream notice:', error.message);
@@ -2813,48 +2834,25 @@ const PERMANENT_BASE_INQUIRIES = [
 ];
 
 function getStoredInquiries() {
-  let cloudInquiries = [];
-  const cloudStored = localStorage.getItem('healim_cloud_inquiries');
-  if (cloudStored) {
-    try {
-      cloudInquiries = JSON.parse(cloudStored);
-      if (!Array.isArray(cloudInquiries)) cloudInquiries = [];
-    } catch (e) {}
-  }
-
-  let userInquiries = [];
-  const stored = localStorage.getItem('healim_online_inquiries');
-  if (stored) {
-    try {
-      userInquiries = JSON.parse(stored);
-      if (Array.isArray(userInquiries)) {
-        userInquiries = userInquiries.filter(item => 
-          !item.id.startsWith('inq-answered-') && 
-          !item.id.startsWith('inq-real-') && 
-          !item.id.startsWith('inq-10')
-        );
-      } else {
-        userInquiries = [];
+  let cloudInquiries = cloudInquiriesCache;
+  if (!cloudInquiries || !cloudInquiries.length) {
+    const cloudStored = localStorage.getItem('healim_cloud_inquiries');
+    if (cloudStored) {
+      try {
+        cloudInquiries = JSON.parse(cloudStored);
+        if (!Array.isArray(cloudInquiries)) cloudInquiries = [];
+      } catch (e) {
+        cloudInquiries = [];
       }
-    } catch (e) {
-      userInquiries = [];
     }
   }
 
-  // Merge User local + Cloud items
-  const merged = [...userInquiries];
-  cloudInquiries.forEach(c => {
-    if (!merged.some(m => m.id === c.id)) {
-      merged.push(c);
-    }
-  });
-
-  // Always include the 4 base authentic inquiries
+  // Always include the 4 base authentic permanent reference inquiries
   const baseList = PERMANENT_BASE_INQUIRIES.filter(baseItem => 
-    !merged.some(m => m.id === baseItem.id)
+    !cloudInquiries.some(m => m.id === baseItem.id)
   );
 
-  return [...merged, ...baseList];
+  return [...cloudInquiries, ...baseList];
 }
 
 function renderInquiryList() {
@@ -3196,37 +3194,13 @@ async function handleInquirySubmit(e) {
   }
 
   try {
-    const today = new Date();
-    const dateStr = `${today.getFullYear()}.${String(today.getMonth() + 1).padStart(2, '0')}.${String(today.getDate()).padStart(2, '0')}`;
     const newDocId = `inq_${Date.now()}`;
 
     console.log('[INQUIRY SUBMIT] 3. payload ready [fields: region, ageText, gender, category, title, content, status, createdAt]');
 
-    // Local fallback object
-    const newInquiryLocal = {
-      id: newDocId,
-      region: region,
-      ageText: ageText,
-      gender: gender,
-      category: category,
-      disease: disease,
-      title: title,
-      content: content,
-      status: 'pending',
-      date: dateStr,
-      answer: '',
-      answerDate: ''
-    };
-
-    // 1. Save to LocalStorage
-    const stored = getStoredInquiries();
-    stored.unshift(newInquiryLocal);
-    localStorage.setItem('healim_online_inquiries', JSON.stringify(stored));
-    console.log('[INQUIRY SUBMIT] 4. local storage saved');
-
-    // 2. Sync to Firebase Cloud Firestore with 15s diagnostic timeout
+    // Direct Sync to Firebase Cloud Firestore with 15s diagnostic timeout
     if (db && isFirebaseConnected) {
-      console.log('[INQUIRY SUBMIT] 5. firestore write start -> docId: ' + newDocId);
+      console.log('[INQUIRY SUBMIT] 4. firestore write start -> docId: ' + newDocId);
 
       const writePromise = db.collection('online_inquiries').doc(newDocId).set({
         region: region,
@@ -3246,24 +3220,23 @@ async function handleInquirySubmit(e) {
       });
 
       await Promise.race([writePromise, timeoutPromise]);
-      console.log('[INQUIRY SUBMIT] 6. firestore write success');
+      console.log('[INQUIRY SUBMIT] 5. firestore write success');
     } else {
-      console.warn('[INQUIRY SUBMIT] 5. skipped firestore write: db=' + Boolean(db) + ', isFirebaseConnected=' + isFirebaseConnected);
+      throw new Error('데이터베이스에 연결할 수 없습니다. 네트워크 상태를 확인해주세요.');
     }
 
     lastInquirySubmitTime = Date.now();
     clearInquiryDraft();
 
-    console.log('[INQUIRY SUBMIT] 7. cleanup and closing modal');
+    console.log('[INQUIRY SUBMIT] 6. cleanup and closing modal');
     document.getElementById('inquiry-submit-form')?.reset();
     closeInquiryWriteModal();
     showAuthToast('🎉 온라인 상담글이 성공적으로 등록되었습니다. 손지웅 원장님이 확인 후 성심성의껏 전문 답변을 등록해 드립니다.');
-    renderInquiryList();
   } catch (err) {
     console.error('[INQUIRY SUBMIT] Error caught:', err);
     alert('상담글 등록에 실패했습니다. 잠시 후 다시 시도해주세요.');
   } finally {
-    console.log('[INQUIRY SUBMIT] 8. finally block executed - button state restored');
+    console.log('[INQUIRY SUBMIT] 7. finally block executed - button state restored');
     if (submitBtn) {
       submitBtn.disabled = false;
       submitBtn.innerHTML = '<i class="ph-bold ph-paper-plane-tilt"></i> <span>상담글 등록하기</span>';
@@ -3463,22 +3436,10 @@ async function handleDoctorReplySubmit(e) {
     await db.collection('online_inquiries').doc(currentOpenedInquiryId).update(updateData);
     console.log('[DOCTOR REPLY SUBMIT] Successfully saved to Cloud Firestore for doc:', currentOpenedInquiryId);
 
-    // 3. Update local storage only AFTER Firestore succeeds
-    const today = new Date();
-    const dateStr = `${today.getFullYear()}.${String(today.getMonth() + 1).padStart(2, '0')}.${String(today.getDate()).padStart(2, '0')}`;
-    const targetIndex = items.findIndex(item => item.id === currentOpenedInquiryId);
-    if (targetIndex !== -1) {
-      items[targetIndex].answer = answerText;
-      items[targetIndex].answerDate = dateStr;
-      items[targetIndex].status = 'answered';
-      localStorage.setItem('healim_online_inquiries', JSON.stringify(items));
-    }
-
     closeDoctorReplyEditorModal();
     showAuthToast('🩺 손지웅 대표원장의 전문 답변이 성공적으로 등록되었습니다.');
 
     openInquiryDetailModal(currentOpenedInquiryId);
-    renderInquiryList();
   } catch (err) {
     console.error('[DOCTOR REPLY SUBMIT ERROR]', err.code, err.message);
     alert('답변 저장에 실패했습니다. (오류: ' + (err.code || err.message) + ')');
@@ -3504,13 +3465,8 @@ async function handleAdminDeleteInquiry() {
     await db.collection('online_inquiries').doc(targetId).delete();
     console.log('[ADMIN DELETE] Deleted doc:', targetId);
 
-    let items = getStoredInquiries();
-    items = items.filter(item => item.id !== targetId);
-    localStorage.setItem('healim_online_inquiries', JSON.stringify(items));
-
     closeInquiryDetailModal();
     showAuthToast('상담글이 삭제되었습니다.');
-    renderInquiryList();
   } catch (err) {
     console.error('[ADMIN DELETE ERROR]', err.code, err.message);
     alert('상담글 삭제에 실패했습니다. (오류: ' + (err.code || err.message) + ')');
