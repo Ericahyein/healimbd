@@ -105,12 +105,12 @@ function loadQAResults() {
  * IMPORTANT: humanReviewStatus will NEVER automatically become 'approved'.
  * It strictly defaults to 'generated' upon passing, requiring human review.
  */
-function recordQAResult({ qaId, validationPassed, estimatedCostUSD, articleSlug, validationErrors, notes }) {
+function recordQAResult({ qaId, validationPassed, humanReviewStatus, estimatedCostUSD, articleSlug, validationErrors, notes }) {
   const currentResults = loadQAResults();
   const existingIdx = currentResults.findIndex(r => r.qaId === qaId);
 
-  // validationPassed=true -> 'generated', validationPassed=false -> 'needs_revision'
-  const computedStatus = validationPassed ? 'generated' : 'needs_revision';
+  // Default: validationPassed=true -> 'generated', validationPassed=false -> 'needs_revision'
+  const computedStatus = humanReviewStatus || (validationPassed ? 'generated' : 'needs_revision');
 
   const newRecord = {
     qaId,
@@ -138,9 +138,14 @@ function recordQAResult({ qaId, validationPassed, estimatedCostUSD, articleSlug,
   }
 
   if (existingIdx >= 0) {
-    // Preserve existing human approved status ONLY if validation passed and human had previously explicitly approved it
-    if (validationPassed && currentResults[existingIdx].humanReviewStatus === 'approved') {
-      newRecord.humanReviewStatus = 'approved';
+    // If human had previously reviewed ('approved' or 'needs_revision') and this run passed,
+    // preserve the human review decision unless an explicit humanReviewStatus is provided
+    if (validationPassed && !humanReviewStatus) {
+      if (currentResults[existingIdx].humanReviewStatus === 'approved') {
+        newRecord.humanReviewStatus = 'approved';
+      } else if (currentResults[existingIdx].humanReviewStatus === 'needs_revision') {
+        newRecord.humanReviewStatus = 'needs_revision';
+      }
     }
     currentResults[existingIdx] = { ...currentResults[existingIdx], ...newRecord };
   } else {
