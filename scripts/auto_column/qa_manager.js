@@ -105,9 +105,12 @@ function loadQAResults() {
  * IMPORTANT: humanReviewStatus will NEVER automatically become 'approved'.
  * It strictly defaults to 'generated' upon passing, requiring human review.
  */
-function recordQAResult({ qaId, validationPassed, estimatedCostUSD, articleSlug, notes }) {
+function recordQAResult({ qaId, validationPassed, estimatedCostUSD, articleSlug, validationErrors, notes }) {
   const currentResults = loadQAResults();
   const existingIdx = currentResults.findIndex(r => r.qaId === qaId);
+
+  // validationPassed=true -> 'generated', validationPassed=false -> 'needs_revision'
+  const computedStatus = validationPassed ? 'generated' : 'needs_revision';
 
   const newRecord = {
     qaId,
@@ -117,9 +120,11 @@ function recordQAResult({ qaId, validationPassed, estimatedCostUSD, articleSlug,
     recommendedGeo: '',
     testedAt: new Date().toISOString(),
     validationPassed: !!validationPassed,
-    humanReviewStatus: 'generated', // STRICT: AI NEVER APPROVES ITSELF
-    notes: notes || (validationPassed ? 'Dry-run QA 검증 통과 (인간 검토 대기)' : 'Dry-run QA 검증 실패'),
+    humanReviewStatus: computedStatus,
+    notes: notes || (validationPassed ? 'Dry-run QA 검증 통과 (인간 검토 대기)' : 'Dry-run QA 검증 실패 (수정 필요)'),
+    validationErrors: validationErrors || [],
     estimatedCostUSD: Number(estimatedCostUSD || 0),
+    estimatedCost: Number(estimatedCostUSD || 0),
     articleSlug: articleSlug || null
   };
 
@@ -133,8 +138,8 @@ function recordQAResult({ qaId, validationPassed, estimatedCostUSD, articleSlug,
   }
 
   if (existingIdx >= 0) {
-    // Preserve existing human approved status if human had previously explicitly approved it
-    if (currentResults[existingIdx].humanReviewStatus === 'approved') {
+    // Preserve existing human approved status ONLY if validation passed and human had previously explicitly approved it
+    if (validationPassed && currentResults[existingIdx].humanReviewStatus === 'approved') {
       newRecord.humanReviewStatus = 'approved';
     }
     currentResults[existingIdx] = { ...currentResults[existingIdx], ...newRecord };

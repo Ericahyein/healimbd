@@ -100,7 +100,7 @@ jobs:
           retention-days: 7
 
       - name: Persist QA Results History (Dry-Run Mode Only)
-        if: (env.AUTO_COLUMN_ENABLED != 'true' && github.event.inputs.force_publish != 'true')
+        if: always() && (env.AUTO_COLUMN_ENABLED != 'true' && github.event.inputs.force_publish != 'true')
         run: |
           git config --global user.name "Healim QA Bot"
           git config --global user.email "bot@healim-bundang.com"

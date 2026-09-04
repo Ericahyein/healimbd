@@ -9,7 +9,9 @@
     "validationPassed": true,
     "humanReviewStatus": "generated",
     "notes": "틱장애 + 미디어 노출 Dry-run 검증 완료 (인간 승인 대기)",
+    "validationErrors": [],
     "estimatedCostUSD": 0.0528,
+    "estimatedCost": 0.0528,
     "articleSlug": "seongnam-bundang-tic-media-exposure"
   },
   {
@@ -22,7 +24,9 @@
     "validationPassed": false,
     "humanReviewStatus": "not_tested",
     "notes": "테스트 대기",
+    "validationErrors": [],
     "estimatedCostUSD": 0,
+    "estimatedCost": 0,
     "articleSlug": null
   },
   {
@@ -35,7 +39,9 @@
     "validationPassed": false,
     "humanReviewStatus": "not_tested",
     "notes": "테스트 대기",
+    "validationErrors": [],
     "estimatedCostUSD": 0,
+    "estimatedCost": 0,
     "articleSlug": null
   },
   {
@@ -48,7 +54,9 @@
     "validationPassed": false,
     "humanReviewStatus": "not_tested",
     "notes": "테스트 대기",
+    "validationErrors": [],
     "estimatedCostUSD": 0,
+    "estimatedCost": 0,
     "articleSlug": null
   },
   {
@@ -61,7 +69,9 @@
     "validationPassed": false,
     "humanReviewStatus": "not_tested",
     "notes": "테스트 대기",
+    "validationErrors": [],
     "estimatedCostUSD": 0,
+    "estimatedCost": 0,
     "articleSlug": null
   },
   {
@@ -74,7 +84,9 @@
     "validationPassed": false,
     "humanReviewStatus": "not_tested",
     "notes": "테스트 대기",
+    "validationErrors": [],
     "estimatedCostUSD": 0,
+    "estimatedCost": 0,
     "articleSlug": null
   },
   {
@@ -87,7 +99,9 @@
     "validationPassed": false,
     "humanReviewStatus": "not_tested",
     "notes": "테스트 대기",
+    "validationErrors": [],
     "estimatedCostUSD": 0,
+    "estimatedCost": 0,
     "articleSlug": null
   },
   {
@@ -100,7 +114,9 @@
     "validationPassed": false,
     "humanReviewStatus": "not_tested",
     "notes": "테스트 대기",
+    "validationErrors": [],
     "estimatedCostUSD": 0,
+    "estimatedCost": 0,
     "articleSlug": null
   },
   {
@@ -113,7 +129,9 @@
     "validationPassed": false,
     "humanReviewStatus": "not_tested",
     "notes": "테스트 대기",
+    "validationErrors": [],
     "estimatedCostUSD": 0,
+    "estimatedCost": 0,
     "articleSlug": null
   },
   {
@@ -126,7 +144,9 @@
     "validationPassed": false,
     "humanReviewStatus": "not_tested",
     "notes": "테스트 대기",
+    "validationErrors": [],
     "estimatedCostUSD": 0,
+    "estimatedCost": 0,
     "articleSlug": null
   },
   {
@@ -139,7 +159,9 @@
     "validationPassed": false,
     "humanReviewStatus": "not_tested",
     "notes": "테스트 대기",
+    "validationErrors": [],
     "estimatedCostUSD": 0,
+    "estimatedCost": 0,
     "articleSlug": null
   },
   {
@@ -152,7 +174,9 @@
     "validationPassed": false,
     "humanReviewStatus": "not_tested",
     "notes": "테스트 대기",
+    "validationErrors": [],
     "estimatedCostUSD": 0,
+    "estimatedCost": 0,
     "articleSlug": null
   },
   {
@@ -165,7 +189,9 @@
     "validationPassed": false,
     "humanReviewStatus": "not_tested",
     "notes": "테스트 대기",
+    "validationErrors": [],
     "estimatedCostUSD": 0,
+    "estimatedCost": 0,
     "articleSlug": null
   },
   {
@@ -178,7 +204,9 @@
     "validationPassed": false,
     "humanReviewStatus": "not_tested",
     "notes": "테스트 대기",
+    "validationErrors": [],
     "estimatedCostUSD": 0,
+    "estimatedCost": 0,
     "articleSlug": null
   },
   {
@@ -191,7 +219,9 @@
     "validationPassed": false,
     "humanReviewStatus": "not_tested",
     "notes": "테스트 대기",
+    "validationErrors": [],
     "estimatedCostUSD": 0,
+    "estimatedCost": 0,
     "articleSlug": null
   },
   {
@@ -204,7 +234,9 @@
     "validationPassed": false,
     "humanReviewStatus": "not_tested",
     "notes": "테스트 대기",
+    "validationErrors": [],
     "estimatedCostUSD": 0,
+    "estimatedCost": 0,
     "articleSlug": null
   },
   {
@@ -217,7 +249,9 @@
     "validationPassed": false,
     "humanReviewStatus": "not_tested",
     "notes": "테스트 대기",
+    "validationErrors": [],
     "estimatedCostUSD": 0,
+    "estimatedCost": 0,
     "articleSlug": null
   },
   {
@@ -230,7 +264,9 @@
     "validationPassed": false,
     "humanReviewStatus": "not_tested",
     "notes": "테스트 대기",
+    "validationErrors": [],
     "estimatedCostUSD": 0,
+    "estimatedCost": 0,
     "articleSlug": null
   },
   {
@@ -243,7 +279,9 @@
     "validationPassed": false,
     "humanReviewStatus": "not_tested",
     "notes": "테스트 대기",
+    "validationErrors": [],
     "estimatedCostUSD": 0,
+    "estimatedCost": 0,
     "articleSlug": null
   },
   {
@@ -256,7 +294,9 @@
     "validationPassed": false,
     "humanReviewStatus": "not_tested",
     "notes": "테스트 대기",
+    "validationErrors": [],
     "estimatedCostUSD": 0,
+    "estimatedCost": 0,
     "articleSlug": null
   }
 ]

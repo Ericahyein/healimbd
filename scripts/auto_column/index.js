@@ -144,6 +144,41 @@ async function runAutoColumnPipeline() {
       const artifactDir = path.join(__dirname, '../../auto_column_artifacts');
       if (!fs.existsSync(artifactDir)) fs.mkdirSync(artifactDir, { recursive: true });
 
+      const todayIso = new Date().toISOString();
+      const hashtagsYaml = hashtags.map(h => `  - "${h}"`).join('\n');
+      const keywordsYaml = keywords.map(k => `  - "${k}"`).join('\n');
+
+      const failedMarkdown = `---
+title: "${plan.titleCandidate.replace(/"/g, '\\"')}"
+date: ${todayIso}
+category: "${plan.disease.category}"
+category_name: "${plan.disease.categoryName}"
+author: "손지웅 대표원장"
+summary: "${(outline.summary || '').replace(/"/g, '\\"')}"
+hashtags:
+${hashtagsYaml}
+keywords:
+${keywordsYaml}
+---
+
+${articleBody}
+`;
+
+      const costUSD = (
+        (telemetry.lunaInTokens * COST_RATES.lunaIn) +
+        (telemetry.lunaOutTokens * COST_RATES.lunaOut) +
+        (telemetry.terraInTokens * COST_RATES.terraIn) +
+        (telemetry.terraOutTokens * COST_RATES.terraOut)
+      );
+
+      const costReport = {
+        telemetry,
+        costRates: COST_RATES,
+        estimatedCostUSD: Number(costUSD.toFixed(5)),
+        estimatedCostKRW: Math.round(costUSD * 1350)
+      };
+
+      fs.writeFileSync(path.join(artifactDir, 'article.md'), failedMarkdown, 'utf-8');
       fs.writeFileSync(path.join(artifactDir, 'validation-report.json'), JSON.stringify(validation, null, 2), 'utf-8');
       fs.writeFileSync(path.join(artifactDir, 'generation-metadata.json'), JSON.stringify({
         mode: 'DRY_RUN_FAILED_VALIDATION',
@@ -152,16 +187,18 @@ async function runAutoColumnPipeline() {
         internalLinks: validation.internalLinks,
         errors: validation.errors,
         telemetry,
-        generatedAt: new Date().toISOString()
+        generatedAt: todayIso
       }, null, 2), 'utf-8');
+      fs.writeFileSync(path.join(artifactDir, 'cost-report.json'), JSON.stringify(costReport, null, 2), 'utf-8');
 
       if (plan && plan.qaId) {
         recordQAResult({
           qaId: plan.qaId,
           validationPassed: false,
-          estimatedCostUSD: 0,
+          estimatedCostUSD: costReport.estimatedCostUSD,
           articleSlug: plan.slug,
-          notes: `Dry-run 검증 실패: ${validation.errors.join(', ')}`
+          validationErrors: validation.errors,
+          notes: `Dry-run 검증 실패: ${validation.errors.join('; ')}`
         });
       }
     }

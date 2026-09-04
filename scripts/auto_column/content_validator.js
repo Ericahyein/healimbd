@@ -8,7 +8,6 @@ const GLOBAL_BANNED_MEDICAL_PATTERNS = [
   { pattern: /무조건\s*(치료|완치|회복|해결)/i, reason: '무조건적 치료 표현 금지' },
   { pattern: /100%\s*(치료|완치|회복|호전)/i, reason: '100% 효과 과장 금지' },
   { pattern: /부작용(이|\s*)*전혀\s*없/i, reason: '부작용 부존재 단정 금지' },
-  { pattern: /(양약|정신과\s*약|신경과\s*약|약물|수면제|항불안제|약).{0,15}(중단|끊)/i, reason: '임의 약물 중단 권고 금지' },
   { pattern: /근본\s*치료/i, reason: '근본 치료 과장 표현 금지' },
   { pattern: /두뇌\s*밸런스(를|\s*)*회복/i, reason: '두뇌 밸런스 회복 단정 표현 금지' },
   { pattern: /기저핵(의|\s*)*흥분(을|\s*)*안정/i, reason: '기저핵 흥분 안정 단정 기전 금지' },
@@ -97,6 +96,50 @@ function extractInternalLinks(text) {
 }
 
 /**
+ * Smart Medication Discontinuation Validator
+ * Blocks: "약을 끊으세요", "수면제를 중단하세요", "증상이 좋아지면 약물을 끊어도 됩니다" 등 중단 권고
+ * Allows: "약물을 임의로 중단하지 마십시오", "의료진과 상의 없이 약을 끊으면 안 됩니다" 등 안전 주의 권고
+ */
+function checkMedicationDiscontinuation(text) {
+  const sentences = text.split(/[.\n!?]+/);
+  for (const rawSentence of sentences) {
+    const sentence = rawSentence.trim();
+    if (!sentence) continue;
+
+    const medPattern = /(약물|양약|정신과\s*약|신경과\s*약|수면제|항불안제|진통제|항우울제|처방약|복용\s*중인\s*약|신경안정제|진정제|양방\s*약|(\s|^)약(을|은|이|도|에|\s))/i;
+    const stopPattern = /(중단|끊|단약)/i;
+
+    if (medPattern.test(sentence) && stopPattern.test(sentence)) {
+      // 1. Safe negative/warning patterns (중단하지 말라, 끊지 마라, 위험하다, 안 된다)
+      const hasNegativeWarning = /(중단|끊|단약).{0,15}(하[지않]|않|말|금지|금물|삼가|반동|안\s*됩|위험|주의|권하지|피해|어렵|조심|우려)/i.test(sentence);
+
+      // 2. Safe guidance patterns (임의로/자의로/상의 없이 중단하지)
+      const hasArbitraryWarning = /(임의(로)?|자의(로)?|상의\s*없이|지시\s*없이).{0,15}(중단|끊|단약)/i.test(sentence);
+
+      // 3. Doctor consultation patterns (의료진과 상의하여 조절/유지)
+      const hasDoctorConsult = /(처방|의료진|담당의|주치의|의사|전문가).{0,15}(상의|상담|조절|조정|상의하|상의한\s*후)/i.test(sentence);
+
+      const isSafeContext = hasNegativeWarning || hasArbitraryWarning || hasDoctorConsult;
+
+      // Even in safe context, check if there is an explicit recommendation to stop
+      const explicitStopRecommend = /(중단|끊).{0,8}(하세요|하십시오|합시다|권장|추천|해도\s*됩니다|하셔도\s*됩니다)/i.test(sentence);
+
+      if (isSafeContext && !explicitStopRecommend) {
+        // Legitimate safety warning - ALLOWED
+        continue;
+      }
+
+      // Discontinuation recommendation or non-safe context - VIOLATION
+      return {
+        violated: true,
+        sentence: sentence.slice(0, 80)
+      };
+    }
+  }
+  return { violated: false };
+}
+
+/**
  * 3-Tier Comprehensive Validation of Generated Column
  * Tier 1: Global Policy (Structure, Length, Headings, Banned Phrases, Internal Links)
  * Tier 2: GEO Consistency Policy (No unrelated active GEO or station keywords)
@@ -149,6 +192,12 @@ function validateArticleContent(articleData, options = {}) {
     if (pattern.test(fullText)) {
       errors.push(`Medical safety violation: ${reason} (Matched: ${pattern})`);
     }
+  }
+
+  // 4-1. Smart Medication Discontinuation Check (Distinguishes safe warnings from stop recommendations)
+  const medCheck = checkMedicationDiscontinuation(fullText);
+  if (medCheck.violated) {
+    errors.push(`Medical safety violation: 임의 약물 중단 권고 금지 (Matched: "${medCheck.sentence}")`);
   }
 
   // 5. Structure Elements Check (Key Summary Box, Headings, FAQ)
