@@ -23,7 +23,12 @@ const GLOBAL_BANNED_MEDICAL_PATTERNS = [
   { pattern: /도파민(이|\s*)*폭발/i, reason: '도파민 기전 비과학적 과장 표현 금지' },
   { pattern: /(미디어|스마트폰|게임).{0,12}(줄이면|제한하면).{0,12}(좋아집|완치|호전|안정됩니다|개선\s*효과가\s*더\s*큽)/i, reason: '미디어 조절에 따른 결과 단정적 보장 금지' },
   { pattern: /(일주일|1주일|2주일|3일|5일|한\s*달|2개월|3개월|하루\s*\d+회|\d+분\s*동안)\s*(동안|정도|간)?\s*(기록|관찰|실천|제한|복용)/i, reason: '임의의 기간/횟수 수치 임의 생성 금지 (일정 기간/꾸준히 등으로 작성)' },
-  { pattern: /신경(생물|발달)학적.{0,10}체질적\s*특성/i, reason: '신경생물학적 원인과 한의학 체질 특성 층위 혼용 금지' }
+  { pattern: /신경(생물|발달)학적.{0,10}체질적\s*특성/i, reason: '신경생물학적 원인과 한의학 체질 특성 층위 혼용 금지' },
+  // Unapproved treatment names & fabricated acupoint locations
+  { pattern: /(안심\s*한약|두뇌\s*(회복|밸런스)\s*탕|총명\s*탕|귀비\s*탕|소요\s*산)/i, reason: '치료법 임의 생성 금지: 승인되지 않은 고유 한약 처방 명칭 사용' },
+  { pattern: /(두경부\s*(중심의|\s*)*혈자리|특정\s*혈자리\s*(자극|침구|치료))/i, reason: '치료법 임의 생성 금지: 근거 없는 구체적 경혈/신체 부위 시술 위치 임의 서술' },
+  // Promotional closing CTA patterns
+  { pattern: /([가-힣]+(시|구|동|역|지역|에서)?\s*)?(진료(를)?\s*(권합니다|권해드립니다|추천합니다)|내원(을)?\s*(권합니다|권해드립니다|추천합니다|바랍니다)|방문(을)?\s*(권합니다|권해드립니다)|내원하셔서\s*진료|방문하셔서\s*상담)/i, reason: '마무리 광고성 CTA 금지: 지역 키워드 및 직접적인 내원/진료 권유 문장' }
 ];
 
 /**
@@ -377,6 +382,23 @@ function validateArticleContent(articleData, options = {}) {
           errors.push(`Evidence Note validation failed: Claim '${(note.claim || '').slice(0, 30)}...' marked verified=true but missing valid sourceTitle or source identifier (DOI, PMID, sourceUrl).`);
         }
       }
+    }
+  }
+
+  // Disease-specific Lifestyle Factor Leakage Check
+  // Prevent tic/media specific phrases ('빠른 화면 전환', '강한 색감', 'CSTC 회로') from leaking into other diseases
+  if (diseaseId !== 'tic' && diseaseId !== 'adhd') {
+    const leakedLifestylePattern = /(빠른\s*화면\s*전환|강한\s*색감|CSTC\s*회로|피질-선조체)/i;
+    if (leakedLifestylePattern.test(fullText)) {
+      errors.push(`Disease-specific lifestyle leakage violation (${diseaseId}): 타 질환(틱장애/미디어) 특화 요인이 혼입되었습니다.`);
+    }
+  }
+
+  // Panic-specific checks: Panic attack vs Panic disorder distinction
+  if (diseaseId === 'panic') {
+    const simplisticPanicDef = /(심계항진|호흡곤란|가슴\s*답답함)(이|\s*)*반복되면\s*(곧|모두|바로)?\s*공황장애/i;
+    if (simplisticPanicDef.test(fullText)) {
+      errors.push('Panic-specific rule violation: 단순 신체 증상 반복만으로 공황장애로 단정할 수 없으며, 공황발작과 예기불안/회피 행동을 명확히 구분해야 합니다.');
     }
   }
 

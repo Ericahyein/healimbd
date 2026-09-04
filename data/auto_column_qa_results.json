@@ -66,10 +66,12 @@
     "topicAngle": "sudden-palpitation",
     "recommendedGeo": "seongnam-bundang",
     "testedAt": "2026-09-04T09:05:42.379Z",
-    "validationPassed": true,
-    "humanReviewStatus": "generated",
-    "notes": "Dry-run QA 검증 통과 (공황장애 - 갑자기 숨이 차고 심장이 빨라질 때 먼저 살펴볼 부분)",
-    "validationErrors": [],
+    "validationPassed": false,
+    "humanReviewStatus": "needs_revision",
+    "notes": "Dry-run QA 완료 (인간 검토: needs_revision - 공황발작/장애 구분 및 생활요인/치료법 정밀화 필요)",
+    "validationErrors": [
+      "인간 검토 피드백 반영: 1) 공황발작과 공황장애의 명확한 구분, 2) 틱장애 미디어 생활요인 혼입 방지, 3) 치료법/시술 위치 임의 생성 금지, 4) 마무리 광고성 CTA 제거"
+    ],
     "estimatedCostUSD": 0.0804,
     "estimatedCost": 0.0804,
     "articleSlug": "seongnam-bundang-panic-sudden-palpitation"

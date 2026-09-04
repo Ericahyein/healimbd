@@ -245,36 +245,81 @@ safeSampleSentences.forEach((sentence, idx) => {
 });
 console.log('✅ [Test 5-E Passed] All safe medication warning sentences passed validation with 0 false positives.');
 
+// F. 승인되지 않은 치료 명칭 및 임의 혈자리 시술 차단 테스트 (MUST FAIL)
+console.log('\n[Test 5-F] Fabricated Treatment & Acupoint Locations (MUST FAIL)...');
+const fabricatedTreatments = [
+  "진료실에서는 안심 한약 처방을 통해 회복을 돕습니다.",
+  "두뇌 회복탕을 복용하여 긴장을 안정시킵니다.",
+  "두경부 중심의 혈자리 침구 치료를 시행합니다.",
+  "특정 혈자리 자극을 통해 자율신경을 다스립니다."
+];
+
+fabricatedTreatments.forEach((stmt, idx) => {
+  const res = validateArticleContent(createMockArticleWithBody(stmt));
+  const treatErr = res.errors.filter(e => e.includes('치료법 임의 생성 금지'));
+  assert.ok(treatErr.length > 0, `Fabricated treatment [${idx}] was NOT blocked: "${stmt}"`);
+});
+console.log('✅ [Test 5-F Passed] Fabricated treatment names and arbitrary acupoints were strictly blocked.');
+
+// G. 마무리 광고성 내원 유도(CTA) 차단 테스트 (MUST FAIL)
+console.log('\n[Test 5-G] Promotional Closing CTA (MUST FAIL)...');
+const promotionalCTAs = [
+  "분당에서 공황장애로 고민 중이시라면 한의원 진료를 권합니다.",
+  "혼자 참지 마시고 본원에 내원하셔서 진료를 받아보시길 권합니다.",
+  "성남 지역 주민분들의 한의원 내원을 권해드립니다."
+];
+
+promotionalCTAs.forEach((cta, idx) => {
+  const res = validateArticleContent(createMockArticleWithBody(cta));
+  const ctaErr = res.errors.filter(e => e.includes('마무리 광고성 CTA 금지'));
+  assert.ok(ctaErr.length > 0, `Promotional CTA [${idx}] was NOT blocked: "${cta}"`);
+});
+console.log('✅ [Test 5-G Passed] Promotional closing CTAs were strictly blocked.');
+
+// H. 타 질환 미디어 생활 요인 혼입 차단 테스트 (MUST FAIL for panic)
+console.log('\n[Test 5-H] Disease-specific Lifestyle Factor Leakage (MUST FAIL for panic)...');
+const leakedSentences = [
+  "공황장애 환자는 빠른 화면 전환과 강한 색감의 자극을 피해야 합니다.",
+  "CSTC 회로의 과도한 흥분을 줄이기 위해 미디어를 조절해야 합니다."
+];
+
+leakedSentences.forEach((stmt, idx) => {
+  const res = validateArticleContent(createMockArticleWithBody(stmt));
+  const leakErr = res.errors.filter(e => e.includes('Disease-specific lifestyle leakage violation'));
+  assert.ok(leakErr.length > 0, `Lifestyle leakage [${idx}] was NOT blocked: "${stmt}"`);
+});
+console.log('✅ [Test 5-H Passed] Lifestyle factor leakage from other diseases into panic was strictly blocked.');
+
 // Test 6: Verify validation failure transitions humanReviewStatus to 'needs_revision'
-console.log('\n[Test 6] Testing validation failure transition to needs_revision...');
+console.log('\n[Test 6] Testing validation failure transition to needs_revision & qa-05-panic state...');
+
+// 6-1. Verify qa-05-panic humanReviewStatus is preserved as 'needs_revision'
+const panicCheck = loadQAResults().find(r => r.qaId === 'qa-05-panic');
+assert.ok(panicCheck, 'qa-05-panic record must exist');
+assert.strictEqual(panicCheck.humanReviewStatus, 'needs_revision', 'qa-05-panic must be needs_revision per human review');
+assert.strictEqual(panicCheck.validationPassed, false);
+console.log('✅ [Test 6-1 Passed] qa-05-panic humanReviewStatus is safely preserved as "needs_revision".');
+
+// 6-2. Test dynamic failure transition to needs_revision on mock target
+const mockQaId = 'qa-99-mock';
 recordQAResult({
-  qaId: 'qa-05-panic',
+  qaId: mockQaId,
   validationPassed: false,
   estimatedCostUSD: 0.021,
-  articleSlug: 'seongnam-bundang-panic-sudden-palpitation',
+  articleSlug: 'test-slug',
   validationErrors: ['Sample validation failure'],
   notes: 'Dry-run 검증 실패 테스트'
 });
 
-const failCheck = loadQAResults().find(r => r.qaId === 'qa-05-panic');
+const failCheck = loadQAResults().find(r => r.qaId === mockQaId);
+assert.ok(failCheck);
 assert.strictEqual(failCheck.validationPassed, false);
 assert.strictEqual(failCheck.humanReviewStatus, 'needs_revision', 'Failed QA must set humanReviewStatus to needs_revision');
 assert.ok(failCheck.validationErrors && failCheck.validationErrors.length > 0);
 
-// Reset qa-05-panic back to clean not_tested state
-recordQAResult({
-  qaId: 'qa-05-panic',
-  validationPassed: false,
-  estimatedCostUSD: 0,
-  articleSlug: null,
-  validationErrors: [],
-  notes: '테스트 대기'
-});
-const resetAll = loadQAResults();
-const panicTarget = resetAll.find(r => r.qaId === 'qa-05-panic');
-panicTarget.humanReviewStatus = 'not_tested';
-panicTarget.testedAt = null;
-fs.writeFileSync(path.join(__dirname, '../data/auto_column_qa_results.json'), JSON.stringify(resetAll, null, 2), 'utf-8');
-console.log('✅ [Test 6 Passed] Failure properly records "needs_revision" and cleans up.');
+// Clean up mock target from QA results
+const cleaned = loadQAResults().filter(r => r.qaId !== mockQaId);
+fs.writeFileSync(path.join(__dirname, '../data/auto_column_qa_results.json'), JSON.stringify(cleaned, null, 2), 'utf-8');
+console.log('✅ [Test 6-2 Passed] Failure properly records "needs_revision" and dynamic test clean-up succeeded.');
 
 console.log('\n🎉 ALL 6 QA SYSTEM INTEGRITY & SMART VALIDATION TESTS PASSED 100%!');

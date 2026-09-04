@@ -75,10 +75,11 @@ function generateSvgOverlay(yellowText, whiteText, greenText, width = 800, heigh
           <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#000000" flood-opacity="0.95"/>
           <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#000000" flood-opacity="0.85"/>
         </filter>
-        <radialGradient id="natural-vignette" cx="50%" cy="50%" r="75%">
-          <stop offset="0%" stop-color="#0F172A" stop-opacity="0.55"/>
-          <stop offset="65%" stop-color="#0F172A" stop-opacity="0.48"/>
-          <stop offset="100%" stop-color="#0F172A" stop-opacity="0.62"/>
+        <radialGradient id="natural-vignette" cx="50%" cy="50%" r="70%">
+          <stop offset="0%" stop-color="#0B132B" stop-opacity="0.50"/>
+          <stop offset="45%" stop-color="#0F172A" stop-opacity="0.46"/>
+          <stop offset="75%" stop-color="#090E1A" stop-opacity="0.58"/>
+          <stop offset="100%" stop-color="#020617" stop-opacity="0.75"/>
         </radialGradient>
         <style>
           .title-text {
