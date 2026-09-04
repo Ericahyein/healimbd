@@ -1,0 +1,227 @@
+{
+  "version": "1.0.0",
+  "updatedAt": "2026-09-04T16:45:00.000Z",
+  "description": "해아림한의원 분당점 홈페이지에 실제로 명시된 모든 개별 질환/증상별 1:1 Dry-run QA Target 매트릭스",
+  "targets": [
+    {
+      "qaId": "qa-01-tic",
+      "diseaseId": "tic",
+      "displayDisease": "소아 틱장애",
+      "categoryId": "tic",
+      "topicAngle": "media-exposure",
+      "recommendedGeo": "seongnam-bundang",
+      "ageGroup": "child",
+      "enabled": true,
+      "description": "미디어 및 스마트폰 사용이 틱 증상에 미치는 영향"
+    },
+    {
+      "qaId": "qa-02-tourette",
+      "diseaseId": "tic",
+      "displayDisease": "뚜렛증후군",
+      "categoryId": "tic",
+      "topicAngle": "parent-guidance",
+      "recommendedGeo": "yongin-suji",
+      "ageGroup": "child",
+      "enabled": true,
+      "description": "가정에서 부모가 지켜주어야 할 대처 원칙과 소통법 (복합틱 만성화 예방)"
+    },
+    {
+      "qaId": "qa-03-adhd-child",
+      "diseaseId": "adhd",
+      "displayDisease": "소아 ADHD",
+      "categoryId": "adhd",
+      "topicAngle": "child-impulsivity",
+      "recommendedGeo": "seongnam-bundang",
+      "ageGroup": "child",
+      "enabled": true,
+      "description": "산만함과 충동성이 훈육만으로 조절되지 않을 때"
+    },
+    {
+      "qaId": "qa-04-adhd-adult",
+      "diseaseId": "adhd",
+      "displayDisease": "성인 ADHD",
+      "categoryId": "adhd",
+      "topicAngle": "adult-work-mistakes",
+      "recommendedGeo": "bundang-pangyo",
+      "ageGroup": "adult",
+      "enabled": true,
+      "description": "성인 업무 중 실수가 반복되고 마무리가 어려울 때"
+    },
+    {
+      "qaId": "qa-05-panic",
+      "diseaseId": "panic",
+      "displayDisease": "공황장애",
+      "categoryId": "panic",
+      "topicAngle": "sudden-palpitation",
+      "recommendedGeo": "seongnam-bundang",
+      "ageGroup": "adult",
+      "enabled": true,
+      "description": "갑자기 숨이 차고 심장이 빨라질 때 먼저 살펴볼 부분"
+    },
+    {
+      "qaId": "qa-06-anxiety",
+      "diseaseId": "anxiety",
+      "displayDisease": "불안장애",
+      "categoryId": "anxiety",
+      "topicAngle": "chronic-worry",
+      "recommendedGeo": "yongin-giheung",
+      "ageGroup": "adult",
+      "enabled": true,
+      "description": "사소한 일에도 걱정이 꼬리를 물고 가슴이 답답할 때"
+    },
+    {
+      "qaId": "qa-07-social-phobia",
+      "diseaseId": "anxiety",
+      "displayDisease": "사회공포증 (발표불안)",
+      "categoryId": "anxiety",
+      "topicAngle": "presentation-anxiety",
+      "recommendedGeo": "seongnam-sujeong",
+      "ageGroup": "adult",
+      "enabled": true,
+      "description": "발표나 미팅 때 목소리가 떨리고 시선이 두려울 때"
+    },
+    {
+      "qaId": "qa-08-sleep",
+      "diseaseId": "sleep",
+      "displayDisease": "만성 불면증",
+      "categoryId": "sleep",
+      "topicAngle": "early-awakening",
+      "recommendedGeo": "bundang-pangyo",
+      "ageGroup": "adult",
+      "enabled": true,
+      "description": "잠은 드는데 새벽마다 깨서 다시 잠들지 못하는 이유"
+    },
+    {
+      "qaId": "qa-09-autonomic",
+      "diseaseId": "autonomic",
+      "displayDisease": "자율신경실조증",
+      "categoryId": "autonomic",
+      "topicAngle": "digestive-dizziness",
+      "recommendedGeo": "seongnam-bundang",
+      "ageGroup": "adult",
+      "enabled": true,
+      "description": "원인 모를 어지럼증과 소화불량이 동시에 나타날 때"
+    },
+    {
+      "qaId": "qa-10-hyperhidrosis",
+      "diseaseId": "hyperhidrosis",
+      "displayDisease": "다한증",
+      "categoryId": "hyperhidrosis",
+      "topicAngle": "hands-feet-sweat",
+      "recommendedGeo": "seongnam-jungwon",
+      "ageGroup": "mixed",
+      "enabled": true,
+      "description": "긴장할 때마다 손발이 축축해지고 일상이 불편할 때"
+    },
+    {
+      "qaId": "qa-11-ibs",
+      "diseaseId": "ibs",
+      "displayDisease": "과민성대장증후군",
+      "categoryId": "ibs",
+      "topicAngle": "morning-diarrhea",
+      "recommendedGeo": "yongin-main",
+      "ageGroup": "adult",
+      "enabled": true,
+      "description": "출근길이나 긴장되는 순간마다 화장실을 찾게 되는 이유"
+    },
+    {
+      "qaId": "qa-12-syncope",
+      "diseaseId": "syncope",
+      "displayDisease": "미주신경성 실신",
+      "categoryId": "syncope",
+      "topicAngle": "subway-dizziness",
+      "recommendedGeo": "seongnam-wirye",
+      "ageGroup": "mixed",
+      "enabled": true,
+      "description": "지하철이나 만원 버스에서 눈앞이 캄캄해지고 식은땀이 날 때"
+    },
+    {
+      "qaId": "qa-13-headache",
+      "diseaseId": "headache",
+      "displayDisease": "만성 두통 (경추성/긴장성)",
+      "categoryId": "headache",
+      "topicAngle": "tension-headache",
+      "recommendedGeo": "seongnam-jungwon",
+      "ageGroup": "adult",
+      "enabled": true,
+      "description": "오후만 되면 뒷목이 뻣뻣하고 머리를 조이는 듯 아플 때"
+    },
+    {
+      "qaId": "qa-14-dizziness",
+      "diseaseId": "headache",
+      "displayDisease": "어지럼증 (비회전성)",
+      "categoryId": "headache",
+      "topicAngle": "chronic-dizziness",
+      "recommendedGeo": "yongin-suji",
+      "ageGroup": "adult",
+      "enabled": true,
+      "description": "이비인후과 검사 후에도 지속되는 붕 뜨는 어지럼증"
+    },
+    {
+      "qaId": "qa-15-depression",
+      "diseaseId": "depression",
+      "displayDisease": "우울증 (만성 무기력)",
+      "categoryId": "depression",
+      "topicAngle": "burnout-lethargy",
+      "recommendedGeo": "gyeonggi-gwangju",
+      "ageGroup": "adult",
+      "enabled": true,
+      "description": "쉬어도 충전되지 않고 모든 일에 의욕이 사라질 때"
+    },
+    {
+      "qaId": "qa-16-ocd",
+      "diseaseId": "depression",
+      "displayDisease": "강박증/OCD",
+      "categoryId": "depression",
+      "topicAngle": "intrusive-thoughts",
+      "recommendedGeo": "seongnam-main",
+      "ageGroup": "adult",
+      "enabled": true,
+      "description": "원치 않는 불안한 생각이 반복적으로 떠오를 때"
+    },
+    {
+      "qaId": "qa-17-separation-anxiety",
+      "diseaseId": "child",
+      "displayDisease": "소아 분리불안 (등교복통)",
+      "categoryId": "child",
+      "topicAngle": "separation-anxiety",
+      "recommendedGeo": "yongin-cheoin",
+      "ageGroup": "child",
+      "enabled": true,
+      "description": "유치원이나 학교 갈 때마다 배가 아프다고 우는 아이"
+    },
+    {
+      "qaId": "qa-18-night-terrors",
+      "diseaseId": "child",
+      "displayDisease": "소아 야경증 (수면장애)",
+      "categoryId": "child",
+      "topicAngle": "night-terrors",
+      "recommendedGeo": "gyeonggi-icheon",
+      "ageGroup": "child",
+      "enabled": true,
+      "description": "밤마다 자다 깨서 자지러지게 울거나 악몽을 꿀 때"
+    },
+    {
+      "qaId": "qa-19-child-enuresis",
+      "diseaseId": "child",
+      "displayDisease": "소아 야뇨증",
+      "categoryId": "child",
+      "topicAngle": "child-enuresis",
+      "recommendedGeo": "seongnam-bundang",
+      "ageGroup": "child",
+      "enabled": true,
+      "description": "만 5세 이후에도 밤에 소변 실수를 반복할 때"
+    },
+    {
+      "qaId": "qa-20-fatigue",
+      "diseaseId": "autonomic",
+      "displayDisease": "만성피로·번아웃",
+      "categoryId": "autonomic",
+      "topicAngle": "brain-fog-fatigue",
+      "recommendedGeo": "bundang-pangyo",
+      "ageGroup": "adult",
+      "enabled": true,
+      "description": "머리에 안개가 낀 듯 멍하고 피로가 가시지 않을 때"
+    }
+  ]
+}

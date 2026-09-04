@@ -243,9 +243,10 @@ function validateArticleContent(articleData, options = {}) {
   // TIER 2: GEO CONSISTENCY VALIDATION
   // ==========================================
   if (validGeo) {
-    const allowedRegions = [validGeo.displayName, validGeo.fullName, ...validGeo.aliases];
+    const parentVariants = validGeo.parentRegion ? [validGeo.parentRegion, `${validGeo.parentRegion}시`] : [];
+    const allowedRegions = [validGeo.displayName, validGeo.fullName, ...parentVariants, ...validGeo.aliases];
     const otherActiveRegions = geoHierarchy.regions
-      .filter(r => r.id !== validGeo.id)
+      .filter(r => r.id !== validGeo.id && r.displayName !== validGeo.parentRegion)
       .flatMap(r => [r.displayName, ...r.aliases]);
 
     // Disallowed station/subway/unrelated keywords that must not be in tags/keywords/title

@@ -8,6 +8,33 @@ on:
     - cron: '7 8 * * *'
   workflow_dispatch:
     inputs:
+      test_qa_target:
+        description: 'Dry-run QA 대상 선택 (auto: 로테이션 플래너, 특정 qaId 지정 시 해당 질환/토픽 강제 실행)'
+        required: false
+        default: 'auto'
+        type: choice
+        options:
+          - 'auto'
+          - 'qa-01-tic (소아 틱장애 / media-exposure)'
+          - 'qa-02-tourette (뚜렛증후군 / parent-guidance)'
+          - 'qa-03-adhd-child (소아 ADHD / child-impulsivity)'
+          - 'qa-04-adhd-adult (성인 ADHD / adult-work-mistakes)'
+          - 'qa-05-panic (공황장애 / sudden-palpitation)'
+          - 'qa-06-anxiety (불안장애 / chronic-worry)'
+          - 'qa-07-social-phobia (사회공포증 / presentation-anxiety)'
+          - 'qa-08-sleep (만성 불면증 / early-awakening)'
+          - 'qa-09-autonomic (자율신경실조증 / digestive-dizziness)'
+          - 'qa-10-hyperhidrosis (다한증 / hands-feet-sweat)'
+          - 'qa-11-ibs (과민성대장증후군 / morning-diarrhea)'
+          - 'qa-12-syncope (미주신경성 실신 / subway-dizziness)'
+          - 'qa-13-headache (만성 두통 / tension-headache)'
+          - 'qa-14-dizziness (어지럼증 / chronic-dizziness)'
+          - 'qa-15-depression (우울증 / burnout-lethargy)'
+          - 'qa-16-ocd (강박증 / intrusive-thoughts)'
+          - 'qa-17-separation-anxiety (소아 분리불안 / separation-anxiety)'
+          - 'qa-18-night-terrors (소아 야경증 / night-terrors)'
+          - 'qa-19-child-enuresis (소아 야뇨증 / child-enuresis)'
+          - 'qa-20-fatigue (만성피로·번아웃 / brain-fog-fatigue)'
       force_publish:
         description: '강제 프로덕션 발행 여부 (기본값 false: Dry-run 미리보기만 수행)'
         required: false
@@ -60,6 +87,7 @@ jobs:
           OPENAI_IMAGE_MODEL: ${{ vars.OPENAI_IMAGE_MODEL || 'gpt-image-2' }}
           AUTO_COLUMN_ENABLED: ${{ vars.AUTO_COLUMN_ENABLED || 'false' }}
           FORCE_PUBLISH: ${{ github.event.inputs.force_publish || 'false' }}
+          TEST_QA_TARGET: ${{ github.event.inputs.test_qa_target || 'auto' }}
         run: node scripts/auto_column/index.js
 
       - name: Upload Dry-Run Artifacts (If Generated)
@@ -70,6 +98,21 @@ jobs:
           path: auto_column_artifacts/
           if-no-files-found: ignore
           retention-days: 7
+
+      - name: Persist QA Results History (Dry-Run Mode Only)
+        if: (env.AUTO_COLUMN_ENABLED != 'true' && github.event.inputs.force_publish != 'true')
+        run: |
+          git config --global user.name "Healim QA Bot"
+          git config --global user.email "bot@healim-bundang.com"
+          # STRICT ALLOWLIST: 오직 auto_column_qa_results.json만 커밋하여 프로덕션 아티클 및 로테이션 오염 원천 차단
+          git add data/auto_column_qa_results.json
+          if git diff --staged --quiet; then
+            echo "No QA results changes to commit."
+          else
+            QA_ID="${{ github.event.inputs.test_qa_target || 'auto' }}"
+            git commit -m "chore(qa): record dry-run results for ${QA_ID} [skip ci]"
+            git push origin main
+          fi
 
       - name: Validate Hugo Static Build (Production Mode Only)
         if: env.AUTO_COLUMN_ENABLED == 'true' || github.event.inputs.force_publish == 'true'

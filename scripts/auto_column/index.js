@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const { planNextColumn, loadHistory } = require('./topic_planner');
+const { findQATarget, buildQAPlan, recordQAResult } = require('./qa_manager');
 const {
   loadMedicalKnowledge,
   generateTopicOutline,
@@ -31,12 +32,14 @@ async function runAutoColumnPipeline() {
   const autoEnabled = process.env.AUTO_COLUMN_ENABLED === 'true';
   const forcePublish = process.env.FORCE_PUBLISH === 'true';
   const isDryRun = !autoEnabled && !forcePublish;
+  const testQATargetInput = process.env.TEST_QA_TARGET || '';
 
   console.log('⚙️ Configuration State:', {
     AUTO_COLUMN_ENABLED: autoEnabled,
     FORCE_PUBLISH: forcePublish,
     RUN_MODE: isDryRun ? 'DRY_RUN (Preview & Artifact Only)' : 'PRODUCTION_PUBLISH',
-    API_KEY_CONFIGURED: !!apiKey
+    API_KEY_CONFIGURED: !!apiKey,
+    TEST_QA_TARGET: testQATargetInput || 'auto (rotation planner)'
   });
 
   if (!apiKey) {
@@ -51,12 +54,29 @@ async function runAutoColumnPipeline() {
     imageCount: 0
   };
 
-  // 1. Topic Planning & History Check
-  console.log('\n[1/6] Planning next column with geo & disease rotation...');
-  const plan = planNextColumn({ force: forcePublish });
-  if (plan.status === 'daily_limit_reached') {
-    console.log(`ℹ️ ${plan.message}`);
-    return;
+  // 1. Topic Planning & History Check (or QA Override)
+  console.log('\n[1/6] Planning next column with geo & disease rotation (or QA Override)...');
+  let plan;
+
+  const isQAOverrideRequested = isDryRun && testQATargetInput && testQATargetInput.trim() !== '' && testQATargetInput.trim() !== 'auto';
+
+  if (forcePublish && testQATargetInput && testQATargetInput !== 'auto') {
+    console.warn('⚠️ WARNING: FORCE_PUBLISH is active. TEST_QA_TARGET override is strictly ignored in production publish mode.');
+  }
+
+  if (isQAOverrideRequested) {
+    const qaTarget = findQATarget(testQATargetInput);
+    if (!qaTarget) {
+      throw new Error(`Requested QA target '${testQATargetInput}' could not be resolved in qa_targets.json.`);
+    }
+    console.log(`🎯 [QA OVERRIDE ACTIVE] Target: ${qaTarget.qaId} (${qaTarget.displayDisease}) | Topic: ${qaTarget.topicAngle} | Geo: ${qaTarget.recommendedGeo}`);
+    plan = buildQAPlan(qaTarget);
+  } else {
+    plan = planNextColumn({ force: forcePublish });
+    if (plan.status === 'daily_limit_reached') {
+      console.log(`ℹ️ ${plan.message}`);
+      return;
+    }
   }
 
   console.log(`✅ Selected Target: [${plan.geo.displayName}] ${plan.disease.name}`);
@@ -134,6 +154,16 @@ async function runAutoColumnPipeline() {
         telemetry,
         generatedAt: new Date().toISOString()
       }, null, 2), 'utf-8');
+
+      if (plan && plan.qaId) {
+        recordQAResult({
+          qaId: plan.qaId,
+          validationPassed: false,
+          estimatedCostUSD: 0,
+          articleSlug: plan.slug,
+          notes: `Dry-run 검증 실패: ${validation.errors.join(', ')}`
+        });
+      }
     }
 
     throw new Error(`Article validation failed with ${validation.errors.length} error(s). Check auto_column_artifacts/validation-report.json`);
@@ -233,6 +263,17 @@ ${articleBody}
 
     console.log('📦 Dry-run artifacts generated in: auto_column_artifacts/');
     console.log('📊 Telemetry Cost Summary:', costReport);
+
+    if (plan.qaId) {
+      recordQAResult({
+        qaId: plan.qaId,
+        validationPassed: true,
+        estimatedCostUSD: costReport.estimatedCostUSD,
+        articleSlug: plan.slug,
+        notes: `Dry-run QA 검증 통과 (${plan.displayDisease || plan.disease.name} - ${plan.topicAngle.titleSuffix})`
+      });
+    }
+
     console.log('\n🎉 Phase 1 Dry-Run Completed Successfully. Production repository is 100% UNTOUCHED.');
   } else {
     console.log('\n[6/6] Writing to Production Repository...');

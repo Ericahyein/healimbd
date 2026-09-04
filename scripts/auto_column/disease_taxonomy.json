@@ -139,7 +139,8 @@
       "defaultKeywords": ["소아 분리불안", "소아 야뇨증", "야경증", "소아 스트레스", "성장기 심신안정"],
       "topicAngles": [
         {"id": "separation-anxiety", "titleSuffix": "유치원이나 학교 갈 때마다 배가 아프다고 우는 아이", "focus": "소아 분리불안 및 신체화 증상, 부모의 따뜻한 지지"},
-        {"id": "night-terrors", "titleSuffix": "밤마다 자다 깨서 자지러지게 울거나 악몽을 꿀 때", "focus": "소아 야경증, 수면 뇌파 안정, 취침 환경 관리"}
+        {"id": "night-terrors", "titleSuffix": "밤마다 자다 깨서 자지러지게 울거나 악몽을 꿀 때", "focus": "소아 야경증, 수면 뇌파 안정, 취침 환경 관리"},
+        {"id": "child-enuresis", "titleSuffix": "만 5세 이후에도 밤에 소변 실수를 반복할 때", "focus": "소아 야뇨증, 배뇨 반사 미성숙, 심리적 안정과 생활 관리"}
       ]
     }
   ]
