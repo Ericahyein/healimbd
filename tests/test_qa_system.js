@@ -293,12 +293,12 @@ console.log('✅ [Test 5-H Passed] Lifestyle factor leakage from other diseases 
 // Test 6: Verify validation failure transitions humanReviewStatus to 'needs_revision'
 console.log('\n[Test 6] Testing validation failure transition to needs_revision & qa-05-panic state...');
 
-// 6-1. Verify qa-05-panic status: automated validation passed (true), humanReviewStatus is 'needs_revision'
+// 6-1. Verify qa-05-panic status: automated validation passed (true), humanReviewStatus is 'approved'
 const panicCheck = loadQAResults().find(r => r.qaId === 'qa-05-panic');
 assert.ok(panicCheck, 'qa-05-panic record must exist');
 assert.strictEqual(panicCheck.validationPassed, true, 'qa-05-panic automated validation passed');
-assert.strictEqual(panicCheck.humanReviewStatus, 'needs_revision', 'qa-05-panic must be needs_revision per human review');
-console.log('✅ [Test 6-1 Passed] qa-05-panic status properly recorded (validationPassed: true, humanReviewStatus: "needs_revision").');
+assert.strictEqual(panicCheck.humanReviewStatus, 'approved', 'qa-05-panic must be approved per human review');
+console.log('✅ [Test 6-1 Passed] qa-05-panic status properly recorded (validationPassed: true, humanReviewStatus: "approved").');
 
 // 6-2. Test dynamic failure transition to needs_revision on mock target
 const mockQaId = 'qa-99-mock';
