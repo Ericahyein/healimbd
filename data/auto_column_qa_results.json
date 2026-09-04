@@ -65,14 +65,16 @@
     "displayDisease": "공황장애",
     "topicAngle": "sudden-palpitation",
     "recommendedGeo": "seongnam-bundang",
-    "testedAt": null,
+    "testedAt": "2026-09-04T08:51:03.448Z",
     "validationPassed": false,
-    "humanReviewStatus": "not_tested",
-    "notes": "테스트 대기",
-    "validationErrors": [],
-    "estimatedCostUSD": 0,
-    "estimatedCost": 0,
-    "articleSlug": null
+    "humanReviewStatus": "needs_revision",
+    "notes": "Dry-run 검증 실패: Medical safety violation: 임의 약물 중단 권고 금지 (Matched: \"한방치료를 받으면 기존 정신건강의학과 약은 끊어도 되나요\")",
+    "validationErrors": [
+      "Medical safety violation: 임의 약물 중단 권고 금지 (Matched: \"한방치료를 받으면 기존 정신건강의학과 약은 끊어도 되나요\")"
+    ],
+    "estimatedCostUSD": 0.0374,
+    "estimatedCost": 0.0374,
+    "articleSlug": "seongnam-bundang-panic-sudden-palpitation"
   },
   {
     "qaId": "qa-06-anxiety",
