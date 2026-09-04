@@ -101,39 +101,71 @@ function extractInternalLinks(text) {
  * Allows: "약물을 임의로 중단하지 마십시오", "의료진과 상의 없이 약을 끊으면 안 됩니다" 등 안전 주의 권고
  */
 function checkMedicationDiscontinuation(text) {
-  const sentences = text.split(/[.\n!?]+/);
-  for (const rawSentence of sentences) {
-    const sentence = rawSentence.trim();
-    if (!sentence) continue;
+  // 1. Explicit Declarative Discontinuation Permission/Recommendation Patterns (ALWAYS VIOLATION)
+  // Blocks: '끊어도 됩니다', '끊으셔도 괜찮습니다', '약을 끊으세요', '중단하십시오', '단약하세요' etc.
+  const explicitDeclarativeStopPattern = /(끊어도\s*(됩니다|돼요|좋습니다|좋아요|괜찮습니다|괜찮아요)|끊으셔도\s*(됩니다|좋습니다|괜찮습니다)|끊기를\s*(권장|추천|권합니다)|끊는\s*것을\s*(권장|추천|권합니다)|끊으세요|끊으십시오|중단해도\s*(됩니다|돼요|좋습니다|좋아요|괜찮습니다|괜찮아요)|중단하셔도\s*(됩니다|좋습니다|괜찮습니다)|중단하기를\s*(권장|추천|권합니다)|중단하는\s*(것을|걸)\s*(권장|추천|권합니다)|중단하세요|중단하십시오|단약해도\s*(됩니다|좋습니다|괜찮습니다)|단약하셔도\s*(됩니다|좋습니다|괜찮습니다)|단약하세요|단약하십시오|단약을\s*(권장|추천|권합니다))/i;
 
-    const medPattern = /(약물|양약|정신과\s*약|신경과\s*약|수면제|항불안제|진통제|항우울제|처방약|복용\s*중인\s*약|신경안정제|진정제|양방\s*약|(\s|^)약(을|은|이|도|에|\s))/i;
-    const stopPattern = /(중단|끊|단약)/i;
+  // Split lines and sentences
+  const lines = text.split(/\r?\n+/);
+  for (const rawLine of lines) {
+    const line = rawLine.trim();
+    if (!line) continue;
 
-    if (medPattern.test(sentence) && stopPattern.test(sentence)) {
-      // 1. Safe negative/warning patterns (중단하지 말라, 끊지 마라, 위험하다, 안 된다)
-      const hasNegativeWarning = /(중단|끊|단약).{0,15}(하[지않]|않|말|금지|금물|삼가|반동|안\s*됩|위험|주의|권하지|피해|어렵|조심|우려)/i.test(sentence);
+    // Split line into sentences
+    const sentences = line.split(/(?<=[.!?])\s+/);
+    for (const rawSentence of sentences) {
+      const sentence = rawSentence.trim();
+      if (!sentence) continue;
 
-      // 2. Safe guidance patterns (임의로/자의로/상의 없이 중단하지)
-      const hasArbitraryWarning = /(임의(로)?|자의(로)?|상의\s*없이|지시\s*없이).{0,15}(중단|끊|단약)/i.test(sentence);
-
-      // 3. Doctor consultation patterns (의료진과 상의하여 조절/유지)
-      const hasDoctorConsult = /(처방|의료진|담당의|주치의|의사|전문가).{0,15}(상의|상담|조절|조정|상의하|상의한\s*후)/i.test(sentence);
-
-      const isSafeContext = hasNegativeWarning || hasArbitraryWarning || hasDoctorConsult;
-
-      // Even in safe context, check if there is an explicit recommendation to stop
-      const explicitStopRecommend = /(중단|끊).{0,8}(하세요|하십시오|합시다|권장|추천|해도\s*됩니다|하셔도\s*됩니다)/i.test(sentence);
-
-      if (isSafeContext && !explicitStopRecommend) {
-        // Legitimate safety warning - ALLOWED
-        continue;
+      // Check 1: Explicit declarative stop permission (instant violation regardless of context)
+      if (explicitDeclarativeStopPattern.test(sentence)) {
+        return {
+          violated: true,
+          sentence: sentence.slice(0, 80),
+          reason: '명시적 약물 중단/단약 허용 및 권고 표현'
+        };
       }
 
-      // Discontinuation recommendation or non-safe context - VIOLATION
-      return {
-        violated: true,
-        sentence: sentence.slice(0, 80)
-      };
+      const medPattern = /(약물|양약|정신과\s*약|신경과\s*약|정신건강의학과\s*약|수면제|항불안제|진통제|항우울제|처방약|복용\s*중인\s*약|신경안정제|진정제|양방\s*약|(\s|^)약(을|은|이|도|에|\s))/i;
+      const stopPattern = /(중단|끊|단약|줄이|감량)/i;
+
+      if (medPattern.test(sentence) && stopPattern.test(sentence)) {
+        // Question / Interrogative context (FAQ questions, inquiries, patient concerns) -> ALLOW
+        const isQuestion = (
+          /\?/.test(sentence) ||
+          /(되나요|될까요|괜찮나요|가능한가요|어떨까요|맞나요)/i.test(sentence) ||
+          /(해도\s*되나요|해도\s*될까요|줄여도\s*되나요|줄여도\s*될까요|끊어도\s*되나요|중단해도\s*되나요|끊어도\s*될까요|중단해도\s*될까요)/i.test(sentence) ||
+          /(중단해도|끊어도|줄여도|단약해도|조절해도)\s*(되는지|될지|괜찮은지|가능한지)/i.test(sentence) ||
+          /(중단|끊|줄이|단약).{0,15}(되는지\s*(궁금|문의|질문|알고\s*싶|여쭤)|될지\s*(궁금|문의|질문)|어떤지)/i.test(sentence)
+        );
+
+        if (isQuestion) {
+          // FAQ question or inquiry without declarative stop permission -> ALLOW
+          continue;
+        }
+
+        // Safe warning / negative / consultation context -> ALLOW
+        const hasNegativeWarning = /(중단|끊|단약|감량).{0,15}(하[지않]|않|말|금지|금물|삼가|반동|안\s*됩|위험|주의|권하지|피해|어렵|조심|우려)/i.test(sentence);
+        const hasArbitraryWarning = /(임의(로)?|자의(로)?|상의\s*없이|지시\s*없이).{0,15}(중단|끊|단약|감량)/i.test(sentence);
+        const hasDoctorConsult = /(처방|의료진|담당의|주치의|의사|전문가).{0,15}(상의|상담|조절|조정|상의하|상의한\s*후)/i.test(sentence);
+
+        const isSafeContext = hasNegativeWarning || hasArbitraryWarning || hasDoctorConsult;
+
+        // Check if there is imperative recommendation to stop: e.g. '약을 끊으세요', '정신과 약을 중단하세요'
+        const isImperativeStop = /(중단|끊|단약).{0,8}(하세요|하십시오|합시다)/i.test(sentence) && !hasNegativeWarning;
+
+        if (isSafeContext && !isImperativeStop) {
+          // Legitimate safety warning - ALLOWED
+          continue;
+        }
+
+        // Discontinuation recommendation or non-safe context - VIOLATION
+        return {
+          violated: true,
+          sentence: sentence.slice(0, 80),
+          reason: '약물 중단 권고 또는 비안전 문맥'
+        };
+      }
     }
   }
   return { violated: false };
