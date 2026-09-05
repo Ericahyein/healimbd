@@ -35,15 +35,13 @@
     "displayDisease": "소아 ADHD",
     "topicAngle": "child-impulsivity",
     "recommendedGeo": "seongnam-bundang",
-    "testedAt": "2026-09-05T01:55:34.245Z",
-    "validationPassed": false,
-    "humanReviewStatus": "needs_revision",
-    "notes": "Dry-run 검증 실패: Title must match format '[지역 질환] 구체적 질문/주제'. Given: [분당 ADHD] 산만함과 충동성이 훈육만으로 조절되지 않을 때",
-    "validationErrors": [
-      "Title must match format '[지역 질환] 구체적 질문/주제'. Given: [분당 ADHD] 산만함과 충동성이 훈육만으로 조절되지 않을 때"
-    ],
-    "estimatedCostUSD": 0.03415,
-    "estimatedCost": 0.03415,
+    "testedAt": "2026-09-05T02:12:08.857Z",
+    "validationPassed": true,
+    "humanReviewStatus": "generated",
+    "notes": "Dry-run QA 검증 통과 (소아 ADHD - 산만함과 충동성이 훈육만으로 조절되지 않을 때)",
+    "validationErrors": [],
+    "estimatedCostUSD": 0.07785,
+    "estimatedCost": 0.07785,
     "articleSlug": "seongnam-bundang-adhd-child-impulsivity"
   },
   {
@@ -82,14 +80,14 @@
     "displayDisease": "불안장애",
     "topicAngle": "chronic-worry",
     "recommendedGeo": "yongin-giheung",
-    "testedAt": null,
-    "validationPassed": false,
-    "humanReviewStatus": "not_tested",
-    "notes": "테스트 대기",
+    "testedAt": "2026-09-05T02:12:01.609Z",
+    "validationPassed": true,
+    "humanReviewStatus": "generated",
+    "notes": "Dry-run QA 검증 통과 (불안장애 - 사소한 일에도 걱정이 꼬리를 물고 가슴이 답답할 때)",
     "validationErrors": [],
-    "estimatedCostUSD": 0,
-    "estimatedCost": 0,
-    "articleSlug": null
+    "estimatedCostUSD": 0.07475,
+    "estimatedCost": 0.07475,
+    "articleSlug": "yongin-giheung-anxiety-chronic-worry"
   },
   {
     "qaId": "qa-07-social-phobia",
@@ -112,14 +110,17 @@
     "displayDisease": "만성 불면증",
     "topicAngle": "early-awakening",
     "recommendedGeo": "bundang-pangyo",
-    "testedAt": null,
+    "testedAt": "2026-09-05T02:11:50.524Z",
     "validationPassed": false,
-    "humanReviewStatus": "not_tested",
-    "notes": "테스트 대기",
-    "validationErrors": [],
-    "estimatedCostUSD": 0,
-    "estimatedCost": 0,
-    "articleSlug": null
+    "humanReviewStatus": "needs_revision",
+    "notes": "Dry-run 검증 실패: Geo consistency violation: Targeted for '판교', but found unrelated region keyword '분당' in '성남시 분당구 판교 불면증'.; Geo consistency violation: Targeted for '판교', but found unrelated region keyword '분당구' in '성남시 분당구 판교 불면증'.",
+    "validationErrors": [
+      "Geo consistency violation: Targeted for '판교', but found unrelated region keyword '분당' in '성남시 분당구 판교 불면증'.",
+      "Geo consistency violation: Targeted for '판교', but found unrelated region keyword '분당구' in '성남시 분당구 판교 불면증'."
+    ],
+    "estimatedCostUSD": 0.03655,
+    "estimatedCost": 0.03655,
+    "articleSlug": "bundang-pangyo-sleep-early-awakening"
   },
   {
     "qaId": "qa-09-autonomic",
@@ -127,14 +128,14 @@
     "displayDisease": "자율신경실조증",
     "topicAngle": "digestive-dizziness",
     "recommendedGeo": "seongnam-bundang",
-    "testedAt": null,
-    "validationPassed": false,
-    "humanReviewStatus": "not_tested",
-    "notes": "테스트 대기",
+    "testedAt": "2026-09-05T02:11:54.554Z",
+    "validationPassed": true,
+    "humanReviewStatus": "generated",
+    "notes": "Dry-run QA 검증 통과 (자율신경실조증 - 원인 모를 어지럼증과 소화불량이 동시에 나타날 때)",
     "validationErrors": [],
-    "estimatedCostUSD": 0,
-    "estimatedCost": 0,
-    "articleSlug": null
+    "estimatedCostUSD": 0.07519,
+    "estimatedCost": 0.07519,
+    "articleSlug": "seongnam-bundang-autonomic-digestive-dizziness"
   },
   {
     "qaId": "qa-10-hyperhidrosis",
