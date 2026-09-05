@@ -23,7 +23,7 @@
     "testedAt": "2026-09-05T05:59:38.398Z",
     "validationPassed": false,
     "humanReviewStatus": "needs_revision",
-    "notes": "Dry-run 검증 실패: Medical safety violation: 치료 단정적 확신 표현 금지 (Matched: /반드시\\s*(치료|완치|좋아|낫)/i)",
+    "notes": "Dry-run 검증 실패: Medical safety violation: 치료 단정적 확신 표현 금지 (Matched: /반드시\\s*(치료|완치|좋아|낫)/i) (false positive 수정 후 재실행 대기)",
     "validationErrors": [
       "Medical safety violation: 치료 단정적 확신 표현 금지 (Matched: /반드시\\s*(치료|완치|좋아|낫)/i)"
     ],
@@ -54,8 +54,8 @@
     "recommendedGeo": "bundang-pangyo",
     "testedAt": "2026-09-05T05:59:41.935Z",
     "validationPassed": true,
-    "humanReviewStatus": "generated",
-    "notes": "Dry-run QA 검증 통과 (성인 ADHD - 성인 업무 중 실수가 반복되고 마무리가 어려울 때)",
+    "humanReviewStatus": "approved",
+    "notes": "Dry-run QA 검증 통과 및 인간 최종 승인 완료 (성인 ADHD - 성인 업무 중 실수가 반복되고 마무리가 어려울 때)",
     "validationErrors": [],
     "estimatedCostUSD": 0.07862,
     "estimatedCost": 0.07862,

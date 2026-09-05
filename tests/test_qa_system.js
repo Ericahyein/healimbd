@@ -100,12 +100,13 @@ assert.strictEqual(initialProdHistory, finalProdHistory, 'CRITICAL: data/auto_co
 console.log('✅ [Test 3 Passed] QA Results are recorded properly, humanReviewStatus is strictly "generated", and production history is 100% untouched.');
 
 // Test 4: Verify approved QA targets status (approved per human review)
-console.log('\n[Test 4] Verifying all 8 approved and 2 needs_revision QA targets approval status...');
+console.log('\n[Test 4] Verifying all 9 approved and 1 needs_revision QA targets approval status...');
 const qaResults = loadQAResults();
 
 const expectedApprovedTargets = [
   'qa-01-tic',
   'qa-03-adhd-child',
+  'qa-04-adhd-adult',
   'qa-05-panic',
   'qa-06-anxiety',
   'qa-07-social-phobia',
@@ -121,17 +122,16 @@ for (const qId of expectedApprovedTargets) {
 }
 
 const expectedRevisionTargets = [
-  'qa-02-tourette',
-  'qa-04-adhd-adult'
+  'qa-02-tourette'
 ];
 for (const qId of expectedRevisionTargets) {
   const record = qaResults.find(r => r.qaId === qId);
   assert.ok(record, `${qId} record must exist in QA results`);
-  assert.strictEqual(record.validationPassed, true, `${qId} validationPassed must be true`);
+  assert.strictEqual(record.validationPassed, false, `${qId} validationPassed must be false in current state`);
   assert.strictEqual(record.humanReviewStatus, 'needs_revision', `${qId} must be needs_revision per human review`);
 }
 
-console.log('✅ [Test 4 Passed] All 8 approved targets and 2 needs_revision targets verified 100%.');
+console.log('✅ [Test 4 Passed] All 9 approved targets and 1 needs_revision target verified 100%.');
 
 // Test 5: Smart Medication Discontinuation Validation (False Positive Prevention & Real Harm Blocking)
 console.log('\n[Test 5] Testing Smart Medication Discontinuation Validator...');
@@ -493,9 +493,9 @@ const b1Targets = getBatchTargets('batch-1');
 assert.strictEqual(b1Targets.length, 0, 'Batch 1 targets are now approved and correctly excluded from future batch runs');
 
 const b2Targets = getBatchTargets('batch-2');
-assert.strictEqual(b2Targets.length, 2, 'Batch 2 has 2 active unapproved targets (qa-10-hyperhidrosis and qa-07-social-phobia are approved and excluded)');
+assert.strictEqual(b2Targets.length, 1, 'Batch 2 has 1 active unapproved target (qa-04, qa-07, qa-10 are approved and excluded)');
 assert.ok(b2Targets.includes('qa-02-tourette'));
-assert.ok(b2Targets.includes('qa-04-adhd-adult'));
+assert.ok(!b2Targets.includes('qa-04-adhd-adult'), 'qa-04-adhd-adult must be excluded as it is approved');
 assert.ok(!b2Targets.includes('qa-07-social-phobia'), 'qa-07-social-phobia must be excluded as it is approved');
 assert.ok(!b2Targets.includes('qa-10-hyperhidrosis'), 'qa-10-hyperhidrosis must be excluded as it is approved');
 
@@ -561,8 +561,8 @@ try {
   assert.strictEqual(touretteRecord.estimatedCostUSD, 0.0491);
 
   const adhdAdultRecord = afterMerge.find(r => r.qaId === 'qa-04-adhd-adult');
-  assert.strictEqual(adhdAdultRecord.validationPassed, false);
-  assert.strictEqual(adhdAdultRecord.humanReviewStatus, 'needs_revision');
+  // qa-04-adhd-adult is human-approved: mergeBatchQAResults guarantees 'approved' is NEVER downgraded
+  assert.strictEqual(adhdAdultRecord.humanReviewStatus, 'approved');
 } finally {
   // Restore original QA results exactly
   fs.writeFileSync(qaResultsFile, backupQAResultsRaw, 'utf-8');
@@ -1561,7 +1561,71 @@ A. 단순 동반 사실만으로 확정하지 않으며, 경과와 양상 변화
 assert.strictEqual(testTouretteArticle.valid, true, `Reinforced Tourette article must pass validation: ${testTouretteArticle.errors.join(', ')}`);
 console.log('✅ PASS: Reinforced Tourette article passed 3-tier validation 100%.');
 
-console.log('\n🎉 ALL 12 QA SYSTEM INTEGRITY, REGRESSION, BATCH, GEO, HUMAN REVIEW, TARGET IDENTITY & CLINICAL GUIDANCE TESTS PASSED 100%!');
+// ==========================================
+// Test 13: Treatment Certainty Negation Validator (Safe Negation vs Dangerous Guarantee)
+// ==========================================
+console.log('\n[Test 13] Running Treatment Certainty Negation Validator Regression Tests...');
+const { checkTreatmentCertainty } = require('../scripts/auto_column/content_validator');
+
+// 13-1. Safe Negation Sentences (MUST PASS with 0 false positives)
+console.log('\n[Test 13-A] Testing Safe Negation / Clinical Caution Sentences (MUST PASS)...');
+const safeCertaintySentences = [
+  "중요한 것은 “미디어를 끊으면 반드시 좋아진다”는 식의 접근이 아닙니다.",
+  "미디어를 끊으면 반드시 좋아진다는 식의 접근이 아닙니다.",
+  "반드시 좋아진다고 단정할 수 없습니다.",
+  "이 치료로 반드시 완치된다고 보장할 수 없습니다.",
+  "반드시 낫는다고 볼 수 없습니다.",
+  "반드시 치료된다고 보장할 수 없습니다.",
+  "‘반드시 좋아진다’는 식의 접근은 적절하지 않습니다.",
+  "반드시 완치된다는 뜻은 아닙니다.",
+  "‘반드시 낫는다’는 맹신을 경계해야 합니다.",
+  "반드시 좋아진다고 오해해서는 안 됩니다.",
+  "치료를 받는다고 반드시 좋아지는 것은 아닙니다.",
+  "**Q. 치료를 받으면 반드시 좋아지나요?**\nA. 상태에 따라 차이가 있으며 반드시 좋아진다고 단정하기 어렵습니다."
+];
+
+safeCertaintySentences.forEach((sentence, idx) => {
+  const directCheck = checkTreatmentCertainty(sentence);
+  assert.strictEqual(directCheck.violated, false, `Safe sentence [${idx}] was falsely blocked by checkTreatmentCertainty: "${sentence}"`);
+
+  const fullArticleCheck = validateArticleContent(createMockArticleWithBody(sentence));
+  const certaintyErr = fullArticleCheck.errors.filter(e => e.includes('치료 단정적 확신 표현 금지'));
+  assert.strictEqual(certaintyErr.length, 0, `Safe sentence [${idx}] was falsely blocked in article: "${sentence}"`);
+});
+console.log('✅ PASS: All 12 safe negation and cautionary certainty sentences passed with 0 false positives.');
+
+// 13-2. Dangerous Declarative Certainty Sentences (MUST FAIL)
+console.log('\n[Test 13-B] Testing Dangerous Declarative Certainty Sentences (MUST FAIL)...');
+const dangerousCertaintySentences = [
+  "한약을 먹으면 반드시 좋아집니다.",
+  "반드시 완치됩니다.",
+  "치료를 받으면 반드시 낫습니다.",
+  "이 치료를 받으면 반드시 좋아집니다.",
+  "반드시 치료됩니다.",
+  "“치료를 받으면 반드시 낫는다”는 것이 저희의 확신입니다.",
+  "치료를 받으면 반드시 좋아질 수밖에 없습니다.",
+  "반드시 완치된다고 자신 있게 말씀드립니다."
+];
+
+dangerousCertaintySentences.forEach((sentence, idx) => {
+  const directCheck = checkTreatmentCertainty(sentence);
+  assert.strictEqual(directCheck.violated, true, `Dangerous sentence [${idx}] was NOT blocked by checkTreatmentCertainty: "${sentence}"`);
+
+  const fullArticleCheck = validateArticleContent(createMockArticleWithBody(sentence));
+  const certaintyErr = fullArticleCheck.errors.filter(e => e.includes('치료 단정적 확신 표현 금지'));
+  assert.ok(certaintyErr.length > 0, `Dangerous sentence [${idx}] was NOT blocked in article: "${sentence}"`);
+});
+console.log('✅ PASS: All 8 dangerous certainty promise sentences were strictly blocked.');
+
+// 13-3. Mixed Question & Dangerous Assertion in Line (MUST FAIL)
+console.log('\n[Test 13-C] Testing Question + Dangerous Certainty Answer (MUST FAIL)...');
+const dangerousQAInLine = "**Q. 치료를 받으면 반드시 좋아지나요?** A. 네, 치료를 받으면 반드시 완치됩니다.";
+const qaLineCheck = validateArticleContent(createMockArticleWithBody(dangerousQAInLine));
+const qaCertaintyErr = qaLineCheck.errors.filter(e => e.includes('치료 단정적 확신 표현 금지'));
+assert.ok(qaCertaintyErr.length > 0, 'Question + dangerous affirmation answer must be strictly blocked');
+console.log('✅ PASS: Question followed by affirmative certainty promise was strictly blocked.');
+
+console.log('\n🎉 ALL 13 QA SYSTEM INTEGRITY, REGRESSION, BATCH, GEO, HUMAN REVIEW, TARGET IDENTITY, CLINICAL GUIDANCE & TREATMENT CERTAINTY TESTS PASSED 100%!');
 
 
 

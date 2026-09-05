@@ -215,7 +215,6 @@ function getGeoHierarchyRules(validGeo) {
 
 const GLOBAL_BANNED_MEDICAL_PATTERNS = [
   { pattern: /완치\s*보장/i, reason: '의료법 위반: 완치 보장 표현 금지' },
-  { pattern: /반드시\s*(치료|완치|좋아|낫)/i, reason: '치료 단정적 확신 표현 금지' },
   { pattern: /무조건\s*(치료|완치|회복|해결)/i, reason: '무조건적 치료 표현 금지' },
   { pattern: /100%\s*(치료|완치|회복|호전)/i, reason: '100% 효과 과장 금지' },
   { pattern: /부작용(이|\s*)*전혀\s*없/i, reason: '부작용 부존재 단정 금지' },
@@ -315,6 +314,103 @@ function extractInternalLinks(text) {
     }
   }
   return links;
+}
+
+/**
+ * Smart Treatment Certainty / Guarantee Validator
+ * Distinguishes forbidden declarative efficacy guarantees (e.g. "반드시 좋아집니다", "반드시 완치됩니다", "반드시 낫습니다", "반드시 치료됩니다")
+ * from safe, responsible clinical caution / negation sentences
+ * (e.g. "‘반드시 좋아진다’는 식의 접근이 아닙니다", "반드시 좋아진다고 단정할 수 없습니다", "반드시 치료된다고 보장할 수 없습니다").
+ *
+ * @param {string} text - Text to inspect (title, summary, body)
+ * @returns {{ violated: boolean, reason?: string, sentence?: string }}
+ */
+function checkTreatmentCertainty(text) {
+  if (!text || typeof text !== 'string') return { violated: false };
+
+  // Split lines and sentences
+  const lines = text.split(/\r?\n+/);
+  for (const rawLine of lines) {
+    const line = rawLine.trim();
+    if (!line) continue;
+
+    // Split line into sentences
+    const sentences = line.split(/(?<=[.!?])\s+/);
+    for (const rawSentence of sentences) {
+      const sentence = rawSentence.trim();
+      if (!sentence) continue;
+
+      // Certainty Trigger: 반드시 + (치료|완치|좋아|낫)
+      const certaintyPattern = /반드시\s*(치료|완치|좋아|낫)/i;
+      if (!certaintyPattern.test(sentence)) {
+        continue;
+      }
+
+      // Find all matches in this sentence to ensure no unnegated violation hides behind a negated clause
+      const matchRegex = /반드시\s*(치료|완치|좋아|낫)[가-힣]*/gi;
+      let match;
+      let hasViolatingOccurrence = false;
+      let violatingSnippet = '';
+
+      while ((match = matchRegex.exec(sentence)) !== null) {
+        const afterMatch = sentence.slice(match.index);
+
+        // Safe Negation Patterns in Korean:
+        // 1. Predicate / Copula Negation:
+        //    "접근이 아닙니다", "뜻은 아닙니다", "의미는 아닙니다", "아닙니다", "아니다", "아닌", "아니며"
+        // 2. Certainty / Assertion Negation:
+        //    "단정할 수 없다", "단정하기 어렵다", "단정해서는 안 된다", "단정은 금물"
+        //    "보장할 수 없다", "보장되지 않는다", "보장은 없다", "보장하지 않는다"
+        //    "볼 수 없다", "보기 어렵다", "생각해서는 안 된다"
+        //    "적절하지 않다", "바람직하지 않다", "옳지 않다"
+        //    "경계해야 한다", "경계할 필요가 있다", "주의해야 한다"
+        //    "오해해서는 안 된다", "착각하기 쉽지만"
+        const negationPatterns = [
+          /(식의\s*접근(이|\s*은)?\s*)?(아닙니다|아니다|아닌|아니며|아니라고|아니라는|아님)/i,
+          /(그런|이런)?\s*(뜻|의미)(는|은|가|이)?\s*(아닙|아니|없)/i,
+          /(의미|뜻)하지\s*않/i,
+          /(단정|확언|장담).{0,15}(할\s*수\s*없|하기\s*어렵|해서는\s*안|은\s*금물|하지\s*않|마십시오|말아야|않습니다|못합니다|어렵습니다|어려우며)/i,
+          /보장.{0,15}(할\s*수\s*없|하기\s*어렵|되지\s*않|되는\s*것은\s*아니|은\s*없|하지\s*않|못합니다|어렵습니다)/i,
+          /(볼|보기|생각하|판단하).{0,12}(수\s*없|어렵|어려우며|않|안\s*됩|말아야|마십시오)/i,
+          /(적절하지|바람직하지|옳지|올바르지)\s*(않|못)/i,
+          /(경계|주의|유의).{0,15}(해야|할\s*필요|가\s*있|바랍니다)/i,
+          /(오해|착각).{0,15}(해서는\s*안|하기\s*쉽|금물|하지\s*마|마십시오)/i,
+          /(기대하기|확신하기).{0,12}(어렵|힘들|수\s*없)/i
+        ];
+
+        let isSafeNegated = false;
+        for (const np of negationPatterns) {
+          if (np.test(afterMatch)) {
+            isSafeNegated = true;
+            break;
+          }
+        }
+
+        // Pure interrogative question (FAQ question without affirmative promise)
+        // e.g. "Q. 치료를 받으면 반드시 좋아지나요?"
+        const isPureQuestion = (
+          /(\?|지나요|되나요|인가요|을까요|ㄹ까요|나요|가요)\s*$/i.test(sentence.trim()) ||
+          /(반드시\s*(치료|완치|좋아|낫).{0,8}(지나요|되나요|나요|가요|을까요|ㄹ까요))\??/i.test(afterMatch)
+        ) && !/(됩니다|집니다|습니다|확신합니다|보장합니다)/i.test(afterMatch);
+
+        if (!isSafeNegated && !isPureQuestion) {
+          hasViolatingOccurrence = true;
+          violatingSnippet = sentence.slice(0, 80);
+          break;
+        }
+      }
+
+      if (hasViolatingOccurrence) {
+        return {
+          violated: true,
+          sentence: violatingSnippet,
+          reason: '치료 단정적 확신 표현 금지 (부정/경계 문맥 부재)'
+        };
+      }
+    }
+  }
+
+  return { violated: false };
 }
 
 /**
@@ -604,6 +700,12 @@ function validateArticleContent(articleData, options = {}) {
     errors.push(`Medical safety violation: 임의 약물 중단 권고 금지 (Matched: "${medCheck.sentence}")`);
   }
 
+  // 4-1-1. Smart Treatment Certainty / Guarantee Check (Distinguishes safe cautionary negation from efficacy guarantees)
+  const certaintyCheck = checkTreatmentCertainty(fullText);
+  if (certaintyCheck.violated) {
+    errors.push(`Medical safety violation: 치료 단정적 확신 표현 금지 (Matched: "${certaintyCheck.sentence}")`);
+  }
+
   // 4-2. Contextual Age Group Consistency Validation (GLOBAL RULE)
   const articleNarrativeText = `${title}\n${summary}\n${body}`;
   const ageGroupCheck = checkContextualAgeGroup(articleNarrativeText, ageGroup);
@@ -891,5 +993,7 @@ module.exports = {
   extractInternalLinks,
   validateArticleContent,
   getGeoHierarchyRules,
-  checkContextualAgeGroup
+  checkContextualAgeGroup,
+  checkMedicationDiscontinuation,
+  checkTreatmentCertainty
 };
