@@ -35,14 +35,16 @@
     "displayDisease": "소아 ADHD",
     "topicAngle": "child-impulsivity",
     "recommendedGeo": "seongnam-bundang",
-    "testedAt": null,
+    "testedAt": "2026-09-05T01:55:34.245Z",
     "validationPassed": false,
-    "humanReviewStatus": "not_tested",
-    "notes": "테스트 대기",
-    "validationErrors": [],
-    "estimatedCostUSD": 0,
-    "estimatedCost": 0,
-    "articleSlug": null
+    "humanReviewStatus": "needs_revision",
+    "notes": "Dry-run 검증 실패: Title must match format '[지역 질환] 구체적 질문/주제'. Given: [분당 ADHD] 산만함과 충동성이 훈육만으로 조절되지 않을 때",
+    "validationErrors": [
+      "Title must match format '[지역 질환] 구체적 질문/주제'. Given: [분당 ADHD] 산만함과 충동성이 훈육만으로 조절되지 않을 때"
+    ],
+    "estimatedCostUSD": 0.03415,
+    "estimatedCost": 0.03415,
+    "articleSlug": "seongnam-bundang-adhd-child-impulsivity"
   },
   {
     "qaId": "qa-04-adhd-adult",
