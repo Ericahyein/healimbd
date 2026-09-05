@@ -100,7 +100,7 @@ assert.strictEqual(initialProdHistory, finalProdHistory, 'CRITICAL: data/auto_co
 console.log('✅ [Test 3 Passed] QA Results are recorded properly, humanReviewStatus is strictly "generated", and production history is 100% untouched.');
 
 // Test 4: Verify approved QA targets status (approved per human review)
-console.log('\n[Test 4] Verifying all 7 approved and 3 needs_revision QA targets approval status...');
+console.log('\n[Test 4] Verifying all 8 approved and 2 needs_revision QA targets approval status...');
 const qaResults = loadQAResults();
 
 const expectedApprovedTargets = [
@@ -108,6 +108,7 @@ const expectedApprovedTargets = [
   'qa-03-adhd-child',
   'qa-05-panic',
   'qa-06-anxiety',
+  'qa-07-social-phobia',
   'qa-08-sleep',
   'qa-09-autonomic',
   'qa-10-hyperhidrosis'
@@ -121,8 +122,7 @@ for (const qId of expectedApprovedTargets) {
 
 const expectedRevisionTargets = [
   'qa-02-tourette',
-  'qa-04-adhd-adult',
-  'qa-07-social-phobia'
+  'qa-04-adhd-adult'
 ];
 for (const qId of expectedRevisionTargets) {
   const record = qaResults.find(r => r.qaId === qId);
@@ -131,7 +131,7 @@ for (const qId of expectedRevisionTargets) {
   assert.strictEqual(record.humanReviewStatus, 'needs_revision', `${qId} must be needs_revision per human review`);
 }
 
-console.log('✅ [Test 4 Passed] All 7 approved targets and 3 needs_revision targets verified 100%.');
+console.log('✅ [Test 4 Passed] All 8 approved targets and 2 needs_revision targets verified 100%.');
 
 // Test 5: Smart Medication Discontinuation Validation (False Positive Prevention & Real Harm Blocking)
 console.log('\n[Test 5] Testing Smart Medication Discontinuation Validator...');
@@ -493,10 +493,10 @@ const b1Targets = getBatchTargets('batch-1');
 assert.strictEqual(b1Targets.length, 0, 'Batch 1 targets are now approved and correctly excluded from future batch runs');
 
 const b2Targets = getBatchTargets('batch-2');
-assert.strictEqual(b2Targets.length, 3, 'Batch 2 has 3 active unapproved targets (qa-10-hyperhidrosis is approved and excluded)');
+assert.strictEqual(b2Targets.length, 2, 'Batch 2 has 2 active unapproved targets (qa-10-hyperhidrosis and qa-07-social-phobia are approved and excluded)');
 assert.ok(b2Targets.includes('qa-02-tourette'));
 assert.ok(b2Targets.includes('qa-04-adhd-adult'));
-assert.ok(b2Targets.includes('qa-07-social-phobia'));
+assert.ok(!b2Targets.includes('qa-07-social-phobia'), 'qa-07-social-phobia must be excluded as it is approved');
 assert.ok(!b2Targets.includes('qa-10-hyperhidrosis'), 'qa-10-hyperhidrosis must be excluded as it is approved');
 
 const b5Targets = getBatchTargets('batch-5');
@@ -1451,7 +1451,117 @@ for (const target of qaTargets) {
 }
 console.log('✅ PASS: All 20 QA Targets strictly enforce 1:1 identity consistency without mutating category taxonomy.');
 
-console.log('\n🎉 ALL 11 QA SYSTEM INTEGRITY, REGRESSION, BATCH, GEO, HUMAN REVIEW & TARGET IDENTITY TESTS PASSED 100%!');
+// ==========================================
+// Test 12: Adult ADHD & Tourette Clinical Guidance Grounding & Validation
+// ==========================================
+console.log('\n[Test 12] Running Adult ADHD & Tourette Clinical Guidance Grounding Tests...');
+
+// 12-1. ADHD Medical Knowledge Grounding
+const adhdKnowledge = require('../scripts/auto_column/medical_knowledge/adhd.json');
+assert.ok(
+  adhdKnowledge.evaluationGuidance.includes('여러 생활 영역에서 이어져 왔는지') &&
+  adhdKnowledge.evaluationGuidance.includes('과제 마무리') &&
+  adhdKnowledge.evaluationGuidance.includes('실행기능'),
+  'ADHD evaluationGuidance must include developmental persistence across multiple life domains'
+);
+assert.ok(
+  adhdKnowledge.specificRules.some(r => r.includes('여러 생활 영역에서 이어져 왔는지') && r.includes('검증된 출처')),
+  'ADHD specificRules must mandate checking multiple life domains and forbid arbitrary figures'
+);
+console.log('✅ PASS: adhd.json verified with developmental persistence across life domains.');
+
+// 12-2. Tic / Tourette Medical Knowledge Grounding
+const ticKnowledge = require('../scripts/auto_column/medical_knowledge/tic.json');
+assert.ok(
+  ticKnowledge.evaluationGuidance.includes('운동틱과 음성틱이 함께 보인다는 사실만으로 뚜렛증후군을 확정하는 것은 아니며') &&
+  ticKnowledge.evaluationGuidance.includes('일과성 틱') &&
+  ticKnowledge.evaluationGuidance.includes('경과') &&
+  ticKnowledge.evaluationGuidance.includes('시작 시기'),
+  'Tic evaluationGuidance must caution against hasty Tourette confirmation on motor+vocal alone'
+);
+assert.ok(
+  ticKnowledge.specificRules.some(r => r.includes('운동틱과 음성틱이 함께 보인다는 사실만으로 뚜렛증후군을 확정하는 것처럼 설명하지 마십시오')),
+  'Tic specificRules must include explicit Tourette distinction rule'
+);
+assert.ok(
+  ticKnowledge.specificRules.some(r => r.includes('부모 대처 중심 구조를 엄격히 유지하고, 미디어 비중을 더 늘리지 마십시오')),
+  'Tic specificRules must keep parent guidance focus without increasing media weight'
+);
+console.log('✅ PASS: tic.json verified with Tourette differential criteria & parent guidance preservation.');
+
+// 12-3. Validation Compliance with Reinforced Adult ADHD Content
+const testAdhdAdultArticle = validateArticleContent(createMockArticleForReviewTest({
+  diseaseId: 'adhd',
+  titleDisease: 'ADHD',
+  thumbnailDiseaseLabel: '성인 ADHD',
+  seoDiseaseLabel: '성인 ADHD',
+  ageGroup: 'adult',
+  geoId: 'bundang-pangyo',
+  title: '[판교 ADHD] 업무 실수가 반복되고 마무리가 어려울 때',
+  summary: '판교 지역 성인 직장인 환자분들을 위한 성인 ADHD 평가 및 일상 업무 관리 가이드입니다.',
+  topicAngle: { id: 'adult-work-mistakes', titleSuffix: '업무 실수가 반복되고 마무리가 어려울 때' },
+  hashtags: ['판교성인ADHD', '판교한의원', '성인ADHD치료', '해아림한의원'],
+  keywords: ['판교 성인 ADHD', '성남시 분당구 판교 성인 ADHD', '성인 ADHD 한방치료'],
+  body: `
+## 1. 진료실에서 자주 마주하는 고민
+<div class="column-key-summary-box">핵심 요약</div>
+직장에서 반복되는 실수와 마감 지연으로 내원하시는 성인 환자분들의 고민을 살펴봅니다.
+## 2. 배경
+신경생물학적 특성과 환경적 스트레스가 복합적으로 관여할 수 있습니다.
+[주요 진료 안내](/treatments/)
+## 3. 감별 포인트
+성인 ADHD 평가 시에는 현재 직장에서의 업무 실수뿐만 아니라, 이전부터 주의집중, 정리, 과제 마무리, 충동성 및 실행기능과 관련된 유사한 어려움이 여러 생활 영역에서 이어져 왔는지를 함께 면밀히 확인합니다.
+[온라인 상담](/inquiry/)
+## 4. 평가 및 맞춤 관리
+개인의 증상과 전반적인 상태를 고려한 한약 처방, 침구 치료 및 생활 관리 지도.
+## 5. 자주 묻는 질문
+**Q1. 성인도 ADHD가 나타날 수 있나요?**
+A. 업무 정리, 시간 관리, 충동 조절 등의 어려움으로 나타날 수 있습니다.
+**Q2. 단순한 의지 부족과 어떻게 구분하나요?**
+A. 이전부터 유사한 실행기능의 어려움이 지속되었는지 종합적인 평가가 필요합니다.
+`,
+  thumbnailCopy: { yellowText: '업무 실수', whiteText: '마무리가 어려울 때', greenText: '성인 ADHD' }
+}));
+assert.strictEqual(testAdhdAdultArticle.valid, true, `Reinforced adult ADHD article must pass validation: ${testAdhdAdultArticle.errors.join(', ')}`);
+console.log('✅ PASS: Reinforced adult ADHD article passed 3-tier validation 100%.');
+
+// 12-4. Validation Compliance with Reinforced Tourette Content
+const testTouretteArticle = validateArticleContent(createMockArticleForReviewTest({
+  diseaseId: 'tic',
+  titleDisease: '뚜렛증후군',
+  thumbnailDiseaseLabel: '뚜렛증후군',
+  seoDiseaseLabel: '뚜렛증후군',
+  ageGroup: 'child',
+  geoId: 'yongin-suji',
+  title: '[수지 뚜렛증후군] 가정에서 부모가 지켜주어야 할 대처 원칙과 소통법',
+  summary: '용인 수지 지역 보호자분들을 위한 뚜렛증후군 구분 평가 및 가정 내 부모 대처 소통법 가이드입니다.',
+  topicAngle: { id: 'parent-guidance', titleSuffix: '가정에서 부모가 지켜주어야 할 대처 원칙과 소통법' },
+  hashtags: ['수지뚜렛증후군', '수지한의원', '뚜렛증후군치료', '해아림한의원'],
+  keywords: ['수지 뚜렛증후군', '용인시 수지구 뚜렛증후군', '뚜렛증후군 한방치료'],
+  body: `
+## 1. 진료실에서 자주 마주하는 고민
+<div class="column-key-summary-box">핵심 요약</div>
+가정에서 부모가 아이의 틱 증상에 어떻게 대처해야 하는지 안내합니다.
+## 2. 배경
+신경발달학적 특성이 관여하며, 부모가 불안해하며 지적하지 않는 수용적 태도가 중요합니다.
+[주요 진료 안내](/treatments/)
+## 3. 감별 포인트
+운동틱과 음성틱이 함께 보인다는 사실만으로 뚜렛증후군을 확정하는 것은 아니며, 증상이 이어진 경과, 시작 시기, 종류와 변화 양상 등을 함께 종합적으로 평가해야 합니다. 일과성 틱이나 지속성 틱과 구분하여 장기적인 관점에서 살펴봅니다.
+[온라인 상담](/inquiry/)
+## 4. 평가 및 맞춤 관리
+개인의 증상과 전반적인 상태를 고려한 한약 처방, 침구 치료 및 환경 조절 상담.
+## 5. 자주 묻는 질문
+**Q1. 아이가 틱을 스스로 참을 수 없나요?**
+A. 의지로 억제하기 어려우므로 지적하기보다 긴장을 덜어주어야 합니다.
+**Q2. 운동틱과 음성틱이 같이 보이면 무조건 뚜렛인가요?**
+A. 단순 동반 사실만으로 확정하지 않으며, 경과와 양상 변화를 종합 평가해야 합니다.
+`,
+  thumbnailCopy: { yellowText: '아이의 틱', whiteText: '지적 대신 지켜보기', greenText: '뚜렛증후군' }
+}));
+assert.strictEqual(testTouretteArticle.valid, true, `Reinforced Tourette article must pass validation: ${testTouretteArticle.errors.join(', ')}`);
+console.log('✅ PASS: Reinforced Tourette article passed 3-tier validation 100%.');
+
+console.log('\n🎉 ALL 12 QA SYSTEM INTEGRITY, REGRESSION, BATCH, GEO, HUMAN REVIEW, TARGET IDENTITY & CLINICAL GUIDANCE TESTS PASSED 100%!');
 
 
 
