@@ -20,13 +20,15 @@
     "displayDisease": "뚜렛증후군",
     "topicAngle": "parent-guidance",
     "recommendedGeo": "yongin-suji",
-    "testedAt": "2026-09-05T05:36:09.199Z",
-    "validationPassed": true,
+    "testedAt": "2026-09-05T05:59:38.398Z",
+    "validationPassed": false,
     "humanReviewStatus": "needs_revision",
-    "notes": "인간 검토: 뚜렛 구분 설명(운동+음성틱 단순 확정 지양, 경과/시작시기/변화양상/일과성·지속성 구분 평가) 보강 필요 (needs_revision)",
-    "validationErrors": [],
-    "estimatedCostUSD": 0.08478,
-    "estimatedCost": 0.08478,
+    "notes": "Dry-run 검증 실패: Medical safety violation: 치료 단정적 확신 표현 금지 (Matched: /반드시\\s*(치료|완치|좋아|낫)/i)",
+    "validationErrors": [
+      "Medical safety violation: 치료 단정적 확신 표현 금지 (Matched: /반드시\\s*(치료|완치|좋아|낫)/i)"
+    ],
+    "estimatedCostUSD": 0.04913,
+    "estimatedCost": 0.04913,
     "articleSlug": "yongin-suji-tic-parent-guidance"
   },
   {
@@ -50,13 +52,13 @@
     "displayDisease": "성인 ADHD",
     "topicAngle": "adult-work-mistakes",
     "recommendedGeo": "bundang-pangyo",
-    "testedAt": "2026-09-05T05:36:02.608Z",
+    "testedAt": "2026-09-05T05:59:41.935Z",
     "validationPassed": true,
-    "humanReviewStatus": "needs_revision",
-    "notes": "인간 검토: 성인 ADHD 평가 시 과거 주의집중/정리/과제마무리/충동성 등 여러 생활영역 발달력 보강 필요 (needs_revision)",
+    "humanReviewStatus": "generated",
+    "notes": "Dry-run QA 검증 통과 (성인 ADHD - 성인 업무 중 실수가 반복되고 마무리가 어려울 때)",
     "validationErrors": [],
-    "estimatedCostUSD": 0.07758,
-    "estimatedCost": 0.07758,
+    "estimatedCostUSD": 0.07862,
+    "estimatedCost": 0.07862,
     "articleSlug": "bundang-pangyo-adhd-adult-work-mistakes"
   },
   {
