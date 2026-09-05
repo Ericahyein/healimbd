@@ -109,13 +109,13 @@ const finalProdHistory = fs.readFileSync(prodHistoryPath, 'utf-8');
 assert.strictEqual(initialProdHistory, finalProdHistory, 'CRITICAL: data/auto_column_history.json MUST be 100% untouched during QA!');
 console.log('✅ [Test 3 Passed] QA Results are recorded properly, humanReviewStatus is strictly "generated", and production history is 100% untouched.');
 
-// Test 4: Verify qa-01-tic is 'generated' (not auto-approved)
-console.log('\n[Test 4] Verifying qa-01-tic initial status...');
+// Test 4: Verify qa-01-tic status (approved per human review)
+console.log('\n[Test 4] Verifying qa-01-tic approval status...');
 const qaResults = loadQAResults();
 const ticRecord = qaResults.find(r => r.qaId === 'qa-01-tic');
 assert.ok(ticRecord, 'qa-01-tic record must exist');
-assert.strictEqual(ticRecord.humanReviewStatus, 'generated', 'qa-01-tic must start as generated (pending human approval)');
-console.log('✅ [Test 4 Passed] qa-01-tic humanReviewStatus is properly set to "generated".');
+assert.strictEqual(ticRecord.humanReviewStatus, 'approved', 'qa-01-tic must be approved per human review');
+console.log('✅ [Test 4 Passed] qa-01-tic humanReviewStatus is properly set to "approved".');
 
 // Test 5: Smart Medication Discontinuation Validation (False Positive Prevention & Real Harm Blocking)
 console.log('\n[Test 5] Testing Smart Medication Discontinuation Validator...');
@@ -468,10 +468,13 @@ assert.deepStrictEqual(BATCH_DEFINITIONS['batch-4'], ['qa-15-depression', 'qa-16
 assert.deepStrictEqual(BATCH_DEFINITIONS['batch-5'], ['qa-19-child-enuresis', 'qa-20-fatigue']);
 console.log('✅ PASS: All 5 Batch definitions strictly match user requirements (4+4+4+4+2 = 18 targets).');
 
-// 8-2. Resolution of Batch Targets (Excludes qa-01-tic & qa-05-panic)
+// 8-2. Resolution of Batch Targets (Excludes approved targets qa-01-tic, qa-05-panic, and Batch 1 approved targets)
 const b1Targets = getBatchTargets('batch-1');
-assert.strictEqual(b1Targets.length, 4);
-assert.ok(b1Targets.includes('qa-03-adhd-child'));
+assert.strictEqual(b1Targets.length, 0, 'Batch 1 targets are now approved and correctly excluded from future batch runs');
+
+const b2Targets = getBatchTargets('batch-2');
+assert.strictEqual(b2Targets.length, 4);
+assert.ok(b2Targets.includes('qa-02-tourette'));
 
 const b5Targets = getBatchTargets('batch-5');
 assert.strictEqual(b5Targets.length, 2);
@@ -480,67 +483,69 @@ console.log('✅ PASS: Batch targets resolved dynamically and approved/baseline 
 
 // 8-3. Aggregator Merge Simulation (Single Atomic History Push without Race Conditions)
 const testTempDir = path.join(__dirname, '../scratch/test_downloaded_qa_results');
-if (!fs.existsSync(testTempDir)) fs.mkdirSync(testTempDir, { recursive: true });
+if (fs.existsSync(testTempDir)) fs.rmSync(testTempDir, { recursive: true, force: true });
+fs.mkdirSync(testTempDir, { recursive: true });
 
 // Backup original qa_results to prevent test mutation
 const qaResultsFile = path.join(__dirname, '../data/auto_column_qa_results.json');
 const backupQAResultsRaw = fs.readFileSync(qaResultsFile, 'utf-8');
 
-// Create 2 mock worker single results
-fs.writeFileSync(path.join(testTempDir, 'qa-result-qa-08-sleep.json'), JSON.stringify({
-  qaId: 'qa-08-sleep',
-  diseaseId: 'sleep',
-  displayDisease: '만성 불면증',
-  topicAngle: 'early-awakening',
-  recommendedGeo: 'bundang-pangyo',
-  testedAt: new Date().toISOString(),
-  validationPassed: true,
-  humanReviewStatus: 'generated',
-  notes: 'Dry-run QA 검증 통과 (테스트 시뮬레이션)',
-  validationErrors: [],
-  estimatedCostUSD: 0.0491,
-  estimatedCost: 0.0491,
-  articleSlug: 'bundang-pangyo-sleep-early-awakening'
-}, null, 2), 'utf-8');
+try {
+  // Create 2 mock worker single results for unapproved targets
+  fs.writeFileSync(path.join(testTempDir, 'qa-result-qa-02-tourette.json'), JSON.stringify({
+    qaId: 'qa-02-tourette',
+    diseaseId: 'tic',
+    displayDisease: '뚜렛증후군',
+    topicAngle: 'parent-guidance',
+    recommendedGeo: 'yongin-suji',
+    testedAt: new Date().toISOString(),
+    validationPassed: true,
+    humanReviewStatus: 'generated',
+    notes: 'Dry-run QA 검증 통과 (테스트 시뮬레이션)',
+    validationErrors: [],
+    estimatedCostUSD: 0.0491,
+    estimatedCost: 0.0491,
+    articleSlug: 'yongin-suji-tic-parent-guidance'
+  }, null, 2), 'utf-8');
 
-fs.writeFileSync(path.join(testTempDir, 'qa-result-qa-06-anxiety.json'), JSON.stringify({
-  qaId: 'qa-06-anxiety',
-  diseaseId: 'anxiety',
-  displayDisease: '불안장애',
-  topicAngle: 'chronic-worry',
-  recommendedGeo: 'yongin-giheung',
-  testedAt: new Date().toISOString(),
-  validationPassed: false,
-  humanReviewStatus: 'needs_revision',
-  notes: 'Dry-run QA 검증 실패 (테스트 시뮬레이션)',
-  validationErrors: ['Sample validation error'],
-  estimatedCostUSD: 0.0215,
-  estimatedCost: 0.0215,
-  articleSlug: 'yongin-giheung-anxiety-chronic-worry'
-}, null, 2), 'utf-8');
+  fs.writeFileSync(path.join(testTempDir, 'qa-result-qa-04-adhd-adult.json'), JSON.stringify({
+    qaId: 'qa-04-adhd-adult',
+    diseaseId: 'adhd',
+    displayDisease: '성인 ADHD',
+    topicAngle: 'adult-work-mistakes',
+    recommendedGeo: 'bundang-pangyo',
+    testedAt: new Date().toISOString(),
+    validationPassed: false,
+    humanReviewStatus: 'needs_revision',
+    notes: 'Dry-run QA 검증 실패 (테스트 시뮬레이션)',
+    validationErrors: ['Sample validation error'],
+    estimatedCostUSD: 0.0215,
+    estimatedCost: 0.0215,
+    articleSlug: 'bundang-pangyo-adhd-adult-work-mistakes'
+  }, null, 2), 'utf-8');
 
-// Run aggregator merge
-const mergeResult = mergeBatchQAResults(testTempDir);
-assert.strictEqual(mergeResult.mergedCount, 2);
-assert.ok(mergeResult.updatedQaIds.includes('qa-08-sleep'));
-assert.ok(mergeResult.updatedQaIds.includes('qa-06-anxiety'));
+  // Run aggregator merge
+  const mergeResult = mergeBatchQAResults(testTempDir);
+  assert.strictEqual(mergeResult.mergedCount, 2);
+  assert.ok(mergeResult.updatedQaIds.includes('qa-02-tourette'));
+  assert.ok(mergeResult.updatedQaIds.includes('qa-04-adhd-adult'));
 
-// Verify data/auto_column_qa_results.json
-const afterMerge = loadQAResults();
-const sleepRecord = afterMerge.find(r => r.qaId === 'qa-08-sleep');
-assert.strictEqual(sleepRecord.validationPassed, true);
-assert.strictEqual(sleepRecord.humanReviewStatus, 'generated');
-assert.strictEqual(sleepRecord.estimatedCostUSD, 0.0491);
+  // Verify data/auto_column_qa_results.json
+  const afterMerge = loadQAResults();
+  const touretteRecord = afterMerge.find(r => r.qaId === 'qa-02-tourette');
+  assert.strictEqual(touretteRecord.validationPassed, true);
+  assert.strictEqual(touretteRecord.humanReviewStatus, 'generated');
+  assert.strictEqual(touretteRecord.estimatedCostUSD, 0.0491);
 
-const anxietyRecord = afterMerge.find(r => r.qaId === 'qa-06-anxiety');
-assert.strictEqual(anxietyRecord.validationPassed, false);
-assert.strictEqual(anxietyRecord.humanReviewStatus, 'needs_revision');
-
-// Restore original QA results exactly
-fs.writeFileSync(qaResultsFile, backupQAResultsRaw, 'utf-8');
-
-// Clean up test scratch dir
-fs.rmSync(testTempDir, { recursive: true, force: true });
+  const adhdAdultRecord = afterMerge.find(r => r.qaId === 'qa-04-adhd-adult');
+  assert.strictEqual(adhdAdultRecord.validationPassed, false);
+  assert.strictEqual(adhdAdultRecord.humanReviewStatus, 'needs_revision');
+} finally {
+  // Restore original QA results exactly
+  fs.writeFileSync(qaResultsFile, backupQAResultsRaw, 'utf-8');
+  // Clean up test scratch dir
+  fs.rmSync(testTempDir, { recursive: true, force: true });
+}
 console.log('✅ PASS: Aggregator merge simulation correctly merged worker artifacts and maintained status integrity.');
 
 // ==========================================
