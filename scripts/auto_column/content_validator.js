@@ -243,7 +243,7 @@ const GLOBAL_BANNED_MEDICAL_PATTERNS = [
   // Unapproved new treatment names
   { pattern: /(인지\s*이완\s*훈련|인지\s*행동\s*훈련|두뇌\s*이완\s*훈련|두뇌\s*훈련|뉴로\s*피드백|바이오\s*피드백)/i, reason: '치료법 임의 생성 금지: 승인되지 않은 새 치료명 사용' },
   // Fabricated mechanism/efficacy assertion modifiers attached to treatments
-  { pattern: /(뇌의\s*과각성을\s*(진정|완화|가라앉|조절)|수면의\s*흐름을\s*돕는|심포열을\s*다스리는)\s*(맞춤\s*)?(한약|처방|침구|치료)/i, reason: '치료법 임의 생성 금지: 치료 효과 단정 및 임의 기전 수식어 사용' },
+  { pattern: /(뇌의\s*과각성을\s*(진정|완화|가라앉|조절)|수면(의)?\s*흐름을\s*돕는|심포열을\s*다스리는|안정을\s*돕는|심신\s*안정을\s*돕는|자율신경\s*긴장을\s*완화하는)\s*(맞춤\s*)?(한약|처방|침구|치료)/i, reason: '치료법 임의 생성 금지: 치료 효과 단정 및 임의 기전 수식어 사용' },
   // Promotional closing CTA patterns
   { pattern: /([가-힣]+(시|구|동|역|지역|에서)?\s*)?(진료(를)?\s*(권합니다|권해드립니다|추천합니다)|내원(을)?\s*(권합니다|권해드립니다|추천합니다|바랍니다)|방문(을)?\s*(권합니다|권해드립니다)|내원하셔서\s*진료|방문하셔서\s*상담)/i, reason: '마무리 광고성 CTA 금지: 지역 키워드 및 직접적인 내원/진료 권유 문장' }
 ];
@@ -394,6 +394,99 @@ function checkMedicationDiscontinuation(text) {
 }
 
 /**
+ * Contextual Age Group Validation
+ * Checks whether the primary subject or patient target improperly transitions to another age group.
+ * Rather than naive flat keyword blacklisting, evaluates sentence-level context and compound patterns.
+ *
+ * @param {string} text - The full text to check (title, summary, body)
+ * @param {'child'|'adult'|'mixed'} ageGroup
+ * @returns {{ violated: boolean, reason?: string, matchedSentence?: string }}
+ */
+function checkContextualAgeGroup(text, ageGroup) {
+  if (!ageGroup || ageGroup === 'mixed') {
+    return { violated: false };
+  }
+
+  // Clean markdown headings, html tags, list markers, and bold/italic markup
+  const clean = text
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/^#+\s+/gm, '')
+    .replace(/^[\*\-\d\.]+\s+/gm, '')
+    .replace(/[\*_~`]/g, '');
+
+  const sentences = clean
+    .split(/[\r\n\.!\?]+/g)
+    .map(s => s.trim())
+    .filter(s => s.length > 5);
+
+  if (ageGroup === 'child') {
+    // Child target: Focus on child/adolescent patient, parents/guardians, school, home.
+    // Forbidden: Transitioning primary patient target to adult workplace dysfunction or adult patients.
+    const adultSubjectPatterns = [
+      /(성인\s*ADHD|성인\s*환자|성인의\s*경우|성인에서도|성인\s*역시|성인기에서도|성인기\s*환자|성인기에\s*(접어든|이르러|나타나는))/i,
+      /직장인\s*(환자|은|이|에게)/i,
+      /(직장\s*업무\s*중\s*실수|업무\s*중\s*실수|업무\s*실수|직장\s*내\s*실수)/i,
+      /(업무\s*마감|마감\s*일정|마감에\s*쫓|마감\s*부담).{0,15}(어려|스트레스|압박|놓치|부담)/i,
+      /(직장|업무).{0,20}(실수(가|를)?\s*(반복|잦|늘)|마감(에|\s*을)?\s*(어려|쫓|놓치)|능률|효율\s*저하|퇴사|이직)/i,
+      /(출퇴근길\s*(공황|불안|스트레스)|퇴근\s*후\s*야근|과중한\s*업무\s*스트레스)/i,
+      /(직장\s*생활\s*(어려움|갈등|부적응)|업무\s*마감에\s*어려움)/i
+    ];
+
+    for (const sentence of sentences) {
+      for (const pattern of adultSubjectPatterns) {
+        if (pattern.test(sentence)) {
+          // Benign exception: If framed around guardian's living schedule (e.g. 부모의 직장 일정, 보호자의 퇴근 시간)
+          // without clinical dysfunction patterns like 성인 ADHD, 실수가 반복, 마감에 어려움
+          const isBenignParentalSchedule = /(부모|보호자|어머니|아버지|양육자)(의|님)?\s*(직장\s*일정|퇴근\s*시간|출퇴근|맞벌이)/.test(sentence)
+            && !/(성인\s*ADHD|성인의\s*경우|성인\s*환자|실수(가|를)?\s*(반복|잦)|마감(에|\s*을)?\s*어려)/.test(sentence);
+
+          if (!isBenignParentalSchedule) {
+            return {
+              violated: true,
+              reason: `Age Group violation: Target is 'child', but primary subject transitions to adult workplace/patient context (Matched: "${sentence.slice(0, 80)}")`,
+              matchedSentence: sentence
+            };
+          }
+        }
+      }
+    }
+  } else if (ageGroup === 'adult') {
+    // Adult target: Focus on adult patient daily life, work, social situations, adult stressors.
+    // Forbidden: Transitioning primary patient target to pediatric classroom/discipline/child symptoms.
+    // Note: Adult patient life context like "직장 스트레스와 자녀 양육 부담" is completely valid.
+    const childSubjectPatterns = [
+      // Pediatric patient symptoms and school/classroom routines
+      /(아이|자녀|학생|소아|아이들)(가|는|의|가\s*자주)?\s*(수업\s*시간|교실(에서|\s*내)|등교\s*(전|후|길|거부)|학교\s*생활).{0,25}(산만|집중|불안|어려움|적응|문제|거부|지적|지각)/i,
+      /(등교\s*전\s*(아이|자녀|소아)|수업\s*시간에\s*(산만|집중하지)|교실에서\s*(산만|돌아다니|아이)|아이가\s*수업)/i,
+      /(아이가|아이는|학생이)\s*(수업\s*시간|교실|학교에서).{0,15}(산만|집중|지적)/i,
+      /(등교\s*전\s*(아이|자녀)(가|는)?\s*(복통|두통|불안|울거나|거부))/i,
+      // Parental discipline of child
+      /(부모|양육자)(가|는)?\s*(아이|자녀)(를|에게)?\s*훈육(할\s*때|하거나|을\s*통해|으로|의\s*방법|에서|에\s*대한)/i,
+      /(훈육할\s*때|아이를\s*훈육|자녀를\s*훈육|훈육\s*과정에서\s*아이)/i,
+      /(아이(의)?\s*훈육|자녀(의)?\s*훈육)/i,
+      // Explicit pediatric disease terms
+      /(소아\s*ADHD|소아\s*틱|소아청소년\s*환자|어린이\s*틱)/i,
+      /(아이의\s*증상|자녀의\s*증상|아이의\s*틱|자녀의\s*틱|아이의\s*산만함)/i,
+      /(학부모\s*상담\s*(에서|시|때|을\s*받))/i
+    ];
+
+    for (const sentence of sentences) {
+      for (const pattern of childSubjectPatterns) {
+        if (pattern.test(sentence)) {
+          return {
+            violated: true,
+            reason: `Age Group violation: Target is 'adult', but primary subject transitions to pediatric patient/school/discipline context (Matched: "${sentence.slice(0, 80)}")`,
+            matchedSentence: sentence
+          };
+        }
+      }
+    }
+  }
+
+  return { violated: false };
+}
+
+/**
  * 3-Tier Comprehensive Validation of Generated Column
  * Tier 1: Global Policy (Structure, Length, Headings, Banned Phrases, Internal Links)
  * Tier 2: GEO Consistency Policy (No unrelated active GEO or station keywords)
@@ -486,26 +579,11 @@ function validateArticleContent(articleData, options = {}) {
     errors.push(`Medical safety violation: 임의 약물 중단 권고 금지 (Matched: "${medCheck.sentence}")`);
   }
 
-  // 4-2. Age Group Consistency Validation (GLOBAL RULE)
-  if (ageGroup === 'child') {
-    const adultWorkKeywords = [
-      '직장', '업무', '마감', '직장인', '출근', '퇴근', '야근', '이직',
-      '성인 역시', '성인의 경우', '성인에서도', '성인기에도'
-    ];
-    for (const kw of adultWorkKeywords) {
-      if (body.includes(kw) || summary.includes(kw) || title.includes(kw)) {
-        errors.push(`Age Group violation: Target is 'child', but found adult workplace keyword '${kw}'.`);
-      }
-    }
-  } else if (ageGroup === 'adult') {
-    const childKeywords = [
-      '훈육', '양육', '학부모', '교실에서', '등교', '소아청소년', '소아 틱', '소아 ADHD'
-    ];
-    for (const kw of childKeywords) {
-      if (body.includes(kw) || summary.includes(kw)) {
-        errors.push(`Age Group violation: Target is 'adult', but found unnecessary child keyword '${kw}'.`);
-      }
-    }
+  // 4-2. Contextual Age Group Consistency Validation (GLOBAL RULE)
+  const articleNarrativeText = `${title}\n${summary}\n${body}`;
+  const ageGroupCheck = checkContextualAgeGroup(articleNarrativeText, ageGroup);
+  if (ageGroupCheck.violated) {
+    errors.push(ageGroupCheck.reason);
   }
 
   // 4-3. Sibling Disease & Topic Leakage Validation
@@ -770,5 +848,6 @@ module.exports = {
   jaroWinkler,
   extractInternalLinks,
   validateArticleContent,
-  getGeoHierarchyRules
+  getGeoHierarchyRules,
+  checkContextualAgeGroup
 };

@@ -972,11 +972,179 @@ A. 답변2
 `,
   thumbnailCopy: { yellowText: '사소한 일도', whiteText: '꼬리 무는 걱정', greenText: '불안장애' }
 }));
-assert.strictEqual(failAnxietyNeurodevelopmental.valid, false, 'Adult anxiety with neurodevelopmental etiology MUST FAIL');
-assert.ok(failAnxietyNeurodevelopmental.errors.some(e => e.includes('신경발달학적')), 'Expected error regarding 신경발달학적');
-console.log('✅ PASS: Adult anxiety with "신경발달학적" etiology strictly blocked.');
+// 10-11. Contextual Age Group: Child target with benign parental workplace context MUST PASS
+const passChildWithParentSchedule = validateArticleContent(createMockArticleForReviewTest({
+  diseaseId: 'adhd',
+  titleDisease: 'ADHD',
+  ageGroup: 'child',
+  title: '[분당 ADHD] 산만함과 충동성이 훈육만으로 조절되지 않을 때',
+  summary: '분당 지역 학부모님들을 위한 소아 ADHD 원인과 생활 리듬 안내입니다.',
+  geoId: 'seongnam-bundang',
+  body: `
+## 1. 진료실에서 자주 마주하는 고민
+<div class="column-key-summary-box">핵심 요약</div>
+부모의 직장 일정 때문에 아이의 생활 리듬이 불규칙해질 수 있습니다.
+
+## 2. 주요 배경
+신경발달학적 특성을 고려하며 [주요 진료 안내](/treatments/)를 참고합니다.
+
+## 3. 감별 포인트
+[온라인 상담](/inquiry/)을 통해 문의하실 수 있습니다.
+
+## 4. 해아림한의원의 상태 평가 관점
+개인의 증상과 전반적인 상태를 고려한 한약 처방과 침구 치료를 진행합니다.
+
+## 5. 자주 묻는 질문
+**Q1. 질문**
+A. 답변
+**Q2. 질문2**
+A. 답변2
+`
+}));
+assert.strictEqual(passChildWithParentSchedule.valid, true, `Child target with benign parental work context MUST PASS: ${JSON.stringify(passChildWithParentSchedule.errors)}`);
+console.log('✅ PASS: Child target with benign parental work schedule ("부모의 직장 일정 때문에...") passed 100%.');
+
+// 10-12. Contextual Age Group: Adult target with benign childcare stress MUST PASS
+const passAdultWithChildcareStress = validateArticleContent(createMockArticleForReviewTest({
+  diseaseId: 'anxiety',
+  titleDisease: '불안장애',
+  ageGroup: 'adult',
+  title: '[분당 불안장애] 사소한 일에도 걱정이 꼬리를 물고 가슴이 답답할 때',
+  summary: '분당 지역 성인 환자분들을 위한 만성 걱정과 불안장애 한방 치료 안내입니다.',
+  topicAngle: { id: 'chronic-worry', titleSuffix: '사소한 일에도 걱정이 꼬리를 물고 가슴이 답답할 때' },
+  geoId: 'seongnam-bundang',
+  hashtags: ['분당불안장애', '불안장애치료', '해아림한의원'],
+  keywords: ['분당 불안장애', '성남시 분당구 불안장애', '불안장애 한방치료'],
+  body: `
+## 1. 진료실에서 자주 마주하는 고민
+<div class="column-key-summary-box">핵심 요약</div>
+직장 스트레스와 자녀 양육 부담이 함께 이어질 수 있습니다.
+
+## 2. 주요 배경
+신경생물학적 특성을 고려하며 [주요 진료 안내](/treatments/)를 참고합니다.
+
+## 3. 감별 포인트
+[온라인 상담](/inquiry/)을 통해 문의하실 수 있습니다.
+
+## 4. 해아림한의원의 상태 평가 관점
+개인의 증상과 전반적인 상태를 고려한 한약 처방과 침구 치료를 진행합니다.
+
+## 5. 자주 묻는 질문
+**Q1. 질문**
+A. 답변
+**Q2. 질문2**
+A. 답변2
+`,
+  thumbnailCopy: { yellowText: '사소한 일도', whiteText: '꼬리 무는 걱정', greenText: '불안장애' }
+}));
+assert.strictEqual(passAdultWithChildcareStress.valid, true, `Adult target with benign childcare stress MUST PASS: ${JSON.stringify(passAdultWithChildcareStress.errors)}`);
+console.log('✅ PASS: Adult target with benign childcare stress ("직장 스트레스와 자녀 양육 부담...") passed 100%.');
+
+// 10-13. Contextual Age Group: Child target with explicit adult workplace shift MUST FAIL
+const failChildWithAdultWorkShift = validateArticleContent(createMockArticleForReviewTest({
+  diseaseId: 'adhd',
+  titleDisease: 'ADHD',
+  ageGroup: 'child',
+  geoId: 'seongnam-bundang',
+  body: `
+## 1. 진료실에서 자주 마주하는 고민
+<div class="column-key-summary-box">핵심 요약</div>
+성인 ADHD 환자는 업무 마감에 어려움을 겪습니다. 직장 업무 중 실수가 반복됩니다.
+
+## 2. 주요 배경
+신경발달학적 특성을 고려하며 [주요 진료 안내](/treatments/)를 참고합니다.
+
+## 3. 감별 포인트
+[온라인 상담](/inquiry/)을 통해 문의하실 수 있습니다.
+
+## 4. 해아림한의원의 상태 평가 관점
+개인의 증상과 전반적인 상태를 고려한 한약 처방과 침구 치료.
+
+## 5. 자주 묻는 질문
+**Q1. 질문**
+A. 답변
+**Q2. 질문2**
+A. 답변2
+`
+}));
+assert.strictEqual(failChildWithAdultWorkShift.valid, false, 'Child target with adult work shift MUST FAIL');
+assert.ok(failChildWithAdultWorkShift.errors.some(e => e.includes('Age Group violation') && e.includes('child')), 'Expected Age Group violation for adult work shift');
+console.log('✅ PASS: Child target with adult workplace transition ("성인 ADHD 환자는 업무 마감에...") strictly blocked.');
+
+// 10-14. Contextual Age Group: Adult target with child classroom/discipline shift MUST FAIL
+const failAdultWithChildClassroomShift = validateArticleContent(createMockArticleForReviewTest({
+  diseaseId: 'anxiety',
+  titleDisease: '불안장애',
+  ageGroup: 'adult',
+  title: '[분당 불안장애] 사소한 일에도 걱정이 꼬리를 물고 가슴이 답답할 때',
+  topicAngle: { id: 'chronic-worry', titleSuffix: '사소한 일에도 걱정이 꼬리를 물고 가슴이 답답할 때' },
+  geoId: 'seongnam-bundang',
+  hashtags: ['분당불안장애', '불안장애치료', '해아림한의원'],
+  keywords: ['분당 불안장애', '성남시 분당구 불안장애', '불안장애 한방치료'],
+  body: `
+## 1. 진료실에서 자주 마주하는 고민
+<div class="column-key-summary-box">핵심 요약</div>
+아이가 수업 시간에 산만합니다. 부모가 아이를 훈육할 때 지나치게 다그치면 안 됩니다. 등교 전 아이가 불안을 호소합니다.
+
+## 2. 주요 배경
+신경생물학적 요인을 고려하며 [주요 진료 안내](/treatments/)를 참고합니다.
+
+## 3. 감별 포인트
+[온라인 상담](/inquiry/)을 통해 문의하실 수 있습니다.
+
+## 4. 해아림한의원의 상태 평가 관점
+개인의 증상과 전반적인 상태를 고려한 한약 처방과 침구 치료.
+
+## 5. 자주 묻는 질문
+**Q1. 질문**
+A. 답변
+**Q2. 질문2**
+A. 답변2
+`,
+  thumbnailCopy: { yellowText: '사소한 일도', whiteText: '꼬리 무는 걱정', greenText: '불안장애' }
+}));
+assert.strictEqual(failAdultWithChildClassroomShift.valid, false, 'Adult target with child classroom/discipline shift MUST FAIL');
+assert.ok(failAdultWithChildClassroomShift.errors.some(e => e.includes('Age Group violation') && e.includes('adult')), 'Expected Age Group violation for child classroom/discipline shift');
+console.log('✅ PASS: Adult target with pediatric classroom/discipline transition ("아이가 수업 시간에 산만...") strictly blocked.');
+
+// 10-15. Premature Treatment Efficacy Attribution MUST FAIL
+const failPrematureEfficacyModality = validateArticleContent(createMockArticleForReviewTest({
+  diseaseId: 'anxiety',
+  titleDisease: '불안장애',
+  ageGroup: 'adult',
+  title: '[분당 불안장애] 사소한 일에도 걱정이 꼬리를 물고 가슴이 답답할 때',
+  topicAngle: { id: 'chronic-worry', titleSuffix: '사소한 일에도 걱정이 꼬리를 물고 가슴이 답답할 때' },
+  geoId: 'seongnam-bundang',
+  hashtags: ['분당불안장애', '불안장애치료', '해아림한의원'],
+  keywords: ['분당 불안장애', '성남시 분당구 불안장애', '불안장애 한방치료'],
+  body: `
+## 1. 진료실에서 자주 마주하는 고민
+<div class="column-key-summary-box">핵심 요약</div>
+만성 걱정을 점검합니다.
+
+## 2. 주요 배경
+신경생물학적 요인을 고려하며 [주요 진료 안내](/treatments/)를 참고합니다.
+
+## 3. 감별 포인트
+[온라인 상담](/inquiry/)을 통해 문의하실 수 있습니다.
+
+## 4. 해아림한의원의 상태 평가 관점
+심신 안정을 돕는 맞춤 한약 처방과 자율신경 긴장을 완화하는 침구 치료를 시행합니다.
+
+## 5. 자주 묻는 질문
+**Q1. 질문**
+A. 답변
+**Q2. 질문2**
+A. 답변2
+`,
+  thumbnailCopy: { yellowText: '사소한 일도', whiteText: '꼬리 무는 걱정', greenText: '불안장애' }
+}));
+assert.strictEqual(failPrematureEfficacyModality.valid, false, 'Premature treatment efficacy attribution MUST FAIL');
+assert.ok(failPrematureEfficacyModality.errors.some(e => e.includes('치료 효과 단정 및 임의 기전 수식어 사용')), 'Expected error regarding treatment efficacy attribution');
+console.log('✅ PASS: Premature treatment efficacy attribution ("심신 안정을 돕는 맞춤 한약 처방...") strictly blocked.');
 
 console.log('\n🎉 ALL 10 QA SYSTEM INTEGRITY, REGRESSION, BATCH, GEO & HUMAN REVIEW FEEDBACK TESTS PASSED 100%!');
+
 
 
 
