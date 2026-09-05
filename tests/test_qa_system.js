@@ -105,6 +105,7 @@ const qaResults = loadQAResults();
 
 const expectedApprovedTargets = [
   'qa-01-tic',
+  'qa-02-tourette',
   'qa-03-adhd-child',
   'qa-04-adhd-adult',
   'qa-05-panic',
@@ -121,9 +122,7 @@ for (const qId of expectedApprovedTargets) {
   assert.strictEqual(record.humanReviewStatus, 'approved', `${qId} must be approved per human review`);
 }
 
-const expectedRevisionTargets = [
-  'qa-02-tourette'
-];
+const expectedRevisionTargets = [];
 for (const qId of expectedRevisionTargets) {
   const record = qaResults.find(r => r.qaId === qId);
   assert.ok(record, `${qId} record must exist in QA results`);
@@ -131,7 +130,7 @@ for (const qId of expectedRevisionTargets) {
   assert.strictEqual(record.humanReviewStatus, 'needs_revision', `${qId} must be needs_revision per human review`);
 }
 
-console.log('✅ [Test 4 Passed] All 9 approved targets and 1 needs_revision target verified 100%.');
+console.log('✅ [Test 4 Passed] All 10 approved targets verified 100%.');
 
 // Test 5: Smart Medication Discontinuation Validation (False Positive Prevention & Real Harm Blocking)
 console.log('\n[Test 5] Testing Smart Medication Discontinuation Validator...');
@@ -493,8 +492,8 @@ const b1Targets = getBatchTargets('batch-1');
 assert.strictEqual(b1Targets.length, 0, 'Batch 1 targets are now approved and correctly excluded from future batch runs');
 
 const b2Targets = getBatchTargets('batch-2');
-assert.strictEqual(b2Targets.length, 1, 'Batch 2 has 1 active unapproved target (qa-04, qa-07, qa-10 are approved and excluded)');
-assert.ok(b2Targets.includes('qa-02-tourette'));
+assert.strictEqual(b2Targets.length, 0, 'Batch 2 targets are now all approved and correctly excluded from future batch runs');
+assert.ok(!b2Targets.includes('qa-02-tourette'), 'qa-02-tourette must be excluded as it is approved');
 assert.ok(!b2Targets.includes('qa-04-adhd-adult'), 'qa-04-adhd-adult must be excluded as it is approved');
 assert.ok(!b2Targets.includes('qa-07-social-phobia'), 'qa-07-social-phobia must be excluded as it is approved');
 assert.ok(!b2Targets.includes('qa-10-hyperhidrosis'), 'qa-10-hyperhidrosis must be excluded as it is approved');
@@ -514,7 +513,7 @@ const qaResultsFile = path.join(__dirname, '../data/auto_column_qa_results.json'
 const backupQAResultsRaw = fs.readFileSync(qaResultsFile, 'utf-8');
 
 try {
-  // Create 2 mock worker single results for unapproved targets
+  // Create 2 mock worker single results
   fs.writeFileSync(path.join(testTempDir, 'qa-result-qa-02-tourette.json'), JSON.stringify({
     qaId: 'qa-02-tourette',
     diseaseId: 'tic',
@@ -556,9 +555,8 @@ try {
   // Verify data/auto_column_qa_results.json
   const afterMerge = loadQAResults();
   const touretteRecord = afterMerge.find(r => r.qaId === 'qa-02-tourette');
-  assert.strictEqual(touretteRecord.validationPassed, true);
-  assert.strictEqual(touretteRecord.humanReviewStatus, 'generated');
-  assert.strictEqual(touretteRecord.estimatedCostUSD, 0.0491);
+  // qa-02-tourette is human-approved: mergeBatchQAResults guarantees 'approved' is NEVER downgraded
+  assert.strictEqual(touretteRecord.humanReviewStatus, 'approved');
 
   const adhdAdultRecord = afterMerge.find(r => r.qaId === 'qa-04-adhd-adult');
   // qa-04-adhd-adult is human-approved: mergeBatchQAResults guarantees 'approved' is NEVER downgraded

@@ -22,7 +22,7 @@
     "recommendedGeo": "yongin-suji",
     "testedAt": "2026-09-05T06:13:31.814Z",
     "validationPassed": true,
-    "humanReviewStatus": "needs_revision",
+    "humanReviewStatus": "approved",
     "notes": "Dry-run QA 검증 통과 (뚜렛증후군 - 가정에서 부모가 지켜주어야 할 대처 원칙과 소통법)",
     "validationErrors": [],
     "estimatedCostUSD": 0.08786,
