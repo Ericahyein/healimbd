@@ -322,4 +322,239 @@ const cleaned = loadQAResults().filter(r => r.qaId !== mockQaId);
 fs.writeFileSync(path.join(__dirname, '../data/auto_column_qa_results.json'), JSON.stringify(cleaned, null, 2), 'utf-8');
 console.log('✅ [Test 6-2 Passed] Failure properly records "needs_revision" and dynamic test clean-up succeeded.');
 
-console.log('\n🎉 ALL 6 QA SYSTEM INTEGRITY & SMART VALIDATION TESTS PASSED 100%!');
+// ==========================================
+// Test 7: Title Validator Regression Tests (ADHD / OCD / Canonical GEO / Format)
+// ==========================================
+console.log('\n[Test 7] Running Title Validator Regression Tests (ADHD, OCD, Canonical GEO & Format)...');
+
+function createMockArticleForTitle(title, geoId, diseaseId, titleDisease) {
+  const region = geoHierarchy.regions.find(r => r.id === geoId);
+  const regionName = region ? region.displayName : '분당';
+  return {
+    title,
+    titleDisease,
+    summary: `${regionName} 및 인근 지역 환자분들을 위한 증상 관리와 임상 대처 요령 가이드입니다.`,
+    body: `
+## 1. 진료실에서 자주 마주하는 고민
+<div class="column-key-summary-box">핵심 요약</div>
+환자분들의 일상 속 고민을 경청합니다.
+
+## 2. 주요 증상 및 배경
+신경생물학적 요인과 환경적 자극을 함께 살펴봅니다.
+
+## 3. 감별 포인트
+자세한 정보는 [주요 진료 안내](/treatments/)에서 확인하실 수 있습니다.
+
+## 4. 치료 관점
+궁금한 점은 [온라인 상담](/inquiry/)을 통해 문의 가능합니다.
+
+## 5. 자주 묻는 질문
+**Q1. 어떻게 대처해야 하나요?**
+A. 일상 속 스트레스를 줄이고 규칙적인 환경을 마련합니다.
+**Q2. 병원 상담은 언제 필요한가요?**
+A. 증상이 지속될 때 전문 진료를 권장합니다.
+`,
+    hashtags: [`${regionName}한의원`, '해아림한의원'],
+    keywords: [`${regionName} 진료`, '한방치료'],
+    geoId,
+    diseaseId,
+    thumbnailCopy: { yellowText: '원인 모를', whiteText: '반복되는 실수와 어려움', greenText: '치료관리' },
+    knowledge: { reviewStatus: 'pending', bannedPhrases: [] },
+    history: []
+  };
+}
+
+// 7-1. MUST PASS Titles
+console.log('\n[Test 7-1] Titles that MUST PASS validation...');
+
+// A. [분당 ADHD] 산만함과 충동성이 훈육만으로 조절되지 않을 때
+const passAdhdChild = validateArticleContent(createMockArticleForTitle(
+  '[분당 ADHD] 산만함과 충동성이 훈육만으로 조절되지 않을 때',
+  'seongnam-bundang',
+  'adhd',
+  'ADHD'
+));
+assert.strictEqual(passAdhdChild.valid, true, `[분당 ADHD] title MUST PASS: ${JSON.stringify(passAdhdChild.errors)}`);
+console.log('✅ PASS: "[분당 ADHD] 산만함과 충동성이 훈육만으로 조절되지 않을 때" passed validation 100%.');
+
+// B. [판교 ADHD] 업무 실수가 반복되고 마무리가 어려울 때
+const passAdhdAdult = validateArticleContent(createMockArticleForTitle(
+  '[판교 ADHD] 업무 실수가 반복되고 마무리가 어려울 때',
+  'bundang-pangyo',
+  'adhd',
+  'ADHD'
+));
+assert.strictEqual(passAdhdAdult.valid, true, `[판교 ADHD] title MUST PASS: ${JSON.stringify(passAdhdAdult.errors)}`);
+console.log('✅ PASS: "[판교 ADHD] 업무 실수가 반복되고 마무리가 어려울 때" passed validation 100%.');
+
+// C. [성남 강박증/OCD] 반복되는 생각과 확인 행동이 멈추기 어려울 때
+const passOcd = validateArticleContent(createMockArticleForTitle(
+  '[성남 강박증/OCD] 반복되는 생각과 확인 행동이 멈추기 어려울 때',
+  'seongnam-main',
+  'depression',
+  '강박증/OCD'
+));
+assert.strictEqual(passOcd.valid, true, `[성남 강박증/OCD] title MUST PASS: ${JSON.stringify(passOcd.errors)}`);
+console.log('✅ PASS: "[성남 강박증/OCD] 반복되는 생각과 확인 행동이 멈추기 어려울 때" passed validation 100%.');
+
+// 7-2. MUST FAIL Titles
+console.log('\n[Test 7-2] Titles that MUST FAIL validation...');
+
+// A. [서울 ADHD] ... (승인되지 않은 GEO)
+const failSeoulGeo = validateArticleContent(createMockArticleForTitle(
+  '[서울 ADHD] 산만함과 충동성이 훈육만으로 조절되지 않을 때',
+  'seongnam-bundang',
+  'adhd',
+  'ADHD'
+));
+assert.strictEqual(failSeoulGeo.valid, false, '[서울 ADHD] must FAIL due to unapproved GEO');
+const seoulError = failSeoulGeo.errors.some(e => e.includes('unapproved GEO') || e.includes('does not match target GEO'));
+assert.ok(seoulError, 'Expected error regarding unapproved/mismatched GEO for 서울');
+console.log('✅ PASS: "[서울 ADHD] ..." strictly failed validation (unapproved GEO).');
+
+// B. [분당 임의질환] ... (taxonomy / qa_targets에 없는 임의 질환)
+const failArbitraryDisease = validateArticleContent(createMockArticleForTitle(
+  '[분당 임의질환] 산만함과 충동성이 훈육만으로 조절되지 않을 때',
+  'seongnam-bundang',
+  'adhd'
+));
+assert.strictEqual(failArbitraryDisease.valid, false, '[분당 임의질환] must FAIL due to unapproved disease');
+const diseaseError = failArbitraryDisease.errors.some(e => e.includes('unapproved disease'));
+assert.ok(diseaseError, 'Expected error regarding unapproved disease for 임의질환');
+console.log('✅ PASS: "[분당 임의질환] ..." strictly failed validation (unapproved disease).');
+
+// C. 지역과 질환 사이 형식이 깨진 제목 (no space between region and disease)
+const failGluedFormat = validateArticleContent(createMockArticleForTitle(
+  '[분당ADHD] 산만함과 충동성이 훈육만으로 조절되지 않을 때',
+  'seongnam-bundang',
+  'adhd'
+));
+assert.strictEqual(failGluedFormat.valid, false, '[분당ADHD] glued title must FAIL format check');
+console.log('✅ PASS: "[분당ADHD] ..." strictly failed validation (glued region and disease).');
+
+// D. Missing topic / question
+const failMissingTopic = validateArticleContent(createMockArticleForTitle(
+  '[분당 ADHD]',
+  'seongnam-bundang',
+  'adhd'
+));
+assert.strictEqual(failMissingTopic.valid, false, 'Title missing topic must FAIL format check');
+console.log('✅ PASS: "[분당 ADHD]" strictly failed validation (missing topic/question).');
+
+// E. Format missing brackets
+const failNoBrackets = validateArticleContent(createMockArticleForTitle(
+  '분당 ADHD 산만함과 충동성이 훈육만으로 조절되지 않을 때',
+  'seongnam-bundang',
+  'adhd'
+));
+assert.strictEqual(failNoBrackets.valid, false, 'Title missing brackets must FAIL format check');
+console.log('✅ PASS: Title missing brackets strictly failed validation.');
+
+// ==========================================
+// Test 8: Batch QA Matrix Helper & History Merge Aggregator Tests
+// ==========================================
+console.log('\n[Test 8] Testing Batch QA Matrix Helper & History Aggregator...');
+const {
+  BATCH_DEFINITIONS,
+  getBatchTargets,
+  mergeBatchQAResults
+} = require('../scripts/auto_column/batch_helper');
+
+// 8-1. Batch Definitions Verification
+assert.deepStrictEqual(BATCH_DEFINITIONS['batch-1'], ['qa-03-adhd-child', 'qa-08-sleep', 'qa-06-anxiety', 'qa-09-autonomic']);
+assert.deepStrictEqual(BATCH_DEFINITIONS['batch-2'], ['qa-02-tourette', 'qa-04-adhd-adult', 'qa-07-social-phobia', 'qa-10-hyperhidrosis']);
+assert.deepStrictEqual(BATCH_DEFINITIONS['batch-3'], ['qa-11-ibs', 'qa-12-syncope', 'qa-13-headache', 'qa-14-dizziness']);
+assert.deepStrictEqual(BATCH_DEFINITIONS['batch-4'], ['qa-15-depression', 'qa-16-ocd', 'qa-17-separation-anxiety', 'qa-18-night-terrors']);
+assert.deepStrictEqual(BATCH_DEFINITIONS['batch-5'], ['qa-19-child-enuresis', 'qa-20-fatigue']);
+console.log('✅ PASS: All 5 Batch definitions strictly match user requirements (4+4+4+4+2 = 18 targets).');
+
+// 8-2. Resolution of Batch Targets (Excludes qa-01-tic & qa-05-panic)
+const b1Targets = getBatchTargets('batch-1');
+assert.strictEqual(b1Targets.length, 4);
+assert.ok(b1Targets.includes('qa-03-adhd-child'));
+
+const b5Targets = getBatchTargets('batch-5');
+assert.strictEqual(b5Targets.length, 2);
+assert.ok(!b5Targets.includes('qa-01-tic') && !b5Targets.includes('qa-05-panic'));
+console.log('✅ PASS: Batch targets resolved dynamically and approved/baseline targets strictly excluded.');
+
+// 8-3. Aggregator Merge Simulation (Single Atomic History Push without Race Conditions)
+const testTempDir = path.join(__dirname, '../scratch/test_downloaded_qa_results');
+if (!fs.existsSync(testTempDir)) fs.mkdirSync(testTempDir, { recursive: true });
+
+// Create 2 mock worker single results
+fs.writeFileSync(path.join(testTempDir, 'qa-result-qa-08-sleep.json'), JSON.stringify({
+  qaId: 'qa-08-sleep',
+  diseaseId: 'sleep',
+  displayDisease: '만성 불면증',
+  topicAngle: 'early-awakening',
+  recommendedGeo: 'bundang-pangyo',
+  testedAt: new Date().toISOString(),
+  validationPassed: true,
+  humanReviewStatus: 'generated',
+  notes: 'Dry-run QA 검증 통과 (테스트 시뮬레이션)',
+  validationErrors: [],
+  estimatedCostUSD: 0.0491,
+  estimatedCost: 0.0491,
+  articleSlug: 'bundang-pangyo-sleep-early-awakening'
+}, null, 2), 'utf-8');
+
+fs.writeFileSync(path.join(testTempDir, 'qa-result-qa-06-anxiety.json'), JSON.stringify({
+  qaId: 'qa-06-anxiety',
+  diseaseId: 'anxiety',
+  displayDisease: '불안장애',
+  topicAngle: 'chronic-worry',
+  recommendedGeo: 'yongin-giheung',
+  testedAt: new Date().toISOString(),
+  validationPassed: false,
+  humanReviewStatus: 'needs_revision',
+  notes: 'Dry-run QA 검증 실패 (테스트 시뮬레이션)',
+  validationErrors: ['Sample validation error'],
+  estimatedCostUSD: 0.0215,
+  estimatedCost: 0.0215,
+  articleSlug: 'yongin-giheung-anxiety-chronic-worry'
+}, null, 2), 'utf-8');
+
+// Run aggregator merge
+const mergeResult = mergeBatchQAResults(testTempDir);
+assert.strictEqual(mergeResult.mergedCount, 2);
+assert.ok(mergeResult.updatedQaIds.includes('qa-08-sleep'));
+assert.ok(mergeResult.updatedQaIds.includes('qa-06-anxiety'));
+
+// Verify data/auto_column_qa_results.json
+const afterMerge = loadQAResults();
+const sleepRecord = afterMerge.find(r => r.qaId === 'qa-08-sleep');
+assert.strictEqual(sleepRecord.validationPassed, true);
+assert.strictEqual(sleepRecord.humanReviewStatus, 'generated');
+assert.strictEqual(sleepRecord.estimatedCostUSD, 0.0491);
+
+const anxietyRecord = afterMerge.find(r => r.qaId === 'qa-06-anxiety');
+assert.strictEqual(anxietyRecord.validationPassed, false);
+assert.strictEqual(anxietyRecord.humanReviewStatus, 'needs_revision');
+
+// Reset qa-08-sleep and qa-06-anxiety back to clean state
+sleepRecord.humanReviewStatus = 'not_tested';
+sleepRecord.validationPassed = false;
+sleepRecord.testedAt = null;
+sleepRecord.estimatedCostUSD = 0;
+sleepRecord.estimatedCost = 0;
+sleepRecord.articleSlug = null;
+sleepRecord.notes = '테스트 대기';
+
+anxietyRecord.humanReviewStatus = 'not_tested';
+anxietyRecord.validationPassed = false;
+anxietyRecord.testedAt = null;
+anxietyRecord.estimatedCostUSD = 0;
+anxietyRecord.estimatedCost = 0;
+anxietyRecord.articleSlug = null;
+anxietyRecord.validationErrors = [];
+anxietyRecord.notes = '테스트 대기';
+
+fs.writeFileSync(path.join(__dirname, '../data/auto_column_qa_results.json'), JSON.stringify(afterMerge, null, 2), 'utf-8');
+
+// Clean up test scratch dir
+fs.rmSync(testTempDir, { recursive: true, force: true });
+console.log('✅ PASS: Aggregator merge simulation correctly merged worker artifacts and maintained status integrity.');
+
+console.log('\n🎉 ALL 8 QA SYSTEM INTEGRITY, REGRESSION & BATCH TESTS PASSED 100%!');
+

@@ -1,0 +1,153 @@
+name: Doctor Column AI Batch QA Dry-Run
+
+on:
+  workflow_dispatch:
+    inputs:
+      batch:
+        description: '실행할 QA Batch 선택 (한 번에 최대 4개 병렬 실행)'
+        required: true
+        default: 'batch-1 (qa-03-adhd-child, qa-08-sleep, qa-06-anxiety, qa-09-autonomic)'
+        type: choice
+        options:
+          - 'batch-1 (qa-03-adhd-child, qa-08-sleep, qa-06-anxiety, qa-09-autonomic)'
+          - 'batch-2 (qa-02-tourette, qa-04-adhd-adult, qa-07-social-phobia, qa-10-hyperhidrosis)'
+          - 'batch-3 (qa-11-ibs, qa-12-syncope, qa-13-headache, qa-14-dizziness)'
+          - 'batch-4 (qa-15-depression, qa-16-ocd, qa-17-separation-anxiety, qa-18-night-terrors)'
+          - 'batch-5 (qa-19-child-enuresis, qa-20-fatigue)'
+
+concurrency:
+  group: batch-qa-dry-run
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  setup-batch:
+    name: Resolve Batch Matrix Targets
+    runs-on: ubuntu-latest
+    outputs:
+      targets: ${{ steps.resolve-targets.outputs.targets }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Resolve Batch Targets
+        id: resolve-targets
+        run: |
+          TARGETS=$(node scripts/auto_column/batch_helper.js get-batch-targets "${{ github.event.inputs.batch }}")
+          echo "targets=${TARGETS}" >> $GITHUB_OUTPUT
+          echo "Selected targets: ${TARGETS}"
+
+  batch-matrix-worker:
+    name: Worker QA - ${{ matrix.qa_target }}
+    needs: setup-batch
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        qa_target: ${{ fromJson(needs.setup-batch.outputs.targets) }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Setup Hugo Extended
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: 'latest'
+          extended: true
+
+      - name: Install Node Dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Install Korean Fonts for SVG Thumbnail Rendering
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y fonts-noto-cjk fonts-nanum fontconfig
+          sudo fc-cache -f -v
+          fc-match "Noto Sans CJK KR"
+
+      - name: Execute Doctor Column Pipeline for ${{ matrix.qa_target }}
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_PLANNER_MODEL: ${{ vars.OPENAI_PLANNER_MODEL || 'gpt-5.6-luna' }}
+          OPENAI_WRITER_MODEL: ${{ vars.OPENAI_WRITER_MODEL || 'gpt-5.6-terra' }}
+          OPENAI_IMAGE_MODEL: ${{ vars.OPENAI_IMAGE_MODEL || 'gpt-image-2' }}
+          AUTO_COLUMN_ENABLED: 'false'
+          FORCE_PUBLISH: 'false'
+          TEST_QA_TARGET: ${{ matrix.qa_target }}
+        run: node scripts/auto_column/index.js
+
+      - name: Upload Target QA Artifacts (Dry-Run Preview)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: column-qa-${{ matrix.qa_target }}-${{ github.run_number }}
+          path: auto_column_artifacts/
+          if-no-files-found: ignore
+          retention-days: 7
+
+      - name: Upload Single QA Result Artifact for Aggregator
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa-result-${{ matrix.qa_target }}
+          path: auto_column_artifacts/qa-result-*.json
+          if-no-files-found: ignore
+          retention-days: 1
+
+  aggregate-qa-results:
+    name: Aggregate QA Results & Single History Push
+    needs: [setup-batch, batch-matrix-worker]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Download all QA result artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: qa-result-*
+          path: downloaded_qa_results
+          merge-multiple: true
+
+      - name: Merge QA Results into History
+        run: |
+          node scripts/auto_column/batch_helper.js merge-results downloaded_qa_results
+
+      - name: Persist Merged QA Results to Main (Single Atomic Push)
+        run: |
+          git config --global user.name "Healim QA Bot"
+          git config --global user.email "bot@healim-bundang.com"
+          # STRICT ALLOWLIST: 오직 auto_column_qa_results.json만 커밋하여 프로덕션 아티클 및 로테이션 오염 원천 차단
+          git add data/auto_column_qa_results.json
+          if git diff --staged --quiet; then
+            echo "No changes to data/auto_column_qa_results.json to commit."
+          else
+            git commit -m "chore(qa): merge batch dry-run results for ${{ github.event.inputs.batch }} [skip ci]"
+            git push origin main
+          fi

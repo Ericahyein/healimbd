@@ -15,4 +15,5 @@ Thumbs.db
 
 # Auto Column Dry-Run Output
 auto_column_artifacts/
+downloaded_qa_results/
 

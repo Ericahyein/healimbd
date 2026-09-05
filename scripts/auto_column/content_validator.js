@@ -2,6 +2,110 @@ const geoHierarchy = require('./geo_hierarchy.json');
 const diseaseTaxonomy = require('./disease_taxonomy.json');
 const { isInternalUrlValid } = require('./internal_linker');
 
+let qaTargets = [];
+try {
+  qaTargets = require('./qa_targets.json').targets || [];
+} catch (e) {
+  qaTargets = [];
+}
+
+const CANONICAL_GEO_NAMES = new Set(geoHierarchy.regions.map(r => r.displayName));
+
+/**
+ * Returns allowed canonical disease labels for title verification
+ */
+function getAllowedDiseaseNames(diseaseId, extraLabel) {
+  const allowed = new Set();
+
+  // 1. From diseaseTaxonomy
+  const disease = diseaseTaxonomy.diseases.find(d => d.id === diseaseId);
+  if (disease) {
+    if (disease.name) allowed.add(disease.name.trim());
+    if (disease.categoryName) allowed.add(disease.categoryName.trim());
+
+    // Compound names like "두통·어지럼" or "우울·강박"
+    if (disease.name.includes('·')) {
+      disease.name.split('·').forEach(part => {
+        const p = part.trim();
+        if (p) allowed.add(p);
+      });
+    }
+
+    // Specific clinically approved disease variations
+    if (disease.id === 'adhd') {
+      allowed.add('ADHD');
+      allowed.add('소아 ADHD');
+      allowed.add('성인 ADHD');
+    } else if (disease.id === 'tic') {
+      allowed.add('틱장애');
+      allowed.add('소아 틱장애');
+      allowed.add('뚜렛증후군');
+      allowed.add('뚜렛');
+    } else if (disease.id === 'sleep') {
+      allowed.add('불면증');
+      allowed.add('만성 불면증');
+    } else if (disease.id === 'anxiety') {
+      allowed.add('불안장애');
+      allowed.add('사회공포증');
+      allowed.add('발표불안');
+    } else if (disease.id === 'autonomic') {
+      allowed.add('자율신경실조증');
+      allowed.add('만성피로');
+      allowed.add('만성피로·번아웃');
+      allowed.add('번아웃');
+    } else if (disease.id === 'headache') {
+      allowed.add('두통');
+      allowed.add('만성 두통');
+      allowed.add('어지럼증');
+      allowed.add('어지럼');
+    } else if (disease.id === 'depression') {
+      allowed.add('우울증');
+      allowed.add('강박증');
+      allowed.add('강박증/OCD');
+      allowed.add('OCD');
+    } else if (disease.id === 'child') {
+      allowed.add('소아 분리불안');
+      allowed.add('소아 야경증');
+      allowed.add('소아 야뇨증');
+      allowed.add('분리불안');
+      allowed.add('야경증');
+      allowed.add('야뇨증');
+    } else if (disease.id === 'syncope') {
+      allowed.add('미주신경성 실신');
+      allowed.add('실신');
+    }
+  }
+
+  // 2. From qa_targets.json
+  qaTargets.forEach(t => {
+    if (t.diseaseId === diseaseId) {
+      if (t.titleDisease) allowed.add(t.titleDisease.trim());
+      if (t.canonicalDiseaseLabel) allowed.add(t.canonicalDiseaseLabel.trim());
+      if (t.displayDisease) {
+        allowed.add(t.displayDisease.trim());
+        const stripped = t.displayDisease.replace(/\s*\([^)]*\)/g, '').trim();
+        if (stripped) allowed.add(stripped);
+      }
+    }
+  });
+
+  // 3. Extra label passed from caller (e.g. titleDisease)
+  if (extraLabel && typeof extraLabel === 'string') {
+    allowed.add(extraLabel.trim());
+  }
+
+  return allowed;
+}
+
+function getAllAllowedDiseaseNames() {
+  const all = new Set();
+  diseaseTaxonomy.diseases.forEach(d => {
+    getAllowedDiseaseNames(d.id).forEach(name => all.add(name));
+  });
+  return all;
+}
+
+
 const GLOBAL_BANNED_MEDICAL_PATTERNS = [
   { pattern: /완치\s*보장/i, reason: '의료법 위반: 완치 보장 표현 금지' },
   { pattern: /반드시\s*(치료|완치|좋아|낫)/i, reason: '치료 단정적 확신 표현 금지' },
@@ -195,6 +299,8 @@ function validateArticleContent(articleData, options = {}) {
     keywords = [],
     geoId = '',
     diseaseId = '',
+    titleDisease = '',
+    canonicalDiseaseLabel = '',
     thumbnailCopy,
     knowledge,
     history = [],
@@ -218,9 +324,36 @@ function validateArticleContent(articleData, options = {}) {
   if (!validDisease) errors.push(`Invalid diseaseId: ${diseaseId}`);
 
   // 3. Title Format Check '[지역 질환] 구체적 질문/주제'
-  const titlePattern = /^\[([가-힣\s]+)\s+([가-힣\s]+)\]\s+.+$/;
-  if (!titlePattern.test(title)) {
+  // Strict format: starts with '[', region name, exactly one space, disease name, ']', followed by whitespace, and non-empty topic
+  const titlePattern = /^\[([^\s\]]+) ([^\]]+)\]\s+(.+)$/;
+  const titleMatch = title.match(titlePattern);
+  if (!titleMatch) {
     errors.push(`Title must match format '[지역 질환] 구체적 질문/주제'. Given: ${title}`);
+  } else {
+    const regionPart = titleMatch[1].trim();
+    const diseasePart = titleMatch[2].trim();
+    const topicPart = titleMatch[3].trim();
+
+    // 3-1. Check Region Validity (Must be one of the 12 canonical regions)
+    if (!CANONICAL_GEO_NAMES.has(regionPart)) {
+      errors.push(`Title contains unapproved GEO: '${regionPart}'. Must be one of canonical regions: ${Array.from(CANONICAL_GEO_NAMES).join(', ')}`);
+    } else if (validGeo && regionPart !== validGeo.displayName) {
+      errors.push(`Geo consistency violation: Title region '${regionPart}' does not match target GEO '${validGeo.displayName}'.`);
+    }
+
+    // 3-2. Check Disease Validity (Must be an approved disease in taxonomy/qa_targets)
+    const allowedDiseases = validDisease
+      ? getAllowedDiseaseNames(validDisease.id, titleDisease || canonicalDiseaseLabel)
+      : getAllAllowedDiseaseNames();
+
+    if (!allowedDiseases.has(diseasePart)) {
+      errors.push(`Title contains unapproved disease: '${diseasePart}'. Allowed: ${Array.from(allowedDiseases).join(', ')}`);
+    }
+
+    // 3-3. Check Topic Part Length
+    if (!topicPart || topicPart.length < 5) {
+      errors.push(`Title question/topic is too short (< 5 chars): '${topicPart}'`);
+    }
   }
 
   // 4. Global Banned Medical Patterns

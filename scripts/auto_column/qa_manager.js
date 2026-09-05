@@ -65,7 +65,8 @@ function buildQAPlan(target, now = new Date()) {
   }
 
   // 4. Build canonical title and slug
-  const titlePrefix = geo.canonicalTitle.replace('{disease}', disease.name);
+  const titleDisease = target.titleDisease || target.canonicalDiseaseLabel || disease.name;
+  const titlePrefix = geo.canonicalTitle.replace('{disease}', titleDisease);
   const titleCandidate = `${titlePrefix} ${topicAngle.titleSuffix}`;
   const rawSlug = `${geo.id}-${disease.id}-${topicAngle.id}`;
   const slug = rawSlug.toLowerCase().replace(/[^a-z0-9-]/g, '-').replace(/-+/g, '-');
@@ -74,6 +75,7 @@ function buildQAPlan(target, now = new Date()) {
     status: 'ready',
     qaId: target.qaId,
     displayDisease: target.displayDisease,
+    titleDisease,
     ageGroup: target.ageGroup,
     isQAOverride: true,
     geo,
@@ -157,6 +159,21 @@ function recordQAResult({ qaId, validationPassed, humanReviewStatus, estimatedCo
 
   fs.writeFileSync(QA_RESULTS_PATH, JSON.stringify(currentResults, null, 2), 'utf-8');
   console.log(`📝 QA Result safely recorded in: ${QA_RESULTS_PATH} for [${qaId}] (humanReviewStatus: ${newRecord.humanReviewStatus})`);
+
+  // Also safely output a single result artifact file for batch QA aggregator
+  writeSingleQAResult(newRecord);
+}
+
+/**
+ * Writes a standalone QA result JSON file into auto_column_artifacts
+ */
+function writeSingleQAResult(record, customArtifactDir) {
+  if (!record || !record.qaId) return;
+  const artifactDir = customArtifactDir || path.join(__dirname, '../../auto_column_artifacts');
+  if (!fs.existsSync(artifactDir)) fs.mkdirSync(artifactDir, { recursive: true });
+  const singlePath = path.join(artifactDir, `qa-result-${record.qaId}.json`);
+  fs.writeFileSync(singlePath, JSON.stringify(record, null, 2), 'utf-8');
+  console.log(`📄 Standalone QA result artifact saved: ${singlePath}`);
 }
 
 module.exports = {
@@ -165,5 +182,6 @@ module.exports = {
   findQATarget,
   buildQAPlan,
   loadQAResults,
-  recordQAResult
+  recordQAResult,
+  writeSingleQAResult
 };

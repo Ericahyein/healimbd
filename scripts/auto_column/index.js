@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const { planNextColumn, loadHistory } = require('./topic_planner');
-const { findQATarget, buildQAPlan, recordQAResult } = require('./qa_manager');
+const { findQATarget, buildQAPlan, recordQAResult, loadQAResults, writeSingleQAResult } = require('./qa_manager');
 const {
   loadMedicalKnowledge,
   generateTopicOutline,
@@ -69,6 +69,20 @@ async function runAutoColumnPipeline() {
     if (!qaTarget) {
       throw new Error(`Requested QA target '${testQATargetInput}' could not be resolved in qa_targets.json.`);
     }
+
+    // Safety guard: If QA target is already approved by human, strictly skip execution to protect approved baseline
+    const currentQAResults = loadQAResults();
+    const existingRecord = currentQAResults.find(r => r.qaId === qaTarget.qaId);
+    if (existingRecord && existingRecord.humanReviewStatus === 'approved') {
+      console.log(`\n🛑 [SAFETY SKIP] QA Target [${qaTarget.qaId}] is already approved ('approved').`);
+      console.log(`Skipping pipeline execution to preserve human-approved baseline.`);
+      writeSingleQAResult({
+        ...existingRecord,
+        notes: '이미 approved 상태이므로 건너뜀 (기존 승인 결과 보존)'
+      });
+      return;
+    }
+
     console.log(`🎯 [QA OVERRIDE ACTIVE] Target: ${qaTarget.qaId} (${qaTarget.displayDisease}) | Topic: ${qaTarget.topicAngle} | Geo: ${qaTarget.recommendedGeo}`);
     plan = buildQAPlan(qaTarget);
   } else {
@@ -124,6 +138,7 @@ async function runAutoColumnPipeline() {
   const history = loadHistory();
   const validation = validateArticleContent({
     title: plan.titleCandidate,
+    titleDisease: plan.titleDisease,
     summary: outline.summary || '',
     category: plan.disease.category,
     body: articleBody,
