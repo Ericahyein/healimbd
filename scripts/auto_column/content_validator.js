@@ -105,6 +105,113 @@ function getAllAllowedDiseaseNames() {
   return all;
 }
 
+/**
+ * Resolves hierarchical GEO compatibility rules for a given region.
+ * Allows target geo's own names and its authentic administrative ancestors (상위 행정구역),
+ * while strictly blocking sibling local areas, sibling districts, and foreign regions.
+ */
+function getGeoHierarchyRules(validGeo) {
+  // 1. Self tokens and aliases (always allowed)
+  const selfKeywords = new Set([
+    validGeo.displayName,
+    validGeo.fullName,
+    ...validGeo.aliases
+  ]);
+
+  // Special handling for special_area like seongnam-wirye:
+  // "단 seongnam-wirye 같은 special_area는 특정 단일 행정구역에 임의 귀속시키지 않는 기존 특수 규칙 유지."
+  const isSpecialArea = validGeo.regionType === 'special_area';
+
+  // 2. Extract ancestor keywords from validGeo's own hierarchy
+  const ancestorKeywords = new Set();
+  if (!isSpecialArea) {
+    if (validGeo.parentRegion && validGeo.parentRegion !== validGeo.displayName) {
+      ancestorKeywords.add(validGeo.parentRegion);
+      ancestorKeywords.add(`${validGeo.parentRegion}시`);
+    }
+
+    const fullNameParts = (validGeo.fullName || '').split(/\s+/).filter(Boolean);
+    for (const part of fullNameParts) {
+      ancestorKeywords.add(part);
+      const base = part.replace(/[시구]$/, '');
+      if (base && base.length >= 2) {
+        ancestorKeywords.add(base);
+      }
+    }
+
+    // Build progressive compound phrases from fullName parts (e.g. '성남시 분당구', '분당구 판교', '성남시 분당구 판교')
+    for (let i = 0; i < fullNameParts.length; i++) {
+      for (let j = i + 1; j <= fullNameParts.length; j++) {
+        const slice = fullNameParts.slice(i, j).join(' ');
+        if (slice) ancestorKeywords.add(slice);
+      }
+    }
+
+    // Also support parent + displayName (e.g. "성남 판교", "용인 수지")
+    if (validGeo.parentRegion && validGeo.displayName) {
+      ancestorKeywords.add(`${validGeo.parentRegion} ${validGeo.displayName}`);
+    }
+  }
+
+  // Combined allowed list for this geo
+  const allowedKeywords = new Set([...selfKeywords, ...ancestorKeywords]);
+
+  // 3. Build forbidden keywords from other regions in geoHierarchy
+  const forbiddenKeywords = new Set();
+
+  for (const otherRegion of geoHierarchy.regions) {
+    if (otherRegion.id === validGeo.id) continue;
+
+    const otherTerms = [
+      otherRegion.displayName,
+      otherRegion.fullName,
+      ...otherRegion.aliases
+    ];
+
+    for (const term of otherTerms) {
+      if (!term || typeof term !== 'string') continue;
+      const cleanTerm = term.trim();
+      if (cleanTerm.length < 2) continue;
+
+      // If this term is an authentic ancestor/self term of validGeo, it is NOT forbidden
+      if (allowedKeywords.has(cleanTerm)) {
+        continue;
+      }
+
+      // If term appears inside validGeo.fullName (e.g. '분당' or '분당구' inside '성남시 분당구 판교'),
+      // it is an authentic administrative component of validGeo, so NOT forbidden
+      if (validGeo.fullName && validGeo.fullName.includes(cleanTerm)) {
+        continue;
+      }
+
+      // Check base name without '시' or '구'
+      const baseClean = cleanTerm.replace(/[시구]$/, '');
+      if (baseClean.length >= 2 && validGeo.fullName && validGeo.fullName.includes(baseClean)) {
+        continue;
+      }
+
+      // Otherwise it is a sibling local area, sibling district, or foreign region keyword!
+      forbiddenKeywords.add(cleanTerm);
+    }
+  }
+
+  // Specific subway station keywords: filter out stations that belong to validGeo's own area
+  const specificForbiddenStations = ['정자역', '미금역', '오리역', '야탑역', '서현역', '수내역', '판교역', '수지구청역']
+    .filter(st => {
+      const stationBase = st.replace(/역$/, '').replace(/구청$/, '');
+      return !allowedKeywords.has(st) && !allowedKeywords.has(stationBase);
+    });
+
+  return {
+    selfKeywords,
+    ancestorKeywords,
+    allowedKeywords,
+    forbiddenKeywords,
+    specificForbiddenStations
+  };
+}
+
+
 
 const GLOBAL_BANNED_MEDICAL_PATTERNS = [
   { pattern: /완치\s*보장/i, reason: '의료법 위반: 완치 보장 표현 금지' },
@@ -459,39 +566,66 @@ function validateArticleContent(articleData, options = {}) {
   }
 
   // ==========================================
-  // TIER 2: GEO CONSISTENCY VALIDATION
+  // TIER 2: GEO CONSISTENCY VALIDATION (Hierarchical Compatibility)
   // ==========================================
   if (validGeo) {
-    const parentVariants = validGeo.parentRegion ? [validGeo.parentRegion, `${validGeo.parentRegion}시`] : [];
-    const allowedRegions = [validGeo.displayName, validGeo.fullName, ...parentVariants, ...validGeo.aliases];
-    const otherActiveRegions = geoHierarchy.regions
-      .filter(r => r.id !== validGeo.id && r.displayName !== validGeo.parentRegion)
-      .flatMap(r => [r.displayName, ...r.aliases]);
+    const {
+      ancestorKeywords,
+      allowedKeywords,
+      forbiddenKeywords,
+      specificForbiddenStations
+    } = getGeoHierarchyRules(validGeo);
 
-    // Disallowed station/subway/unrelated keywords that must not be in tags/keywords/title
-    const specificForbiddenKeywords = ['정자역', '미금역', '오리역', '야탑역', '서현역', '수내역', '판교역', '수지구청역'];
+    // 1. Check metadata (hashtags, keywords, title, summary)
+    const checkList = [
+      ...hashtags.map(h => ({ type: 'Hashtag', text: h })),
+      ...keywords.map(k => ({ type: 'Keyword', text: k })),
+      { type: 'Title', text: title },
+      { type: 'Summary', text: summary }
+    ];
 
-    // Check hashtags and keywords strictly
-    const checkList = [...hashtags, ...keywords, title, summary];
-    for (const item of checkList) {
-      for (const other of otherActiveRegions) {
-        if (item.includes(other) && !allowedRegions.includes(other)) {
-          errors.push(`Geo consistency violation: Targeted for '${validGeo.displayName}', but found unrelated region keyword '${other}' in '${item}'.`);
+    for (const { type, text } of checkList) {
+      for (const forbidden of forbiddenKeywords) {
+        if (text.includes(forbidden)) {
+          errors.push(`Geo consistency violation: Targeted for '${validGeo.displayName}', but found unrelated region keyword '${forbidden}' in ${type} '${text}'.`);
         }
       }
-      for (const forbidden of specificForbiddenKeywords) {
-        if (item.includes(forbidden) && !allowedRegions.includes(forbidden)) {
-          errors.push(`Geo consistency violation: Found unrelated local station keyword '${forbidden}' in '${item}'.`);
+      for (const forbidden of specificForbiddenStations) {
+        if (text.includes(forbidden)) {
+          errors.push(`Geo consistency violation: Found unrelated local station keyword '${forbidden}' in ${type} '${text}'.`);
         }
       }
     }
 
-    // Check body regional density (Max 3 mentions of current geo)
+    // 2. Check body for foreign or sibling local areas
+    for (const forbidden of forbiddenKeywords) {
+      if (body.includes(forbidden)) {
+        errors.push(`Geo consistency violation: Targeted for '${validGeo.displayName}', but found unrelated region keyword '${forbidden}' in article body.`);
+      }
+    }
+    for (const forbidden of specificForbiddenStations) {
+      if (body.includes(forbidden)) {
+        errors.push(`Geo consistency violation: Found unrelated local station keyword '${forbidden}' in article body.`);
+      }
+    }
+
+    // 3. Check body regional density (Primary target recommended 1~3 times)
     const bodyOnly = body.replace(/^##.+$/gm, '');
     const regex = new RegExp(validGeo.displayName, 'g');
     const matches = (bodyOnly.match(regex) || []).length;
     if (matches > 3) {
       warnings.push(`Regional keyword '${validGeo.displayName}' appears ${matches} times in body (recommended: 1~3 times).`);
+    }
+
+    // 4. Ensure ancestor keywords do not overpower the primary target in body
+    for (const anc of ancestorKeywords) {
+      if (anc.length >= 2 && anc !== validGeo.displayName) {
+        const ancRegex = new RegExp(anc, 'g');
+        const ancMatches = (bodyOnly.match(ancRegex) || []).length;
+        if (ancMatches > 3) {
+          warnings.push(`Ancestor regional keyword '${anc}' appears ${ancMatches} times in body (recommended: <= 3 times to preserve primary target '${validGeo.displayName}').`);
+        }
+      }
     }
   }
 
@@ -547,5 +681,6 @@ module.exports = {
   GLOBAL_BANNED_MEDICAL_PATTERNS,
   jaroWinkler,
   extractInternalLinks,
-  validateArticleContent
+  validateArticleContent,
+  getGeoHierarchyRules
 };

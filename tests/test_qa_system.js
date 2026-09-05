@@ -482,6 +482,10 @@ console.log('✅ PASS: Batch targets resolved dynamically and approved/baseline 
 const testTempDir = path.join(__dirname, '../scratch/test_downloaded_qa_results');
 if (!fs.existsSync(testTempDir)) fs.mkdirSync(testTempDir, { recursive: true });
 
+// Backup original qa_results to prevent test mutation
+const qaResultsFile = path.join(__dirname, '../data/auto_column_qa_results.json');
+const backupQAResultsRaw = fs.readFileSync(qaResultsFile, 'utf-8');
+
 // Create 2 mock worker single results
 fs.writeFileSync(path.join(testTempDir, 'qa-result-qa-08-sleep.json'), JSON.stringify({
   qaId: 'qa-08-sleep',
@@ -532,29 +536,150 @@ const anxietyRecord = afterMerge.find(r => r.qaId === 'qa-06-anxiety');
 assert.strictEqual(anxietyRecord.validationPassed, false);
 assert.strictEqual(anxietyRecord.humanReviewStatus, 'needs_revision');
 
-// Reset qa-08-sleep and qa-06-anxiety back to clean state
-sleepRecord.humanReviewStatus = 'not_tested';
-sleepRecord.validationPassed = false;
-sleepRecord.testedAt = null;
-sleepRecord.estimatedCostUSD = 0;
-sleepRecord.estimatedCost = 0;
-sleepRecord.articleSlug = null;
-sleepRecord.notes = '테스트 대기';
-
-anxietyRecord.humanReviewStatus = 'not_tested';
-anxietyRecord.validationPassed = false;
-anxietyRecord.testedAt = null;
-anxietyRecord.estimatedCostUSD = 0;
-anxietyRecord.estimatedCost = 0;
-anxietyRecord.articleSlug = null;
-anxietyRecord.validationErrors = [];
-anxietyRecord.notes = '테스트 대기';
-
-fs.writeFileSync(path.join(__dirname, '../data/auto_column_qa_results.json'), JSON.stringify(afterMerge, null, 2), 'utf-8');
+// Restore original QA results exactly
+fs.writeFileSync(qaResultsFile, backupQAResultsRaw, 'utf-8');
 
 // Clean up test scratch dir
 fs.rmSync(testTempDir, { recursive: true, force: true });
 console.log('✅ PASS: Aggregator merge simulation correctly merged worker artifacts and maintained status integrity.');
 
-console.log('\n🎉 ALL 8 QA SYSTEM INTEGRITY, REGRESSION & BATCH TESTS PASSED 100%!');
+// ==========================================
+// Test 9: Hierarchical GEO Compatibility Tests (Ancestors Allowed, Siblings/Foreign Blocked)
+// ==========================================
+console.log('\n[Test 9] Running Hierarchical GEO Compatibility Tests (Pangyo Ancestor vs Sibling/Foreign)...');
+
+function createGeoTestArticle({ title, geoId, diseaseId, titleDisease, keywords = [], hashtags = [], bodyExtra = '' }) {
+  const region = geoHierarchy.regions.find(r => r.id === geoId);
+  const regionName = region ? region.displayName : '판교';
+  return {
+    title,
+    titleDisease,
+    summary: `${regionName} 지역 주민들을 위한 전문적인 증상 관리 및 수면 리듬 회복 가이드입니다.`,
+    body: `
+## 1. 진료실에서 자주 마주하는 고민
+<div class="column-key-summary-box">핵심 요약</div>
+수면 리듬과 관련된 고민을 경청합니다. ${bodyExtra}
+
+## 2. 주요 증상 및 배경
+교감신경계 긴장과 신체적 반응을 살펴봅니다.
+
+## 3. 감별 포인트
+자세한 정보는 [주요 진료 안내](/treatments/)에서 확인하실 수 있습니다.
+
+## 4. 치료 관점
+궁금한 점은 [온라인 상담](/inquiry/)을 통해 문의 가능합니다.
+
+## 5. 자주 묻는 질문
+**Q1. 잠을 잘 자려면 어떻게 하나요?**
+A. 규칙적인 수면 위생을 지킵니다.
+**Q2. 새벽에 깨는 이유는 무엇인가요?**
+A. 잔여 긴장이 원인이 될 수 있습니다.
+`,
+    hashtags: hashtags.length > 0 ? hashtags : [`${regionName}한의원`, '해아림한의원'],
+    keywords: keywords.length > 0 ? keywords : [`${regionName} 불면증`],
+    geoId,
+    diseaseId,
+    thumbnailCopy: { yellowText: '원인 모를', whiteText: '잠 못 드는 새벽 각성', greenText: '불면증' },
+    knowledge: { reviewStatus: 'pending', bannedPhrases: [] },
+    history: []
+  };
+}
+
+// 9-1. MUST PASS:
+// A. [판교 불면증] ... keyword: "판교 불면증"
+const passPangyoBasic = validateArticleContent(createGeoTestArticle({
+  title: '[판교 불면증] 잠은 드는데 새벽마다 깨서 다시 잠들지 못하는 이유',
+  geoId: 'bundang-pangyo',
+  diseaseId: 'sleep',
+  titleDisease: '불면증',
+  keywords: ['판교 불면증', '불면증 한방치료']
+}));
+assert.strictEqual(passPangyoBasic.valid, true, `[판교 불면증] basic MUST PASS: ${JSON.stringify(passPangyoBasic.errors)}`);
+console.log('✅ PASS: [판교 불면증] with keyword "판교 불면증" passed validation 100%.');
+
+// B. [판교 불면증] ... keyword: "성남시 분당구 판교 불면증" (Ancestor full locality)
+const passPangyoAncestor = validateArticleContent(createGeoTestArticle({
+  title: '[판교 불면증] 잠은 드는데 새벽마다 깨서 다시 잠들지 못하는 이유',
+  geoId: 'bundang-pangyo',
+  diseaseId: 'sleep',
+  titleDisease: '불면증',
+  keywords: ['판교 불면증', '성남시 분당구 판교 불면증', '불면증 한방치료']
+}));
+assert.strictEqual(passPangyoAncestor.valid, true, `[판교 불면증] with ancestor keyword "성남시 분당구 판교 불면증" MUST PASS: ${JSON.stringify(passPangyoAncestor.errors)}`);
+console.log('✅ PASS: [판교 불면증] with keyword "성남시 분당구 판교 불면증" passed validation 100%.');
+
+// C. [수지 불안장애] ... keyword: "용인시 수지구 불안장애" (Ancestor full locality for Suji)
+const passSujiAncestor = validateArticleContent(createGeoTestArticle({
+  title: '[수지 불안장애] 사소한 일에도 걱정이 꼬리를 물고 가슴이 답답할 때',
+  geoId: 'yongin-suji',
+  diseaseId: 'anxiety',
+  titleDisease: '불안장애',
+  keywords: ['수지 불안장애', '용인시 수지구 불안장애', '불안장애 한방치료']
+}));
+assert.strictEqual(passSujiAncestor.valid, true, `[수지 불안장애] with ancestor keyword MUST PASS: ${JSON.stringify(passSujiAncestor.errors)}`);
+console.log('✅ PASS: [수지 불안장애] with keyword "용인시 수지구 불안장애" passed validation 100%.');
+
+// 9-2. MUST FAIL:
+// A. 판교 글 + "정자동 불면증" (Sibling local area in Bundang)
+const failJungja = validateArticleContent(createGeoTestArticle({
+  title: '[판교 불면증] 잠은 드는데 새벽마다 깨서 다시 잠들지 못하는 이유',
+  geoId: 'bundang-pangyo',
+  diseaseId: 'sleep',
+  titleDisease: '불면증',
+  keywords: ['판교 불면증', '정자동 불면증']
+}));
+assert.strictEqual(failJungja.valid, false, 'Pangyo post with sibling keyword "정자동 불면증" MUST FAIL');
+assert.ok(failJungja.errors.some(e => e.includes('정자동')), 'Expected error regarding 정자동');
+console.log('✅ PASS: Pangyo post with sibling keyword "정자동 불면증" strictly blocked.');
+
+// B. 판교 글 + "서현동 불면증" (Sibling local area in Bundang)
+const failSeohyeon = validateArticleContent(createGeoTestArticle({
+  title: '[판교 불면증] 잠은 드는데 새벽마다 깨서 다시 잠들지 못하는 이유',
+  geoId: 'bundang-pangyo',
+  diseaseId: 'sleep',
+  titleDisease: '불면증',
+  keywords: ['판교 불면증', '서현동 불면증']
+}));
+assert.strictEqual(failSeohyeon.valid, false, 'Pangyo post with sibling keyword "서현동 불면증" MUST FAIL');
+assert.ok(failSeohyeon.errors.some(e => e.includes('서현동')), 'Expected error regarding 서현동');
+console.log('✅ PASS: Pangyo post with sibling keyword "서현동 불면증" strictly blocked.');
+
+// C. 판교 글 + "수지 불면증" (Foreign region)
+const failSuji = validateArticleContent(createGeoTestArticle({
+  title: '[판교 불면증] 잠은 드는데 새벽마다 깨서 다시 잠들지 못하는 이유',
+  geoId: 'bundang-pangyo',
+  diseaseId: 'sleep',
+  titleDisease: '불면증',
+  keywords: ['판교 불면증', '수지 불면증']
+}));
+assert.strictEqual(failSuji.valid, false, 'Pangyo post with foreign keyword "수지 불면증" MUST FAIL');
+assert.ok(failSuji.errors.some(e => e.includes('수지')), 'Expected error regarding 수지');
+console.log('✅ PASS: Pangyo post with foreign keyword "수지 불면증" strictly blocked.');
+
+// D. 판교 글 + "기흥구 불면증" (Foreign region)
+const failGiheung = validateArticleContent(createGeoTestArticle({
+  title: '[판교 불면증] 잠은 드는데 새벽마다 깨서 다시 잠들지 못하는 이유',
+  geoId: 'bundang-pangyo',
+  diseaseId: 'sleep',
+  titleDisease: '불면증',
+  keywords: ['판교 불면증', '기흥구 불면증']
+}));
+assert.strictEqual(failGiheung.valid, false, 'Pangyo post with foreign keyword "기흥구 불면증" MUST FAIL');
+assert.ok(failGiheung.errors.some(e => e.includes('기흥구')), 'Expected error regarding 기흥구');
+console.log('✅ PASS: Pangyo post with foreign keyword "기흥구 불면증" strictly blocked.');
+
+// E. 판교 글 + 본문 내 sibling 침투 ("정자동 불면증")
+const failBodySibling = validateArticleContent(createGeoTestArticle({
+  title: '[판교 불면증] 잠은 드는데 새벽마다 깨서 다시 잠들지 못하는 이유',
+  geoId: 'bundang-pangyo',
+  diseaseId: 'sleep',
+  titleDisease: '불면증',
+  bodyExtra: '정자동 불면증 환자분들도 본원에서 함께 상담을 진행합니다.'
+}));
+assert.strictEqual(failBodySibling.valid, false, 'Pangyo post with sibling in body MUST FAIL');
+assert.ok(failBodySibling.errors.some(e => e.includes('정자동')), 'Expected error regarding 정자동 in body');
+console.log('✅ PASS: Pangyo post with sibling keyword in body strictly blocked.');
+
+console.log('\n🎉 ALL 9 QA SYSTEM INTEGRITY, REGRESSION, BATCH & HIERARCHICAL GEO TESTS PASSED 100%!');
+
 
