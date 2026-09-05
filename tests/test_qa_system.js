@@ -680,6 +680,303 @@ assert.strictEqual(failBodySibling.valid, false, 'Pangyo post with sibling in bo
 assert.ok(failBodySibling.errors.some(e => e.includes('정자동')), 'Expected error regarding 정자동 in body');
 console.log('✅ PASS: Pangyo post with sibling keyword in body strictly blocked.');
 
-console.log('\n🎉 ALL 9 QA SYSTEM INTEGRITY, REGRESSION, BATCH & HIERARCHICAL GEO TESTS PASSED 100%!');
+// ==========================================
+// Test 10: Human Review Feedback Regression Tests
+// (Age Group Consistency, Topic Separation, Thumbnail Topic Alignment, Treatment Fabrication)
+// ==========================================
+console.log('\n[Test 10] Running Human Review Feedback Regression Tests...');
+
+function createMockArticleForReviewTest(overrides = {}) {
+  return {
+    title: '[분당 ADHD] 산만함과 충동성이 훈육만으로 조절되지 않을 때',
+    titleDisease: 'ADHD',
+    summary: '분당 지역 환자 및 보호자를 위한 소아 ADHD의 원인과 생활 관리 및 임상 가이드입니다.',
+    category: 'adhd',
+    diseaseId: 'adhd',
+    geoId: 'seongnam-bundang',
+    ageGroup: 'child',
+    topicAngle: { id: 'child-impulsivity', titleSuffix: '산만함과 충동성이 훈육만으로 조절되지 않을 때' },
+    body: `
+## 1. 진료실에서 자주 마주하는 고민
+<div class="column-key-summary-box">핵심 요약</div>
+아이의 산만함과 충동적인 행동으로 상담을 청하시는 학부모님들의 질문을 살펴봅니다.
+
+## 2. 주요 증상 및 배경
+도파민계 신경전달 체계와 실행기능의 발달 과정을 점검합니다.
+자세한 정보는 [주요 진료 안내](/treatments/)에서 확인 가능합니다.
+
+## 3. 감별 포인트
+자세한 정보는 [온라인 상담](/inquiry/)을 통해 문의하실 수 있습니다.
+
+## 4. 해아림한의원의 상태 평가 관점
+개인 상태와 체질을 고려한 맞춤 한약 처방과 침구 치료를 진행합니다.
+
+## 5. 자주 묻는 질문
+**Q1. 아이가 훈육을 해도 왜 조절이 안 되나요?**
+A. 전두엽의 실행기능 발달 차이를 고려해야 합니다.
+**Q2. 어떻게 도와주어야 하나요?**
+A. 규칙적인 환경 구조화와 정서적 지지가 중요합니다.
+`,
+    hashtags: ['분당ADHD', '소아ADHD', '해아림한의원'],
+    keywords: ['분당 ADHD', '성남시 분당구 ADHD', '소아 ADHD 한방치료'],
+    thumbnailCopy: { yellowText: '원인 모를', whiteText: '산만함과 충동성', greenText: 'ADHD' },
+    knowledge: { reviewStatus: 'pending', bannedPhrases: [] },
+    history: [],
+    ...overrides
+  };
+}
+
+// 10-1. Child QA Target with Adult Workplace Context MUST FAIL
+const failChildWithWork = validateArticleContent(createMockArticleForReviewTest({
+  ageGroup: 'child',
+  body: `
+## 1. 진료실에서 자주 마주하는 고민
+<div class="column-key-summary-box">핵심 요약</div>
+소아 ADHD 환자뿐만 아니라 성인 역시 직장 업무와 마감에 쫓길 때 실수가 잦아집니다.
+## 2. 배경
+신경발달학적 특성을 고려합니다. [주요 진료 안내](/treatments/)
+## 3. 감별
+[온라인 상담](/inquiry/)
+## 4. 치료
+개인 체질 맞춤 한약 처방.
+## 5. FAQ
+**Q1. 질문**
+A. 답변
+**Q2. 질문2**
+A. 답변2
+`
+}));
+assert.strictEqual(failChildWithWork.valid, false, 'Child target with adult work context MUST FAIL');
+assert.ok(failChildWithWork.errors.some(e => e.includes('Age Group violation') && e.includes('직장')), 'Expected Age Group violation for 직장');
+assert.ok(failChildWithWork.errors.some(e => e.includes('Age Group violation') && e.includes('업무')), 'Expected Age Group violation for 업무');
+assert.ok(failChildWithWork.errors.some(e => e.includes('Age Group violation') && e.includes('마감')), 'Expected Age Group violation for 마감');
+assert.ok(failChildWithWork.errors.some(e => e.includes('Age Group violation') && e.includes('성인 역시')), 'Expected Age Group violation for 성인 역시');
+console.log('✅ PASS: Child QA target with adult workplace context strictly blocked.');
+
+// 10-2. Chronic Worry with Social Phobia Core Symptoms MUST FAIL
+const failChronicWorryWithSocial = validateArticleContent(createMockArticleForReviewTest({
+  diseaseId: 'anxiety',
+  titleDisease: '불안장애',
+  ageGroup: 'adult',
+  title: '[기흥 불안장애] 사소한 일에도 걱정이 꼬리를 물고 가슴이 답답할 때',
+  topicAngle: { id: 'chronic-worry', titleSuffix: '사소한 일에도 걱정이 꼬리를 물고 가슴이 답답할 때' },
+  geoId: 'yongin-giheung',
+  body: `
+## 1. 진료실에서 자주 마주하는 고민
+<div class="column-key-summary-box">핵심 요약</div>
+사람들의 시선이 두렵고 발표 상황에서 손 떨림과 목소리 떨림이 심해집니다.
+## 2. 배경
+신경생물학적 특성을 점검합니다. [주요 진료 안내](/treatments/)
+## 3. 감별
+[온라인 상담](/inquiry/)
+## 4. 치료
+개인 맞춤 한약 처방과 침구 치료.
+## 5. FAQ
+**Q1. 질문**
+A. 답변
+**Q2. 질문2**
+A. 답변2
+`,
+  thumbnailCopy: { yellowText: '원인 모를', whiteText: '사소한 일도 걱정', greenText: '불안장애' }
+}));
+assert.strictEqual(failChronicWorryWithSocial.valid, false, 'Chronic worry with social phobia symptoms MUST FAIL');
+assert.ok(failChronicWorryWithSocial.errors.some(e => e.includes('Topic leakage violation') && e.includes('사람들의 시선')), 'Expected Topic leakage violation for 사람들의 시선');
+assert.ok(failChronicWorryWithSocial.errors.some(e => e.includes('Topic leakage violation') && e.includes('발표 상황')), 'Expected Topic leakage violation for 발표 상황');
+assert.ok(failChronicWorryWithSocial.errors.some(e => e.includes('Topic leakage violation') && e.includes('손 떨림')), 'Expected Topic leakage violation for 손 떨림');
+assert.ok(failChronicWorryWithSocial.errors.some(e => e.includes('Topic leakage violation') && e.includes('목소리 떨림')), 'Expected Topic leakage violation for 목소리 떨림');
+console.log('✅ PASS: Chronic worry with social phobia core symptoms strictly blocked.');
+
+// 10-3. Chronic Worry with Panic Thumbnail Copy MUST FAIL
+const failChronicWorryPanicThumb = validateArticleContent(createMockArticleForReviewTest({
+  diseaseId: 'anxiety',
+  titleDisease: '불안장애',
+  ageGroup: 'adult',
+  title: '[기흥 불안장애] 사소한 일에도 걱정이 꼬리를 물고 가슴이 답답할 때',
+  topicAngle: { id: 'chronic-worry', titleSuffix: '사소한 일에도 걱정이 꼬리를 물고 가슴이 답답할 때' },
+  geoId: 'yongin-giheung',
+  thumbnailCopy: { yellowText: '원인 모를', whiteText: '두근거림·숨 막힘', greenText: '불안장애' }
+}));
+assert.strictEqual(failChronicWorryPanicThumb.valid, false, 'Chronic worry with panic thumbnail copy MUST FAIL');
+assert.ok(failChronicWorryPanicThumb.errors.some(e => e.includes('Thumbnail topic mismatch')), 'Expected thumbnail topic mismatch');
+console.log('✅ PASS: Chronic worry with panic thumbnail copy strictly blocked.');
+
+// 10-4. Early Awakening Thumbnail with Sleep-Onset Copy MUST FAIL
+const failEarlyAwakeningThumb = validateArticleContent(createMockArticleForReviewTest({
+  diseaseId: 'sleep',
+  titleDisease: '불면증',
+  ageGroup: 'adult',
+  title: '[판교 불면증] 잠은 드는데 새벽마다 깨서 다시 잠들지 못하는 이유',
+  topicAngle: { id: 'early-awakening', titleSuffix: '잠은 드는데 새벽마다 깨서 다시 잠들지 못하는 이유' },
+  geoId: 'bundang-pangyo',
+  thumbnailCopy: { yellowText: '밤마다 뒤척여', whiteText: '잠들기 어렵다면', greenText: '불면증' }
+}));
+assert.strictEqual(failEarlyAwakeningThumb.valid, false, 'Early awakening with sleep onset thumbnail MUST FAIL');
+assert.ok(failEarlyAwakeningThumb.errors.some(e => e.includes('Thumbnail topic mismatch') && e.includes('early-awakening')), 'Expected early-awakening thumbnail topic mismatch');
+console.log('✅ PASS: Early awakening with sleep onset thumbnail copy strictly blocked.');
+
+// 10-5. Early Awakening Thumbnail with Authentic Early Awakening Copy MUST PASS
+const passEarlyAwakeningThumb = validateArticleContent(createMockArticleForReviewTest({
+  diseaseId: 'sleep',
+  titleDisease: '불면증',
+  ageGroup: 'adult',
+  title: '[판교 불면증] 잠은 드는데 새벽마다 깨서 다시 잠들지 못하는 이유',
+  summary: '판교 지역 환자분들을 위한 새벽 조기 각성 불면증의 원인과 수면 리듬 회복을 위한 가이드입니다.',
+  topicAngle: { id: 'early-awakening', titleSuffix: '잠은 드는데 새벽마다 깨서 다시 잠들지 못하는 이유' },
+  geoId: 'bundang-pangyo',
+  body: `
+## 1. 진료실에서 자주 마주하는 고민
+<div class="column-key-summary-box">핵심 요약</div>
+잠은 드는데 새벽에 자주 깨어 다시 잠들기 어렵다는 고민을 살펴봅니다.
+
+## 2. 주요 증상 및 배경
+교감신경계 긴장과 수면 유지 리듬을 점검합니다.
+자세한 정보는 [주요 진료 안내](/treatments/)에서 확인 가능합니다.
+
+## 3. 감별 포인트
+자세한 정보는 [온라인 상담](/inquiry/)을 통해 문의하실 수 있습니다.
+
+## 4. 해아림한의원의 상태 평가 관점
+개인 상태와 체질을 고려한 맞춤 한약 처방과 침구 치료를 진행합니다.
+
+## 5. 자주 묻는 질문
+**Q1. 새벽에 자꾸 깨는 이유는 무엇인가요?**
+A. 잔여 긴장과 수면 리듬 조각화가 원인일 수 있습니다.
+**Q2. 어떻게 수면 위생을 지키나요?**
+A. 일정한 기상 시간을 유지하고 자극을 줄입니다.
+`,
+  keywords: ['판교 불면증', '성남시 분당구 판교 불면증', '불면증 한방치료'],
+  thumbnailCopy: { yellowText: '잠은 드는데', whiteText: '새벽마다 깬다면', greenText: '불면증' }
+}));
+assert.strictEqual(passEarlyAwakeningThumb.valid, true, `Early awakening with authentic copy MUST PASS: ${JSON.stringify(passEarlyAwakeningThumb.errors)}`);
+console.log('✅ PASS: Early awakening with authentic early awakening copy passed 100%.');
+
+// 10-6. Digestive Dizziness Thumbnail Swapped to Palpitation MUST FAIL
+const failDigestiveDizzinessThumb = validateArticleContent(createMockArticleForReviewTest({
+  diseaseId: 'autonomic',
+  titleDisease: '자율신경실조증',
+  ageGroup: 'adult',
+  title: '[분당 자율신경실조증] 원인 모를 어지럼증과 소화불량이 동시에 나타날 때',
+  topicAngle: { id: 'digestive-dizziness', titleSuffix: '원인 모를 어지럼증과 소화불량이 동시에 나타날 때' },
+  geoId: 'seongnam-bundang',
+  thumbnailCopy: { yellowText: '원인 모를', whiteText: '어지럼증·두근거림', greenText: '자율신경실조증' }
+}));
+assert.strictEqual(failDigestiveDizzinessThumb.valid, false, 'Digestive dizziness with swapped palpitation thumbnail MUST FAIL');
+assert.ok(failDigestiveDizzinessThumb.errors.some(e => e.includes('Thumbnail topic mismatch') && e.includes('digestive-dizziness')), 'Expected digestive-dizziness thumbnail topic mismatch');
+console.log('✅ PASS: Digestive dizziness with swapped palpitation thumbnail strictly blocked.');
+
+// 10-7. Digestive Dizziness Thumbnail with Authentic Digestive Copy MUST PASS
+const passDigestiveDizzinessThumb = validateArticleContent(createMockArticleForReviewTest({
+  diseaseId: 'autonomic',
+  titleDisease: '자율신경실조증',
+  ageGroup: 'adult',
+  title: '[분당 자율신경실조증] 원인 모를 어지럼증과 소화불량이 동시에 나타날 때',
+  summary: '분당 지역 주민들을 위한 어지럼증과 소화불량이 동반되는 자율신경실조증 관리 안내입니다.',
+  topicAngle: { id: 'digestive-dizziness', titleSuffix: '원인 모를 어지럼증과 소화불량이 동시에 나타날 때' },
+  geoId: 'seongnam-bundang',
+  body: `
+## 1. 진료실에서 자주 마주하는 고민
+<div class="column-key-summary-box">핵심 요약</div>
+원인 모를 어지럼증과 소화불량으로 일상에 불편을 겪는 분들의 고민을 살펴봅니다.
+
+## 2. 주요 증상 및 배경
+자율신경계 균형과 위장관 긴장 상태를 점검합니다.
+자세한 정보는 [주요 진료 안내](/treatments/)에서 확인 가능합니다.
+
+## 3. 감별 포인트
+자세한 정보는 [온라인 상담](/inquiry/)을 통해 문의하실 수 있습니다.
+
+## 4. 해아림한의원의 상태 평가 관점
+개인 상태와 체질을 고려한 맞춤 한약 처방과 침구 치료를 진행합니다.
+
+## 5. 자주 묻는 질문
+**Q1. 어지럼증과 소화불량이 왜 함께 나타나나요?**
+A. 자율신경 불균형으로 위장 운동과 혈류 조절에 영향을 주기 때문입니다.
+**Q2. 치료와 생활 관리는 어떻게 하나요?**
+A. 규칙적인 식습관과 이완 요법을 병행합니다.
+`,
+  keywords: ['분당 자율신경실조증', '성남시 분당구 자율신경실조증', '자율신경 한방치료'],
+  thumbnailCopy: { yellowText: '원인 모를', whiteText: '어지럼증·소화불량', greenText: '자율신경실조증' }
+}));
+assert.strictEqual(passDigestiveDizzinessThumb.valid, true, `Digestive dizziness with authentic copy MUST PASS: ${JSON.stringify(passDigestiveDizzinessThumb.errors)}`);
+console.log('✅ PASS: Digestive dizziness with authentic digestive copy passed 100%.');
+
+// 10-8. Unapproved Treatment Fabrication: "심포열을 다스리는 치료" MUST FAIL
+const failSimpoHeatTreatment = validateArticleContent(createMockArticleForReviewTest({
+  body: `
+## 1. 진료실에서 자주 마주하는 고민
+<div class="column-key-summary-box">핵심 요약</div>
+아이의 상태를 살펴봅니다.
+## 2. 배경
+신경생물학적 요인을 점검합니다. [주요 진료 안내](/treatments/)
+## 3. 감별
+[온라인 상담](/inquiry/)
+## 4. 해아림한의원의 상태 평가 관점
+심포열을 다스리고 긴장 완화를 돕는 침구 치료를 시행합니다.
+## 5. FAQ
+**Q1. 질문**
+A. 답변
+**Q2. 질문2**
+A. 답변2
+`
+}));
+assert.strictEqual(failSimpoHeatTreatment.valid, false, 'Simpo heat treatment fabrication MUST FAIL');
+assert.ok(failSimpoHeatTreatment.errors.some(e => e.includes('심포열')), 'Expected error regarding 심포열');
+console.log('✅ PASS: Unapproved "심포열을 다스리는 치료" fabrication strictly blocked.');
+
+// 10-9. Unapproved Treatment Fabrication: "인지 이완 훈련" MUST FAIL
+const failCognitiveRelaxTraining = validateArticleContent(createMockArticleForReviewTest({
+  body: `
+## 1. 진료실에서 자주 마주하는 고민
+<div class="column-key-summary-box">핵심 요약</div>
+아이의 상태를 살펴봅니다.
+## 2. 배경
+신경생물학적 요인을 점검합니다. [주요 진료 안내](/treatments/)
+## 3. 감별
+[온라인 상담](/inquiry/)
+## 4. 해아림한의원의 상태 평가 관점
+환자에게 적합한 맞춤 한약과 인지 이완 훈련을 처방합니다.
+## 5. FAQ
+**Q1. 질문**
+A. 답변
+**Q2. 질문2**
+A. 답변2
+`
+}));
+assert.strictEqual(failCognitiveRelaxTraining.valid, false, 'Cognitive relaxation training fabrication MUST FAIL');
+assert.ok(failCognitiveRelaxTraining.errors.some(e => e.includes('새 치료명 사용') && e.includes('인지')), 'Expected error regarding 인지 이완 훈련');
+console.log('✅ PASS: Unapproved "인지 이완 훈련" fabrication strictly blocked.');
+
+// 10-10. Adult Anxiety with "신경발달학적" MUST FAIL
+const failAnxietyNeurodevelopmental = validateArticleContent(createMockArticleForReviewTest({
+  diseaseId: 'anxiety',
+  titleDisease: '불안장애',
+  ageGroup: 'adult',
+  title: '[기흥 불안장애] 사소한 일에도 걱정이 꼬리를 물고 가슴이 답답할 때',
+  topicAngle: { id: 'chronic-worry', titleSuffix: '사소한 일에도 걱정이 꼬리를 물고 가슴이 답답할 때' },
+  geoId: 'yongin-giheung',
+  body: `
+## 1. 진료실에서 자주 마주하는 고민
+<div class="column-key-summary-box">핵심 요약</div>
+만성 걱정에 대해 살펴봅니다.
+## 2. 배경
+성인 불안장애는 신경발달학적·신경생물학적 특성이 관여할 수 있습니다. [주요 진료 안내](/treatments/)
+## 3. 감별
+[온라인 상담](/inquiry/)
+## 4. 치료
+개인 맞춤 한약과 침구 치료.
+## 5. FAQ
+**Q1. 질문**
+A. 답변
+**Q2. 질문2**
+A. 답변2
+`,
+  thumbnailCopy: { yellowText: '사소한 일도', whiteText: '꼬리 무는 걱정', greenText: '불안장애' }
+}));
+assert.strictEqual(failAnxietyNeurodevelopmental.valid, false, 'Adult anxiety with neurodevelopmental etiology MUST FAIL');
+assert.ok(failAnxietyNeurodevelopmental.errors.some(e => e.includes('신경발달학적')), 'Expected error regarding 신경발달학적');
+console.log('✅ PASS: Adult anxiety with "신경발달학적" etiology strictly blocked.');
+
+console.log('\n🎉 ALL 10 QA SYSTEM INTEGRITY, REGRESSION, BATCH, GEO & HUMAN REVIEW FEEDBACK TESTS PASSED 100%!');
+
 
 

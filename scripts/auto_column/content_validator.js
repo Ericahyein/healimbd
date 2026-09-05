@@ -238,6 +238,12 @@ const GLOBAL_BANNED_MEDICAL_PATTERNS = [
   // Unapproved treatment names & fabricated acupoint locations
   { pattern: /(안심\s*한약|두뇌\s*(회복|밸런스)\s*탕|총명\s*탕|귀비\s*탕|소요\s*산)/i, reason: '치료법 임의 생성 금지: 승인되지 않은 고유 한약 처방 명칭 사용' },
   { pattern: /(두경부\s*(중심의|\s*)*혈자리|특정\s*혈자리\s*(자극|침구|치료))/i, reason: '치료법 임의 생성 금지: 근거 없는 구체적 경혈/신체 부위 시술 위치 임의 서술' },
+  // Unapproved TCM pathology / organ-heat concepts
+  { pattern: /(심포\s*열|심포열|간화|심화|간양상항|신음허|담음|수승화강)/i, reason: '치료법 임의 생성 금지: 승인되지 않은 구체적 한의학 병리명/장부열 개념 사용' },
+  // Unapproved new treatment names
+  { pattern: /(인지\s*이완\s*훈련|인지\s*행동\s*훈련|두뇌\s*이완\s*훈련|두뇌\s*훈련|뉴로\s*피드백|바이오\s*피드백)/i, reason: '치료법 임의 생성 금지: 승인되지 않은 새 치료명 사용' },
+  // Fabricated mechanism/efficacy assertion modifiers attached to treatments
+  { pattern: /(뇌의\s*과각성을\s*(진정|완화|가라앉|조절)|수면의\s*흐름을\s*돕는|심포열을\s*다스리는)\s*(맞춤\s*)?(한약|처방|침구|치료)/i, reason: '치료법 임의 생성 금지: 치료 효과 단정 및 임의 기전 수식어 사용' },
   // Promotional closing CTA patterns
   { pattern: /([가-힣]+(시|구|동|역|지역|에서)?\s*)?(진료(를)?\s*(권합니다|권해드립니다|추천합니다)|내원(을)?\s*(권합니다|권해드립니다|추천합니다|바랍니다)|방문(을)?\s*(권합니다|권해드립니다)|내원하셔서\s*진료|방문하셔서\s*상담)/i, reason: '마무리 광고성 CTA 금지: 지역 키워드 및 직접적인 내원/진료 권유 문장' }
 ];
@@ -408,6 +414,9 @@ function validateArticleContent(articleData, options = {}) {
     diseaseId = '',
     titleDisease = '',
     canonicalDiseaseLabel = '',
+    ageGroup = articleData.ageGroup || (articleData.qaTarget && articleData.qaTarget.ageGroup) || 'mixed',
+    topicAngle = articleData.topicAngle,
+    qaTarget = articleData.qaTarget,
     thumbnailCopy,
     knowledge,
     history = [],
@@ -477,6 +486,49 @@ function validateArticleContent(articleData, options = {}) {
     errors.push(`Medical safety violation: 임의 약물 중단 권고 금지 (Matched: "${medCheck.sentence}")`);
   }
 
+  // 4-2. Age Group Consistency Validation (GLOBAL RULE)
+  if (ageGroup === 'child') {
+    const adultWorkKeywords = [
+      '직장', '업무', '마감', '직장인', '출근', '퇴근', '야근', '이직',
+      '성인 역시', '성인의 경우', '성인에서도', '성인기에도'
+    ];
+    for (const kw of adultWorkKeywords) {
+      if (body.includes(kw) || summary.includes(kw) || title.includes(kw)) {
+        errors.push(`Age Group violation: Target is 'child', but found adult workplace keyword '${kw}'.`);
+      }
+    }
+  } else if (ageGroup === 'adult') {
+    const childKeywords = [
+      '훈육', '양육', '학부모', '교실에서', '등교', '소아청소년', '소아 틱', '소아 ADHD'
+    ];
+    for (const kw of childKeywords) {
+      if (body.includes(kw) || summary.includes(kw)) {
+        errors.push(`Age Group violation: Target is 'adult', but found unnecessary child keyword '${kw}'.`);
+      }
+    }
+  }
+
+  // 4-3. Sibling Disease & Topic Leakage Validation
+  const angleId = typeof topicAngle === 'string' ? topicAngle : (topicAngle?.id || '');
+
+  // For chronic-worry (qa-06), social-phobia core symptoms are strictly prohibited
+  if (angleId === 'chronic-worry') {
+    const socialPhobiaCoreKeywords = [
+      '사람들의 시선', '발표 상황', '발표 때', '시선이 두려', '목소리 떨림', '목소리가 떨', '손 떨림', '손이 떨', '시선 공포', '대인 공포'
+    ];
+    for (const spk of socialPhobiaCoreKeywords) {
+      if (body.includes(spk) || summary.includes(spk) || title.includes(spk) || keywords.some(k => k.includes(spk))) {
+        errors.push(`Topic leakage violation: Target is 'chronic-worry', but found social phobia core symptom '${spk}'.`);
+      }
+    }
+  }
+
+  // Adult anxiety/stress disorders cannot use '신경발달학적'
+  const nonDevelopmentalDiseases = ['anxiety', 'panic', 'sleep', 'depression', 'autonomic', 'ibs', 'headache', 'dizziness', 'hyperhidrosis', 'fatigue', 'syncope'];
+  if (nonDevelopmentalDiseases.includes(diseaseId) && fullText.includes('신경발달')) {
+    errors.push(`Etiology phrasing violation: '신경발달학적' is only applicable to pediatric/neurodevelopmental disorders (tic/adhd), not ${diseaseId}.`);
+  }
+
   // 5. Structure Elements Check (Key Summary Box, Headings, FAQ)
   const hasKeySummary = body.includes('column-key-summary-box') || body.includes('핵심 요약');
   if (!hasKeySummary) {
@@ -540,6 +592,42 @@ function validateArticleContent(articleData, options = {}) {
         (greenText && greenText.includes(r.displayName))
       ) {
         errors.push(`Thumbnail copy must NOT contain regional names like '${r.displayName}'.`);
+      }
+    }
+
+    // 7-1. Topic Angle Consistency for Thumbnail (GLOBAL RULE)
+    if (topicAngle) {
+      const copyCombined = `${yellowText || ''} ${whiteText || ''}`;
+
+      // 1. early-awakening: MUST NOT contain sleep-onset insomnia keywords
+      if (angleId === 'early-awakening') {
+        const sleepOnsetKeywords = ['잠들기 어렵', '잠들지 못', '뒤척', '잠 안 올', '입면'];
+        for (const sok of sleepOnsetKeywords) {
+          if (copyCombined.includes(sok)) {
+            errors.push(`Thumbnail topic mismatch: Target is 'early-awakening' (새벽 각성), but thumbnail contains sleep-onset insomnia phrase '${sok}'.`);
+          }
+        }
+      }
+
+      // 2. digestive-dizziness: MUST contain digestive symptom (소화/위장/체기/더부룩) and MUST NOT replace with palpitation
+      if (angleId === 'digestive-dizziness') {
+        const hasDigestive = copyCombined.includes('소화') || copyCombined.includes('위장') || copyCombined.includes('체기') || copyCombined.includes('더부룩');
+        if (!hasDigestive) {
+          errors.push(`Thumbnail topic mismatch: Target is 'digestive-dizziness' (어지럼증+소화불량), but thumbnail is missing digestive symptoms (소화/위장).`);
+        }
+        if (copyCombined.includes('두근거림') || copyCombined.includes('숨 막힘') || copyCombined.includes('숨막힘')) {
+          errors.push(`Thumbnail topic mismatch: Target is 'digestive-dizziness', but thumbnail arbitrarily swapped digestive symptom for palpitation/dyspnea.`);
+        }
+      }
+
+      // 3. chronic-worry: MUST NOT use panic copy ("두근거림·숨 막힘") or social phobia copy
+      if (angleId === 'chronic-worry') {
+        if (copyCombined.includes('숨 막힘') || copyCombined.includes('숨막힘') || (copyCombined.includes('두근거림') && !copyCombined.includes('걱정'))) {
+          errors.push(`Thumbnail topic mismatch: Target is 'chronic-worry', but thumbnail contains panic copy '${copyCombined}'.`);
+        }
+        if (copyCombined.includes('발표') || copyCombined.includes('시선')) {
+          errors.push(`Thumbnail topic mismatch: Target is 'chronic-worry', but thumbnail contains social phobia copy '${copyCombined}'.`);
+        }
       }
     }
   }

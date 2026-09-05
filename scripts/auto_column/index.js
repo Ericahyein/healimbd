@@ -146,6 +146,9 @@ async function runAutoColumnPipeline() {
     keywords,
     geoId: plan.geo.id,
     diseaseId: plan.disease.id,
+    ageGroup: plan.ageGroup || (plan.qaTarget && plan.qaTarget.ageGroup) || 'mixed',
+    topicAngle: plan.topicAngle,
+    qaTarget: plan.qaTarget,
     thumbnailCopy,
     knowledge,
     history
