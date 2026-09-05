@@ -118,18 +118,20 @@ async function runAutoColumnPipeline() {
   console.log('🎨 Thumbnail Copy generated:', thumbnailCopy);
   console.log('📝 Summary generated:', outline.summary);
 
-  // Dynamic consistent Geo hashtags & keywords (Strictly limited to current GEO)
+  // Dynamic consistent Geo hashtags & keywords (Strictly limited to current GEO and Target Identity)
+  const seoDisease = plan.seoDiseaseLabel || plan.titleDisease || plan.disease.name;
+  const cleanSeoDisease = seoDisease.replace(/[^가-힣a-zA-Z0-9]/g, '');
   const hashtags = [
-    `${plan.geo.displayName}${plan.disease.name.replace(/[^가-힣a-zA-Z0-9]/g, '')}`,
+    `${plan.geo.displayName}${cleanSeoDisease}`,
     `${plan.geo.displayName}한의원`,
-    `${plan.disease.name}치료`,
-    `${plan.disease.name}관리`,
+    `${cleanSeoDisease}치료`,
+    `${cleanSeoDisease}관리`,
     `해아림한의원`
   ];
   const keywords = [
-    `${plan.geo.displayName} ${plan.disease.name}`,
-    `${plan.geo.fullName} ${plan.disease.name}`,
-    `${plan.disease.name} 한방치료`,
+    `${plan.geo.displayName} ${seoDisease}`,
+    `${plan.geo.fullName} ${seoDisease}`,
+    `${seoDisease} 한방치료`,
     `${plan.topicAngle.titleSuffix}`
   ];
 
@@ -139,6 +141,8 @@ async function runAutoColumnPipeline() {
   const validation = validateArticleContent({
     title: plan.titleCandidate,
     titleDisease: plan.titleDisease,
+    thumbnailDiseaseLabel: plan.thumbnailDiseaseLabel,
+    seoDiseaseLabel: plan.seoDiseaseLabel,
     summary: outline.summary || '',
     category: plan.disease.category,
     body: articleBody,
@@ -232,7 +236,15 @@ ${articleBody}
 
   // 5. Generate Thumbnail & Composite (ONLY REACHED AFTER 100% VALIDATION PASS)
   console.log('\n[5/6] Validation passed. Generating background image & compositing 800x800 thumbnail...');
-  const bgImageBuffer = await generateBackgroundImage(plan.disease.id, plan.disease.name, plan.topicAngle.id, plan.topicAngle.focus, apiKey, telemetry);
+  const bgImageBuffer = await generateBackgroundImage(
+    plan.disease.id,
+    plan.disease.name,
+    plan.topicAngle.id,
+    plan.topicAngle.focus,
+    apiKey,
+    telemetry,
+    plan.ageGroup || (plan.qaTarget && plan.qaTarget.ageGroup) || 'mixed'
+  );
 
   const thumbFilename = `${plan.slug}.jpg`;
   const thumbRelativePath = `images/blog/${thumbFilename}`;

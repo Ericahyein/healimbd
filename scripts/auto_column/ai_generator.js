@@ -45,57 +45,92 @@ async function callOpenAiApi(apiKey, endpoint, body) {
 
 /**
  * Builds disease + topicAngle tailored primary photorealistic prompt (Safe & Non-symptom-simulating)
+ * Prioritizes ageGroup strictly to prevent child images for adult targets and vice versa.
  */
-function buildImagePrompt(diseaseId, diseaseName, topicAngleId = '', topicAngleFocus = '') {
+function buildImagePrompt(diseaseId, diseaseName, topicAngleId = '', topicAngleFocus = '', ageGroup = 'mixed') {
   const focusLower = `${topicAngleFocus} ${topicAngleId}`.toLowerCase();
 
-  // 1. TIC
-  if (diseaseId === 'tic' || (diseaseName && diseaseName.includes('틱'))) {
-    if (focusLower.includes('media') || focusLower.includes('스마트폰') || focusLower.includes('영상') || focusLower.includes('게임')) {
-      return `A realistic single photo of one Korean school-age child sitting naturally in a calm living room or bedroom, with a turned-off tablet or smartphone resting quietly on a side table in the background. The child has a thoughtful or slightly distracted expression. Warm, realistic lifestyle photography, natural posture, soft indoor lighting, neutral and non-distressing scene. The image should visually fit a pediatric health / child development article, but should NOT depict or simulate a medical symptom. Strictly: ONE child only, no adult as main subject, no medical procedure, no visible illness, no pain, no distress, no clutching chest/stomach/neck, no forced blinking or facial tic simulation, no collage, no split screen, no multi-panel, no text, no letters, no logo, no watermark.`;
+  // If ageGroup not explicitly provided ('mixed'), infer from diseaseId/name/topicAngle
+  let effectiveAgeGroup = ageGroup;
+  if (effectiveAgeGroup === 'mixed') {
+    const isChildDisease = ['tic', 'child-enuresis', 'night-terrors', 'separation-anxiety'].includes(diseaseId) ||
+      (diseaseName && (diseaseName.includes('틱') || diseaseName.includes('뚜렛') || diseaseName.includes('소아') || diseaseName.includes('야경') || diseaseName.includes('야뇨')));
+    const hasChildAngle = focusLower.includes('child') || focusLower.includes('아이') || focusLower.includes('학부모') || focusLower.includes('훈육') || focusLower.includes('학교');
+    
+    if (isChildDisease || hasChildAngle) {
+      effectiveAgeGroup = 'child';
+    } else {
+      effectiveAgeGroup = 'adult';
     }
-    if (focusLower.includes('school') || focusLower.includes('학습') || focusLower.includes('새 학기') || focusLower.includes('시험') || focusLower.includes('스트레스')) {
-      return `A realistic single photo of one Korean school-age child in a home study room, sitting naturally near a desk with a book or notebook, looking thoughtfully toward a window. Warm realistic lifestyle photography, natural posture, soft indoor light, child development editorial photography, no distress, no visible illness, no text.`;
+  }
+
+  // -------------------------------------------------------------
+  // 1. ADULT TARGET OVERRIDE (Strictly working-age adult, NO child/classroom)
+  // -------------------------------------------------------------
+  if (effectiveAgeGroup === 'adult') {
+    // ADHD Adult (e.g. qa-04-adhd-adult + adult-work-mistakes)
+    if (diseaseId === 'adhd' || (diseaseName && diseaseName.includes('ADHD'))) {
+      return `A realistic single lifestyle photo of one Korean adult in a modern, calm professional office or clean home workspace, sitting naturally at a desk with a laptop and documents, showing a thoughtful and focused expression while managing daily work. Warm natural daylight, professional editorial lifestyle photography, authentic working-age adult. Strictly: ONE Korean ADULT only, clearly adult, approximately working-age (20s to 40s), professional office or adult home workspace context, NO child, NO teenager, NO school uniform, NO classroom, NO homework scene, no exaggerated pain or distress, no clutching head, no medical equipment, no text, no watermark.`;
     }
-    return `A realistic single photo of one Korean school-age child in a calm home environment, sitting naturally with a thoughtful expression. Warm realistic lifestyle photography, soft indoor light, child health editorial photography, no distress, no medical symptoms, no text.`;
-  }
 
-  // 2. ADHD
-  if (diseaseId === 'adhd' || (diseaseName && diseaseName.includes('ADHD'))) {
-    return `A realistic single lifestyle photo of one Korean school-age child sitting near a study desk at home with notebooks, natural posture, thoughtful expression, warm soft indoor light, child health editorial photography, no distress, no visible illness, no text.`;
-  }
-
-  // 3. CHILD (소아보약/성장/비염)
-  if (diseaseId === 'child' || (diseaseName && (diseaseName.includes('소아') || diseaseName.includes('성장') || diseaseName.includes('비염')))) {
-    return `A realistic single lifestyle photo of one Korean child in a bright comfortable living room, natural relaxed posture, soft daylight, pediatric wellness photography, no distress, no visible illness, no text.`;
-  }
-
-  // 4. PANIC
-  if (diseaseId === 'panic' || (diseaseName && diseaseName.includes('공황'))) {
-    if (focusLower.includes('subway') || focusLower.includes('교통') || focusLower.includes('밀폐') || focusLower.includes('터널') || focusLower.includes('운전')) {
-      return `A realistic single photo of one Korean adult in a transit or commute environment, looking thoughtfully toward a window or quiet area, calm natural posture, mental wellness editorial photography, no distress, no pain, no clutching chest, no text.`;
+    // Social Phobia / Presentation Anxiety (e.g. qa-07-social-phobia)
+    if (focusLower.includes('presentation') || focusLower.includes('social') || (diseaseName && diseaseName.includes('사회공포'))) {
+      return `A realistic single photo of one Korean adult standing or sitting in a modern, calm professional meeting room or quiet office environment, looking thoughtfully prepared for a discussion, neutral and composed posture, soft natural indoor lighting, professional wellness editorial photography. Strictly: ONE Korean ADULT only, clearly adult, approximately working-age (20s to 40s), professional workspace context, NO child, NO teenager, NO school uniform, NO classroom, no extreme panic, no trembling simulation, no distress, no text, no watermark.`;
     }
-    return `A realistic single lifestyle photo of one Korean adult sitting quietly by a bright window at home, resting thoughtfully in calm natural daylight, mental wellness editorial photography, no distress, no pain, no clutching chest, no text.`;
+
+    // Panic
+    if (diseaseId === 'panic' || (diseaseName && diseaseName.includes('공황'))) {
+      if (focusLower.includes('subway') || focusLower.includes('교통') || focusLower.includes('밀폐') || focusLower.includes('터널') || focusLower.includes('운전')) {
+        return `A realistic single photo of one Korean adult in a transit or commute environment, looking thoughtfully toward a window or quiet area, calm natural posture, mental wellness editorial photography, strictly ONE adult only, NO child, NO teenager, NO school uniform, no distress, no pain, no clutching chest, no text.`;
+      }
+      return `A realistic single lifestyle photo of one Korean adult sitting quietly by a bright window at home, resting thoughtfully in calm natural daylight, mental wellness editorial photography, strictly ONE adult only, NO child, NO teenager, NO school uniform, no distress, no pain, no clutching chest, no text.`;
+    }
+
+    // Anxiety (e.g. qa-06-anxiety)
+    if (diseaseId === 'anxiety' || (diseaseName && diseaseName.includes('불안'))) {
+      return `A realistic single lifestyle photo of one Korean adult sitting calmly in a quiet living space, thoughtful expression, soft ambient lighting, wellness editorial photography, strictly ONE adult only, NO child, NO teenager, NO school uniform, no distress, no pain, no text.`;
+    }
+
+    // Sleep (e.g. qa-08-sleep)
+    if (diseaseId === 'sleep' || (diseaseName && (diseaseName.includes('수면') || diseaseName.includes('불면')))) {
+      return `A realistic single lifestyle photo of one Korean adult sitting calmly in a peaceful bedroom in soft ambient dawn light, resting thoughtfully, wellness editorial photography, strictly ONE adult only, NO child, NO teenager, NO school uniform, no distress, no illness, no text.`;
+    }
+
+    // Autonomic / Fatigue (qa-09, qa-20)
+    if (diseaseId === 'autonomic' || (diseaseName && (diseaseName.includes('자율신경') || diseaseName.includes('피로')))) {
+      return `A realistic single lifestyle photo of one Korean adult sitting comfortably in a modern living space or clean workspace, resting peacefully in soft natural light, health editorial photography, strictly ONE adult only, NO child, NO teenager, NO school uniform, no distress, no clutching chest or stomach, no text.`;
+    }
+
+    // General Adult Fallback
+    return `A realistic single lifestyle photo of one Korean adult in a calm, modern indoor setting, thoughtful natural expression, healthcare wellness editorial photography, strictly ONE Korean ADULT only, clearly working-age, NO child, NO teenager, NO school uniform, NO classroom, no distress, no illness, no text.`;
   }
 
-  // 5. ANXIETY
-  if (diseaseId === 'anxiety' || (diseaseName && diseaseName.includes('불안'))) {
-    return `A realistic single lifestyle photo of one Korean adult sitting calmly in a quiet living space, thoughtful expression, soft ambient lighting, wellness editorial photography, no distress, no pain, no text.`;
+  // -------------------------------------------------------------
+  // 2. CHILD TARGET OVERRIDE (School-age child/adolescent, NO adult main subject)
+  // -------------------------------------------------------------
+  if (effectiveAgeGroup === 'child') {
+    // ADHD Child (qa-03-adhd-child)
+    if (diseaseId === 'adhd' || (diseaseName && diseaseName.includes('ADHD'))) {
+      return `A realistic single lifestyle photo of one Korean school-age child sitting near a study desk at home with notebooks, natural posture, thoughtful expression, warm soft indoor light, child health editorial photography. Strictly: ONE child only, Korean school-age child or adolescent, NO adult as main subject, no distress, no visible illness, no text.`;
+    }
+
+    // TIC / Tourette Child (qa-01-tic, qa-02-tourette)
+    if (diseaseId === 'tic' || (diseaseName && (diseaseName.includes('틱') || diseaseName.includes('뚜렛')))) {
+      if (focusLower.includes('media') || focusLower.includes('스마트폰') || focusLower.includes('영상') || focusLower.includes('게임')) {
+        return `A realistic single photo of one Korean school-age child sitting naturally in a calm living room or bedroom, with a turned-off tablet or smartphone resting quietly on a side table in the background. The child has a thoughtful or slightly distracted expression. Warm, realistic lifestyle photography, natural posture, soft indoor lighting, neutral and non-distressing scene. The image should visually fit a pediatric health / child development article, but should NOT depict or simulate a medical symptom. Strictly: ONE child only, Korean school-age child or adolescent, NO adult as main subject, no medical procedure, no visible illness, no pain, no distress, no clutching chest/stomach/neck, no forced blinking or facial tic simulation, no collage, no split screen, no multi-panel, no text, no letters, no logo, no watermark.`;
+      }
+      return `A realistic single photo of one Korean school-age child in a calm home environment, sitting naturally with a thoughtful expression. Warm realistic lifestyle photography, soft indoor light, child health editorial photography. Strictly: ONE child only, Korean school-age child or adolescent, NO adult as main subject, no distress, no medical symptoms, no text.`;
+    }
+
+    // General Child
+    return `A realistic single lifestyle photo of one Korean child in a bright comfortable living room, natural relaxed posture, soft daylight, pediatric wellness photography. Strictly: ONE child only, Korean school-age child, NO adult as main subject, no distress, no visible illness, no text.`;
   }
 
-  // 6. SLEEP
-  if (diseaseId === 'sleep' || (diseaseName && (diseaseName.includes('수면') || diseaseName.includes('불면')))) {
-    return `A realistic single lifestyle photo of one Korean adult sitting calmly in a peaceful bedroom in soft ambient evening or dawn light, preparing to rest, wellness editorial photography, no distress, no illness, no text.`;
-  }
-
-  // 7. AUTONOMIC
-  if (diseaseId === 'autonomic' || (diseaseName && diseaseName.includes('자율신경'))) {
-    return `A realistic single lifestyle photo of one Korean adult sitting comfortably on a living room couch, resting peacefully in soft natural light, health and wellness editorial photography, no distress, no clutching chest or stomach, no text.`;
-  }
-
-  // 8. IBS
-  if (diseaseId === 'ibs' || (diseaseName && diseaseName.includes('과민성대장'))) {
-    return `A realistic single lifestyle photo of one Korean adult sitting in a cozy kitchen or dining area, holding a warm cup of tea with a peaceful expression, healthy lifestyle editorial photography, no pain, no clutching stomach, no text.`;
+  // -------------------------------------------------------------
+  // 3. MIXED TARGET (Topic-tailored)
+  // -------------------------------------------------------------
+  if (diseaseId === 'hyperhidrosis' || (diseaseName && diseaseName.includes('다한증'))) {
+    return `A realistic single lifestyle photo of one Korean person sitting calmly indoors holding a clean dry handkerchief or looking thoughtfully at a table, peaceful natural daylight, wellness editorial photography, no distress, no exaggerated sweating simulation, no text.`;
   }
 
   return `A realistic single lifestyle photo of one Korean person in a calm, warm home setting, peaceful natural expression, healthcare wellness editorial photography, no distress, no illness, no text.`;
@@ -104,9 +139,12 @@ function buildImagePrompt(diseaseId, diseaseName, topicAngleId = '', topicAngleF
 /**
  * Builds neutral fallback prompt if primary prompt encounters moderation
  */
-function buildFallbackImagePrompt(diseaseId, diseaseName, topicAngleId = '', topicAngleFocus = '') {
-  if (diseaseId === 'tic' || diseaseId === 'adhd' || diseaseId === 'child' || (diseaseName && (diseaseName.includes('틱') || diseaseName.includes('소아')))) {
-    return `A realistic lifestyle portrait of one Korean school-age child sitting calmly at home in a clean room, thoughtful expression, natural posture, soft indoor light, clean neutral background, child health editorial photography, no distress, no medical symptoms, no text.`;
+function buildFallbackImagePrompt(diseaseId, diseaseName, topicAngleId = '', topicAngleFocus = '', ageGroup = 'mixed') {
+  if (ageGroup === 'adult') {
+    return `A realistic lifestyle portrait of one Korean working-age adult resting peacefully in a calm, modern, naturally lit workspace or home environment, neutral clean background, health editorial photography, strictly ONE adult only, clearly working-age, NO child, NO teenager, NO school uniform, NO classroom, no distress, no symptoms, no text.`;
+  }
+  if (ageGroup === 'child' || diseaseId === 'child' || (diseaseName && (diseaseName.includes('틱') || diseaseName.includes('소아')))) {
+    return `A realistic lifestyle portrait of one Korean school-age child sitting calmly at home in a clean room, thoughtful expression, natural posture, soft indoor light, clean neutral background, child health editorial photography, strictly ONE child only, NO adult as main subject, no distress, no medical symptoms, no text.`;
   }
   return `A realistic lifestyle portrait of one Korean adult resting peacefully in a calm, naturally lit home environment, neutral clean background, health editorial photography, no distress, no symptoms, no text.`;
 }
@@ -115,7 +153,8 @@ function buildFallbackImagePrompt(diseaseId, diseaseName, topicAngleId = '', top
  * 1. Generate Topic Outline & Mandatory Summary using Planner Model (gpt-5.6-luna)
  */
 async function generateTopicOutline(plan, knowledge, apiKey, telemetry) {
-  const fallbackSummary = `${plan.geo.displayName} 지역 주민들을 위한 [${plan.disease.name}] ${plan.topicAngle.titleSuffix}에 대한 임상적 관점과 생활 관리 가이드입니다.`;
+  const targetDisease = plan.titleDisease || plan.displayDisease || plan.disease.name;
+  const fallbackSummary = `${plan.geo.displayName} 지역 주민들을 위한 [${targetDisease}] ${plan.topicAngle.titleSuffix}에 대한 임상적 관점과 생활 관리 가이드입니다.`;
 
   if (!apiKey) {
     return {
@@ -138,7 +177,7 @@ async function generateTopicOutline(plan, knowledge, apiKey, telemetry) {
 
 [칼럼 기본 정보]
 - 지역: ${plan.geo.displayName} (${plan.geo.fullName})
-- 질환: ${plan.disease.name} (${plan.disease.categoryName})
+- 질환: ${targetDisease} (분류: ${plan.disease.categoryName})
 - 주제 앵글: ${plan.topicAngle.titleSuffix} (${plan.topicAngle.focus})
 - 권장 제목: ${plan.titleCandidate}
 
@@ -150,16 +189,16 @@ async function generateTopicOutline(plan, knowledge, apiKey, telemetry) {
 - 생활 관리: ${knowledge.lifestyleTips.join(', ')}
 
 [엄격 제약사항]
-1. 제목(title)은 반드시 '[${plan.geo.displayName} ${plan.disease.name}] 구체적 주제' 형태여야 합니다.
-2. 요약(summary)은 1~2문장(30자~120자)의 완성된 한글 문장으로 필수 작성해야 하며 절대 빈 문자열이면 안 됩니다.
+1. 제목(title)은 반드시 '[${plan.geo.displayName} ${targetDisease}] 구체적 주제' 형태여야 합니다.
+2. 요약(summary)은 1~2문장(30자~120자)의 완성된 한글 문장으로 필수 작성해야 하며 절대 빈 문자열이면 안 됩니다. 상위 질환 카테고리가 아닌 '${targetDisease}'를 정확히 명시하십시오.
 3. 완치, 근본 치료, 기저핵 흥분 안정, 자율신경 정상화 등 단정적 기전 표현 금지.
 4. 특정 미디어나 생활 습관이 질환의 단일 원인인 것처럼 단정하지 마십시오.
 5. 보수적이고 신중한 임상 관점 사용.
 
 반드시 다음 JSON 구조로 응답하십시오:
 {
-  "title": "[${plan.geo.displayName} ${plan.disease.name}] ${plan.topicAngle.titleSuffix}",
-  "summary": "환자분들이 겪는 증상의 악화 요인과 생활 속 관리 수칙을 안내하는 칼럼 요약문입니다.",
+  "title": "[${plan.geo.displayName} ${targetDisease}] ${plan.topicAngle.titleSuffix}",
+  "summary": "${plan.geo.displayName} 지역 주민들을 위한 ${targetDisease} 임상적 관점과 관리 안내입니다.",
   "outline": ["1. ...", "2. ...", "3. ...", "4. ...", "5. ...", "6. ..."]
 }
 `;
@@ -273,20 +312,37 @@ ${linksListMd}
 `;
   }
 
-  const mediaGuideline = (plan.disease.id === 'tic' || plan.topicAngle.id.includes('media')) ? `
-7. [미디어와 신경생물학 설명 지침 (해당 질환/주제 한정)]
+  const isTic = plan.disease.id === 'tic' || (plan.disease.name && plan.disease.name.includes('틱'));
+  const isTourette = (plan.titleDisease && plan.titleDisease.includes('뚜렛')) || (plan.qaId && plan.qaId.includes('tourette'));
+  const isMediaTopic = plan.topicAngle.id.includes('media') || (plan.topicAngle.titleSuffix && plan.topicAngle.titleSuffix.includes('스마트폰'));
+  const isParentGuidance = plan.topicAngle.id === 'parent-guidance' || (plan.topicAngle.titleSuffix && plan.topicAngle.titleSuffix.includes('대처'));
+
+  let mediaGuideline = '';
+  if (isMediaTopic) {
+    mediaGuideline = `
+7. [미디어와 신경생물학 설명 지침 (해당 주제 한정)]
    - 빠른 화면 전환, 강한 색감, 큰 소리 등 자극적인 콘텐츠가 두뇌의 흥분도와 각성 상태를 높여 증상 변동에 관여할 수 있음을 설명하십시오.
    - 도파민계 및 피질-선조체-시상-피질(CSTC) 회로와 관련된 신경생물학적 연구 배경을 보수적이고 전문적인 어조로 다루십시오. (단, '도파민 폭발' 등 자극적 과장 표현 금지)
    - "취침 전 1~2시간만 제한" 같은 느슨한 표현은 금지하며, "아이 상황에 맞게 불필요하고 과도한 미디어 노출을 가능한 범위에서 적극적으로 줄여나가며 증상 변화를 관찰"하는 적극적 관리 방향으로 작성하십시오.
    - 미디어를 줄인다고 틱이 100% 호전된다거나 결과가 보장된다는 식의 단정적 표현을 금지합니다.
-` : '';
+`;
+  } else if (isTourette || (isTic && isParentGuidance)) {
+    mediaGuideline = `
+7. [뚜렛증후군 및 부모 대처 원칙 지침 (Tourette Parent-Guidance Rule)]
+   - 뚜렛증후군이 틱장애 범주 안에서 갖는 임상적 특징을 명확히 설명하십시오: 여러 운동틱과 하나 이상의 음성틱이 복합적으로 나타나는 양상.
+   - 일반적인 일과성/단순 틱과 무엇을 구별하여 살피는지 서술하십시오: 운동틱과 음성틱의 동반 여부, 증상의 양상 변동(waxing and waning), 일상 기능에 미치는 영향을 장기적 관점에서 관찰.
+   - 이번 주제는 '부모의 대처(parent-guidance)'가 중심이므로, 이전 미디어 노출 칼럼 내용을 과도하게 재사용하지 마십시오. 미디어는 필요한 경우 일상 생활 관리 요인 중 하나로만 짧게 다루십시오.
+   - 글의 중심은 부모가 불안해하며 아이를 지적하거나 억지로 참게 하지 않는 수용적 태도, 가정 내 심리적 안정감 제공, 아이의 자존감 보호와 장기적 기능 관찰 등 부모 대처 원칙이어야 합니다.
+   - 진단 기간이나 발병 연령 등 구체적인 수치는 승인된 의학적 지식 범위 내에서만 신중히 언급하며, 근거 없는 임의 수치를 만들지 마십시오.
+`;
+  }
 
   const prompt = `
 당신은 해아림한의원 대표원장의 관점에서 의학 칼럼 본문을 작성하는 전문 의료 작가입니다.
 
 [칼럼 기본 정보]
 - 지역: ${plan.geo.displayName} (${plan.geo.fullName})
-- 질환: ${plan.disease.name}
+- 질환: ${plan.titleDisease || plan.displayDisease || plan.disease.name} (분류: ${plan.disease.categoryName})
 - 주제 앵글: ${plan.topicAngle.titleSuffix} (${plan.topicAngle.focus})
 - 제목: ${plan.titleCandidate}
 - 요약: ${outline.summary}
@@ -385,10 +441,11 @@ ${mediaGuideline}
  * 3. Generate Strict Thumbnail Copy using Planner Model (gpt-5.6-luna) with Retry & Validation
  */
 async function generateThumbnailCopy(plan, articleBody, apiKey, telemetry, retryCount = 0) {
+  const targetDisease = plan.thumbnailDiseaseLabel || plan.titleDisease || plan.disease.name;
   const fallbackCopy = {
     yellowText: '원인 모를',
     whiteText: plan.topicAngle.titleSuffix.slice(0, 12),
-    greenText: plan.disease.name
+    greenText: targetDisease
   };
 
   if (!apiKey) {
@@ -402,7 +459,7 @@ async function generateThumbnailCopy(plan, articleBody, apiKey, telemetry, retry
 [규칙 및 제약사항]
 1. yellowText (상단 노랑): 환자의 상황 또는 고민 훅 (1~8자 한글, 자연스러운 한국어 띄어쓰기 필수, 빈칸 금지, 예: "원인 모를", "갑자기 찾아오는", "아이의 틱", "나도 모르게")
 2. whiteText (중간 흰색): 대표 증상 또는 핵심 질문 (1~12자 한글, 자연스러운 한국어 띄어쓰기 필수, 빈칸 금지, 예: "어지럼증·소화불량", "두근거림·숨막힘", "스마트폰 사용 늘었다면")
-3. greenText (하단 초록): 질환명 (1~8자 한글, 반드시 '${plan.disease.name}', 빈칸 금지)
+3. greenText (하단 초록): 질환명 (1~8자 한글, 반드시 '${targetDisease}', 빈칸 금지. 상위 질환 카테고리로 대체 절대 금지!)
 4. 지역명(${plan.geo.displayName}, 분당, 성남, 용인, 수지 등)은 3개 문구 어디에도 절대 포함하지 마십시오.
 5. "나도모르게", "눈깜빡임·헛기침"처럼 띄어쓰기를 무시하고 붙여 쓰지 마십시오. 반드시 올바른 맞춤법/띄어쓰기를 준수하십시오.
 6. [주제 앵글(Topic Angle) 일치 필수 원칙 (GLOBAL RULE)]
@@ -416,7 +473,7 @@ async function generateThumbnailCopy(plan, articleBody, apiKey, telemetry, retry
 {
   "yellowText": "원인 모를",
   "whiteText": "어지럼증·소화불량",
-  "greenText": "${plan.disease.name}"
+  "greenText": "${targetDisease}"
 }
 `;
 
@@ -444,6 +501,11 @@ async function generateThumbnailCopy(plan, articleBody, apiKey, telemetry, retry
   let yellow = (result.yellowText || '').trim();
   let white = (result.whiteText || '').trim();
   let green = (result.greenText || '').trim();
+
+  // Enforce greenText identity
+  if (!green || green !== targetDisease) {
+    green = targetDisease;
+  }
 
   const isInvalid = !yellow || yellow.length > 15 ||
                     !white || white.length > 18 ||
@@ -473,13 +535,13 @@ async function generateThumbnailCopy(plan, articleBody, apiKey, telemetry, retry
 /**
  * 4. Generate Single Photo Background Image with Optimized Moderation Transition & Error Classification
  */
-async function generateBackgroundImage(diseaseId, diseaseName, topicAngleId, topicAngleFocus, apiKey, telemetry) {
+async function generateBackgroundImage(diseaseId, diseaseName, topicAngleId, topicAngleFocus, apiKey, telemetry, ageGroup = 'mixed') {
   if (!apiKey) {
     return null;
   }
 
-  const primaryPrompt = buildImagePrompt(diseaseId, diseaseName, topicAngleId, topicAngleFocus);
-  const fallbackPrompt = buildFallbackImagePrompt(diseaseId, diseaseName, topicAngleId, topicAngleFocus);
+  const primaryPrompt = buildImagePrompt(diseaseId, diseaseName, topicAngleId, topicAngleFocus, ageGroup);
+  const fallbackPrompt = buildFallbackImagePrompt(diseaseId, diseaseName, topicAngleId, topicAngleFocus, ageGroup);
 
   let attempts = 0;
   let moderationRetries = 0;

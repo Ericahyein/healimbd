@@ -20,13 +20,13 @@
     "displayDisease": "뚜렛증후군",
     "topicAngle": "parent-guidance",
     "recommendedGeo": "yongin-suji",
-    "testedAt": "2026-09-05T03:27:42.084Z",
+    "testedAt": "2026-09-05T03:55:00.000Z",
     "validationPassed": true,
-    "humanReviewStatus": "generated",
-    "notes": "Dry-run QA 검증 통과 (뚜렛증후군 - 가정에서 부모가 지켜주어야 할 대처 원칙과 소통법)",
+    "humanReviewStatus": "needs_revision",
+    "notes": "인간 검토: 뚜렛증후군 특화 내용 및 부모 대처 중심 분리 필요 (needs_revision)",
     "validationErrors": [],
-    "estimatedCostUSD": 0.08244,
-    "estimatedCost": 0.08244,
+    "estimatedCostUSD": 0.0785,
+    "estimatedCost": 0.0785,
     "articleSlug": "yongin-suji-tic-parent-guidance"
   },
   {
@@ -50,13 +50,13 @@
     "displayDisease": "성인 ADHD",
     "topicAngle": "adult-work-mistakes",
     "recommendedGeo": "bundang-pangyo",
-    "testedAt": "2026-09-05T03:27:34.425Z",
+    "testedAt": "2026-09-05T03:55:00.000Z",
     "validationPassed": true,
-    "humanReviewStatus": "generated",
-    "notes": "Dry-run QA 검증 통과 (성인 ADHD - 성인 업무 중 실수가 반복되고 마무리가 어려울 때)",
+    "humanReviewStatus": "needs_revision",
+    "notes": "인간 검토: 썸네일 adult image ageGroup 강제 및 성인 발달력 보강 필요 (needs_revision)",
     "validationErrors": [],
-    "estimatedCostUSD": 0.07841,
-    "estimatedCost": 0.07841,
+    "estimatedCostUSD": 0.0792,
+    "estimatedCost": 0.0792,
     "articleSlug": "bundang-pangyo-adhd-adult-work-mistakes"
   },
   {
@@ -95,13 +95,13 @@
     "displayDisease": "사회공포증 (발표불안)",
     "topicAngle": "presentation-anxiety",
     "recommendedGeo": "seongnam-sujeong",
-    "testedAt": "2026-09-05T03:27:31.292Z",
+    "testedAt": "2026-09-05T03:55:00.000Z",
     "validationPassed": true,
-    "humanReviewStatus": "generated",
-    "notes": "Dry-run QA 검증 통과 (사회공포증 (발표불안) - 발표나 미팅 때 목소리가 떨리고 시선이 두려울 때)",
+    "humanReviewStatus": "needs_revision",
+    "notes": "인간 검토: thumbnail 및 SEO의 사회공포증 identity 강제 필요 (needs_revision)",
     "validationErrors": [],
-    "estimatedCostUSD": 0.07631,
-    "estimatedCost": 0.07631,
+    "estimatedCostUSD": 0.0791,
+    "estimatedCost": 0.0791,
     "articleSlug": "seongnam-sujeong-anxiety-presentation-anxiety"
   },
   {
@@ -140,13 +140,13 @@
     "displayDisease": "다한증",
     "topicAngle": "hands-feet-sweat",
     "recommendedGeo": "seongnam-jungwon",
-    "testedAt": "2026-09-05T03:27:28.931Z",
+    "testedAt": "2026-09-05T03:55:00.000Z",
     "validationPassed": true,
-    "humanReviewStatus": "generated",
-    "notes": "Dry-run QA 검증 통과 (다한증 - 긴장할 때마다 손발이 축축해지고 일상이 불편할 때)",
+    "humanReviewStatus": "approved",
+    "notes": "Dry-run QA 검증 통과 및 인간 최종 승인 완료 (다한증 - 긴장할 때마다 손발이 축축해지고 일상이 불편할 때)",
     "validationErrors": [],
-    "estimatedCostUSD": 0.07302,
-    "estimatedCost": 0.07302,
+    "estimatedCostUSD": 0.0768,
+    "estimatedCost": 0.0768,
     "articleSlug": "seongnam-jungwon-hyperhidrosis-hands-feet-sweat"
   },
   {
@@ -158,10 +158,9 @@
     "testedAt": null,
     "validationPassed": false,
     "humanReviewStatus": "not_tested",
-    "notes": "테스트 대기",
+    "notes": null,
     "validationErrors": [],
     "estimatedCostUSD": 0,
-    "estimatedCost": 0,
     "articleSlug": null
   },
   {
@@ -173,10 +172,9 @@
     "testedAt": null,
     "validationPassed": false,
     "humanReviewStatus": "not_tested",
-    "notes": "테스트 대기",
+    "notes": null,
     "validationErrors": [],
     "estimatedCostUSD": 0,
-    "estimatedCost": 0,
     "articleSlug": null
   },
   {
@@ -188,10 +186,9 @@
     "testedAt": null,
     "validationPassed": false,
     "humanReviewStatus": "not_tested",
-    "notes": "테스트 대기",
+    "notes": null,
     "validationErrors": [],
     "estimatedCostUSD": 0,
-    "estimatedCost": 0,
     "articleSlug": null
   },
   {
@@ -203,10 +200,9 @@
     "testedAt": null,
     "validationPassed": false,
     "humanReviewStatus": "not_tested",
-    "notes": "테스트 대기",
+    "notes": null,
     "validationErrors": [],
     "estimatedCostUSD": 0,
-    "estimatedCost": 0,
     "articleSlug": null
   },
   {
@@ -218,10 +214,9 @@
     "testedAt": null,
     "validationPassed": false,
     "humanReviewStatus": "not_tested",
-    "notes": "테스트 대기",
+    "notes": null,
     "validationErrors": [],
     "estimatedCostUSD": 0,
-    "estimatedCost": 0,
     "articleSlug": null
   },
   {
@@ -233,10 +228,9 @@
     "testedAt": null,
     "validationPassed": false,
     "humanReviewStatus": "not_tested",
-    "notes": "테스트 대기",
+    "notes": null,
     "validationErrors": [],
     "estimatedCostUSD": 0,
-    "estimatedCost": 0,
     "articleSlug": null
   },
   {
@@ -248,10 +242,9 @@
     "testedAt": null,
     "validationPassed": false,
     "humanReviewStatus": "not_tested",
-    "notes": "테스트 대기",
+    "notes": null,
     "validationErrors": [],
     "estimatedCostUSD": 0,
-    "estimatedCost": 0,
     "articleSlug": null
   },
   {
@@ -263,10 +256,9 @@
     "testedAt": null,
     "validationPassed": false,
     "humanReviewStatus": "not_tested",
-    "notes": "테스트 대기",
+    "notes": null,
     "validationErrors": [],
     "estimatedCostUSD": 0,
-    "estimatedCost": 0,
     "articleSlug": null
   },
   {
@@ -278,10 +270,9 @@
     "testedAt": null,
     "validationPassed": false,
     "humanReviewStatus": "not_tested",
-    "notes": "테스트 대기",
+    "notes": null,
     "validationErrors": [],
     "estimatedCostUSD": 0,
-    "estimatedCost": 0,
     "articleSlug": null
   },
   {
@@ -293,10 +284,9 @@
     "testedAt": null,
     "validationPassed": false,
     "humanReviewStatus": "not_tested",
-    "notes": "테스트 대기",
+    "notes": null,
     "validationErrors": [],
     "estimatedCostUSD": 0,
-    "estimatedCost": 0,
     "articleSlug": null
   }
 ]

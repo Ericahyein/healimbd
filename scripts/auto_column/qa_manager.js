@@ -66,6 +66,8 @@ function buildQAPlan(target, now = new Date()) {
 
   // 4. Build canonical title and slug
   const titleDisease = target.titleDisease || target.canonicalDiseaseLabel || disease.name;
+  const thumbnailDiseaseLabel = target.thumbnailDiseaseLabel || titleDisease;
+  const seoDiseaseLabel = target.seoDiseaseLabel || titleDisease;
   const titlePrefix = geo.canonicalTitle.replace('{disease}', titleDisease);
   const titleCandidate = `${titlePrefix} ${topicAngle.titleSuffix}`;
   const rawSlug = `${geo.id}-${disease.id}-${topicAngle.id}`;
@@ -76,6 +78,8 @@ function buildQAPlan(target, now = new Date()) {
     qaId: target.qaId,
     displayDisease: target.displayDisease,
     titleDisease,
+    thumbnailDiseaseLabel,
+    seoDiseaseLabel,
     ageGroup: target.ageGroup,
     isQAOverride: true,
     geo,

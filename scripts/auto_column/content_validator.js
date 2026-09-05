@@ -507,6 +507,8 @@ function validateArticleContent(articleData, options = {}) {
     diseaseId = '',
     titleDisease = '',
     canonicalDiseaseLabel = '',
+    thumbnailDiseaseLabel = articleData.thumbnailDiseaseLabel,
+    seoDiseaseLabel = articleData.seoDiseaseLabel,
     ageGroup = articleData.ageGroup || (articleData.qaTarget && articleData.qaTarget.ageGroup) || 'mixed',
     topicAngle = articleData.topicAngle,
     qaTarget = articleData.qaTarget,
@@ -557,6 +559,8 @@ function validateArticleContent(articleData, options = {}) {
 
     if (!allowedDiseases.has(diseasePart)) {
       errors.push(`Title contains unapproved disease: '${diseasePart}'. Allowed: ${Array.from(allowedDiseases).join(', ')}`);
+    } else if (titleDisease && diseasePart !== titleDisease) {
+      errors.push(`Title disease identity mismatch: Title uses '${diseasePart}' instead of target disease '${titleDisease}'.`);
     }
 
     // 3-3. Check Topic Part Length
@@ -570,6 +574,27 @@ function validateArticleContent(articleData, options = {}) {
   for (const { pattern, reason } of GLOBAL_BANNED_MEDICAL_PATTERNS) {
     if (pattern.test(fullText)) {
       errors.push(`Medical safety violation: ${reason} (Matched: ${pattern})`);
+    }
+  }
+
+  // 4-0. Target Identity Validation for SEO (Hashtags & Keywords)
+  const expectedSeo = seoDiseaseLabel ||
+    (qaTarget && (qaTarget.seoDiseaseLabel || qaTarget.titleDisease)) ||
+    titleDisease;
+  if (expectedSeo && validDisease) {
+    const parentName = validDisease.name;
+    if (expectedSeo.trim() !== parentName.trim()) {
+      const allSeoText = `${hashtags.join(' ')} ${keywords.join(' ')}`;
+      const cleanExpectedSeo = expectedSeo.replace(/\s+/g, '');
+      const hasExpected = allSeoText.includes(expectedSeo) || allSeoText.includes(cleanExpectedSeo);
+      if (!hasExpected) {
+        errors.push(`SEO identity leakage: Expected SEO disease label '${expectedSeo}' in hashtags/keywords, but it was missing.`);
+      }
+
+      const parentHashtagPrimary = `${validGeo ? validGeo.displayName : ''}${parentName.replace(/[^가-힣a-zA-Z0-9]/g, '')}`;
+      if (hashtags.includes(parentHashtagPrimary)) {
+        errors.push(`SEO identity leakage: Primary hashtag uses parent disease '${parentName}' ('${parentHashtagPrimary}') instead of specific target '${expectedSeo}'.`);
+      }
     }
   }
 
@@ -605,6 +630,15 @@ function validateArticleContent(articleData, options = {}) {
   const nonDevelopmentalDiseases = ['anxiety', 'panic', 'sleep', 'depression', 'autonomic', 'ibs', 'headache', 'dizziness', 'hyperhidrosis', 'fatigue', 'syncope'];
   if (nonDevelopmentalDiseases.includes(diseaseId) && fullText.includes('신경발달')) {
     errors.push(`Etiology phrasing violation: '신경발달학적' is only applicable to pediatric/neurodevelopmental disorders (tic/adhd), not ${diseaseId}.`);
+  }
+
+  // 4-4. Specific Target Identity in Article Body
+  const effectiveTargetDisease = titleDisease || (qaTarget && (qaTarget.titleDisease || qaTarget.displayDisease)) || '';
+  if (effectiveTargetDisease.includes('뚜렛') && !body.includes('뚜렛')) {
+    errors.push("Target identity violation: Target is Tourette ('뚜렛증후군'), but article body does not mention '뚜렛'.");
+  }
+  if (effectiveTargetDisease.includes('사회공포') && (!body.includes('사회공포') && !body.includes('발표불안'))) {
+    errors.push("Target identity violation: Target is Social Phobia ('사회공포증'), but article body does not mention '사회공포' or '발표불안'.");
   }
 
   // 5. Structure Elements Check (Key Summary Box, Headings, FAQ)
@@ -652,6 +686,14 @@ function validateArticleContent(articleData, options = {}) {
     }
     if (!greenText || greenText.trim().length < 1 || greenText.length > 12) {
       errors.push('Thumbnail greenText must be 1~12 characters.');
+    }
+
+    // 7-0. Target Identity Enforcement on Thumbnail (greenText)
+    const expectedGreen = thumbnailDiseaseLabel ||
+      (qaTarget && (qaTarget.thumbnailDiseaseLabel || qaTarget.titleDisease)) ||
+      titleDisease;
+    if (expectedGreen && greenText.trim() !== expectedGreen.trim()) {
+      errors.push(`Thumbnail copy identity violation: greenText must be '${expectedGreen}', but got '${greenText}'.`);
     }
 
     // Check for glued unspaced common patterns (e.g. "나도모르게", "눈깜빡임·헛기침" without space)
