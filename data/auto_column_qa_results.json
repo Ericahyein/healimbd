@@ -20,15 +20,13 @@
     "displayDisease": "뚜렛증후군",
     "topicAngle": "parent-guidance",
     "recommendedGeo": "yongin-suji",
-    "testedAt": "2026-09-05T05:59:38.398Z",
-    "validationPassed": false,
+    "testedAt": "2026-09-05T06:13:31.814Z",
+    "validationPassed": true,
     "humanReviewStatus": "needs_revision",
-    "notes": "Dry-run 검증 실패: Medical safety violation: 치료 단정적 확신 표현 금지 (Matched: /반드시\\s*(치료|완치|좋아|낫)/i) (false positive 수정 후 재실행 대기)",
-    "validationErrors": [
-      "Medical safety violation: 치료 단정적 확신 표현 금지 (Matched: /반드시\\s*(치료|완치|좋아|낫)/i)"
-    ],
-    "estimatedCostUSD": 0.04913,
-    "estimatedCost": 0.04913,
+    "notes": "Dry-run QA 검증 통과 (뚜렛증후군 - 가정에서 부모가 지켜주어야 할 대처 원칙과 소통법)",
+    "validationErrors": [],
+    "estimatedCostUSD": 0.08786,
+    "estimatedCost": 0.08786,
     "articleSlug": "yongin-suji-tic-parent-guidance"
   },
   {
