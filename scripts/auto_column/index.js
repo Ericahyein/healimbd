@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const { planNextColumn, loadHistory } = require('./topic_planner');
+const { planNextColumn, loadHistory, getKstIsoString } = require('./topic_planner');
 const { findQATarget, buildQAPlan, recordQAResult, loadQAResults, writeSingleQAResult } = require('./qa_manager');
 const {
   loadMedicalKnowledge,
@@ -166,7 +166,7 @@ async function runAutoColumnPipeline() {
       const artifactDir = path.join(__dirname, '../../auto_column_artifacts');
       if (!fs.existsSync(artifactDir)) fs.mkdirSync(artifactDir, { recursive: true });
 
-      const todayIso = new Date().toISOString();
+      const todayIso = getKstIsoString();
       const hashtagsYaml = hashtags.map(h => `  - "${h}"`).join('\n');
       const keywordsYaml = keywords.map(k => `  - "${k}"`).join('\n');
 
@@ -262,7 +262,7 @@ ${articleBody}
   console.log(`🖼️ Thumbnail successfully created at: ${localThumbPath}`);
 
   // 6. Build Final Front Matter & Markdown Document
-  const todayIso = new Date().toISOString();
+  const todayIso = getKstIsoString();
   const hashtagsYaml = hashtags.map(h => `  - "${h}"`).join('\n');
   const keywordsYaml = keywords.map(k => `  - "${k}"`).join('\n');
 

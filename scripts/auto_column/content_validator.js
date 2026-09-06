@@ -955,6 +955,58 @@ function checkFatigueBurnoutAndAutonomicFraming(fullText) {
   return { valid: true };
 }
 
+// Build canonical GEO names and aliases for clinic branch name verification
+const allGeoTerms = new Set();
+for (const r of geoHierarchy.regions) {
+  if (r.displayName) allGeoTerms.add(r.displayName);
+  if (r.parentRegion) allGeoTerms.add(r.parentRegion);
+  if (r.fullName) {
+    allGeoTerms.add(r.fullName);
+    allGeoTerms.add(r.fullName.replace(/(시|구|동)$/, ''));
+  }
+  if (r.aliases) {
+    for (const a of r.aliases) {
+      allGeoTerms.add(a);
+      allGeoTerms.add(a.replace(/(시|구|동)$/, ''));
+    }
+  }
+}
+['성남', '분당', '판교', '용인', '수지', '기흥', '처인구', '경기광주', '광주', '이천', '송파', '위례'].forEach(g => allGeoTerms.add(g));
+
+const sortedGeoTerms = Array.from(allGeoTerms)
+  .filter(t => t && t.length >= 2)
+  .sort((a, b) => b.length - a.length);
+
+const geoPatternString = sortedGeoTerms.map(t => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
+const fabricatedBranchRegex = new RegExp(`(?:${geoPatternString})(?:시|구|동|역|지역)?\\s*(?:인근\\s*)?해아림\\s*한의원`, 'g');
+
+/**
+ * Validates clinic branch identity:
+ * - Prohibits fabricated branch names like GEO + "해아림한의원" (e.g. "성남 해아림한의원", "용인 해아림한의원", "판교 해아림한의원")
+ * - Official branch name is strictly "해아림한의원 분당점"
+ * - Allows general GEO SEO contexts (e.g. "[성남 틱장애]...", "판교에서 틱장애를 상담하다 보면...")
+ *
+ * @param {string} text - The text to check (fullText, body, or title)
+ * @returns {{ valid: boolean, errors: string[], matches?: string[] }}
+ */
+function checkClinicBranchName(text) {
+  if (!text || typeof text !== 'string') return { valid: true, errors: [] };
+  const errors = [];
+
+  const matches = text.match(fabricatedBranchRegex);
+  if (matches && matches.length > 0) {
+    const uniqueMatches = Array.from(new Set(matches));
+    errors.push(`Clinic Branch Identity violation: Fabricated branch name detected (${uniqueMatches.join(', ')}). 공식 병원명은 '해아림한의원 분당점'이며, 지역 키워드(GEO)와 결합된 임의 지점명(예: 성남 해아림한의원, 용인 해아림한의원, 판교 해아림한의원 등)은 엄격히 금지됩니다. (SEO GEO와 실제 지점명 분리 필수)`);
+  }
+
+  return {
+    valid: errors.length === 0,
+    errors,
+    matches: matches || []
+  };
+}
+
+
 /**
  * 3-Tier Comprehensive Validation of Generated Column
  * Tier 1: Global Policy (Structure, Length, Headings, Banned Phrases, Internal Links)
@@ -1120,6 +1172,16 @@ function validateArticleContent(articleData, options = {}) {
   const hasKeySummary = body.includes('column-key-summary-box') || body.includes('핵심 요약');
   if (!hasKeySummary) {
     errors.push('Article must include a Key Summary Box (핵심 요약) in the introduction.');
+  }
+
+  // Duplicate H1 check (Markdown body must not start with or contain duplicate H1 matching front matter title)
+  const h1Match = body.match(/^#\s+(.+)$/m);
+  if (h1Match) {
+    const h1Heading = h1Match[1].trim();
+    const cleanTitle = (title || '').trim();
+    if (h1Heading === cleanTitle || h1Heading.includes(cleanTitle) || cleanTitle.includes(h1Heading)) {
+      errors.push(`Duplicate H1 violation: Markdown body contains duplicate H1 title '${h1Heading}' matching front matter title. Front matter title is already rendered by template.`);
+    }
   }
 
   const h2Count = (body.match(/^##\s+.+$/gm) || []).length;
@@ -1340,13 +1402,16 @@ function validateArticleContent(articleData, options = {}) {
     }
 
     // 2. Check body for foreign or sibling local areas
+    // Note: The official clinic name "해아림한의원 분당점" is used across all articles regardless of SEO GEO.
+    // We strip the official clinic branch name when checking body foreign keywords so "분당" inside the official name does not false-positive.
+    const bodyWithoutOfficialClinic = body.replace(/해아림\s*한의원\s*분당점/g, '');
     for (const forbidden of forbiddenKeywords) {
-      if (body.includes(forbidden)) {
+      if (bodyWithoutOfficialClinic.includes(forbidden)) {
         errors.push(`Geo consistency violation: Targeted for '${validGeo.displayName}', but found unrelated region keyword '${forbidden}' in article body.`);
       }
     }
     for (const forbidden of specificForbiddenStations) {
-      if (body.includes(forbidden)) {
+      if (bodyWithoutOfficialClinic.includes(forbidden)) {
         errors.push(`Geo consistency violation: Found unrelated local station keyword '${forbidden}' in article body.`);
       }
     }
@@ -1369,6 +1434,12 @@ function validateArticleContent(articleData, options = {}) {
         }
       }
     }
+  }
+
+  // 5. Clinic Brand / Branch Identity check: GEO + "해아림한의원" forbidden, official is "해아림한의원 분당점"
+  const branchCheck = checkClinicBranchName(fullText);
+  if (!branchCheck.valid) {
+    errors.push(...branchCheck.errors);
   }
 
   // ==========================================
@@ -1601,5 +1672,7 @@ module.exports = {
   checkSeparationAnxietyDistinction,
   checkNightTerrorsTitleAndClinical,
   checkChildEnuresisClinicalAndStandardCare,
-  checkFatigueBurnoutAndAutonomicFraming
+  checkFatigueBurnoutAndAutonomicFraming,
+  checkClinicBranchName
 };
+

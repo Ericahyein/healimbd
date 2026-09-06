@@ -46,6 +46,24 @@ function getKstCalendarDate(dateInput) {
 }
 
 /**
+ * Converts a date to an ISO 8601 string with KST offset (+09:00).
+ * e.g. 2026-09-06T16:30:00.000Z -> 2026-09-07T01:30:00.000+09:00
+ */
+function getKstIsoString(dateInput = new Date()) {
+  const d = new Date(dateInput);
+  const kstMs = d.getTime() + (9 * 60 * 60 * 1000);
+  const kst = new Date(kstMs);
+  return kst.toISOString().replace('Z', '+09:00');
+}
+
+/**
+ * Returns KST calendar date string: YYYY-MM-DD
+ */
+function getKstDateString(dateInput = new Date()) {
+  return getKstCalendarDate(dateInput).toISOString().slice(0, 10);
+}
+
+/**
  * Calculates the difference in calendar days between two dates in KST.
  * (e.g. 2026-09-07 and 2026-09-08 returns 1)
  */
@@ -206,6 +224,8 @@ module.exports = {
   isDiseaseIn3DayCooldown,
   getTodayPublishedItems,
   getKstCalendarDate,
+  getKstIsoString,
+  getKstDateString,
   getKstCalendarDayDiff,
   planNextColumn,
   buildProductionTopicPlan

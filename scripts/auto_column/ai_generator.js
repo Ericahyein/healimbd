@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { sanitizeAnchorTitle } = require('./internal_linker');
 
 const PLANNER_MODEL = process.env.OPENAI_PLANNER_MODEL || 'gpt-5.6-luna';
 const WRITER_MODEL = process.env.OPENAI_WRITER_MODEL || 'gpt-5.6-terra';
@@ -275,11 +276,18 @@ async function generateTopicOutline(plan, knowledge, apiKey, telemetry) {
  * 2. Generate Full Medical Article Body using Writer Model (gpt-5.6-terra)
  */
 async function generateArticleBody(plan, outline, knowledge, internalLinks, apiKey, telemetry) {
-  const linksListMd = internalLinks.map(l => `- [${l.title}](${l.url})`).join('\n');
+  const sanitizedLinksListMd = internalLinks.map(l => {
+    const rawAnchor = l.cleanAnchor || l.title || '관련 질환 안내';
+    const cleanAnchor = sanitizeAnchorTitle(rawAnchor);
+    return `- [${cleanAnchor}](${l.url})`;
+  }).join('\n');
   const usableNotes = (knowledge.evidenceNotes || []).filter(n => n.productionUsable !== false && n.sourceVerified !== false);
   const evidenceSnippet = usableNotes.length > 0 ? JSON.stringify(usableNotes, null, 2) : 'None';
 
   if (!apiKey) {
+    const isAdult = plan.ageGroup === 'adult';
+    const guardianDesc = isAdult ? '환자분' : '보호자분';
+
     return `
 <div class="column-key-summary-box">
   <div class="summary-header">
@@ -287,25 +295,25 @@ async function generateArticleBody(plan, outline, knowledge, internalLinks, apiK
   </div>
   <ul class="summary-list">
     <li><strong>${knowledge.approvedDefinition}</strong></li>
-    <li>빠른 화면 전환과 강한 시각 자극은 두뇌의 각성과 긴장도를 높여 틱 증상 변동에 영향을 줄 수 있습니다.</li>
-    <li>도파민계 및 CSTC 회로 등 신경생물학적 특성을 고려할 때 자극적인 환경을 조절하는 것이 중요합니다.</li>
-    <li>단순 허용보다 아이의 상황에 맞추어 불필요한 미디어 노출을 적극적으로 줄이고 증상 변화를 관찰합니다.</li>
+    <li>반복되는 스트레스와 피로는 신경계의 각성과 긴장도를 높여 증상 변동에 영향을 줄 수 있습니다.</li>
+    <li>증상의 기저 특성과 일상 속 악화 요인을 구별하여 체계적으로 점검하는 것이 필요합니다.</li>
+    <li>단순 억제보다 생활 환경과 수면 상태를 함께 살피며 차분하게 관찰합니다.</li>
   </ul>
 </div>
 
 ## 1. 진료실에서 자주 마주하는 고민
 
-${plan.geo.displayName} 지역에서 아이의 ${plan.disease.name} 증상으로 상담을 청하시는 보호자분들의 이야기를 듣다 보면 "스마트폰이나 게임을 볼 때 증상이 더 심해지는 것 같은데 어떻게 지도해야 하는지"에 대한 질문을 자주 받습니다.
-진료실에서는 무조건적인 방치나 단순한 시간 때우기식 허용보다는, 자극적인 콘텐츠가 아이의 두뇌 흥분도에 미치는 영향을 균형 있게 이해하고 대처하는 것이 필요하다고 안내해 드립니다.
+${plan.geo.displayName} 지역에서 ${plan.disease.name} 증상으로 상담을 청하시는 ${guardianDesc}들의 이야기를 듣다 보면 "일상 생활에서 증상이 더 두드러지는 것 같은데 어떻게 대처해야 하는지"에 대한 질문을 자주 받습니다.
+진료실에서는 단순한 인내나 방치보다는, 일상 속 스트레스 요인이 두뇌 흥분도와 조절력에 미치는 영향을 균형 있게 이해하고 대처하는 것이 필요하다고 안내해 드립니다.
 
-## 2. 신경생물학적 특성과 자극적 환경이 증상에 미치는 영향
+## 2. 신경생물학적 특성과 생활 환경이 증상에 미치는 영향
 
 ${knowledge.approvedDefinition}
-임상 및 신경과학 연구에서는 틱장애와 관련하여 다음과 같은 점들을 명확히 구분하여 살펴보고 있습니다:
+임상 연구에서는 ${plan.disease.name}와 관련하여 다음과 같은 점들을 명확히 구분하여 살펴보고 있습니다:
 
-- **질환의 발생 및 신경학적 배경**: 도파민계를 포함한 신경전달 체계와 피질-선조체-시상-피질(CSTC) 운동 조절 회로의 특성이 주요 신경생물학적 배경으로 연구되고 있습니다.
-- **증상의 악화 및 변동 요인**: 질환의 기저 특성과 별개로, 이미 나타나는 틱 증상의 정도는 피로, 수면 상태, 정서적 긴장 및 ${knowledge.possibleAggravatingFactors.join(', ')} 등에 따라 변동될 수 있습니다.
-- **자극적인 콘텐츠와 두뇌 각성**: 빠른 화면 전환, 강한 색감, 큰 소리 등 자극적인 영상이나 게임은 뇌의 보상계와 각성 시스템을 강하게 활성화하여 긴장 상태를 오래 지속시킬 수 있습니다.
+- **질환의 발생 및 신경학적 배경**: 신경전달 체계와 조절 회로의 특성이 주요 신경생물학적 배경으로 연구되고 있습니다.
+- **증상의 악화 및 변동 요인**: 질환의 기저 특성과 별개로, 이미 나타나는 증상의 정도는 피로, 수면 상태, 정서적 긴장 및 ${knowledge.possibleAggravatingFactors.join(', ')} 등에 따라 변동될 수 있습니다.
+- **일상 긴장과 신체 반응**: 지속적인 긴장과 피로는 신체 조절 시스템의 부담을 높여 증상이 더 자주 감지되게 만들 수 있습니다.
 
 자세한 진료 과목 안내는 의료진과의 1:1 상담을 통해 확인하실 수 있습니다.
 
@@ -314,32 +322,32 @@ ${knowledge.approvedDefinition}
 초기 증상의 양상을 파악하는 것이 중요합니다:
 - ${knowledge.commonSymptoms.join('\n- ')}
 
-단순한 일시적 버릇인지 신경학적 긴장 조절이 필요한 상태인지 신중하게 구별하여 접근하는 것이 바람직합니다.
+단순한 일시적 피로인지 지속적인 조절이 필요한 상태인지 신중하게 구별하여 접근하는 것이 바람직합니다.
 관련 질환에 대한 구체적인 평가는 초기 진료 상담을 통해 안내받으실 수 있습니다.
 
-## 4. 해아림한의원의 상태 평가 및 1:1 맞춤 관리 관점
+## 4. 해아림한의원 분당점의 상태 평가 및 1:1 맞춤 관리 관점
 
 ${knowledge.evaluationGuidance}
-해아림한의원에서는 ${knowledge.treatmentGuidance}를 통해 환자 개개인의 균형 있는 회복을 돕고 있습니다.
+해아림한의원 분당점에서는 ${knowledge.treatmentGuidance}를 통해 환자 개개인의 균형 있는 회복을 돕고 있습니다.
 
-## 5. 일상생활에서 실천할 수 있는 적극적인 미디어 조절 수칙
+## 5. 일상생활에서 실천할 수 있는 적극적인 생활 조절 수칙
 
-1. **과도한 노출 적극적 축소**: 특정 시간대만 제한하기보다는 평소의 전체적인 미디어 노출량을 가능한 범위에서 적극적으로 줄여나갑니다.
-2. **증상 안정 관찰**: 사용량을 줄인 후 일정 기간 동안 아이의 틱 증상 및 수면, 일상 긴장도의 변화를 차분히 관찰합니다.
-3. **대체 활동 마련**: 자극적인 스크린 노출 대신 가벼운 야외 활동, 신체 놀이, 정서적 대화 시간을 함께 늘려줍니다.
+1. **규칙적인 휴식 확보**: 일과 휴식의 리듬을 조절하여 신체적·정신적 피로가 누적되지 않도록 관리합니다.
+2. **증상 안정 관찰**: 생활 리듬을 조절하며 일정 기간 동안 ${plan.disease.name} 관련 불편감 및 수면, 일상 긴장도의 변화를 차분히 관찰합니다.
+3. **이완 시간 마련**: 가벼운 산책이나 규칙적인 스트레칭, 편안한 대화 시간을 통해 긴장을 완화합니다.
 
 ## 6. 자주 묻는 질문 (FAQ)
 
 **Q1. ${knowledge.faqCandidates[0]?.q || '증상이 있을 때 어떻게 대처하나요?'}**  
-A. ${knowledge.faqCandidates[0]?.a || '무리하게 지적하지 않고 편안한 환경에서 상태를 관찰하는 것이 권장됩니다.'}
+A. ${knowledge.faqCandidates[0]?.a || '무리하게 참으려 하기보다 편안한 환경에서 상태를 관찰하고 의료진 상담을 받는 것이 좋습니다.'}
 
-**Q2. ${knowledge.faqCandidates[1]?.q || '스마트폰을 어떻게 조절해야 하나요?'}**  
-A. ${knowledge.faqCandidates[1]?.a || '아이 상황에 맞게 불필요한 노출을 적극적으로 줄이고, 조절 전후의 증상 변화를 세밀히 관찰하는 것이 좋습니다.'}
+**Q2. ${knowledge.faqCandidates[1]?.q || '생활 관리는 어떻게 시작해야 하나요?'}**  
+A. ${knowledge.faqCandidates[1]?.a || '개인 상황에 맞게 불필요한 과로와 긴장을 줄이고, 수면과 휴식의 질을 점검하는 것이 권장됩니다.'}
 
 ---
 
 ### 🔗 함께 읽어보면 좋은 연관 안내
-${linksListMd}
+${sanitizedLinksListMd}
 `;
   }
 
@@ -592,7 +600,7 @@ ${linksListMd}
 ${linksListMd}
 
 [원장칼럼 작성 규칙 및 핵심 지침 (GLOBAL MEDICAL POLICY)]
-1. 최상단에 반드시 <div class="column-key-summary-box"> 핵심 요약 3~4항목 포함.
+1. [제목(H1) 중복 생성 엄격 금지 (GLOBAL RULE)] 페이지 상단 템플릿에서 front matter title을 이미 H1으로 렌더링하므로, 본문 마크다운 첫 줄에 '# 제목' 형태로 H1을 절대 생성하지 마십시오. 본문은 바로 <div class="column-key-summary-box"> 핵심 요약 3~4항목 또는 리드문이나 첫 H2부터 시작하십시오.
 2. H2 목차는 최소 4개 이상 논리적으로 전개.
 3. FAQ는 최소 3문항 이상 Q&A 볼드체(**Q1.**, **Q2.**, **Q3.**)로 작성.
 4. 문체는 진료실에서 환자/보호자분들이 자주 묻는 질문에 전문적이고 명확하게 설명하는 원장칼럼 톤을 유지하십시오.
@@ -601,7 +609,7 @@ ${linksListMd}
    - 소아 발달성 질환(틱/ADHD): '신경발달학적·신경생물학적 특성이 관여'로 서술하십시오.
    - 성인 불안/수면/기분/자율신경 질환(불안장애, 공황장애, 불면증, 우울증 등): '신경발달학적'이라는 표현을 일체 사용하지 마십시오. 반드시 '신경생물학적 특성, 심리적 경험, 환경적 스트레스 등이 복합적으로 관여할 수 있다' 정도로 서술하십시오.
    - 질환의 신경생물학적 병태생리와 일상 속 증상의 악화/변동 요인을 명확히 분리하여 서술하십시오.
-   - 한의학적 체질 및 장부 불균형 관점은 4번 '해아림한의원의 상태 평가 및 1:1 맞춤 관리' 섹션에서 전문적으로 별도 설명하십시오.
+   - 한의학적 체질 및 장부 불균형 관점은 4번 '해아림한의원 분당점의 상태 평가 및 1:1 맞춤 관리' 섹션에서 전문적으로 별도 설명하십시오.
 6. [질환별 승인된 악화 요인 및 생활 관리 준수 - 타 질환 생활요인 혼입 엄격 금지 (GLOBAL RULE)]
    - 반드시 위 [승인된 의료 지식]의 '악화 요인'과 '생활 관리' 항목에만 근거하여 작성하십시오.
    - 현재 질환과 관련 없는 타 질환의 생활 요인(예: 공황장애에 틱장애의 미디어 노출, 빠른 화면 전환, 강한 색감 등)을 절대로 혼입하거나 재사용하지 마십시오.
@@ -639,6 +647,13 @@ ${linksListMd}
 8. [마무리 광고성 내원 유도(CTA) 금지 (GLOBAL RULE)]
    - 칼럼의 마지막 문단이나 결론부에서 "[지역]에서 ... 진료를 권합니다", "[지역] 한의원에 내원하십시오", "본원에 방문하셔서" 등과 같은 지역 키워드 기반의 직접적인 내원/예약 권유 문장으로 끝맺지 마십시오.
    - 본문 내의 자연스러운 지역 언급(SEO)은 유지하되, 글의 마무리는 의료정보 요약, 환자의 일상 생활 관리 원칙, 차분한 관찰과 회복 지지로 품격 있고 자연스럽게 종료하십시오.
+8-1. [공식 병원명 고정 및 지점명 날조 엄격 금지 (CLINIC BRAND IDENTITY RULE)]
+     - 본 사이트에서 병원을 지칭하는 공식 기관 명칭은 오직 "해아림한의원 분당점"입니다.
+     - 지역 타깃(GEO)이 무엇이든(성남, 용인, 판교, 수지, 기흥, 경기광주, 이천, 위례 등) 병원명 앞에 지역을 결합하여 "성남 해아림한의원", "용인 해아림한의원", "판교 해아림한의원" 등 새로운 지점명을 임의 생성하는 행위를 엄격히 금지합니다. (SEO GEO ≠ Clinic branch name 엄격 분리)
+     - 지역 키워드는 제목/SEO 및 일반 문맥(예: "[성남 틱장애] ...", "성남에서 틱장애를 상담하다 보면...")에서만 사용하십시오.
+     - 병원 소개 H2 제목 및 본문은 반드시 공식 명칭인 "해아림한의원 분당점"으로 통일하십시오:
+       * H2: "## 해아림한의원 분당점의 상태 평가 및 1:1 맞춤 관리"
+       * 본문: "해아림한의원 분당점에서는..."
 9. [임의 수치/기간/빈도 생성 금지 - 필수 (GLOBAL RULE)]
    - "일주일 정도 기록", "3일간", "2주간", "한 달 동안", "하루 N회", "주 수회 이상", "주 N회", "N분 동안" 등 승인된 지식에 근거 없는 구체적인 기간/횟수/빈도 수치를 임의 생성하지 마십시오.
    - "매우 잦게 반복되거나", "일정 기간 동안", "규칙적으로", "꾸준히", "차분하게" 등으로 표현하십시오.
@@ -677,7 +692,10 @@ ${fatigueBurnoutGuideline}
     telemetry.terraOutTokens += response.usage.completion_tokens || 0;
   }
 
-  return response.choices[0].message.content;
+  let cleanedContent = (response.choices[0].message.content || '').trim();
+  // Strip duplicate leading H1 if generated
+  cleanedContent = cleanedContent.replace(/^#\s+[^\r\n]+(\r?\n)+/, '');
+  return cleanedContent;
 }
 
 /**

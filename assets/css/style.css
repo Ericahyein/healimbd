@@ -2294,6 +2294,34 @@ ul {
   margin-bottom: 18px;
 }
 
+.blog-content-body a {
+  color: #0369a1;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: #7dd3fc;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 4px;
+  transition: color 0.15s ease, text-decoration-color 0.15s ease, background-color 0.15s ease;
+  border-radius: 2px;
+}
+
+.blog-content-body a:visited {
+  color: #0369a1;
+}
+
+.blog-content-body a:hover,
+.blog-content-body a:focus {
+  color: #0284c7;
+  text-decoration-color: #0284c7;
+  text-decoration-thickness: 2px;
+  background-color: #f0f9ff;
+}
+
+.blog-content-body a:active {
+  color: #075985;
+}
+
+
 .blog-content-body ul, 
 .blog-content-body ol {
   margin: 16px 0 24px 20px;

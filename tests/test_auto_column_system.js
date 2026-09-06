@@ -110,6 +110,32 @@ assert.strictEqual(getKstCalendarDayDiff(kstBase, day3DiffKst), 3, 'Day 4 diff m
 assert.strictEqual(getKstCalendarDayDiff(kstBase, day4DiffKst), 4, 'Day 5 diff must be 4');
 console.log('✅ PASS: KST calendar date difference calculations strictly verified.');
 
+// 4-A-1. KST Date Formatting & Boundary Regression Tests
+const { getKstIsoString, getKstDateString } = require('../scripts/auto_column/topic_planner');
+
+// Canary execution: 2026-09-06 16:30:00 UTC = 2026-09-07 01:30:00 KST -> 2026-09-07 PASS
+const canaryUtcDate = new Date('2026-09-06T16:30:00.000Z');
+assert.strictEqual(getKstDateString(canaryUtcDate), '2026-09-07', '2026-09-06 16:30 UTC must produce 2026-09-07 KST date');
+assert(getKstIsoString(canaryUtcDate).startsWith('2026-09-07T01:30:00'), 'KST ISO string must start with 2026-09-07T01:30:00');
+assert(getKstIsoString(canaryUtcDate).endsWith('+09:00'), 'KST ISO string must have +09:00 offset');
+
+// Midnight boundary tests
+// Just before midnight: 2026-09-06 14:59:59.999 UTC = 2026-09-06 23:59:59.999 KST -> 2026-09-06
+const preMidnightDate = new Date('2026-09-06T14:59:59.999Z');
+assert.strictEqual(getKstDateString(preMidnightDate), '2026-09-06', 'Pre-midnight UTC must be 2026-09-06 KST');
+
+// Exactly midnight: 2026-09-06 15:00:00.000 UTC = 2026-09-07 00:00:00.000 KST -> 2026-09-07
+const midnightDate = new Date('2026-09-06T15:00:00.000Z');
+assert.strictEqual(getKstDateString(midnightDate), '2026-09-07', 'Midnight UTC boundary must be 2026-09-07 KST');
+
+// Scheduled times (09:07 and 17:07 KST)
+const morningSchedule = new Date('2026-09-07T00:07:00.000Z'); // 09:07 KST
+const eveningSchedule = new Date('2026-09-07T08:07:00.000Z'); // 17:07 KST
+assert.strictEqual(getKstDateString(morningSchedule), '2026-09-07', '09:07 KST schedule must be 2026-09-07');
+assert.strictEqual(getKstDateString(eveningSchedule), '2026-09-07', '17:07 KST schedule must be 2026-09-07');
+console.log('✅ PASS: KST calendar date boundary and canary date regression tests verified 100%.');
+
+
 // 4-B. Hard 3-Day Disease Cooldown Tests (0, 1, 2 days -> BLOCK, >=3 days -> ALLOWED)
 const kstHistory = [{ disease: 'tic', publishDate: kstBase }];
 assert.strictEqual(isDiseaseIn3DayCooldown(kstHistory, 'tic', new Date(sameDayKst)), true, '0-day diff MUST be blocked');
@@ -281,6 +307,53 @@ const badSpacingThumb = {
 const resBadSpacing = validateArticleContent(badSpacingThumb);
 assert.strictEqual(resBadSpacing.valid, false, 'Glued Korean spacing in thumbnail must fail');
 console.log('✅ PASS: Glued Korean spacing ("나도모르게", "눈깜빡임·헛기침") in thumbnail strictly blocked.');
+
+// Duplicate H1 in Markdown Body Regression Tests
+console.log('\n--- Duplicate H1 in Markdown Body Regression Tests ---');
+const duplicateH1Article = {
+  ...validArticle,
+  body: `# [성남 틱장애] 미디어 노출이 증상에 미치는 영향과 일상 대처 요령\n\n` + validArticle.body
+};
+const resDuplicateH1 = validateArticleContent(duplicateH1Article);
+assert.strictEqual(resDuplicateH1.valid, false, 'Article with duplicate H1 matching front matter title must fail');
+assert(resDuplicateH1.errors.some(e => e.includes('Duplicate H1 violation')), 'Error must specify Duplicate H1 violation');
+console.log('✅ PASS: Duplicate H1 matching front matter title strictly blocked.');
+
+const noDuplicateH1Res = validateArticleContent(validArticle);
+assert.strictEqual(noDuplicateH1Res.valid, true, 'Clean markdown body without duplicate H1 must pass');
+console.log('✅ PASS: Clean markdown body without duplicate H1 passes validation.');
+
+// Clinic Brand / Branch Identity Regression Tests (A ~ E)
+console.log('\n--- Clinic Brand / Branch Identity Regression Tests (A ~ E) ---');
+const { checkClinicBranchName } = require('../scripts/auto_column/content_validator');
+
+// Test A: Title with GEO, Body with official "해아림한의원 분당점" -> PASS
+const testA = checkClinicBranchName('[성남 틱장애] 미디어 노출 영향\n\n해아림한의원 분당점에서는 증상을 다각도로 살핍니다.');
+assert.strictEqual(testA.valid, true, 'Test A: GEO title + "해아림한의원 분당점" MUST PASS');
+console.log('✅ PASS [Test A]: "[성남 틱장애] ..." + "해아림한의원 분당점" passed.');
+
+// Test B: Fabricated branch "성남 해아림한의원" -> FAIL
+const testB = checkClinicBranchName('성남 해아림한의원에서는 진료를 진행합니다.');
+assert.strictEqual(testB.valid, false, 'Test B: "성남 해아림한의원" MUST FAIL');
+assert(testB.errors.some(e => e.includes('Clinic Branch Identity violation')), 'Test B must flag Clinic Branch Identity violation');
+console.log('✅ PASS [Test B]: Fabricated branch "성남 해아림한의원" strictly blocked.');
+
+// Test C: Fabricated branch "용인 해아림한의원" -> FAIL
+const testC = checkClinicBranchName('용인 해아림한의원에서는 진료를 진행합니다.');
+assert.strictEqual(testC.valid, false, 'Test C: "용인 해아림한의원" MUST FAIL');
+assert(testC.errors.some(e => e.includes('Clinic Branch Identity violation')), 'Test C must flag Clinic Branch Identity violation');
+console.log('✅ PASS [Test C]: Fabricated branch "용인 해아림한의원" strictly blocked.');
+
+// Test D: General GEO context "판교에서 틱장애를 상담하다 보면..." -> PASS
+const testD = checkClinicBranchName('판교에서 틱장애를 상담하다 보면 다양한 증상을 만납니다.');
+assert.strictEqual(testD.valid, true, 'Test D: General GEO context "판교에서..." MUST PASS');
+console.log('✅ PASS [Test D]: General GEO SEO context "판교에서..." allowed.');
+
+// Test E: Official branch name "해아림한의원 분당점" -> PASS
+const testE = checkClinicBranchName('해아림한의원 분당점');
+assert.strictEqual(testE.valid, true, 'Test E: Official clinic name "해아림한의원 분당점" MUST PASS');
+console.log('✅ PASS [Test E]: Official branch name "해아림한의원 분당점" passed.');
+
 
 // 6. Thumbnail Engine Synthesis (High Impact Typography, Smooth Natural Vignette & 16~20px Stroke)
 console.log('\n--- 6. Thumbnail Synthesis Engine (High-Impact Typography & Natural Vignette) ---');
