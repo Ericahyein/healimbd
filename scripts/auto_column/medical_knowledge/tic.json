@@ -40,10 +40,10 @@
       "rationale": "디지털 미디어 과다 사용과 틱 중증도 간의 유의한 상관성이 관찰 연구에서 보고되었으나, 단일 원인이나 직접적 인과관계로 단정하지 않고 조절 가능한 환경 요인 관점으로 서술하도록 관리함."
     },
     {
-      "claim": "피질-선조체-시상-피질(CSTC) 회로를 포함한 신경 해부학적 경로의 조절 이상이 틱장애 병태생리의 주요 해부학적 배경으로 검토된다.",
+      "claim": "피질-기저핵-시상-피질(CBGTC/CSTC) 회로의 조절 이상은 틱 병태생리를 설명하는 주요 신경회로 모델 중 하나로 여러 연구에서 지지되고 있다.",
       "evidenceLevel": "review",
       "sourceType": "narrative-review",
-      "claimStrength": "established",
+      "claimStrength": "review-supported",
       "sourceVerified": true,
       "verified": true,
       "productionUsable": true,
@@ -61,7 +61,7 @@
         "pmid": "39880509",
         "url": "https://doi.org/10.1016/j.psc.2024.08.003"
       },
-      "rationale": "CSTC 회로의 억제 및 조절 이상은 틱장애 병태생리의 확립된 신경해부학적 기전으로 서술 가능함을 검증함. (Epub 2024, 정식출판 2025)"
+      "rationale": "정확한 해부학적 위치에 완전한 합의는 없으나, CBGTC/CSTC 회로 조절 이상은 틱 병태생리를 설명하는 주요 신경회로 모델 중 하나로 문헌 검토에서 지지됨(review-supported). (Epub 2024, 정식출판 2025)"
     },
     {
       "claim": "도파민계 신경전달 체계의 조절 및 과민 반응이 틱 증상 발현 및 조절의 주요 약리학적 기전으로 다루어진다.",

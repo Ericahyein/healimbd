@@ -83,7 +83,7 @@
       "rationale": "개인별 수면 요구량 차이를 인정하고 획일적 시간 강박으로 인한 2차 각성을 예방함."
     },
     {
-      "claim": "수면유도제(벤조디아제핀 수용체 작용제 등) 복용 환자에서 약물을 임의 급단하면 반동성 불면 및 금단 증상이 악화될 수 있으므로, 의료진 지도하에 점진적인 감량(tapering) 조절이 권고된다.",
+      "claim": "불면증 치료 목적으로 복용하는 benzodiazepine receptor agonist(BZRA) 계열 약물의 감량·중단은 임의로 급격히 시행하지 않고 의료진과 상의하여 점진적으로 조절해야 한다.",
       "evidenceLevel": "clinical-guideline",
       "sourceType": "practice-guideline",
       "claimStrength": "cautionary",
@@ -101,7 +101,7 @@
         "pmid": "29760253",
         "url": "https://pubmed.ncbi.nlm.nih.gov/29760253/"
       },
-      "rationale": "수면유도제의 임의 급단으로 인한 반동성 불면을 예방하고 안전한 점진적 감량 원칙을 확립함."
+      "rationale": "불면증 치료 목적의 BZRA 계열 약물 deprescribing 가이드라인(PMID 29760253)에 근거하여 임의 급단 위험을 방지하고 점진적 조절 원칙을 확립하며, 다른 수면제나 정신과 약 전체로 일반화하지 않음."
     }
   ]
 }
