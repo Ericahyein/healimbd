@@ -73,7 +73,7 @@
       "topicAngles": [
         {"id": "digestive-dizziness", "titleSuffix": "원인 모를 어지럼증과 소화불량이 동시에 나타날 때", "focus": "미주신경 및 교감-부교감 불균형, 복합 신체 증상"},
         {"id": "hot-cold-dysregulation", "titleSuffix": "얼굴은 화끈거리는데 손발은 차가운 상열하한 현상", "focus": "체온 조절 불균형, 혈액순환과 자율신경 관계"},
-        {"id": "brain-fog-fatigue", "titleSuffix": "머리에 안개가 낀 듯 멍하고 피로가 가시지 않을 때", "focus": "브레인포그, 신경계 과부하, 충분한 휴식과 회복"}
+        {"id": "brain-fog-fatigue", "titleSuffix": "머리에 안개가 낀 듯 멍하고 피로가 가시지 않을 때", "focus": "만성피로와 번아웃(직업적 소진) 구분, 다양한 원인 감별, 생활 맥락 중심 회복"}
       ]
     },
     {
@@ -140,7 +140,7 @@
       "topicAngles": [
         {"id": "separation-anxiety", "titleSuffix": "유치원이나 학교 갈 때마다 배가 아프다고 우는 아이", "focus": "소아 분리불안 및 신체화 증상, 부모의 따뜻한 지지"},
         {"id": "night-terrors", "titleSuffix": "자다가 갑자기 울고 소리치지만 다음 날 기억하지 못할 때", "focus": "소아 야경증, NREM 수면 부분 각성, 악몽과의 감별 및 수면 환경 관리"},
-        {"id": "child-enuresis", "titleSuffix": "만 5세 이후에도 밤에 소변 실수를 반복할 때", "focus": "소아 야뇨증, 배뇨 반사 미성숙, 심리적 안정과 생활 관리"}
+        {"id": "child-enuresis", "titleSuffix": "만 5세 이후에도 밤에 소변 실수를 반복할 때", "focus": "소아 야뇨증, 다인자적 발생 배경, 낮 배뇨 증상·변비 감별 및 표준 관리 균형"}
       ]
     }
   ]

@@ -131,9 +131,10 @@ for (const qId of expectedApprovedTargets) {
 }
 
 const revisionTargets = qaResults.filter(r => r.humanReviewStatus === 'needs_revision');
-assert.strictEqual(revisionTargets.length, 0, 'All Batch 1~4 targets (qa-01 ~ qa-18) are approved');
+assert.strictEqual(revisionTargets.length, 2, 'Batch 5 targets (qa-19, qa-20) are currently needs_revision');
+assert.deepStrictEqual(revisionTargets.map(r => r.qaId).sort(), ['qa-19-child-enuresis', 'qa-20-fatigue'].sort());
 
-console.log('✅ [Test 4 Passed] All 18 targets (qa-01 ~ qa-18) officially approved and verified.');
+console.log('✅ [Test 4 Passed] All 18 targets (qa-01 ~ qa-18) officially approved and verified, Batch 5 targets (qa-19, qa-20) verified as needs_revision.');
 
 // Test 5: Smart Medication Discontinuation Validation (False Positive Prevention & Real Harm Blocking)
 console.log('\n[Test 5] Testing Smart Medication Discontinuation Validator...');
@@ -2784,7 +2785,509 @@ const neutralFreqRes = validateArticleContent(neutralFreqNightArticle);
 assert.strictEqual(neutralFreqRes.valid, true, `Neutral frequency phrasing should pass 100%. Errors: ${neutralFreqRes.errors.join('; ')}`);
 console.log('✅ PASS: Neutral frequency phrasing passed validation 100%.');
 
-console.log('\n🎉 ALL 16 QA SYSTEM INTEGRITY, REGRESSION, BATCH, GEO, HUMAN REVIEW, TARGET IDENTITY, CLINICAL GUIDANCE, TREATMENT CERTAINTY, BATCH 3, BATCH 4 & RE-REVIEW TESTS PASSED 100%!');
+// ==========================================
+// Test 17: Batch 5 Human Review Feedback Regression Tests (A ~ G)
+// (qa-19-child-enuresis & qa-20-fatigue)
+// ==========================================
+console.log('\n[Test 17] Running Batch 5 Human Review Feedback Regression Tests (A ~ G)...');
+
+const {
+  checkChildEnuresisClinicalAndStandardCare,
+  checkFatigueBurnoutAndAutonomicFraming
+} = require('../scripts/auto_column/content_validator');
+
+// -------------------------------------------------------------
+// 17-A. Child Enuresis: Missing Differential Evaluation (MUST FAIL)
+// (낮 배뇨 증상/변비/UTI/다갈·다뇨/수면호흡장애 등 필요 감별 누락 방지)
+// -------------------------------------------------------------
+console.log('\n[Test 17-A] Testing Child Enuresis Missing Differential Evaluation (MUST FAIL)...');
+const failChildEnuresisMissingDiffs = validateArticleContent(createMockArticleForReviewTest({
+  diseaseId: 'child',
+  titleDisease: '소아 야뇨증',
+  thumbnailDiseaseLabel: '소아 야뇨증',
+  seoDiseaseLabel: '소아 야뇨증',
+  ageGroup: 'child',
+  geoId: 'seongnam-bundang',
+  title: '[분당 소아 야뇨증] 만 5세 이후에도 밤에 소변 실수를 반복할 때',
+  summary: '분당 지역 소아 야뇨증 어린이를 위한 배뇨 반사 미성숙과 심리적 안정 관리 안내입니다.',
+  topicAngle: { id: 'child-enuresis', titleSuffix: '만 5세 이후에도 밤에 소변 실수를 반복할 때' },
+  hashtags: ['분당소아야뇨증', '분당한의원', '소아야뇨증치료', '해아림한의원'],
+  keywords: ['분당 소아 야뇨증', '성남시 분당구 소아 야뇨증', '소아 야뇨증 한방치료'],
+  thumbnailCopy: { yellowText: '만 5세 이후', whiteText: '밤마다 소변 실수', greenText: '소아 야뇨증' },
+  body: `
+## 1. 진료실에서 자주 마주하는 고민
+<div class="column-key-summary-box">
+  <ul>
+    <li>만 5세 이후 밤에 소변 실수가 반복되는 야뇨증을 살펴봅니다.</li>
+    <li>아이의 의지 부족이나 양육 문제가 아니며 비난이나 벌을 주어서는 안 됩니다.</li>
+    <li>보호자의 따뜻한 격려와 지지가 회복에 중요합니다.</li>
+  </ul>
+</div>
+취침 전 수면 환경을 위해 [수면 관리 가이드](/blog/bundang-insomnia-sleep-disorder-cure/)를 확인하십시오.
+
+## 2. 야뇨증의 발생 배경
+야간 소변 생성량의 조절과 방광 기능 및 수면 중 각성 반응 등 복합적인 요인이 관여할 수 있습니다.
+배뇨 반사의 미성숙과 심리적 긴장도 함께 살펴봅니다.
+
+## 3. 상태 평가 관점
+아이의 긴장도를 문진과 맥진으로 확인합니다.
+야뇨 알람(enuresis alarm)이나 데스모프레신(desmopressin) 등의 표준 치료 선택지가 활용될 수 있습니다.
+
+## 4. 해아림한의원의 맞춤 관리
+개인 체질과 증상을 고려한 한약 처방 및 침구 치료를 진행합니다.
+저녁 식사 후 수분 섭취 조절과 취침 전 배뇨 습관을 들입니다.
+
+## 5. 자주 묻는 질문
+**Q1. 아이를 혼내면 안 되나요?**
+A. 비난이나 벌은 수치심과 불안을 키우므로 일관되게 안심시켜 주어야 합니다.
+**Q2. 저절로 낫나요?**
+A. 성장하면서 호전되기도 하지만 조기에 전문가 평가를 받는 것이 좋습니다.
+`
+}));
+assert.strictEqual(failChildEnuresisMissingDiffs.valid, false, 'Enuresis missing required differentials MUST FAIL');
+assert.ok(failChildEnuresisMissingDiffs.errors.some(e => e.includes('Child enuresis differential evaluation missing')), 'Expected Child enuresis differential evaluation missing error');
+console.log('✅ PASS: Child enuresis missing required differentials (낮 배뇨/변비/UTI/다뇨/수면호흡) strictly blocked.');
+
+// -------------------------------------------------------------
+// 17-B. Child Enuresis: Missing Evidence-Based Standard Care (MUST FAIL)
+// (근거 기반 표준 관리 옵션 alarm/desmopressin 완전 누락 방지 & 대체 주장 차단)
+// -------------------------------------------------------------
+console.log('\n[Test 17-B] Testing Child Enuresis Missing Standard Management Options (MUST FAIL)...');
+const failChildEnuresisMissingStandard = validateArticleContent(createMockArticleForReviewTest({
+  diseaseId: 'child',
+  titleDisease: '소아 야뇨증',
+  thumbnailDiseaseLabel: '소아 야뇨증',
+  seoDiseaseLabel: '소아 야뇨증',
+  ageGroup: 'child',
+  geoId: 'seongnam-bundang',
+  title: '[분당 소아 야뇨증] 만 5세 이후에도 밤에 소변 실수를 반복할 때',
+  summary: '분당 지역 소아 야뇨증 아동을 위한 다인자적 원인 평가와 일상 관리 안내입니다.',
+  topicAngle: { id: 'child-enuresis', titleSuffix: '만 5세 이후에도 밤에 소변 실수를 반복할 때' },
+  hashtags: ['분당소아야뇨증', '분당한의원', '소아야뇨증치료', '해아림한의원'],
+  keywords: ['분당 소아 야뇨증', '성남시 분당구 소아 야뇨증', '소아 야뇨증 한방치료'],
+  thumbnailCopy: { yellowText: '만 5세 이후', whiteText: '밤마다 소변 실수', greenText: '소아 야뇨증' },
+  body: `
+## 1. 진료실에서 자주 마주하는 고민
+<div class="column-key-summary-box">
+  <ul>
+    <li>만 5세 이후 밤에 소변 실수가 반복될 때 원인을 살펴봅니다.</li>
+    <li>아이의 의지 부족이 아니며 비난이나 벌 대신 격려가 필요합니다.</li>
+  </ul>
+</div>
+[주요 진료 안내](/treatments/)를 참고하십시오.
+
+## 2. 야뇨증의 다인자적 발생 배경
+야간 소변 생성량 증가, 방광 기능 및 용적의 조절, 수면 중 각성 반응 등 여러 요소가 복합적으로 관련됩니다.
+
+## 3. 필수 감별 평가
+낮 동안의 배뇨 증상(주간 빈뇨, 절박뇨, 요실금), 배뇨통 또는 요로감염 의심 증상, 변비, 과도한 갈증과 다뇨, 코골이나 수면호흡장애 여부를 종합적으로 확인해야 합니다.
+이전에 6개월 이상 소변을 가린 기간이 있었는지도 감별합니다.
+
+## 4. 해아림한의원의 맞춤 관리
+오직 한약 처방과 침구 치료, 생활 습관 관리만으로 치료를 진행합니다.
+
+## 5. 자주 묻는 질문
+**Q1. 벌을 주면 줄어드나요?**
+A. 벌을 주면 오히려 증상이 악화될 수 있습니다.
+**Q2. 저녁 관리는 어떻게 하나요?**
+A. 저녁 수분 섭취를 조절하고 취침 전 배뇨를 유도합니다.
+`
+}));
+assert.strictEqual(failChildEnuresisMissingStandard.valid, false, 'Enuresis missing alarm/desmopressin standard care MUST FAIL');
+assert.ok(failChildEnuresisMissingStandard.errors.some(e => e.includes('Child enuresis standard management missing')), 'Expected Child enuresis standard management missing error');
+console.log('✅ PASS: Child enuresis omitting standard care (alarm/desmopressin) strictly blocked.');
+
+// 17-B-2. Claiming Korean medicine replaces standard treatments (MUST FAIL)
+console.log('\n[Test 17-B-2] Testing Korean Medicine Claiming to Replace Standard Care (MUST FAIL)...');
+const failChildEnuresisReplacing = validateArticleContent(createMockArticleForReviewTest({
+  diseaseId: 'child',
+  titleDisease: '소아 야뇨증',
+  thumbnailDiseaseLabel: '소아 야뇨증',
+  seoDiseaseLabel: '소아 야뇨증',
+  ageGroup: 'child',
+  geoId: 'seongnam-bundang',
+  title: '[분당 소아 야뇨증] 만 5세 이후에도 밤에 소변 실수를 반복할 때',
+  summary: '분당 지역 소아 야뇨증 아동을 위한 다인자적 원인 평가와 일상 관리 안내입니다.',
+  topicAngle: { id: 'child-enuresis', titleSuffix: '만 5세 이후에도 밤에 소변 실수를 반복할 때' },
+  hashtags: ['분당소아야뇨증', '분당한의원', '소아야뇨증치료', '해아림한의원'],
+  keywords: ['분당 소아 야뇨증', '성남시 분당구 소아 야뇨증', '소아 야뇨증 한방치료'],
+  thumbnailCopy: { yellowText: '만 5세 이후', whiteText: '밤마다 소변 실수', greenText: '소아 야뇨증' },
+  body: `
+## 1. 진료실에서 자주 마주하는 고민
+<div class="column-key-summary-box">핵심 요약</div>
+만 5세 이후 야뇨증에 대해 비난이나 벌 없이 안심을 줍니다. [주요 진료 안내](/treatments/)
+
+## 2. 야뇨의 배경과 감별
+야간 소변 생성, 방광 기능, 각성 반응을 살피며, 낮 동안의 배뇨 증상(빈뇨/절박뇨/요실금), 배뇨통, 요로감염, 변비, 과도한 갈증과 다뇨, 코골이 및 수면호흡장애를 감별합니다.
+
+## 3. 표준 관리와 한의학적 치료
+야뇨 알람(enuresis alarm)이나 데스모프레신(desmopressin) 치료가 활용되지만, 한의학적 치료가 이러한 표준 치료를 대체하는 치료로 사용될 수 있습니다.
+
+## 4. 해아림한의원의 맞춤 관리
+개인별 한약 처방과 침구 치료.
+
+## 5. FAQ
+**Q1. 질문**
+A. 답변
+**Q2. 질문2**
+A. 답변
+`
+}));
+assert.strictEqual(failChildEnuresisReplacing.valid, false, 'Claiming Korean medicine replaces standard enuresis care MUST FAIL');
+assert.ok(failChildEnuresisReplacing.errors.some(e => e.includes('Child enuresis treatment replacement violation')), 'Expected Child enuresis treatment replacement violation error');
+console.log('✅ PASS: Claiming Korean medicine replaces standard enuresis care strictly blocked.');
+
+// -------------------------------------------------------------
+// 17-C. Child Enuresis: Separation Anxiety Topic Leakage ("등원 전 포옹") (MUST FAIL)
+// -------------------------------------------------------------
+console.log('\n[Test 17-C] Testing Separation Anxiety Morning Hug Leakage in Enuresis (MUST FAIL)...');
+const failChildEnuresisMorningHug = validateArticleContent(createMockArticleForReviewTest({
+  diseaseId: 'child',
+  titleDisease: '소아 야뇨증',
+  thumbnailDiseaseLabel: '소아 야뇨증',
+  seoDiseaseLabel: '소아 야뇨증',
+  ageGroup: 'child',
+  geoId: 'seongnam-bundang',
+  title: '[분당 소아 야뇨증] 만 5세 이후에도 밤에 소변 실수를 반복할 때',
+  summary: '분당 지역 소아 야뇨증 아동을 위한 감별과 생활 관리 가이드입니다.',
+  topicAngle: { id: 'child-enuresis', titleSuffix: '만 5세 이후에도 밤에 소변 실수를 반복할 때' },
+  hashtags: ['분당소아야뇨증', '분당한의원', '소아야뇨증치료', '해아림한의원'],
+  keywords: ['분당 소아 야뇨증', '성남시 분당구 소아 야뇨증', '소아 야뇨증 한방치료'],
+  thumbnailCopy: { yellowText: '만 5세 이후', whiteText: '밤마다 소변 실수', greenText: '소아 야뇨증' },
+  body: `
+## 1. 진료실에서 자주 마주하는 고민
+<div class="column-key-summary-box">핵심 요약</div>
+만 5세 이후 야뇨증에 대해 비난이나 벌 없이 안심을 줍니다. [주요 진료 안내](/treatments/)
+
+## 2. 야뇨의 배경과 감별
+야간 소변 생성량 조절, 방광 기능 및 용적, 수면 중 각성 반응 장애 등 다인자 요인을 살핍니다.
+낮 동안의 배뇨 증상(빈뇨/절박뇨/요실금), 배뇨통 및 요로감염, 변비, 과도한 갈증과 다뇨, 코골이나 수면호흡장애를 함께 평가합니다.
+상태에 따라 야뇨 알람(enuresis alarm)이나 데스모프레신(desmopressin) 등의 표준 치료가 활용됩니다.
+
+## 3. 생활 관리 요령
+저녁 수분 섭취 조절과 함께 아침 등교 및 등원 전 따뜻한 포옹과 차분한 안정감을 제공합니다.
+
+## 4. 해아림한의원의 맞춤 관리
+개인별 한약 처방과 침구 치료.
+
+## 5. 자주 묻는 질문
+**Q1. 질문**
+A. 답변
+**Q2. 질문2**
+A. 답변
+`
+}));
+assert.strictEqual(failChildEnuresisMorningHug.valid, false, 'Separation anxiety morning hug tip in enuresis MUST FAIL');
+assert.ok(failChildEnuresisMorningHug.errors.some(e => e.includes('Child enuresis separation-anxiety leakage')), 'Expected Child enuresis separation-anxiety leakage error');
+console.log('✅ PASS: Separation anxiety morning hug leakage into enuresis strictly blocked.');
+
+// -------------------------------------------------------------
+// 17-D. Fatigue: Autonomic Auto-Jump Framing (MUST FAIL)
+// (만성피로 = 자율신경 문제 자동 귀결 FAIL)
+// -------------------------------------------------------------
+console.log('\n[Test 17-D] Testing Fatigue Autonomic Auto-Jump Framing (MUST FAIL)...');
+const failFatigueAutonomicAutoJump = validateArticleContent(createMockArticleForReviewTest({
+  diseaseId: 'autonomic',
+  titleDisease: '만성피로',
+  thumbnailDiseaseLabel: '만성피로',
+  seoDiseaseLabel: '만성피로',
+  ageGroup: 'adult',
+  geoId: 'bundang-pangyo',
+  title: '[판교 만성피로] 머리에 안개가 낀 듯 멍하고 피로가 가시지 않을 때',
+  summary: '판교 지역 직장인을 위한 만성피로와 브레인포그의 원인 및 관리 안내입니다.',
+  topicAngle: { id: 'brain-fog-fatigue', titleSuffix: '머리에 안개가 낀 듯 멍하고 피로가 가시지 않을 때' },
+  hashtags: ['판교만성피로', '판교한의원', '만성피로치료', '해아림한의원'],
+  keywords: ['판교 만성피로', '성남시 분당구 판교 만성피로', '만성피로 한방치료'],
+  thumbnailCopy: { yellowText: '쉬어도 피곤', whiteText: '머리가 멍할 때', greenText: '만성피로' },
+  body: `
+## 1. 진료실에서 자주 마주하는 고민
+<div class="column-key-summary-box">
+  <ul>
+    <li>지속되는 만성피로와 머리가 멍한 브레인포그를 살펴봅니다.</li>
+    <li>번아웃은 직장 스트레스와 관련된 직업적 현상입니다.</li>
+  </ul>
+</div>
+[주요 진료 안내](/treatments/)를 확인하십시오.
+
+## 2. 만성피로와 브레인포그의 핵심 원인
+스트레스와 수면 부족으로 인해 자율기능 조절이 흔들려 만성피로와 브레인포그가 발생합니다.
+만성피로와 브레인포그의 원인은 교감신경과 부교감신경의 자율신경계 조절 이상 때문입니다.
+
+## 3. 번아웃과 다양한 원인 감별
+번아웃은 직무 관련 에너지 고갈, 일에 대한 냉소, 직업적 효능감 저하를 보입니다.
+수면장애, 우울/불안, 빈혈, 갑상선 질환, 내과적 원인에 대한 의료기관 감별 평가가 필요하며 ME/CFS와 구분해야 합니다.
+
+## 4. 해아림한의원의 맞춤 관리
+개인의 증상과 전반적인 상태를 고려한 한약 처방과 침구 치료.
+
+## 5. 자주 묻는 질문
+**Q1. 만성피로는 왜 생기나요?**
+A. 다양한 원인이 작용할 수 있습니다.
+**Q2. 번아웃과 어떻게 다른가요?**
+A. 직장 스트레스와의 연관성을 살펴야 합니다.
+`
+}));
+assert.strictEqual(failFatigueAutonomicAutoJump.valid, false, 'Direct autonomic auto-jump for fatigue MUST FAIL');
+assert.ok(failFatigueAutonomicAutoJump.errors.some(e => e.includes('Fatigue autonomic auto-jump violation')), 'Expected Fatigue autonomic auto-jump violation error');
+console.log('✅ PASS: Automatic jump equating fatigue directly to autonomic dysfunction strictly blocked.');
+
+// -------------------------------------------------------------
+// 17-E. Fatigue: Burnout Omission (MUST FAIL)
+// (fatigue target에서 번아웃을 전혀 설명하지 않으면 FAIL)
+// -------------------------------------------------------------
+console.log('\n[Test 17-E] Testing Fatigue Target Burnout Omission (MUST FAIL)...');
+const failFatigueMissingBurnout = validateArticleContent(createMockArticleForReviewTest({
+  diseaseId: 'autonomic',
+  titleDisease: '만성피로',
+  thumbnailDiseaseLabel: '만성피로',
+  seoDiseaseLabel: '만성피로',
+  ageGroup: 'adult',
+  geoId: 'bundang-pangyo',
+  title: '[판교 만성피로] 머리에 안개가 낀 듯 멍하고 피로가 가시지 않을 때',
+  summary: '판교 지역 직장인을 위한 만성피로와 브레인포그의 원인 및 관리 안내입니다.',
+  topicAngle: { id: 'brain-fog-fatigue', titleSuffix: '머리에 안개가 낀 듯 멍하고 피로가 가시지 않을 때' },
+  hashtags: ['판교만성피로', '판교한의원', '만성피로치료', '해아림한의원'],
+  keywords: ['판교 만성피로', '성남시 분당구 판교 만성피로', '만성피로 한방치료'],
+  thumbnailCopy: { yellowText: '쉬어도 피곤', whiteText: '머리가 멍할 때', greenText: '만성피로' },
+  body: `
+## 1. 진료실에서 자주 마주하는 고민
+<div class="column-key-summary-box">
+  <ul>
+    <li>지속되는 만성피로와 머리가 멍한 브레인포그를 살펴봅니다.</li>
+  </ul>
+</div>
+[주요 진료 안내](/treatments/)를 확인하십시오.
+
+## 2. 만성피로의 다양한 원인 감별
+만성피로는 지속되는 피로라는 증상 표현입니다.
+자율신경 관련 증상이 함께 있는 일부 경우 평가 요소 중 하나로 살펴볼 수 있습니다.
+수면장애, 우울과 불안 등 정신건강 문제, 빈혈, 갑상선 질환 등 내과적 원인을 의료기관에서 감별해야 하며, 단순 만성피로와 ME/CFS를 구분해야 합니다.
+
+## 3. 일상 생활 관리
+과로를 피하고 규칙적인 식사와 수면을 취합니다.
+
+## 4. 해아림한의원의 맞춤 관리
+개인의 증상과 전반적인 상태를 고려한 한약 처방과 침구 치료.
+
+## 5. 자주 묻는 질문
+**Q1. 피로가 가시지 않을 때 어떻게 하나요?**
+A. 전신 건강 상태를 체계적으로 평가해야 합니다.
+**Q2. 잠을 자도 피곤한 이유는 무엇인가요?**
+A. 수면의 질과 다양한 내과적 요인을 확인해야 합니다.
+`
+}));
+assert.strictEqual(failFatigueMissingBurnout.valid, false, 'Fatigue article completely omitting burnout MUST FAIL');
+assert.ok(failFatigueMissingBurnout.errors.some(e => e.includes('Fatigue target burnout omission')), 'Expected Fatigue target burnout omission error');
+console.log('✅ PASS: Fatigue target article omitting burnout explanation strictly blocked.');
+
+// -------------------------------------------------------------
+// 17-F. Fatigue: Burnout Defined as General Life Fatigue (MUST FAIL)
+// (burnout을 일반 생활 피로나 모든 영역의 스트레스로 정의하면 FAIL)
+// -------------------------------------------------------------
+console.log('\n[Test 17-F] Testing Burnout Defined as General Life Fatigue (MUST FAIL)...');
+const failBurnoutGeneralLifeFatigue = validateArticleContent(createMockArticleForReviewTest({
+  diseaseId: 'autonomic',
+  titleDisease: '만성피로',
+  thumbnailDiseaseLabel: '만성피로',
+  seoDiseaseLabel: '만성피로',
+  ageGroup: 'adult',
+  geoId: 'bundang-pangyo',
+  title: '[판교 만성피로] 머리에 안개가 낀 듯 멍하고 피로가 가시지 않을 때',
+  summary: '판교 지역 직장인을 위한 만성피로와 번아웃 구분 안내입니다.',
+  topicAngle: { id: 'brain-fog-fatigue', titleSuffix: '머리에 안개가 낀 듯 멍하고 피로가 가시지 않을 때' },
+  hashtags: ['판교만성피로', '판교한의원', '만성피로치료', '해아림한의원'],
+  keywords: ['판교 만성피로', '성남시 분당구 판교 만성피로', '만성피로 한방치료'],
+  thumbnailCopy: { yellowText: '쉬어도 피곤', whiteText: '머리가 멍할 때', greenText: '만성피로' },
+  body: `
+## 1. 진료실에서 자주 마주하는 고민
+<div class="column-key-summary-box">
+  <ul>
+    <li>만성피로와 번아웃을 살펴봅니다.</li>
+  </ul>
+</div>
+[주요 진료 안내](/treatments/)를 확인하십시오.
+
+## 2. 만성피로와 번아웃의 개념
+만성피로는 지속되는 피로 증상입니다.
+번아웃은 일상생활의 모든 스트레스에서 생기는 피로이며 누구에게나 생기는 단순한 피로입니다.
+자율신경 관련 증상이 함께 있는 일부 경우 평가 요소 중 하나로 살펴볼 수 있습니다.
+수면장애, 우울, 빈혈, 갑상선 질환 등을 의료기관에서 감별하고 ME/CFS와 구분합니다.
+
+## 3. 해아림한의원의 맞춤 관리
+개인의 증상과 전반적인 상태를 고려한 한약 처방과 침구 치료.
+
+## 4. 자주 묻는 질문
+**Q1. 질문**
+A. 답변
+**Q2. 질문2**
+A. 답변
+`
+}));
+assert.strictEqual(failBurnoutGeneralLifeFatigue.valid, false, 'Burnout defined as general life fatigue MUST FAIL');
+assert.ok(failBurnoutGeneralLifeFatigue.errors.some(e => e.includes('Burnout definition violation')), 'Expected Burnout definition violation error');
+console.log('✅ PASS: Burnout defined as general everyday life fatigue strictly blocked.');
+
+// -------------------------------------------------------------
+// 17-G. Fatigue: Ungrounded Seasonal Framing (MUST FAIL)
+// (verified source 없는 환절기/기온 변화 핵심 악화요인 단정 금지)
+// -------------------------------------------------------------
+console.log('\n[Test 17-G] Testing Ungrounded Seasonal / Temperature Framing (MUST FAIL)...');
+const failFatigueSeasonalFraming = validateArticleContent(createMockArticleForReviewTest({
+  diseaseId: 'autonomic',
+  titleDisease: '만성피로',
+  thumbnailDiseaseLabel: '만성피로',
+  seoDiseaseLabel: '만성피로',
+  ageGroup: 'adult',
+  geoId: 'bundang-pangyo',
+  title: '[판교 만성피로] 머리에 안개가 낀 듯 멍하고 피로가 가시지 않을 때',
+  summary: '판교 지역 직장인을 위한 만성피로와 브레인포그의 원인 및 관리 안내입니다.',
+  topicAngle: { id: 'brain-fog-fatigue', titleSuffix: '머리에 안개가 낀 듯 멍하고 피로가 가시지 않을 때' },
+  hashtags: ['판교만성피로', '판교한의원', '만성피로치료', '해아림한의원'],
+  keywords: ['판교 만성피로', '성남시 분당구 판교 만성피로', '만성피로 한방치료'],
+  thumbnailCopy: { yellowText: '쉬어도 피곤', whiteText: '머리가 멍할 때', greenText: '만성피로' },
+  body: `
+## 1. 진료실에서 자주 마주하는 고민
+<div class="column-key-summary-box">
+  <ul>
+    <li>지속되는 만성피로와 번아웃을 살펴봅니다.</li>
+  </ul>
+</div>
+[주요 진료 안내](/treatments/)를 확인하십시오.
+
+## 2. 만성피로의 악화 요인과 프레이밍
+급격한 기온 변화와 환절기는 만성피로와 브레인포그의 대표적인 악화 요인입니다. 환절기에 유독 머리가 멍하고 피로가 심해지는 경향이 있습니다.
+자율신경 관련 증상이 함께 있는 일부 경우 평가 요소 중 하나로 살펴볼 수 있습니다.
+
+## 3. 번아웃과 다양한 원인 감별
+번아웃은 만성 직장 스트레스와 관련된 직업적 현상(occupational phenomenon)으로 에너지 고갈, 일에 대한 냉소, 직업적 효능감 저하가 특징입니다.
+수면장애, 우울/불안, 빈혈, 갑상선 질환 등을 의료기관에서 감별하고 ME/CFS와 구분합니다.
+
+## 4. 해아림한의원의 맞춤 관리
+개인의 증상과 전반적인 상태를 고려한 한약 처방과 침구 치료.
+
+## 5. 자주 묻는 질문
+**Q1. 질문**
+A. 답변
+**Q2. 질문2**
+A. 답변
+`
+}));
+assert.strictEqual(failFatigueSeasonalFraming.valid, false, 'Ungrounded seasonal transition framing MUST FAIL');
+assert.ok(failFatigueSeasonalFraming.errors.some(e => e.includes('Fatigue unverified seasonal framing violation')), 'Expected Fatigue unverified seasonal framing violation error');
+console.log('✅ PASS: Ungrounded seasonal transition / temperature framing strictly blocked.');
+
+// -------------------------------------------------------------
+// 17-H. Full Compliant Batch 5 Articles (MUST PASS 100%)
+// -------------------------------------------------------------
+console.log('\n[Test 17-H] Testing Full Compliant Batch 5 Articles (MUST PASS 100%)...');
+
+// 1. Fully compliant child enuresis article
+const validEnuresisArticle = validateArticleContent(createMockArticleForReviewTest({
+  diseaseId: 'child',
+  titleDisease: '소아 야뇨증',
+  thumbnailDiseaseLabel: '소아 야뇨증',
+  seoDiseaseLabel: '소아 야뇨증',
+  ageGroup: 'child',
+  geoId: 'seongnam-bundang',
+  title: '[분당 소아 야뇨증] 만 5세 이후에도 밤에 소변 실수를 반복할 때',
+  summary: '분당 지역 소아 야뇨증 아동을 위한 다인자적 원인 평가와 표준 치료 및 균형 잡힌 생활 관리 안내입니다.',
+  topicAngle: { id: 'child-enuresis', titleSuffix: '만 5세 이후에도 밤에 소변 실수를 반복할 때' },
+  hashtags: ['분당소아야뇨증', '분당한의원', '소아야뇨증치료', '소아야뇨증관리', '해아림한의원'],
+  keywords: ['분당 소아 야뇨증', '성남시 분당구 소아 야뇨증', '소아 야뇨증 한방치료', '만 5세 이후에도 밤에 소변 실수를 반복할 때'],
+  thumbnailCopy: { yellowText: '만 5세 이후', whiteText: '밤마다 소변 실수', greenText: '소아 야뇨증' },
+  body: `
+## 1. 진료실에서 자주 마주하는 고민
+<div class="column-key-summary-box">
+  <ul>
+    <li>만 5세 이후 밤에 소변을 가리지 못하는 증상에 대해 살펴봅니다.</li>
+    <li>아이의 의지 부족이나 양육 문제로 단정하지 말고 비난이나 벌을 주지 않아야 합니다.</li>
+    <li>보호자의 따뜻한 격려와 지지가 아이의 심리적 안정에 필수적입니다.</li>
+  </ul>
+</div>
+[주요 진료 안내](/treatments/)를 통해 진료 과정을 확인하실 수 있습니다.
+
+## 2. 야뇨증의 다인자적 발생 배경
+야뇨증의 발생 배경은 단순한 배뇨 반사의 미성숙 하나로 축소할 수 없으며, 야간 소변 생성량의 조절(항이뇨호르몬 리듬 등), 방광 기능 및 방광 용적의 문제, 수면 중 각성 반응 장애 등 여러 요소가 복합적으로 관련될 수 있는 중립적 구조로 이해해야 합니다.
+
+## 3. 필수 감별 및 종합 평가
+야뇨증을 평가할 때는 밤의 증상뿐 아니라 다양한 동반 문제를 면밀히 살펴야 합니다.
+낮 동안의 배뇨 증상(주간 빈뇨, 절박뇨, 요실금 등)이 있는지, 소변을 볼 때 배뇨통이나 요로감염(UTI) 의심 증상이 있는지, 대변 배출이 어려운 변비가 동반되어 방광을 압박하는지 확인합니다.
+또한 과도한 갈증과 다뇨가 나타나는 내분비 질환의 가능성이나 코골이 및 수면호흡장애가 수면 중 각성을 방해하는지 함께 살피며, 이전에 최소 6개월 이상 충분히 소변을 가린 기간이 있다가 다시 야뇨가 시작된 이차성 야뇨의 경과인지도 확인합니다.
+
+## 4. 근거 기반 표준 관리와 한의학적 맞춤 케어
+환자 정보 칼럼으로서 근거 기반의 표준 관리 선택지를 중립적으로 소개합니다.
+아이의 증상 형태와 연령에 따라 야뇨 알람(enuresis alarm)이나 데스모프레신(desmopressin) 등의 치료가 널리 활용될 수 있으며, 낮 배뇨 증상이나 변비 등 동반 문제가 있다면 이를 함께 평가하고 관리하는 것이 중요합니다.
+한의학적 치료는 이러한 표준 치료를 대체하는 것이 아니라, 개인의 증상과 전반적인 신체 상태를 고려한 한약 처방 및 침구 치료를 통해 보완적으로 조절력을 돕습니다.
+생활 관리에서는 저녁 식사 후 과도한 수분 섭취를 조절하고 취침 직전 배뇨하는 습관을 들이며, 실수를 하더라도 비난하지 않는 안심 환경을 유지합니다.
+
+## 5. 자주 묻는 질문
+**Q1. 아이를 혼내거나 벌을 주면 습관이 고쳐지나요?**
+A. 야뇨는 의지로 조절되는 것이 아니므로 비난이나 벌은 자존감을 떨어뜨릴 수 있습니다. 일관된 격려와 지지가 중요합니다.
+**Q2. 낮에도 소변을 자주 보는데 관련이 있나요?**
+A. 주간 빈뇨나 절박뇨가 동반된다면 방광 기능 평가를 함께 진행하는 것이 권장됩니다.
+**Q3. 시간이 지나면 자연히 해결되나요?**
+A. 성장하면서 호전되기도 하지만, 아이의 스트레스나 학교생활 적응을 위해 조기에 전문적인 평가와 도움을 받는 것이 유익합니다.
+`
+}));
+assert.strictEqual(validEnuresisArticle.valid, true, `Compliant enuresis article MUST PASS 100%: ${validEnuresisArticle.errors.join('; ')}`);
+console.log('✅ PASS: Fully compliant child enuresis article passed validation 100%.');
+
+// 2. Fully compliant fatigue & burnout article
+const validFatigueArticle = validateArticleContent(createMockArticleForReviewTest({
+  diseaseId: 'autonomic',
+  titleDisease: '만성피로',
+  thumbnailDiseaseLabel: '만성피로',
+  seoDiseaseLabel: '만성피로',
+  ageGroup: 'adult',
+  geoId: 'bundang-pangyo',
+  title: '[판교 만성피로] 머리에 안개가 낀 듯 멍하고 피로가 가시지 않을 때',
+  summary: '판교 지역 직장인을 위한 만성피로 증상과 번아웃 구별 및 다각도 원인 감별 평가 안내입니다.',
+  topicAngle: { id: 'brain-fog-fatigue', titleSuffix: '머리에 안개가 낀 듯 멍하고 피로가 가시지 않을 때' },
+  hashtags: ['판교만성피로', '판교한의원', '만성피로치료', '만성피로관리', '해아림한의원'],
+  keywords: ['판교 만성피로', '성남시 분당구 판교 만성피로', '만성피로 한방치료', '머리에 안개가 낀 듯 멍하고 피로가 가시지 않을 때'],
+  thumbnailCopy: { yellowText: '쉬어도 피곤', whiteText: '머리가 멍할 때', greenText: '만성피로' },
+  body: `
+## 1. 진료실에서 자주 마주하는 고민
+<div class="column-key-summary-box">
+  <ul>
+    <li>충분한 휴식을 취해도 풀리지 않는 피로와 머리가 멍한 브레인포그를 살펴봅니다.</li>
+    <li>지속되는 만성피로와 직장 스트레스 관련 번아웃을 명확히 구별해야 합니다.</li>
+    <li>수면, 내과적 질환, 정신건강 등 다양한 요인에 대한 폭넓은 감별이 필요합니다.</li>
+  </ul>
+</div>
+[주요 진료 안내](/treatments/)를 통해 진료 방향을 살펴보실 수 있습니다.
+
+## 2. 만성피로 증상과 번아웃의 명확한 구분
+진료실에서 흔히 혼용되는 만성피로와 번아웃은 임상적으로 구별됩니다.
+만성피로는 충분한 휴식 후에도 지속되는 피로라는 증상 표현(symptom)이며 그 원인은 매우 다양할 수 있습니다.
+반면 번아웃(Burnout)은 성공적으로 관리되지 않은 만성 직장 스트레스와 관련된 직업적 현상(occupational phenomenon, ICD-11)이며, 단순한 일상 피로나 모든 삶의 영역의 스트레스가 아니며 독립된 의학적 질환명과 동일하지 않습니다.
+번아웃은 핵심적으로 1) 에너지 고갈 또는 소진감, 2) 일이나 직무에 대한 심리적 거리감 및 부정적 태도나 냉소주의, 3) 직업적 효능감과 성취감 저하의 3가지 특징을 보입니다.
+
+## 3. 원인 감별과 신중한 프레이밍
+피로와 머리가 멍한 느낌을 자율신경 문제나 자율신경실조증으로 자동 귀결해서는 안 됩니다.
+자율신경 관련 증상이 함께 나타나는 일부 경우에 한해 평가 요소 중 하나로 살펴볼 수 있습니다.
+따라서 다음과 같은 다양한 원인에 대한 폭넓은 감별 평가가 중요합니다:
+수면 부족 및 수면무호흡증 등 수면장애, 우울이나 불안 등 정신건강 문제, 빈혈 및 철결핍, 갑상선 기능 이상 등 내분비·대사 질환, 복용 약물의 영향, 감염 후 상태 등을 확인해야 하며 필요한 경우 1차 의료기관이나 전문과에서 혈액검사 등 적절한 평가가 필요합니다.
+아울러 일반적인 만성피로 증상 표현과 엄격한 진단 평가가 필요한 만성피로증후군(ME/CFS)을 구분하는 것도 중요합니다.
+생활 맥락에서는 검증되지 않은 계절 변화에 기대기보다 수면 부족, 과로, 식사 불규칙, 지속적인 직장 스트레스 등 실제 생활 요인을 살피는 것이 바람직합니다.
+
+## 4. 해아림한의원의 상태 평가 및 1:1 맞춤 관리
+개인의 증상과 전반적인 상태를 고려한 한약 처방과 침구 치료를 시행합니다.
+신체 전반의 긴장도와 조절력을 종합적으로 평가하여 점진적인 회복을 돕습니다.
+
+## 5. 자주 묻는 질문
+**Q1. 쉬어도 피로가 가시지 않는 이유는 무엇인가요?**
+A. 단순 과로뿐 아니라 수면장애, 빈혈, 갑상선 등 내과적 원인이나 정신건강 요인이 복합 작용할 수 있어 체계적 감별이 필요합니다.
+**Q2. 번아웃이 오면 어떻게 대처해야 하나요?**
+A. 직무 스트레스 관리와 함께 에너지 소진 상태를 인정하고 전문적인 평가와 휴식 계획을 세워야 합니다.
+**Q3. 머리가 멍한 브레인포그도 좋아질 수 있나요?**
+A. 피로의 근본 원인을 감별하고 수면 리듬과 전신 조절력을 회복하면서 점차 맑아질 수 있습니다.
+`
+}));
+assert.strictEqual(validFatigueArticle.valid, true, `Compliant fatigue article MUST PASS 100%: ${validFatigueArticle.errors.join('; ')}`);
+console.log('✅ PASS: Fully compliant fatigue & burnout article passed validation 100%.');
+
+console.log('\n🎉 ALL 17 QA SYSTEM INTEGRITY, REGRESSION, BATCH, GEO, HUMAN REVIEW, TARGET IDENTITY, CLINICAL GUIDANCE, TREATMENT CERTAINTY, BATCH 3, BATCH 4, BATCH 5 & RE-REVIEW TESTS PASSED 100%!');
 
 
 

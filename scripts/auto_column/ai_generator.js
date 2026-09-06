@@ -510,6 +510,62 @@ ${linksListMd}
 `;
   }
 
+  const isChildEnuresis = (plan.topicAngle && plan.topicAngle.id === 'child-enuresis') ||
+    (plan.qaId && plan.qaId.includes('child-enuresis')) ||
+    (plan.titleDisease && plan.titleDisease.includes('야뇨')) ||
+    (plan.topicAngle && plan.topicAngle.focus && plan.topicAngle.focus.includes('야뇨'));
+
+  let enuresisGuideline = '';
+  if (isChildEnuresis) {
+    enuresisGuideline = `
+7-9. [소아 야뇨증 감별 및 표준치료 균형 지침 (Enuresis Clinical Rule)]
+   - [기본 원칙 유지]: 만 5세 이후 밤에 소변을 가리지 못하는 증상 설명, 아이의 의지 부족이나 양육 문제로 단정 금지, 비난이나 벌 금지, 보호자의 따뜻한 지지와 격려 유지.
+   - [다인자적 발생 배경 중립적 설명]: 배뇨 발달 미성숙 하나로 축소하지 말고, 야간 소변 생성량(항이뇨호르몬 등), 방광 기능 및 용적, 수면 중 각성 반응 장애 등 여러 요소가 복합적으로 관련될 수 있음을 중립적으로 설명하십시오.
+   - [필수 평가 및 감별 항목 포함]:
+     1) 낮 동안의 배뇨 증상 (주간 빈뇨, 절박뇨/급박뇨, 주간 요실금 등)
+     2) 배뇨통 또는 반복 요로감염(UTI) 의심 증상
+     3) 변비 (직장 팽만이 방광 압박 및 배뇨 반사에 미치는 영향)
+     4) 과도한 갈증(다갈) 및 다뇨 (내분비/대사 질환 감별)
+     5) 코골이, 구강 호흡 등 수면호흡장애
+     6) 이전에 최소 6개월 이상 소변을 가린 기간이 있다가 다시 시작된 경우(이차성 야뇨)의 경과 및 환경 변화 (구체적 기간 기준은 검증된 출처 기준에만 근거)
+   - [근거 기반 표준 관리 선택지 중립적 언급 - 필수]:
+     "아이의 증상 형태와 연령에 따라 야뇨 알람(enuresis alarm)이나 desmopressin 등의 치료가 활용될 수 있으며, 낮 배뇨 증상이나 변비 등 동반 문제가 있다면 이를 함께 평가하고 관리하는 것이 중요합니다."라는 취지를 균형 있게 소개하십시오.
+   - [한의학적 치료 원칙]: 한의학적 치료(증상과 체질을 고려한 한약, 침구)가 이러한 표준 치료를 대체한다고 쓰지 말고, 신체 전반의 조절력과 긴장도를 살펴 보완적으로 접근한다는 점을 서술하십시오.
+   - [생활관리 및 토픽 누출 금지]: 저녁 식사 후 수분 섭취 조절, 취침 전 배뇨 습관, 실수에 대한 안심 환경을 제시하되, 분리불안용 "아침 등원·등교 전 따뜻한 포옹" 문구는 절대로 야뇨 생활관리에 넣지 마십시오.
+`;
+  }
+
+  const isFatigueBurnout = (plan.topicAngle && plan.topicAngle.id === 'brain-fog-fatigue') ||
+    (plan.qaId && plan.qaId.includes('fatigue')) ||
+    (plan.displayDisease && plan.displayDisease.includes('만성피로')) ||
+    (plan.titleDisease && (plan.titleDisease.includes('만성피로') || plan.titleDisease.includes('번아웃')));
+
+  let fatigueBurnoutGuideline = '';
+  if (isFatigueBurnout) {
+    fatigueBurnoutGuideline = `
+7-10. [만성피로 및 번아웃 구분 지침 (Fatigue vs Burnout Rule)]
+   - [만성피로 vs 번아웃 명확한 구분 - 필수]:
+     * 만성피로: 충분한 휴식 후에도 지속되는 피로라는 증상 표현(symptom)이며 그 원인은 매우 다양할 수 있습니다.
+     * 번아웃(Burnout): 성공적으로 관리되지 않은 만성 직장 스트레스로 인한 직업적 현상(occupational phenomenon, ICD-11)이며, 단순한 일반 생활 피로나 모든 삶의 영역의 스트레스가 아니며 독립된 의학적 질환명과 동일하지 않습니다.
+     * 번아웃의 3대 핵심 특징: 1) 에너지 고갈/소진감, 2) 일/직무에 대한 심리적 거리감·부정적 태도나 냉소주의, 3) 직업적 효능감 저하를 본문에서 명확히 설명하십시오.
+     * title/thumbnail을 억지로 길게 만들 필요는 없으나 본문에서 번아웃 identity를 충분히 충족해야 합니다.
+   - [자율신경 과잉 프레이밍 차단 - 필수]:
+     * 스트레스/수면불규칙 → 자율기능 조절 흔들림 → 만성피로/브레인포그 처럼 너무 직접적으로 연결하거나, 만성피로와 브레인포그를 자율신경 문제나 자율신경실조증으로 자동 귀결하지 마십시오.
+     * 자율신경 관련 증상(어지럼, 두근거림, 소화불량 등)이 함께 있는 일부 경우 평가 요소 중 하나로 살펴볼 수 있다는 수준으로 신중하게 다루십시오.
+   - [폭넓은 원인 감별 및 의료기관 평가 안내 - 필수]:
+     * 수면 부족 및 수면장애(수면무호흡증 등)
+     * 우울, 불안 등 정신건강 문제
+     * 빈혈 및 철결핍
+     * 갑상선 등 내분비·대사 질환
+     * 복용 약물 및 물질의 영향
+     * 감염 후 상태 또는 기타 내과적 질환
+     * 신경학적 원인
+     * 필요한 경우 1차 의료기관 또는 전문과에서 혈액검사 등 적절한 평가가 필요함을 안내하십시오.
+   - [ME/CFS 구분]: 만성피로라는 증상 표현과 ME/CFS(근통성 뇌척수염/만성피로증후군)를 동일시하지 말고, ME/CFS는 별도 진단/평가가 필요한 질환 상태임을 필요한 범위에서 짧게 구분하십시오.
+   - [근거 없는 환절기/기온 변화 프레이밍 금지]: "급격한 기온 변화와 환절기", "환절기에 유독 머리가 멍하고" 등 검증되지 않은 계절 요인을 핵심 악화 요인으로 단정하지 마십시오. 수면 부족, 과로, 식사 불규칙, 지속적인 직장 스트레스 등 검증된 생활 맥락에 집중하십시오.
+`;
+  }
+
   const prompt = `
 당신은 해아림한의원 대표원장의 관점에서 의학 칼럼 본문을 작성하는 전문 의료 작가입니다.
 
@@ -602,6 +658,8 @@ ${depressionGuideline}
 ${ocdGuideline}
 ${separationGuideline}
 ${nightTerrorsGuideline}
+${enuresisGuideline}
+${fatigueBurnoutGuideline}
 마크다운 형식으로만 반환하십시오.
 `;
 

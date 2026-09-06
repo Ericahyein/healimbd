@@ -790,6 +790,172 @@ function checkNightTerrorsTitleAndClinical(title, fullText) {
 }
 
 /**
+ * Validates child enuresis (소아 야뇨증) content:
+ * - Prohibits topic leakage from separation anxiety (e.g. "아침 등원·등교 전 따뜻한 포옹")
+ * - Prohibits single reduction to bladder reflex immaturity; requires multifactorial etiology (nighttime urine production, bladder function, sleep arousal)
+ * - Requires essential clinical differential evaluation: daytime LUTS, dysuria/UTI, constipation, polydipsia/polyuria, sleep-disordered breathing
+ * - Requires neutral mention of evidence-based standard management options (enuresis alarm, desmopressin)
+ * - Prohibits claiming Korean medicine replaces standard treatments
+ */
+function checkChildEnuresisClinicalAndStandardCare(fullText) {
+  if (!fullText || typeof fullText !== 'string') return { valid: true };
+
+  // 1. Topic leakage check: Separation anxiety morning hug tip
+  const morningHugPattern = /(아침\s*)?(등원|등교|등원·등교|등교·등원)\s*전\s*(따뜻한\s*)?포옹|따뜻한\s*포옹/i;
+  if (morningHugPattern.test(fullText)) {
+    return {
+      valid: false,
+      reason: 'Child enuresis separation-anxiety leakage: 야뇨증 글의 생활관리에 분리불안용 문구("등원·등교 전 따뜻한 포옹")를 넣을 수 없습니다.'
+    };
+  }
+
+  // 2. Multifactorial background check (nighttime urine volume, bladder function, arousal threshold)
+  const hasUrineProduction = /(야간\s*소변\s*생성|야간\s*요량|소변\s*생성|항이뇨)/i.test(fullText);
+  const hasBladderFunction = /(방광\s*기능|방광\s*용적|방광\s*용량|방광)/i.test(fullText);
+  const hasArousal = /(각성\s*반응|수면\s*중\s*각성|잠에서\s*깨|각성\s*역치|각성)/i.test(fullText);
+  if (!hasUrineProduction || !hasBladderFunction || !hasArousal) {
+    return {
+      valid: false,
+      reason: 'Child enuresis multifactorial background missing: 야뇨의 발생 배경을 단순 배뇨 반사 미성숙 하나로 축소하지 말고, 야간 소변 생성량, 방광 기능, 수면 중 각성 반응 등 여러 요소가 관련될 수 있는 중립적 다인자 구조로 설명해야 합니다.'
+    };
+  }
+
+  // 3. Required differential evaluation
+  const hasDaytimeSymptoms = /(낮\s*(동안|의|시간)|주간).{0,35}(배뇨|빈뇨|절박뇨|급박뇨|요실금)|낮\s*배뇨\s*증상/i.test(fullText);
+  const hasUtiOrDysuria = /(배뇨통|요로\s*감염|소변볼\s*때\s*(통증|아프)|요로감염)/i.test(fullText);
+  const hasConstipation = /(변비|배변\s*문제|장\s*내\s*대변)/i.test(fullText);
+  const hasPolydipsiaPolyuria = /(과도한\s*갈증|다갈|다뇨|소변량이\s*과도|물을\s*(너무\s*많이|과도하게)\s*마시)/i.test(fullText);
+  const hasSleepApnea = /(수면\s*호흡\s*장애|코골이|수면\s*무호흡|구강\s*호흡)/i.test(fullText);
+
+  const missingDiffs = [];
+  if (!hasDaytimeSymptoms) missingDiffs.push('낮 동안의 배뇨 증상(주간 빈뇨/절박뇨/요실금)');
+  if (!hasUtiOrDysuria) missingDiffs.push('배뇨통 또는 요로감염 의심 증상');
+  if (!hasConstipation) missingDiffs.push('변비');
+  if (!hasPolydipsiaPolyuria) missingDiffs.push('과도한 갈증(다갈)/다뇨');
+  if (!hasSleepApnea) missingDiffs.push('코골이/수면호흡장애');
+
+  if (missingDiffs.length > 0) {
+    return {
+      valid: false,
+      reason: `Child enuresis differential evaluation missing: 소아 야뇨증 평가 시 필수 감별 항목(${missingDiffs.join(', ')})에 대한 확인이 반드시 포함되어야 합니다.`
+    };
+  }
+
+  // 4. Evidence-based standard management options neutral mention
+  const hasAlarm = /(야뇨\s*(알람|경보기)|enuresis\s*alarm)/i.test(fullText);
+  const hasDesmopressin = /(데스모프레신|desmopressin)/i.test(fullText);
+  if (!hasAlarm || !hasDesmopressin) {
+    return {
+      valid: false,
+      reason: 'Child enuresis standard management missing: 환자 정보 칼럼으로서 야뇨 알람(enuresis alarm) 및 데스모프레신(desmopressin) 등 근거 기반 표준 관리 선택지를 중립적으로 언급해야 합니다.'
+    };
+  }
+
+  // 5. Prohibit claiming Korean medicine replaces standard treatments
+  const claimsToReplace = /(한방\s*치료|한의학적\s*치료|한약).*?(대체하는\s*치료|표준\s*치료를\s*대신|알람이나\s*약물\s*대신|대체할\s*수\s*있)/i.test(fullText);
+  if (claimsToReplace) {
+    return {
+      valid: false,
+      reason: 'Child enuresis treatment replacement violation: 한의학적 치료가 야뇨 알람이나 데스모프레신 등 표준 치료를 대체한다고 서술할 수 없습니다. 보완적 접근으로 서술해야 합니다.'
+    };
+  }
+
+  return { valid: true };
+}
+
+/**
+ * Validates chronic fatigue & burnout (만성피로·번아웃) content:
+ * - Strictly prohibits automatic causal jump equating chronic fatigue / brain fog directly to autonomic dysfunction
+ * - Requires distinct definition of Chronic Fatigue (symptom presentation) vs Burnout (ICD-11 occupational phenomenon tied to chronic workplace stress)
+ * - Prohibits defining burnout as general everyday tiredness or across all life domains
+ * - Requires burnout's 3 core dimensions: energy depletion/exhaustion, job cynicism/mental distance, reduced professional efficacy
+ * - Requires broad differential evaluation (sleep, psychiatric, anemia, endocrine/thyroid, medication, infection/internal medicine, and ME/CFS distinction)
+ * - Strictly prohibits ungrounded seasonal transition ("급격한 기온 변화와 환절기") as core aggravating factors
+ */
+function checkFatigueBurnoutAndAutonomicFraming(fullText) {
+  if (!fullText || typeof fullText !== 'string') return { valid: true };
+
+  // 1. Prohibit ungrounded seasonal transition framing
+  const seasonalFramingPattern = /(급격한\s*기온\s*변화(와| 및|\s*및)?\s*환절기|환절기(에|\s*마다)?\s*(유독\s*)?(머리가\s*멍|피로가\s*심|원인이)|환절기가\s*(대표적\s*악화\s*요인|주요\s*원인)|환절기\s*피로)/i;
+  if (seasonalFramingPattern.test(fullText)) {
+    return {
+      valid: false,
+      reason: 'Fatigue unverified seasonal framing violation: 검증되지 않은 환절기나 급격한 기온 변화를 만성피로 및 브레인포그의 핵심 악화 요인으로 단정할 수 없습니다. 수면 부족, 과로, 식사 불규칙, 지속적인 직장 스트레스 등 검증된 생활 맥락에 집중해야 합니다.'
+    };
+  }
+
+  // 2. Autonomic auto-jump check
+  const sentences = fullText.split(/[.\n!?]+/);
+  const directJumpClause = /(만성\s*피로|브레인포그).*?(자율신경|자율기능).*?(원인|귀결|기인|때문)/i;
+  const safeHedging = /(일부\s*경우|함께\s*살펴볼\s*수|하나로\s*살펴|평가\s*요소\s*중\s*하나|단정할\s*수\s*없|단정하지|동반된\s*경우|자동\s*귀결되지\s*않)/i;
+
+  for (const rawS of sentences) {
+    const s = rawS.trim();
+    if (!s) continue;
+    if (directJumpClause.test(s) && !safeHedging.test(s)) {
+      return {
+        valid: false,
+        reason: `Fatigue autonomic auto-jump violation: 만성피로와 브레인포그를 자율신경 문제나 자율신경실조증으로 자동 귀결하지 마십시오. 자율신경 관련 증상이 함께 있는 일부 경우 평가 요소 중 하나로 살펴볼 수 있다는 수준으로 작성해야 합니다. (Matched: "${s.slice(0, 80)}")`
+      };
+    }
+  }
+
+  // 3. Burnout presence check
+  if (!fullText.includes('번아웃')) {
+    return {
+      valid: false,
+      reason: 'Fatigue target burnout omission: 만성피로·번아웃 타깃 칼럼은 본문에서 만성피로(지속되는 피로 증상 표현)와 번아웃을 반드시 구별하여 설명해야 합니다.'
+    };
+  }
+
+  // 4. Burnout definition check: occupational phenomenon tied to workplace stress, NOT general life fatigue
+  const generalLifeFatigueDef = /(번아웃(은|이란)?\s*(일상생활의\s*모든\s*스트레스|삶의\s*모든\s*영역에서\s*생기는\s*피로|일반적인\s*생활\s*피로|단순한\s*만성\s*피로와\s*같은\s*의학적\s*질환|모든\s*영역의\s*스트레스))/i;
+  if (generalLifeFatigueDef.test(fullText)) {
+    return {
+      valid: false,
+      reason: 'Burnout definition violation: 번아웃을 일상 생활의 일반 피로나 모든 영역의 스트레스로 정의할 수 없습니다. 성공적으로 관리되지 않은 만성 직장 스트레스와 관련된 직업적 현상(occupational phenomenon, ICD-11)으로 정의해야 합니다.'
+    };
+  }
+
+  const hasWorkplaceContext = /(직장|업무|직무|직업적|occupational|일과\s*관련)/i.test(fullText);
+  const hasEnergyDepletion = /(에너지\s*고갈|소진|탈진)/i.test(fullText);
+  const hasCynicismDistance = /(거리감|냉소|부정적\s*태도|심리적\s*거리)/i.test(fullText);
+  const hasReducedEfficacy = /(효능감|성취감|직업적\s*효능감|업무\s*효율)/i.test(fullText);
+
+  if (!hasWorkplaceContext || !hasEnergyDepletion || !hasCynicismDistance || !hasReducedEfficacy) {
+    return {
+      valid: false,
+      reason: 'Burnout core dimensions missing: 번아웃은 만성 직장 스트레스와 관련된 직업적 현상(occupational phenomenon)으로서 3대 핵심 특징(에너지 고갈/소진, 일에 대한 냉소/거리감, 직업적 효능감 저하)을 명확히 설명해야 합니다.'
+    };
+  }
+
+  // 5. Broad differential evaluation check
+  const hasSleepDiff = /(수면\s*부족|수면\s*장애|수면무호흡|수면)/i.test(fullText);
+  const hasPsychDiff = /(우울|불안|정신건강)/i.test(fullText);
+  const hasAnemiaDiff = /(빈혈|철결핍|철분)/i.test(fullText);
+  const hasEndoDiff = /(갑상선|내분비|대사)/i.test(fullText);
+  const hasClinicDiff = /(의료기관|내과|혈액검사|전문\s*평가|감별)/i.test(fullText);
+  const hasMecfsDiff = /(ME\/CFS|만성피로증후군)/i.test(fullText);
+
+  const missingDiffs = [];
+  if (!hasSleepDiff) missingDiffs.push('수면 부족/수면장애');
+  if (!hasPsychDiff) missingDiffs.push('우울/불안 등 정신건강 문제');
+  if (!hasAnemiaDiff) missingDiffs.push('빈혈/철결핍');
+  if (!hasEndoDiff) missingDiffs.push('갑상선 등 내분비·대사 질환');
+  if (!hasClinicDiff) missingDiffs.push('의료기관 감별 평가 안내');
+  if (!hasMecfsDiff) missingDiffs.push('ME/CFS(만성피로증후군) 구분');
+
+  if (missingDiffs.length > 0) {
+    return {
+      valid: false,
+      reason: `Fatigue broad differential missing: 만성피로 글은 다양한 원인 감별(${missingDiffs.join(', ')})을 반드시 포함해야 합니다.`
+    };
+  }
+
+  return { valid: true };
+}
+
+/**
  * 3-Tier Comprehensive Validation of Generated Column
  * Tier 1: Global Policy (Structure, Length, Headings, Banned Phrases, Internal Links)
  * Tier 2: GEO Consistency Policy (No unrelated active GEO or station keywords)
@@ -1380,6 +1546,32 @@ function validateArticleContent(articleData, options = {}) {
     }
   }
 
+  // Child Enuresis specific checks (qa-19-child-enuresis / child-enuresis)
+  const isChildEnuresisTarget = (diseaseId === 'child' && angleId === 'child-enuresis') ||
+    (qaTarget && (qaTarget.topicAngle === 'child-enuresis' || qaTarget.id === 'qa-19-child-enuresis')) ||
+    (titleDisease && titleDisease.includes('야뇨')) ||
+    (title && title.includes('야뇨'));
+
+  if (isChildEnuresisTarget) {
+    const enuresisCheck = checkChildEnuresisClinicalAndStandardCare(fullText);
+    if (!enuresisCheck.valid) {
+      errors.push(enuresisCheck.reason);
+    }
+  }
+
+  // Fatigue & Burnout specific checks (qa-20-fatigue / brain-fog-fatigue)
+  const isFatigueTarget = (diseaseId === 'autonomic' && angleId === 'brain-fog-fatigue') ||
+    (qaTarget && (qaTarget.topicAngle === 'brain-fog-fatigue' || qaTarget.id === 'qa-20-fatigue')) ||
+    (titleDisease && (titleDisease.includes('만성피로') || titleDisease.includes('번아웃'))) ||
+    (title && (title.includes('만성피로') || title.includes('번아웃') || title.includes('브레인포그')));
+
+  if (isFatigueTarget) {
+    const fatigueCheck = checkFatigueBurnoutAndAutonomicFraming(fullText);
+    if (!fatigueCheck.valid) {
+      errors.push(fatigueCheck.reason);
+    }
+  }
+
   return {
     valid: errors.length === 0,
     errors,
@@ -1402,5 +1594,7 @@ module.exports = {
   checkDepressionOcdSectionLeakage,
   checkOcdViciousCycleAndTreatments,
   checkSeparationAnxietyDistinction,
-  checkNightTerrorsTitleAndClinical
+  checkNightTerrorsTitleAndClinical,
+  checkChildEnuresisClinicalAndStandardCare,
+  checkFatigueBurnoutAndAutonomicFraming
 };
