@@ -215,14 +215,14 @@
     "displayDisease": "우울증 (만성 무기력)",
     "topicAngle": "burnout-lethargy",
     "recommendedGeo": "gyeonggi-gwangju",
-    "testedAt": "2026-09-06T11:10:39.453Z",
+    "testedAt": "2026-09-06T11:35:58.982Z",
     "validationPassed": true,
-    "humanReviewStatus": "needs_revision",
-    "notes": "Dry-run QA 검증 통과 (needs_revision: 우울증/번아웃 구분 강화, OCD 확인행동 독립 섹션 배제, 만성 무기력 시 신체적/약물 원인 감별 필요성 명시)",
+    "humanReviewStatus": "generated",
+    "notes": "Dry-run QA 검증 통과 (우울증 (만성 무기력) - 쉬어도 충전되지 않고 모든 일에 의욕이 사라질 때)",
     "validationErrors": [],
-    "estimatedCostUSD": 0.078,
+    "estimatedCostUSD": 0.0797,
     "articleSlug": "gyeonggi-gwangju-depression-burnout-lethargy",
-    "estimatedCost": 0.078
+    "estimatedCost": 0.0797
   },
   {
     "qaId": "qa-16-ocd",
@@ -230,14 +230,14 @@
     "displayDisease": "강박증/OCD",
     "topicAngle": "intrusive-thoughts",
     "recommendedGeo": "seongnam-main",
-    "testedAt": "2026-09-06T11:10:44.807Z",
+    "testedAt": "2026-09-06T11:35:59.428Z",
     "validationPassed": true,
-    "humanReviewStatus": "needs_revision",
-    "notes": "Dry-run QA 검증 통과 (needs_revision: 강박증 고유 악순환 기전 중심 서술, ERP/CBT/약물치료 표준 치료 중립적 언급, 우울/소진 일반 문구 배제)",
+    "humanReviewStatus": "generated",
+    "notes": "Dry-run QA 검증 통과 (강박증/OCD - 원치 않는 불안한 생각이 반복적으로 떠오를 때)",
     "validationErrors": [],
-    "estimatedCostUSD": 0.0795,
+    "estimatedCostUSD": 0.07788,
     "articleSlug": "seongnam-main-ocd-intrusive-thoughts",
-    "estimatedCost": 0.0795
+    "estimatedCost": 0.07788
   },
   {
     "qaId": "qa-17-separation-anxiety",
@@ -245,14 +245,14 @@
     "displayDisease": "소아 분리불안 (등교복통)",
     "topicAngle": "separation-anxiety",
     "recommendedGeo": "yongin-cheoin",
-    "testedAt": "2026-09-06T11:10:35.294Z",
+    "testedAt": "2026-09-06T11:36:02.039Z",
     "validationPassed": true,
-    "humanReviewStatus": "needs_revision",
-    "notes": "Dry-run QA 검증 통과 (needs_revision: 정상 발달 불안 vs 임상 장애 구분, 야뇨증 수분/배뇨 관리법 배제, 틱 링크 배제)",
+    "humanReviewStatus": "generated",
+    "notes": "Dry-run QA 검증 통과 (소아 분리불안 (등교복통) - 유치원이나 학교 갈 때마다 배가 아프다고 우는 아이)",
     "validationErrors": [],
-    "estimatedCostUSD": 0.07796,
+    "estimatedCostUSD": 0.0851,
     "articleSlug": "yongin-cheoin-separation-anxiety-separation-anxiety",
-    "estimatedCost": 0.07796
+    "estimatedCost": 0.0851
   },
   {
     "qaId": "qa-18-night-terrors",
@@ -260,14 +260,14 @@
     "displayDisease": "소아 야경증 (수면장애)",
     "topicAngle": "night-terrors",
     "recommendedGeo": "gyeonggi-icheon",
-    "testedAt": "2026-09-06T11:10:37.679Z",
+    "testedAt": "2026-09-06T11:36:01.609Z",
     "validationPassed": true,
-    "humanReviewStatus": "needs_revision",
-    "notes": "Dry-run QA 검증 통과 (needs_revision: 야경증과 악몽 완전 분리, NREM 부분 각성 및 다음 날 무기억 중심, 야간 침실 썸네일 컨텍스트 적용, 야뇨증 관리법 배제)",
+    "humanReviewStatus": "generated",
+    "notes": "Dry-run QA 검증 통과 (소아 야경증 (수면장애) - 자다가 갑자기 울고 소리치지만 다음 날 기억하지 못할 때)",
     "validationErrors": [],
-    "estimatedCostUSD": 0.08048,
+    "estimatedCostUSD": 0.08378,
     "articleSlug": "gyeonggi-icheon-night-terrors-night-terrors",
-    "estimatedCost": 0.08048
+    "estimatedCost": 0.08378
   },
   {
     "qaId": "qa-19-child-enuresis",
