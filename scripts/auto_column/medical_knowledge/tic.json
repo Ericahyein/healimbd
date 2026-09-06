@@ -47,11 +47,13 @@
       "journal": "Psychiatric Clinics of North America",
       "year": 2024,
       "doi": "10.1016/j.psc.2024.08.003",
+      "pmid": "39880509",
       "sourceUrl": "https://doi.org/10.1016/j.psc.2024.08.003",
       "source": {
         "name": "Psychiatric Clinics of North America (2024)",
-        "identifier": "DOI: 10.1016/j.psc.2024.08.003",
+        "identifier": "DOI: 10.1016/j.psc.2024.08.003 / PMID: 39880509",
         "doi": "10.1016/j.psc.2024.08.003",
+        "pmid": "39880509",
         "url": "https://doi.org/10.1016/j.psc.2024.08.003"
       },
       "rationale": "CSTC 회로의 억제 및 조절 이상은 틱장애 병태생리의 확립된 신경해부학적 기전으로 서술 가능함을 검증함."
@@ -66,11 +68,13 @@
       "journal": "Journal of Neural Transmission",
       "year": 2013,
       "doi": "10.1007/s00702-013-0979-z",
+      "pmid": "23361655",
       "sourceUrl": "https://doi.org/10.1007/s00702-013-0979-z",
       "source": {
         "name": "Journal of Neural Transmission (2013)",
-        "identifier": "DOI: 10.1007/s00702-013-0979-z",
+        "identifier": "DOI: 10.1007/s00702-013-0979-z / PMID: 23361655",
         "doi": "10.1007/s00702-013-0979-z",
+        "pmid": "23361655",
         "url": "https://doi.org/10.1007/s00702-013-0979-z"
       },
       "rationale": "도파민계 신경전달 체계의 조절 이상은 주요 약리학적 기전이나, 과도하게 단순화된 비의학적 표현(도파민 폭발 등)은 엄격히 금지함."

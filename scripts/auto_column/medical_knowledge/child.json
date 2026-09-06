@@ -75,38 +75,67 @@
       "rationale": "정상 발달과 분리불안장애의 차이를 명확히 구분하여 부모의 과도한 불안과 죄책감을 완화함."
     },
     {
-      "claim": "야경증은 비렘(NREM) 수면 중 불완전 각성으로 발생하며 아동이 다음 날 아침 상황을 기억하지 못하는 사건수면으로, 악몽(꿈 회상 동반)과 감별된다.",
-      "evidenceLevel": "clinical-guideline",
+      "claim": "야경증은 비렘(NREM) 수면 중 불완전 각성으로 발생하며 아동이 다음 날 아침 상황을 기억하지 못하는 사건수면으로, 꿈 회상을 동반하는 악몽과 명확히 감별된다.",
+      "evidenceLevel": "clinical-review",
       "claimStrength": "established",
       "sourceVerified": true,
       "verified": true,
-      "sourceTitle": "International Classification of Sleep Disorders, Third Edition (ICSD-3) - Sleep Terrors",
-      "doi": "10.5664/jcsm.4114",
-      "sourceUrl": "https://doi.org/10.5664/jcsm.4114",
+      "sourceTitle": "Sleep Terrors: An Updated Review",
+      "journal": "Current Pediatric Reviews",
+      "year": 2020,
+      "doi": "10.2174/1573396315666191014152136",
+      "pmid": "31612833",
+      "sourceUrl": "https://doi.org/10.2174/1573396315666191014152136",
       "source": {
-        "name": "American Academy of Sleep Medicine ICSD-3",
-        "identifier": "DOI: 10.5664/jcsm.4114",
-        "doi": "10.5664/jcsm.4114",
-        "url": "https://doi.org/10.5664/jcsm.4114"
+        "name": "Current Pediatric Reviews",
+        "identifier": "DOI: 10.2174/1573396315666191014152136 / PMID: 31612833",
+        "doi": "10.2174/1573396315666191014152136",
+        "pmid": "31612833",
+        "url": "https://doi.org/10.2174/1573396315666191014152136"
       },
       "rationale": "야경증과 악몽을 명확히 구분하여 발작 중 아동을 억지로 깨우지 않는 올바른 부모 대처를 안내함."
     },
     {
-      "claim": "소아 야뇨증은 만 5세 이후 밤에 소변을 가리지 못하는 상태로, 낮 배뇨 증상, 변비, 요로감염, 수면호흡장애 등 감별과 함께 야뇨경보기 및 데스모프레신 등 표준 치료 옵션을 균형 있게 고려해야 한다.",
+      "claim": "소아 야뇨증은 만 5세 이상 아동에서 수면 중 불수의적 배뇨가 발생하는 상태로 정의되며, 주간 배뇨 증상 동반 여부(단일증상성 vs 비단일증상성) 및 2차 원인을 분류하여 평가해야 한다.",
       "evidenceLevel": "clinical-guideline",
       "claimStrength": "established",
       "sourceVerified": true,
       "verified": true,
-      "sourceTitle": "Standardization of terminology of lower urinary tract function in children and adolescents (ICCS update)",
-      "doi": "10.1016/j.juro.2014.01.115",
-      "sourceUrl": "https://doi.org/10.1016/j.juro.2014.01.115",
+      "sourceTitle": "The standardization of terminology of lower urinary tract function in children and adolescents: update report from the Standardization Committee of the International Children's Continence Society",
+      "journal": "The Journal of Urology",
+      "year": 2014,
+      "doi": "10.1016/j.juro.2014.01.110",
+      "pmid": "24508614",
+      "sourceUrl": "https://doi.org/10.1016/j.juro.2014.01.110",
       "source": {
-        "name": "International Children Continence Society (ICCS)",
-        "identifier": "DOI: 10.1016/j.juro.2014.01.115",
-        "doi": "10.1016/j.juro.2014.01.115",
-        "url": "https://doi.org/10.1016/j.juro.2014.01.115"
+        "name": "International Children's Continence Society (ICCS) Terminology Update",
+        "identifier": "DOI: 10.1016/j.juro.2014.01.110 / PMID: 24508614",
+        "doi": "10.1016/j.juro.2014.01.110",
+        "pmid": "24508614",
+        "url": "https://doi.org/10.1016/j.juro.2014.01.110"
       },
-      "rationale": "단순 심리적 요인으로 축소하지 않고 소아비뇨기 표준 감별 진단 및 치료 옵션을 균형 있게 제시함."
+      "rationale": "국제 가이드라인에 따른 야뇨증의 연령 기준(만 5세) 및 단일증상성/비단일증상성 분류 기준을 확립함."
+    },
+    {
+      "claim": "단일증상성 야뇨증의 1차 표준 치료로 야뇨경보기(enuresis alarm)와 데스모프레신(desmopressin)이 권고되며, 변비나 주간 배뇨장애, 수면무호흡 등 동반 질환을 병행 관리해야 한다.",
+      "evidenceLevel": "clinical-guideline",
+      "claimStrength": "established",
+      "sourceVerified": true,
+      "verified": true,
+      "sourceTitle": "Management and treatment of nocturnal enuresis-an updated standardization document from the International Children's Continence Society",
+      "journal": "Journal of Pediatric Urology",
+      "year": 2020,
+      "doi": "10.1016/j.jpurol.2019.12.020",
+      "pmid": "32278657",
+      "sourceUrl": "https://doi.org/10.1016/j.jpurol.2019.12.020",
+      "source": {
+        "name": "International Children's Continence Society (ICCS) Treatment Guidelines",
+        "identifier": "DOI: 10.1016/j.jpurol.2019.12.020 / PMID: 32278657",
+        "doi": "10.1016/j.jpurol.2019.12.020",
+        "pmid": "32278657",
+        "url": "https://doi.org/10.1016/j.jpurol.2019.12.020"
+      },
+      "rationale": "소아 야뇨증의 1차 표준 치료 옵션과 동반 질환 관리 원칙을 중립적으로 안내함."
     }
   ]
 }

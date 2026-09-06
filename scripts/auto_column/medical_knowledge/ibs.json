@@ -66,11 +66,13 @@
       "verified": true,
       "sourceTitle": "ACG Clinical Guideline: Management of Irritable Bowel Syndrome",
       "doi": "10.14309/ajg.0000000000001036",
+      "pmid": "33315591",
       "sourceUrl": "https://doi.org/10.14309/ajg.0000000000001036",
       "source": {
         "name": "American College of Gastroenterology (ACG)",
-        "identifier": "DOI: 10.14309/ajg.0000000000001036",
+        "identifier": "DOI: 10.14309/ajg.0000000000001036 / PMID: 33315591",
         "doi": "10.14309/ajg.0000000000001036",
+        "pmid": "33315591",
         "url": "https://doi.org/10.14309/ajg.0000000000001036"
       },
       "rationale": "기질적 소화기 질환(염증성 장질환, 악성 종양 등)을 놓치는 임상적 위험을 차단함."

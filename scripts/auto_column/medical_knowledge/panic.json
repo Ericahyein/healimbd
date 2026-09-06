@@ -99,11 +99,13 @@
       "verified": true,
       "sourceTitle": "2021 AHA/ACC/ASE/CHEST/SAEM/SCCT/SCMR Guideline for the Evaluation and Diagnosis of Chest Pain",
       "doi": "10.1161/CIR.0000000000001029",
+      "pmid": "34709879",
       "sourceUrl": "https://doi.org/10.1161/CIR.0000000000001029",
       "source": {
         "name": "AHA/ACC Chest Pain Guidelines 2021",
-        "identifier": "DOI: 10.1161/CIR.0000000000001029",
+        "identifier": "DOI: 10.1161/CIR.0000000000001029 / PMID: 34709879",
         "doi": "10.1161/CIR.0000000000001029",
+        "pmid": "34709879",
         "url": "https://doi.org/10.1161/CIR.0000000000001029"
       },
       "rationale": "심혈관계 기질 질환의 응급 처치 기회를 놓치지 않도록 안전 우선 원칙을 확립함."

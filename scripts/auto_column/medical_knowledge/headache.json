@@ -49,12 +49,16 @@
       "sourceVerified": true,
       "verified": true,
       "sourceTitle": "Diagnostic criteria for persistent postural-perceptual dizziness (PPPD): Consensus document of the committee for the International Classification of Vestibular Disorders",
+      "journal": "Journal of Vestibular Research",
+      "year": 2017,
       "doi": "10.3233/VES-170622",
+      "pmid": "29036855",
       "sourceUrl": "https://doi.org/10.3233/VES-170622",
       "source": {
-        "name": "Journal of Vestibular Research (Barany Society)",
-        "identifier": "DOI: 10.3233/VES-170622",
+        "name": "Journal of Vestibular Research (Bárány Society)",
+        "identifier": "DOI: 10.3233/VES-170622 / PMID: 29036855",
         "doi": "10.3233/VES-170622",
+        "pmid": "29036855",
         "url": "https://doi.org/10.3233/VES-170622"
       },
       "rationale": "이비인후과 검사 정상 후 경추나 자율신경으로 단정적 비약을 방지하고 다양한 신경계 원인을 고려하도록 함."
@@ -65,14 +69,18 @@
       "claimStrength": "cautionary",
       "sourceVerified": true,
       "verified": true,
-      "sourceTitle": "SNNOOP10 list for red flags in secondary headaches: A systematic review",
-      "doi": "10.1177/0333102419842602",
-      "sourceUrl": "https://doi.org/10.1177/0333102419842602",
+      "sourceTitle": "Red and orange flags for secondary headaches in clinical practice: SNNOOP10 list",
+      "journal": "Neurology",
+      "year": 2019,
+      "doi": "10.1212/WNL.0000000000006697",
+      "pmid": "30587518",
+      "sourceUrl": "https://doi.org/10.1212/WNL.0000000000006697",
       "source": {
-        "name": "Cephalalgia (International Headache Society)",
-        "identifier": "DOI: 10.1177/0333102419842602",
-        "doi": "10.1177/0333102419842602",
-        "url": "https://doi.org/10.1177/0333102419842602"
+        "name": "Neurology (American Academy of Neurology)",
+        "identifier": "DOI: 10.1212/WNL.0000000000006697 / PMID: 30587518",
+        "doi": "10.1212/WNL.0000000000006697",
+        "pmid": "30587518",
+        "url": "https://doi.org/10.1212/WNL.0000000000006697"
       },
       "rationale": "뇌출혈, 뇌경색, 뇌수막염 등 2차성 응급 두통 질환에 대한 응급 배제를 필수화함."
     }

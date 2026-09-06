@@ -75,7 +75,7 @@
       "rationale": "단순 내향성을 질환으로 과장하지 않으면서 실제 임상적 불안 장애를 겪는 환자에게 바른 가이드를 제공함."
     },
     {
-      "claim": "불안 치료는 자율신경계 과각성을 안정시키고 대처 역량을 기르는 과정이며, 불안을 100% 영구적으로 소멸시키는 것을 장담할 수 없다.",
+      "claim": "사회불안장애 관리는 인지행동치료(CBT)나 필요 시 약물치료 등 근거 기반 치료 옵션을 통해 불안 반응과 회피 행동을 완화하고 일상 기능을 회복하는 과정이며, 일률적인 영구 완치를 장담할 수 없다.",
       "evidenceLevel": "clinical-guideline",
       "claimStrength": "cautionary",
       "sourceVerified": true,
@@ -87,7 +87,7 @@
         "identifier": "https://www.nice.org.uk/guidance/cg159",
         "url": "https://www.nice.org.uk/guidance/cg159"
       },
-      "rationale": "치료 효과에 대한 단정적 완치 보장을 차단하고 현실적인 자율신경 조절과 삶의 적응 관점을 유지함."
+      "rationale": "NICE 가이드라인의 근거 기반 치료 권고(CBT 및 약물치료)를 제시하며, 비현실적인 완치 보장을 차단하고 단계적 기능 회복 목표를 설정함."
     }
   ]
 }
