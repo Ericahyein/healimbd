@@ -275,13 +275,14 @@
     "displayDisease": "소아 야뇨증",
     "topicAngle": "child-enuresis",
     "recommendedGeo": "seongnam-bundang",
-    "testedAt": null,
-    "validationPassed": false,
-    "humanReviewStatus": "not_tested",
-    "notes": null,
+    "testedAt": "2026-09-06T12:03:57.306Z",
+    "validationPassed": true,
+    "humanReviewStatus": "generated",
+    "notes": "Dry-run QA 검증 통과 (소아 야뇨증 - 만 5세 이후에도 밤에 소변 실수를 반복할 때)",
     "validationErrors": [],
-    "estimatedCostUSD": 0,
-    "articleSlug": null
+    "estimatedCostUSD": 0.07644,
+    "articleSlug": "seongnam-bundang-child-enuresis",
+    "estimatedCost": 0.07644
   },
   {
     "qaId": "qa-20-fatigue",
@@ -289,12 +290,13 @@
     "displayDisease": "만성피로·번아웃",
     "topicAngle": "brain-fog-fatigue",
     "recommendedGeo": "bundang-pangyo",
-    "testedAt": null,
-    "validationPassed": false,
-    "humanReviewStatus": "not_tested",
-    "notes": null,
+    "testedAt": "2026-09-06T12:03:55.482Z",
+    "validationPassed": true,
+    "humanReviewStatus": "generated",
+    "notes": "Dry-run QA 검증 통과 (만성피로·번아웃 - 머리에 안개가 낀 듯 멍하고 피로가 가시지 않을 때)",
     "validationErrors": [],
-    "estimatedCostUSD": 0,
-    "articleSlug": null
+    "estimatedCostUSD": 0.07696,
+    "articleSlug": "bundang-pangyo-fatigue-brain-fog-fatigue",
+    "estimatedCost": 0.07696
   }
 ]
