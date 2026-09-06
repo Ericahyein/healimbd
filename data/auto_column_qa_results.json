@@ -172,7 +172,7 @@
     "recommendedGeo": "seongnam-wirye",
     "testedAt": "2026-09-06T11:02:02.463Z",
     "validationPassed": true,
-    "humanReviewStatus": "needs_revision",
+    "humanReviewStatus": "approved",
     "notes": "Dry-run QA 검증 통과 (미주신경성 실신 - 지하철이나 만원 버스에서 눈앞이 캄캄해지고 식은땀이 날 때)",
     "validationErrors": [],
     "estimatedCostUSD": 0.08081,

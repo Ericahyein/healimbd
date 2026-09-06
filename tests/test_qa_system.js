@@ -100,7 +100,7 @@ assert.strictEqual(initialProdHistory, finalProdHistory, 'CRITICAL: data/auto_co
 console.log('✅ [Test 3 Passed] QA Results are recorded properly, humanReviewStatus is strictly "generated", and production history is 100% untouched.');
 
 // Test 4: Verify approved QA targets status (approved per human review)
-console.log('\n[Test 4] Verifying all 13 approved and 1 needs_revision QA targets approval status...');
+console.log('\n[Test 4] Verifying all 14 approved QA targets approval status (Batches 1, 2, 3 complete)...');
 const qaResults = loadQAResults();
 
 const expectedApprovedTargets = [
@@ -115,6 +115,7 @@ const expectedApprovedTargets = [
   'qa-09-autonomic',
   'qa-10-hyperhidrosis',
   'qa-11-ibs',
+  'qa-12-syncope',
   'qa-13-headache',
   'qa-14-dizziness'
 ];
@@ -125,17 +126,10 @@ for (const qId of expectedApprovedTargets) {
   assert.strictEqual(record.humanReviewStatus, 'approved', `${qId} must be approved per human review`);
 }
 
-const expectedRevisionTargets = [
-  'qa-12-syncope'
-];
-for (const qId of expectedRevisionTargets) {
-  const record = qaResults.find(r => r.qaId === qId);
-  assert.ok(record, `${qId} record must exist in QA results`);
-  assert.strictEqual(record.validationPassed, true, `${qId} validationPassed must be true per automated dry-run`);
-  assert.strictEqual(record.humanReviewStatus, 'needs_revision', `${qId} must be needs_revision per human review`);
-}
+const revisionTargets = qaResults.filter(r => r.humanReviewStatus === 'needs_revision');
+assert.strictEqual(revisionTargets.length, 0, 'No targets should have needs_revision after Batch 3 completion');
 
-console.log('✅ [Test 4 Passed] All 13 approved targets and 1 needs_revision target verified 100%.');
+console.log('✅ [Test 4 Passed] All 14 approved targets verified 100% (Batch 1, 2, and 3 fully completed).');
 
 // Test 5: Smart Medication Discontinuation Validation (False Positive Prevention & Real Harm Blocking)
 console.log('\n[Test 5] Testing Smart Medication Discontinuation Validator...');
