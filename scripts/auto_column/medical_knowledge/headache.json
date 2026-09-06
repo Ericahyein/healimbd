@@ -2,7 +2,7 @@
   "diseaseId": "headache",
   "category": "headache",
   "categoryName": "두통·어지럼",
-  "reviewStatus": "pending",
+  "reviewStatus": "approved",
   "approvedDefinition": "두경부 근육의 만성 긴장, 신경계 과민, 또는 다양한 신경·전정·자율신경 조절 요인으로 인해 뒷목 당김과 두통, 또는 지속적인 비회전성 어지럼증이 나타나는 상태",
   "commonSymptoms": [
     "머리 전체나 뒷목이 뻐근하고 조이는 통증(긴장성 두통)",

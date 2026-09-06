@@ -2,7 +2,7 @@
   "diseaseId": "syncope",
   "category": "syncope",
   "categoryName": "실신",
-  "reviewStatus": "pending",
+  "reviewStatus": "approved",
   "approvedDefinition": "일시적인 뇌 관류(혈류) 저하로 인해 갑작스럽고 짧은 일시적 의식소실이 발생했다가 자발적으로 빠르게 회복되는 상태 (완전한 의식소실 없이 눈앞이 캄캄함, 극심한 어지럼, 식은땀, 쓰러질 것 같은 느낌 등이 있는 경우는 전실신 또는 실신 전 단계로 구분)",
   "commonSymptoms": [
     "오래 서 있거나 피로할 때 눈앞이 캄캄해짐",

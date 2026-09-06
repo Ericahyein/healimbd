@@ -41,13 +41,13 @@ diseaseTaxonomy.diseases.forEach(d => {
 console.log('✅ PASS: Exactly 12 disease taxonomy categories verified.');
 
 // 3. Medical Knowledge Grounding Files
-console.log('\n--- 3. Medical Knowledge Grounding (12 Files & pending status & specificRules) ---');
+console.log('\n--- 3. Medical Knowledge Grounding (12 Files & approved status & specificRules) ---');
 expectedCategories.forEach(catId => {
   const kmPath = path.join(__dirname, `../scripts/auto_column/medical_knowledge/${catId}.json`);
   assert(fs.existsSync(kmPath), `Medical knowledge file must exist: ${catId}.json`);
   const km = JSON.parse(fs.readFileSync(kmPath, 'utf-8'));
   assert.strictEqual(km.diseaseId, catId);
-  assert.strictEqual(km.reviewStatus, 'pending', `${catId}.json must have reviewStatus='pending'`);
+  assert.strictEqual(km.reviewStatus, 'approved', `${catId}.json must have reviewStatus='approved'`);
   assert(km.approvedDefinition && km.approvedDefinition.length > 10);
   assert(km.commonSymptoms && km.commonSymptoms.length >= 2);
   assert(km.possibleAggravatingFactors && km.possibleAggravatingFactors.length >= 2);

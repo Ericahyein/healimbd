@@ -2,7 +2,7 @@
   "diseaseId": "child",
   "category": "child",
   "categoryName": "소아신경",
-  "reviewStatus": "pending",
+  "reviewStatus": "approved",
   "approvedDefinition": "성장기 소아청소년이 겪는 분리불안, 야뇨증, 야경증, 스트레스성 복통 등 신경계 미성숙과 환경 적응에서 오는 어려움",
   "commonSymptoms": [
     "양육자와 떨어질 때 심하게 울고 떼를 씀(분리불안)",

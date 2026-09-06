@@ -2,7 +2,7 @@
   "diseaseId": "ibs",
   "category": "ibs",
   "categoryName": "과민성대장",
-  "reviewStatus": "pending",
+  "reviewStatus": "approved",
   "approvedDefinition": "내시경 등 기질적 이상이 없음에도 반복되는 복통과 함께 배변과의 관계(배변 후 통증 호전 또는 악화)나 배변 빈도 및 대변 형태(설사 또는 변비) 변화가 연관되어 나타나는 만성 기능성 장 질환",
   "commonSymptoms": [
     "반복되는 복통과 함께 배변 후 나타나는 통증 변화",

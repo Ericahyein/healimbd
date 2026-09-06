@@ -2,7 +2,7 @@
   "diseaseId": "sleep",
   "category": "sleep",
   "categoryName": "수면·불면증",
-  "reviewStatus": "pending",
+  "reviewStatus": "approved",
   "approvedDefinition": "잠들기 어렵거나, 자다가 자주 깨거나, 새벽에 너무 일찍 깨어 수면의 질이 떨어지고 낮 동안 피로와 집중력 저하가 지속되는 상태",
   "commonSymptoms": [
     "잠자리에 누워 오랜 시간 잠들지 못함(입면장애)",

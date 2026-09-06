@@ -2,7 +2,7 @@
   "diseaseId": "depression",
   "category": "depression",
   "categoryName": "우울·강박",
-  "reviewStatus": "pending",
+  "reviewStatus": "approved",
   "approvedDefinition": "지속적인 기분 저하, 흥미 및 즐거움의 상실, 심신의 에너지 고갈과 피로감이 주된 상태 (직장 스트레스와 관련된 번아웃 및 기저 신체 질환과의 감별 필요)",
   "commonSymptoms": [
     "거의 하루 종일 지속되는 우울감과 흥미 저하",

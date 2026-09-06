@@ -2,7 +2,7 @@
   "diseaseId": "autonomic",
   "category": "autonomic",
   "categoryName": "자율신경",
-  "reviewStatus": "pending",
+  "reviewStatus": "approved",
   "approvedDefinition": "교감신경과 부교감신경의 상호 조절 균형이 흔들려 혈압, 맥박, 체온, 소화 등 신체 전반의 자율 기능 조절에 불편이 나타나는 상태",
   "commonSymptoms": [
     "원인 모를 어지럼증과 기립 시 아찔함",

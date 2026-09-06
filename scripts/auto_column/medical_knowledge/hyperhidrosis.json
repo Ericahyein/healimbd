@@ -2,7 +2,7 @@
   "diseaseId": "hyperhidrosis",
   "category": "hyperhidrosis",
   "categoryName": "다한증",
-  "reviewStatus": "pending",
+  "reviewStatus": "approved",
   "approvedDefinition": "체온 조절에 필요한 범위를 넘어 특정 부위(손, 발, 겨드랑이, 얼굴 등)에서 과도한 땀 분비가 지속되는 상태",
   "commonSymptoms": [
     "긴장하거나 집중할 때 손발에 땀이 흥건함",
