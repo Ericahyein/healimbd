@@ -610,6 +610,28 @@ function checkDizzinessEntCervicalAutoJump(text) {
 }
 
 /**
+ * Validates medical distinction between Syncope (transient loss of consciousness)
+ * and Presyncope (prodromal symptoms like vision darkening, cold sweat, feeling faint without loss of consciousness).
+ * Prohibits conflating "becoming blurred/dimmed consciousness" with syncope or claiming syncope without loss of consciousness.
+ */
+function checkSyncopePresyncopeDistinction(text) {
+  if (!text || typeof text !== 'string') return { valid: true };
+
+  const conflatePattern = /(의식이\s*흐려지는\s*(것만으로|것도|것을|상태도)?\s*(실신|미주신경성\s*실신)|의식이\s*흐려져도\s*(실신|미주신경성\s*실신)|의식을\s*(잃지\s*않아도|잃지\s*않고도|잃지\s*않아도\s*되는)\s*(실신|미주신경성\s*실신)|(실신은|실신이란|미주신경성\s*실신은|미주신경성\s*실신이란).{0,50}의식이\s*흐려지거나)/i;
+
+  if (conflatePattern.test(text)) {
+    const match = text.match(conflatePattern);
+    return {
+      valid: false,
+      reason: `Syncope diagnostic definition violation: 실신은 일시적인 뇌 관류 저하로 인한 일시적 의식소실이며 자발적으로 회복되는 상태입니다. 의식이 흐려지는 것만으로 실신이라 하거나 의식을 잃지 않아도 실신이라 정의할 수 없으며, 의식소실 없는 전조는 전실신(Presyncope)으로 명확히 구분해야 합니다. (Matched: "${match ? match[0] : ''}")`,
+      matched: match ? match[0] : ''
+    };
+  }
+
+  return { valid: true };
+}
+
+/**
  * 3-Tier Comprehensive Validation of Generated Column
  * Tier 1: Global Policy (Structure, Length, Headings, Banned Phrases, Internal Links)
  * Tier 2: GEO Consistency Policy (No unrelated active GEO or station keywords)
@@ -1091,6 +1113,20 @@ function validateArticleContent(articleData, options = {}) {
     }
   }
 
+  // Syncope-specific checks (qa-12-syncope / subway-dizziness): Syncope vs Presyncope concept distinction
+  const isSyncopeTarget = diseaseId === 'syncope' ||
+    angleId === 'subway-dizziness' ||
+    (qaTarget && qaTarget.topicAngle === 'subway-dizziness') ||
+    (titleDisease && titleDisease.includes('실신')) ||
+    (title && title.includes('실신'));
+
+  if (isSyncopeTarget) {
+    const syncopeDefCheck = checkSyncopePresyncopeDistinction(fullText);
+    if (!syncopeDefCheck.valid) {
+      errors.push(syncopeDefCheck.reason);
+    }
+  }
+
   return {
     valid: errors.length === 0,
     errors,
@@ -1108,5 +1144,6 @@ module.exports = {
   checkContextualAgeGroup,
   checkMedicationDiscontinuation,
   checkTreatmentCertainty,
-  checkDizzinessEntCervicalAutoJump
+  checkDizzinessEntCervicalAutoJump,
+  checkSyncopePresyncopeDistinction
 };

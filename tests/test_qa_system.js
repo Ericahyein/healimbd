@@ -100,7 +100,7 @@ assert.strictEqual(initialProdHistory, finalProdHistory, 'CRITICAL: data/auto_co
 console.log('✅ [Test 3 Passed] QA Results are recorded properly, humanReviewStatus is strictly "generated", and production history is 100% untouched.');
 
 // Test 4: Verify approved QA targets status (approved per human review)
-console.log('\n[Test 4] Verifying all 11 approved and 3 needs_revision QA targets approval status...');
+console.log('\n[Test 4] Verifying all 13 approved and 1 needs_revision QA targets approval status...');
 const qaResults = loadQAResults();
 
 const expectedApprovedTargets = [
@@ -114,7 +114,9 @@ const expectedApprovedTargets = [
   'qa-08-sleep',
   'qa-09-autonomic',
   'qa-10-hyperhidrosis',
-  'qa-13-headache'
+  'qa-11-ibs',
+  'qa-13-headache',
+  'qa-14-dizziness'
 ];
 for (const qId of expectedApprovedTargets) {
   const record = qaResults.find(r => r.qaId === qId);
@@ -124,9 +126,7 @@ for (const qId of expectedApprovedTargets) {
 }
 
 const expectedRevisionTargets = [
-  'qa-11-ibs',
-  'qa-12-syncope',
-  'qa-14-dizziness'
+  'qa-12-syncope'
 ];
 for (const qId of expectedRevisionTargets) {
   const record = qaResults.find(r => r.qaId === qId);
@@ -135,7 +135,7 @@ for (const qId of expectedRevisionTargets) {
   assert.strictEqual(record.humanReviewStatus, 'needs_revision', `${qId} must be needs_revision per human review`);
 }
 
-console.log('✅ [Test 4 Passed] All 11 approved targets and 3 needs_revision targets verified 100%.');
+console.log('✅ [Test 4 Passed] All 13 approved targets and 1 needs_revision target verified 100%.');
 
 // Test 5: Smart Medication Discontinuation Validation (False Positive Prevention & Real Harm Blocking)
 console.log('\n[Test 5] Testing Smart Medication Discontinuation Validator...');
@@ -1983,6 +1983,112 @@ A. 답변
 assert.strictEqual(failMissingDifferential.valid, false, 'Missing differential evaluation MUST FAIL');
 assert.ok(failMissingDifferential.errors.some(e => e.includes('Dizziness differential evaluation missing')), 'Expected Dizziness differential evaluation missing error');
 console.log('✅ PASS: Missing differential evaluation in chronic dizziness strictly blocked.');
+
+// 14-D. Syncope (TLOC) vs Presyncope Definition Distinction Tests
+console.log('\n[Test 14-D] Testing Syncope vs Presyncope Definition Distinction...');
+const { checkSyncopePresyncopeDistinction } = require('../scripts/auto_column/content_validator');
+
+// 14-D-1. Direct String Regression Tests (PASS cases)
+const passSyncopeDefinitions = [
+  "실신은 일시적인 의식소실이다.",
+  "의식소실 없이 눈앞이 캄캄하고 쓰러질 것 같은 상태는 전실신으로 구분한다.",
+  "실신은 일시적인 뇌 혈류 감소로 인해 갑작스럽게 의식을 잃었다가 비교적 빠르게 자발적으로 회복되는 상태입니다. 반면 눈앞이 캄캄하거나 식은땀, 쓰러질 것 같은 느낌이 있으면서 의식을 완전히 잃지 않은 경우는 전실신 또는 실신 전 단계의 증상으로 구분할 수 있습니다."
+];
+passSyncopeDefinitions.forEach((text, idx) => {
+  const res = checkSyncopePresyncopeDistinction(text);
+  assert.strictEqual(res.valid, true, `Valid syncope/presyncope definition [${idx}] was falsely rejected: "${text}"`);
+});
+console.log('✅ PASS: All valid Syncope vs Presyncope distinction definitions passed.');
+
+// 14-D-2. Direct String Regression Tests (FAIL cases)
+const failSyncopeDefinitions = [
+  "의식이 흐려지는 것만으로 실신이다.",
+  "의식을 잃지 않아도 실신이다.",
+  "실신은 일시적으로 뇌에 공급되는 혈류가 줄어 의식이 흐려지거나 잠깐 의식을 잃는 현상"
+];
+failSyncopeDefinitions.forEach((text, idx) => {
+  const res = checkSyncopePresyncopeDistinction(text);
+  assert.strictEqual(res.valid, false, `Conflated syncope definition [${idx}] MUST FAIL: "${text}"`);
+  assert.ok(res.reason.includes('Syncope diagnostic definition violation'), `Expected violation error for: "${text}"`);
+});
+console.log('✅ PASS: All conflated Syncope definitions strictly rejected.');
+
+// 14-D-3. Full Article Validation - Valid Syncope Article (MUST PASS)
+const validSyncopeArticle = validateArticleContent(createMockArticleForReviewTest({
+  diseaseId: 'syncope',
+  titleDisease: '미주신경성 실신',
+  thumbnailDiseaseLabel: '미주신경성 실신',
+  seoDiseaseLabel: '미주신경성 실신',
+  ageGroup: 'mixed',
+  geoId: 'seongnam-wirye',
+  title: '[위례 미주신경성 실신] 지하철이나 만원 버스에서 눈앞이 캄캄해지고 식은땀이 날 때',
+  summary: '위례 지역 주민분들을 위한 미주신경성 실신과 전실신 구분 및 기립 혈류 관리 안내입니다.',
+  topicAngle: { id: 'subway-dizziness', titleSuffix: '지하철이나 만원 버스에서 눈앞이 캄캄해지고 식은땀이 날 때' },
+  hashtags: ['위례미주신경성실신', '위례한의원', '미주신경성실신치료', '해아림한의원'],
+  keywords: ['위례 미주신경성 실신', '위례신도시 미주신경성 실신', '미주신경성 실신 한방치료'],
+  body: `
+## 1. 진료실에서 자주 마주하는 고민
+<div class="column-key-summary-box">핵심 요약</div>
+출퇴근길 만원 지하철이나 버스 안에서 갑자기 눈앞이 하얘지거나 아찔함을 느껴 당황하시는 분들이 많습니다.
+
+## 2. 미주신경성 실신과 전실신의 명확한 구분
+실신은 일시적인 뇌 혈류 감소로 인해 갑작스럽게 의식을 잃었다가 비교적 빠르게 자발적으로 회복되는 상태입니다.
+반면 눈앞이 캄캄하거나 식은땀, 쓰러질 것 같은 느낌이 있으면서 의식을 완전히 잃지 않은 경우는 전실신 또는 실신 전 단계의 증상으로 구분할 수 있습니다.
+[주요 진료 안내](/treatments/)를 확인하실 수 있습니다.
+
+## 3. 대처 요령과 경고 증상 감별
+전조증상이 나타나면 즉시 주저앉거나 다리를 꼬는 counter-pressure 동작으로 낙상을 예방해야 합니다.
+운동 중 실신이나 원인 불명의 급사, 조기 심장질환, 유전성 부정맥 등 심장성 실신 위험을 시사하는 가족력이 있다면 순환기내과 정밀 평가가 선행되어야 합니다.
+[온라인 상담](/inquiry/)으로 상담을 받으실 수 있습니다.
+
+## 4. 해아림한의원의 상태 평가 및 1:1 맞춤 관리
+자율신경 조절력과 기립 시 반응을 살펴 한약 처방과 침구 치료를 진행합니다.
+
+## 5. 자주 묻는 질문
+**Q1. 눈앞이 캄캄하기만 해도 실신인가요?**
+A. 의식소실이 없다면 전실신(실신 전 단계)으로 구분하며, 즉시 자리에 앉아 낙상을 예방하는 것이 중요합니다.
+**Q2. 어떻게 예방하나요?**
+A. 전조 시 즉시 착석하고 다리 근육 수축 동작을 활용합니다.
+`,
+  thumbnailCopy: { yellowText: '만원 버스에서', whiteText: '눈앞이 캄캄하고', greenText: '미주신경성 실신' }
+}, {
+  imagePrompt: 'A realistic lifestyle photo of one Korean adult standing calmly in a subway train during commute, natural posture, no distress.'
+}));
+assert.strictEqual(validSyncopeArticle.valid, true, `Valid syncope article MUST PASS: ${validSyncopeArticle.errors.join(', ')}`);
+console.log('✅ PASS: Valid Syncope vs Presyncope distinction article passed validation 100%.');
+
+// 14-D-4. Full Article Validation - Conflated Definition Article (MUST FAIL)
+const failConflatedSyncopeArticle = validateArticleContent(createMockArticleForReviewTest({
+  diseaseId: 'syncope',
+  titleDisease: '미주신경성 실신',
+  topicAngle: { id: 'subway-dizziness', titleSuffix: '지하철이나 만원 버스에서 눈앞이 캄캄해지고 식은땀이 날 때' },
+  geoId: 'seongnam-wirye',
+  title: '[위례 미주신경성 실신] 지하철이나 만원 버스에서 눈앞이 캄캄해지고 식은땀이 날 때',
+  summary: '성남 위례 지역 주민분들을 위한 미주신경성 실신 전조증상 가이드입니다.',
+  body: `
+## 1. 진료실 고민
+<div class="column-key-summary-box">핵심 요약</div>
+대중교통 이용 중 아찔한 증상이 나타납니다.
+## 2. 배경
+실신은 일시적으로 뇌에 공급되는 혈류가 줄어 의식이 흐려지거나 잠깐 의식을 잃는 현상입니다.
+[주요 진료 안내](/treatments/)
+## 3. 감별
+[온라인 상담](/inquiry/)
+## 4. 평가
+한약 처방과 침구 치료.
+## 5. FAQ
+**Q1. 질문**
+A. 답변
+**Q2. 질문2**
+A. 답변
+`,
+  thumbnailCopy: { yellowText: '만원 버스에서', whiteText: '눈앞이 캄캄하고', greenText: '미주신경성 실신' }
+}, {
+  imagePrompt: 'A realistic lifestyle photo of one Korean adult standing calmly in a subway train during commute, natural posture, no distress.'
+}));
+assert.strictEqual(failConflatedSyncopeArticle.valid, false, 'Conflated syncope definition in article MUST FAIL');
+assert.ok(failConflatedSyncopeArticle.errors.some(e => e.includes('Syncope diagnostic definition violation')), 'Expected Syncope diagnostic definition violation');
+console.log('✅ PASS: Conflated syncope definition article strictly blocked by validator.');
 
 console.log('\n🎉 ALL 14 QA SYSTEM INTEGRITY, REGRESSION, BATCH, GEO, HUMAN REVIEW, TARGET IDENTITY, CLINICAL GUIDANCE, TREATMENT CERTAINTY & BATCH 3 REVIEW TESTS PASSED 100%!');
 
