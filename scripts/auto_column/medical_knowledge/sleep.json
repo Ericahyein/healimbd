@@ -65,10 +65,12 @@
   "evidenceNotes": [
     {
       "claim": "만성 불면증은 일률적인 수면 시간(예: 반드시 8시간)보다 주관적인 수면 만족도와 주간 일상 기능 저하(피로, 집중력, 정서 조절)를 핵심 지표로 평가한다.",
-      "evidenceLevel": "clinical-guideline",
+      "evidenceLevel": "classification-standard",
+      "sourceType": "diagnostic-manual",
       "claimStrength": "established",
       "sourceVerified": true,
       "verified": true,
+      "productionUsable": true,
       "sourceTitle": "International Classification of Sleep Disorders, Third Edition (ICSD-3) - Chronic Insomnia Disorder",
       "journal": "American Academy of Sleep Medicine",
       "year": 2014,
@@ -83,9 +85,11 @@
     {
       "claim": "수면유도제(벤조디아제핀 수용체 작용제 등) 복용 환자에서 약물을 임의 급단하면 반동성 불면 및 금단 증상이 악화될 수 있으므로, 의료진 지도하에 점진적인 감량(tapering) 조절이 권고된다.",
       "evidenceLevel": "clinical-guideline",
+      "sourceType": "practice-guideline",
       "claimStrength": "cautionary",
       "sourceVerified": true,
       "verified": true,
+      "productionUsable": true,
       "sourceTitle": "Deprescribing benzodiazepine receptor agonists: Evidence-based clinical practice guideline",
       "journal": "Canadian Family Physician",
       "year": 2018,

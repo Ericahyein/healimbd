@@ -59,11 +59,14 @@
   "evidenceNotes": [
     {
       "claim": "사회공포증(사회불안장애)은 단순한 성격적 내향성이 아니라, 타인의 시선이나 평가를 받는 상황에 대한 현저하고 지속적인 두려움으로 일상 및 직업 기능이 저하되는 임상적 상태이다.",
-      "evidenceLevel": "clinical-guideline",
+      "evidenceLevel": "classification-standard",
+      "sourceType": "diagnostic-manual",
       "claimStrength": "established",
       "sourceVerified": true,
       "verified": true,
+      "productionUsable": true,
       "sourceTitle": "Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition (DSM-5) - Social Anxiety Disorder",
+      "year": 2013,
       "doi": "10.1176/appi.books.9780890425596",
       "sourceUrl": "https://doi.org/10.1176/appi.books.9780890425596",
       "source": {
@@ -77,10 +80,13 @@
     {
       "claim": "사회불안장애 관리는 인지행동치료(CBT)나 필요 시 약물치료 등 근거 기반 치료 옵션을 통해 불안 반응과 회피 행동을 완화하고 일상 기능을 회복하는 과정이며, 일률적인 영구 완치를 장담할 수 없다.",
       "evidenceLevel": "clinical-guideline",
+      "sourceType": "practice-guideline",
       "claimStrength": "cautionary",
       "sourceVerified": true,
       "verified": true,
+      "productionUsable": true,
       "sourceTitle": "NICE Guideline [CG159] Social anxiety disorder: recognition, assessment and treatment",
+      "year": 2013,
       "sourceUrl": "https://www.nice.org.uk/guidance/cg159",
       "source": {
         "name": "NICE Guideline CG159",

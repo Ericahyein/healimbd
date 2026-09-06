@@ -18,10 +18,12 @@
   "evidenceNotes": [
     {
       "claim": "장시간 스크린 사용과 높은 틱 중증도 사이의 연관성(association)이 아동 틱장애 임상 연구에서 보고되었다.",
-      "evidenceLevel": "observational-association",
+      "evidenceLevel": "observational-study",
+      "sourceType": "observational-study",
       "claimStrength": "association",
       "sourceVerified": true,
       "verified": true,
+      "productionUsable": true,
       "sourceTitle": "Prolonged screen time is associated with increased severity of tic symptoms in children with tic disorders",
       "journal": "Italian Journal of Pediatrics",
       "year": 2025,
@@ -39,31 +41,36 @@
     },
     {
       "claim": "피질-선조체-시상-피질(CSTC) 회로를 포함한 신경 해부학적 경로의 조절 이상이 틱장애 병태생리의 주요 해부학적 배경으로 검토된다.",
-      "evidenceLevel": "systematic-review",
+      "evidenceLevel": "review",
+      "sourceType": "narrative-review",
       "claimStrength": "established",
       "sourceVerified": true,
       "verified": true,
+      "productionUsable": true,
       "sourceTitle": "The Pathophysiology of Tics: An Anatomic Review",
       "journal": "Psychiatric Clinics of North America",
-      "year": 2024,
+      "year": 2025,
+      "epubYear": 2024,
       "doi": "10.1016/j.psc.2024.08.003",
       "pmid": "39880509",
       "sourceUrl": "https://doi.org/10.1016/j.psc.2024.08.003",
       "source": {
-        "name": "Psychiatric Clinics of North America (2024)",
+        "name": "Psychiatric Clinics of North America (Pub 2025, Epub 2024)",
         "identifier": "DOI: 10.1016/j.psc.2024.08.003 / PMID: 39880509",
         "doi": "10.1016/j.psc.2024.08.003",
         "pmid": "39880509",
         "url": "https://doi.org/10.1016/j.psc.2024.08.003"
       },
-      "rationale": "CSTC 회로의 억제 및 조절 이상은 틱장애 병태생리의 확립된 신경해부학적 기전으로 서술 가능함을 검증함."
+      "rationale": "CSTC 회로의 억제 및 조절 이상은 틱장애 병태생리의 확립된 신경해부학적 기전으로 서술 가능함을 검증함. (Epub 2024, 정식출판 2025)"
     },
     {
       "claim": "도파민계 신경전달 체계의 조절 및 과민 반응이 틱 증상 발현 및 조절의 주요 약리학적 기전으로 다루어진다.",
-      "evidenceLevel": "systematic-review",
+      "evidenceLevel": "review",
+      "sourceType": "review",
       "claimStrength": "established",
       "sourceVerified": true,
       "verified": true,
+      "productionUsable": true,
       "sourceTitle": "The pharmacology of Tourette syndrome",
       "journal": "Journal of Neural Transmission",
       "year": 2013,
@@ -82,15 +89,17 @@
     {
       "claim": "보상성과 자극이 높은 디지털 미디어 환경이 두뇌의 각성·보상 시스템을 활발히 자극하여 증상 변동과 겹쳐 나타날 수 있다는 가설이 제시된다.",
       "evidenceLevel": "mechanistic-hypothesis",
+      "sourceType": "working-hypothesis",
       "claimStrength": "hypothesis",
       "sourceVerified": false,
       "verified": false,
+      "productionUsable": false,
       "sourceTitle": "Digital Media Stimulation and Neural Arousal in Pediatric Neurodevelopment: Mechanistic Considerations",
       "source": {
         "name": "Clinical Mechanistic Hypothesis",
         "identifier": "Unverified formal citation (Working Clinical Hypothesis)"
       },
-      "rationale": "디지털 보상 자극과 두뇌 각성의 상호작용은 임상적 가설 및 연구 논의 단계이므로 확정적 사실로 단정하지 않도록 가설 강도로 관리함."
+      "rationale": "디지털 보상 자극과 두뇌 각성의 상호작용은 임상적 가설 및 연구 논의 단계이므로 프로덕션 원고 생성 시 인용 또는 단정적 근거로 사용을 금지함(productionUsable=false)."
     }
   ],
   "redFlags": [

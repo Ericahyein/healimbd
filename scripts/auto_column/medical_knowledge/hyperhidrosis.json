@@ -59,9 +59,11 @@
     {
       "claim": "원발성 국소 다한증은 손, 발, 겨드랑이 등 특정 부위에 좌우 대칭적으로 과도한 발한이 나타나며, 수면 중에는 발한이 멈추는 임상적 특징을 보인다.",
       "evidenceLevel": "clinical-guideline",
+      "sourceType": "practice-guideline",
       "claimStrength": "established",
       "sourceVerified": true,
       "verified": true,
+      "productionUsable": true,
       "sourceTitle": "A comprehensive approach to the recognition, diagnosis, and severity-based treatment of focal hyperhidrosis: recommendations of the Canadian Hyperhidrosis Advisory Committee",
       "journal": "Dermatologic Surgery",
       "year": 2007,
@@ -78,11 +80,13 @@
       "rationale": "국소 다한증의 고유 진단 기준을 제시하여 전신성 발한과 명확히 구분함."
     },
     {
-      "claim": "갑자기 시작된 전신 다한증이나 야간 식은땀(night sweats), 체중 감소 및 발열이 동반되는 경우 2차성 다한증 감별(내분비 질환, 악성 종양, 감염, 약물 요인 등)을 위한 정밀 평가가 우선되어야 한다.",
-      "evidenceLevel": "clinical-review",
+      "claim": "전신에 걸쳐 땀이 나는 전신성 발한, 수면 중 발생하는 야간 발한(nocturnal sweating), 또는 비대칭적 발한 양상이 나타나는 경우 내분비 질환, 신경계 질환, 약물 영향 등 2차성 다한증 원인에 대한 감별 평가가 필요하다.",
+      "evidenceLevel": "observational-study",
+      "sourceType": "retrospective-study",
       "claimStrength": "cautionary",
       "sourceVerified": true,
       "verified": true,
+      "productionUsable": true,
       "sourceTitle": "Clinical differentiation of primary from secondary hyperhidrosis",
       "journal": "Journal of the American Academy of Dermatology",
       "year": 2011,
@@ -96,7 +100,7 @@
         "pmid": "21334095",
         "url": "https://doi.org/10.1016/j.jaad.2010.03.013"
       },
-      "rationale": "야간 발한 및 전신 발한 등 2차성 기질적 질환의 경고 증상을 놓치지 않도록 내과적 감별 평가를 확립함."
+      "rationale": "Walling 2011 후향적 연구 기준에 부합하게 전신성·야간·비대칭 발한 및 내분비/신경계 등 2차 원인 감별 필요성에 집중하고, 미입증된 감염/체중감소 단정을 배제함."
     }
   ]
 }

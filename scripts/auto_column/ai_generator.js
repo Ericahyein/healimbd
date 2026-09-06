@@ -276,7 +276,8 @@ async function generateTopicOutline(plan, knowledge, apiKey, telemetry) {
  */
 async function generateArticleBody(plan, outline, knowledge, internalLinks, apiKey, telemetry) {
   const linksListMd = internalLinks.map(l => `- [${l.title}](${l.url})`).join('\n');
-  const evidenceSnippet = knowledge.evidenceNotes ? JSON.stringify(knowledge.evidenceNotes, null, 2) : 'None';
+  const usableNotes = (knowledge.evidenceNotes || []).filter(n => n.productionUsable !== false && n.sourceVerified !== false);
+  const evidenceSnippet = usableNotes.length > 0 ? JSON.stringify(usableNotes, null, 2) : 'None';
 
   if (!apiKey) {
     return `

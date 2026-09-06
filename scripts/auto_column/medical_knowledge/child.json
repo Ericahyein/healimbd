@@ -59,11 +59,14 @@
   "evidenceNotes": [
     {
       "claim": "유치원 적응기 등 소아 초기 발달 과정에서의 분리 불안은 자연스러운 애착 형성 과정의 일부일 수 있으며, 일상 기능 손상이 현저한 경우에만 분리불안장애로 평가한다.",
-      "evidenceLevel": "clinical-guideline",
+      "evidenceLevel": "classification-standard",
+      "sourceType": "diagnostic-manual",
       "claimStrength": "established",
       "sourceVerified": true,
       "verified": true,
+      "productionUsable": true,
       "sourceTitle": "Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition (DSM-5) - Separation Anxiety Disorder",
+      "year": 2013,
       "doi": "10.1176/appi.books.9780890425596",
       "sourceUrl": "https://doi.org/10.1176/appi.books.9780890425596",
       "source": {
@@ -76,10 +79,12 @@
     },
     {
       "claim": "야경증은 비렘(NREM) 수면 중 불완전 각성으로 발생하며 아동이 다음 날 아침 상황을 기억하지 못하는 사건수면으로, 꿈 회상을 동반하는 악몽과 명확히 감별된다.",
-      "evidenceLevel": "clinical-review",
+      "evidenceLevel": "review",
+      "sourceType": "review",
       "claimStrength": "established",
       "sourceVerified": true,
       "verified": true,
+      "productionUsable": true,
       "sourceTitle": "Sleep Terrors: An Updated Review",
       "journal": "Current Pediatric Reviews",
       "year": 2020,
@@ -98,9 +103,11 @@
     {
       "claim": "소아 야뇨증은 만 5세 이상 아동에서 수면 중 불수의적 배뇨가 발생하는 상태로 정의되며, 주간 배뇨 증상 동반 여부(단일증상성 vs 비단일증상성) 및 2차 원인을 분류하여 평가해야 한다.",
       "evidenceLevel": "clinical-guideline",
+      "sourceType": "consensus-standard",
       "claimStrength": "established",
       "sourceVerified": true,
       "verified": true,
+      "productionUsable": true,
       "sourceTitle": "The standardization of terminology of lower urinary tract function in children and adolescents: update report from the Standardization Committee of the International Children's Continence Society",
       "journal": "The Journal of Urology",
       "year": 2014,
@@ -119,9 +126,11 @@
     {
       "claim": "단일증상성 야뇨증의 1차 표준 치료로 야뇨경보기(enuresis alarm)와 데스모프레신(desmopressin)이 권고되며, 변비나 주간 배뇨장애, 수면무호흡 등 동반 질환을 병행 관리해야 한다.",
       "evidenceLevel": "clinical-guideline",
+      "sourceType": "practice-guideline",
       "claimStrength": "established",
       "sourceVerified": true,
       "verified": true,
+      "productionUsable": true,
       "sourceTitle": "Management and treatment of nocturnal enuresis-an updated standardization document from the International Children's Continence Society",
       "journal": "Journal of Pediatric Urology",
       "year": 2020,

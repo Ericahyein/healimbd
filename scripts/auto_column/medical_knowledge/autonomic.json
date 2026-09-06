@@ -61,11 +61,14 @@
   "evidenceNotes": [
     {
       "claim": "번아웃(Burn-out)은 만성적인 직장 스트레스가 성공적으로 관리되지 못해 발생하는 직업적 현상(occupational phenomenon)으로, 만성피로 및 자율신경실조증의 신체 증상과 구별되어야 한다.",
-      "evidenceLevel": "clinical-guideline",
+      "evidenceLevel": "classification-standard",
+      "sourceType": "diagnostic-manual",
       "claimStrength": "established",
       "sourceVerified": true,
       "verified": true,
+      "productionUsable": true,
       "sourceTitle": "WHO ICD-11 for Mortality and Morbidity Statistics - QD85 Burn-out",
+      "year": 2019,
       "sourceUrl": "https://icd.who.int/browse11/l-m/en#/http://id.who.int/icd/entity/129180281",
       "source": {
         "name": "World Health Organization ICD-11",
@@ -75,11 +78,13 @@
       "rationale": "만성피로와 번아웃(직장 스트레스 3대 특징)을 본문에서 명확히 구별하여 설명하도록 함."
     },
     {
-      "claim": "기립성 어지럼 및 두근거림 등 만성 기립 불내성 증상 호소 시 빈혈, 갑상선 기능 이상, 전해질 이상, 심장 질환 등 2차적·가역적 원인을 우선 감별·배제한 후 자율신경계 기능 조절 이상을 평가해야 한다.",
+      "claim": "기립 시 어지럼증 및 두근거림 등 만성 기립 불내성(orthostatic intolerance) 및 기립성 빈맥 증상 평가 시, 빈혈(CBC), 갑상선 기능 이상(TSH), 전해질 불균형, 심장 질환 등 2차적·가역적 유발 원인을 감별·배제한 후 자율신경계 이상(POTS 등)을 평가해야 한다.",
       "evidenceLevel": "clinical-guideline",
+      "sourceType": "position-statement",
       "claimStrength": "cautionary",
       "sourceVerified": true,
       "verified": true,
+      "productionUsable": true,
       "sourceTitle": "Canadian Cardiovascular Society Position Statement on Postural Orthostatic Tachycardia Syndrome (POTS) and Related Disorders of Chronic Orthostatic Intolerance",
       "journal": "The Canadian Journal of Cardiology",
       "year": 2020,
@@ -93,7 +98,7 @@
         "pmid": "32145864",
         "url": "https://doi.org/10.1016/j.cjca.2019.12.024"
       },
-      "rationale": "신체 증상을 모두 자율신경실조증 하나로 자동 귀결시키는 오진을 방지하고 내과적 감별 평가 기준을 확립함. (기초 정의: Freeman et al. Clin Auton Res 2011; DOI: 10.1007/s10286-011-0119-5)"
+      "rationale": "CCS 체위성 기립 빈맥 증후군(POTS) 가이드라인에 근거하여 기립 불내성 및 기립성 빈맥의 감별 검사 원칙을 정립하고, 비특이적 자율신경 증상 전체로의 과도한 일반화를 방지함. (기초 정의: Freeman et al. Clin Auton Res 2011; DOI: 10.1007/s10286-011-0119-5)"
     }
   ]
 }

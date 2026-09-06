@@ -42,11 +42,14 @@
   "evidenceNotes": [
     {
       "claim": "번아웃은 만성 직장 스트레스와 관련된 직업적 현상(occupational phenomenon)으로 분류되며 의학적 우울 질환 자체와 동일하지 않다.",
-      "evidenceLevel": "clinical-guideline",
+      "evidenceLevel": "classification-standard",
+      "sourceType": "diagnostic-manual",
       "claimStrength": "established",
       "sourceVerified": true,
       "verified": true,
+      "productionUsable": true,
       "sourceTitle": "WHO ICD-11 for Mortality and Morbidity Statistics - QD85 Burn-out",
+      "year": 2019,
       "sourceUrl": "https://icd.who.int/browse11/l-m/en#/http://id.who.int/icd/entity/129180281",
       "source": {
         "name": "World Health Organization ICD-11",
@@ -57,11 +60,14 @@
     },
     {
       "claim": "주요우울장애 평가 시 내과적 신체 질환 및 약물 유발성 요인을 감별하는 것이 필수적이다.",
-      "evidenceLevel": "clinical-guideline",
+      "evidenceLevel": "classification-standard",
+      "sourceType": "diagnostic-manual",
       "claimStrength": "cautionary",
       "sourceVerified": true,
       "verified": true,
+      "productionUsable": true,
       "sourceTitle": "Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition (DSM-5) - Major Depressive Disorder",
+      "year": 2013,
       "doi": "10.1176/appi.books.9780890425596",
       "sourceUrl": "https://doi.org/10.1176/appi.books.9780890425596",
       "source": {

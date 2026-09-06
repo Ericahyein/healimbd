@@ -76,11 +76,14 @@
   "evidenceNotes": [
     {
       "claim": "단일한 공황발작(갑작스러운 극심한 공포와 신체 증상)과 공황장애(반복되는 예기치 못한 발작 및 이에 수반되는 예기불안과 행동 회피)는 임상적으로 명확히 구별되어야 한다.",
-      "evidenceLevel": "clinical-guideline",
+      "evidenceLevel": "classification-standard",
+      "sourceType": "diagnostic-manual",
       "claimStrength": "established",
       "sourceVerified": true,
       "verified": true,
+      "productionUsable": true,
       "sourceTitle": "Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition (DSM-5) - Panic Disorder",
+      "year": 2013,
       "doi": "10.1176/appi.books.9780890425596",
       "sourceUrl": "https://doi.org/10.1176/appi.books.9780890425596",
       "source": {
@@ -94,10 +97,13 @@
     {
       "claim": "처음 발생한 극심한 흉통, 호흡곤란, 실신 위험 등은 공황장애로 간주하기 전에 심장내과적 응급 질환을 우선 배제해야 한다.",
       "evidenceLevel": "clinical-guideline",
+      "sourceType": "practice-guideline",
       "claimStrength": "cautionary",
       "sourceVerified": true,
       "verified": true,
+      "productionUsable": true,
       "sourceTitle": "2021 AHA/ACC/ASE/CHEST/SAEM/SCCT/SCMR Guideline for the Evaluation and Diagnosis of Chest Pain",
+      "year": 2021,
       "doi": "10.1161/CIR.0000000000001029",
       "pmid": "34709879",
       "sourceUrl": "https://doi.org/10.1161/CIR.0000000000001029",

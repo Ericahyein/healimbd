@@ -1391,6 +1391,11 @@ function validateArticleContent(articleData, options = {}) {
           errors.push(`Evidence Note validation failed: Claim '${(note.claim || '').slice(0, 30)}...' marked verified=true but missing valid sourceTitle or source identifier (DOI, PMID, sourceUrl).`);
         }
       }
+      if (note.productionUsable === false || note.sourceVerified === false) {
+        if (note.sourceTitle && fullText.includes(note.sourceTitle)) {
+          errors.push(`Unverified / Non-production source citation violation: '${note.sourceTitle}' marked productionUsable=false is prohibited in production articles.`);
+        }
+      }
     }
   }
 

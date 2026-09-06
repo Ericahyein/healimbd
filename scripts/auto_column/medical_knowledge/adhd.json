@@ -65,11 +65,14 @@
   "evidenceNotes": [
     {
       "claim": "성인 ADHD는 직장 업무 실수뿐 아니라 학업·대인관계·가정 등 생애 전반의 다중 영역에서 주의집중 및 실행기능 저하의 지속성을 종합 평가해야 한다.",
-      "evidenceLevel": "clinical-guideline",
+      "evidenceLevel": "classification-standard",
+      "sourceType": "diagnostic-manual",
       "claimStrength": "established",
       "sourceVerified": true,
       "verified": true,
+      "productionUsable": true,
       "sourceTitle": "Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition (DSM-5) - Attention-Deficit/Hyperactivity Disorder",
+      "year": 2013,
       "doi": "10.1176/appi.books.9780890425596",
       "sourceUrl": "https://doi.org/10.1176/appi.books.9780890425596",
       "source": {
@@ -83,10 +86,13 @@
     {
       "claim": "기존에 처방받아 복용 중인 ADHD 신경정신과 약물은 전문의 지도 없이 환자가 임의로 중단해서는 안 된다.",
       "evidenceLevel": "clinical-guideline",
+      "sourceType": "practice-guideline",
       "claimStrength": "cautionary",
       "sourceVerified": true,
       "verified": true,
+      "productionUsable": true,
       "sourceTitle": "NICE Guideline [NG87] Attention deficit hyperactivity disorder: diagnosis and management",
+      "year": 2018,
       "sourceUrl": "https://www.nice.org.uk/guidance/ng87",
       "source": {
         "name": "National Institute for Health and Care Excellence (NICE) NG87",
