@@ -215,13 +215,14 @@
     "displayDisease": "우울증 (만성 무기력)",
     "topicAngle": "burnout-lethargy",
     "recommendedGeo": "gyeonggi-gwangju",
-    "testedAt": null,
-    "validationPassed": false,
-    "humanReviewStatus": "not_tested",
-    "notes": null,
+    "testedAt": "2026-09-06T11:10:39.453Z",
+    "validationPassed": true,
+    "humanReviewStatus": "generated",
+    "notes": "Dry-run QA 검증 통과 (우울증 (만성 무기력) - 쉬어도 충전되지 않고 모든 일에 의욕이 사라질 때)",
     "validationErrors": [],
-    "estimatedCostUSD": 0,
-    "articleSlug": null
+    "estimatedCostUSD": 0.078,
+    "articleSlug": "gyeonggi-gwangju-depression-burnout-lethargy",
+    "estimatedCost": 0.078
   },
   {
     "qaId": "qa-16-ocd",
@@ -229,13 +230,14 @@
     "displayDisease": "강박증/OCD",
     "topicAngle": "intrusive-thoughts",
     "recommendedGeo": "seongnam-main",
-    "testedAt": null,
-    "validationPassed": false,
-    "humanReviewStatus": "not_tested",
-    "notes": null,
+    "testedAt": "2026-09-06T11:10:44.807Z",
+    "validationPassed": true,
+    "humanReviewStatus": "generated",
+    "notes": "Dry-run QA 검증 통과 (강박증/OCD - 원치 않는 불안한 생각이 반복적으로 떠오를 때)",
     "validationErrors": [],
-    "estimatedCostUSD": 0,
-    "articleSlug": null
+    "estimatedCostUSD": 0.0795,
+    "articleSlug": "seongnam-main-depression-intrusive-thoughts",
+    "estimatedCost": 0.0795
   },
   {
     "qaId": "qa-17-separation-anxiety",
@@ -243,13 +245,14 @@
     "displayDisease": "소아 분리불안 (등교복통)",
     "topicAngle": "separation-anxiety",
     "recommendedGeo": "yongin-cheoin",
-    "testedAt": null,
-    "validationPassed": false,
-    "humanReviewStatus": "not_tested",
-    "notes": null,
+    "testedAt": "2026-09-06T11:10:35.294Z",
+    "validationPassed": true,
+    "humanReviewStatus": "generated",
+    "notes": "Dry-run QA 검증 통과 (소아 분리불안 (등교복통) - 유치원이나 학교 갈 때마다 배가 아프다고 우는 아이)",
     "validationErrors": [],
-    "estimatedCostUSD": 0,
-    "articleSlug": null
+    "estimatedCostUSD": 0.07796,
+    "articleSlug": "yongin-cheoin-child-separation-anxiety",
+    "estimatedCost": 0.07796
   },
   {
     "qaId": "qa-18-night-terrors",
@@ -257,13 +260,14 @@
     "displayDisease": "소아 야경증 (수면장애)",
     "topicAngle": "night-terrors",
     "recommendedGeo": "gyeonggi-icheon",
-    "testedAt": null,
-    "validationPassed": false,
-    "humanReviewStatus": "not_tested",
-    "notes": null,
+    "testedAt": "2026-09-06T11:10:37.679Z",
+    "validationPassed": true,
+    "humanReviewStatus": "generated",
+    "notes": "Dry-run QA 검증 통과 (소아 야경증 (수면장애) - 밤마다 자다 깨서 자지러지게 울거나 악몽을 꿀 때)",
     "validationErrors": [],
-    "estimatedCostUSD": 0,
-    "articleSlug": null
+    "estimatedCostUSD": 0.08048,
+    "articleSlug": "gyeonggi-icheon-child-night-terrors",
+    "estimatedCost": 0.08048
   },
   {
     "qaId": "qa-19-child-enuresis",
