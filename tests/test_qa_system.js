@@ -119,7 +119,9 @@ const expectedApprovedTargets = [
   'qa-13-headache',
   'qa-14-dizziness',
   'qa-15-depression',
-  'qa-16-ocd'
+  'qa-16-ocd',
+  'qa-17-separation-anxiety',
+  'qa-18-night-terrors'
 ];
 for (const qId of expectedApprovedTargets) {
   const record = qaResults.find(r => r.qaId === qId);
@@ -128,21 +130,10 @@ for (const qId of expectedApprovedTargets) {
   assert.strictEqual(record.humanReviewStatus, 'approved', `${qId} must be approved per human review`);
 }
 
-const expectedNeedsRevisionTargets = [
-  'qa-17-separation-anxiety',
-  'qa-18-night-terrors'
-];
-for (const qId of expectedNeedsRevisionTargets) {
-  const record = qaResults.find(r => r.qaId === qId);
-  assert.ok(record, `${qId} record must exist in QA results`);
-  assert.strictEqual(record.validationPassed, true, `${qId} validationPassed must be true`);
-  assert.strictEqual(record.humanReviewStatus, 'needs_revision', `${qId} must be needs_revision per human review`);
-}
-
 const revisionTargets = qaResults.filter(r => r.humanReviewStatus === 'needs_revision');
-assert.strictEqual(revisionTargets.length, 2, 'Batch 4 targets (qa-17, qa-18) must have needs_revision');
+assert.strictEqual(revisionTargets.length, 0, 'All Batch 1~4 targets (qa-01 ~ qa-18) are approved');
 
-console.log('✅ [Test 4 Passed] All 16 approved targets protected and Batch 4 revision targets (qa-17, qa-18) verified with needs_revision.');
+console.log('✅ [Test 4 Passed] All 18 targets (qa-01 ~ qa-18) officially approved and verified.');
 
 // Test 5: Smart Medication Discontinuation Validation (False Positive Prevention & Real Harm Blocking)
 console.log('\n[Test 5] Testing Smart Medication Discontinuation Validator...');
@@ -514,11 +505,11 @@ const b3Targets = getBatchTargets('batch-3');
 assert.strictEqual(b3Targets.length, 0, 'Batch 3 targets are now all approved and correctly excluded from future batch runs');
 
 const b4Targets = getBatchTargets('batch-4');
-assert.strictEqual(b4Targets.length, 2, 'Batch 4 targets qa-17 and qa-18 are needs_revision and should be included for re-run (qa-15 and qa-16 are approved)');
+assert.strictEqual(b4Targets.length, 0, 'Batch 4 targets are now all approved and correctly excluded from future batch runs');
 assert.ok(!b4Targets.includes('qa-15-depression'), 'qa-15-depression must be excluded as it is approved');
 assert.ok(!b4Targets.includes('qa-16-ocd'), 'qa-16-ocd must be excluded as it is approved');
-assert.ok(b4Targets.includes('qa-17-separation-anxiety'), 'qa-17-separation-anxiety must be included');
-assert.ok(b4Targets.includes('qa-18-night-terrors'), 'qa-18-night-terrors must be included');
+assert.ok(!b4Targets.includes('qa-17-separation-anxiety'), 'qa-17-separation-anxiety must be excluded as it is approved');
+assert.ok(!b4Targets.includes('qa-18-night-terrors'), 'qa-18-night-terrors must be excluded as it is approved');
 
 const b5Targets = getBatchTargets('batch-5');
 assert.strictEqual(b5Targets.length, 2);
