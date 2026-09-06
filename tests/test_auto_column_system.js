@@ -70,11 +70,13 @@ expectedCategories.forEach(catId => {
 });
 console.log('✅ PASS: All 12 medical knowledge files verified with specificRules and structured evidenceNotes.');
 
-// 4. Topic Planner & Rotation Tests
+// 4. Topic Planner & History Cooldown Rules
 console.log('\n--- 4. Topic Planner & History Cooldown Rules ---');
 const {
   isGeoDiseaseIn90DayCooldown,
   isDiseaseIn3DayCooldown,
+  getKstCalendarDate,
+  getKstCalendarDayDiff,
   planNextColumn
 } = require('../scripts/auto_column/topic_planner');
 
@@ -93,17 +95,59 @@ assert.strictEqual(isGeoDiseaseIn90DayCooldown(mockHistory, 'seongnam-bundang', 
 assert.strictEqual(isGeoDiseaseIn90DayCooldown(mockHistory, 'yongin-giheung', 'tic'), false, 'Different geo should not be in cooldown');
 assert.strictEqual(isGeoDiseaseIn90DayCooldown(mockHistory, 'seongnam-bundang', 'panic'), false, 'Different disease should not be in cooldown');
 
-// 3-day cooldown test
-const recentHistory = [
+// 4-A. KST Calendar Day Calculation Tests
+const kstBase = '2026-09-07T00:07:00.000Z'; // 09:07 KST on 2026-09-07
+const sameDayKst = '2026-09-07T08:07:00.000Z'; // 17:07 KST on 2026-09-07
+const day1DiffKst = '2026-09-08T00:07:00.000Z'; // 09:07 KST on 2026-09-08
+const day2DiffKst = '2026-09-09T08:07:00.000Z'; // 17:07 KST on 2026-09-09
+const day3DiffKst = '2026-09-10T00:07:00.000Z'; // 09:07 KST on 2026-09-10
+const day4DiffKst = '2026-09-11T00:07:00.000Z'; // 09:07 KST on 2026-09-11
+
+assert.strictEqual(getKstCalendarDayDiff(kstBase, sameDayKst), 0, 'Same day diff must be 0');
+assert.strictEqual(getKstCalendarDayDiff(kstBase, day1DiffKst), 1, 'Day 2 diff must be 1');
+assert.strictEqual(getKstCalendarDayDiff(kstBase, day2DiffKst), 2, 'Day 3 diff must be 2');
+assert.strictEqual(getKstCalendarDayDiff(kstBase, day3DiffKst), 3, 'Day 4 diff must be 3');
+assert.strictEqual(getKstCalendarDayDiff(kstBase, day4DiffKst), 4, 'Day 5 diff must be 4');
+console.log('✅ PASS: KST calendar date difference calculations strictly verified.');
+
+// 4-B. Hard 3-Day Disease Cooldown Tests (0, 1, 2 days -> BLOCK, >=3 days -> ALLOWED)
+const kstHistory = [{ disease: 'tic', publishDate: kstBase }];
+assert.strictEqual(isDiseaseIn3DayCooldown(kstHistory, 'tic', new Date(sameDayKst)), true, '0-day diff MUST be blocked');
+assert.strictEqual(isDiseaseIn3DayCooldown(kstHistory, 'tic', new Date(day1DiffKst)), true, '1-day diff MUST be blocked');
+assert.strictEqual(isDiseaseIn3DayCooldown(kstHistory, 'tic', new Date(day2DiffKst)), true, '2-day diff MUST be blocked');
+assert.strictEqual(isDiseaseIn3DayCooldown(kstHistory, 'tic', new Date(day3DiffKst)), false, '3-day diff MUST be allowed');
+assert.strictEqual(isDiseaseIn3DayCooldown(kstHistory, 'tic', new Date(day4DiffKst)), false, '4-day diff MUST be allowed');
+console.log('✅ PASS: Hard 3-day disease cooldown boundaries strictly verified (1d BLOCK, 2d BLOCK, 3d ALLOWED).');
+
+// 4-C. planNextColumn Hard Exclusion Regression Test
+const testTempHistoryPath = path.join(__dirname, '../scratch/test_plan_hard_block_history.json');
+fs.writeFileSync(testTempHistoryPath, JSON.stringify([
   {
-    publishDate: new Date(Date.now() - 1 * 24 * 3600 * 1000).toISOString(),
-    geoId: 'yongin-giheung',
-    disease: 'panic',
-    topicAngle: 'sudden-palpitation'
+    publishDate: kstBase,
+    geoId: 'seongnam-main',
+    disease: 'tic',
+    topicAngle: 'media-exposure'
   }
-];
-assert.strictEqual(isDiseaseIn3DayCooldown(recentHistory, 'panic'), true, 'Panic was published yesterday, in 3-day cooldown');
-assert.strictEqual(isDiseaseIn3DayCooldown(recentHistory, 'sleep'), false, 'Sleep was not published recently');
+]));
+
+try {
+  // Day 2 (diff 1): tic MUST NOT be candidate
+  const day2Plan = planNextColumn({
+    historyPath: testTempHistoryPath,
+    now: new Date(day1DiffKst)
+  });
+  assert.notStrictEqual(day2Plan.disease.id, 'tic', 'Day 2 plan must not pick tic');
+
+  // Day 3 (diff 2): tic MUST NOT be candidate
+  const day3Plan = planNextColumn({
+    historyPath: testTempHistoryPath,
+    now: new Date(day2DiffKst)
+  });
+  assert.notStrictEqual(day3Plan.disease.id, 'tic', 'Day 3 plan must not pick tic');
+  console.log('✅ PASS: planNextColumn strictly excludes tic on Day 2 and Day 3 (Hard Block).');
+} finally {
+  if (fs.existsSync(testTempHistoryPath)) fs.unlinkSync(testTempHistoryPath);
+}
 
 const plan = planNextColumn({ now: new Date() });
 assert(plan.geo && plan.disease && plan.topicAngle);

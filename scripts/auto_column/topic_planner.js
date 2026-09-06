@@ -36,28 +36,53 @@ function isGeoDiseaseIn90DayCooldown(history, geoId, diseaseId, now = new Date()
 }
 
 /**
- * Checks if a specific disease was published within last 3 days (72 hours)
+ * Converts a date to a KST (UTC+9) Date object representing midnight of that calendar day.
+ */
+function getKstCalendarDate(dateInput) {
+  const d = new Date(dateInput);
+  const kstMs = d.getTime() + (9 * 60 * 60 * 1000);
+  const kst = new Date(kstMs);
+  return new Date(Date.UTC(kst.getUTCFullYear(), kst.getUTCMonth(), kst.getUTCDate()));
+}
+
+/**
+ * Calculates the difference in calendar days between two dates in KST.
+ * (e.g. 2026-09-07 and 2026-09-08 returns 1)
+ */
+function getKstCalendarDayDiff(earlierDate, laterDate) {
+  const d1 = getKstCalendarDate(earlierDate);
+  const d2 = getKstCalendarDate(laterDate);
+  const oneDayMs = 24 * 60 * 60 * 1000;
+  return Math.round((d2.getTime() - d1.getTime()) / oneDayMs);
+}
+
+/**
+ * Checks if a specific disease was published within the last 3 calendar days in KST.
+ * HARD BLOCK: Minimum 3 days interval required.
+ * - Day diff 0 (same day) -> in cooldown (true)
+ * - Day diff 1 -> in cooldown (true)
+ * - Day diff 2 -> in cooldown (true)
+ * - Day diff >= 3 -> allowed (false)
  */
 function isDiseaseIn3DayCooldown(history, diseaseId, now = new Date()) {
-  const threeDaysMs = 3 * 24 * 60 * 60 * 1000;
-  const cutoff = new Date(now.getTime() - threeDaysMs);
-
   return history.some(item => {
-    if (item.disease === diseaseId) {
-      const pubDate = new Date(item.publishDate);
-      return pubDate >= cutoff;
+    if (item.disease === diseaseId && item.publishDate) {
+      const dayDiff = getKstCalendarDayDiff(item.publishDate, now);
+      return dayDiff >= 0 && dayDiff < 3;
     }
     return false;
   });
 }
 
 /**
- * Checks if today already has a post and returns its parentRegion & disease
+ * Checks if today already has a post and returns its parentRegion & disease (KST calendar day)
  */
 function getTodayPublishedItems(history, now = new Date()) {
-  const todayStr = now.toISOString().slice(0, 10);
+  const todayKst = getKstCalendarDate(now).toISOString().slice(0, 10);
   return history.filter(item => {
-    return item.publishDate && item.publishDate.startsWith(todayStr);
+    if (!item.publishDate) return false;
+    const itemKst = getKstCalendarDate(item.publishDate).toISOString().slice(0, 10);
+    return itemKst === todayKst;
   });
 }
 
@@ -97,12 +122,11 @@ function planNextColumn(options = {}) {
       // Rule 2: 90-day cooldown for same geo + disease
       if (isGeoDiseaseIn90DayCooldown(history, region.id, disease.id, now)) continue;
 
-      // Rule 3: 3-day cooldown for same disease (if pool allows)
-      const in3Day = isDiseaseIn3DayCooldown(history, disease.id, now);
+      // Rule 3: HARD BLOCK 3-day cooldown for same disease (minimum 3 calendar days interval)
+      if (isDiseaseIn3DayCooldown(history, disease.id, now)) continue;
 
       // Score candidate (higher score = better fit)
       let score = 100;
-      if (in3Day) score -= 50; // Penalty if 3-day rule violated (used as fallback if pool exhausted)
       if (todayParents.has(region.parentRegion)) score -= 30; // Encourage diverse parent region for day's 2nd post
 
       // Last published time penalty for region and disease
@@ -181,6 +205,8 @@ module.exports = {
   isGeoDiseaseIn90DayCooldown,
   isDiseaseIn3DayCooldown,
   getTodayPublishedItems,
+  getKstCalendarDate,
+  getKstCalendarDayDiff,
   planNextColumn,
   buildProductionTopicPlan
 };

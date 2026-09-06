@@ -32,15 +32,68 @@
     "성인 ADHD 평가 시 현재 직장에서의 업무 실수에만 국한하지 않고, 이전부터 주의집중, 정리, 과제 마무리, 충동성/실행기능과 관련된 유사한 어려움이 여러 생활 영역에서 이어져 왔는지를 함께 확인해야 함을 설명하십시오. (단, 구체적 발병 연령이나 기간 수치는 검증된 출처가 있을 때만 사용)"
   ],
   "bannedPhrases": [
-    "완치", "집중력 100% 향상", "도파민 완전 정상화", "전두엽 완벽 회복", "양약 즉시 중단"
+    "완치",
+    "집중력 100% 향상",
+    "도파민 완전 정상화",
+    "전두엽 완벽 회복",
+    "양약 즉시 중단"
   ],
   "faqCandidates": [
-    {"q": "성인도 ADHD가 나타날 수 있나요?", "a": "성인의 경우 과잉행동보다는 업무 정리, 시간 관리, 충동 조절 등의 어려움으로 나타날 수 있습니다."},
-    {"q": "단순한 의지 부족과 어떻게 구분하나요?", "a": "하고자 하는 의지가 있음에도 실행과 유지가 지속적으로 어렵다면 종합적인 평가를 권장합니다."}
+    {
+      "q": "성인도 ADHD가 나타날 수 있나요?",
+      "a": "성인의 경우 과잉행동보다는 업무 정리, 시간 관리, 충동 조절 등의 어려움으로 나타날 수 있습니다."
+    },
+    {
+      "q": "단순한 의지 부족과 어떻게 구분하나요?",
+      "a": "하고자 하는 의지가 있음에도 실행과 유지가 지속적으로 어렵다면 종합적인 평가를 권장합니다."
+    }
   ],
   "internalLinkCandidates": [
-    {"title": "해아림한의원 주요 진료과목 안내", "url": "/treatments/"},
-    {"title": "온라인 상담 및 예약 안내", "url": "/inquiry/"},
-    {"title": "해아림한의원 진료 철학 소개", "url": "/philosophy/"}
+    {
+      "title": "해아림한의원 주요 진료과목 안내",
+      "url": "/treatments/"
+    },
+    {
+      "title": "온라인 상담 및 예약 안내",
+      "url": "/inquiry/"
+    },
+    {
+      "title": "해아림한의원 진료 철학 소개",
+      "url": "/philosophy/"
+    }
+  ],
+  "evidenceNotes": [
+    {
+      "claim": "성인 ADHD는 직장 업무 실수뿐 아니라 학업·대인관계·가정 등 생애 전반의 다중 영역에서 주의집중 및 실행기능 저하의 지속성을 종합 평가해야 한다.",
+      "evidenceLevel": "clinical-guideline",
+      "claimStrength": "established",
+      "sourceVerified": true,
+      "verified": true,
+      "sourceTitle": "Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition (DSM-5) - Attention-Deficit/Hyperactivity Disorder",
+      "doi": "10.1176/appi.books.9780890425596",
+      "sourceUrl": "https://doi.org/10.1176/appi.books.9780890425596",
+      "source": {
+        "name": "American Psychiatric Association DSM-5",
+        "identifier": "DOI: 10.1176/appi.books.9780890425596",
+        "doi": "10.1176/appi.books.9780890425596",
+        "url": "https://doi.org/10.1176/appi.books.9780890425596"
+      },
+      "rationale": "성인기 주의집중 어려움 평가 시 일시적인 직무 스트레스나 단순 실수가 아닌, 발달적 지속성과 다중 영역 기능 저하를 종합 확인하도록 안내함."
+    },
+    {
+      "claim": "기존에 처방받아 복용 중인 ADHD 신경정신과 약물은 전문의 지도 없이 환자가 임의로 중단해서는 안 된다.",
+      "evidenceLevel": "clinical-guideline",
+      "claimStrength": "cautionary",
+      "sourceVerified": true,
+      "verified": true,
+      "sourceTitle": "NICE Guideline [NG87] Attention deficit hyperactivity disorder: diagnosis and management",
+      "sourceUrl": "https://www.nice.org.uk/guidance/ng87",
+      "source": {
+        "name": "National Institute for Health and Care Excellence (NICE) NG87",
+        "identifier": "https://www.nice.org.uk/guidance/ng87",
+        "url": "https://www.nice.org.uk/guidance/ng87"
+      },
+      "rationale": "약물 임의 중단 시 반동 증상과 일상 기능 저하 위험이 따르므로 한방 치료와의 안전한 병행 및 주치의 상담을 원칙으로 함."
+    }
   ]
 }

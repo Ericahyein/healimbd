@@ -123,11 +123,59 @@ jobs:
         run: |
           git config --global user.name "Healim Column Publisher Bot"
           git config --global user.email "bot@healim-bundang.com"
-          git add content/blog/ static/images/blog/ data/auto_column_history.json
-          if git diff --staged --quiet; then
-            echo "No new column to commit."
-          else
-            NEW_TITLE=$(node -e "const h=require('./data/auto_column_history.json'); if(h.length>0) console.log(h[h.length-1].title); else console.log('new column');")
-            git commit -m "auto(column): publish ${NEW_TITLE}"
-            git push origin main
+
+          # 1. Resolve published slug and title from the last history entry
+          CURRENT_SLUG=$(node -e "const h=require('./data/auto_column_history.json'); if(h.length>0 && h[h.length-1].slug) console.log(h[h.length-1].slug.trim());")
+          NEW_TITLE=$(node -e "const h=require('./data/auto_column_history.json'); if(h.length>0 && h[h.length-1].title) console.log(h[h.length-1].title.trim()); else console.log('new column');")
+
+          if [ -z "$CURRENT_SLUG" ]; then
+            echo "❌ Error: Could not determine CURRENT_SLUG from data/auto_column_history.json"
+            exit 1
           fi
+
+          ARTICLE_FILE="content/blog/${CURRENT_SLUG}.md"
+          IMAGE_FILE="static/images/blog/${CURRENT_SLUG}.jpg"
+          HISTORY_FILE="data/auto_column_history.json"
+
+          # 2. Check existence of the exact expected files
+          echo "Checking required production output files..."
+          for f in "$ARTICLE_FILE" "$IMAGE_FILE" "$HISTORY_FILE"; do
+            if [ ! -f "$f" ]; then
+              echo "❌ Error: Expected file does not exist: $f"
+              exit 1
+            fi
+            echo "  ✅ Found: $f"
+          done
+
+          # 3. Stage ONLY the exact allowlisted files
+          git add "$ARTICLE_FILE" "$IMAGE_FILE" "$HISTORY_FILE"
+
+          # 4. Strict Allowlist Verification via git diff --cached --name-only
+          echo "Verifying staged files against strict allowlist..."
+          STAGED_FILES=$(git diff --cached --name-only)
+
+          if [ -z "$STAGED_FILES" ]; then
+            echo "ℹ️ No changes staged to commit."
+            exit 0
+          fi
+
+          FORBIDDEN_FOUND=0
+          while IFS= read -r staged_file; do
+            [ -z "$staged_file" ] && continue
+            if [ "$staged_file" != "$ARTICLE_FILE" ] && [ "$staged_file" != "$IMAGE_FILE" ] && [ "$staged_file" != "$HISTORY_FILE" ]; then
+              echo "❌ ALLOWLIST VIOLATION: Unexpected file staged: $staged_file"
+              FORBIDDEN_FOUND=1
+            else
+              echo "  ✅ Staged file verified: $staged_file"
+            fi
+          done <<< "$STAGED_FILES"
+
+          if [ $FORBIDDEN_FOUND -ne 0 ]; then
+            echo "💥 Aborting commit due to allowlist violation. Unstaging all files."
+            git reset
+            exit 1
+          fi
+
+          # 5. Commit and Push
+          git commit -m "auto(column): publish ${NEW_TITLE}"
+          git push origin main

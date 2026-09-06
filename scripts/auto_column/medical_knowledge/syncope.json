@@ -32,30 +32,65 @@
     "낙상 방지를 위한 현실적 대처 요령을 강조하십시오."
   ],
   "bannedPhrases": [
-    "완치", "실신 100% 예방", "심장 질환 완치", "근본 치료"
+    "완치",
+    "실신 100% 예방",
+    "심장 질환 완치",
+    "근본 치료"
   ],
   "evidenceNotes": [
     {
       "claim": "실신은 일시적인 뇌 관류 저하로 인한 갑작스럽고 짧은 일시적 의식소실 후 자발적으로 회복되는 상태이며, 완전한 의식소실이 동반되지 않는 전조는 전실신(presyncope)으로 구분된다.",
       "evidenceLevel": "clinical-guideline",
+      "claimStrength": "established",
+      "sourceVerified": true,
       "verified": true,
       "sourceTitle": "2018 ESC Guidelines for the diagnosis and management of syncope",
-      "doi": "10.1093/eurheartj/ehy037"
+      "doi": "10.1093/eurheartj/ehy037",
+      "sourceUrl": "https://doi.org/10.1093/eurheartj/ehy037",
+      "source": {
+        "name": "European Society of Cardiology (ESC)",
+        "identifier": "DOI: 10.1093/eurheartj/ehy037",
+        "doi": "10.1093/eurheartj/ehy037",
+        "url": "https://doi.org/10.1093/eurheartj/ehy037"
+      },
+      "rationale": "실신(완전 의식 소실)과 전실신(의식 유지)의 의학적 정의를 명확히 구별하여 기술함."
     },
     {
       "claim": "실신 환자에서 운동 중 실신, 선행 흉통/심계항진, 급사 또는 유전성 심장 질환 가족력은 심장성 실신 위험을 시사하는 경고 징후이다.",
       "evidenceLevel": "clinical-guideline",
+      "claimStrength": "cautionary",
+      "sourceVerified": true,
       "verified": true,
       "sourceTitle": "2018 ESC Guidelines for the diagnosis and management of syncope",
-      "doi": "10.1093/eurheartj/ehy037"
+      "doi": "10.1093/eurheartj/ehy037",
+      "sourceUrl": "https://doi.org/10.1093/eurheartj/ehy037",
+      "source": {
+        "name": "European Society of Cardiology (ESC)",
+        "identifier": "DOI: 10.1093/eurheartj/ehy037",
+        "doi": "10.1093/eurheartj/ehy037",
+        "url": "https://doi.org/10.1093/eurheartj/ehy037"
+      },
+      "rationale": "모든 실신을 단순 미주신경성 실신으로 치부하지 않고 심장성 원인을 선별하도록 안내함."
     }
   ],
   "faqCandidates": [
-    {"q": "전조증상이 나타날 때 어떻게 대처해야 하나요?", "a": "서 있지 말고 즉시 바닥에 앉거나 누워 머리로 가는 혈류를 확보하는 것이 낙상을 방지합니다."}
+    {
+      "q": "전조증상이 나타날 때 어떻게 대처해야 하나요?",
+      "a": "서 있지 말고 즉시 바닥에 앉거나 누워 머리로 가는 혈류를 확보하는 것이 낙상을 방지합니다."
+    }
   ],
   "internalLinkCandidates": [
-    {"title": "자율신경 조절과 기립성 어지럼 한방 가이드", "url": "/blog/bundang-autonomic-nervous-system-recovery/"},
-    {"title": "해아림한의원 주요 진료과목 안내", "url": "/treatments/"},
-    {"title": "온라인 상담 및 예약 안내", "url": "/inquiry/"}
+    {
+      "title": "자율신경 조절과 기립성 어지럼 한방 가이드",
+      "url": "/blog/bundang-autonomic-nervous-system-recovery/"
+    },
+    {
+      "title": "해아림한의원 주요 진료과목 안내",
+      "url": "/treatments/"
+    },
+    {
+      "title": "온라인 상담 및 예약 안내",
+      "url": "/inquiry/"
+    }
   ]
 }

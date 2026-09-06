@@ -33,23 +33,67 @@
     "혈변, 원인 모를 체중 감소, 빈혈, 야간 복통 등 경고 증상(Red flags) 시 소화기내과 정밀 평가를 안내하십시오."
   ],
   "bannedPhrases": [
-    "완치", "위장질환 100% 종결", "장내환경 완전 개조", "근본 치료"
+    "완치",
+    "위장질환 100% 종결",
+    "장내환경 완전 개조",
+    "근본 치료"
   ],
   "evidenceNotes": [
     {
       "claim": "IBS 진단 시 반복적 복통과 배변과의 연관성, 배변 빈도 또는 대변 형태 변화의 동반 여부를 함께 평가해야 한다.",
       "evidenceLevel": "clinical-guideline",
+      "claimStrength": "established",
+      "sourceVerified": true,
       "verified": true,
       "sourceTitle": "Bowel Disorders (Rome IV Diagnostic Criteria for Functional Bowel Disorders)",
-      "doi": "10.1053/j.gastro.2016.02.031"
+      "doi": "10.1053/j.gastro.2016.02.031",
+      "pmid": "27144627",
+      "sourceUrl": "https://doi.org/10.1053/j.gastro.2016.02.031",
+      "source": {
+        "name": "Gastroenterology (Rome IV Criteria)",
+        "identifier": "PMID: 27144627 / DOI: 10.1053/j.gastro.2016.02.031",
+        "doi": "10.1053/j.gastro.2016.02.031",
+        "pmid": "27144627",
+        "url": "https://doi.org/10.1053/j.gastro.2016.02.031"
+      },
+      "rationale": "단순 스트레스성 설사/복통만으로 IBS로 단정하지 않고 배변 연관성 및 변 형태 변화 평가를 의무화함."
+    },
+    {
+      "claim": "혈변, 원인 모를 체중 감소, 빈혈, 야간 복통 등 경고 증상(Red flags) 발견 시 소화기내과 정밀 평가를 안내해야 한다.",
+      "evidenceLevel": "clinical-guideline",
+      "claimStrength": "cautionary",
+      "sourceVerified": true,
+      "verified": true,
+      "sourceTitle": "ACG Clinical Guideline: Management of Irritable Bowel Syndrome",
+      "doi": "10.14309/ajg.0000000000001036",
+      "sourceUrl": "https://doi.org/10.14309/ajg.0000000000001036",
+      "source": {
+        "name": "American College of Gastroenterology (ACG)",
+        "identifier": "DOI: 10.14309/ajg.0000000000001036",
+        "doi": "10.14309/ajg.0000000000001036",
+        "url": "https://doi.org/10.14309/ajg.0000000000001036"
+      },
+      "rationale": "기질적 소화기 질환(염증성 장질환, 악성 종양 등)을 놓치는 임상적 위험을 차단함."
     }
   ],
   "faqCandidates": [
-    {"q": "스트레스와 장 건강이 왜 연결되나요?", "a": "장과 뇌는 '장-뇌 축'이라는 자율신경망으로 긴밀히 연결되어 있어 감정적 긴장이 장 운동에 직접 영향을 줍니다."}
+    {
+      "q": "스트레스와 장 건강이 왜 연결되나요?",
+      "a": "장과 뇌는 '장-뇌 축'이라는 자율신경망으로 긴밀히 연결되어 있어 감정적 긴장이 장 운동에 직접 영향을 줍니다."
+    }
   ],
   "internalLinkCandidates": [
-    {"title": "자율신경과 신체화 증상 한방 관리 가이드", "url": "/blog/bundang-autonomic-nervous-system-recovery/"},
-    {"title": "해아림한의원 주요 진료과목 안내", "url": "/treatments/"},
-    {"title": "온라인 상담 및 예약 안내", "url": "/inquiry/"}
+    {
+      "title": "자율신경과 신체화 증상 한방 관리 가이드",
+      "url": "/blog/bundang-autonomic-nervous-system-recovery/"
+    },
+    {
+      "title": "해아림한의원 주요 진료과목 안내",
+      "url": "/treatments/"
+    },
+    {
+      "title": "온라인 상담 및 예약 안내",
+      "url": "/inquiry/"
+    }
   ]
 }

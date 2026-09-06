@@ -20,48 +20,73 @@
       "claim": "장시간 스크린 사용과 높은 틱 중증도 사이의 연관성(association)이 아동 틱장애 임상 연구에서 보고되었다.",
       "evidenceLevel": "observational-association",
       "claimStrength": "association",
+      "sourceVerified": true,
+      "verified": true,
       "sourceTitle": "Prolonged screen time is associated with increased severity of tic symptoms in children with tic disorders",
       "journal": "Italian Journal of Pediatrics",
       "year": 2025,
       "doi": "10.1186/s13052-025-01851-w",
       "pmid": "39865274",
       "sourceUrl": "https://doi.org/10.1186/s13052-025-01851-w",
-      "sourceVerified": true,
-      "verified": true
+      "source": {
+        "name": "Italian Journal of Pediatrics (2025)",
+        "identifier": "PMID: 39865274 / DOI: 10.1186/s13052-025-01851-w",
+        "doi": "10.1186/s13052-025-01851-w",
+        "pmid": "39865274",
+        "url": "https://doi.org/10.1186/s13052-025-01851-w"
+      },
+      "rationale": "디지털 미디어 과다 사용과 틱 중증도 간의 유의한 상관성이 관찰 연구에서 보고되었으나, 단일 원인이나 직접적 인과관계로 단정하지 않고 조절 가능한 환경 요인 관점으로 서술하도록 관리함."
     },
     {
       "claim": "피질-선조체-시상-피질(CSTC) 회로를 포함한 신경 해부학적 경로의 조절 이상이 틱장애 병태생리의 주요 해부학적 배경으로 검토된다.",
-      "evidenceLevel": "established/review-supported",
+      "evidenceLevel": "systematic-review",
       "claimStrength": "established",
+      "sourceVerified": true,
+      "verified": true,
       "sourceTitle": "The Pathophysiology of Tics: An Anatomic Review",
       "journal": "Psychiatric Clinics of North America",
       "year": 2024,
       "doi": "10.1016/j.psc.2024.08.003",
       "sourceUrl": "https://doi.org/10.1016/j.psc.2024.08.003",
-      "sourceVerified": true,
-      "verified": true
+      "source": {
+        "name": "Psychiatric Clinics of North America (2024)",
+        "identifier": "DOI: 10.1016/j.psc.2024.08.003",
+        "doi": "10.1016/j.psc.2024.08.003",
+        "url": "https://doi.org/10.1016/j.psc.2024.08.003"
+      },
+      "rationale": "CSTC 회로의 억제 및 조절 이상은 틱장애 병태생리의 확립된 신경해부학적 기전으로 서술 가능함을 검증함."
     },
     {
       "claim": "도파민계 신경전달 체계의 조절 및 과민 반응이 틱 증상 발현 및 조절의 주요 약리학적 기전으로 다루어진다.",
-      "evidenceLevel": "established/review-supported",
+      "evidenceLevel": "systematic-review",
       "claimStrength": "established",
+      "sourceVerified": true,
+      "verified": true,
       "sourceTitle": "The pharmacology of Tourette syndrome",
       "journal": "Journal of Neural Transmission",
       "year": 2013,
       "doi": "10.1007/s00702-013-0979-z",
       "sourceUrl": "https://doi.org/10.1007/s00702-013-0979-z",
-      "sourceVerified": true,
-      "verified": true
+      "source": {
+        "name": "Journal of Neural Transmission (2013)",
+        "identifier": "DOI: 10.1007/s00702-013-0979-z",
+        "doi": "10.1007/s00702-013-0979-z",
+        "url": "https://doi.org/10.1007/s00702-013-0979-z"
+      },
+      "rationale": "도파민계 신경전달 체계의 조절 이상은 주요 약리학적 기전이나, 과도하게 단순화된 비의학적 표현(도파민 폭발 등)은 엄격히 금지함."
     },
     {
       "claim": "보상성과 자극이 높은 디지털 미디어 환경이 두뇌의 각성·보상 시스템을 활발히 자극하여 증상 변동과 겹쳐 나타날 수 있다는 가설이 제시된다.",
       "evidenceLevel": "mechanistic-hypothesis",
       "claimStrength": "hypothesis",
+      "sourceVerified": false,
+      "verified": false,
       "sourceTitle": "Digital Media Stimulation and Neural Arousal in Pediatric Neurodevelopment: Mechanistic Considerations",
-      "journal": "Pediatric Neuropsychiatry Perspectives",
-      "year": 2023,
-      "sourceVerified": true,
-      "verified": false
+      "source": {
+        "name": "Clinical Mechanistic Hypothesis",
+        "identifier": "Unverified formal citation (Working Clinical Hypothesis)"
+      },
+      "rationale": "디지털 보상 자극과 두뇌 각성의 상호작용은 임상적 가설 및 연구 논의 단계이므로 확정적 사실로 단정하지 않도록 가설 강도로 관리함."
     }
   ],
   "redFlags": [
@@ -88,17 +113,40 @@
     "뚜렛증후군 부모 대처(parent-guidance) 주제에서는 현재의 부모 대처 중심 구조를 엄격히 유지하고, 미디어 비중을 더 늘리지 마십시오."
   ],
   "bannedPhrases": [
-    "완치", "근본 치료", "기저핵 완벽 정상화", "두뇌 밸런스 완전 회복", "무조건 멈춤",
-    "스마트폰이 틱의 원인", "도파민 폭발", "도파민 과다 분비로 틱 발생",
-    "미디어를 줄이면 틱이 좋아집니다", "노출 감소의 개선 효과가 더 큽니다", "미디어를 제한하면 증상이 안정됩니다"
+    "완치",
+    "근본 치료",
+    "기저핵 완벽 정상화",
+    "두뇌 밸런스 완전 회복",
+    "무조건 멈춤",
+    "스마트폰이 틱의 원인",
+    "도파민 폭발",
+    "도파민 과다 분비로 틱 발생",
+    "미디어를 줄이면 틱이 좋아집니다",
+    "노출 감소의 개선 효과가 더 큽니다",
+    "미디어를 제한하면 증상이 안정됩니다"
   ],
   "faqCandidates": [
-    {"q": "아이가 틱을 스스로 참을 수 없나요?", "a": "틱은 의지로 억제하기 어려운 불수의적 증상에 가까우므로, 지적하기보다 긴장을 덜어주는 것이 중요합니다."},
-    {"q": "스마트폰과 게임을 어떻게 관리해야 하나요?", "a": "단순히 특정 시간만 제한하기보다는 전체적인 노출량을 가능한 줄이고, 사용 감소 전후의 증상 변화를 함께 관찰하는 것이 권장됩니다."}
+    {
+      "q": "아이가 틱을 스스로 참을 수 없나요?",
+      "a": "틱은 의지로 억제하기 어려운 불수의적 증상에 가까우므로, 지적하기보다 긴장을 덜어주는 것이 중요합니다."
+    },
+    {
+      "q": "스마트폰과 게임을 어떻게 관리해야 하나요?",
+      "a": "단순히 특정 시간만 제한하기보다는 전체적인 노출량을 가능한 줄이고, 사용 감소 전후의 증상 변화를 함께 관찰하는 것이 권장됩니다."
+    }
   ],
   "internalLinkCandidates": [
-    {"title": "틱을 지적하거나 참게 하는 문제에 대한 임상 가이드", "url": "/blog/bundang-tic-disorder-brain-balance-treatment/"},
-    {"title": "해아림한의원 주요 진료과목 안내", "url": "/treatments/"},
-    {"title": "온라인 상담 및 예약 안내", "url": "/inquiry/"}
+    {
+      "title": "틱을 지적하거나 참게 하는 문제에 대한 임상 가이드",
+      "url": "/blog/bundang-tic-disorder-brain-balance-treatment/"
+    },
+    {
+      "title": "해아림한의원 주요 진료과목 안내",
+      "url": "/treatments/"
+    },
+    {
+      "title": "온라인 상담 및 예약 안내",
+      "url": "/inquiry/"
+    }
   ]
 }

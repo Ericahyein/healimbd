@@ -40,15 +40,73 @@
     "미디어 노출이나 화면 전환 등 타 질환(틱장애 등)의 생활 관리 요인을 공황장애에 혼입하여 서술하지 마십시오."
   ],
   "bannedPhrases": [
-    "완치", "근본 치료", "뇌기능 정상화", "신경전달물질 완벽 조절", "양약 즉시 중단", "안심 한약", "두경부 혈자리", "두경부 중심"
+    "완치",
+    "근본 치료",
+    "뇌기능 정상화",
+    "신경전달물질 완벽 조절",
+    "양약 즉시 중단",
+    "안심 한약",
+    "두경부 혈자리",
+    "두경부 중심"
   ],
   "faqCandidates": [
-    {"q": "공황발작이 올 때 생명이 위험한가요?", "a": "신체적으로 극심한 공포가 느껴지지만, 실제 생명에 위협을 주는 기질적 손상으로 이어지지는 않습니다."},
-    {"q": "한방 치료와 양약 병용이 가능한가요?", "a": "기존 복용 약물이 있다면 상의 후 단계적인 한방 보조 요법을 고려할 수 있습니다."}
+    {
+      "q": "공황발작이 올 때 생명이 위험한가요?",
+      "a": "신체적으로 극심한 공포가 느껴지지만, 실제 생명에 위협을 주는 기질적 손상으로 이어지지는 않습니다."
+    },
+    {
+      "q": "한방 치료와 양약 병용이 가능한가요?",
+      "a": "기존 복용 약물이 있다면 상의 후 단계적인 한방 보조 요법을 고려할 수 있습니다."
+    }
   ],
   "internalLinkCandidates": [
-    {"title": "공황장애 신체 증상과 한방 관리 가이드", "url": "/blog/bundang-panic-disorder-treatment-guide/"},
-    {"title": "해아림한의원 주요 진료과목 안내", "url": "/treatments/"},
-    {"title": "온라인 상담 및 예약 안내", "url": "/inquiry/"}
+    {
+      "title": "공황장애 신체 증상과 한방 관리 가이드",
+      "url": "/blog/bundang-panic-disorder-treatment-guide/"
+    },
+    {
+      "title": "해아림한의원 주요 진료과목 안내",
+      "url": "/treatments/"
+    },
+    {
+      "title": "온라인 상담 및 예약 안내",
+      "url": "/inquiry/"
+    }
+  ],
+  "evidenceNotes": [
+    {
+      "claim": "단일한 공황발작(갑작스러운 극심한 공포와 신체 증상)과 공황장애(반복되는 예기치 못한 발작 및 이에 수반되는 예기불안과 행동 회피)는 임상적으로 명확히 구별되어야 한다.",
+      "evidenceLevel": "clinical-guideline",
+      "claimStrength": "established",
+      "sourceVerified": true,
+      "verified": true,
+      "sourceTitle": "Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition (DSM-5) - Panic Disorder",
+      "doi": "10.1176/appi.books.9780890425596",
+      "sourceUrl": "https://doi.org/10.1176/appi.books.9780890425596",
+      "source": {
+        "name": "American Psychiatric Association DSM-5",
+        "identifier": "DOI: 10.1176/appi.books.9780890425596",
+        "doi": "10.1176/appi.books.9780890425596",
+        "url": "https://doi.org/10.1176/appi.books.9780890425596"
+      },
+      "rationale": "단순 신체 증상 반복만으로 공황장애로 섣불리 단정하지 않고 예기불안과 회피 반응을 함께 평가하도록 기준을 확립함."
+    },
+    {
+      "claim": "처음 발생한 극심한 흉통, 호흡곤란, 실신 위험 등은 공황장애로 간주하기 전에 심장내과적 응급 질환을 우선 배제해야 한다.",
+      "evidenceLevel": "clinical-guideline",
+      "claimStrength": "cautionary",
+      "sourceVerified": true,
+      "verified": true,
+      "sourceTitle": "2021 AHA/ACC/ASE/CHEST/SAEM/SCCT/SCMR Guideline for the Evaluation and Diagnosis of Chest Pain",
+      "doi": "10.1161/CIR.0000000000001029",
+      "sourceUrl": "https://doi.org/10.1161/CIR.0000000000001029",
+      "source": {
+        "name": "AHA/ACC Chest Pain Guidelines 2021",
+        "identifier": "DOI: 10.1161/CIR.0000000000001029",
+        "doi": "10.1161/CIR.0000000000001029",
+        "url": "https://doi.org/10.1161/CIR.0000000000001029"
+      },
+      "rationale": "심혈관계 기질 질환의 응급 처치 기회를 놓치지 않도록 안전 우선 원칙을 확립함."
+    }
   ]
 }

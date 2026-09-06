@@ -33,14 +33,63 @@
     "만성피로·번아웃(brain-fog-fatigue): 만성피로와 번아웃을 본문에서 반드시 구별하여 설명하십시오. 만성피로는 충분한 휴식 후에도 지속되는 피로라는 증상 표현(symptom)이며 원인은 다양할 수 있습니다. 번아웃(Burnout)은 성공적으로 관리되지 않은 만성 직장 스트레스로 인한 직업적 현상(occupational phenomenon, ICD-11)이며 단순 피로나 모든 삶의 영역의 스트레스가 아니며 독립된 의학적 질환명과 동일하지 않습니다. 번아웃의 3대 핵심 특징(에너지 고갈/소진, 일에 대한 냉소/거리감, 직업적 효능감 저하)을 명확히 설명하십시오. 스트레스/수면불규칙을 자율기능 조절 흔들림 및 만성피로/브레인포그로 너무 직접적으로 연결하거나 자율신경 문제로 자동 귀결하지 마십시오. 자율신경 증상은 동반된 일부 경우 함께 평가할 수 있는 요소 중 하나로만 다루십시오. 수면 부족/수면장애, 우울/불안, 빈혈/철결핍, 갑상선 등 내분비·대사 문제, 약물/물질 영향, 감염 또는 기타 내과적 질환, 신경학적 원인 등 다양한 원인에 대한 폭넓은 감별 및 의료기관 평가 필요성을 안내하십시오. 증상 표현으로서의 만성피로와 ME/CFS(근통성 뇌척수염/만성피로증후군)를 동일시하지 말고 ME/CFS는 별도 진단/평가가 필요한 상태임을 필요한 범위에서 짧게 구분하십시오. '급격한 기온 변화와 환절기' 등 검증되지 않은 계절 요인을 핵심 악화 요인으로 단정하지 말고 과로, 수면 부족, 식사 불규칙, 지속적인 직장 스트레스 등 검증된 생활 맥락에 집중하십시오."
   ],
   "bannedPhrases": [
-    "완치", "자율신경 완벽 정상화", "근본 치료", "모든 어지럼증 100% 해소"
+    "완치",
+    "자율신경 완벽 정상화",
+    "근본 치료",
+    "모든 어지럼증 100% 해소"
   ],
   "faqCandidates": [
-    {"q": "종합병원 검사에서 왜 이상이 없다고 나오나요?", "a": "기질적인 조직 손상이 아니라 신경계의 기능적인 조절 불균형 상태일 때 검사상 정상으로 나올 수 있습니다."}
+    {
+      "q": "종합병원 검사에서 왜 이상이 없다고 나오나요?",
+      "a": "기질적인 조직 손상이 아니라 신경계의 기능적인 조절 불균형 상태일 때 검사상 정상으로 나올 수 있습니다."
+    }
   ],
   "internalLinkCandidates": [
-    {"title": "자율신경실조증 회복 및 한방 관리 가이드", "url": "/blog/bundang-autonomic-nervous-system-recovery/"},
-    {"title": "해아림한의원 주요 진료과목 안내", "url": "/treatments/"},
-    {"title": "온라인 상담 및 예약 안내", "url": "/inquiry/"}
+    {
+      "title": "자율신경실조증 회복 및 한방 관리 가이드",
+      "url": "/blog/bundang-autonomic-nervous-system-recovery/"
+    },
+    {
+      "title": "해아림한의원 주요 진료과목 안내",
+      "url": "/treatments/"
+    },
+    {
+      "title": "온라인 상담 및 예약 안내",
+      "url": "/inquiry/"
+    }
+  ],
+  "evidenceNotes": [
+    {
+      "claim": "번아웃(Burn-out)은 만성적인 직장 스트레스가 성공적으로 관리되지 못해 발생하는 직업적 현상(occupational phenomenon)으로, 만성피로 및 자율신경실조증의 신체 증상과 구별되어야 한다.",
+      "evidenceLevel": "clinical-guideline",
+      "claimStrength": "established",
+      "sourceVerified": true,
+      "verified": true,
+      "sourceTitle": "WHO ICD-11 for Mortality and Morbidity Statistics - QD85 Burn-out",
+      "sourceUrl": "https://icd.who.int/browse11/l-m/en#/http://id.who.int/icd/entity/129180281",
+      "source": {
+        "name": "World Health Organization ICD-11",
+        "identifier": "https://icd.who.int/browse11/l-m/en#/http://id.who.int/icd/entity/129180281",
+        "url": "https://icd.who.int/browse11/l-m/en#/http://id.who.int/icd/entity/129180281"
+      },
+      "rationale": "만성피로와 번아웃(직장 스트레스 3대 특징)을 본문에서 명확히 구별하여 설명하도록 함."
+    },
+    {
+      "claim": "다양한 신체 증상 호소 시 빈혈, 갑상선 기능 이상, 전해질 이상, 심장 질환 등 기질적 질환을 우선 배제한 후 자율신경계 기능 조절을 평가해야 한다.",
+      "evidenceLevel": "clinical-consensus",
+      "claimStrength": "cautionary",
+      "sourceVerified": true,
+      "verified": true,
+      "sourceTitle": "Consensus statement on the definition of orthostatic hypotension, neurally mediated syncope and the postural tachycardia syndrome",
+      "doi": "10.1007/s10286-011-0126-7",
+      "sourceUrl": "https://doi.org/10.1007/s10286-011-0126-7",
+      "source": {
+        "name": "American Autonomic Society / EFAS Consensus",
+        "identifier": "DOI: 10.1007/s10286-011-0126-7",
+        "doi": "10.1007/s10286-011-0126-7",
+        "url": "https://doi.org/10.1007/s10286-011-0126-7"
+      },
+      "rationale": "신체 증상을 모두 자율신경실조증 하나로 자동 귀결시키는 오진을 차단함."
+    }
   ]
 }

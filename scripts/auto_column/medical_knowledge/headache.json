@@ -36,23 +36,65 @@
     "급격히 시작된 벼락 두통, 편마비, 언어 장애, 보행 실조 등 신경학적 위험 신호 시 뇌영상 평가를 우선하도록 안내하십시오."
   ],
   "bannedPhrases": [
-    "완치", "모든 두통 즉시 소멸", "100% 뇌질환 예방", "진통제 즉시 중단"
+    "완치",
+    "모든 두통 즉시 소멸",
+    "100% 뇌질환 예방",
+    "진통제 즉시 중단"
   ],
   "evidenceNotes": [
     {
       "claim": "만성 비회전성 어지럼증은 이비인후과 검사 정상이어도 전정편두통, PPPD, 기립성 문제 등 다각적 감별이 필요하다.",
       "evidenceLevel": "clinical-consensus",
+      "claimStrength": "established",
+      "sourceVerified": true,
       "verified": true,
       "sourceTitle": "Diagnostic criteria for persistent postural-perceptual dizziness (PPPD): Consensus document of the committee for the International Classification of Vestibular Disorders",
-      "doi": "10.3233/VES-170622"
+      "doi": "10.3233/VES-170622",
+      "sourceUrl": "https://doi.org/10.3233/VES-170622",
+      "source": {
+        "name": "Journal of Vestibular Research (Barany Society)",
+        "identifier": "DOI: 10.3233/VES-170622",
+        "doi": "10.3233/VES-170622",
+        "url": "https://doi.org/10.3233/VES-170622"
+      },
+      "rationale": "이비인후과 검사 정상 후 경추나 자율신경으로 단정적 비약을 방지하고 다양한 신경계 원인을 고려하도록 함."
+    },
+    {
+      "claim": "급격히 시작된 벼락 두통, 편마비, 언어 장애, 보행 실조, 발열 동반 두통은 신경학적 위험 신호로서 뇌영상 평가를 우선하도록 안내해야 한다.",
+      "evidenceLevel": "clinical-guideline",
+      "claimStrength": "cautionary",
+      "sourceVerified": true,
+      "verified": true,
+      "sourceTitle": "SNNOOP10 list for red flags in secondary headaches: A systematic review",
+      "doi": "10.1177/0333102419842602",
+      "sourceUrl": "https://doi.org/10.1177/0333102419842602",
+      "source": {
+        "name": "Cephalalgia (International Headache Society)",
+        "identifier": "DOI: 10.1177/0333102419842602",
+        "doi": "10.1177/0333102419842602",
+        "url": "https://doi.org/10.1177/0333102419842602"
+      },
+      "rationale": "뇌출혈, 뇌경색, 뇌수막염 등 2차성 응급 두통 질환에 대한 응급 배제를 필수화함."
     }
   ],
   "faqCandidates": [
-    {"q": "진통제를 자주 먹어도 괜찮은가요?", "a": "약물 과용 두통을 유발할 수 있으므로, 원인 요인을 파악하고 근육과 신경 긴장을 함께 완화하는 관리가 필요합니다."}
+    {
+      "q": "진통제를 자주 먹어도 괜찮은가요?",
+      "a": "약물 과용 두통을 유발할 수 있으므로, 원인 요인을 파악하고 근육과 신경 긴장을 함께 완화하는 관리가 필요합니다."
+    }
   ],
   "internalLinkCandidates": [
-    {"title": "경추 긴장과 어지럼증 한방 관리 가이드", "url": "/blog/bundang-autonomic-nervous-system-recovery/"},
-    {"title": "해아림한의원 주요 진료과목 안내", "url": "/treatments/"},
-    {"title": "온라인 상담 및 예약 안내", "url": "/inquiry/"}
+    {
+      "title": "경추 긴장과 어지럼증 한방 관리 가이드",
+      "url": "/blog/bundang-autonomic-nervous-system-recovery/"
+    },
+    {
+      "title": "해아림한의원 주요 진료과목 안내",
+      "url": "/treatments/"
+    },
+    {
+      "title": "온라인 상담 및 예약 안내",
+      "url": "/inquiry/"
+    }
   ]
 }

@@ -35,13 +35,78 @@
     "일률적인 수치 기준을 강제하지 마십시오."
   ],
   "bannedPhrases": [
-    "완치", "야뇨증 100% 종결", "성장 100% 보장", "무조건 해결"
+    "완치",
+    "야뇨증 100% 종결",
+    "성장 100% 보장",
+    "무조건 해결"
   ],
   "faqCandidates": [
-    {"q": "시간이 지나면 저절로 좋아지나요?", "a": "성장하면서 호전되기도 하지만, 아이가 스트레스를 받거나 일상생활 및 학교 적응에 지속적인 방해를 받는다면 조기에 전문가 평가와 도움을 받는 것이 좋습니다."}
+    {
+      "q": "시간이 지나면 저절로 좋아지나요?",
+      "a": "성장하면서 호전되기도 하지만, 아이가 스트레스를 받거나 일상생활 및 학교 적응에 지속적인 방해를 받는다면 조기에 전문가 평가와 도움을 받는 것이 좋습니다."
+    }
   ],
   "internalLinkCandidates": [
-    {"title": "해아림한의원 주요 진료과목 안내", "url": "/treatments/"},
-    {"title": "온라인 상담 및 예약 안내", "url": "/inquiry/"}
+    {
+      "title": "해아림한의원 주요 진료과목 안내",
+      "url": "/treatments/"
+    },
+    {
+      "title": "온라인 상담 및 예약 안내",
+      "url": "/inquiry/"
+    }
+  ],
+  "evidenceNotes": [
+    {
+      "claim": "유치원 적응기 등 소아 초기 발달 과정에서의 분리 불안은 자연스러운 애착 형성 과정의 일부일 수 있으며, 일상 기능 손상이 현저한 경우에만 분리불안장애로 평가한다.",
+      "evidenceLevel": "clinical-guideline",
+      "claimStrength": "established",
+      "sourceVerified": true,
+      "verified": true,
+      "sourceTitle": "Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition (DSM-5) - Separation Anxiety Disorder",
+      "doi": "10.1176/appi.books.9780890425596",
+      "sourceUrl": "https://doi.org/10.1176/appi.books.9780890425596",
+      "source": {
+        "name": "American Psychiatric Association DSM-5",
+        "identifier": "DOI: 10.1176/appi.books.9780890425596",
+        "doi": "10.1176/appi.books.9780890425596",
+        "url": "https://doi.org/10.1176/appi.books.9780890425596"
+      },
+      "rationale": "정상 발달과 분리불안장애의 차이를 명확히 구분하여 부모의 과도한 불안과 죄책감을 완화함."
+    },
+    {
+      "claim": "야경증은 비렘(NREM) 수면 중 불완전 각성으로 발생하며 아동이 다음 날 아침 상황을 기억하지 못하는 사건수면으로, 악몽(꿈 회상 동반)과 감별된다.",
+      "evidenceLevel": "clinical-guideline",
+      "claimStrength": "established",
+      "sourceVerified": true,
+      "verified": true,
+      "sourceTitle": "International Classification of Sleep Disorders, Third Edition (ICSD-3) - Sleep Terrors",
+      "doi": "10.5664/jcsm.4114",
+      "sourceUrl": "https://doi.org/10.5664/jcsm.4114",
+      "source": {
+        "name": "American Academy of Sleep Medicine ICSD-3",
+        "identifier": "DOI: 10.5664/jcsm.4114",
+        "doi": "10.5664/jcsm.4114",
+        "url": "https://doi.org/10.5664/jcsm.4114"
+      },
+      "rationale": "야경증과 악몽을 명확히 구분하여 발작 중 아동을 억지로 깨우지 않는 올바른 부모 대처를 안내함."
+    },
+    {
+      "claim": "소아 야뇨증은 만 5세 이후 밤에 소변을 가리지 못하는 상태로, 낮 배뇨 증상, 변비, 요로감염, 수면호흡장애 등 감별과 함께 야뇨경보기 및 데스모프레신 등 표준 치료 옵션을 균형 있게 고려해야 한다.",
+      "evidenceLevel": "clinical-guideline",
+      "claimStrength": "established",
+      "sourceVerified": true,
+      "verified": true,
+      "sourceTitle": "Standardization of terminology of lower urinary tract function in children and adolescents (ICCS update)",
+      "doi": "10.1016/j.juro.2014.01.115",
+      "sourceUrl": "https://doi.org/10.1016/j.juro.2014.01.115",
+      "source": {
+        "name": "International Children Continence Society (ICCS)",
+        "identifier": "DOI: 10.1016/j.juro.2014.01.115",
+        "doi": "10.1016/j.juro.2014.01.115",
+        "url": "https://doi.org/10.1016/j.juro.2014.01.115"
+      },
+      "rationale": "단순 심리적 요인으로 축소하지 않고 소아비뇨기 표준 감별 진단 및 치료 옵션을 균형 있게 제시함."
+    }
   ]
 }
