@@ -121,7 +121,9 @@ const expectedApprovedTargets = [
   'qa-15-depression',
   'qa-16-ocd',
   'qa-17-separation-anxiety',
-  'qa-18-night-terrors'
+  'qa-18-night-terrors',
+  'qa-19-child-enuresis',
+  'qa-20-fatigue'
 ];
 for (const qId of expectedApprovedTargets) {
   const record = qaResults.find(r => r.qaId === qId);
@@ -131,10 +133,12 @@ for (const qId of expectedApprovedTargets) {
 }
 
 const revisionTargets = qaResults.filter(r => r.humanReviewStatus === 'needs_revision');
-assert.strictEqual(revisionTargets.length, 2, 'Batch 5 targets (qa-19, qa-20) are currently needs_revision');
-assert.deepStrictEqual(revisionTargets.map(r => r.qaId).sort(), ['qa-19-child-enuresis', 'qa-20-fatigue'].sort());
+assert.strictEqual(revisionTargets.length, 0, 'All 20 QA targets (qa-01 ~ qa-20) are approved, 0 needs_revision');
 
-console.log('✅ [Test 4 Passed] All 18 targets (qa-01 ~ qa-18) officially approved and verified, Batch 5 targets (qa-19, qa-20) verified as needs_revision.');
+const notTestedTargets = qaResults.filter(r => r.humanReviewStatus === 'not_tested');
+assert.strictEqual(notTestedTargets.length, 0, '0 targets remain not_tested');
+
+console.log('✅ [Test 4 Passed] All 20 targets (qa-01 ~ qa-20) officially approved and verified (20/20 approved, 0 needs_revision, 0 not_tested).');
 
 // Test 5: Smart Medication Discontinuation Validation (False Positive Prevention & Real Harm Blocking)
 console.log('\n[Test 5] Testing Smart Medication Discontinuation Validator...');
@@ -513,7 +517,9 @@ assert.ok(!b4Targets.includes('qa-17-separation-anxiety'), 'qa-17-separation-anx
 assert.ok(!b4Targets.includes('qa-18-night-terrors'), 'qa-18-night-terrors must be excluded as it is approved');
 
 const b5Targets = getBatchTargets('batch-5');
-assert.strictEqual(b5Targets.length, 2);
+assert.strictEqual(b5Targets.length, 0, 'Batch 5 targets are now all approved and correctly excluded from future batch runs');
+assert.ok(!b5Targets.includes('qa-19-child-enuresis'), 'qa-19-child-enuresis must be excluded as it is approved');
+assert.ok(!b5Targets.includes('qa-20-fatigue'), 'qa-20-fatigue must be excluded as it is approved');
 assert.ok(!b5Targets.includes('qa-01-tic') && !b5Targets.includes('qa-05-panic'));
 console.log('✅ PASS: Batch targets resolved dynamically and approved/baseline targets strictly excluded.');
 
