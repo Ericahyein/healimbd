@@ -155,14 +155,14 @@
     "displayDisease": "과민성대장증후군",
     "topicAngle": "morning-diarrhea",
     "recommendedGeo": "yongin-main",
-    "testedAt": "2026-09-06T04:34:12.699Z",
+    "testedAt": "2026-09-06T05:00:15.543Z",
     "validationPassed": true,
-    "humanReviewStatus": "needs_revision",
-    "notes": "Dry-run QA 통과 (인간 검토: 진단 개념 보강 및 악화 음식/생활관리 서술 조정 필요 - needs_revision)",
+    "humanReviewStatus": "generated",
+    "notes": "Dry-run QA 검증 통과 (과민성대장증후군 - 출근길이나 긴장되는 순간마다 화장실을 찾게 되는 이유)",
     "validationErrors": [],
-    "estimatedCostUSD": 0.08116,
+    "estimatedCostUSD": 0.08045,
     "articleSlug": "yongin-main-ibs-morning-diarrhea",
-    "estimatedCost": 0.08116
+    "estimatedCost": 0.08045
   },
   {
     "qaId": "qa-12-syncope",
@@ -170,14 +170,14 @@
     "displayDisease": "미주신경성 실신",
     "topicAngle": "subway-dizziness",
     "recommendedGeo": "seongnam-wirye",
-    "testedAt": "2026-09-06T04:34:08.620Z",
+    "testedAt": "2026-09-06T05:00:50.915Z",
     "validationPassed": true,
-    "humanReviewStatus": "needs_revision",
-    "notes": "Dry-run QA 통과 (인간 검토: 썸네일 대중교통 배경 일치 및 심장성 실신 가족력 정교화 필요 - needs_revision)",
+    "humanReviewStatus": "generated",
+    "notes": "Dry-run QA 검증 통과 (미주신경성 실신 - 지하철이나 만원 버스에서 눈앞이 캄캄해지고 식은땀이 날 때)",
     "validationErrors": [],
-    "estimatedCostUSD": 0.07802,
+    "estimatedCostUSD": 0.08102,
     "articleSlug": "seongnam-wirye-syncope-subway-dizziness",
-    "estimatedCost": 0.07802
+    "estimatedCost": 0.08102
   },
   {
     "qaId": "qa-13-headache",
@@ -200,14 +200,14 @@
     "displayDisease": "어지럼증 (비회전성)",
     "topicAngle": "chronic-dizziness",
     "recommendedGeo": "yongin-suji",
-    "testedAt": "2026-09-06T04:34:20.021Z",
+    "testedAt": "2026-09-06T05:00:29.672Z",
     "validationPassed": true,
-    "humanReviewStatus": "needs_revision",
-    "notes": "Dry-run QA 통과 (인간 검토: 원인 프레이밍 다각화 및 경추 단정 방지 필요 - needs_revision)",
+    "humanReviewStatus": "generated",
+    "notes": "Dry-run QA 검증 통과 (어지럼증 (비회전성) - 이비인후과 검사 후에도 지속되는 붕 뜨는 어지럼증)",
     "validationErrors": [],
-    "estimatedCostUSD": 0.08087,
+    "estimatedCostUSD": 0.08361,
     "articleSlug": "yongin-suji-headache-chronic-dizziness",
-    "estimatedCost": 0.08087
+    "estimatedCost": 0.08361
   },
   {
     "qaId": "qa-15-depression",
