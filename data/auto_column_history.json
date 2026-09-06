@@ -1,1 +1,13 @@
-[]
+[
+  {
+    "publishDate": "2026-09-06T16:28:18.893Z",
+    "geoId": "seongnam-main",
+    "displayRegion": "성남",
+    "parentRegion": "성남",
+    "regionType": "city",
+    "disease": "tic",
+    "topicAngle": "media-exposure",
+    "title": "[성남 틱장애] 미디어 및 스마트폰 사용이 증상에 미치는 영향",
+    "slug": "seongnam-main-tic-media-exposure"
+  }
+]
