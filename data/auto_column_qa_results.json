@@ -245,14 +245,14 @@
     "displayDisease": "소아 분리불안 (등교복통)",
     "topicAngle": "separation-anxiety",
     "recommendedGeo": "yongin-cheoin",
-    "testedAt": "2026-09-06T11:36:02.039Z",
+    "testedAt": "2026-09-06T11:53:39.199Z",
     "validationPassed": true,
-    "humanReviewStatus": "needs_revision",
-    "notes": "Dry-run QA 검증 통과 (needs_revision: 슬러그 중복 세그먼트 제거, 내부링크 URL 중복 방지 및 정직한 앵커 유지)",
+    "humanReviewStatus": "generated",
+    "notes": "Dry-run QA 검증 통과 (소아 분리불안 (등교복통) - 유치원이나 학교 갈 때마다 배가 아프다고 우는 아이)",
     "validationErrors": [],
-    "estimatedCostUSD": 0.0851,
+    "estimatedCostUSD": 0.07846,
     "articleSlug": "yongin-cheoin-separation-anxiety",
-    "estimatedCost": 0.0851
+    "estimatedCost": 0.07846
   },
   {
     "qaId": "qa-18-night-terrors",
@@ -260,14 +260,14 @@
     "displayDisease": "소아 야경증 (수면장애)",
     "topicAngle": "night-terrors",
     "recommendedGeo": "gyeonggi-icheon",
-    "testedAt": "2026-09-06T11:36:01.609Z",
+    "testedAt": "2026-09-06T11:54:12.237Z",
     "validationPassed": true,
-    "humanReviewStatus": "needs_revision",
-    "notes": "Dry-run QA 검증 통과 (needs_revision: 슬러그 중복 세그먼트 제거, 틱 문단 날조 방지, 주 수회 이상 빈도 표현 중립화)",
+    "humanReviewStatus": "generated",
+    "notes": "Dry-run QA 검증 통과 (소아 야경증 (수면장애) - 자다가 갑자기 울고 소리치지만 다음 날 기억하지 못할 때)",
     "validationErrors": [],
-    "estimatedCostUSD": 0.08378,
+    "estimatedCostUSD": 0.08221,
     "articleSlug": "gyeonggi-icheon-night-terrors",
-    "estimatedCost": 0.08378
+    "estimatedCost": 0.08221
   },
   {
     "qaId": "qa-19-child-enuresis",
