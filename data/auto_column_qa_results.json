@@ -155,13 +155,14 @@
     "displayDisease": "과민성대장증후군",
     "topicAngle": "morning-diarrhea",
     "recommendedGeo": "yongin-main",
-    "testedAt": null,
-    "validationPassed": false,
-    "humanReviewStatus": "not_tested",
-    "notes": null,
+    "testedAt": "2026-09-06T04:34:12.699Z",
+    "validationPassed": true,
+    "humanReviewStatus": "generated",
+    "notes": "Dry-run QA 검증 통과 (과민성대장증후군 - 출근길이나 긴장되는 순간마다 화장실을 찾게 되는 이유)",
     "validationErrors": [],
-    "estimatedCostUSD": 0,
-    "articleSlug": null
+    "estimatedCostUSD": 0.08116,
+    "articleSlug": "yongin-main-ibs-morning-diarrhea",
+    "estimatedCost": 0.08116
   },
   {
     "qaId": "qa-12-syncope",
@@ -169,13 +170,14 @@
     "displayDisease": "미주신경성 실신",
     "topicAngle": "subway-dizziness",
     "recommendedGeo": "seongnam-wirye",
-    "testedAt": null,
-    "validationPassed": false,
-    "humanReviewStatus": "not_tested",
-    "notes": null,
+    "testedAt": "2026-09-06T04:34:08.620Z",
+    "validationPassed": true,
+    "humanReviewStatus": "generated",
+    "notes": "Dry-run QA 검증 통과 (미주신경성 실신 - 지하철이나 만원 버스에서 눈앞이 캄캄해지고 식은땀이 날 때)",
     "validationErrors": [],
-    "estimatedCostUSD": 0,
-    "articleSlug": null
+    "estimatedCostUSD": 0.07802,
+    "articleSlug": "seongnam-wirye-syncope-subway-dizziness",
+    "estimatedCost": 0.07802
   },
   {
     "qaId": "qa-13-headache",
@@ -183,13 +185,14 @@
     "displayDisease": "만성 두통 (경추성/긴장성)",
     "topicAngle": "tension-headache",
     "recommendedGeo": "seongnam-jungwon",
-    "testedAt": null,
-    "validationPassed": false,
-    "humanReviewStatus": "not_tested",
-    "notes": null,
+    "testedAt": "2026-09-06T04:34:05.804Z",
+    "validationPassed": true,
+    "humanReviewStatus": "generated",
+    "notes": "Dry-run QA 검증 통과 (만성 두통 (경추성/긴장성) - 오후만 되면 뒷목이 뻣뻣하고 머리를 조이는 듯 아플 때)",
     "validationErrors": [],
-    "estimatedCostUSD": 0,
-    "articleSlug": null
+    "estimatedCostUSD": 0.07431,
+    "articleSlug": "seongnam-jungwon-headache-tension-headache",
+    "estimatedCost": 0.07431
   },
   {
     "qaId": "qa-14-dizziness",
@@ -197,13 +200,14 @@
     "displayDisease": "어지럼증 (비회전성)",
     "topicAngle": "chronic-dizziness",
     "recommendedGeo": "yongin-suji",
-    "testedAt": null,
-    "validationPassed": false,
-    "humanReviewStatus": "not_tested",
-    "notes": null,
+    "testedAt": "2026-09-06T04:34:20.021Z",
+    "validationPassed": true,
+    "humanReviewStatus": "generated",
+    "notes": "Dry-run QA 검증 통과 (어지럼증 (비회전성) - 이비인후과 검사 후에도 지속되는 붕 뜨는 어지럼증)",
     "validationErrors": [],
-    "estimatedCostUSD": 0,
-    "articleSlug": null
+    "estimatedCostUSD": 0.08087,
+    "articleSlug": "yongin-suji-headache-chronic-dizziness",
+    "estimatedCost": 0.08087
   },
   {
     "qaId": "qa-15-depression",
