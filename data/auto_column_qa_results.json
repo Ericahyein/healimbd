@@ -170,14 +170,14 @@
     "displayDisease": "미주신경성 실신",
     "topicAngle": "subway-dizziness",
     "recommendedGeo": "seongnam-wirye",
-    "testedAt": "2026-09-06T05:00:50.915Z",
+    "testedAt": "2026-09-06T11:02:02.463Z",
     "validationPassed": true,
     "humanReviewStatus": "needs_revision",
-    "notes": "Dry-run QA 통과 (인간 검토: 실신 vs 전실신 정의 구분 필요 - needs_revision)",
+    "notes": "Dry-run QA 검증 통과 (미주신경성 실신 - 지하철이나 만원 버스에서 눈앞이 캄캄해지고 식은땀이 날 때)",
     "validationErrors": [],
-    "estimatedCostUSD": 0.08102,
+    "estimatedCostUSD": 0.08081,
     "articleSlug": "seongnam-wirye-syncope-subway-dizziness",
-    "estimatedCost": 0.08102
+    "estimatedCost": 0.08081
   },
   {
     "qaId": "qa-13-headache",
