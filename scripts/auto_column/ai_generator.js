@@ -101,6 +101,11 @@ function buildImagePrompt(diseaseId, diseaseName, topicAngleId = '', topicAngleF
       return `A realistic single lifestyle photo of one Korean adult sitting comfortably in a modern living space or clean workspace, resting peacefully in soft natural light, health editorial photography, strictly ONE adult only, NO child, NO teenager, NO school uniform, no distress, no clutching chest or stomach, no text.`;
     }
 
+    // Syncope / Subway-dizziness (qa-12-syncope)
+    if (diseaseId === 'syncope' || (diseaseName && diseaseName.includes('실신')) || focusLower.includes('subway') || topicAngleId.includes('subway')) {
+      return `A realistic single lifestyle photo of one Korean adult in a subway train, bus, or public transportation transit environment, naturally standing or seated during commute, calm and composed expression but slightly aware of physical condition, warm natural transit lighting, professional healthcare wellness editorial photography. Strictly: ONE Korean ADULT only, clearly adult, approximately working-age (20s to 40s), subway / bus / public transportation environment context, naturally standing or seated during transit, calm but slightly aware of physical condition, NO child, NO teenager, NO school uniform, NO classroom, NO collapse, NO unconsciousness, NO fainting, NO dramatic illness, NO clutching body, NO clutching head, NO clutching chest or stomach, no medical equipment, no text, no watermark.`;
+    }
+
     // General Adult Fallback
     return `A realistic single lifestyle photo of one Korean adult in a calm, modern indoor setting, thoughtful natural expression, healthcare wellness editorial photography, strictly ONE Korean ADULT only, clearly working-age, NO child, NO teenager, NO school uniform, NO classroom, no distress, no illness, no text.`;
   }
@@ -129,6 +134,10 @@ function buildImagePrompt(diseaseId, diseaseName, topicAngleId = '', topicAngleF
   // -------------------------------------------------------------
   // 3. MIXED TARGET (Topic-tailored)
   // -------------------------------------------------------------
+  if (diseaseId === 'syncope' || (diseaseName && diseaseName.includes('실신')) || focusLower.includes('subway') || topicAngleId.includes('subway')) {
+    return `A realistic single lifestyle photo of one Korean adult in a subway train, bus, or public transportation transit environment, naturally standing or seated during commute, calm and composed expression but slightly aware of physical condition, warm natural transit lighting, professional healthcare wellness editorial photography. Strictly: ONE Korean ADULT only, clearly adult, approximately working-age (20s to 40s), subway / bus / public transportation environment context, naturally standing or seated during transit, calm but slightly aware of physical condition, NO child, NO teenager, NO school uniform, NO classroom, NO collapse, NO unconsciousness, NO fainting, NO dramatic illness, NO clutching body, NO clutching head, NO clutching chest or stomach, no medical equipment, no text, no watermark.`;
+  }
+
   if (diseaseId === 'hyperhidrosis' || (diseaseName && diseaseName.includes('다한증'))) {
     return `A realistic single lifestyle photo of one Korean person sitting calmly indoors holding a clean dry handkerchief or looking thoughtfully at a table, peaceful natural daylight, wellness editorial photography, no distress, no exaggerated sweating simulation, no text.`;
   }
@@ -140,6 +149,10 @@ function buildImagePrompt(diseaseId, diseaseName, topicAngleId = '', topicAngleF
  * Builds neutral fallback prompt if primary prompt encounters moderation
  */
 function buildFallbackImagePrompt(diseaseId, diseaseName, topicAngleId = '', topicAngleFocus = '', ageGroup = 'mixed') {
+  const focusLower = `${topicAngleFocus} ${topicAngleId}`.toLowerCase();
+  if (diseaseId === 'syncope' || (diseaseName && diseaseName.includes('실신')) || focusLower.includes('subway') || topicAngleId.includes('subway')) {
+    return `A realistic lifestyle photo of one Korean working-age adult in a subway or public transit environment, naturally seated or standing during commute, calm and composed, health editorial photography, strictly ONE adult only, NO collapse, NO fainting, NO clutching body, no distress, no symptoms, no text.`;
+  }
   if (ageGroup === 'adult') {
     return `A realistic lifestyle portrait of one Korean working-age adult resting peacefully in a calm, modern, naturally lit workspace or home environment, neutral clean background, health editorial photography, strictly ONE adult only, clearly working-age, NO child, NO teenager, NO school uniform, NO classroom, no distress, no symptoms, no text.`;
   }
@@ -154,7 +167,10 @@ function buildFallbackImagePrompt(diseaseId, diseaseName, topicAngleId = '', top
  */
 async function generateTopicOutline(plan, knowledge, apiKey, telemetry) {
   const targetDisease = plan.titleDisease || plan.displayDisease || plan.disease.name;
-  const fallbackSummary = `${plan.geo.displayName} 지역 주민들을 위한 [${targetDisease}] ${plan.topicAngle.titleSuffix}에 대한 임상적 관점과 생활 관리 가이드입니다.`;
+  let fallbackSummary = `${plan.geo.displayName} 지역 주민들을 위한 [${targetDisease}] ${plan.topicAngle.titleSuffix}에 대한 임상적 관점과 생활 관리 가이드입니다.`;
+  if (plan.topicAngle && plan.topicAngle.id === 'chronic-dizziness') {
+    fallbackSummary = `${plan.geo.displayName} 지역 주민들을 위해 지속되는 비회전성 어지럼증에서 동반 증상과 다양한 원인을 구분하고 상태에 맞는 관리 방향을 살펴봅니다.`;
+  }
 
   if (!apiKey) {
     return {
@@ -191,9 +207,10 @@ async function generateTopicOutline(plan, knowledge, apiKey, telemetry) {
 [엄격 제약사항]
 1. 제목(title)은 반드시 '[${plan.geo.displayName} ${targetDisease}] 구체적 주제' 형태여야 합니다.
 2. 요약(summary)은 1~2문장(30자~120자)의 완성된 한글 문장으로 필수 작성해야 하며 절대 빈 문자열이면 안 됩니다. 상위 질환 카테고리가 아닌 '${targetDisease}'를 정확히 명시하십시오.
-3. 완치, 근본 치료, 기저핵 흥분 안정, 자율신경 정상화 등 단정적 기전 표현 금지.
-4. 특정 미디어나 생활 습관이 질환의 단일 원인인 것처럼 단정하지 마십시오.
-5. 보수적이고 신중한 임상 관점 사용.
+3. 지속되는 비회전성 어지럼증(chronic-dizziness)의 경우 summary를 '경추·자율신경계 긴장'처럼 원인을 좁히지 말고, 반드시 '지속되는 비회전성 어지럼증에서 동반 증상과 다양한 원인을 구분하고 상태에 맞는 관리 방향을 살펴본다' 취지로 균형 있고 포괄적으로 작성하십시오.
+4. 완치, 근본 치료, 기저핵 흥분 안정, 자율신경 정상화 등 단정적 기전 표현 금지.
+5. 특정 미디어나 생활 습관이 질환의 단일 원인인 것처럼 단정하지 마십시오.
+6. 보수적이고 신중한 임상 관점 사용.
 
 반드시 다음 JSON 구조로 응답하십시오:
 {
@@ -352,6 +369,53 @@ ${linksListMd}
 `;
   }
 
+  const isIbs = plan.disease.id === 'ibs' || (plan.disease.name && plan.disease.name.includes('과민성대장'));
+  let ibsGuideline = '';
+  if (isIbs) {
+    ibsGuideline = `
+7-2. [과민성대장증후군(IBS) 진단 개념 및 악화음식/생활관리 지침 (IBS Clinical Rule)]
+   - 단순히 '긴장하거나 스트레스받을 때 설사/복통이 반복된다'는 이유만으로 IBS처럼 성급히 단정하지 마십시오.
+   - IBS를 설명할 때 핵심적으로 '반복되는 복통'과 함께 '배변과의 관계(배변 후 통증 호전/악화)' 또는 '배변 빈도나 변 형태 변화(설사/변비)와의 연관성'을 함께 평가해야 한다는 점을 승인된 의학 지식에 근거해 명확히 밝히십시오.
+   - 구체적인 Rome 진단 기간 수치는 검증된 출처가 있을 때만 사용하고, 임의 수치를 제시하지 마십시오.
+   - '유제품, 밀가루, 카페인'을 모든 IBS 환자의 공통적인 대표 악화 음식처럼 묶어서 제시하지 마십시오. 특정 음식 반응은 개인차가 매우 크므로, 식사 일지 등을 통해 개인별 음식-증상 관계를 파악하도록 작성하십시오. 특히 '밀가루' 자체를 포괄적인 IBS 악화 음식으로 단정하지 마십시오.
+   - '복부를 따뜻하게 유지'는 환자가 일상에서 편안함을 느낄 수 있는 보조적인 생활 관리 방법 정도로만 표현하고, 질환의 핵심 치료 원리처럼 서술하지 마십시오.
+   - 혈변, 설명되지 않는 체중 감소, 빈혈, 야간 복통 등 경고 증상(Red flags) 시 소화기내과 정밀 평가를 안내하십시오.
+`;
+  }
+
+  const isSyncope = plan.disease.id === 'syncope' || (plan.disease.name && plan.disease.name.includes('실신'));
+  let syncopeGuideline = '';
+  if (isSyncope) {
+    syncopeGuideline = `
+7-3. [미주신경성 실신 임상 설명 및 경고 증상 정교화 지침 (Syncope Clinical Rule)]
+   - 만원 버스나 지하철 등 대중교통 및 밀폐된 환경에서의 기립 상태 혈류 조절 저하, 전조증상 대처(즉시 앉기/눕기, 다리 꼬기 등) 요령을 차분하게 서술하십시오.
+   - 실신의 경고 증상(Red flags) 중 '가족력' 표현을 너무 포괄적으로 쓰지 말고, '원인 불명의 급사, 조기 심장질환 또는 유전성 부정맥 등 심장성 실신 위험을 시사하는 가족력'인지 명확히 구체화하여 서술하십시오.
+`;
+  }
+
+  const isChronicDizziness = (plan.topicAngle && plan.topicAngle.id === 'chronic-dizziness') ||
+    (plan.qaId && plan.qaId === 'qa-14-dizziness') ||
+    (plan.titleDisease === '어지럼증' && plan.topicAngle && plan.topicAngle.id.includes('dizziness'));
+
+  let dizzinessGuideline = '';
+  if (isChronicDizziness) {
+    dizzinessGuideline = `
+7-4. [지속성 비회전성 어지럼증 원인 감별 및 프레이밍 지침 (Dizziness Differential Framing Rule)]
+   - 이비인후과 검사에서 큰 이상이 없다는 이유만으로 경추 또는 자율신경 문제로 바로 연결하거나 자동 귀결하지 마십시오.
+   - 지속적인 비회전성 어지럼은 증상 양상에 따라 다양한 원인을 폭넓게 감별해야 한다는 구조로 작성하십시오:
+     * 지속성 비회전성 어지럼의 특성
+     * 전정계 질환 및 전정편두통
+     * 지속성 체위-지각 어지럼증(PPPD) 등 기능성 전정질환
+     * 기립성 및 순환기 문제 (체위 변화에 따른 혈압 조절 등)
+     * 신경학적 또는 내과적 원인 (중추성 요인, 빈혈, 대사 이상 등)
+     * 약물 복용력 및 전신 피로/컨디션 상태
+   - 특정 질환을 자동으로 단정 진단하지 마십시오.
+   - 목·어깨 긴장 및 경추 문제는 "동반된 목·어깨 긴장이 있고 자세에 따라 불편감이 변하는 일부 경우 함께 평가할 수 있는 요소" 수준으로 신중하게 다루십시오.
+   - 핵심 요약(summary)은 "경추·자율신경계 긴장에 대한 한의학적 관리 방향"처럼 원인을 좁히지 말고, "지속되는 비회전성 어지럼증에서 동반 증상과 다양한 원인을 구분하고 상태에 맞는 관리 방향을 살펴본다" 정도로 작성하십시오.
+   - 생활 관리 역시 목 스트레칭이나 찜질만 중심이 되지 않도록, 규칙적인 수면 리듬, 충분한 휴식, 과도한 시각적/감각적 자극 완화, 적절한 수분 섭취 등을 균형 있게 조언하십시오.
+`;
+  }
+
   const prompt = `
 당신은 해아림한의원 대표원장의 관점에서 의학 칼럼 본문을 작성하는 전문 의료 작가입니다.
 
@@ -434,6 +498,9 @@ ${linksListMd}
     - 관련성이 낮은 링크를 단순히 개수를 채우기 위해 억지로 삽입하지 마십시오. (관련 링크가 2개이면 2개만 삽입)
 ${mediaGuideline}
 ${adhdAdultGuideline}
+${ibsGuideline}
+${syncopeGuideline}
+${dizzinessGuideline}
 마크다운 형식으로만 반환하십시오.
 `;
 

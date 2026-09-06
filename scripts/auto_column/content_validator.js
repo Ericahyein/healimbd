@@ -583,6 +583,33 @@ function checkContextualAgeGroup(text, ageGroup) {
 }
 
 /**
+ * Detects whether normal ENT exam findings are automatically jumped/attributed to cervical or autonomic causes
+ * without cautious differential evaluation.
+ */
+function checkDizzinessEntCervicalAutoJump(text) {
+  if (!text || typeof text !== 'string') return { violated: false };
+
+  // Split into sentences / clauses
+  const sentences = text.split(/[.\n!?]+/);
+  const entNormalPattern = /(이비인후과|귀\s*(기능)?\s*검사).*?(정상|이상\s*없|큰\s*이상\s*없)/i;
+  const cervicalCausePattern = /(경추|목\s*근육|목\s*긴장|목어깨|자율신경).*?(문제|원인|귀결|때문|기인)/i;
+  const safeNegationPattern = /(단정할\s*수\s*없|단정하지|단정해서는\s*안|아닙니다|않습니다|볼\s*수\s*없|연결할\s*수\s*없|귀결되지\s*않|속단할\s*수\s*없|주의|오해)/i;
+
+  for (const rawSentence of sentences) {
+    const s = rawSentence.trim();
+    if (!s) continue;
+
+    if (entNormalPattern.test(s) && cervicalCausePattern.test(s)) {
+      if (!safeNegationPattern.test(s)) {
+        return { violated: true, sentence: s };
+      }
+    }
+  }
+
+  return { violated: false };
+}
+
+/**
  * 3-Tier Comprehensive Validation of Generated Column
  * Tier 1: Global Policy (Structure, Length, Headings, Banned Phrases, Internal Links)
  * Tier 2: GEO Consistency Policy (No unrelated active GEO or station keywords)
@@ -865,13 +892,29 @@ function validateArticleContent(articleData, options = {}) {
   }
 
   // 9. Disease Image Prompt Context Validation (if imagePrompt provided)
-  if (diseaseId === 'tic' && options.imagePrompt) {
-    const promptLower = options.imagePrompt.toLowerCase();
-    if (!promptLower.includes('child') && !promptLower.includes('adolescent')) {
-      errors.push('Tic disorder thumbnail prompt must feature a child or adolescent.');
+  const effectiveImagePrompt = articleData.imagePrompt || options.imagePrompt;
+  if (effectiveImagePrompt) {
+    const promptLower = effectiveImagePrompt.toLowerCase();
+    if (diseaseId === 'tic') {
+      if (!promptLower.includes('child') && !promptLower.includes('adolescent')) {
+        errors.push('Tic disorder thumbnail prompt must feature a child or adolescent.');
+      }
+      if (promptLower.includes('woman clutching') || promptLower.includes('chest or stomach')) {
+        errors.push('Tic disorder thumbnail prompt must not feature adult woman clutching chest or stomach.');
+      }
     }
-    if (promptLower.includes('woman clutching') || promptLower.includes('chest or stomach')) {
-      errors.push('Tic disorder thumbnail prompt must not feature adult woman clutching chest or stomach.');
+
+    // Syncope subway-dizziness thumbnail image prompt validation (public transportation context required)
+    const isSubwayAngle = angleId === 'subway-dizziness' || (qaTarget && qaTarget.topicAngle === 'subway-dizziness') || (articleData.topicAngle && articleData.topicAngle.id === 'subway-dizziness');
+    if ((diseaseId === 'syncope' || isSubwayAngle) && isSubwayAngle) {
+      const hasTransitContext = promptLower.includes('subway') || promptLower.includes('bus') || promptLower.includes('public transportation') || promptLower.includes('transit');
+      if (!hasTransitContext) {
+        errors.push('Syncope subway-dizziness thumbnail prompt must include public transportation context (subway, bus, or transit).');
+      }
+      const isOfficeHomeOnly = (promptLower.includes('office') || promptLower.includes('workspace') || promptLower.includes('desk') || promptLower.includes('home')) && !hasTransitContext;
+      if (isOfficeHomeOnly) {
+        errors.push('Syncope subway-dizziness thumbnail prompt cannot be restricted to office or home workspace only.');
+      }
     }
   }
 
@@ -979,6 +1022,75 @@ function validateArticleContent(articleData, options = {}) {
     }
   }
 
+  // IBS-specific checks (qa-11-ibs / morning-diarrhea)
+  if (diseaseId === 'ibs' || angleId === 'morning-diarrhea') {
+    // 1) 단순 스트레스/긴장성 설사/복통만으로 IBS 단정 금지
+    const simplisticIbsDef = /(긴장(하|될|할)\s*때마다?|스트레스(를\s*받으면|받을\s*때마다?))\s*(설사|복통)(가|이|\s*)*(반복되면|나타나면)\s*(곧|모두|바로)?\s*(과민성대장증후군으로\s*진단|과민성대장증후군(이다|입니다)|IBS로\s*진단)/i;
+    if (simplisticIbsDef.test(fullText)) {
+      errors.push('IBS diagnostic rule violation: 단순히 긴장이나 스트레스 시 설사/복통이 반복된다는 사실만으로 과민성대장증후군으로 단정할 수 없으며, 배변과의 관계 및 배변 빈도/변 형태 변화를 함께 평가해야 합니다.');
+    }
+
+    // 2) 복통 + 배변/변 형태·빈도 관계 평가 반영 여부
+    const hasAbdominalPain = fullText.includes('복통') || fullText.includes('배의 통증') || fullText.includes('배가 아프');
+    const hasBowelRelation = (
+      fullText.includes('배변과의 관계') ||
+      fullText.includes('배변과 연관') ||
+      fullText.includes('배변 후') ||
+      fullText.includes('변 형태') ||
+      fullText.includes('배변 빈도') ||
+      fullText.includes('배변 횟수') ||
+      fullText.includes('대변 형태')
+    );
+    if (!hasAbdominalPain || !hasBowelRelation) {
+      errors.push('IBS diagnostic criteria missing: 과민성대장증후군 설명 시 반복되는 복통과 함께 배변과의 관계(배변 후 호전/악화) 또는 배변 빈도/변 형태 변화와의 연관성을 함께 평가해야 한다는 내용이 반드시 포함되어야 합니다.');
+    }
+
+    // 3) 특정 음식 일괄 묶음 단정 및 밀가루 단정 금지
+    const blanketFoodLumping = /(유제품,\s*밀가루,\s*카페인|밀가루,\s*유제품,\s*카페인).*?(모든\s*환자에게\s*공통|대표적(인)?\s*악화\s*음식|반드시\s*피해야)/i;
+    const flourBlanketBlame = /(밀가루(는|가|를)?\s*(과민성대장의?\s*주요\s*원인|대표적(인)?\s*악화\s*음식|장을\s*망치는\s*주범|모든\s*환자가\s*피해야))/i;
+    if (blanketFoodLumping.test(fullText) || flourBlanketBlame.test(fullText)) {
+      errors.push('IBS dietary guidance violation: 유제품, 밀가루, 카페인을 모든 환자의 공통 악화 음식으로 묶거나 밀가루 자체를 포괄적 악화 음식으로 단정하지 마십시오. 개인별 음식-증상 관계를 파악하도록 서술해야 합니다.');
+    }
+
+    // 4) 복부 따뜻하게 유지를 핵심 치료 원리로 표현 금지
+    const warmAbdomenAsCoreTreatment = /(복부(를|\s*를)?\s*(따뜻하게|온열|보온).*?(핵심\s*치료|근본\s*치료|치료의\s*핵심|치료\s*원리))/i;
+    if (warmAbdomenAsCoreTreatment.test(fullText)) {
+      errors.push('IBS lifestyle guidance violation: 복부를 따뜻하게 유지는 편안함을 돕는 보조적인 생활 요령으로만 표현해야 하며 핵심 치료 원리로 서술할 수 없습니다.');
+    }
+  }
+
+  // Dizziness-specific checks (qa-14-dizziness / chronic-dizziness)
+  const isDizzinessTarget = angleId === 'chronic-dizziness' ||
+    (qaTarget && qaTarget.topicAngle === 'chronic-dizziness') ||
+    (diseaseId === 'headache' && (titleDisease === '어지럼증' || title.includes('어지럼증')));
+
+  if (isDizzinessTarget) {
+    // 1) ENT 정상 → 경추/자율신경 원인 자동 귀결 금지
+    const entJumpCheck = checkDizzinessEntCervicalAutoJump(fullText);
+    if (entJumpCheck.violated) {
+      errors.push(`Dizziness cause framing violation: 이비인후과 검사 정상 소견을 경추 또는 자율신경 문제로 바로 연결하거나 자동 귀결할 수 없습니다. (Matched: "${entJumpCheck.sentence}")`);
+    }
+
+    // 2) 경추 원인 독점/단정 금지
+    const cervicalRootCauseClaim = /(어지럼증의\s*(근본\s*원인은|주요\s*원인은|핵심\s*원인은|직접적\s*원인은)\s*(경추|목\s*긴장|목어깨\s*긴장|일자목))/i;
+    if (cervicalRootCauseClaim.test(fullText)) {
+      errors.push('Dizziness cervical framing violation: 목·어깨 긴장 및 경추 문제는 동반된 긴장이 있고 자세에 따라 불편감이 변하는 일부 경우 함께 평가할 수 있는 요소로만 서술해야 합니다.');
+    }
+
+    // 3) 요약(summary)에서 경추·자율신경으로 원인을 좁히지 않기
+    const summaryCervicalNarrowing = /(경추·자율신경계\s*긴장|경추\s*긴장에\s*대한\s*한의학적)/i;
+    if (summaryCervicalNarrowing.test(summary)) {
+      errors.push('Dizziness summary framing violation: 요약(summary)에서 경추나 자율신경계 긴장으로 원인을 좁히지 마십시오. 동반 증상과 다양한 원인을 구분하는 포괄적 관점으로 작성해야 합니다.');
+    }
+
+    // 4) 다양한 감별 필요성 누락 시 FAIL
+    const diffKeywords = ['전정', '편두통', 'PPPD', '기립', '순환', '신경학', '내과', '약물', '감별'];
+    const matchedCount = diffKeywords.filter(kw => fullText.includes(kw)).length;
+    if (matchedCount < 2) {
+      errors.push('Dizziness differential evaluation missing: 지속되는 비회전성 어지럼증은 전정계 질환, 전정편두통, PPPD 등 기능성 전정질환, 기립성/순환기 문제, 신경학적/내과적 원인, 약물 등 다양한 감별 평가 필요성을 포함해야 합니다.');
+    }
+  }
+
   return {
     valid: errors.length === 0,
     errors,
@@ -995,5 +1107,6 @@ module.exports = {
   getGeoHierarchyRules,
   checkContextualAgeGroup,
   checkMedicationDiscontinuation,
-  checkTreatmentCertainty
+  checkTreatmentCertainty,
+  checkDizzinessEntCervicalAutoJump
 };

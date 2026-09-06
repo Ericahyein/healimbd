@@ -117,7 +117,7 @@
       "defaultKeywords": ["경추성 두통", "긴장성 두통", "만성 어지럼증", "후두부 통증", "목어깨결림"],
       "topicAngles": [
         {"id": "tension-headache", "titleSuffix": "오후만 되면 뒷목이 뻣뻣하고 머리를 조이는 듯 아플 때", "focus": "경추 및 두경부 근육 긴장, 스트레스성 두통"},
-        {"id": "chronic-dizziness", "titleSuffix": "이비인후과 검사 후에도 지속되는 붕 뜨는 어지럼증", "focus": "비회전성 어지럼, 자율신경계 안정과 한방 치료"}
+        {"id": "chronic-dizziness", "titleSuffix": "이비인후과 검사 후에도 지속되는 붕 뜨는 어지럼증", "focus": "지속성 비회전성 어지럼, 동반 증상에 따른 다양한 원인 감별과 맞춤 관리"}
       ]
     },
     {

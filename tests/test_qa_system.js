@@ -100,7 +100,7 @@ assert.strictEqual(initialProdHistory, finalProdHistory, 'CRITICAL: data/auto_co
 console.log('✅ [Test 3 Passed] QA Results are recorded properly, humanReviewStatus is strictly "generated", and production history is 100% untouched.');
 
 // Test 4: Verify approved QA targets status (approved per human review)
-console.log('\n[Test 4] Verifying all 9 approved and 1 needs_revision QA targets approval status...');
+console.log('\n[Test 4] Verifying all 11 approved and 3 needs_revision QA targets approval status...');
 const qaResults = loadQAResults();
 
 const expectedApprovedTargets = [
@@ -113,7 +113,8 @@ const expectedApprovedTargets = [
   'qa-07-social-phobia',
   'qa-08-sleep',
   'qa-09-autonomic',
-  'qa-10-hyperhidrosis'
+  'qa-10-hyperhidrosis',
+  'qa-13-headache'
 ];
 for (const qId of expectedApprovedTargets) {
   const record = qaResults.find(r => r.qaId === qId);
@@ -122,15 +123,19 @@ for (const qId of expectedApprovedTargets) {
   assert.strictEqual(record.humanReviewStatus, 'approved', `${qId} must be approved per human review`);
 }
 
-const expectedRevisionTargets = [];
+const expectedRevisionTargets = [
+  'qa-11-ibs',
+  'qa-12-syncope',
+  'qa-14-dizziness'
+];
 for (const qId of expectedRevisionTargets) {
   const record = qaResults.find(r => r.qaId === qId);
   assert.ok(record, `${qId} record must exist in QA results`);
-  assert.strictEqual(record.validationPassed, false, `${qId} validationPassed must be false in current state`);
+  assert.strictEqual(record.validationPassed, true, `${qId} validationPassed must be true per automated dry-run`);
   assert.strictEqual(record.humanReviewStatus, 'needs_revision', `${qId} must be needs_revision per human review`);
 }
 
-console.log('✅ [Test 4 Passed] All 10 approved targets verified 100%.');
+console.log('✅ [Test 4 Passed] All 11 approved targets and 3 needs_revision targets verified 100%.');
 
 // Test 5: Smart Medication Discontinuation Validation (False Positive Prevention & Real Harm Blocking)
 console.log('\n[Test 5] Testing Smart Medication Discontinuation Validator...');
@@ -1623,7 +1628,363 @@ const qaCertaintyErr = qaLineCheck.errors.filter(e => e.includes('치료 단정�
 assert.ok(qaCertaintyErr.length > 0, 'Question + dangerous affirmation answer must be strictly blocked');
 console.log('✅ PASS: Question followed by affirmative certainty promise was strictly blocked.');
 
-console.log('\n🎉 ALL 13 QA SYSTEM INTEGRITY, REGRESSION, BATCH, GEO, HUMAN REVIEW, TARGET IDENTITY, CLINICAL GUIDANCE & TREATMENT CERTAINTY TESTS PASSED 100%!');
+// ==========================================
+// Test 14: Batch 3 Human Review Feedback Regression Tests (A, B, C, D)
+// ==========================================
+console.log('\n[Test 14] Running Batch 3 Human Review Feedback Regression Tests...');
+
+// 14-A. IBS Diagnostic Concept & Dietary / Comfort Guidance
+console.log('\n[Test 14-A] Testing IBS Diagnostic Concept & Guidance Validation...');
+
+// 14-A-1. Valid IBS Article (MUST PASS)
+const validIbsArticle = validateArticleContent(createMockArticleForReviewTest({
+  diseaseId: 'ibs',
+  titleDisease: '과민성대장증후군',
+  thumbnailDiseaseLabel: '과민성대장증후군',
+  seoDiseaseLabel: '과민성대장증후군',
+  ageGroup: 'adult',
+  geoId: 'yongin-main',
+  title: '[용인 과민성대장증후군] 출근길이나 긴장되는 순간마다 화장실을 찾게 되는 이유',
+  summary: '용인 지역 주민분들을 위한 과민성대장증후군 복통과 배변 연관성 평가 및 일상 식습관 관리 안내입니다.',
+  topicAngle: { id: 'morning-diarrhea', titleSuffix: '출근길이나 긴장되는 순간마다 화장실을 찾게 되는 이유' },
+  hashtags: ['용인과민성대장증후군', '용인한의원', '과민성대장증후군치료', '해아림한의원'],
+  keywords: ['용인 과민성대장증후군', '용인시 과민성대장증후군', '과민성대장증후군 한방치료'],
+  body: `
+## 1. 진료실에서 자주 마주하는 고민
+<div class="column-key-summary-box">핵심 요약</div>
+출근길이나 중요한 미팅을 앞두고 급격한 복통과 함께 배변 신호가 찾아와 고통받는 분들이 많습니다.
+
+## 2. 장-뇌 축과 신경생물학적 반응
+장과 뇌는 긴밀한 자율신경망으로 연결되어 있어 감정적 긴장이 장 운동에 영향을 줍니다.
+[주요 진료 안내](/treatments/)를 확인하실 수 있습니다.
+
+## 3. 과민성대장증후군 감별 및 진단 핵심
+단순히 긴장할 때 설사나 복통이 반복된다는 사실만으로 과민성대장증후군으로 단정하지 않습니다.
+IBS 평가에서는 반복되는 복통과 함께 배변과의 관계(배변 후 통증 완화 여부) 및 배변 빈도와 대변 형태 변화와의 연관성을 면밀히 평가합니다.
+혈변이나 설명되지 않는 급격한 체중 감소가 동반된다면 소화기내과 정밀 검사가 필요합니다.
+[온라인 상담](/inquiry/)을 통해 상태를 문의하실 수 있습니다.
+
+## 4. 해아림한의원의 상태 평가 및 1:1 맞춤 관리
+개인의 증상과 전반적인 상태를 고려한 한약 처방과 침구 치료를 진행합니다.
+특정 음식이 장에 미치는 영향은 개인차가 크므로 식사 일지를 통해 자신만의 민감 음식을 파악하는 것이 권장됩니다.
+복부를 따뜻하게 유지하는 것은 긴장을 풀고 편안함을 느끼는 데 도움이 되는 보조적인 생활 요령입니다.
+
+## 5. 자주 묻는 질문
+**Q1. 긴장할 때 배가 아프면 무조건 과민성대장인가요?**
+A. 복통과 배변과의 관계, 배변 빈도나 변 형태의 변화를 함께 종합적으로 평가해야 합니다.
+**Q2. 식사는 어떻게 조절하나요?**
+A. 개인마다 반응하는 음식이 다르므로 식사 일지로 확인하는 것이 좋습니다.
+`,
+  thumbnailCopy: { yellowText: '출근길 복통', whiteText: '긴장하면 화장실', greenText: '과민성대장증후군' }
+}));
+assert.strictEqual(validIbsArticle.valid, true, `Valid IBS article MUST PASS: ${validIbsArticle.errors.join(', ')}`);
+console.log('✅ PASS: Valid reinforced IBS article passed validation 100%.');
+
+// 14-A-2. Simplistic IBS assertion without evaluating bowel relationship (MUST FAIL)
+const failSimplisticIbs = validateArticleContent(createMockArticleForReviewTest({
+  diseaseId: 'ibs',
+  titleDisease: '과민성대장증후군',
+  topicAngle: { id: 'morning-diarrhea', titleSuffix: '출근길이나 긴장되는 순간마다 화장실을 찾게 되는 이유' },
+  geoId: 'yongin-main',
+  title: '[용인 과민성대장증후군] 출근길이나 긴장되는 순간마다 화장실을 찾게 되는 이유',
+  body: `
+## 1. 진료실에서 마주하는 고민
+<div class="column-key-summary-box">핵심 요약</div>
+긴장할 때마다 설사가 반복되면 곧 과민성대장증후군입니다.
+## 2. 배경
+신경계 문제 [주요 진료 안내](/treatments/)
+## 3. 감별
+배변 후 통증 호전과 배변 빈도 변화를 함께 확인합니다.
+[온라인 상담](/inquiry/)
+## 4. 평가
+한약 처방과 침구 치료.
+## 5. FAQ
+**Q1. 질문**
+A. 답변
+**Q2. 질문2**
+A. 답변
+`
+}));
+assert.strictEqual(failSimplisticIbs.valid, false, 'Simplistic IBS assertion MUST FAIL');
+assert.ok(failSimplisticIbs.errors.some(e => e.includes('IBS diagnostic rule violation')), 'Expected IBS diagnostic rule violation');
+console.log('✅ PASS: Simplistic stress-diarrhea IBS assertion strictly blocked.');
+
+// 14-A-3. IBS missing bowel movement / stool form relationship evaluation (MUST FAIL)
+const failMissingBowelRelation = validateArticleContent(createMockArticleForReviewTest({
+  diseaseId: 'ibs',
+  titleDisease: '과민성대장증후군',
+  topicAngle: { id: 'morning-diarrhea', titleSuffix: '출근길이나 긴장되는 순간마다 화장실을 찾게 되는 이유' },
+  geoId: 'yongin-main',
+  title: '[용인 과민성대장증후군] 출근길이나 긴장되는 순간마다 화장실을 찾게 되는 이유',
+  body: `
+## 1. 진료실 고민
+<div class="column-key-summary-box">핵심 요약</div>
+복통이 자주 발생합니다.
+## 2. 배경
+자율신경 문제. [주요 진료 안내](/treatments/)
+## 3. 감별
+단순 복통과 스트레스를 구별합니다.
+[온라인 상담](/inquiry/)
+## 4. 평가
+한약 처방과 침구 치료.
+## 5. FAQ
+**Q1. 질문**
+A. 답변
+**Q2. 질문2**
+A. 답변
+`
+}));
+assert.strictEqual(failMissingBowelRelation.valid, false, 'IBS missing bowel relationship MUST FAIL');
+assert.ok(failMissingBowelRelation.errors.some(e => e.includes('IBS diagnostic criteria missing')), 'Expected IBS diagnostic criteria missing error');
+console.log('✅ PASS: IBS missing bowel relationship/stool form evaluation strictly blocked.');
+
+// 14-A-4. Blanket food lumping & flour blaming in IBS (MUST FAIL)
+const failBlanketFoodIbs = validateArticleContent(createMockArticleForReviewTest({
+  diseaseId: 'ibs',
+  titleDisease: '과민성대장증후군',
+  topicAngle: { id: 'morning-diarrhea', titleSuffix: '출근길이나 긴장되는 순간마다 화장실을 찾게 되는 이유' },
+  geoId: 'yongin-main',
+  title: '[용인 과민성대장증후군] 출근길이나 긴장되는 순간마다 화장실을 찾게 되는 이유',
+  body: `
+## 1. 진료실 고민
+<div class="column-key-summary-box">핵심 요약</div>
+복통과 배변 후 증상 변화를 평가합니다. 배변 횟수 변화를 함께 봅니다.
+## 2. 배경
+유제품, 밀가루, 카페인은 모든 환자에게 공통 대표적인 악화 음식이므로 완전히 끊어야 합니다.
+[주요 진료 안내](/treatments/)
+## 3. 감별
+[온라인 상담](/inquiry/)
+## 4. 평가
+한약 처방과 침구 치료.
+## 5. FAQ
+**Q1. 질문**
+A. 답변
+**Q2. 질문2**
+A. 답변
+`
+}));
+assert.strictEqual(failBlanketFoodIbs.valid, false, 'Blanket food lumping MUST FAIL');
+assert.ok(failBlanketFoodIbs.errors.some(e => e.includes('IBS dietary guidance violation')), 'Expected IBS dietary guidance violation');
+console.log('✅ PASS: Blanket food lumping (유제품, 밀가루, 카페인 공통 악화) strictly blocked.');
+
+// 14-A-5. Warming abdomen framed as core treatment principle (MUST FAIL)
+const failWarmAbdomenCore = validateArticleContent(createMockArticleForReviewTest({
+  diseaseId: 'ibs',
+  titleDisease: '과민성대장증후군',
+  topicAngle: { id: 'morning-diarrhea', titleSuffix: '출근길이나 긴장되는 순간마다 화장실을 찾게 되는 이유' },
+  geoId: 'yongin-main',
+  title: '[용인 과민성대장증후군] 출근길이나 긴장되는 순간마다 화장실을 찾게 되는 이유',
+  body: `
+## 1. 진료실 고민
+<div class="column-key-summary-box">핵심 요약</div>
+복통과 배변 후 증상 변화, 배변 빈도 변화를 살핍니다.
+## 2. 배경
+[주요 진료 안내](/treatments/)
+## 3. 감별
+[온라인 상담](/inquiry/)
+## 4. 평가
+복부를 따뜻하게 유지하는 것이 과민성대장증후군의 핵심 치료 원리입니다.
+한약 처방과 침구 치료.
+## 5. FAQ
+**Q1. 질문**
+A. 답변
+**Q2. 질문2**
+A. 답변
+`
+}));
+assert.strictEqual(failWarmAbdomenCore.valid, false, 'Warming abdomen as core treatment MUST FAIL');
+assert.ok(failWarmAbdomenCore.errors.some(e => e.includes('IBS lifestyle guidance violation')), 'Expected IBS lifestyle guidance violation');
+console.log('✅ PASS: Warming abdomen as core treatment principle strictly blocked.');
+
+// 14-B. Syncope Subway-Dizziness Thumbnail Image Prompt Tests
+console.log('\n[Test 14-B] Testing Syncope Subway-Dizziness Thumbnail Image Prompt...');
+
+// 14-B-1. Valid subway-dizziness prompt (MUST PASS)
+const validSyncopePrompt = buildImagePrompt('syncope', '미주신경성 실신', 'subway-dizziness', '만원 버스에서 눈앞이 캄캄해지고 식은땀이 날 때', 'mixed');
+assert.ok(validSyncopePrompt.includes('subway') || validSyncopePrompt.includes('bus') || validSyncopePrompt.includes('public transportation'), 'Must include public transportation');
+assert.ok(validSyncopePrompt.includes('ONE Korean ADULT only'), 'Must enforce ONE Korean ADULT only');
+assert.ok(validSyncopePrompt.includes('NO collapse'), 'Must forbid collapse');
+assert.ok(validSyncopePrompt.includes('NO unconsciousness'), 'Must forbid unconsciousness');
+assert.ok(validSyncopePrompt.includes('NO fainting'), 'Must forbid fainting');
+assert.ok(validSyncopePrompt.includes('NO clutching body'), 'Must forbid clutching body');
+console.log('✅ PASS: Generated syncope image prompt correctly enforces transit context and safe non-symptom posture.');
+
+// 14-B-2. Validator blocks office/home-only prompt for subway-dizziness
+const failOfficePromptValidation = validateArticleContent({
+  title: '[위례 미주신경성 실신] 지하철이나 만원 버스에서 눈앞이 캄캄해지고 식은땀이 날 때',
+  summary: '성남 위례 지역 주민분들을 위한 미주신경성 실신 전조증상 대처와 기립 혈류 관리 안내입니다.',
+  geoId: 'seongnam-wirye',
+  diseaseId: 'syncope',
+  titleDisease: '미주신경성 실신',
+  topicAngle: { id: 'subway-dizziness', titleSuffix: '지하철이나 만원 버스에서 눈앞이 캄캄해지고 식은땀이 날 때' },
+  hashtags: ['위례미주신경성실신', '위례한의원', '미주신경성실신치료', '해아림한의원'],
+  keywords: ['위례 미주신경성 실신', '성남시 미주신경성 실신', '미주신경성 실신 한방치료'],
+  body: `
+## 1. 진료실 고민
+<div class="column-key-summary-box">핵심 요약</div>
+대중교통 이용 중 아찔한 실신 전조증상을 겪는 분들이 계십니다.
+## 2. 배경
+자율신경 반사와 뇌 혈류 저하 [주요 진료 안내](/treatments/)
+## 3. 감별
+운동 중 실신이나 원인 불명의 급사 심장 질환 가족력 시 순환기내과 평가가 필요합니다.
+[온라인 상담](/inquiry/)
+## 4. 평가
+한약 처방과 침구 치료.
+## 5. FAQ
+**Q1. 질문**
+A. 답변
+**Q2. 질문2**
+A. 답변
+`,
+  thumbnailCopy: { yellowText: '만원 버스에서', whiteText: '눈앞이 캄캄하고', greenText: '미주신경성 실신' }
+}, {
+  imagePrompt: 'A realistic lifestyle photo of one Korean adult sitting calmly at a desk in a quiet office workspace with a laptop, no distress.'
+});
+assert.strictEqual(failOfficePromptValidation.valid, false, 'Office-only prompt for subway-dizziness MUST FAIL');
+assert.ok(failOfficePromptValidation.errors.some(e => e.includes('Syncope subway-dizziness thumbnail prompt')), 'Expected syncope transit prompt error');
+console.log('✅ PASS: Office/home-only prompt for subway-dizziness strictly blocked by validator.');
+
+// 14-C. Dizziness Differential Cause Framing & ENT Normal Auto-Jump Blocking Tests
+console.log('\n[Test 14-C] Testing Dizziness Cause Framing & Differential Evaluation...');
+
+// 14-C-1. Valid Dizziness Article (MUST PASS)
+const validDizzinessArticle = validateArticleContent(createMockArticleForReviewTest({
+  diseaseId: 'headache',
+  titleDisease: '어지럼증',
+  thumbnailDiseaseLabel: '어지럼증',
+  seoDiseaseLabel: '어지럼증',
+  ageGroup: 'adult',
+  geoId: 'yongin-suji',
+  title: '[수지 어지럼증] 이비인후과 검사 후에도 지속되는 붕 뜨는 어지럼증',
+  summary: '용인 수지 지역 주민들을 위해 지속되는 비회전성 어지럼증에서 동반 증상과 다양한 원인을 구분하고 상태에 맞는 관리 방향을 살펴봅니다.',
+  topicAngle: { id: 'chronic-dizziness', titleSuffix: '이비인후과 검사 후에도 지속되는 붕 뜨는 어지럼증' },
+  hashtags: ['수지어지럼증', '수지한의원', '어지럼증치료', '해아림한의원'],
+  keywords: ['수지 어지럼증', '용인시 수지구 어지럼증', '어지럼증 한방치료'],
+  body: `
+## 1. 진료실에서 자주 마주하는 고민
+<div class="column-key-summary-box">핵심 요약</div>
+이비인후과 검사에서 전정기능 검사상 특별한 이상이 발견되지 않았음에도 머리가 맑지 않고 몸이 붕 뜨거나 흔들리는 듯한 지속성 비회전성 어지럼증을 호소하시는 분들이 많습니다.
+
+## 2. 다양한 원인 감별의 필요성
+이비인후과 검사에서 큰 이상이 없다고 해서 단일 원인으로 속단할 수 없으며, 증상 양상에 따라 전정편두통, 지속성 체위-지각 어지럼증(PPPD) 등 기능성 전정질환, 기립성 순환 문제, 신경학적 또는 내과적 원인, 복용 약물 및 전신 피로 상태 등을 폭넓게 감별해야 합니다.
+[주요 진료 안내](/treatments/)를 통해 진료 정보를 확인하실 수 있습니다.
+
+## 3. 동반 증상과 상태 평가
+동반된 목과 어깨의 긴장이 있고 자세 변화에 따라 불편감이 변하는 일부 경우 경추부 긴장 요소를 함께 평가할 수 있습니다.
+벼락 두통, 편마비, 언어 장애 등 중추 신경학적 이상 신호가 동반된다면 응급 뇌영상 평가가 우선되어야 합니다.
+[온라인 상담](/inquiry/)으로 상태를 상담하실 수 있습니다.
+
+## 4. 해아림한의원의 상태 평가 및 1:1 맞춤 관리
+개인의 증상과 전반적인 상태를 고려한 한약 처방, 침구 치료, 필요 시 추나요법과 생활 관리 지도를 시행합니다.
+규칙적인 수면 리듬 유지와 충분한 휴식, 과도한 시각적·감각적 자극 완화를 병행합니다.
+
+## 5. 자주 묻는 질문
+**Q1. 검사에서 정상이면 원인을 알 수 없나요?**
+A. 전정편두통이나 기능성 어지럼증, 자율신경 조절 등 다양한 측면에서 감별 평가가 필요합니다.
+**Q2. 목 스트레칭만으로 좋아지나요?**
+A. 목 긴장은 동반 요소일 수 있으므로 수면과 일상 컨디션을 함께 관리해야 합니다.
+`,
+  thumbnailCopy: { yellowText: '검사 후에도', whiteText: '붕 뜨는 어지럼', greenText: '어지럼증' }
+}));
+assert.strictEqual(validDizzinessArticle.valid, true, `Valid dizziness article MUST PASS: ${validDizzinessArticle.errors.join(', ')}`);
+console.log('✅ PASS: Valid reinforced dizziness article passed validation 100%.');
+
+// 14-C-2. ENT Normal -> Cervical Auto-Jump (MUST FAIL)
+const failEntAutoJump = validateArticleContent(createMockArticleForReviewTest({
+  diseaseId: 'headache',
+  titleDisease: '어지럼증',
+  topicAngle: { id: 'chronic-dizziness', titleSuffix: '이비인후과 검사 후에도 지속되는 붕 뜨는 어지럼증' },
+  geoId: 'yongin-suji',
+  title: '[수지 어지럼증] 이비인후과 검사 후에도 지속되는 붕 뜨는 어지럼증',
+  summary: '용인 수지 지역 어지럼증 환자분들을 위한 감별 가이드입니다.',
+  body: `
+## 1. 진료실 고민
+<div class="column-key-summary-box">핵심 요약</div>
+이비인후과 검사에서 이상 없는데 어지럼이 계속됩니다.
+## 2. 원인
+이비인후과 검사에서 정상이라면 결국 경추의 문제로 볼 수 있습니다.
+전정편두통이나 PPPD 등도 있지만 결국 목 근육 때문입니다.
+[주요 진료 안내](/treatments/)
+## 3. 감별
+[온라인 상담](/inquiry/)
+## 4. 평가
+한약 처방과 침구 치료.
+## 5. FAQ
+**Q1. 질문**
+A. 답변
+**Q2. 질문2**
+A. 답변
+`,
+  thumbnailCopy: { yellowText: '검사 후에도', whiteText: '붕 뜨는 어지럼', greenText: '어지럼증' }
+}));
+assert.strictEqual(failEntAutoJump.valid, false, 'ENT normal to cervical auto-jump MUST FAIL');
+assert.ok(failEntAutoJump.errors.some(e => e.includes('Dizziness cause framing violation')), 'Expected Dizziness cause framing violation');
+console.log('✅ PASS: ENT normal -> cervical/autonomic auto-jump strictly blocked.');
+
+// 14-C-3. Summary Narrowed to Cervical/Autonomic (MUST FAIL)
+const failNarrowedSummary = validateArticleContent(createMockArticleForReviewTest({
+  diseaseId: 'headache',
+  titleDisease: '어지럼증',
+  topicAngle: { id: 'chronic-dizziness', titleSuffix: '이비인후과 검사 후에도 지속되는 붕 뜨는 어지럼증' },
+  geoId: 'yongin-suji',
+  title: '[수지 어지럼증] 이비인후과 검사 후에도 지속되는 붕 뜨는 어지럼증',
+  summary: '용인 수지 지역 어지럼증에 대한 경추·자율신경계 긴장에 대한 한의학적 관리 방향 가이드입니다.',
+  body: `
+## 1. 진료실 고민
+<div class="column-key-summary-box">핵심 요약</div>
+어지럼증 증상을 살핍니다.
+## 2. 원인 감별
+전정편두통, PPPD, 기립성 문제 등 다양한 감별이 필요합니다.
+[주요 진료 안내](/treatments/)
+## 3. 동반 증상
+[온라인 상담](/inquiry/)
+## 4. 평가
+한약 처방과 침구 치료.
+## 5. FAQ
+**Q1. 질문**
+A. 답변
+**Q2. 질문2**
+A. 답변
+`,
+  thumbnailCopy: { yellowText: '검사 후에도', whiteText: '붕 뜨는 어지럼', greenText: '어지럼증' }
+}));
+assert.strictEqual(failNarrowedSummary.valid, false, 'Narrowed cervical summary MUST FAIL');
+assert.ok(failNarrowedSummary.errors.some(e => e.includes('Dizziness summary framing violation')), 'Expected Dizziness summary framing violation');
+console.log('✅ PASS: Narrowed cervical summary strictly blocked.');
+
+// 14-C-4. Missing Differential Evaluation (MUST FAIL)
+const failMissingDifferential = validateArticleContent(createMockArticleForReviewTest({
+  diseaseId: 'headache',
+  titleDisease: '어지럼증',
+  topicAngle: { id: 'chronic-dizziness', titleSuffix: '이비인후과 검사 후에도 지속되는 붕 뜨는 어지럼증' },
+  geoId: 'yongin-suji',
+  title: '[수지 어지럼증] 이비인후과 검사 후에도 지속되는 붕 뜨는 어지럼증',
+  summary: '용인 수지 지역 주민들을 위해 지속되는 비회전성 어지럼증에서 동반 증상과 다양한 원인을 구분하고 상태에 맞는 관리 방향을 살펴봅니다.',
+  body: `
+## 1. 진료실 고민
+<div class="column-key-summary-box">핵심 요약</div>
+붕 뜨는 어지럼증이 지속됩니다.
+## 2. 주요 배경
+머리가 맑지 않고 어지럽습니다.
+[주요 진료 안내](/treatments/)
+## 3. 동반 증상
+목과 어깨 긴장이 있을 수 있습니다.
+[온라인 상담](/inquiry/)
+## 4. 평가
+한약 처방과 침구 치료.
+## 5. FAQ
+**Q1. 질문**
+A. 답변
+**Q2. 질문2**
+A. 답변
+`,
+  thumbnailCopy: { yellowText: '검사 후에도', whiteText: '붕 뜨는 어지럼', greenText: '어지럼증' }
+}));
+assert.strictEqual(failMissingDifferential.valid, false, 'Missing differential evaluation MUST FAIL');
+assert.ok(failMissingDifferential.errors.some(e => e.includes('Dizziness differential evaluation missing')), 'Expected Dizziness differential evaluation missing error');
+console.log('✅ PASS: Missing differential evaluation in chronic dizziness strictly blocked.');
+
+console.log('\n🎉 ALL 14 QA SYSTEM INTEGRITY, REGRESSION, BATCH, GEO, HUMAN REVIEW, TARGET IDENTITY, CLINICAL GUIDANCE, TREATMENT CERTAINTY & BATCH 3 REVIEW TESTS PASSED 100%!');
 
 
 
