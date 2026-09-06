@@ -3,7 +3,7 @@ const path = require('path');
 
 const geoHierarchy = require('./geo_hierarchy.json');
 const diseaseTaxonomy = require('./disease_taxonomy.json');
-const { resolveContentIdentity } = require('./identity_resolver');
+const { resolveContentIdentity, buildArticleSlug } = require('./identity_resolver');
 
 const QA_TARGETS_PATH = path.join(__dirname, 'qa_targets.json');
 const QA_RESULTS_PATH = path.join(__dirname, '../../data/auto_column_qa_results.json');
@@ -76,8 +76,7 @@ function buildQAPlan(target, now = new Date()) {
 
   const titlePrefix = geo.canonicalTitle.replace('{disease}', identity.titleDisease);
   const titleCandidate = `${titlePrefix} ${topicAngle.titleSuffix}`;
-  const rawSlug = `${geo.id}-${identity.slugDiseaseLabel}-${topicAngle.id}`;
-  const slug = rawSlug.toLowerCase().replace(/[^a-z0-9-]/g, '-').replace(/-+/g, '-');
+  const slug = buildArticleSlug(geo.id, identity.slugDiseaseLabel, topicAngle.id);
 
   return {
     status: 'ready',

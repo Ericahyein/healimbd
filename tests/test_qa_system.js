@@ -117,7 +117,9 @@ const expectedApprovedTargets = [
   'qa-11-ibs',
   'qa-12-syncope',
   'qa-13-headache',
-  'qa-14-dizziness'
+  'qa-14-dizziness',
+  'qa-15-depression',
+  'qa-16-ocd'
 ];
 for (const qId of expectedApprovedTargets) {
   const record = qaResults.find(r => r.qaId === qId);
@@ -127,8 +129,6 @@ for (const qId of expectedApprovedTargets) {
 }
 
 const expectedNeedsRevisionTargets = [
-  'qa-15-depression',
-  'qa-16-ocd',
   'qa-17-separation-anxiety',
   'qa-18-night-terrors'
 ];
@@ -140,9 +140,9 @@ for (const qId of expectedNeedsRevisionTargets) {
 }
 
 const revisionTargets = qaResults.filter(r => r.humanReviewStatus === 'needs_revision');
-assert.strictEqual(revisionTargets.length, 4, 'Batch 4 targets (qa-15, qa-16, qa-17, qa-18) must have needs_revision');
+assert.strictEqual(revisionTargets.length, 2, 'Batch 4 targets (qa-17, qa-18) must have needs_revision');
 
-console.log('✅ [Test 4 Passed] All 14 approved targets protected and Batch 4 targets verified with needs_revision.');
+console.log('✅ [Test 4 Passed] All 16 approved targets protected and Batch 4 revision targets (qa-17, qa-18) verified with needs_revision.');
 
 // Test 5: Smart Medication Discontinuation Validation (False Positive Prevention & Real Harm Blocking)
 console.log('\n[Test 5] Testing Smart Medication Discontinuation Validator...');
@@ -514,7 +514,11 @@ const b3Targets = getBatchTargets('batch-3');
 assert.strictEqual(b3Targets.length, 0, 'Batch 3 targets are now all approved and correctly excluded from future batch runs');
 
 const b4Targets = getBatchTargets('batch-4');
-assert.strictEqual(b4Targets.length, 4, 'Batch 4 targets are needs_revision and should be included for re-run');
+assert.strictEqual(b4Targets.length, 2, 'Batch 4 targets qa-17 and qa-18 are needs_revision and should be included for re-run (qa-15 and qa-16 are approved)');
+assert.ok(!b4Targets.includes('qa-15-depression'), 'qa-15-depression must be excluded as it is approved');
+assert.ok(!b4Targets.includes('qa-16-ocd'), 'qa-16-ocd must be excluded as it is approved');
+assert.ok(b4Targets.includes('qa-17-separation-anxiety'), 'qa-17-separation-anxiety must be included');
+assert.ok(b4Targets.includes('qa-18-night-terrors'), 'qa-18-night-terrors must be included');
 
 const b5Targets = getBatchTargets('batch-5');
 assert.strictEqual(b5Targets.length, 2);
@@ -2598,7 +2602,198 @@ assert.ok(qaTourettePlan.slug.includes('-tourette-'), `QA slug should contain 't
 assert.ok(prodTourettePlan.slug.includes('-tourette-'), `Production slug should contain 'tourette', got: ${prodTourettePlan.slug}`);
 console.log('✅ PASS: parent-guidance resolves identically to tourette in QA and Production (slug: -tourette-).');
 
-console.log('\n🎉 ALL 15 QA SYSTEM INTEGRITY, REGRESSION, BATCH, GEO, HUMAN REVIEW, TARGET IDENTITY, CLINICAL GUIDANCE, TREATMENT CERTAINTY, BATCH 3 & BATCH 4 REVIEW TESTS PASSED 100%!');
+// Test 16: Batch 4 Human Review Feedback Regression Tests (Slug Dedup, Internal Link URL Dedup & Quality > Count, Arbitrary Freq Protection)
+console.log('\n[Test 16] Running Batch 4 Re-Review Feedback & Link Quality Regression Tests...');
+
+// 16-A. Slug segment deduplication when slugDiseaseLabel === topicAngleId
+console.log('\n[Test 16-A] Testing Slug Segment Deduplication...');
+const { buildArticleSlug } = require('../scripts/auto_column/identity_resolver');
+
+// Case 1: separation-anxiety
+const slugSep = buildArticleSlug('yongin-cheoin', 'separation-anxiety', 'separation-anxiety');
+assert.strictEqual(slugSep, 'yongin-cheoin-separation-anxiety', 'Should not duplicate separation-anxiety');
+assert.ok(!slugSep.includes('separation-anxiety-separation-anxiety'), 'Duplicate segment strictly blocked');
+
+// Case 2: night-terrors
+const slugNight = buildArticleSlug('gyeonggi-icheon', 'night-terrors', 'night-terrors');
+assert.strictEqual(slugNight, 'gyeonggi-icheon-night-terrors', 'Should not duplicate night-terrors');
+assert.ok(!slugNight.includes('night-terrors-night-terrors'), 'Duplicate segment strictly blocked');
+
+// Case 3: child-enuresis
+const slugEnuresis = buildArticleSlug('seongnam-bundang', 'child-enuresis', 'child-enuresis');
+assert.strictEqual(slugEnuresis, 'seongnam-bundang-child-enuresis', 'Should not duplicate child-enuresis');
+assert.ok(!slugEnuresis.includes('child-enuresis-child-enuresis'), 'Duplicate segment strictly blocked');
+
+// Case 4: Different segments should be preserved
+const slugOcd = buildArticleSlug('seongnam-main', 'ocd', 'intrusive-thoughts');
+assert.strictEqual(slugOcd, 'seongnam-main-ocd-intrusive-thoughts', 'Distinct segments preserved');
+
+// Verify QA and Production build identical deduplicated slugs
+const qaSepPlan = buildQAPlan(findQATarget('qa-17-separation-anxiety'));
+assert.strictEqual(qaSepPlan.slug, 'yongin-cheoin-separation-anxiety');
+
+const qaNightPlan = buildQAPlan(findQATarget('qa-18-night-terrors'));
+assert.strictEqual(qaNightPlan.slug, 'gyeonggi-icheon-night-terrors');
+
+console.log('✅ PASS: Slug segment deduplication correctly prevents repeated disease-angle segments.');
+
+// 16-B. Duplicate URL in same article -> FAIL
+console.log('\n[Test 16-B] Testing Duplicate URL Prohibition in Same Article...');
+const duplicateUrlArticle = {
+  title: '[처인구 소아 분리불안] 유치원이나 학교 갈 때마다 배가 아프다고 우는 아이',
+  titleDisease: '소아 분리불안',
+  summary: '처인구 지역 소아 분리불안 아동을 위한 임상적 관점 및 생활 관리 안내입니다.',
+  category: 'child',
+  geoId: 'yongin-cheoin',
+  diseaseId: 'child',
+  ageGroup: 'child',
+  body: `
+## 1. 진료실에서 마주하는 아동의 분리불안 고민
+<div class="column-key-summary-box">
+  <ul>
+    <li>보호자와 떨어질 때의 일시적 불안은 정상 발달 과정에서도 나타날 수 있습니다.</li>
+    <li>하지만 일상 기능을 방해하고 과도하다면 분리불안장애 전문 평가가 필요합니다.</li>
+  </ul>
+</div>
+아이들의 수면 안정을 돕는 안내는 [수면 관리 가이드](/blog/bundang-insomnia-sleep-disorder-cure/)를 확인하십시오.
+
+## 2. 정상 발달 과정과 임상적 분리불안의 차이
+유치원 적응 시기의 분리 불안은 자연스러운 발달 과정의 일부일 수 있습니다.
+그러나 일상생활을 방해하는 수준이라면 분리불안장애 전문의 진료가 권장됩니다.
+
+## 3. 신체 증상과 기능 저하 감별
+복통이 나타날 때 기질적 이상을 먼저 확인합니다.
+취침 전 안정적인 분위기를 위해 [수면 관리 가이드](/blog/bundang-insomnia-sleep-disorder-cure/)를 다시 참고할 수 있습니다.
+
+## 4. 해아림한의원의 맞춤 관리
+아이의 증상과 전반적인 상태를 고려한 한약 처방 및 침구 치료를 시행합니다.
+
+## 5. 자주 묻는 질문
+**Q1. 시간이 지나면 좋아지나요?**
+A. 성장하면서 호전되기도 하지만 일상 기능 저하 시 조기 상담이 유익합니다.
+**Q2. 어떻게 격려해야 하나요?**
+A. 비난하지 않고 차분히 안심시켜 주십시오.
+`,
+  hashtags: ['처인구소아분리불안', '처인구한의원', '소아분리불안치료', '해아림한의원'],
+  keywords: ['처인구 소아 분리불안', '용인시 처인구 소아 분리불안', '소아 분리불안 한방치료'],
+  thumbnailCopy: { yellowText: '학교 가기 싫어', whiteText: '배 아프다고 울 때', greenText: '소아 분리불안' }
+};
+
+const dupUrlRes = validateArticleContent(duplicateUrlArticle);
+assert.strictEqual(dupUrlRes.valid, false, 'Duplicate URL in same article MUST FAIL');
+assert.ok(dupUrlRes.errors.some(e => e.includes('Internal Link duplicate URL violation')), 'Expected duplicate URL violation');
+console.log('✅ PASS: Duplicate internal link URL in same article strictly blocked.');
+
+// 16-C. Duplicate URL with fabricated different anchors -> FAIL
+console.log('\n[Test 16-C] Testing Fabricated Distinct Anchors for Same URL (MUST FAIL)...');
+let countOccur = 0;
+const fabricatedAnchorArticle = {
+  ...duplicateUrlArticle,
+  body: duplicateUrlArticle.body.replace(/\[수면 관리 가이드\]\(\/blog\/bundang-insomnia-sleep-disorder-cure\/\)/g, () => {
+    countOccur++;
+    return countOccur === 1
+      ? '[밤마다 뒤척이는 뇌의 과각성 상태](/blog/bundang-insomnia-sleep-disorder-cure/)'
+      : '[소아의 수면 위생과 안정적인 생활 리듬을 위한 안내](/blog/bundang-insomnia-sleep-disorder-cure/)';
+  })
+};
+
+const fabAnchorRes = validateArticleContent(fabricatedAnchorArticle);
+assert.strictEqual(fabAnchorRes.valid, false, 'Fabricated distinct anchors for same URL MUST FAIL');
+assert.ok(fabAnchorRes.errors.some(e => e.includes('fabricated distinct anchors')), 'Expected fabricated distinct anchors violation');
+console.log('✅ PASS: Fabricated distinct anchors for same URL strictly blocked.');
+
+// 16-D. Single relevant internal link when relevant links are scarce -> PASS
+console.log('\n[Test 16-D] Testing Single High-Quality Internal Link Allowance (Quality > Count)...');
+let singleCountOccur = 0;
+const singleLinkArticle = {
+  ...duplicateUrlArticle,
+  body: duplicateUrlArticle.body.replace(/\[수면 관리 가이드\]\(\/blog\/bundang-insomnia-sleep-disorder-cure\/\)/g, () => {
+    singleCountOccur++;
+    return singleCountOccur === 1
+      ? '[수면 관리 가이드](/blog/bundang-insomnia-sleep-disorder-cure/)'
+      : '규칙적인 취침 습관';
+  })
+};
+
+const singleLinkRes = validateArticleContent(singleLinkArticle);
+assert.strictEqual(singleLinkRes.valid, true, `Single relevant link should pass 100%. Errors: ${singleLinkRes.errors.join('; ')}`);
+assert.strictEqual(singleLinkRes.internalLinks.length, 1);
+console.log('✅ PASS: Single high-quality internal link passed validation with 0 errors (Quality > Count).');
+
+// 16-E. Fabricating tic symptom paragraph in night-terrors article to insert tic link -> FAIL
+console.log('\n[Test 16-E] Testing Fabricated Tic Paragraph in Night Terrors (MUST FAIL)...');
+const forcedTicNightArticle = {
+  title: '[이천 소아 야경증] 자다가 갑자기 울고 소리치지만 다음 날 기억하지 못할 때',
+  titleDisease: '소아 야경증',
+  summary: '이천 지역 소아 야경증 아동을 위한 비렘수면 부분각성 원인과 부모 대처 안내입니다.',
+  category: 'child',
+  geoId: 'gyeonggi-icheon',
+  diseaseId: 'child',
+  ageGroup: 'child',
+  body: `
+## 1. 한밤중 갑작스러운 비명과 각성
+<div class="column-key-summary-box">
+  <ul>
+    <li>야경증은 비렘(NREM) 수면 중 부분 각성으로 발생합니다.</li>
+    <li>아이가 깨어난 것처럼 보여도 완전히 깨어난 상태가 아니며 다음 날 기억하지 못합니다.</li>
+    <li>꿈 내용을 생생히 기억하는 악몽과는 임상적으로 구별됩니다.</li>
+  </ul>
+</div>
+안전한 수면 환경 조성을 위해 [수면 관리 가이드](/blog/bundang-insomnia-sleep-disorder-cure/)를 확인하십시오.
+
+## 2. 야경증과 악몽의 감별 포인트
+야경증은 NREM 수면 중 불완전한 부분 각성으로 발생하며 다음 날 기억이 없습니다. 반면 악몽은 렘수면 중 발생하며 기억합니다.
+수면 부족, 과도한 피로, 발열 등이 주된 유발 요인입니다.
+매우 잦게 반복되거나 주간 기능 저하, 부상 위험이 있을 때는 전문 평가가 필요합니다.
+
+## 3. 깨어 있는 시간의 다른 증상과의 연결
+야경증과 직접 같은 질환은 아니지만, 깨어 있는 시간에도 눈을 반복해서 깜빡이거나 특정 소리를 반복하는 증상이 동반된다면 신경계 긴장도를 함께 살필 수 있습니다. 관련 내용은 [틱장애 안내](/blog/bundang-tic-disorder-guide/)를 참고하십시오.
+
+## 4. 해아림한의원의 맞춤 관리
+아이의 증상과 전반적인 상태를 고려한 한약 처방 및 침구 치료를 진행합니다.
+
+## 5. 자주 묻는 질문
+**Q1. 자다 깰 때 억지로 깨워야 하나요?**
+A. 무리하게 흔들어 깨우지 마시고 안전을 지켜주십시오.
+**Q2. 다음 날 물어봐도 되나요?**
+A. 기억하지 못하므로 굳이 캐묻지 않는 것이 좋습니다.
+`,
+  hashtags: ['이천소아야경증', '이천한의원', '소아야경증치료', '해아림한의원'],
+  keywords: ['이천 소아 야경증', '이천시 소아 야경증', '소아 야경증 한방치료'],
+  thumbnailCopy: { yellowText: '자다가 갑자기', whiteText: '울고 소리칠 때', greenText: '소아 야경증' }
+};
+
+const forcedTicRes = validateArticleContent(forcedTicNightArticle);
+assert.strictEqual(forcedTicRes.valid, false, 'Fabricated tic paragraph in night terrors MUST FAIL');
+assert.ok(forcedTicRes.errors.some(e => e.includes('Night terrors forced tic linkage violation')), 'Expected forced tic linkage violation');
+console.log('✅ PASS: Fabricating tic symptom paragraph in night terrors strictly blocked.');
+
+// 16-F. Unverified frequency claims like "주 수회 이상" in night terrors -> FAIL
+console.log('\n[Test 16-F] Testing Unverified Frequency Claims in Night Terrors (MUST FAIL)...');
+const unverifiedFreqNightArticle = {
+  ...forcedTicNightArticle,
+  body: forcedTicNightArticle.body
+    .replace('## 3. 깨어 있는 시간의 다른 증상과의 연결\n야경증과 직접 같은 질환은 아니지만, 깨어 있는 시간에도 눈을 반복해서 깜빡이거나 특정 소리를 반복하는 증상이 동반된다면 신경계 긴장도를 함께 살필 수 있습니다. 관련 내용은 [틱장애 안내](/blog/bundang-tic-disorder-guide/)를 참고하십시오.', '')
+    .replace('매우 잦게 반복되거나', '야경증이 주 수회 이상 매우 잦게 나타나거나')
+};
+
+const unverifiedFreqRes = validateArticleContent(unverifiedFreqNightArticle);
+assert.strictEqual(unverifiedFreqRes.valid, false, 'Unverified frequency claim "주 수회 이상" MUST FAIL');
+assert.ok(unverifiedFreqRes.errors.some(e => e.includes('Night terrors unverified frequency claim violation')), 'Expected unverified frequency claim violation');
+console.log('✅ PASS: Unverified frequency claim "주 수회 이상" strictly blocked.');
+
+// 16-G. Corrected neutral frequency "매우 잦게 반복되거나" -> PASS
+console.log('\n[Test 16-G] Testing Neutral Frequency Phrasing "매우 잦게 반복되거나" (MUST PASS)...');
+const neutralFreqNightArticle = {
+  ...unverifiedFreqNightArticle,
+  body: unverifiedFreqNightArticle.body.replace('야경증이 주 수회 이상 매우 잦게 나타나거나', '야경증이 매우 잦게 반복되거나')
+};
+
+const neutralFreqRes = validateArticleContent(neutralFreqNightArticle);
+assert.strictEqual(neutralFreqRes.valid, true, `Neutral frequency phrasing should pass 100%. Errors: ${neutralFreqRes.errors.join('; ')}`);
+console.log('✅ PASS: Neutral frequency phrasing passed validation 100%.');
+
+console.log('\n🎉 ALL 16 QA SYSTEM INTEGRITY, REGRESSION, BATCH, GEO, HUMAN REVIEW, TARGET IDENTITY, CLINICAL GUIDANCE, TREATMENT CERTAINTY, BATCH 3, BATCH 4 & RE-REVIEW TESTS PASSED 100%!');
 
 
 

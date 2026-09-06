@@ -758,6 +758,32 @@ function checkNightTerrorsTitleAndClinical(title, fullText) {
         reason: 'Night terrors enuresis management leakage: 야경증 글의 핵심 생활관리에 야뇨증 수분/배뇨 관리법을 넣지 마십시오.'
       };
     }
+
+    // Prohibit forced tic symptom fabrication or tic paragraph in night terrors
+    const forcedTicPattern = /(깨어\s*있는\s*시간에도\s*눈을\s*반복해서\s*깜빡이|특정\s*소리를\s*반복하는|눈\s*깜빡임이나\s*음음|눈\s*깜빡임이나\s*헛기침|야경증과\s*직접\s*같은\s*질환은\s*아니지만.{0,40}(틱|깜빡|소리)|틱\s*증상이\s*동반|틱장애\s*안내)/i;
+    if (forcedTicPattern.test(fullText)) {
+      return {
+        valid: false,
+        reason: 'Night terrors forced tic linkage violation: 야경증 글에 틱장애 링크를 넣기 위해 틱 증상 문단이나 부자연스러운 연결 문장을 작성할 수 없습니다.'
+      };
+    }
+
+    const links = extractInternalLinks(fullText);
+    if (links.some(l => l.url.includes('tic') || l.text.includes('틱장애') || l.text.includes('틱 증상'))) {
+      return {
+        valid: false,
+        reason: 'Night terrors forced tic linkage violation: 야경증 글에 관련성이 낮은 틱장애 내부링크를 삽입할 수 없습니다.'
+      };
+    }
+
+    // Arbitrary frequency count prohibition (e.g. "주 수회 이상")
+    const arbitraryFreqPattern = /(주\s*수회\s*이상|주\s*[0-9一-龥]+\s*회\s*이상|하루\s*수회\s*이상)/i;
+    if (arbitraryFreqPattern.test(fullText)) {
+      return {
+        valid: false,
+        reason: 'Night terrors unverified frequency claim violation: 근거 없는 임의 빈도 수치("주 수회 이상" 등)를 사용할 수 없습니다. "매우 잦게 반복되거나" 등 중립적이고 안전한 표현을 사용하십시오.'
+      };
+    }
   }
 
   return { valid: true };
@@ -940,7 +966,7 @@ function validateArticleContent(articleData, options = {}) {
     errors.push('Article must contain FAQ questions and answers.');
   }
 
-  // 6. Internal Links Verification (Must have 2~4 real verified links)
+  // 6. Internal Links Verification (Must have 1~4 real verified links, strictly NO duplicate URLs)
   const links = extractInternalLinks(body);
   const validatedLinks = [];
 
@@ -952,10 +978,31 @@ function validateArticleContent(articleData, options = {}) {
     }
   }
 
-  if (links.length < 2) {
-    errors.push(`Article must contain at least 2 real internal links. Found: ${links.length}`);
-  } else if (links.length > 5) {
-    warnings.push(`Article contains ${links.length} internal links (recommended: 2~4).`);
+  // Duplicate URL check within same article (Quality > Count, strictly NO duplicate URLs)
+  const urlMap = new Map();
+  for (const l of links) {
+    const cleanUrl = l.url.split('#')[0].split('?')[0].replace(/\/$/, '');
+    if (!urlMap.has(cleanUrl)) {
+      urlMap.set(cleanUrl, []);
+    }
+    urlMap.get(cleanUrl).push(l.text || '');
+  }
+
+  for (const [cleanUrl, anchors] of urlMap.entries()) {
+    if (anchors.length > 1) {
+      const distinctAnchors = new Set(anchors);
+      if (distinctAnchors.size > 1) {
+        errors.push(`Internal Link duplicate URL violation (fabricated distinct anchors): URL '${cleanUrl}' appears ${anchors.length} times with distinct anchors [${Array.from(distinctAnchors).map(a => `"${a}"`).join(', ')}]. Do not fabricate artificial anchors to make a single URL appear as separate articles.`);
+      } else {
+        errors.push(`Internal Link duplicate URL violation: URL '${cleanUrl}' appears ${anchors.length} times in article. Each URL may appear at most once.`);
+      }
+    }
+  }
+
+  if (links.length < 1) {
+    errors.push(`Article must contain at least 1 real internal link. Found: ${links.length}`);
+  } else if (links.length > 4) {
+    warnings.push(`Article contains ${links.length} internal links (recommended: 1~3).`);
   }
 
   // 7. Thumbnail Copy Validation

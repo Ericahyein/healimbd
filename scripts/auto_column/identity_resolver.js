@@ -248,8 +248,34 @@ function resolveContentIdentity(diseaseId, topicAngle, overrides = {}) {
   };
 }
 
+/**
+ * Canonical Article Slug Builder
+ * Shared 100% by both QA and Production.
+ * Deduplicates disease and topic angle segment if slugDiseaseLabel === topicAngleId.
+ *
+ * @param {string} geoId - e.g. 'yongin-cheoin', 'seongnam-main'
+ * @param {string} slugDiseaseLabel - e.g. 'separation-anxiety', 'ocd', 'depression'
+ * @param {string} topicAngleId - e.g. 'separation-anxiety', 'intrusive-thoughts', 'burnout-lethargy'
+ * @returns {string} Clean, deduplicated slug (e.g. 'yongin-cheoin-separation-anxiety')
+ */
+function buildArticleSlug(geoId, slugDiseaseLabel, topicAngleId) {
+  const normGeo = String(geoId || '').toLowerCase().trim();
+  const normDisease = String(slugDiseaseLabel || '').toLowerCase().trim();
+  const normAngle = String(topicAngleId || '').toLowerCase().trim();
+
+  let rawSlug;
+  if (normDisease === normAngle || !normAngle) {
+    rawSlug = `${normGeo}-${normDisease}`;
+  } else {
+    rawSlug = `${normGeo}-${normDisease}-${normAngle}`;
+  }
+  return rawSlug.replace(/[^a-z0-9-]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+}
+
 module.exports = {
   SPECIAL_ANGLE_IDENTITIES,
   BASE_DISEASE_IDENTITIES,
-  resolveContentIdentity
+  resolveContentIdentity,
+  buildArticleSlug
 };
+

@@ -3,7 +3,7 @@ const path = require('path');
 
 const geoHierarchy = require('./geo_hierarchy.json');
 const diseaseTaxonomy = require('./disease_taxonomy.json');
-const { resolveContentIdentity } = require('./identity_resolver');
+const { resolveContentIdentity, buildArticleSlug } = require('./identity_resolver');
 
 const HISTORY_PATH = path.join(__dirname, '../../data/auto_column_history.json');
 
@@ -156,13 +156,10 @@ function planNextColumn(options = {}) {
 function buildProductionTopicPlan(region, disease, chosenAngle, now = new Date()) {
   const identity = resolveContentIdentity(disease.id, chosenAngle.id);
 
-  // Build canonical title and slug using resolved identity
+  // Build canonical title and slug using resolved identity and canonical slug builder
   const titlePrefix = region.canonicalTitle.replace('{disease}', identity.titleDisease);
   const titleCandidate = `${titlePrefix} ${chosenAngle.titleSuffix}`;
-  
-  // Format slug using identity.slugDiseaseLabel
-  const rawSlug = `${region.id}-${identity.slugDiseaseLabel}-${chosenAngle.id}`;
-  const slug = rawSlug.toLowerCase().replace(/[^a-z0-9-]/g, '-').replace(/-+/g, '-');
+  const slug = buildArticleSlug(region.id, identity.slugDiseaseLabel, chosenAngle.id);
 
   return {
     status: 'ready',

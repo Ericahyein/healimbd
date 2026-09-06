@@ -27,7 +27,7 @@ const CORE_PAGES = [
 const DISEASE_RELEVANCE_MAP = {
   tic: ['tic', 'adhd', 'child', 'sleep'],
   adhd: ['adhd', 'tic', 'child', 'sleep'],
-  child: ['child', 'tic', 'adhd', 'sleep'],
+  child: ['child', 'sleep'],
   panic: ['panic', 'anxiety', 'autonomic', 'sleep', 'syncope'],
   anxiety: ['anxiety', 'panic', 'autonomic', 'sleep', 'depression'],
   sleep: ['sleep', 'anxiety', 'panic', 'depression', 'autonomic'],
@@ -112,9 +112,30 @@ function isInternalUrlValid(url, baseDir) {
 
 /**
  * Returns 2~4 strictly relevant internal link suggestions for the target disease
+/**
+ * Deduplicates internal links strictly by normalized URL
+ */
+function deduplicateLinksByUrl(links) {
+  if (!Array.isArray(links)) return [];
+  const seenUrls = new Set();
+  const unique = [];
+  for (const item of links) {
+    if (!item || !item.url) continue;
+    const cleanUrl = item.url.split('#')[0].split('?')[0].replace(/\/$/, '');
+    if (!seenUrls.has(cleanUrl)) {
+      seenUrls.add(cleanUrl);
+      unique.push(item);
+    }
+  }
+  return unique;
+}
+
+/**
+ * Returns strictly relevant, non-duplicate internal link suggestions for the target disease
  * - Prioritizes same-category articles
- * - Allows clinically related categories only (e.g. tic -> adhd/sleep, panic -> anxiety/autonomic)
+ * - Allows clinically related categories only
  * - Excludes unrelated categories to prevent forced irrelevant links
+ * - Strictly guarantees no duplicate URLs in returned list
  */
 function getRecommendedInternalLinks(diseaseCategory, currentSlug, blogDir) {
   const allBlogPosts = getExistingBlogPosts(blogDir);
@@ -131,22 +152,31 @@ function getRecommendedInternalLinks(diseaseCategory, currentSlug, blogDir) {
   );
 
   const selected = [];
+  const seenUrls = new Set();
 
-  if (sameCat.length > 0) {
-    selected.push(...sameCat.slice(0, 2));
+  function addLink(item) {
+    if (!item || !item.url) return;
+    const cleanUrl = item.url.split('#')[0].split('?')[0].replace(/\/$/, '');
+    if (!seenUrls.has(cleanUrl)) {
+      seenUrls.add(cleanUrl);
+      selected.push(item);
+    }
   }
 
-  if (relatedCat.length > 0 && selected.length < 3) {
-    selected.push(...relatedCat.slice(0, 3 - selected.length));
+  for (const post of sameCat.slice(0, 2)) {
+    addLink(post);
   }
 
-  // Fill with core site pages if needed to guarantee 2~3 verified links
+  for (const post of relatedCat) {
+    if (selected.length >= 3) break;
+    addLink(post);
+  }
+
+  // Fill with core site pages if needed to guarantee at least 1~2 verified links, with no duplicates
   if (selected.length < 2) {
     for (const core of CORE_PAGES) {
       if (selected.length >= 2) break;
-      if (!selected.some(s => s.url === core.url)) {
-        selected.push(core);
-      }
+      addLink(core);
     }
   }
 
@@ -159,5 +189,6 @@ module.exports = {
   sanitizeAnchorTitle,
   getExistingBlogPosts,
   isInternalUrlValid,
+  deduplicateLinksByUrl,
   getRecommendedInternalLinks
 };
