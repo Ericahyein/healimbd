@@ -99,8 +99,8 @@ const finalProdHistory = fs.readFileSync(prodHistoryPath, 'utf-8');
 assert.strictEqual(initialProdHistory, finalProdHistory, 'CRITICAL: data/auto_column_history.json MUST be 100% untouched during QA!');
 console.log('✅ [Test 3 Passed] QA Results are recorded properly, humanReviewStatus is strictly "generated", and production history is 100% untouched.');
 
-// Test 4: Verify approved QA targets status (approved per human review)
-console.log('\n[Test 4] Verifying all 14 approved QA targets approval status (Batches 1, 2, 3 complete)...');
+// Test 4: Verify approved QA targets status (approved per human review) and Batch 4 needs_revision targets
+console.log('\n[Test 4] Verifying all 14 approved QA targets and Batch 4 needs_revision targets...');
 const qaResults = loadQAResults();
 
 const expectedApprovedTargets = [
@@ -126,10 +126,23 @@ for (const qId of expectedApprovedTargets) {
   assert.strictEqual(record.humanReviewStatus, 'approved', `${qId} must be approved per human review`);
 }
 
-const revisionTargets = qaResults.filter(r => r.humanReviewStatus === 'needs_revision');
-assert.strictEqual(revisionTargets.length, 0, 'No targets should have needs_revision after Batch 3 completion');
+const expectedNeedsRevisionTargets = [
+  'qa-15-depression',
+  'qa-16-ocd',
+  'qa-17-separation-anxiety',
+  'qa-18-night-terrors'
+];
+for (const qId of expectedNeedsRevisionTargets) {
+  const record = qaResults.find(r => r.qaId === qId);
+  assert.ok(record, `${qId} record must exist in QA results`);
+  assert.strictEqual(record.validationPassed, true, `${qId} validationPassed must be true`);
+  assert.strictEqual(record.humanReviewStatus, 'needs_revision', `${qId} must be needs_revision per human review`);
+}
 
-console.log('✅ [Test 4 Passed] All 14 approved targets verified 100% (Batch 1, 2, and 3 fully completed).');
+const revisionTargets = qaResults.filter(r => r.humanReviewStatus === 'needs_revision');
+assert.strictEqual(revisionTargets.length, 4, 'Batch 4 targets (qa-15, qa-16, qa-17, qa-18) must have needs_revision');
+
+console.log('✅ [Test 4 Passed] All 14 approved targets protected and Batch 4 targets verified with needs_revision.');
 
 // Test 5: Smart Medication Discontinuation Validation (False Positive Prevention & Real Harm Blocking)
 console.log('\n[Test 5] Testing Smart Medication Discontinuation Validator...');
@@ -358,13 +371,13 @@ function createMockArticleForTitle(title, geoId, diseaseId, titleDisease) {
 환자분들의 일상 속 고민을 경청합니다.
 
 ## 2. 주요 증상 및 배경
-신경생물학적 요인과 환경적 자극을 함께 살펴봅니다.
+신경생물학적 요인과 환경적 자극을 함께 살펴봅니다. 침투적 사고나 원치 않는 생각으로 인한 불안과 고통, 확인 행동을 통한 일시적 안도와 악순환 반복 기전을 살핍니다.
 
 ## 3. 감별 포인트
 자세한 정보는 [주요 진료 안내](/treatments/)에서 확인하실 수 있습니다.
 
 ## 4. 치료 관점
-궁금한 점은 [온라인 상담](/inquiry/)을 통해 문의 가능합니다.
+전문 평가와 표준 치료(ERP, 노출 및 반응방지, CBT, 약물치료)를 고려하며 [온라인 상담](/inquiry/)을 통해 문의 가능합니다.
 
 ## 5. 자주 묻는 질문
 **Q1. 어떻게 대처해야 하나요?**
@@ -496,6 +509,12 @@ assert.ok(!b2Targets.includes('qa-02-tourette'), 'qa-02-tourette must be exclude
 assert.ok(!b2Targets.includes('qa-04-adhd-adult'), 'qa-04-adhd-adult must be excluded as it is approved');
 assert.ok(!b2Targets.includes('qa-07-social-phobia'), 'qa-07-social-phobia must be excluded as it is approved');
 assert.ok(!b2Targets.includes('qa-10-hyperhidrosis'), 'qa-10-hyperhidrosis must be excluded as it is approved');
+
+const b3Targets = getBatchTargets('batch-3');
+assert.strictEqual(b3Targets.length, 0, 'Batch 3 targets are now all approved and correctly excluded from future batch runs');
+
+const b4Targets = getBatchTargets('batch-4');
+assert.strictEqual(b4Targets.length, 4, 'Batch 4 targets are needs_revision and should be included for re-run');
 
 const b5Targets = getBatchTargets('batch-5');
 assert.strictEqual(b5Targets.length, 2);
@@ -2084,7 +2103,502 @@ assert.strictEqual(failConflatedSyncopeArticle.valid, false, 'Conflated syncope 
 assert.ok(failConflatedSyncopeArticle.errors.some(e => e.includes('Syncope diagnostic definition violation')), 'Expected Syncope diagnostic definition violation');
 console.log('✅ PASS: Conflated syncope definition article strictly blocked by validator.');
 
-console.log('\n🎉 ALL 14 QA SYSTEM INTEGRITY, REGRESSION, BATCH, GEO, HUMAN REVIEW, TARGET IDENTITY, CLINICAL GUIDANCE, TREATMENT CERTAINTY & BATCH 3 REVIEW TESTS PASSED 100%!');
+// ==========================================
+// Test 15: Batch 4 Human Review Feedback Regression Tests (A through H)
+// ==========================================
+console.log('\n[Test 15] Running Batch 4 Human Review Feedback & Shared Identity Resolver Regression Tests...');
+
+// 15-A. Depression / Burnout: Prohibit Independent OCD Checking Section
+console.log('\n[Test 15-A] Testing Depression OCD Checking Section Intrusion Prevention...');
+const { checkDepressionOcdSectionLeakage, checkOcdViciousCycleAndTreatments, checkSeparationAnxietyDistinction, checkNightTerrorsTitleAndClinical } = require('../scripts/auto_column/content_validator');
+
+const validDepressionBody = `
+## 1. 진료실에서 자주 마주하는 고민
+<div class="column-key-summary-box">핵심 요약</div>
+충분한 휴식을 취해도 피로가 지속되고 의욕이 저하되는 상태입니다.
+번아웃은 만성 직장 스트레스와 관련된 직업적 현상(occupational phenomenon)이며 우울증 자체와 동일한 진단은 아닙니다.
+쉬어도 지속되는 피로는 우울 증상뿐 아니라 신체적 원인(갑상선, 빈혈 등)이나 약물 영향 등 다른 원인도 감별할 필요가 있습니다.
+불안이나 가벼운 강박 사고가 동반될 수 있으나 주된 양상은 기분 저하입니다.
+[주요 진료 안내](/treatments/)
+## 2. 발생 배경 및 심신 상태
+[온라인 상담](/inquiry/)
+## 3. 비슷한 다른 상태와 감별
+## 4. 해아림한의원의 맞춤 관리
+한약 처방과 침구 치료.
+## 5. 일상 생활 관리
+## 6. 자주 묻는 질문
+**Q1. 질문**
+A. 답변
+**Q2. 질문2**
+A. 답변
+`;
+
+const validDepressionArticle = validateArticleContent({
+  diseaseId: 'depression',
+  titleDisease: '우울증',
+  topicAngle: { id: 'burnout-lethargy', titleSuffix: '쉬어도 충전되지 않고 모든 일에 의욕이 사라질 때' },
+  geoId: 'gyeonggi-gwangju',
+  title: '[경기광주 우울증] 쉬어도 충전되지 않고 모든 일에 의욕이 사라질 때',
+  summary: '경기광주 지역 주민분들을 위한 번아웃과 우울증 감별 및 만성 무기력 극복 가이드입니다.',
+  body: validDepressionBody,
+  hashtags: ['경기광주우울증', '경기광주한의원', '우울증치료', '해아림한의원'],
+  keywords: ['경기광주 우울증', '경기 광주시 우울증', '우울증 한방치료'],
+  thumbnailCopy: { yellowText: '쉬어도 피곤하고', whiteText: '의욕이 사라질 때', greenText: '우울증' }
+});
+assert.strictEqual(validDepressionArticle.valid, true, `Valid depression article must pass: ${validDepressionArticle.errors.join(', ')}`);
+console.log('✅ PASS: Valid depression article without independent OCD section passed.');
+
+const failDepressionOcdSectionArticle = validateArticleContent({
+  diseaseId: 'depression',
+  titleDisease: '우울증',
+  topicAngle: { id: 'burnout-lethargy', titleSuffix: '쉬어도 충전되지 않고 모든 일에 의욕이 사라질 때' },
+  geoId: 'gyeonggi-gwangju',
+  title: '[경기광주 우울증] 쉬어도 충전되지 않고 모든 일에 의욕이 사라질 때',
+  summary: '경기광주 지역 주민분들을 위한 번아웃과 우울증 감별 및 만성 무기력 극복 가이드입니다.',
+  body: `
+## 1. 진료실에서 자주 마주하는 고민
+<div class="column-key-summary-box">핵심 요약</div>
+[주요 진료 안내](/treatments/)
+## 2. 반복되는 불안한 생각과 확인 행동이 함께 나타날 때
+외출 전 가스 밸브를 잠갔는지, 문을 잠갔는지 수차례 확인하는 행동이 이어집니다.
+[온라인 상담](/inquiry/)
+## 3. 비슷한 다른 상태와 감별
+## 4. 해아림한의원의 맞춤 관리
+한약 처방과 침구 치료.
+## 5. 자주 묻는 질문
+**Q1. 질문**
+A. 답변
+**Q2. 질문2**
+A. 답변
+`,
+  hashtags: ['경기광주우울증', '경기광주한의원', '우울증치료', '해아림한의원'],
+  keywords: ['경기광주 우울증', '경기 광주시 우울증', '우울증 한방치료'],
+  thumbnailCopy: { yellowText: '쉬어도 피곤하고', whiteText: '의욕이 사라질 때', greenText: '우울증' }
+});
+assert.strictEqual(failDepressionOcdSectionArticle.valid, false, 'Depression with independent OCD section MUST FAIL');
+assert.ok(failDepressionOcdSectionArticle.errors.some(e => e.includes('Depression OCD checking section violation')), 'Expected Depression OCD checking section violation');
+console.log('✅ PASS: Depression article with independent OCD section strictly blocked.');
+
+// 15-B. OCD: Obsession-Compulsion Vicious Cycle & Standard Evidence-based Treatment
+console.log('\n[Test 15-B] Testing OCD Obsession-Compulsion Cycle and Standard Treatments...');
+
+const validOcdArticle = validateArticleContent({
+  diseaseId: 'depression',
+  titleDisease: '강박증/OCD',
+  thumbnailDiseaseLabel: '강박증',
+  seoDiseaseLabel: '강박증',
+  topicAngle: { id: 'intrusive-thoughts', titleSuffix: '원치 않는 불안한 생각이 반복적으로 떠오를 때' },
+  geoId: 'seongnam-main',
+  title: '[성남 강박증/OCD] 원치 않는 불안한 생각이 반복적으로 떠오를 때',
+  summary: '성남 지역 주민분들을 위한 원치 않는 침투적 사고와 강박 행동의 악순환, 표준 치료와 보완적 관리 안내입니다.',
+  body: `
+## 1. 진료실에서 자주 마주하는 고민
+<div class="column-key-summary-box">핵심 요약</div>
+원치 않는 불안한 생각이나 침투적 사고(Obsession)가 떠오르면 심한 불안과 고통이 유발됩니다.
+이를 줄이기 위해 반복적인 확인, 소독 등 강박 행동(Compulsion)이나 회피를 하게 되며 일시적 안도를 얻지만 결국 악순환이 강화되고 반복됩니다.
+일상 기능 저하가 큰 경우 정신건강의학과 전문 평가가 필요하며, 노출 및 반응방지(ERP)를 포함한 인지행동치료(CBT)와 약물치료가 근거 기반 표준 치료 선택지로 권장됩니다.
+한의학적 관리는 기존 표준 치료를 대체하는 것이 아니라 현재 치료 상황을 고려해 심신 긴장 완화를 돕도록 보완적으로 계획합니다.
+[주요 진료 안내](/treatments/)
+## 2. 발생 기전
+[온라인 상담](/inquiry/)
+## 3. 다른 상태와 감별
+## 4. 해아림한의원의 맞춤 관리
+한약 처방과 침구 치료.
+## 5. 자주 묻는 질문
+**Q1. 질문**
+A. 답변
+**Q2. 질문2**
+A. 답변
+`,
+  hashtags: ['성남강박증', '성남한의원', '강박증치료', '해아림한의원'],
+  keywords: ['성남 강박증', '성남시 강박증', '강박증 한방치료'],
+  thumbnailCopy: { yellowText: '원치 않는', whiteText: '불안한 생각 반복', greenText: '강박증' }
+});
+assert.strictEqual(validOcdArticle.valid, true, `Valid OCD article must pass: ${validOcdArticle.errors.join(', ')}`);
+console.log('✅ PASS: Valid OCD article with vicious cycle and standard treatments passed.');
+
+// OCD missing vicious cycle
+const failOcdMissingCycle = validateArticleContent({
+  diseaseId: 'depression',
+  titleDisease: '강박증/OCD',
+  thumbnailDiseaseLabel: '강박증',
+  seoDiseaseLabel: '강박증',
+  topicAngle: { id: 'intrusive-thoughts', titleSuffix: '원치 않는 불안한 생각이 반복적으로 떠오를 때' },
+  geoId: 'seongnam-main',
+  title: '[성남 강박증/OCD] 원치 않는 불안한 생각이 반복적으로 떠오를 때',
+  summary: '성남 지역 주민분들을 위한 강박증 가이드입니다.',
+  body: `
+## 1. 진료실 고민
+<div class="column-key-summary-box">핵심 요약</div>
+단순히 생각이 많습니다.
+ERP, 인지행동치료(CBT), 약물치료 등 전문 평가를 받습니다.
+[주요 진료 안내](/treatments/)
+## 2. 배경
+[온라인 상담](/inquiry/)
+## 3. 감별
+## 4. 관리
+한약 처방과 침구 치료.
+## 5. FAQ
+**Q1. 질문**
+A. 답변
+**Q2. 질문2**
+A. 답변
+`,
+  hashtags: ['성남강박증', '성남한의원', '강박증치료', '해아림한의원'],
+  keywords: ['성남 강박증', '성남시 강박증', '강박증 한방치료'],
+  thumbnailCopy: { yellowText: '원치 않는', whiteText: '생각이 많을 때', greenText: '강박증' }
+});
+assert.strictEqual(failOcdMissingCycle.valid, false, 'OCD missing vicious cycle MUST FAIL');
+assert.ok(failOcdMissingCycle.errors.some(e => e.includes('OCD vicious cycle missing')), 'Expected OCD vicious cycle missing error');
+console.log('✅ PASS: OCD missing vicious cycle strictly blocked.');
+
+// OCD claiming cognitive distancing replaces ERP
+const failOcdReplacingErp = validateArticleContent({
+  diseaseId: 'depression',
+  titleDisease: '강박증/OCD',
+  thumbnailDiseaseLabel: '강박증',
+  seoDiseaseLabel: '강박증',
+  topicAngle: { id: 'intrusive-thoughts', titleSuffix: '원치 않는 불안한 생각이 반복적으로 떠오를 때' },
+  geoId: 'seongnam-main',
+  title: '[성남 강박증/OCD] 원치 않는 불안한 생각이 반복적으로 떠오를 때',
+  summary: '성남 지역 주민분들을 위한 강박증 안내입니다.',
+  body: `
+## 1. 진료실 고민
+<div class="column-key-summary-box">핵심 요약</div>
+침투적 사고로 불안과 고통이 생겨 강박 행동과 확인을 통해 일시적 안도를 얻지만 악순환이 반복 강화됩니다.
+전문의 평가와 표준 치료로 ERP, CBT, 약물치료가 있습니다.
+그러나 인지적 거리두기와 수용 훈련은 힘든 ERP를 대신하는 새로운 치료법입니다.
+[주요 진료 안내](/treatments/)
+## 2. 배경
+[온라인 상담](/inquiry/)
+## 3. 감별
+## 4. 관리
+한약 처방과 침구 치료.
+## 5. FAQ
+**Q1. 질문**
+A. 답변
+**Q2. 질문2**
+A. 답변
+`,
+  hashtags: ['성남강박증', '성남한의원', '강박증치료', '해아림한의원'],
+  keywords: ['성남 강박증', '성남시 강박증', '강박증 한방치료'],
+  thumbnailCopy: { yellowText: '원치 않는', whiteText: '불안한 생각 반복', greenText: '강박증' }
+});
+assert.strictEqual(failOcdReplacingErp.valid, false, 'Claiming cognitive distancing replaces ERP MUST FAIL');
+assert.ok(failOcdReplacingErp.errors.some(e => e.includes('OCD treatment framing violation')), 'Expected OCD treatment framing violation');
+console.log('✅ PASS: Claiming cognitive distancing replaces ERP strictly blocked.');
+
+// 15-C. Separation Anxiety: Normal Developmental vs Clinical Disorder Distinction
+console.log('\n[Test 15-C] Testing Separation Anxiety Normal Developmental vs Disorder Distinction...');
+
+const validSepAnxietyArticle = validateArticleContent({
+  diseaseId: 'child',
+  titleDisease: '소아 분리불안',
+  thumbnailDiseaseLabel: '소아 분리불안',
+  seoDiseaseLabel: '소아 분리불안',
+  ageGroup: 'child',
+  topicAngle: { id: 'school-reluctance', titleSuffix: '유치원이나 학교 갈 때마다 배가 아프다고 우는 아이' },
+  geoId: 'yongin-cheoin',
+  title: '[처인구 소아 분리불안] 유치원이나 학교 갈 때마다 배가 아프다고 우는 아이',
+  summary: '용인 처인구 지역 학부모를 위한 정상 발달 분리불안과 분리불안장애 감별 및 아침 복통 대처 가이드입니다.',
+  body: `
+## 1. 진료실에서 자주 마주하는 고민
+<div class="column-key-summary-box">핵심 요약</div>
+어린 시기의 양육자 분리 불안 자체는 정상적인 발달 과정에서도 흔히 나타날 수 있는 자연스러운 반응입니다.
+하지만 아이의 연령과 발달 수준에 비해 불안이 과도하고 지속되며, 등원 거부나 일상 기능을 방해하는 수준이라면 분리불안장애 가능성을 포함해 전문 평가가 필요합니다.
+[주요 진료 안내](/treatments/)
+## 2. 발생 배경
+[온라인 상담](/inquiry/)
+## 3. 비슷한 다른 상태와 감별
+## 4. 해아림한의원의 맞춤 관리
+한약 처방과 침구 치료.
+## 5. 자주 묻는 질문
+**Q1. 질문**
+A. 답변
+**Q2. 질문2**
+A. 답변
+`,
+  hashtags: ['처인구소아분리불안', '처인구한의원', '소아분리불안치료', '해아림한의원'],
+  keywords: ['처인구 소아 분리불안', '용인시 처인구 소아 분리불안', '소아 분리불안 한방치료'],
+  thumbnailCopy: { yellowText: '등원할 때마다', whiteText: '배 아프다고 우는 아이', greenText: '소아 분리불안' }
+});
+assert.strictEqual(validSepAnxietyArticle.valid, true, `Valid separation anxiety article must pass: ${validSepAnxietyArticle.errors.join(', ')}`);
+console.log('✅ PASS: Valid separation anxiety article distinguishing developmental anxiety passed.');
+
+const failSepAnxietyMissingDev = validateArticleContent({
+  diseaseId: 'child',
+  titleDisease: '소아 분리불안',
+  thumbnailDiseaseLabel: '소아 분리불안',
+  seoDiseaseLabel: '소아 분리불안',
+  ageGroup: 'child',
+  topicAngle: { id: 'school-reluctance', titleSuffix: '유치원이나 학교 갈 때마다 배가 아프다고 우는 아이' },
+  geoId: 'yongin-cheoin',
+  title: '[처인구 소아 분리불안] 유치원이나 학교 갈 때마다 배가 아프다고 우는 아이',
+  summary: '용인 처인구 지역 학부모를 위한 소아 분리불안 가이드입니다.',
+  body: `
+## 1. 진료실 고민
+<div class="column-key-summary-box">핵심 요약</div>
+아이가 학교에 가기 싫어하면 즉시 치료해야 합니다.
+[주요 진료 안내](/treatments/)
+## 2. 배경
+[온라인 상담](/inquiry/)
+## 3. 감별
+## 4. 평가
+한약 처방과 침구 치료.
+## 5. FAQ
+**Q1. 질문**
+A. 답변
+**Q2. 질문2**
+A. 답변
+`,
+  hashtags: ['처인구소아분리불안', '처인구한의원', '소아분리불안치료', '해아림한의원'],
+  keywords: ['처인구 소아 분리불안', '용인시 처인구 소아 분리불안', '소아 분리불안 한방치료'],
+  thumbnailCopy: { yellowText: '등원할 때마다', whiteText: '배 아프다고 우는 아이', greenText: '소아 분리불안' }
+});
+assert.strictEqual(failSepAnxietyMissingDev.valid, false, 'Separation anxiety missing developmental distinction MUST FAIL');
+assert.ok(failSepAnxietyMissingDev.errors.some(e => e.includes('Separation anxiety developmental distinction missing')), 'Expected Separation anxiety developmental distinction missing error');
+console.log('✅ PASS: Separation anxiety missing normal developmental distinction strictly blocked.');
+
+// 15-D. Separation Anxiety: Prohibit Enuresis Lifestyle Management Intrusion
+console.log('\n[Test 15-D] Testing Enuresis Management Leakage into Separation Anxiety...');
+
+const failSepAnxietyEnuresisLeakage = validateArticleContent({
+  diseaseId: 'child',
+  titleDisease: '소아 분리불안',
+  thumbnailDiseaseLabel: '소아 분리불안',
+  seoDiseaseLabel: '소아 분리불안',
+  ageGroup: 'child',
+  topicAngle: { id: 'school-reluctance', titleSuffix: '유치원이나 학교 갈 때마다 배가 아프다고 우는 아이' },
+  geoId: 'yongin-cheoin',
+  title: '[처인구 소아 분리불안] 유치원이나 학교 갈 때마다 배가 아프다고 우는 아이',
+  summary: '용인 처인구 지역 학부모를 위한 소아 분리불안 및 신체 증상 관리 가이드입니다.',
+  body: `
+## 1. 진료실 고민
+<div class="column-key-summary-box">핵심 요약</div>
+정상적인 발달 과정일 수 있으나 과도하고 일상 기능을 방해하면 전문 평가가 필요합니다.
+[주요 진료 안내](/treatments/)
+## 2. 배경
+[온라인 상담](/inquiry/)
+## 3. 감별
+## 4. 평가
+한약 처방과 침구 치료.
+## 5. 일상 생활 관리
+저녁 식사 후 과도한 수분 제한을 실천하고 취침 전 배뇨 습관을 들이는 것이 좋습니다.
+## 6. FAQ
+**Q1. 질문**
+A. 답변
+**Q2. 질문2**
+A. 답변
+`,
+  hashtags: ['처인구소아분리불안', '처인구한의원', '소아분리불안치료', '해아림한의원'],
+  keywords: ['처인구 소아 분리불안', '용인시 처인구 소아 분리불안', '소아 분리불안 한방치료'],
+  thumbnailCopy: { yellowText: '등원할 때마다', whiteText: '배 아프다고 우는 아이', greenText: '소아 분리불안' }
+});
+assert.strictEqual(failSepAnxietyEnuresisLeakage.valid, false, 'Enuresis management in separation anxiety MUST FAIL');
+assert.ok(failSepAnxietyEnuresisLeakage.errors.some(e => e.includes('Separation anxiety enuresis management leakage')), 'Expected Separation anxiety enuresis management leakage');
+console.log('✅ PASS: Enuresis management leakage into separation anxiety strictly blocked.');
+
+// 15-E. Night Terrors: Title Conflating Nightmares MUST FAIL
+console.log('\n[Test 15-E] Testing Night Terrors Title Nightmare Conflation Blocking...');
+
+const failNightTerrorsConflatedTitle = validateArticleContent({
+  diseaseId: 'child',
+  titleDisease: '소아 야경증',
+  thumbnailDiseaseLabel: '소아 야경증',
+  seoDiseaseLabel: '소아 야경증',
+  ageGroup: 'child',
+  topicAngle: { id: 'screaming-sleep', titleSuffix: '밤마다 자다 깨서 자지러지게 울거나 악몽을 꿀 때' },
+  geoId: 'gyeonggi-icheon',
+  title: '[이천 소아 야경증] 밤마다 자다 깨서 자지러지게 울거나 악몽을 꿀 때',
+  summary: '이천 지역 학부모를 위한 소아 야경증 및 수면 관리 가이드입니다.',
+  body: `
+## 1. 진료실 고민
+<div class="column-key-summary-box">핵심 요약</div>
+NREM 수면 중 부분 각성으로 일어나며 완전히 깨어나지 않습니다.
+다음 날 아침 사건을 기억하지 못하며 악몽과의 감별이 필요합니다.
+[주요 진료 안내](/treatments/)
+## 2. 배경
+[온라인 상담](/inquiry/)
+## 3. 감별
+## 4. 평가
+한약 처방과 침구 치료.
+## 5. FAQ
+**Q1. 질문**
+A. 답변
+**Q2. 질문2**
+A. 답변
+`,
+  hashtags: ['이천소아야경증', '이천한의원', '소아야경증치료', '해아림한의원'],
+  keywords: ['이천 소아 야경증', '이천시 소아 야경증', '소아 야경증 한방치료'],
+  thumbnailCopy: { yellowText: '자다가 갑자기', whiteText: '울고 소리칠 때', greenText: '소아 야경증' }
+});
+assert.strictEqual(failNightTerrorsConflatedTitle.valid, false, 'Night terrors title conflating nightmares MUST FAIL');
+assert.ok(failNightTerrorsConflatedTitle.errors.some(e => e.includes('Night terrors title conflation violation')), 'Expected Night terrors title conflation violation');
+console.log('✅ PASS: Night terrors title conflating nightmares strictly blocked.');
+
+// 15-F. Night Terrors: Thumbnail Image Prompt Night/Bedroom/Sleep Context Requirement
+console.log('\n[Test 15-F] Testing Night Terrors Image Prompt Context Requirements...');
+
+const validNightTerrorsPrompt = buildImagePrompt('child', '소아 야경증', 'screaming-sleep', '자다가 갑자기 울고 소리치지만 다음 날 기억하지 못할 때', 'child');
+assert.ok(validNightTerrorsPrompt.includes('calm nighttime bedroom') || validNightTerrorsPrompt.includes('bedtime environment'), 'Prompt must include nighttime bedroom/bedtime');
+assert.ok(validNightTerrorsPrompt.includes('soft dim indoor'), 'Prompt must specify soft dim light');
+assert.ok(validNightTerrorsPrompt.includes('NO screaming'), 'Prompt must strictly forbid screaming');
+assert.ok(validNightTerrorsPrompt.includes('NO crying'), 'Prompt must strictly forbid crying');
+assert.ok(validNightTerrorsPrompt.includes('NO daytime scene'), 'Prompt must strictly forbid daytime scene');
+assert.ok(validNightTerrorsPrompt.includes('NO drawing scene'), 'Prompt must strictly forbid drawing scene');
+console.log('✅ PASS: Generated Night Terrors image prompt includes calm bedtime context and forbids symptom/daytime/drawing.');
+
+// Validator blocks daytime/drawing image prompt for night terrors
+const failDaytimeNightTerrorsArticle = validateArticleContent({
+  diseaseId: 'child',
+  titleDisease: '소아 야경증',
+  thumbnailDiseaseLabel: '소아 야경증',
+  seoDiseaseLabel: '소아 야경증',
+  ageGroup: 'child',
+  topicAngle: { id: 'screaming-sleep', titleSuffix: '자다가 갑자기 울고 소리치지만 다음 날 기억하지 못할 때' },
+  geoId: 'gyeonggi-icheon',
+  title: '[이천 소아 야경증] 자다가 갑자기 울고 소리치지만 다음 날 기억하지 못할 때',
+  summary: '이천 지역 학부모를 위한 소아 야경증 NREM 부분 각성과 수면 피로 관리 가이드입니다.',
+  body: `
+## 1. 진료실 고민
+<div class="column-key-summary-box">핵심 요약</div>
+NREM 수면 중 부분 각성으로 발생하며 완전히 깨어나지 않습니다.
+다음 날 아침 사건을 기억하지 못하며 악몽과의 감별이 중요합니다.
+[주요 진료 안내](/treatments/)
+## 2. 배경
+[온라인 상담](/inquiry/)
+## 3. 감별
+## 4. 평가
+한약 처방과 침구 치료.
+## 5. FAQ
+**Q1. 질문**
+A. 답변
+**Q2. 질문2**
+A. 답변
+`,
+  hashtags: ['이천소아야경증', '이천한의원', '소아야경증치료', '해아림한의원'],
+  keywords: ['이천 소아 야경증', '이천시 소아 야경증', '소아 야경증 한방치료'],
+  thumbnailCopy: { yellowText: '자다가 갑자기', whiteText: '울고 소리칠 때', greenText: '소아 야경증' }
+}, {
+  imagePrompt: 'A realistic single photo of one Korean child in daytime drawing at a classroom desk with crayons, bright daylight.'
+});
+assert.strictEqual(failDaytimeNightTerrorsArticle.valid, false, 'Daytime drawing prompt for night terrors MUST FAIL');
+assert.ok(failDaytimeNightTerrorsArticle.errors.some(e => e.includes('Night terrors thumbnail prompt')), 'Expected Night terrors thumbnail prompt error');
+console.log('✅ PASS: Daytime drawing prompt for night terrors strictly blocked by validator.');
+
+// 15-G. Night Terrors: Prohibit Enuresis Management Leakage
+console.log('\n[Test 15-G] Testing Enuresis Management Leakage into Night Terrors...');
+
+const failNightTerrorsEnuresisLeakage = validateArticleContent({
+  diseaseId: 'child',
+  titleDisease: '소아 야경증',
+  thumbnailDiseaseLabel: '소아 야경증',
+  seoDiseaseLabel: '소아 야경증',
+  ageGroup: 'child',
+  topicAngle: { id: 'screaming-sleep', titleSuffix: '자다가 갑자기 울고 소리치지만 다음 날 기억하지 못할 때' },
+  geoId: 'gyeonggi-icheon',
+  title: '[이천 소아 야경증] 자다가 갑자기 울고 소리치지만 다음 날 기억하지 못할 때',
+  summary: '이천 지역 학부모를 위한 소아 야경증 NREM 부분 각성과 수면 피로 관리 가이드입니다.',
+  body: `
+## 1. 진료실 고민
+<div class="column-key-summary-box">핵심 요약</div>
+NREM 수면 중 부분 각성으로 발생하며 완전히 깨어나지 않습니다.
+다음 날 아침 사건을 기억하지 못하며 악몽과의 감별이 중요합니다.
+[주요 진료 안내](/treatments/)
+## 2. 배경
+[온라인 상담](/inquiry/)
+## 3. 감별
+## 4. 평가
+한약 처방과 침구 치료.
+## 5. 핵심 생활 관리
+저녁 수분 제한과 취침 전 배뇨를 철저히 관리하는 것이 야경증의 핵심 관리입니다.
+## 6. FAQ
+**Q1. 질문**
+A. 답변
+**Q2. 질문2**
+A. 답변
+`,
+  hashtags: ['이천소아야경증', '이천한의원', '소아야경증치료', '해아림한의원'],
+  keywords: ['이천 소아 야경증', '이천시 소아 야경증', '소아 야경증 한방치료'],
+  thumbnailCopy: { yellowText: '자다가 갑자기', whiteText: '울고 소리칠 때', greenText: '소아 야경증' }
+});
+assert.strictEqual(failNightTerrorsEnuresisLeakage.valid, false, 'Enuresis management in night terrors MUST FAIL');
+assert.ok(failNightTerrorsEnuresisLeakage.errors.some(e => e.includes('Night terrors enuresis management leakage')), 'Expected Night terrors enuresis management leakage');
+console.log('✅ PASS: Enuresis management leakage into night terrors strictly blocked.');
+
+// 15-H. Common Content Identity Resolver: QA and Production Equivalence
+console.log('\n[Test 15-H] Testing Common Content Identity Resolver Consistency Across QA and Production...');
+const { resolveContentIdentity } = require('../scripts/auto_column/identity_resolver');
+const { buildProductionTopicPlan } = require('../scripts/auto_column/topic_planner');
+
+// 1. intrusive-thoughts -> OCD
+const qaOcdPlan = buildQAPlan(findQATarget('qa-16-ocd'));
+const seongnamRegion = geoHierarchy.regions.find(r => r.id === 'seongnam-main');
+const depDisease = diseaseTaxonomy.diseases.find(d => d.id === 'depression');
+const ocdAngle = depDisease.topicAngles.find(a => a.id === 'intrusive-thoughts');
+const prodOcdPlan = buildProductionTopicPlan(seongnamRegion, depDisease, ocdAngle);
+
+assert.strictEqual(qaOcdPlan.titleDisease, '강박증/OCD');
+assert.strictEqual(prodOcdPlan.titleDisease, '강박증/OCD');
+assert.strictEqual(qaOcdPlan.seoDiseaseLabel, '강박증');
+assert.strictEqual(prodOcdPlan.seoDiseaseLabel, '강박증');
+assert.strictEqual(qaOcdPlan.thumbnailDiseaseLabel, '강박증');
+assert.strictEqual(prodOcdPlan.thumbnailDiseaseLabel, '강박증');
+assert.ok(qaOcdPlan.slug.includes('-ocd-'), `QA slug should contain 'ocd', got: ${qaOcdPlan.slug}`);
+assert.ok(prodOcdPlan.slug.includes('-ocd-'), `Production slug should contain 'ocd', got: ${prodOcdPlan.slug}`);
+console.log('✅ PASS: intrusive-thoughts resolves identically to OCD in QA and Production (slug: -ocd-).');
+
+// 2. presentation-anxiety -> social-phobia
+const qaSocialPlan = buildQAPlan(findQATarget('qa-07-social-phobia'));
+const sujeongRegion = geoHierarchy.regions.find(r => r.id === 'seongnam-sujeong');
+const anxDisease = diseaseTaxonomy.diseases.find(d => d.id === 'anxiety');
+const socialAngle = anxDisease.topicAngles.find(a => a.id === 'presentation-anxiety');
+const prodSocialPlan = buildProductionTopicPlan(sujeongRegion, anxDisease, socialAngle);
+
+assert.strictEqual(qaSocialPlan.titleDisease, '사회공포증');
+assert.strictEqual(prodSocialPlan.titleDisease, '사회공포증');
+assert.strictEqual(qaSocialPlan.seoDiseaseLabel, '사회공포증');
+assert.strictEqual(prodSocialPlan.seoDiseaseLabel, '사회공포증');
+assert.strictEqual(qaSocialPlan.thumbnailDiseaseLabel, '사회공포증');
+assert.strictEqual(prodSocialPlan.thumbnailDiseaseLabel, '사회공포증');
+assert.ok(qaSocialPlan.slug.includes('-social-phobia-'), `QA slug should contain 'social-phobia', got: ${qaSocialPlan.slug}`);
+assert.ok(prodSocialPlan.slug.includes('-social-phobia-'), `Production slug should contain 'social-phobia', got: ${prodSocialPlan.slug}`);
+console.log('✅ PASS: presentation-anxiety resolves identically to social-phobia in QA and Production (slug: -social-phobia-).');
+
+// 3. chronic-dizziness -> dizziness
+const qaDizzinessPlan = buildQAPlan(findQATarget('qa-14-dizziness'));
+const sujiRegion = geoHierarchy.regions.find(r => r.id === 'yongin-suji');
+const headacheDisease = diseaseTaxonomy.diseases.find(d => d.id === 'headache');
+const dizzinessAngle = headacheDisease.topicAngles.find(a => a.id === 'chronic-dizziness');
+const prodDizzinessPlan = buildProductionTopicPlan(sujiRegion, headacheDisease, dizzinessAngle);
+
+assert.strictEqual(qaDizzinessPlan.titleDisease, '어지럼증');
+assert.strictEqual(prodDizzinessPlan.titleDisease, '어지럼증');
+assert.strictEqual(qaDizzinessPlan.seoDiseaseLabel, '어지럼증');
+assert.strictEqual(prodDizzinessPlan.seoDiseaseLabel, '어지럼증');
+assert.strictEqual(qaDizzinessPlan.thumbnailDiseaseLabel, '어지럼증');
+assert.strictEqual(prodDizzinessPlan.thumbnailDiseaseLabel, '어지럼증');
+assert.ok(qaDizzinessPlan.slug.includes('-dizziness-'), `QA slug should contain 'dizziness', got: ${qaDizzinessPlan.slug}`);
+assert.ok(prodDizzinessPlan.slug.includes('-dizziness-'), `Production slug should contain 'dizziness', got: ${prodDizzinessPlan.slug}`);
+console.log('✅ PASS: chronic-dizziness resolves identically to dizziness in QA and Production (slug: -dizziness-).');
+
+// 4. parent-guidance -> tourette
+const qaTourettePlan = buildQAPlan(findQATarget('qa-02-tourette'));
+const ticDisease = diseaseTaxonomy.diseases.find(d => d.id === 'tic');
+const touretteAngle = ticDisease.topicAngles.find(a => a.id === 'parent-guidance');
+const prodTourettePlan = buildProductionTopicPlan(sujiRegion, ticDisease, touretteAngle);
+
+assert.strictEqual(qaTourettePlan.titleDisease, '뚜렛증후군');
+assert.strictEqual(prodTourettePlan.titleDisease, '뚜렛증후군');
+assert.strictEqual(qaTourettePlan.seoDiseaseLabel, '뚜렛증후군');
+assert.strictEqual(prodTourettePlan.seoDiseaseLabel, '뚜렛증후군');
+assert.strictEqual(qaTourettePlan.thumbnailDiseaseLabel, '뚜렛증후군');
+assert.strictEqual(prodTourettePlan.thumbnailDiseaseLabel, '뚜렛증후군');
+assert.ok(qaTourettePlan.slug.includes('-tourette-'), `QA slug should contain 'tourette', got: ${qaTourettePlan.slug}`);
+assert.ok(prodTourettePlan.slug.includes('-tourette-'), `Production slug should contain 'tourette', got: ${prodTourettePlan.slug}`);
+console.log('✅ PASS: parent-guidance resolves identically to tourette in QA and Production (slug: -tourette-).');
+
+console.log('\n🎉 ALL 15 QA SYSTEM INTEGRITY, REGRESSION, BATCH, GEO, HUMAN REVIEW, TARGET IDENTITY, CLINICAL GUIDANCE, TREATMENT CERTAINTY, BATCH 3 & BATCH 4 REVIEW TESTS PASSED 100%!');
 
 
 

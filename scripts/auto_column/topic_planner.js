@@ -3,6 +3,7 @@ const path = require('path');
 
 const geoHierarchy = require('./geo_hierarchy.json');
 const diseaseTaxonomy = require('./disease_taxonomy.json');
+const { resolveContentIdentity } = require('./identity_resolver');
 
 const HISTORY_PATH = path.join(__dirname, '../../data/auto_column_history.json');
 
@@ -144,26 +145,36 @@ function planNextColumn(options = {}) {
     }
   }
 
-  // Build canonical title and slug
-  const titlePrefix = best.region.canonicalTitle.replace('{disease}', best.disease.name);
+  const plan = buildProductionTopicPlan(best.region, best.disease, chosenAngle, now);
+  plan.score = best.score;
+  return plan;
+}
+
+/**
+ * Builds a planned topic object for a specific region, disease, and chosen angle using resolveContentIdentity.
+ */
+function buildProductionTopicPlan(region, disease, chosenAngle, now = new Date()) {
+  const identity = resolveContentIdentity(disease.id, chosenAngle.id);
+
+  // Build canonical title and slug using resolved identity
+  const titlePrefix = region.canonicalTitle.replace('{disease}', identity.titleDisease);
   const titleCandidate = `${titlePrefix} ${chosenAngle.titleSuffix}`;
   
-  // Format slug: e.g. seongnam-bundang-tic-media-exposure or yongin-suji-adhd-adult-work-mistakes
-  const datePrefix = now.toISOString().slice(0, 10);
-  const rawSlug = `${best.region.id}-${best.disease.id}-${chosenAngle.id}`;
+  // Format slug using identity.slugDiseaseLabel
+  const rawSlug = `${region.id}-${identity.slugDiseaseLabel}-${chosenAngle.id}`;
   const slug = rawSlug.toLowerCase().replace(/[^a-z0-9-]/g, '-').replace(/-+/g, '-');
 
   return {
     status: 'ready',
-    geo: best.region,
-    disease: best.disease,
-    titleDisease: best.disease.name,
-    thumbnailDiseaseLabel: best.disease.name,
-    seoDiseaseLabel: best.disease.name,
+    geo: region,
+    disease,
+    titleDisease: identity.titleDisease,
+    thumbnailDiseaseLabel: identity.thumbnailDiseaseLabel,
+    seoDiseaseLabel: identity.seoDiseaseLabel,
+    ageGroup: identity.ageGroup,
     topicAngle: chosenAngle,
     titleCandidate,
     slug,
-    score: best.score,
     timestamp: now.toISOString()
   };
 }
@@ -173,5 +184,6 @@ module.exports = {
   isGeoDiseaseIn90DayCooldown,
   isDiseaseIn3DayCooldown,
   getTodayPublishedItems,
-  planNextColumn
+  planNextColumn,
+  buildProductionTopicPlan
 };

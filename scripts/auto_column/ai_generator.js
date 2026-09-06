@@ -127,6 +127,16 @@ function buildImagePrompt(diseaseId, diseaseName, topicAngleId = '', topicAngleF
       return `A realistic single photo of one Korean school-age child in a calm home environment, sitting naturally with a thoughtful expression. Warm realistic lifestyle photography, soft indoor light, child health editorial photography. Strictly: ONE child only, Korean school-age child or adolescent, NO adult as main subject, no distress, no medical symptoms, no text.`;
     }
 
+    // Night Terrors Child (qa-18-night-terrors)
+    if (diseaseId === 'night-terrors' || (diseaseName && diseaseName.includes('야경')) || topicAngleId.includes('night-terror') || focusLower.includes('night-terror') || focusLower.includes('야경') || focusLower.includes('screaming-sleep')) {
+      return `A realistic single photo of one Korean school-age child in a calm nighttime bedroom or peaceful bedtime environment, resting quietly or preparing for sleep, soft dim indoor ambient light, safe and non-distressing scene. Strictly: ONE child only, Korean school-age child, calm nighttime bedroom / bedtime environment context, resting or preparing for sleep, soft dim indoor light, safe and non-distressing scene, NO screaming, NO crying, NO nightmare simulation, NO medical symptom simulation, NO parent required, NO adult as main subject, NO daytime scene, NO drawing scene, NO classroom, no text, no logo, no watermark.`;
+    }
+
+    // Separation Anxiety Child (qa-17-separation-anxiety)
+    if (diseaseId === 'separation-anxiety' || (diseaseName && diseaseName.includes('분리불안')) || topicAngleId.includes('separation') || focusLower.includes('separation') || focusLower.includes('분리불안') || focusLower.includes('school-reluctance')) {
+      return `A realistic single photo of one Korean school-age child standing or sitting calmly in a bright comfortable home living area or hallway, natural relaxed posture, soft warm daylight, child health editorial photography. Strictly: ONE child only, Korean school-age child, natural home environment, thoughtful calm expression, NO crying, NO screaming, NO clinginess, NO distress, NO adult as main subject, no text, no logo, no watermark.`;
+    }
+
     // General Child
     return `A realistic single lifestyle photo of one Korean child in a bright comfortable living room, natural relaxed posture, soft daylight, pediatric wellness photography. Strictly: ONE child only, Korean school-age child, NO adult as main subject, no distress, no visible illness, no text.`;
   }
@@ -150,6 +160,9 @@ function buildImagePrompt(diseaseId, diseaseName, topicAngleId = '', topicAngleF
  */
 function buildFallbackImagePrompt(diseaseId, diseaseName, topicAngleId = '', topicAngleFocus = '', ageGroup = 'mixed') {
   const focusLower = `${topicAngleFocus} ${topicAngleId}`.toLowerCase();
+  if (diseaseId === 'night-terrors' || (diseaseName && diseaseName.includes('야경')) || focusLower.includes('night-terror') || focusLower.includes('야경') || focusLower.includes('screaming-sleep')) {
+    return `A realistic photo of one Korean school-age child resting peacefully in a calm nighttime bedroom, soft dim lighting, safe and quiet bedtime context, child health editorial photography, strictly ONE child only, calm nighttime bedroom / bedtime environment, resting or preparing for sleep, NO screaming, NO crying, NO daytime, NO drawing, no distress, no symptoms, no text.`;
+  }
   if (diseaseId === 'syncope' || (diseaseName && diseaseName.includes('실신')) || focusLower.includes('subway') || topicAngleId.includes('subway')) {
     return `A realistic lifestyle photo of one Korean working-age adult in a subway or public transit environment, naturally seated or standing during commute, calm and composed, health editorial photography, strictly ONE adult only, NO collapse, NO fainting, NO clutching body, no distress, no symptoms, no text.`;
   }
@@ -421,6 +434,81 @@ ${linksListMd}
 `;
   }
 
+  const isDepression = plan.disease.id === 'depression' || (plan.disease.name && plan.disease.name.includes('우울'));
+  const isOcd = plan.disease.id === 'ocd' || (plan.disease.name && (plan.disease.name.includes('강박') || plan.disease.name.includes('OCD'))) ||
+    (plan.topicAngle && plan.topicAngle.id === 'intrusive-thoughts') ||
+    (plan.qaId && plan.qaId.includes('ocd'));
+  const isSeparationAnxiety = plan.disease.id === 'separation-anxiety' || (plan.disease.name && plan.disease.name.includes('분리불안')) ||
+    (plan.topicAngle && plan.topicAngle.id === 'school-reluctance') ||
+    (plan.qaId && plan.qaId.includes('separation-anxiety'));
+  const isNightTerrors = plan.disease.id === 'night-terrors' || (plan.disease.name && plan.disease.name.includes('야경')) ||
+    (plan.topicAngle && plan.topicAngle.id === 'screaming-sleep') ||
+    (plan.qaId && plan.qaId.includes('night-terrors'));
+
+  let depressionGuideline = '';
+  if (isDepression && !isOcd) {
+    depressionGuideline = `
+7-5. [우울증 및 번아웃 구분 지침 (Depression vs Burnout Rule)]
+   - 번아웃은 만성적인 직장 스트레스와 관련된 직업적 현상(occupational phenomenon, ICD-11)이며, 우울증 자체와 동일한 의학적 진단이 아니라는 점을 명확히 구분하십시오.
+   - 쉬어도 지속되는 피로와 무기력이 중심인 경우, 우울 증상뿐 아니라 신체적 원인(갑상선 기능 이상, 만성 피로, 빈혈 등) 또는 약물 영향 등 다른 원인도 상황에 따라 감별할 필요가 있다는 중립적인 문장을 반드시 추가하십시오.
+   - [OCD 확인행동 독립 섹션 엄격 금지] 문 잠금, 가스 확인, 침투적 사고, 반복 확인 행동 등 강박증(OCD)의 핵심 증상을 우울증 글의 독립된 H2/H3 섹션으로 길게 다루지 마십시오. 강박 증상은 불안이나 우울 상태에서 동반될 수 있는 가능성을 1~2문장으로 짧게 언급하는 수준만 허용됩니다.
+   - 자살/자해 생각이나 심각한 절망감에 대한 전문의 진료 안내(Red flag) 및 위기상담전화(109/1393)는 신중하고 안전하게 유지하십시오.
+`;
+  }
+
+  let ocdGuideline = '';
+  if (isOcd) {
+    ocdGuideline = `
+7-6. [강박증(OCD) 핵심 악순환 및 표준 치료 지침 (OCD Clinical Rule)]
+   - 침투적 사고와 "원치 않는 생각 ≠ 실제 의도나 성격"이라는 점을 분명히 설명하십시오.
+   - [핵심 악순환 중심 설명 - 필수] 강박증의 핵심 악순환 구조:
+     "침투적 사고/강박 사고(Obsession) → 불안/고통(Anxiety/Distress) → 강박 행동 또는 회피/확인(Compulsion/Avoidance) → 일시적 안도(Temporary Relief) → 악순환 반복 및 강화(Reinforcement)"
+     를 본문의 중심 기전으로 상세하고 명확하게 설명하십시오.
+   - [우울/소진 문구 배제] 번아웃, 햇빛 부족, 신체활동 저하, 억눌린 감정, 화병 등 우울증이나 소진 쪽의 일반적인 문구 비중을 대폭 줄이고 강박증 고유의 인지-행동 특성에 집중하십시오.
+   - [근거 기반 표준 치료 중립적 언급 - 필수] 일상 기능 저하가 큰 강박증에서는 전문의 평가가 필요하며, 노출 및 반응방지(ERP, Exposure and Response Prevention)를 포함한 인지행동치료(CBT)와 약물치료 등이 근거 기반의 표준 치료 선택지로 널리 사용된다는 사실을 중립적이고 균형 있게 언급하십시오.
+   - [한의학적 관리 원칙] 한의학적 관리는 기존의 표준 치료나 전문의 진료를 대체한다고 서술하지 말고, 환자의 현재 치료 상황과 전반적인 신체 긴장도, 자율신경 불균형 등을 고려하여 보완적으로 계획한다는 원칙을 유지하십시오.
+   - "인지적 거리두기, 수용, 이완 훈련" 등을 ERP를 대체하는 치료법인 것처럼 서술하지 마십시오.
+`;
+  }
+
+  let separationGuideline = '';
+  if (isSeparationAnxiety) {
+    separationGuideline = `
+7-7. [소아 분리불안 감별 및 발달 불안 구분 지침 (Separation Anxiety Rule)]
+   - [정상 발달 불안 vs 장애 수준 구분 - 필수] 어린 시기의 보호자 분리 불안 자체는 정상적인 발달 과정에서도 흔히 나타날 수 있음을 명시하십시오.
+   - 다만 다음의 경우 분리불안장애 가능성을 포함해 전문 평가가 필요하다는 구조로 작성하십시오:
+     1) 아이의 연령 및 발달 수준에 비해 불안과 공포가 과도하고
+     2) 반복적으로 지속되며
+     3) 등원·등교 거부, 수면 문제, 복통·두통 등 신체 증상, 또래 관계 및 일상 기능을 뚜렷하게 방해하는 경우
+   - 구체적인 진단 기간 숫자(예: 4주 이상 등)는 검증된 출처(DSM-5)가 있을 때만 신중히 언급하고, 임의 숫자를 만들지 마십시오.
+   - '신경발달학적·신경생물학적 특성'을 근거 없이 핵심 발생 원인처럼 과도하게 단정하여 강조하지 마십시오.
+   - [야뇨 관리법 혼입 엄격 금지] "저녁 수분 제한", "취침 전 배뇨 습관" 등 야뇨증(child-enuresis) 관리법을 분리불안 글의 생활관리 항목에 넣지 마십시오. (야뇨는 수면 중 동반 여부를 확인하고 필요한 경우 별도로 평가할 수 있다는 1문장 언급 수준만 허용)
+   - 틱장애 관련 내부링크를 관련성이 충분하지 않은데 억지로 넣지 마십시오.
+`;
+  }
+
+  let nightTerrorsGuideline = '';
+  if (isNightTerrors) {
+    nightTerrorsGuideline = `
+7-8. [소아 야경증 임상 설명 및 악몽 감별 지침 (Night Terrors Clinical Rule)]
+   - [야경증과 악몽 완전 분리 - 필수] 제목, 주제, 서술에서 야경증과 악몽을 같은 증상처럼 묶지 마십시오. 악몽은 감별 진단 설명에서만 다루십시오.
+   - [핵심 임상 특징]:
+     1) NREM(비렘) 수면 중 부분 각성으로 발생
+     2) 아이가 소리를 지르거나 울지만 자극에 잘 반응하지 않고 완전히 깨어나지 않음
+     3) 다음 날 아침 사건을 전혀 기억하지 못하거나 거의 기억하지 못함 (악몽과의 결정적 차이: 악몽은 REM 수면 중 발생하며 꿈 내용을 생생히 기억함)
+   - [검증된 유발/악화 요인 우선 서술]: 수면 부족, 과도한 신체 피로, 수면 일정 변화 및 수면 환경 방해, 심리적 스트레스, 발열 등 검증된 요인을 우선적으로 다루십시오.
+   - "정서적 부담을 표현하는 방식"처럼 야경증을 단순 심리 문제의 표현으로 과도하게 해석하지 마십시오.
+   - [전문 평가가 필요한 경고 신호(Red flags) 안내]:
+     * 매우 잦은 발생(주 수회 이상) 또는 장기화
+     * 수면의 질을 크게 방해하거나 낮 동안 심한 졸림 및 일상 기능 저하 동반
+     * 침대 밖으로 뛰쳐나가는 등 부상 위험이 있는 경우
+     * 수면호흡장애(코골이, 무호흡) 등 다른 수면 질환이 의심되는 경우
+     * 전형적이지 않은 반복적인 경련 양상이나 주간 사건이 동반되는 경우
+     -> 소아청소년과 또는 수면 전문의의 정밀 평가가 필요함을 명시하십시오.
+   - [야뇨 관리법 혼입 엄격 금지] "저녁 수분 제한", "취침 전 배뇨 습관" 등 야뇨증 관리법을 야경증의 핵심 생활관리로 사용하지 마십시오.
+`;
+  }
+
   const prompt = `
 당신은 해아림한의원 대표원장의 관점에서 의학 칼럼 본문을 작성하는 전문 의료 작가입니다.
 
@@ -506,6 +594,10 @@ ${adhdAdultGuideline}
 ${ibsGuideline}
 ${syncopeGuideline}
 ${dizzinessGuideline}
+${depressionGuideline}
+${ocdGuideline}
+${separationGuideline}
+${nightTerrorsGuideline}
 마크다운 형식으로만 반환하십시오.
 `;
 

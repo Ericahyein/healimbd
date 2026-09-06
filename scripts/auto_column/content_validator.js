@@ -632,6 +632,138 @@ function checkSyncopePresyncopeDistinction(text) {
 }
 
 /**
+ * Prohibits independent OCD checking behavior sections (문 잠금, 가스 확인, 침투적 사고 등)
+ * in Depression / Burnout articles. Brief comorbidity mention (1~2 sentences) is allowed,
+ * but independent H2/H3 sections are strictly forbidden.
+ */
+function checkDepressionOcdSectionLeakage(body) {
+  if (!body || typeof body !== 'string') return { valid: true };
+  const ocdSectionPattern = /^#{2,4}\s+.*(확인\s*행동|문\s*잠금|가스\s*확인|침투적\s*사고|반복되는\s*불안한\s*생각과\s*확인)/m;
+  if (ocdSectionPattern.test(body)) {
+    const match = body.match(ocdSectionPattern);
+    return {
+      valid: false,
+      reason: `Depression OCD checking section violation: 우울증 글 안에 확인 행동, 문 잠금, 가스 확인, 침투적 사고 등 OCD 증상을 독립 섹션으로 다루지 마십시오. 동반 가능성을 짧게 언급하는 수준만 허용됩니다. (Matched: "${match ? match[0] : ''}")`
+    };
+  }
+  return { valid: true };
+}
+
+/**
+ * Validates OCD-specific vicious cycle and evidence-based standard treatments.
+ * - Must explain: obsession -> anxiety -> compulsion/checking/avoidance -> temporary relief -> reinforcement/vicious cycle
+ * - Must neutrally mention evidence-based standard treatments: ERP (Exposure and Response Prevention), CBT, pharmacotherapy, and specialist evaluation
+ * - Must NOT claim cognitive distancing / acceptance / relaxation replaces ERP
+ */
+function checkOcdViciousCycleAndTreatments(fullText) {
+  if (!fullText || typeof fullText !== 'string') return { valid: true };
+
+  const hasObsession = fullText.includes('침투적') || fullText.includes('강박 사고') || fullText.includes('강박사고') || fullText.includes('원치 않는 생각');
+  const hasAnxiety = fullText.includes('불안') || fullText.includes('고통');
+  const hasCompulsion = fullText.includes('강박 행동') || fullText.includes('강박행동') || fullText.includes('확인') || fullText.includes('회피');
+  const hasReliefOrReinforcement = fullText.includes('안도') || fullText.includes('악순환') || fullText.includes('강화') || fullText.includes('반복');
+
+  if (!hasObsession || !hasAnxiety || !hasCompulsion || !hasReliefOrReinforcement) {
+    return {
+      valid: false,
+      reason: 'OCD vicious cycle missing: 강박증 글은 침투적 사고/강박 사고 → 불안/고통 → 강박 행동/확인/회피 → 일시적 안도 → 악순환 반복·강화의 핵심 사이클을 명확히 설명해야 합니다.'
+    };
+  }
+
+  const hasErp = fullText.includes('ERP') || fullText.includes('노출 및 반응방지') || fullText.includes('노출 및 반응 방지') || fullText.includes('노출반응방지');
+  const hasCbtOrMeds = fullText.includes('인지행동치료') || fullText.includes('CBT') || fullText.includes('약물치료') || fullText.includes('약물 치료');
+  const hasSpecialistEval = fullText.includes('전문 평가') || fullText.includes('전문의') || fullText.includes('전문가') || fullText.includes('표준 치료');
+
+  if (!hasErp || !hasCbtOrMeds || !hasSpecialistEval) {
+    return {
+      valid: false,
+      reason: 'OCD standard treatment missing: 강박증 글은 일상 기능 저하 시 전문 평가 필요성과 함께 ERP(노출 및 반응방지)를 포함한 CBT 및 약물치료 등 근거 기반 표준 치료를 중립적으로 언급해야 합니다.'
+    };
+  }
+
+  const erpReplacementPattern = /(인지적\s*거리두기|수용|이완\s*훈련|이완요법).*?(대체하는\s*치료|ERP를\s*대신|치료법으로\s*대체|ERP\s*대신)/i;
+  if (erpReplacementPattern.test(fullText)) {
+    return {
+      valid: false,
+      reason: 'OCD treatment framing violation: 인지적 거리두기나 수용, 이완 훈련 등을 ERP를 대체하는 치료법처럼 서술하지 마십시오.'
+    };
+  }
+
+  return { valid: true };
+}
+
+/**
+ * Validates separation anxiety content:
+ * - Distinguishes normal developmental anxiety from clinical disorder level
+ * - Strictly forbids enuresis fluid restriction / urination management leakage
+ */
+function checkSeparationAnxietyDistinction(fullText) {
+  if (!fullText || typeof fullText !== 'string') return { valid: true };
+
+  const mentionsNormalDev = fullText.includes('정상적인 발달') || fullText.includes('자연스러운 발달') || fullText.includes('발달 과정에서') || fullText.includes('발달 과정상');
+  const mentionsDisorderCriteria = (fullText.includes('과도하') || fullText.includes('일상 기능') || fullText.includes('기능을 방해') || fullText.includes('적응') || fullText.includes('방해')) &&
+    (fullText.includes('전문 평가') || fullText.includes('전문의') || fullText.includes('분리불안장애'));
+
+  if (!mentionsNormalDev || !mentionsDisorderCriteria) {
+    return {
+      valid: false,
+      reason: 'Separation anxiety developmental distinction missing: 어린 시기의 분리불안은 정상 발달 과정에서도 나타날 수 있음을 명시하고, 연령/발달에 비해 과도하고 일상 기능을 방해할 때 분리불안장애 가능성을 포함해 전문 평가가 필요하다는 구분을 포함해야 합니다.'
+    };
+  }
+
+  const enuresisLeakagePattern = /(저녁\s*(식사\s*후)?\s*(과도한\s*)?수분\s*제한|취침\s*전\s*배뇨(\s*습관)?)/i;
+  if (enuresisLeakagePattern.test(fullText)) {
+    return {
+      valid: false,
+      reason: 'Separation anxiety enuresis management leakage: 분리불안 글의 생활관리에 야뇨증 관리법(저녁 수분 제한, 취침 전 배뇨)을 넣지 마십시오.'
+    };
+  }
+
+  return { valid: true };
+}
+
+/**
+ * Validates night terrors content:
+ * - Prohibits conflating nightmares with night terrors in title (title must focus on night terrors, e.g. not "자다 깨서 울거나 악몽을 꿀 때")
+ * - Requires NREM partial arousal, lack of next-day recall, and nightmare differentiation in body
+ * - Strictly forbids enuresis fluid restriction / urination management leakage
+ */
+function checkNightTerrorsTitleAndClinical(title, fullText) {
+  if (title) {
+    const nightmareConflatedInTitle = /(악몽을\s*꿀\s*때|악몽과\s*야경증|야경증과\s*악몽)/i;
+    if (nightmareConflatedInTitle.test(title)) {
+      return {
+        valid: false,
+        reason: 'Night terrors title conflation violation: 야경증 제목에서 악몽을 동일 증상처럼 묶지 마십시오. 악몽은 감별 설명에서만 다뤄야 합니다.'
+      };
+    }
+  }
+
+  if (fullText) {
+    const hasNremArousal = fullText.includes('비렘') || fullText.includes('NREM') || fullText.includes('부분 각성') || fullText.includes('완전히 깨어나지');
+    const hasNoRecall = fullText.includes('기억하지 못') || fullText.includes('기억이 없') || fullText.includes('기억을 못') || fullText.includes('기억이 거의');
+    const hasNightmareDiff = fullText.includes('악몽과') || fullText.includes('악몽은') || fullText.includes('악몽과의');
+
+    if (!hasNremArousal || !hasNoRecall || !hasNightmareDiff) {
+      return {
+        valid: false,
+        reason: 'Night terrors core clinical distinction missing: 야경증은 NREM 수면 중 부분 각성, 완전히 깨어나지 않음, 다음 날 기억하지 못함, 악몽과의 구별을 명확히 다루어야 합니다.'
+      };
+    }
+
+    const enuresisLeakagePattern = /(저녁\s*(식사\s*후)?\s*(과도한\s*)?수분\s*제한|취침\s*전\s*배뇨(\s*습관)?)/i;
+    if (enuresisLeakagePattern.test(fullText)) {
+      return {
+        valid: false,
+        reason: 'Night terrors enuresis management leakage: 야경증 글의 핵심 생활관리에 야뇨증 수분/배뇨 관리법을 넣지 마십시오.'
+      };
+    }
+  }
+
+  return { valid: true };
+}
+
+/**
  * 3-Tier Comprehensive Validation of Generated Column
  * Tier 1: Global Policy (Structure, Length, Headings, Banned Phrases, Internal Links)
  * Tier 2: GEO Consistency Policy (No unrelated active GEO or station keywords)
@@ -938,6 +1070,28 @@ function validateArticleContent(articleData, options = {}) {
         errors.push('Syncope subway-dizziness thumbnail prompt cannot be restricted to office or home workspace only.');
       }
     }
+
+    // Night terrors thumbnail image prompt validation (night/bedroom/sleep context required, daytime/drawing/distress forbidden)
+    const isNightTerrorsPrompt = diseaseId === 'night-terrors' ||
+      angleId === 'screaming-sleep' ||
+      (qaTarget && (qaTarget.topicAngle === 'screaming-sleep' || qaTarget.id === 'qa-18-night-terrors')) ||
+      (articleData.topicAngle && articleData.topicAngle.id === 'screaming-sleep') ||
+      (titleDisease && titleDisease.includes('야경'));
+    if (isNightTerrorsPrompt) {
+      const hasNightSleepContext = promptLower.includes('night') || promptLower.includes('bedroom') || promptLower.includes('bedtime') || promptLower.includes('sleep');
+      if (!hasNightSleepContext) {
+        errors.push('Night terrors thumbnail prompt must include nighttime, bedroom, or sleep context.');
+      }
+      if (promptLower.includes('daytime') || promptLower.includes('drawing')) {
+        errors.push('Night terrors thumbnail prompt must NOT feature daytime activity or drawing.');
+      }
+      if (promptLower.includes('screaming') && !promptLower.includes('no screaming')) {
+        errors.push('Night terrors thumbnail prompt must NOT depict screaming symptoms.');
+      }
+      if (promptLower.includes('crying') && !promptLower.includes('no crying')) {
+        errors.push('Night terrors thumbnail prompt must NOT depict crying symptoms.');
+      }
+    }
   }
 
   // ==========================================
@@ -1127,6 +1281,58 @@ function validateArticleContent(articleData, options = {}) {
     }
   }
 
+  // Depression-specific checks (qa-15-depression / burnout-lethargy)
+  const isDepressionTarget = diseaseId === 'depression' ||
+    (titleDisease && titleDisease.includes('우울')) ||
+    angleId === 'burnout-lethargy' ||
+    (qaTarget && (qaTarget.topicAngle === 'burnout-lethargy' || qaTarget.id === 'qa-15-depression'));
+
+  if (isDepressionTarget && angleId !== 'intrusive-thoughts') {
+    const ocdLeakCheck = checkDepressionOcdSectionLeakage(body);
+    if (!ocdLeakCheck.valid) {
+      errors.push(ocdLeakCheck.reason);
+    }
+  }
+
+  // OCD-specific checks (qa-16-ocd / intrusive-thoughts)
+  const isOcdTarget = diseaseId === 'ocd' ||
+    angleId === 'intrusive-thoughts' ||
+    (qaTarget && (qaTarget.topicAngle === 'intrusive-thoughts' || qaTarget.id === 'qa-16-ocd')) ||
+    (titleDisease && (titleDisease.includes('강박') || titleDisease.includes('OCD')));
+
+  if (isOcdTarget) {
+    const ocdCheck = checkOcdViciousCycleAndTreatments(fullText);
+    if (!ocdCheck.valid) {
+      errors.push(ocdCheck.reason);
+    }
+  }
+
+  // Separation Anxiety specific checks (qa-17-separation-anxiety / school-reluctance)
+  const isSeparationAnxietyTarget = diseaseId === 'separation-anxiety' ||
+    angleId === 'school-reluctance' ||
+    (qaTarget && (qaTarget.topicAngle === 'school-reluctance' || qaTarget.id === 'qa-17-separation-anxiety')) ||
+    (titleDisease && titleDisease.includes('분리불안'));
+
+  if (isSeparationAnxietyTarget) {
+    const sepCheck = checkSeparationAnxietyDistinction(fullText);
+    if (!sepCheck.valid) {
+      errors.push(sepCheck.reason);
+    }
+  }
+
+  // Night Terrors specific checks (qa-18-night-terrors / screaming-sleep)
+  const isNightTerrorsTarget = diseaseId === 'night-terrors' ||
+    angleId === 'screaming-sleep' ||
+    (qaTarget && (qaTarget.topicAngle === 'screaming-sleep' || qaTarget.id === 'qa-18-night-terrors')) ||
+    (titleDisease && titleDisease.includes('야경'));
+
+  if (isNightTerrorsTarget) {
+    const ntCheck = checkNightTerrorsTitleAndClinical(title, fullText);
+    if (!ntCheck.valid) {
+      errors.push(ntCheck.reason);
+    }
+  }
+
   return {
     valid: errors.length === 0,
     errors,
@@ -1145,5 +1351,9 @@ module.exports = {
   checkMedicationDiscontinuation,
   checkTreatmentCertainty,
   checkDizzinessEntCervicalAutoJump,
-  checkSyncopePresyncopeDistinction
+  checkSyncopePresyncopeDistinction,
+  checkDepressionOcdSectionLeakage,
+  checkOcdViciousCycleAndTreatments,
+  checkSeparationAnxietyDistinction,
+  checkNightTerrorsTitleAndClinical
 };

@@ -3,6 +3,7 @@ const path = require('path');
 
 const geoHierarchy = require('./geo_hierarchy.json');
 const diseaseTaxonomy = require('./disease_taxonomy.json');
+const { resolveContentIdentity } = require('./identity_resolver');
 
 const QA_TARGETS_PATH = path.join(__dirname, 'qa_targets.json');
 const QA_RESULTS_PATH = path.join(__dirname, '../../data/auto_column_qa_results.json');
@@ -64,23 +65,28 @@ function buildQAPlan(target, now = new Date()) {
     throw new Error(`Topic angle '${target.topicAngle}' not found in disease '${target.diseaseId}' for ${target.qaId}`);
   }
 
-  // 4. Build canonical title and slug
-  const titleDisease = target.titleDisease || target.canonicalDiseaseLabel || disease.name;
-  const thumbnailDiseaseLabel = target.thumbnailDiseaseLabel || titleDisease;
-  const seoDiseaseLabel = target.seoDiseaseLabel || titleDisease;
-  const titlePrefix = geo.canonicalTitle.replace('{disease}', titleDisease);
+  // 4. Resolve unified content identity
+  const identity = resolveContentIdentity(target.diseaseId, target.topicAngle, {
+    contentDiseaseLabel: target.titleDisease || target.canonicalDiseaseLabel,
+    titleDisease: target.titleDisease || target.canonicalDiseaseLabel,
+    thumbnailDiseaseLabel: target.thumbnailDiseaseLabel,
+    seoDiseaseLabel: target.seoDiseaseLabel,
+    ageGroup: target.ageGroup
+  });
+
+  const titlePrefix = geo.canonicalTitle.replace('{disease}', identity.titleDisease);
   const titleCandidate = `${titlePrefix} ${topicAngle.titleSuffix}`;
-  const rawSlug = `${geo.id}-${disease.id}-${topicAngle.id}`;
+  const rawSlug = `${geo.id}-${identity.slugDiseaseLabel}-${topicAngle.id}`;
   const slug = rawSlug.toLowerCase().replace(/[^a-z0-9-]/g, '-').replace(/-+/g, '-');
 
   return {
     status: 'ready',
     qaId: target.qaId,
     displayDisease: target.displayDisease,
-    titleDisease,
-    thumbnailDiseaseLabel,
-    seoDiseaseLabel,
-    ageGroup: target.ageGroup,
+    titleDisease: identity.titleDisease,
+    thumbnailDiseaseLabel: identity.thumbnailDiseaseLabel,
+    seoDiseaseLabel: identity.seoDiseaseLabel,
+    ageGroup: identity.ageGroup,
     isQAOverride: true,
     geo,
     disease,
