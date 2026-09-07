@@ -7060,8 +7060,53 @@ html, body {
 }
 
 /* ==========================================================================
-   DOCTOR COLUMN BOARD (/blog/) 3-COLUMN CARD GRID
+   DOCTOR COLUMN BOARD (/blog/) HERO & 3-COLUMN CARD GRID
    ========================================================================== */
+/* Compact Blog Hero Header (Height reduced by ~17% for quicker card exposure) */
+.cases-page-header.blog-page-header {
+  padding: 62px 0 46px;
+}
+
+.cases-page-header.blog-page-header .cases-top-pill {
+  margin-bottom: 12px;
+}
+
+.cases-page-header.blog-page-header .cases-main-title {
+  margin-bottom: 12px;
+}
+
+.blog-page-section {
+  padding-top: 48px;
+}
+
+@media (max-width: 992px) {
+  .cases-page-header.blog-page-header {
+    padding: 50px 0 36px;
+  }
+}
+
+@media (max-width: 640px) {
+  .cases-page-header.blog-page-header {
+    padding: 38px 0 26px;
+  }
+  .cases-page-header.blog-page-header .cases-top-pill {
+    margin-bottom: 10px;
+    font-size: 0.8rem;
+    padding: 5px 14px;
+  }
+  .cases-page-header.blog-page-header .cases-main-title {
+    font-size: 1.85rem;
+    margin-bottom: 10px;
+  }
+  .cases-page-header.blog-page-header .cases-main-desc {
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+  .blog-page-section {
+    padding-top: 36px;
+  }
+}
+
 .blog-page-section .column-list-wrap,
 .column-list-wrap.blog-grid-layout {
   display: grid;

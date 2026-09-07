@@ -56,6 +56,8 @@ assert(fs.existsSync(cssFilePath), `Stylesheet exists at: ${cssFilePath}`);
 
 const cssContent = fs.readFileSync(cssFilePath, 'utf8');
 
+assert(cssContent.includes('padding:62px 0 46px') || cssContent.includes('padding: 62px 0 46px'), 'CSS specifies compact hero header padding (~17% reduction)');
+assert(cssContent.includes('padding-top:48px') || cssContent.includes('padding-top: 48px'), 'CSS specifies reduced section top padding for faster card exposure');
 assert(cssContent.includes('repeat(3,1fr)') || cssContent.includes('repeat(3, 1fr)'), 'CSS contains 3-column desktop grid');
 assert(cssContent.includes('repeat(2,1fr)') || cssContent.includes('repeat(2, 1fr)'), 'CSS contains 2-column tablet grid');
 assert(cssContent.includes('aspect-ratio:16/10') || cssContent.includes('aspect-ratio: 16 / 10') || cssContent.includes('aspect-ratio:16 / 10'), 'CSS specifies 16/10 aspect ratio');
