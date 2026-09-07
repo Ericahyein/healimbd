@@ -1875,7 +1875,7 @@ function renderCustomCasesToList() {
           </div>
           <div class="case-body-wrap">
             <div class="case-meta-top">
-              <span class="case-duration-text"><i class="ph-bold ph-calendar-blank"></i> 치료기간: ${item.duration || item.date}</span>
+              <span class="case-duration-text"><i class="ph-bold ph-calendar-blank"></i> 치료기간: ${item.duration || '치료 완료'}</span>
             </div>
             <p class="case-summary-text">${escapeHtml(summaryText)}</p>
             ${hashtagsHtml}
@@ -1908,7 +1908,7 @@ function renderCustomCasesToList() {
           </div>
           <div class="case-body-wrap">
             <div class="case-meta-top">
-              <span class="case-duration-text"><i class="ph-bold ph-calendar-blank"></i> 치료기간: ${item.duration || item.date}</span>
+              <span class="case-duration-text"><i class="ph-bold ph-calendar-blank"></i> 치료기간: ${item.duration || '치료 완료'}</span>
             </div>
             <p class="case-summary-text">${escapeHtml(summaryText)}</p>
             ${hashtagsHtml}
@@ -1939,7 +1939,7 @@ function openCustomCaseReader(caseId) {
     catEl.className = 'case-tag-pill ' + found.category;
   }
   if (titleEl) titleEl.textContent = found.title;
-  if (durationEl) durationEl.textContent = `치료기간: ${found.duration || found.date}`;
+  if (durationEl) durationEl.textContent = `치료기간: ${found.duration || '치료 완료'}`;
   if (photoEl) photoEl.src = found.image;
   if (bodyEl) bodyEl.innerHTML = renderCustomCaseBody(found);
 
@@ -1984,67 +1984,6 @@ function deleteCurrentCustomCase() {
   closeCustomCaseReader();
   showAuthToast('🗑️ 게시글이 삭제되었습니다.');
   location.reload();
-}
-
-function downloadCaseMarkdown() {
-  const cat = document.getElementById('case-input-category').value;
-  const startMonth = document.getElementById('case-input-start-month').value || '2026-01';
-  const endMonth = document.getElementById('case-input-end-month').value || '2026-04';
-  const durationStr = calculateDurationText(startMonth, endMonth);
-  const q1 = document.getElementById('case-input-q1')?.value.trim() || '';
-  const q2 = document.getElementById('case-input-q2')?.value.trim() || '';
-  const q3 = document.getElementById('case-input-q3')?.value.trim() || '';
-  const dateStr = new Date().toISOString().split('T')[0];
-  const catName = CATEGORY_NAME_MAP[cat] || '치료사례';
-  const firstLine = (q1 || q2 || q3).split('\n')[0].replace(/^[#>\s*"]+/, '').trim();
-  const title = firstLine.length > 5 ? firstLine.slice(0, 45) : `${catName} 임상 치료사례`;
-
-  const previewSummary = getCaseSummaryPreview({
-    sections: [
-      { id: 'q1', answer: q1 },
-      { id: 'q2', answer: q2 },
-      { id: 'q3', answer: q3 }
-    ]
-  });
-
-  const mdContent = `---
-title: "${title}"
-date: ${dateStr}
-duration: "${durationStr}"
-category: "${cat}"
-category_name: "${catName}"
-review_type: "direct"
-rating: 5
-image: "images/reviews/${cat}-custom-${Date.now()}.jpg"
-summary: "${previewSummary}"
----
-
-### 1. ${QUESTION_TEMPLATE[0].question}
-
-${q1}
-
----
-
-### 2. ${QUESTION_TEMPLATE[1].question}
-
-${q2}
-
----
-
-### 3. ${QUESTION_TEMPLATE[2].question}
-
-${q3}
-`;
-
-  const blob = new Blob([mdContent], { type: 'text/markdown;charset=utf-8' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `case-${cat}-${dateStr}.md`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
 }
 
 /* ==========================================================================
