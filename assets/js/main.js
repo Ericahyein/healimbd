@@ -676,7 +676,23 @@ function initAuth() {
       updateAuthUI(user);
     } catch (e) {
       localStorage.removeItem('healim_auth_user');
+      checkAdminSessionFallback();
     }
+  } else {
+    checkAdminSessionFallback();
+  }
+}
+
+function checkAdminSessionFallback() {
+  const isAdminAuth = sessionStorage.getItem('healim_admin_auth') === 'true';
+  if (isAdminAuth) {
+    let adminUser = null;
+    try {
+      const storedAdmin = sessionStorage.getItem('healim_admin_user');
+      adminUser = storedAdmin ? JSON.parse(storedAdmin) : null;
+    } catch (e) {}
+    const activeAdmin = adminUser || { name: '대표원장', isAdmin: true };
+    updateAuthUI(activeAdmin);
   } else {
     updateAuthUI(null);
   }
@@ -951,6 +967,7 @@ async function logoutUser() {
   isAdminVerified = false;
   localStorage.removeItem('healim_auth_user');
   sessionStorage.removeItem('healim_admin_auth');
+  sessionStorage.removeItem('healim_admin_user');
   localStorage.removeItem('healim_admin_logged');
   document.body.classList.remove('is-admin');
   updateAuthUI(null);
@@ -979,16 +996,19 @@ function updateAuthUI(user) {
   const unlockedBanner = document.getElementById('case-unlocked-banner');
   const unlockedUserName = document.getElementById('unlocked-user-name');
 
-  if (user) {
+  const isAuthorized = !!user || isAdmin;
+  const displayName = (user && user.name) || (isAdmin ? '대표원장' : '회원');
+
+  if (isAuthorized) {
     // Header state
     if (headerLoginBtn) headerLoginBtn.style.display = 'none';
     if (headerUserBadge) headerUserBadge.style.display = 'inline-flex';
-    if (loggedUserName) loggedUserName.textContent = user.name;
+    if (loggedUserName) loggedUserName.textContent = displayName;
 
     // Mobile drawer state
     if (drawerGuestBox) drawerGuestBox.style.display = 'none';
     if (drawerUserBox) drawerUserBox.style.display = 'flex';
-    if (drawerLoggedUserName) drawerLoggedUserName.textContent = user.name;
+    if (drawerLoggedUserName) drawerLoggedUserName.textContent = displayName;
 
     // Protected case single page unlock
     if (protectedWrapper) {
@@ -998,7 +1018,7 @@ function updateAuthUI(user) {
       unlockedBanner.style.display = 'flex';
     }
     if (unlockedUserName) {
-      unlockedUserName.textContent = user.name;
+      unlockedUserName.textContent = displayName;
     }
   } else {
     // Header state
@@ -2131,18 +2151,26 @@ function initFirebase() {
             const adminDoc = await db.collection('admins').doc(user.uid).get();
             if (adminDoc.exists && adminDoc.data()?.role === 'admin') {
               isAdminVerified = true;
+              sessionStorage.setItem('healim_admin_auth', 'true');
+              sessionStorage.setItem('healim_admin_user', JSON.stringify({ name: '대표원장', email: user.email, isAdmin: true }));
               updateAuthUI({ name: '대표원장', email: user.email, isAdmin: true });
             } else {
               isAdminVerified = false;
+              sessionStorage.removeItem('healim_admin_auth');
+              sessionStorage.removeItem('healim_admin_user');
               updateAuthUI(null);
             }
           } catch (e) {
             console.warn('Admin verification check notice:', e);
             isAdminVerified = false;
+            sessionStorage.removeItem('healim_admin_auth');
+            sessionStorage.removeItem('healim_admin_user');
             updateAuthUI(null);
           }
         } else {
           isAdminVerified = false;
+          sessionStorage.removeItem('healim_admin_auth');
+          sessionStorage.removeItem('healim_admin_user');
           updateAuthUI(null);
         }
 
@@ -3233,6 +3261,8 @@ function initAdminDashboard() {
       } else {
         if (loginCard) loginCard.style.display = 'block';
         if (adminPanel) adminPanel.style.display = 'none';
+        sessionStorage.removeItem('healim_admin_auth');
+        sessionStorage.removeItem('healim_admin_user');
         if (adminInquiryUnsubscribe) {
           adminInquiryUnsubscribe();
           adminInquiryUnsubscribe = null;
@@ -3288,7 +3318,12 @@ async function handleFirebaseAdminLogout() {
   if (auth) {
     await auth.signOut();
   }
+  isAdminVerified = false;
   localStorage.removeItem('healim_admin_logged');
+  sessionStorage.removeItem('healim_admin_auth');
+  sessionStorage.removeItem('healim_admin_user');
+  document.body.classList.remove('is-admin');
+  updateAuthUI(null);
   showAuthToast('로그아웃되었습니다.');
 }
 
