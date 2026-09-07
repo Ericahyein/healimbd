@@ -99,10 +99,44 @@
         </div>
       </div>
 
-      <!-- Typed Content Area -->
-      <div class="form-group">
-        <label for="case-input-content">직접 타이핑할 본문 내용 <span class="required">*</span></label>
-        <textarea id="case-input-content" rows="6" placeholder="환자분이 직접 작성하신 자필 수기 내용이나 치료 후기를 그대로 타이핑해 주세요. 입력하신 그대로 홈페이지에 깨끗하게 출력됩니다." required></textarea>
+      <!-- 3-Section Structured Questions Area -->
+      <div class="form-group case-questions-group">
+        <label class="case-questions-main-label">환자 자필 수기 본문 (3대 질문 답변 입력) <span class="required">*</span></label>
+        
+        <div class="case-questions-wrapper">
+          <!-- 섹션 1 -->
+          <div class="case-question-card">
+            <div class="case-question-header">
+              <span class="q-badge">01</span>
+              <span class="q-label">치료 받기 전 증상들로 인해 얼마나 힘들었는지 구체적으로 적어주세요.</span>
+            </div>
+            <div class="case-answer-wrap">
+              <textarea id="case-input-q1" class="case-q-textarea" rows="3" placeholder="환자분이 직접 작성하신 발병 시기, 겪었던 고통, 일상생활/학업/직장에서의 구체적인 어려움 내용을 입력해주세요." required></textarea>
+            </div>
+          </div>
+
+          <!-- 섹션 2 -->
+          <div class="case-question-card">
+            <div class="case-question-header">
+              <span class="q-badge">02</span>
+              <span class="q-label">치료받기 전과 비교해 나아진 몸상태에 대해 적어주세요.</span>
+            </div>
+            <div class="case-answer-wrap">
+              <textarea id="case-input-q2" class="case-q-textarea" rows="3" placeholder="치료를 받으면서 나타난 신체적·심리적 호전 과정 및 완화된 몸 상태를 입력해주세요." required></textarea>
+            </div>
+          </div>
+
+          <!-- 섹션 3 -->
+          <div class="case-question-card">
+            <div class="case-question-header">
+              <span class="q-badge">03</span>
+              <span class="q-label">비슷한 질환을 앓고 계신 환자들에게 하고싶은 말이 있으면 적어주세요.</span>
+            </div>
+            <div class="case-answer-wrap">
+              <textarea id="case-input-q3" class="case-q-textarea" rows="3" placeholder="동일한 질환으로 힘들어하는 다른 환자나 보호자분들께 남기신 격려와 조언의 말을 입력해주세요." required></textarea>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- 해시태그 -->

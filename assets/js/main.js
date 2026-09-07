@@ -1382,20 +1382,204 @@ function setupCaseAutoSave() {
   form.addEventListener('input', debouncedSave);
 }
 
+const QUESTION_TEMPLATE = [
+  {
+    id: 'q1',
+    num: '01',
+    question: '치료 받기 전 증상들로 인해 얼마나 힘들었는지 구체적으로 적어주세요.'
+  },
+  {
+    id: 'q2',
+    num: '02',
+    question: '치료받기 전과 비교해 나아진 몸상태에 대해 적어주세요.'
+  },
+  {
+    id: 'q3',
+    num: '03',
+    question: '비슷한 질환을 앓고 계신 환자들에게 하고싶은 말이 있으면 적어주세요.'
+  }
+];
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+function parseLegacyContentToQuestions(rawContent) {
+  if (!rawContent || typeof rawContent !== 'string') return null;
+
+  // Strict semantic keyword verification for all 3 questions
+  const hasQ1 = /(?:치료\s*받기\s*전\s*증상|얼마나\s*힘들었는지)/i.test(rawContent);
+  const hasQ2 = /(?:치료받기\s*전과\s*비교|나아진\s*몸\s*상태|나아진\s*몸상태)/i.test(rawContent);
+  const hasQ3 = /(?:비슷한\s*질환|환자들에게\s*하고\s*싶은\s*말|하고싶은\s*말)/i.test(rawContent);
+
+  if (!hasQ1 || !hasQ2 || !hasQ3) {
+    return null; // Require all 3 questions to avoid false positive separation
+  }
+
+  // Check for clear headers (e.g. ### 1. or 1. or Q1)
+  const q1Regex = /(?:###\s*)?(?:1\.|Q1[\.:]?)\s*[^\n]*(?:치료\s*받기\s*전\s*증상|얼마나\s*힘들었는지)[^\n]*/i;
+  const q2Regex = /(?:###\s*)?(?:2\.|Q2[\.:]?)\s*[^\n]*(?:비교해\s*나아진|나아진\s*몸)[^\n]*/i;
+  const q3Regex = /(?:###\s*)?(?:3\.|Q3[\.:]?)\s*[^\n]*(?:비슷한\s*질환|하고\s*싶은\s*말|하고싶은\s*말)[^\n]*/i;
+
+  const m1 = rawContent.match(q1Regex);
+  const m2 = rawContent.match(q2Regex);
+  const m3 = rawContent.match(q3Regex);
+
+  if (!m1 || !m2 || !m3) return null;
+
+  const idx1 = rawContent.indexOf(m1[0]);
+  const idx2 = rawContent.indexOf(m2[0]);
+  const idx3 = rawContent.indexOf(m3[0]);
+
+  if (idx1 === -1 || idx2 === -1 || idx3 === -1 || !(idx1 < idx2 && idx2 < idx3)) {
+    return null;
+  }
+
+  const rawAns1 = rawContent.slice(idx1 + m1[0].length, idx2);
+  const rawAns2 = rawContent.slice(idx2 + m2[0].length, idx3);
+  const rawAns3 = rawContent.slice(idx3 + m3[0].length);
+
+  function cleanAnswer(str) {
+    return str
+      .replace(/^---+$/gm, '')
+      .replace(/^[>#\s]+/gm, '')
+      .trim();
+  }
+
+  const ans1 = cleanAnswer(rawAns1);
+  const ans2 = cleanAnswer(rawAns2);
+  const ans3 = cleanAnswer(rawAns3);
+
+  if (!ans1 && !ans2 && !ans3) return null;
+
+  return { q1: ans1, q2: ans2, q3: ans3 };
+}
+
+function getCaseSummaryPreview(item) {
+  if (item && item.summary && typeof item.summary === 'string' && item.summary.trim()) {
+    const s = item.summary.trim();
+    if (s.length > 120) return s.slice(0, 115) + '...';
+    return s;
+  }
+  let text = '';
+  if (item && item.sections && Array.isArray(item.sections)) {
+    const q1 = item.sections.find(s => s.id === 'q1');
+    text = q1 ? q1.answer : (item.sections[0]?.answer || '');
+  } else if (item && item.content) {
+    const parsed = parseLegacyContentToQuestions(item.content);
+    text = parsed ? parsed.q1 : item.content;
+  }
+  const cleaned = text.replace(/^[#>\s*-]+/gm, '').replace(/\s+/g, ' ').trim();
+  if (cleaned.length > 115) {
+    return cleaned.slice(0, 115) + '...';
+  }
+  return cleaned || `${item?.categoryName || '치료'} 임상 치료사례입니다.`;
+}
+
+function renderCustomCaseBody(item) {
+  if (!item) return '';
+
+  // 1. Single source of truth: structured sections
+  if (item.sections && Array.isArray(item.sections) && item.sections.length > 0) {
+    return `
+      <div class="case-structured-container">
+        ${item.sections.map((sec, idx) => {
+          const tpl = QUESTION_TEMPLATE.find(q => q.id === sec.id) || QUESTION_TEMPLATE[idx] || {
+            num: String(idx + 1).padStart(2, '0'),
+            question: sec.question || `질문 ${idx + 1}`
+          };
+          const answer = sec.answer || '';
+          return `
+            <div class="case-display-section" data-section-id="${sec.id || idx}">
+              <div class="case-section-head">
+                <span class="section-num-badge">${tpl.num}</span>
+                <h4 class="section-question-title">${escapeHtml(tpl.question)}</h4>
+              </div>
+              <div class="case-section-body">
+                <div class="case-section-answer">${escapeHtml(answer)}</div>
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    `;
+  }
+
+  // 2. Safe parse for legacy content matching the 3 questions
+  if (item.content) {
+    const parsed = parseLegacyContentToQuestions(item.content);
+    if (parsed) {
+      return `
+        <div class="case-structured-container">
+          <div class="case-display-section" data-section-id="q1">
+            <div class="case-section-head">
+              <span class="section-num-badge">01</span>
+              <h4 class="section-question-title">${escapeHtml(QUESTION_TEMPLATE[0].question)}</h4>
+            </div>
+            <div class="case-section-body">
+              <div class="case-section-answer">${escapeHtml(parsed.q1)}</div>
+            </div>
+          </div>
+          <div class="case-display-section" data-section-id="q2">
+            <div class="case-section-head">
+              <span class="section-num-badge">02</span>
+              <h4 class="section-question-title">${escapeHtml(QUESTION_TEMPLATE[1].question)}</h4>
+            </div>
+            <div class="case-section-body">
+              <div class="case-section-answer">${escapeHtml(parsed.q2)}</div>
+            </div>
+          </div>
+          <div class="case-display-section" data-section-id="q3">
+            <div class="case-section-head">
+              <span class="section-num-badge">03</span>
+              <h4 class="section-question-title">${escapeHtml(QUESTION_TEMPLATE[2].question)}</h4>
+            </div>
+            <div class="case-section-body">
+              <div class="case-section-answer">${escapeHtml(parsed.q3)}</div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // 3. Fallback for unparseable free-form content: preserve raw content
+    return `
+      <div class="case-legacy-container">
+        <div class="case-legacy-body">${escapeHtml(item.content)}</div>
+      </div>
+    `;
+  }
+
+  return '<div class="case-empty-body">작성된 본문 내용이 없습니다.</div>';
+}
+
 function saveCaseDraft() {
   const cat = document.getElementById('case-input-category')?.value || '';
   const startMonth = document.getElementById('case-input-start-month')?.value || '';
   const endMonth = document.getElementById('case-input-end-month')?.value || '';
-  const content = document.getElementById('case-input-content')?.value || '';
+  const q1 = document.getElementById('case-input-q1')?.value || '';
+  const q2 = document.getElementById('case-input-q2')?.value || '';
+  const q3 = document.getElementById('case-input-q3')?.value || '';
   const hashtags = document.getElementById('case-input-hashtags')?.value || '';
 
-  if (!content && !startMonth && !hashtags && !currentUploadedImageDataUrl) return;
+  if (!q1 && !q2 && !q3 && !startMonth && !hashtags && !currentUploadedImageDataUrl) return;
 
   const draft = {
     category: cat,
     startMonth: startMonth,
     endMonth: endMonth,
-    content: content,
+    questionSetVersion: 1,
+    sections: [
+      { id: 'q1', answer: q1 },
+      { id: 'q2', answer: q2 },
+      { id: 'q3', answer: q3 }
+    ],
     hashtags: hashtags,
     image: currentUploadedImageDataUrl || '',
     savedAt: new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })
@@ -1413,7 +1597,8 @@ function loadCaseDraft() {
   if (!draftStr) return;
   try {
     const draft = JSON.parse(draftStr);
-    if (!draft.content && !draft.startMonth && !draft.image && !draft.hashtags) return;
+    const hasAnswers = draft.sections && draft.sections.some(s => s.answer && s.answer.trim());
+    if (!hasAnswers && !draft.content && !draft.startMonth && !draft.image && !draft.hashtags) return;
 
     if (draft.category) {
       const catEl = document.getElementById('case-input-category');
@@ -1427,10 +1612,27 @@ function loadCaseDraft() {
       const el = document.getElementById('case-input-end-month');
       if (el) el.value = draft.endMonth;
     }
-    if (draft.content) {
-      const el = document.getElementById('case-input-content');
-      if (el) el.value = draft.content;
+
+    if (draft.sections && Array.isArray(draft.sections)) {
+      draft.sections.forEach(s => {
+        const el = document.getElementById(`case-input-${s.id}`);
+        if (el) el.value = s.answer || '';
+      });
+    } else if (draft.content) {
+      const parsed = parseLegacyContentToQuestions(draft.content);
+      if (parsed) {
+        const q1El = document.getElementById('case-input-q1');
+        const q2El = document.getElementById('case-input-q2');
+        const q3El = document.getElementById('case-input-q3');
+        if (q1El) q1El.value = parsed.q1 || '';
+        if (q2El) q2El.value = parsed.q2 || '';
+        if (q3El) q3El.value = parsed.q3 || '';
+      } else {
+        const q1El = document.getElementById('case-input-q1');
+        if (q1El) q1El.value = draft.content;
+      }
     }
+
     if (draft.hashtags) {
       const el = document.getElementById('case-input-hashtags');
       if (el) el.value = draft.hashtags;
@@ -1574,7 +1776,9 @@ function handleAdminCaseSubmit(e) {
   const cat = document.getElementById('case-input-category').value;
   const startMonth = document.getElementById('case-input-start-month').value;
   const endMonth = document.getElementById('case-input-end-month').value;
-  const content = document.getElementById('case-input-content').value.trim();
+  const q1 = document.getElementById('case-input-q1')?.value.trim() || '';
+  const q2 = document.getElementById('case-input-q2')?.value.trim() || '';
+  const q3 = document.getElementById('case-input-q3')?.value.trim() || '';
   const hashtagsVal = document.getElementById('case-input-hashtags')?.value.trim() || '';
 
   if (!startMonth || !endMonth) {
@@ -1582,8 +1786,8 @@ function handleAdminCaseSubmit(e) {
     return;
   }
 
-  if (!content) {
-    alert('직접 작성할 본문 내용을 입력해주세요.');
+  if (!q1 && !q2 && !q3) {
+    alert('환자 자필 후기 답변 내용을 최소 하나 이상 입력해주세요.');
     return;
   }
 
@@ -1594,8 +1798,19 @@ function handleAdminCaseSubmit(e) {
 
   const catName = CATEGORY_NAME_MAP[cat] || '치료사례';
   const durationStr = calculateDurationText(startMonth, endMonth);
-  const firstLine = content.split('\n')[0].replace(/^[#>\s*"]+/, '').trim();
+  const firstLine = (q1 || q2 || q3).split('\n')[0].replace(/^[#>\s*"]+/, '').trim();
   const generatedTitle = firstLine.length > 5 ? (firstLine.slice(0, 45) + (firstLine.length > 45 ? '...' : '')) : `${catName} 임상 치료사례`;
+
+  // Hugo standard markdown heading without bold syntax overlay
+  const legacyCombinedContent = `### 1. ${QUESTION_TEMPLATE[0].question}\n\n${q1}\n\n---\n\n### 2. ${QUESTION_TEMPLATE[1].question}\n\n${q2}\n\n---\n\n### 3. ${QUESTION_TEMPLATE[2].question}\n\n${q3}`;
+
+  const previewSummary = getCaseSummaryPreview({
+    sections: [
+      { id: 'q1', answer: q1 },
+      { id: 'q2', answer: q2 },
+      { id: 'q3', answer: q3 }
+    ]
+  });
 
   const newCase = {
     id: 'custom-' + Date.now(),
@@ -1605,7 +1820,14 @@ function handleAdminCaseSubmit(e) {
     duration: durationStr,
     date: new Date().toISOString().split('T')[0],
     image: currentUploadedImageDataUrl,
-    content: content,
+    questionSetVersion: 1,
+    sections: [
+      { id: 'q1', answer: q1 },
+      { id: 'q2', answer: q2 },
+      { id: 'q3', answer: q3 }
+    ],
+    content: legacyCombinedContent,
+    summary: previewSummary,
     hashtags: parseHashtags(hashtagsVal),
     createdAt: Date.now()
   };
@@ -1642,6 +1864,7 @@ function renderCustomCasesToList() {
       card.setAttribute('data-review-type', 'direct');
 
       const hashtagsHtml = renderHashtagPills(item.hashtags);
+      const summaryText = getCaseSummaryPreview(item);
 
       card.innerHTML = `
         <div class="case-card-anchor" style="cursor: pointer;" onclick="openCustomCaseReader('${item.id}')">
@@ -1654,7 +1877,7 @@ function renderCustomCasesToList() {
             <div class="case-meta-top">
               <span class="case-duration-text"><i class="ph-bold ph-calendar-blank"></i> 치료기간: ${item.duration || item.date}</span>
             </div>
-            <p class="case-summary-text">${item.content}</p>
+            <p class="case-summary-text">${escapeHtml(summaryText)}</p>
             ${hashtagsHtml}
           </div>
         </div>
@@ -1674,6 +1897,7 @@ function renderCustomCasesToList() {
       card.setAttribute('data-category', item.category);
 
       const hashtagsHtml = renderHashtagPills(item.hashtags);
+      const summaryText = getCaseSummaryPreview(item);
 
       card.innerHTML = `
         <div class="case-card-anchor" style="cursor: pointer;" onclick="openCustomCaseReader('${item.id}')">
@@ -1686,7 +1910,7 @@ function renderCustomCasesToList() {
             <div class="case-meta-top">
               <span class="case-duration-text"><i class="ph-bold ph-calendar-blank"></i> 치료기간: ${item.duration || item.date}</span>
             </div>
-            <p class="case-summary-text">${item.content}</p>
+            <p class="case-summary-text">${escapeHtml(summaryText)}</p>
             ${hashtagsHtml}
           </div>
         </div>
@@ -1717,7 +1941,7 @@ function openCustomCaseReader(caseId) {
   if (titleEl) titleEl.textContent = found.title;
   if (durationEl) durationEl.textContent = `치료기간: ${found.duration || found.date}`;
   if (photoEl) photoEl.src = found.image;
-  if (bodyEl) bodyEl.innerHTML = found.content.replace(/\n/g, '<br>');
+  if (bodyEl) bodyEl.innerHTML = renderCustomCaseBody(found);
 
   if (hashtagsEl) {
     const list = found.hashtags || [];
@@ -1767,11 +1991,21 @@ function downloadCaseMarkdown() {
   const startMonth = document.getElementById('case-input-start-month').value || '2026-01';
   const endMonth = document.getElementById('case-input-end-month').value || '2026-04';
   const durationStr = calculateDurationText(startMonth, endMonth);
-  const content = document.getElementById('case-input-content').value.trim() || '';
+  const q1 = document.getElementById('case-input-q1')?.value.trim() || '';
+  const q2 = document.getElementById('case-input-q2')?.value.trim() || '';
+  const q3 = document.getElementById('case-input-q3')?.value.trim() || '';
   const dateStr = new Date().toISOString().split('T')[0];
   const catName = CATEGORY_NAME_MAP[cat] || '치료사례';
-  const firstLine = content.split('\n')[0].replace(/^[#>\s*"]+/, '').trim();
+  const firstLine = (q1 || q2 || q3).split('\n')[0].replace(/^[#>\s*"]+/, '').trim();
   const title = firstLine.length > 5 ? firstLine.slice(0, 45) : `${catName} 임상 치료사례`;
+
+  const previewSummary = getCaseSummaryPreview({
+    sections: [
+      { id: 'q1', answer: q1 },
+      { id: 'q2', answer: q2 },
+      { id: 'q3', answer: q3 }
+    ]
+  });
 
   const mdContent = `---
 title: "${title}"
@@ -1782,10 +2016,24 @@ category_name: "${catName}"
 review_type: "direct"
 rating: 5
 image: "images/reviews/${cat}-custom-${Date.now()}.jpg"
-summary: "${content.slice(0, 120)}..."
+summary: "${previewSummary}"
 ---
 
-${content}
+### 1. ${QUESTION_TEMPLATE[0].question}
+
+${q1}
+
+---
+
+### 2. ${QUESTION_TEMPLATE[1].question}
+
+${q2}
+
+---
+
+### 3. ${QUESTION_TEMPLATE[2].question}
+
+${q3}
 `;
 
   const blob = new Blob([mdContent], { type: 'text/markdown;charset=utf-8' });
