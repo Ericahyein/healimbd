@@ -686,16 +686,9 @@ function initAuth() {
 function checkAdminSessionFallback() {
   const isAdminAuth = sessionStorage.getItem('healim_admin_auth') === 'true';
   if (isAdminAuth) {
-    let adminUser = null;
-    try {
-      const storedAdmin = sessionStorage.getItem('healim_admin_user');
-      adminUser = storedAdmin ? JSON.parse(storedAdmin) : null;
-    } catch (e) {}
-    const activeAdmin = adminUser || { name: '대표원장', isAdmin: true };
-    updateAuthUI(activeAdmin);
-
     // Rule 1: sessionStorage is a temporary UI restoration hint only.
     // Immediately verify the actual session against Firebase Auth & Firestore admins collection.
+    // Do NOT activate admin UI prior to successful verification.
     verifyExistingAdminSession();
   } else {
     updateAuthUI(null);
@@ -831,9 +824,37 @@ async function ensureFirebaseAuth() {
   }
 }
 
+let appCheckPromise = null;
+async function ensureFirebaseAppCheck() {
+  if (appCheck) return appCheck;
+  if (appCheckPromise) return appCheckPromise;
+
+  appCheckPromise = (async () => {
+    await ensureFirebaseAuth();
+
+    if (typeof firebase === 'undefined' || typeof firebase.appCheck !== 'function') {
+      await loadScriptAsync('https://www.gstatic.com/firebasejs/12.17.1/firebase-app-check-compat.js');
+    }
+
+    if (typeof firebase !== 'undefined' && typeof firebase.appCheck === 'function') {
+      return initFirebaseAppCheck();
+    }
+    return null;
+  })();
+
+  try {
+    return await appCheckPromise;
+  } catch (e) {
+    console.warn('[ADMIN AUTH] App Check initialization notice:', e);
+    appCheckPromise = null;
+    return null;
+  }
+}
+
 let firestorePromise = null;
 async function ensureFirestore() {
   await ensureFirebaseAuth();
+  await ensureFirebaseAppCheck();
 
   if (db && typeof firebase !== 'undefined' && typeof firebase.firestore === 'function') {
     return db;
@@ -864,15 +885,44 @@ async function ensureFirestore() {
 
 async function checkAdminPrivileges(user) {
   if (!user) return false;
+
+  console.log('[ADMIN AUTH] privilege verification start');
+  console.log('[ADMIN AUTH] current UID:', user.uid);
+
+  // 1. Custom Claim Check
+  try {
+    const tokenResult = await user.getIdTokenResult(true);
+    if (tokenResult && tokenResult.claims && tokenResult.claims.admin === true) {
+      console.log('[ADMIN AUTH] final admin verified true (Custom Claim admin=true)');
+      return true;
+    }
+  } catch (claimErr) {
+    console.warn('[ADMIN AUTH] Custom claim check notice:', claimErr.code || claimErr.message || claimErr);
+  }
+
+  // 2. Firestore admins/{uid} document existence check (App Check loaded first)
+  let adminDoc = null;
   try {
     const firestoreDb = await ensureFirestore();
-    if (!firestoreDb) return false;
-    const adminDoc = await firestoreDb.collection('admins').doc(user.uid).get();
-    return !!(adminDoc.exists && adminDoc.data()?.role === 'admin');
-  } catch (e) {
-    console.warn('Admin verification check notice:', e);
-    return false;
+    if (!firestoreDb) {
+      throw new Error('Firestore DB instance could not be initialized');
+    }
+    adminDoc = await firestoreDb.collection('admins').doc(user.uid).get();
+  } catch (docErr) {
+    console.error('[ADMIN AUTH] privilege verification error:', docErr.code || docErr.message || docErr);
+    throw docErr;
   }
+
+  const docExists = !!(adminDoc && adminDoc.exists);
+  console.log('[ADMIN AUTH] admins document result:', docExists);
+
+  if (docExists) {
+    console.log('[ADMIN AUTH] final admin verified true (admins document exists)');
+    return true;
+  }
+
+  console.log('[ADMIN AUTH] final admin verified false');
+  return false;
 }
 
 async function purgeAdminSession() {
@@ -901,33 +951,48 @@ async function verifyExistingAdminSession() {
 
       return new Promise((resolve) => {
         if (!auth) {
-          purgeAdminSession();
-          return resolve(false);
+          resolve(false);
+          return;
         }
 
         const unsubscribe = auth.onAuthStateChanged(async (user) => {
           unsubscribe();
           if (user) {
-            const isVerified = await checkAdminPrivileges(user);
-            if (isVerified) {
-              isAdminVerified = true;
-              sessionStorage.setItem('healim_admin_auth', 'true');
-              sessionStorage.setItem('healim_admin_user', JSON.stringify({ name: '대표원장', email: user.email, isAdmin: true }));
-              updateAuthUI({ name: '대표원장', email: user.email, isAdmin: true });
-              resolve(true);
-            } else {
-              await purgeAdminSession();
+            try {
+              const isVerified = await checkAdminPrivileges(user);
+              if (isVerified) {
+                isAdminVerified = true;
+                sessionStorage.setItem('healim_admin_auth', 'true');
+                sessionStorage.setItem('healim_admin_user', JSON.stringify({ name: '대표원장', email: user.email, isAdmin: true }));
+                updateAuthUI({ name: '대표원장', email: user.email, isAdmin: true });
+                resolve(true);
+              } else {
+                console.warn('[ADMIN AUTH] user is confirmed non-admin during session restore');
+                await purgeAdminSession();
+                resolve(false);
+              }
+            } catch (privErr) {
+              // App Check or network error: preserve session, do NOT sign out
+              console.warn('[ADMIN AUTH] privilege verification error during session restore:', privErr.code || privErr.message || privErr);
+              isAdminVerified = false;
+              document.body.classList.remove('is-admin');
               resolve(false);
             }
           } else {
-            await purgeAdminSession();
+            isAdminVerified = false;
+            sessionStorage.removeItem('healim_admin_auth');
+            sessionStorage.removeItem('healim_admin_user');
+            localStorage.removeItem('healim_admin_logged');
+            document.body.classList.remove('is-admin');
+            updateAuthUI(null);
             resolve(false);
           }
         });
       });
     } catch (e) {
-      console.warn('Admin session verification notice:', e);
-      await purgeAdminSession();
+      console.warn('[ADMIN AUTH] session verification init notice:', e);
+      isAdminVerified = false;
+      document.body.classList.remove('is-admin');
       return false;
     }
   })();
@@ -974,13 +1039,32 @@ async function handleDedicatedAdminLogin(e) {
     }
 
     // 2. Firebase Authentication
-    const userCredential = await auth.signInWithEmailAndPassword(email, password);
+    let userCredential = null;
+    try {
+      userCredential = await auth.signInWithEmailAndPassword(email, password);
+      console.log('[ADMIN AUTH] Firebase login success');
+    } catch (loginErr) {
+      console.warn('[ADMIN AUTH] Firebase login fail:', loginErr.code || loginErr.message);
+      throw loginErr;
+    }
+
     const user = userCredential.user;
 
-    // 3. Existing Admin Privilege Verification (Rule 2)
-    const isVerified = await checkAdminPrivileges(user);
+    // 3. Existing Admin Privilege Verification
+    let isVerified = false;
+    try {
+      isVerified = await checkAdminPrivileges(user);
+    } catch (verifyErr) {
+      console.error('[ADMIN AUTH] privilege verification error:', verifyErr.code || verifyErr.message || verifyErr);
+      if (errorEl) {
+        errorEl.textContent = '관리자 권한 확인 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
+        errorEl.style.display = 'block';
+      }
+      return;
+    }
+
     if (!isVerified) {
-      // Rule 3: Session cleanup on admin auth failure
+      console.warn('[ADMIN AUTH] Confirmed non-admin account');
       await purgeAdminSession();
       if (errorEl) {
         errorEl.textContent = '관리자 권한이 등록되지 않은 계정입니다. 로그인 권한이 거부되었습니다.';
@@ -998,21 +1082,10 @@ async function handleDedicatedAdminLogin(e) {
 
     closeAuthModal();
 
-    // 5. Routing and Target Modal Handling (Rule 5 & Target Flow)
-    const target = window.adminTargetModal;
-    window.adminTargetModal = null; // Always clear after use (Rule 5)
+    window.adminTargetModal = null; // Always clear after use
 
-    const isReviewsPage = window.location.pathname.startsWith('/reviews');
-    const isBlogPage = window.location.pathname.startsWith('/blog');
     const isAdminPage = window.location.pathname.startsWith('/admin');
-
-    if (target === 'case' || isReviewsPage) {
-      showAuthToast('👑 관리자 인증되었습니다.');
-      openAdminWriterModal();
-    } else if (target === 'column' || isBlogPage) {
-      showAuthToast('👑 관리자 인증되었습니다.');
-      openAdminColumnWriterModal();
-    } else if (isAdminPage) {
+    if (isAdminPage) {
       showAuthToast('👑 관리자 인증되었습니다. 관리자 센터로 이동합니다...');
       const loginCard = document.getElementById('admin-auth-login-card');
       const adminPanel = document.getElementById('admin-authenticated-panel');
@@ -1128,8 +1201,9 @@ async function logoutUser() {
 }
 
 function updateAuthUI(user) {
-  const isAdmin = (user && user.isAdmin) || sessionStorage.getItem('healim_admin_auth') === 'true';
-  document.body.classList.toggle('is-admin', !!isAdmin);
+  const isAdmin = !!(user && user.isAdmin && isAdminVerified);
+  document.body.classList.toggle('is-admin', isAdmin);
+  console.log('[ADMIN AUTH] UI update: isAdmin =', isAdmin);
 
   const headerLoginBtn = document.getElementById('btn-header-login');
   const headerUserBadge = document.getElementById('header-user-badge');
@@ -1143,7 +1217,7 @@ function updateAuthUI(user) {
   const unlockedBanner = document.getElementById('case-unlocked-banner');
   const unlockedUserName = document.getElementById('unlocked-user-name');
 
-  const isAuthorized = !!user || isAdmin;
+  const isAuthorized = !!user;
   const displayName = (user && user.name) || (isAdmin ? '대표원장' : '회원');
 
   if (isAuthorized) {
@@ -1252,8 +1326,7 @@ async function openAdminCaseWriter() {
     }
   }
 
-  // Rule 7: Skip legacy password modal, open Firebase admin login directly
-  window.adminTargetModal = 'case';
+  // Open Firebase admin login directly
   openAuthModal('admin');
 }
 
@@ -2312,8 +2385,8 @@ function initFirebase() {
       auth.onAuthStateChanged(async (user) => {
         if (user) {
           try {
-            const adminDoc = await db.collection('admins').doc(user.uid).get();
-            if (adminDoc.exists && adminDoc.data()?.role === 'admin') {
+            const isVerified = await checkAdminPrivileges(user);
+            if (isVerified) {
               isAdminVerified = true;
               sessionStorage.setItem('healim_admin_auth', 'true');
               sessionStorage.setItem('healim_admin_user', JSON.stringify({ name: '대표원장', email: user.email, isAdmin: true }));
@@ -2325,11 +2398,9 @@ function initFirebase() {
               updateAuthUI(null);
             }
           } catch (e) {
-            console.warn('Admin verification check notice:', e);
+            console.warn('[ADMIN AUTH] Admin verification check notice:', e);
             isAdminVerified = false;
-            sessionStorage.removeItem('healim_admin_auth');
-            sessionStorage.removeItem('healim_admin_user');
-            updateAuthUI(null);
+            document.body.classList.remove('is-admin');
           }
         } else {
           isAdminVerified = false;
@@ -2357,6 +2428,9 @@ function initFirebase() {
 function initFirebaseAppCheck() {
   if (typeof firebase === 'undefined' || typeof firebase.appCheck !== 'function') {
     return null;
+  }
+  if (appCheck) {
+    return appCheck;
   }
 
   try {

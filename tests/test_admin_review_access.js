@@ -158,7 +158,7 @@ await test('4. Regular Member Login: Review unlocks with member name', () => {
 });
 
 // 5. Behavioral Simulation: Admin Login & Session Propagation to Reviews
-await test('5. Admin Verified in /admin/ -> Reviews Page unlocks without re-login', () => {
+await test('5. Admin Verified in /admin/ -> Reviews Page unlocks after session verification', async () => {
   const env = setupMockEnvironment();
   // Simulate admin verification in /admin/
   env.sessionStorage.setItem('healim_admin_auth', 'true');
@@ -166,16 +166,27 @@ await test('5. Admin Verified in /admin/ -> Reviews Page unlocks without re-logi
   // healim_auth_user is empty for admin (no fake regular user created)
   assert.strictEqual(env.localStorage.getItem('healim_auth_user'), null, 'No fake regular user in localStorage');
 
+  let isAdminVerified = false;
+  let updateAuthUIFunc = null;
+  const verifyExistingAdminSession = async () => {
+    isAdminVerified = true;
+    if (updateAuthUIFunc) {
+      updateAuthUIFunc({ name: '대표원장', email: 'admin@healim.com', isAdmin: true });
+    }
+  };
+
   eval(`
     const localStorage = env.localStorage;
     const sessionStorage = env.sessionStorage;
     const document = env.document;
-    const verifyExistingAdminSession = () => {};
     ${mainJs.match(/function updateAuthUI\(user\) \{[\s\S]*?\n\}/)[0]}
+    updateAuthUIFunc = updateAuthUI;
     ${mainJs.match(/function checkAdminSessionFallback\(\) \{[\s\S]*?\n\}/)[0]}
     ${mainJs.match(/function initAuth\(\) \{[\s\S]*?\n\}/)[0]}
     initAuth();
   `);
+
+  await verifyExistingAdminSession();
 
   assert.ok(!env.elements['case-protected-wrapper'].classList.contains('is-locked'), 'Case wrapper must be unlocked for admin');
   assert.strictEqual(env.elements['case-unlocked-banner'].style.display, 'flex', 'Unlock banner must be visible for admin');

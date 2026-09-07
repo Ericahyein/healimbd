@@ -37,29 +37,31 @@ async function runAll() {
     assert.ok(!body.includes("sessionStorage.getItem('healim_admin_auth') === 'true'"), 'Must NOT allow sessionStorage alone to grant isUserAdmin() === true');
   });
 
-  // Test 2: Rule 7 - openAdminCaseWriter() skips legacy password modal and goes directly to Firebase Admin Login
-  await test('2. openAdminCaseWriter() bypasses legacy password modal when unauthenticated, directly opening Firebase Admin Login with adminTargetModal="case"', () => {
+  // Test 2: openAdminCaseWriter() skips legacy password modal and goes directly to Firebase Admin Login
+  await test('2. openAdminCaseWriter() opens Firebase Admin Login when unauthenticated, and does NOT open writer modal before login', () => {
     const caseWriterMatch = mainJs.match(/async function openAdminCaseWriter\(\) \{([\s\S]*?)\n\}/);
     assert.ok(caseWriterMatch, 'openAdminCaseWriter must exist');
     const body = caseWriterMatch[1];
 
     assert.ok(!body.includes("openAdminAuthModal('case')"), 'Must NOT open legacy password modal openAdminAuthModal');
-    assert.ok(body.includes("window.adminTargetModal = 'case'"), 'Must set window.adminTargetModal = "case"');
     assert.ok(body.includes("openAuthModal('admin')"), 'Must open openAuthModal("admin") directly');
   });
 
-  // Test 3: Rule 2 - checkAdminPrivileges() strictly checks existing Firestore /admins/{uid} role === 'admin'
-  await test('3. checkAdminPrivileges() verifies against Firestore admins/{uid} document role === "admin"', () => {
+  // Test 3: checkAdminPrivileges() mirrors Security Rules: Custom Claim admin=true OR admins/{uid} document exists
+  await test('3. checkAdminPrivileges() verifies against Custom Claim admin=true OR admins/{uid} document existence (without role field requirement or email whitelist)', () => {
     const checkPrivMatch = mainJs.match(/async function checkAdminPrivileges\(user\) \{([\s\S]*?)\n\}/);
     assert.ok(checkPrivMatch, 'checkAdminPrivileges must exist');
     const body = checkPrivMatch[1];
 
     assert.ok(body.includes(".collection('admins').doc(user.uid).get()"), 'Must query admins/{uid} document');
-    assert.ok(body.includes("role === 'admin'"), 'Must verify role === admin');
+    assert.ok(body.includes("claims.admin === true"), 'Must check Custom Claim admin === true');
+    assert.ok(body.includes("adminDoc && adminDoc.exists"), 'Must check adminDoc.exists');
+    assert.ok(!body.includes("role === 'admin'"), 'Must NOT require role === admin');
+    assert.ok(!body.includes("admin@healimbd.com"), 'Must NOT hardcode admin email whitelist');
   });
 
-  // Test 4: Rule 3 - handleDedicatedAdminLogin() purges session on failed admin verification
-  await test('4. handleDedicatedAdminLogin() purges session and removes admin credentials if admin verification fails', () => {
+  // Test 4: handleDedicatedAdminLogin() purges session on confirmed non-admin
+  await test('4. handleDedicatedAdminLogin() purges session and removes admin credentials if admin verification fails (confirmed non-admin)', () => {
     const loginFuncMatch = mainJs.match(/async function handleDedicatedAdminLogin\(e\) \{([\s\S]*?)\n\}/);
     assert.ok(loginFuncMatch, 'handleDedicatedAdminLogin exists');
     const body = loginFuncMatch[1];
@@ -68,20 +70,20 @@ async function runAll() {
     assert.ok(body.includes('await purgeAdminSession()'), 'Must call purgeAdminSession on non-admin');
   });
 
-  // Test 5: Target Behavior A & Rule 5 - Stays on /reviews/, opens writer modal, and clears adminTargetModal
-  await test('5. handleDedicatedAdminLogin() stays on /reviews/, opens writer modal, and resets adminTargetModal to null', () => {
+  // Test 5: Stays on /reviews/, updates UI to admin, does NOT auto-open writer modal
+  await test('5. handleDedicatedAdminLogin() stays on /reviews/, updates UI to admin, and does NOT auto-open writer modal', () => {
     const loginFuncMatch = mainJs.match(/async function handleDedicatedAdminLogin\(e\) \{([\s\S]*?)\n\}/);
     const body = loginFuncMatch[1];
 
     // Must NOT have unconditional redirect to /admin/
     assert.ok(!body.includes("window.location.href = '/admin/';"), 'Must NOT unconditionally redirect to /admin/');
 
-    // Must handle target === 'case' or isReviewsPage
-    assert.ok(body.includes("openAdminWriterModal()"), 'Must open writer modal on reviews/case');
-    assert.ok(body.includes("window.adminTargetModal = null;"), 'Must reset adminTargetModal to null after use (Rule 5)');
+    // Must NOT auto-open modal upon login
+    assert.ok(!body.includes("openAdminWriterModal()"), 'Must NOT auto-open modal on login');
+    assert.ok(body.includes("updateAuthUI({ name: '대표원장', email: user.email, isAdmin: true })"), 'Must update UI to admin');
   });
 
-  // Test 6: Rule 4 - Logout functions synchronize state completely
+  // Test 6: Logout functions synchronize state completely
   await test('6. Logout functions reset adminTargetModal = null, isAdminVerified = false, and clear sessionStorage', () => {
     const logoutUserMatch = mainJs.match(/async function logoutUser\(\) \{([\s\S]*?)\n\}/);
     assert.ok(logoutUserMatch, 'logoutUser exists');
@@ -94,7 +96,7 @@ async function runAll() {
     assert.ok(adminLogoutMatch[1].includes('isAdminVerified = false;'), 'handleFirebaseAdminLogout resets isAdminVerified');
   });
 
-  // Test 7: Rule 8 - 3-Layer Defense for Custom Case Submit and Delete
+  // Test 7: 3-Layer Defense for Custom Case Submit and Delete
   await test('7. 3-Layer Defense: #btn-delete-custom-case has admin-only-btn, JS functions verify isUserAdmin()', () => {
     // Layer 1: UI
     assert.ok(modalHtml.includes('id="btn-delete-custom-case"'), 'Delete button exists');
