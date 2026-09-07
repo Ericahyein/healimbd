@@ -1,12 +1,5 @@
 import { getGoogleAccessToken } from './_googleAuth.js';
 
-const PERMANENT_BASE_IDS = [
-  { id: 'inq_01_autonomic', date: '2026-08-31' },
-  { id: 'inq_02_adhd', date: '2026-08-31' },
-  { id: 'inq_03_sleep', date: '2026-08-31' },
-  { id: 'inq_04_tic', date: '2026-08-31' }
-];
-
 function formatLastMod(isoStr) {
   if (!isoStr) return new Date().toISOString().split('T')[0];
   try {
@@ -33,17 +26,7 @@ export async function onRequestGet(context) {
   const projectId = (env && env.FIREBASE_PROJECT_ID) || 'healimbd-b726f';
   const urlMap = new Map();
 
-  // 1. Seed with 4 Permanent Baseline Inquiries
-  PERMANENT_BASE_IDS.forEach(item => {
-    urlMap.set(item.id, {
-      loc: `https://healimbd.com/inquiry/${item.id}/`,
-      lastmod: item.date,
-      changefreq: 'monthly',
-      priority: '0.7'
-    });
-  });
-
-  // 2. Fetch live public inquiries from Firestore REST API
+  // 1. Fetch live public answered inquiries from Firestore REST API
   try {
     const accessToken = await getGoogleAccessToken(env);
     const listUrl = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/online_inquiries?pageSize=300`;
