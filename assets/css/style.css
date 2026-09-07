@@ -3155,6 +3155,14 @@ ul {
   transition: all 0.2s ease;
 }
 
+.social-text-short {
+  display: none;
+}
+
+.social-text-full {
+  display: inline;
+}
+
 .btn-social-auth.naver-auth {
   background: #03C75A;
   color: white;
@@ -3174,13 +3182,51 @@ ul {
 }
 
 @media (max-width: 440px) {
+  .auth-modal {
+    padding: 16px 12px;
+  }
+  .auth-modal-card {
+    padding: 24px 16px;
+  }
   .social-auth-group {
-    grid-template-columns: 1fr;
-    gap: 10px;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
   }
   .btn-social-auth {
     height: 44px;
-    font-size: 0.9rem;
+    padding: 0 6px;
+    font-size: 0.82rem;
+    gap: 5px;
+  }
+  .social-text-full {
+    display: none;
+  }
+  .social-text-short {
+    display: inline;
+  }
+}
+
+@media (max-width: 360px) {
+  .auth-modal {
+    padding: 12px 8px;
+  }
+  .auth-modal-card {
+    padding: 20px 10px;
+  }
+  .social-auth-group {
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+  .btn-social-auth {
+    height: 42px;
+    padding: 0 4px;
+    font-size: 0.76rem;
+    gap: 4px;
+  }
+  .n-symbol-auth {
+    width: 15px;
+    height: 15px;
+    font-size: 0.62rem;
   }
 }
 

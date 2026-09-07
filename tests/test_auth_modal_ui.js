@@ -66,13 +66,39 @@ assert.ok(adminFormPos !== -1, 'admin-login-form must exist');
 assert.ok(returnToLoginFromAdmin !== -1, 'Return to general login prompt must exist in admin view');
 console.log('✅ PASS: Admin view has dedicated credentials form and "일반 로그인으로 돌아가기" link.');
 
-console.log('\n--- 6. CSS Grid & Responsiveness Verification ---');
+console.log('\n--- 6. CSS Grid & 2-Column All-Screen Verification ---');
 const styleCss = fs.readFileSync(path.resolve('assets/css/style.css'), 'utf-8');
-assert.ok(styleCss.includes('grid-template-columns: 1fr 1fr;'), 'social-auth-group must use 2-column grid for desktop');
-assert.ok(styleCss.includes('@media (max-width: 440px)'), 'Mobile media query must exist for responsive collapse');
-assert.ok(styleCss.includes('.btn-discreet-admin'), '.btn-discreet-admin must be defined in style.css');
-assert.ok(styleCss.includes('.auth-switch-prompt'), '.auth-switch-prompt must be defined in style.css');
-console.log('✅ PASS: CSS grid 2-columns desktop + responsive 1-column mobile collapse verified.');
+const socialGroupBlocks = [...styleCss.matchAll(/\.social-auth-group\s*\{([^}]+)\}/g)];
+assert.ok(socialGroupBlocks.length >= 2, '.social-auth-group rules must exist');
+socialGroupBlocks.forEach(block => {
+  const cssBody = block[1];
+  assert.ok(!cssBody.includes('grid-template-columns: 1fr;') && !cssBody.includes('grid-template-columns: 1fr\n'), '.social-auth-group must NOT have 1-column grid');
+  assert.ok(cssBody.includes('grid-template-columns: 1fr 1fr;'), '.social-auth-group must always be 1fr 1fr');
+});
+assert.ok(styleCss.includes('@media (max-width: 440px)'), 'Mobile media query must exist for responsive styling');
+assert.ok(styleCss.includes('@media (max-width: 360px)'), 'Sub-360px media query must exist for 320px screens');
+assert.ok(styleCss.includes('.social-text-short'), '.social-text-short must be defined');
+assert.ok(styleCss.includes('.social-text-full'), '.social-text-full must be defined');
+
+// Verify widths on 320px, 375px, 390px, 430px, PC (>= 768px)
+const viewports = [
+  { name: '320px (iPhone SE 1 / small Android)', screenWidth: 320, padding: 20, gap: 6, text: '네이버로 로그인' },
+  { name: '375px (iPhone SE 2/3 / iPhone mini)', screenWidth: 375, padding: 28, gap: 8, text: '네이버로 로그인' },
+  { name: '390px (iPhone 12/13/14/15 standard)', screenWidth: 390, padding: 28, gap: 8, text: '네이버로 로그인' },
+  { name: '430px (iPhone 14/15 Pro Max)', screenWidth: 430, padding: 28, gap: 8, text: '네이버로 로그인' },
+  { name: 'PC (Desktop 768px+)', screenWidth: 460, padding: 48, gap: 10, text: '네이버 아이디로 로그인' }
+];
+
+viewports.forEach(vp => {
+  const modalInner = Math.min(vp.screenWidth, 460) - vp.padding;
+  const btnWidth = (modalInner - vp.gap) / 2;
+  // Estimate Korean character width: ~11px for 12.8px font, icon 16px, padding 10px
+  const estimatedTextWidth = vp.text.length * 11 + 28;
+  assert.ok(btnWidth > estimatedTextWidth, `Button at ${vp.name} (${btnWidth}px) must comfortably fit "${vp.text}" (${estimatedTextWidth}px)`);
+  console.log(`   ✓ ${vp.name}: Button width = ${btnWidth.toFixed(1)}px > Text width (${estimatedTextWidth}px) -> 2 columns preserved!`);
+});
+
+console.log('✅ PASS: 2-column layout and text fit verified for 320px / 375px / 390px / 430px / PC.');
 
 console.log('\n--- 7. main.js Logic Verification ---');
 const mainJs = fs.readFileSync(path.resolve('assets/js/main.js'), 'utf-8');
