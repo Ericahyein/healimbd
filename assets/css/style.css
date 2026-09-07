@@ -2295,7 +2295,7 @@ ul {
 }
 
 .blog-content-body a {
-  color: #0369a1;
+  color: #075985;
   font-weight: 600;
   text-decoration: underline;
   text-decoration-color: #7dd3fc;
@@ -2306,19 +2306,19 @@ ul {
 }
 
 .blog-content-body a:visited {
-  color: #0369a1;
+  color: #075985;
 }
 
 .blog-content-body a:hover,
 .blog-content-body a:focus {
-  color: #0284c7;
-  text-decoration-color: #0284c7;
+  color: #0369a1;
+  text-decoration-color: #0369a1;
   text-decoration-thickness: 2px;
   background-color: #f0f9ff;
 }
 
 .blog-content-body a:active {
-  color: #075985;
+  color: #0c4a6e;
 }
 
 
