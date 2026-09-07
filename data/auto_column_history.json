@@ -9,5 +9,16 @@
     "topicAngle": "media-exposure",
     "title": "[성남 틱장애] 미디어 및 스마트폰 사용이 증상에 미치는 영향",
     "slug": "seongnam-main-tic-media-exposure"
+  },
+  {
+    "publishDate": "2026-09-07T20:17:02.887+09:00",
+    "geoId": "yongin-main",
+    "displayRegion": "용인",
+    "parentRegion": "용인",
+    "regionType": "city",
+    "disease": "adhd",
+    "topicAngle": "adult-work-mistakes",
+    "title": "[용인 ADHD] 성인 업무 중 실수가 반복되고 마무리가 어려울 때",
+    "slug": "yongin-main-adhd-adult-work-mistakes"
   }
 ]
