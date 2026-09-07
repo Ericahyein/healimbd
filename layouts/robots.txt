@@ -1,0 +1,4 @@
+User-agent: *
+
+Sitemap: https://healimbd.com/sitemap.xml
+Sitemap: https://healimbd.com/sitemap-inquiry.xml

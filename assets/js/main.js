@@ -2167,6 +2167,31 @@ function initOnlineInquiry() {
   initFirebase();
 
   renderInquiryList();
+
+  // Bind browser history navigation (Back / Forward)
+  if (!window.inquiryPopstateBound) {
+    window.inquiryPopstateBound = true;
+    window.addEventListener('popstate', () => {
+      const match = window.location.pathname.match(/\/inquiry\/(inq_[0-9A-Za-z_-]+)\/?$/);
+      if (match && match[1]) {
+        openInquiryDetailModal(match[1]);
+      } else {
+        const modal = document.getElementById('inquiry-detail-modal');
+        if (modal && modal.classList.contains('active')) {
+          modal.classList.remove('active');
+          currentOpenedInquiryId = null;
+        }
+      }
+    });
+  }
+
+  // Auto-open modal if URL contains valid inquiryId on initial load
+  const initialMatch = window.location.pathname.match(/\/inquiry\/(inq_[0-9A-Za-z_-]+)\/?$/);
+  if (initialMatch && initialMatch[1]) {
+    setTimeout(() => {
+      openInquiryDetailModal(initialMatch[1]);
+    }, 300);
+  }
 }
 
 // 4 Permanent Base Inquiries (Always present on all devices)
@@ -2307,15 +2332,15 @@ function renderInquiryList() {
     const cleanId = escapeHtml(item.id);
 
     html += `
-      <tr onclick="handleInquiryClick('${cleanId}')">
+      <tr onclick="handleInquiryRowClick(event, '${cleanId}')">
         <td class="col-num">${num}</td>
         <td class="col-cat">
           <span class="cat-badge ${catClass}">${cleanDisease}</span>
         </td>
         <td class="col-title">
-          <span class="table-title-link">
+          <a href="/inquiry/${cleanId}/" class="table-title-link" style="color:inherit;text-decoration:none;display:block;" onclick="handleInquiryLinkClick(event, '${cleanId}')">
             <span>${cleanTitle}</span>
-          </span>
+          </a>
         </td>
         <td class="col-info">${cleanNickname}</td>
         <td class="col-date">${cleanDate}</td>
@@ -2366,8 +2391,32 @@ function handleInquirySearch(query) {
   renderInquiryList();
 }
 
-// Detail Modal Handler
+// Detail Modal & Link Handlers
+function handleInquiryLinkClick(event, id) {
+  if (event.ctrlKey || event.metaKey || event.shiftKey || event.button === 1) {
+    return; // Allow native new tab navigation
+  }
+  event.preventDefault();
+  handleInquiryOpen(id);
+}
+
+function handleInquiryRowClick(event, id) {
+  if (event.target.closest('a')) {
+    return;
+  }
+  handleInquiryOpen(id);
+}
+
 function handleInquiryClick(id) {
+  handleInquiryOpen(id);
+}
+
+function handleInquiryOpen(id) {
+  try {
+    if (window.location.pathname.includes('/inquiry')) {
+      history.pushState({ inquiryId: id }, '', '/inquiry/' + id + '/');
+    }
+  } catch (e) {}
   openInquiryDetailModal(id);
 }
 
@@ -2520,6 +2569,11 @@ function closeInquiryDetailModal() {
   const modal = document.getElementById('inquiry-detail-modal');
   if (modal) modal.classList.remove('active');
   currentOpenedInquiryId = null;
+  try {
+    if (window.location.pathname.match(/\/inquiry\/inq_[^/]+\/?$/)) {
+      history.pushState({}, '', '/inquiry/');
+    }
+  } catch (e) {}
 }
 
 function checkIsAdminUser() {
