@@ -725,6 +725,8 @@ function switchAuthTab(tab) {
     if (adminForm) adminForm.style.display = 'block';
     if (socialGroup) socialGroup.style.display = 'none';
     if (authDivider) authDivider.style.display = 'none';
+    // Pre-warm Firebase Auth SDK (app + auth only) in background while typing
+    ensureFirebaseAuth().catch(() => {});
     setTimeout(() => {
       document.getElementById('admin-direct-pwd')?.focus();
     }, 100);
@@ -733,6 +735,78 @@ function switchAuthTab(tab) {
     if (loginForm) loginForm.style.display = 'block';
     if (socialGroup) socialGroup.style.display = 'grid';
     if (authDivider) authDivider.style.display = 'flex';
+  }
+}
+
+// ==========================================================================
+// ON-DEMAND LAZY LOAD FOR FIREBASE AUTH (No Firestore SDK loaded on general pages)
+// ==========================================================================
+let firebaseAuthPromise = null;
+
+function loadScriptAsync(src) {
+  return new Promise((resolve, reject) => {
+    const existing = document.querySelector(`script[src="${src}"]`);
+    if (existing) {
+      if (existing.getAttribute('data-loaded') === 'true') {
+        return resolve();
+      }
+      existing.addEventListener('load', () => resolve());
+      existing.addEventListener('error', () => reject(new Error(`Failed to load script: ${src}`)));
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.src = src;
+    script.async = true;
+    script.setAttribute('data-loaded', 'false');
+    script.onload = () => {
+      script.setAttribute('data-loaded', 'true');
+      resolve();
+    };
+    script.onerror = () => reject(new Error(`Failed to load script: ${src}`));
+    document.head.appendChild(script);
+  });
+}
+
+async function ensureFirebaseAuth() {
+  if (auth) {
+    return auth;
+  }
+
+  if (firebaseAuthPromise) {
+    return firebaseAuthPromise;
+  }
+
+  firebaseAuthPromise = (async () => {
+    // 1. If window.firebase is not present, dynamically load app-compat SDK
+    if (typeof firebase === 'undefined') {
+      await loadScriptAsync('https://www.gstatic.com/firebasejs/12.17.1/firebase-app-compat.js');
+    }
+
+    // 2. If firebase.auth is not present, dynamically load auth-compat SDK
+    if (typeof firebase === 'undefined' || typeof firebase.auth !== 'function') {
+      await loadScriptAsync('https://www.gstatic.com/firebasejs/12.17.1/firebase-auth-compat.js');
+    }
+
+    // 3. Initialize Firebase App if not already initialized
+    if (!firebase.apps || !firebase.apps.length) {
+      const config = getFirebaseConfig();
+      firebase.initializeApp(config);
+    }
+
+    // 4. Initialize Auth instance
+    if (!auth && typeof firebase.auth === 'function') {
+      auth = firebase.auth();
+    }
+
+    return auth;
+  })();
+
+  try {
+    return await firebaseAuthPromise;
+  } catch (err) {
+    firebaseAuthPromise = null;
+    throw err;
   }
 }
 
@@ -761,35 +835,30 @@ async function handleDedicatedAdminLogin(e) {
   if (errorEl) errorEl.style.display = 'none';
 
   try {
+    // 1. Ensure Firebase Auth SDK is loaded on-demand
+    await ensureFirebaseAuth();
+
     if (!auth) {
-      throw new Error('Firebase Auth 모듈이 초기화되지 않았습니다. 페이지를 새로고침해주세요.');
+      throw new Error('Firebase Auth 모듈을 불러올 수 없습니다. 네트워크 연결을 확인해주세요.');
     }
 
     // Set SESSION persistence so login clears on browser close
-    await auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
+    if (typeof firebase !== 'undefined' && firebase.auth && firebase.auth.Auth) {
+      await auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
+    }
 
-    // 1. Firebase Authentication
+    // 2. Firebase Authentication
     const userCredential = await auth.signInWithEmailAndPassword(email, password);
     const user = userCredential.user;
 
-    // 2. Real admins/{uid} document existence check
-    const adminDoc = await db.collection('admins').doc(user.uid).get();
-    if (!adminDoc.exists || adminDoc.data()?.role !== 'admin') {
-      await auth.signOut();
-      isAdminVerified = false;
-      throw new Error('관리자로 등록되지 않은 계정입니다. (admins 권한 없음)');
-    }
-
-    isAdminVerified = true;
+    localStorage.setItem('healim_admin_logged', 'true');
     closeAuthModal();
-    showAuthToast('👑 대표원장 관리자 인증이 완료되었습니다. 온라인문의 답변 및 관리 권한이 활성화되었습니다.');
+    showAuthToast('👑 관리자 인증되었습니다. 관리자 센터로 이동합니다...');
 
-    if (typeof renderInquiryList === 'function') {
-      renderInquiryList();
-    }
-    if (currentOpenedInquiryId) {
-      openInquiryDetailModal(currentOpenedInquiryId);
-    }
+    // 3. Redirect to /admin/ where existing Auth/Firestore/App Check handles verification
+    setTimeout(() => {
+      window.location.href = '/admin/';
+    }, 350);
   } catch (err) {
     console.error('[ADMIN AUTH ERROR]', err);
     isAdminVerified = false;
