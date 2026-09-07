@@ -1798,32 +1798,62 @@ function renderCustomColumns() {
 
       customColumns.slice().reverse().forEach(col => {
         const card = document.createElement('article');
-        card.className = 'doctor-column-row-item custom-column-card injected-custom-column';
-        card.setAttribute('data-category', col.category);
-        card.onclick = () => openCustomColumnReader(col.id);
-
+        const isGridLayout = grid.classList.contains('blog-grid-layout');
         const colImg = col.image || CLINIC_THUMB_MAP[col.category] || 'images/clinics/autonomic.jpg';
-        const hashtagsHtml = renderHashtagPills(col.hashtags);
 
-        card.innerHTML = `
-          <div class="col-row-thumb-wrap">
-            <img src="${colImg}" alt="${col.title}" class="col-row-thumb-img" loading="lazy">
-            <span class="col-badge-pill ${col.category}">${col.categoryName}</span>
-          </div>
-          <div class="col-row-body">
-            <div class="col-row-meta-top">
-              <span class="col-badge-pill-inline ${col.category}">${col.categoryName}</span>
-              <span class="col-row-date">${col.date}</span>
+        if (isGridLayout) {
+          card.className = 'doctor-column-row-item blog-card-item custom-column-card injected-custom-column';
+          card.setAttribute('data-category', col.category);
+          card.onclick = () => openCustomColumnReader(col.id);
+
+          card.innerHTML = `
+            <div class="col-card-thumb-wrap">
+              <img src="${colImg}" alt="${col.title}" class="col-card-thumb-img" loading="lazy">
             </div>
-            <h3 class="col-row-title">${col.title}</h3>
-            <p class="col-row-desc">${col.summary}</p>
-            <div class="col-row-footer">
-              <span class="col-row-author"><i class="ph-bold ph-stethoscope"></i> ${col.author}</span>
-              ${hashtagsHtml}
-              <span class="col-row-read-btn">전문 읽기 <i class="ph-bold ph-arrow-right"></i></span>
+            <div class="col-card-body">
+              <div class="col-card-meta-top">
+                <span class="col-badge-pill-inline ${col.category}">${col.categoryName}</span>
+                <span class="col-card-date">${col.date}</span>
+              </div>
+              <h3 class="col-card-title">
+                <span class="col-card-title-link">${col.title}</span>
+              </h3>
+              <p class="col-card-desc">${col.summary}</p>
+              <div class="col-card-footer">
+                <span class="col-card-author"><i class="ph-bold ph-stethoscope"></i> ${col.author}</span>
+                <span class="col-card-read-btn">
+                  <span>칼럼 전문 읽기</span>
+                  <i class="ph-bold ph-arrow-right"></i>
+                </span>
+              </div>
             </div>
-          </div>
-        `;
+          `;
+        } else {
+          card.className = 'doctor-column-row-item custom-column-card injected-custom-column';
+          card.setAttribute('data-category', col.category);
+          card.onclick = () => openCustomColumnReader(col.id);
+          const hashtagsHtml = renderHashtagPills(col.hashtags);
+
+          card.innerHTML = `
+            <div class="col-row-thumb-wrap">
+              <img src="${colImg}" alt="${col.title}" class="col-row-thumb-img" loading="lazy">
+              <span class="col-badge-pill ${col.category}">${col.categoryName}</span>
+            </div>
+            <div class="col-row-body">
+              <div class="col-row-meta-top">
+                <span class="col-badge-pill-inline ${col.category}">${col.categoryName}</span>
+                <span class="col-row-date">${col.date}</span>
+              </div>
+              <h3 class="col-row-title">${col.title}</h3>
+              <p class="col-row-desc">${col.summary}</p>
+              <div class="col-row-footer">
+                <span class="col-row-author"><i class="ph-bold ph-stethoscope"></i> ${col.author}</span>
+                ${hashtagsHtml}
+                <span class="col-row-read-btn">전문 읽기 <i class="ph-bold ph-arrow-right"></i></span>
+              </div>
+            </div>
+          `;
+        }
         grid.prepend(card);
       });
     } else {

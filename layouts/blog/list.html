@@ -60,43 +60,43 @@
           </div>
         </div>
 
-        <!-- Doctor Column Horizontal List Wrap -->
-        <div class="column-list-wrap" id="column-cards-grid">
+        <!-- Doctor Column 3-Column Card Grid Wrap -->
+        <div class="column-list-wrap blog-grid-layout" id="column-cards-grid">
           {{ range where .Site.RegularPages "Section" "blog" }}
-          <article class="doctor-column-row-item static-column-card" 
+          <article class="doctor-column-row-item blog-card-item static-column-card" 
                    data-category="{{ .Params.category }}"
                    onclick="location.href='{{ .RelPermalink }}'">
-            <a href="{{ .RelPermalink }}" class="col-row-thumb-wrap" aria-label="{{ .Title }}">
+            <!-- 1. Top Featured Image -->
+            <a href="{{ .RelPermalink }}" class="col-card-thumb-wrap" aria-label="{{ .Title }}">
               {{ if .Params.image }}
-              <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}" class="col-row-thumb-img" loading="lazy">
+              <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}" class="col-card-thumb-img" loading="lazy">
               {{ else }}
-              <img src="{{ "images/clinics/autonomic.jpg" | relURL }}" alt="{{ .Title }}" class="col-row-thumb-img" loading="lazy">
+              <img src="{{ "images/clinics/autonomic.jpg" | relURL }}" alt="{{ .Title }}" class="col-card-thumb-img" loading="lazy">
               {{ end }}
-              <span class="col-badge-pill {{ .Params.category }}">{{ .Params.category_name }}</span>
             </a>
 
-            <div class="col-row-body">
-              <div>
-                <div class="col-row-meta-top">
-                  <span class="col-badge-pill-inline {{ .Params.category }}">{{ .Params.category_name }}</span>
-                  <span class="col-row-date">{{ .Date.Format "2006.01.02" }}</span>
-                </div>
-                <h3 class="col-row-title">
-                  <a href="{{ .RelPermalink }}" style="color: inherit; text-decoration: none;">{{ .Title }}</a>
-                </h3>
-                <p class="col-row-desc">{{ .Params.summary }}</p>
+            <!-- 2. Content Body -->
+            <div class="col-card-body">
+              <!-- Meta: Category badge + Date -->
+              <div class="col-card-meta-top">
+                <span class="col-badge-pill-inline {{ .Params.category }}">{{ .Params.category_name }}</span>
+                <span class="col-card-date">{{ .Date.Format "2006.01.02" }}</span>
               </div>
 
-              <div class="col-row-footer">
-                <span class="col-row-author"><i class="ph-bold ph-stethoscope"></i> {{ .Params.author | default "손지웅 대표원장" }}</span>
-                {{ if .Params.hashtags }}
-                <div class="hashtag-pill-group">
-                  {{ range .Params.hashtags }}
-                  <span class="hashtag-pill">#{{ . }}</span>
-                  {{ end }}
-                </div>
-                {{ end }}
-                <a href="{{ .RelPermalink }}" class="col-row-read-btn">
+              <!-- Title: max 2 lines with accessible link -->
+              <h3 class="col-card-title">
+                <a href="{{ .RelPermalink }}" class="col-card-title-link">{{ .Title }}</a>
+              </h3>
+
+              <!-- Summary: max 3 lines -->
+              <p class="col-card-desc">{{ .Params.summary }}</p>
+
+              <!-- 3. Card Footer: Author + Read Button -->
+              <div class="col-card-footer">
+                <span class="col-card-author">
+                  <i class="ph-bold ph-stethoscope"></i> {{ .Params.author | default "손지웅 대표원장" }}
+                </span>
+                <a href="{{ .RelPermalink }}" class="col-card-read-btn">
                   <span>칼럼 전문 읽기</span>
                   <i class="ph-bold ph-arrow-right"></i>
                 </a>

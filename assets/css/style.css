@@ -7059,7 +7059,205 @@ html, body {
   margin-bottom: 36px;
 }
 
-/* Horizontal Doctor Column Row Card (Thumbnail on Left) */
+/* ==========================================================================
+   DOCTOR COLUMN BOARD (/blog/) 3-COLUMN CARD GRID
+   ========================================================================== */
+.blog-page-section .column-list-wrap,
+.column-list-wrap.blog-grid-layout {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  width: 100%;
+  margin-bottom: 48px;
+}
+
+@media (max-width: 992px) {
+  .blog-page-section .column-list-wrap,
+  .column-list-wrap.blog-grid-layout {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+
+@media (max-width: 640px) {
+  .blog-page-section .column-list-wrap,
+  .column-list-wrap.blog-grid-layout {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+}
+
+/* Card item inside /blog/ */
+.blog-page-section .doctor-column-row-item,
+.doctor-column-row-item.blog-card-item {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 14px;
+  overflow: hidden;
+  padding: 0;
+  gap: 0;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+  cursor: pointer;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+  position: relative;
+  height: 100%;
+}
+
+.blog-page-section .doctor-column-row-item:hover,
+.doctor-column-row-item.blog-card-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+  border-color: #CBD5E1;
+}
+
+/* Top Image with strict 16/10 aspect ratio and cover */
+.col-card-thumb-wrap {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  position: relative;
+  overflow: hidden;
+  background: #F1F5F9;
+  text-decoration: none;
+  border-bottom: 1px solid #F1F5F9;
+}
+
+.col-card-thumb-img {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease;
+}
+
+.blog-page-section .doctor-column-row-item:hover .col-card-thumb-img,
+.doctor-column-row-item.blog-card-item:hover .col-card-thumb-img {
+  transform: scale(1.03);
+}
+
+/* Card Body */
+.col-card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 18px 20px 16px;
+}
+
+.col-card-meta-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.col-card-date {
+  font-size: 0.8rem;
+  color: #94A3B8;
+  font-weight: 500;
+}
+
+/* Title: 2 lines max with uniform height */
+.col-card-title {
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: #1E293B;
+  line-height: 1.48;
+  margin-bottom: 8px;
+  min-height: 2.96em;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: keep-all;
+  transition: color 0.2s ease;
+}
+
+.col-card-title-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.blog-page-section .doctor-column-row-item:hover .col-card-title,
+.doctor-column-row-item.blog-card-item:hover .col-card-title {
+  color: #1B8FD1;
+}
+
+/* Summary: 3 lines max with uniform height */
+.col-card-desc {
+  font-size: 0.88rem;
+  color: #64748B;
+  line-height: 1.58;
+  margin-bottom: 14px;
+  min-height: 4.74em;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: keep-all;
+}
+
+/* Footer: Author & Read More */
+.col-card-footer {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 12px;
+  border-top: 1px solid #F1F5F9;
+}
+
+.col-card-author {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #64748B;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.col-card-read-btn {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: #1B8FD1;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.blog-page-section .doctor-column-row-item:hover .col-card-read-btn,
+.doctor-column-row-item.blog-card-item:hover .col-card-read-btn {
+  transform: translateX(3px);
+  color: #0F5B88;
+}
+
+@media (max-width: 768px) {
+  .blog-page-section .doctor-column-row-item,
+  .doctor-column-row-item.blog-card-item {
+    flex-direction: column !important;
+    padding: 0 !important;
+    gap: 0 !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .col-card-body {
+    padding: 16px;
+  }
+  .col-card-title {
+    font-size: 1.04rem;
+  }
+  .col-card-desc {
+    font-size: 0.86rem;
+  }
+}
+
+/* Horizontal Doctor Column Row Card (Thumbnail on Left - for Homepage) */
 .doctor-column-row-item {
   display: flex;
   flex-direction: row;
