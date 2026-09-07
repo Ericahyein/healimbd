@@ -3030,10 +3030,17 @@ ul {
   animation: modalScaleIn 0.28s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.auth-modal-close {
+.auth-modal-top-actions {
   position: absolute;
   top: 18px;
   right: 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 20;
+}
+
+.auth-modal-close {
   background: #F1F5F9;
   border: none;
   width: 32px;
@@ -3051,6 +3058,25 @@ ul {
 .auth-modal-close:hover {
   background: #E2E8F0;
   color: #0F172A;
+}
+
+.btn-discreet-admin {
+  background: transparent;
+  border: 1px solid transparent;
+  font-size: 0.76rem;
+  font-weight: 500;
+  color: #94A3B8;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm, 6px);
+  transition: all 0.2s ease;
+  line-height: 1.2;
+}
+
+.btn-discreet-admin:hover {
+  color: #475569;
+  background: #F8FAFC;
+  border-color: #E2E8F0;
 }
 
 .auth-logo-badge {
@@ -3106,8 +3132,8 @@ ul {
 }
 
 .social-auth-group {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 10px;
   margin-bottom: 20px;
 }
@@ -3116,14 +3142,16 @@ ul {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 8px;
   width: 100%;
-  padding: 12px 18px;
+  height: 46px;
+  padding: 0 10px;
   border-radius: var(--radius-sm);
-  font-size: 0.94rem;
+  font-size: 0.86rem;
   font-weight: 700;
   cursor: pointer;
   border: none;
+  white-space: nowrap;
   transition: all 0.2s ease;
 }
 
@@ -3143,6 +3171,17 @@ ul {
 
 .btn-social-auth.kakao-auth:hover {
   background: #FDD835;
+}
+
+@media (max-width: 440px) {
+  .social-auth-group {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .btn-social-auth {
+    height: 44px;
+    font-size: 0.9rem;
+  }
 }
 
 .n-symbol-auth {
@@ -3271,6 +3310,39 @@ ul {
 
 .btn-auth-submit.signup-submit:hover {
   background: #1EA086;
+}
+
+.auth-switch-prompt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid #F1F5F9;
+  font-size: 0.88rem;
+  color: #64748B;
+}
+
+.btn-switch-link {
+  background: none;
+  border: none;
+  color: #1B8FD1;
+  font-weight: 700;
+  font-size: 0.88rem;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 4px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.15s ease;
+}
+
+.btn-switch-link:hover {
+  color: #0F5B88;
 }
 
 .auth-modal-footer {

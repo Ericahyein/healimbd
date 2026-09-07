@@ -698,43 +698,44 @@ function closeAuthModal() {
 }
 
 function switchAuthTab(tab) {
-  const loginTabBtn = document.getElementById('tab-btn-login');
-  const signupTabBtn = document.getElementById('tab-btn-signup');
-  const adminTabBtn = document.getElementById('tab-btn-admin');
+  const loginView = document.getElementById('auth-view-login');
+  const signupView = document.getElementById('auth-view-signup');
+  const adminView = document.getElementById('auth-view-admin');
+
+  // Fallback in case legacy form IDs are queried directly
   const loginForm = document.getElementById('login-form');
   const signupForm = document.getElementById('signup-form');
   const adminForm = document.getElementById('admin-login-form');
-  const socialGroup = document.getElementById('social-auth-group');
-  const authDivider = document.getElementById('auth-divider');
 
-  if (loginTabBtn) loginTabBtn.classList.remove('active');
-  if (signupTabBtn) signupTabBtn.classList.remove('active');
-  if (adminTabBtn) adminTabBtn.classList.remove('active');
+  if (loginView) loginView.style.display = 'none';
+  else if (loginForm) loginForm.style.display = 'none';
 
-  if (loginForm) loginForm.style.display = 'none';
-  if (signupForm) signupForm.style.display = 'none';
-  if (adminForm) adminForm.style.display = 'none';
+  if (signupView) signupView.style.display = 'none';
+  else if (signupForm) signupForm.style.display = 'none';
+
+  if (adminView) adminView.style.display = 'none';
+  else if (adminForm) adminForm.style.display = 'none';
 
   if (tab === 'signup') {
-    if (signupTabBtn) signupTabBtn.classList.add('active');
-    if (signupForm) signupForm.style.display = 'block';
-    if (socialGroup) socialGroup.style.display = 'grid';
-    if (authDivider) authDivider.style.display = 'flex';
+    if (signupView) signupView.style.display = 'block';
+    else if (signupForm) signupForm.style.display = 'block';
+    setTimeout(() => {
+      document.getElementById('signup-name')?.focus();
+    }, 100);
   } else if (tab === 'admin') {
-    if (adminTabBtn) adminTabBtn.classList.add('active');
-    if (adminForm) adminForm.style.display = 'block';
-    if (socialGroup) socialGroup.style.display = 'none';
-    if (authDivider) authDivider.style.display = 'none';
+    if (adminView) adminView.style.display = 'block';
+    else if (adminForm) adminForm.style.display = 'block';
     // Pre-warm Firebase Auth SDK (app + auth only) in background while typing
     ensureFirebaseAuth().catch(() => {});
     setTimeout(() => {
       document.getElementById('admin-direct-pwd')?.focus();
     }, 100);
   } else {
-    if (loginTabBtn) loginTabBtn.classList.add('active');
-    if (loginForm) loginForm.style.display = 'block';
-    if (socialGroup) socialGroup.style.display = 'grid';
-    if (authDivider) authDivider.style.display = 'flex';
+    if (loginView) loginView.style.display = 'block';
+    else if (loginForm) loginForm.style.display = 'block';
+    setTimeout(() => {
+      document.getElementById('login-email')?.focus();
+    }, 100);
   }
 }
 
@@ -875,7 +876,7 @@ async function handleDedicatedAdminLogin(e) {
   } finally {
     if (submitBtn) {
       submitBtn.disabled = false;
-      submitBtn.innerHTML = '<span>👑 관리자 로그인</span> <i class="ph-bold ph-arrow-right"></i>';
+      submitBtn.innerHTML = '<span>관리자 로그인</span> <i class="ph-bold ph-arrow-right"></i>';
     }
   }
 }
