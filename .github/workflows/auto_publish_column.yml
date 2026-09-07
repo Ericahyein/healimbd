@@ -51,6 +51,8 @@ permissions:
 jobs:
   auto-column-job:
     runs-on: ubuntu-latest
+    env:
+      AUTO_COLUMN_ENABLED: ${{ vars.AUTO_COLUMN_ENABLED || 'false' }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -85,9 +87,8 @@ jobs:
           OPENAI_PLANNER_MODEL: ${{ vars.OPENAI_PLANNER_MODEL || 'gpt-5.6-luna' }}
           OPENAI_WRITER_MODEL: ${{ vars.OPENAI_WRITER_MODEL || 'gpt-5.6-terra' }}
           OPENAI_IMAGE_MODEL: ${{ vars.OPENAI_IMAGE_MODEL || 'gpt-image-2' }}
-          AUTO_COLUMN_ENABLED: ${{ vars.AUTO_COLUMN_ENABLED || 'false' }}
-          FORCE_PUBLISH: ${{ github.event.inputs.force_publish || 'false' }}
-          TEST_QA_TARGET: ${{ github.event.inputs.test_qa_target || 'auto' }}
+          FORCE_PUBLISH: ${{ (github.event_name == 'workflow_dispatch' && inputs.force_publish) && 'true' || 'false' }}
+          TEST_QA_TARGET: ${{ (github.event_name == 'workflow_dispatch' && inputs.test_qa_target) || 'auto' }}
         run: node scripts/auto_column/index.js
 
       - name: Upload Dry-Run Artifacts (If Generated)
@@ -100,7 +101,7 @@ jobs:
           retention-days: 7
 
       - name: Persist QA Results History (Dry-Run Mode Only)
-        if: always() && (env.AUTO_COLUMN_ENABLED != 'true' && github.event.inputs.force_publish != 'true')
+        if: always() && (env.AUTO_COLUMN_ENABLED != 'true' && (github.event_name != 'workflow_dispatch' || inputs.force_publish != true))
         run: |
           git config --global user.name "Healim QA Bot"
           git config --global user.email "bot@healim-bundang.com"
@@ -109,17 +110,17 @@ jobs:
           if git diff --staged --quiet; then
             echo "No QA results changes to commit."
           else
-            QA_ID="${{ github.event.inputs.test_qa_target || 'auto' }}"
+            QA_ID="${{ (github.event_name == 'workflow_dispatch' && inputs.test_qa_target) || 'auto' }}"
             git commit -m "chore(qa): record dry-run results for ${QA_ID} [skip ci]"
             git push origin main
           fi
 
       - name: Validate Hugo Static Build (Production Mode Only)
-        if: env.AUTO_COLUMN_ENABLED == 'true' || github.event.inputs.force_publish == 'true'
+        if: env.AUTO_COLUMN_ENABLED == 'true' || (github.event_name == 'workflow_dispatch' && inputs.force_publish == true)
         run: hugo --minify -d public
 
       - name: Commit and Push to Main (Production Mode Only)
-        if: env.AUTO_COLUMN_ENABLED == 'true' || github.event.inputs.force_publish == 'true'
+        if: env.AUTO_COLUMN_ENABLED == 'true' || (github.event_name == 'workflow_dispatch' && inputs.force_publish == true)
         run: |
           git config --global user.name "Healim Column Publisher Bot"
           git config --global user.email "bot@healim-bundang.com"

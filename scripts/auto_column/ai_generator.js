@@ -17,31 +17,111 @@ function loadMedicalKnowledge(diseaseId) {
   return JSON.parse(fs.readFileSync(filePath, 'utf-8'));
 }
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 /**
- * Helper to call OpenAI API using fetch
+ * Helper to call OpenAI API with transparent logging & exponential backoff retry for transient errors
  */
-async function callOpenAiApi(apiKey, endpoint, body) {
-  const resp = await fetch(`https://api.openai.com/v1/${endpoint}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${apiKey}`
-    },
-    body: JSON.stringify(body)
-  });
+async function callOpenAiApi(apiKey, endpoint, body, maxRetries = 3) {
+  const modelId = (body && body.model) ? body.model : 'unknown';
+  const fullEndpoint = `/v1/${endpoint}`;
+  const retryDelays = [2000, 5000];
 
-  if (!resp.ok) {
-    const errorText = await resp.text();
-    const error = new Error(`OpenAI API error (${resp.status} ${resp.statusText}): ${errorText}`);
-    error.status = resp.status;
-    error.errorBody = errorText;
-    if (errorText.includes('moderation_blocked')) {
-      error.isModerationBlocked = true;
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    let resp;
+    let errorText = '';
+    let parsedError = null;
+
+    try {
+      resp = await fetch(`https://api.openai.com${fullEndpoint}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`
+        },
+        body: JSON.stringify(body)
+      });
+    } catch (networkErr) {
+      const isLastAttempt = attempt >= maxRetries;
+      console.error(`[AUTO COLUMN][OPENAI]`);
+      console.error(`endpoint: ${fullEndpoint}`);
+      console.error(`model: ${modelId}`);
+      console.error(`status: 0 (network_error)`);
+      console.error(`error.type: network_error`);
+      console.error(`error.code: ${networkErr.code || 'fetch_failed'}`);
+      console.error(`error.message: ${networkErr.message}`);
+
+      if (!isLastAttempt) {
+        const delayMs = retryDelays[attempt - 1] || 5000;
+        console.warn(`⏳ [AUTO COLUMN][OPENAI] Transient network error encountered. Retrying in ${delayMs / 1000}s (attempt ${attempt}/${maxRetries})...`);
+        await sleep(delayMs);
+        continue;
+      }
+      const err = new Error(`OpenAI API network error: ${networkErr.message}`);
+      err.status = 0;
+      err.errorType = 'network_error';
+      err.errorCode = networkErr.code || 'fetch_failed';
+      err.errorMessage = networkErr.message;
+      err.model = modelId;
+      err.endpoint = fullEndpoint;
+      throw err;
     }
-    throw error;
-  }
 
-  return await resp.json();
+    if (resp.ok) {
+      return await resp.json();
+    }
+
+    // Response is NOT ok
+    errorText = await resp.text();
+    try {
+      const jsonErr = JSON.parse(errorText);
+      if (jsonErr && jsonErr.error) {
+        parsedError = jsonErr.error;
+      }
+    } catch (_) {
+      // Non-JSON error body (e.g. gateway timeout)
+    }
+
+    const errorType = (parsedError && parsedError.type) || (resp.status >= 500 ? 'server_error' : 'api_error');
+    const errorCode = (parsedError && parsedError.code) || 'none';
+    const errorMessage = (parsedError && parsedError.message) || (errorText ? errorText.slice(0, 300) : resp.statusText);
+
+    // Strict logging of error WITHOUT sensitive information (No API keys, headers, tokens, or body payloads)
+    console.error(`[AUTO COLUMN][OPENAI]`);
+    console.error(`endpoint: ${fullEndpoint}`);
+    console.error(`model: ${modelId}`);
+    console.error(`status: ${resp.status}`);
+    console.error(`error.type: ${errorType}`);
+    console.error(`error.code: ${errorCode}`);
+    console.error(`error.message: ${errorMessage}`);
+
+    const isInsufficientQuota = errorCode === 'insufficient_quota' || errorMessage.includes('insufficient_quota');
+    const isRateLimit = resp.status === 429 && !isInsufficientQuota;
+    const is5xx = resp.status >= 500 && resp.status < 600;
+    const isRetryable = (isRateLimit || is5xx) && attempt < maxRetries;
+
+    if (isRetryable) {
+      const delayMs = retryDelays[attempt - 1] || 5000;
+      console.warn(`⏳ [AUTO COLUMN][OPENAI] Transient error (${resp.status} ${errorCode}). Retrying in ${delayMs / 1000}s (attempt ${attempt}/${maxRetries})...`);
+      await sleep(delayMs);
+      continue;
+    }
+
+    const err = new Error(`OpenAI API error (${resp.status} ${resp.statusText}): [${errorType}:${errorCode}] ${errorMessage}`);
+    err.status = resp.status;
+    err.errorType = errorType;
+    err.errorCode = errorCode;
+    err.errorMessage = errorMessage;
+    err.errorBody = errorText;
+    err.model = modelId;
+    err.endpoint = fullEndpoint;
+    if (errorText.includes('moderation_blocked') || errorCode === 'moderation_blocked') {
+      err.isModerationBlocked = true;
+    }
+    throw err;
+  }
 }
 
 /**
@@ -276,11 +356,14 @@ async function generateTopicOutline(plan, knowledge, apiKey, telemetry) {
  * 2. Generate Full Medical Article Body using Writer Model (gpt-5.6-terra)
  */
 async function generateArticleBody(plan, outline, knowledge, internalLinks, apiKey, telemetry) {
-  const sanitizedLinksListMd = internalLinks.map(l => {
-    const rawAnchor = l.cleanAnchor || l.title || '관련 질환 안내';
-    const cleanAnchor = sanitizeAnchorTitle(rawAnchor);
-    return `- [${cleanAnchor}](${l.url})`;
-  }).join('\n');
+  const linksListMd = (Array.isArray(internalLinks) && internalLinks.length > 0)
+    ? internalLinks.map(l => {
+        const rawAnchor = l.cleanAnchor || l.title || '관련 질환 안내';
+        const cleanAnchor = sanitizeAnchorTitle(rawAnchor);
+        return `- [${cleanAnchor}](${l.url})`;
+      }).join('\n')
+    : '';
+  const sanitizedLinksListMd = linksListMd;
   const usableNotes = (knowledge.evidenceNotes || []).filter(n => n.productionUsable !== false && n.sourceVerified !== false);
   const evidenceSnippet = usableNotes.length > 0 ? JSON.stringify(usableNotes, null, 2) : 'None';
 
@@ -597,7 +680,7 @@ ${sanitizedLinksListMd}
 - 질환별 특수 규칙: ${(knowledge.specificRules || []).join(' / ')}
 
 [사용 가능한 검증된 내부링크 후보 (관련성 높은 실존 링크만 자연스럽게 삽입, 1개도 허용)]
-${linksListMd}
+${linksListMd || '내부링크 없음'}
 
 [원장칼럼 작성 규칙 및 핵심 지침 (GLOBAL MEDICAL POLICY)]
 1. [제목(H1) 중복 생성 엄격 금지 (GLOBAL RULE)] 페이지 상단 템플릿에서 front matter title을 이미 H1으로 렌더링하므로, 본문 마크다운 첫 줄에 '# 제목' 형태로 H1을 절대 생성하지 마십시오. 본문은 바로 <div class="column-key-summary-box"> 핵심 요약 3~4항목 또는 리드문이나 첫 H2부터 시작하십시오.
