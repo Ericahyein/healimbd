@@ -693,6 +693,10 @@ function checkAdminSessionFallback() {
     } catch (e) {}
     const activeAdmin = adminUser || { name: '대표원장', isAdmin: true };
     updateAuthUI(activeAdmin);
+
+    // Rule 1: sessionStorage is a temporary UI restoration hint only.
+    // Immediately verify the actual session against Firebase Auth & Firestore admins collection.
+    verifyExistingAdminSession();
   } else {
     updateAuthUI(null);
   }
@@ -827,6 +831,110 @@ async function ensureFirebaseAuth() {
   }
 }
 
+let firestorePromise = null;
+async function ensureFirestore() {
+  await ensureFirebaseAuth();
+
+  if (db && typeof firebase !== 'undefined' && typeof firebase.firestore === 'function') {
+    return db;
+  }
+
+  if (firestorePromise) {
+    return firestorePromise;
+  }
+
+  firestorePromise = (async () => {
+    if (typeof firebase === 'undefined' || typeof firebase.firestore !== 'function') {
+      await loadScriptAsync('https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore-compat.js');
+    }
+    if (typeof firebase !== 'undefined' && typeof firebase.firestore === 'function' && !db) {
+      db = firebase.firestore();
+      isFirebaseConnected = true;
+    }
+    return db;
+  })();
+
+  try {
+    return await firestorePromise;
+  } catch (err) {
+    firestorePromise = null;
+    throw err;
+  }
+}
+
+async function checkAdminPrivileges(user) {
+  if (!user) return false;
+  try {
+    const firestoreDb = await ensureFirestore();
+    if (!firestoreDb) return false;
+    const adminDoc = await firestoreDb.collection('admins').doc(user.uid).get();
+    return !!(adminDoc.exists && adminDoc.data()?.role === 'admin');
+  } catch (e) {
+    console.warn('Admin verification check notice:', e);
+    return false;
+  }
+}
+
+async function purgeAdminSession() {
+  isAdminVerified = false;
+  sessionStorage.removeItem('healim_admin_auth');
+  sessionStorage.removeItem('healim_admin_user');
+  localStorage.removeItem('healim_admin_logged');
+  window.adminTargetModal = null;
+  document.body.classList.remove('is-admin');
+  updateAuthUI(null);
+  if (auth && auth.currentUser) {
+    try {
+      await auth.signOut();
+    } catch (e) {}
+  }
+}
+
+let adminSessionVerificationPromise = null;
+async function verifyExistingAdminSession() {
+  if (adminSessionVerificationPromise) return adminSessionVerificationPromise;
+
+  adminSessionVerificationPromise = (async () => {
+    try {
+      await ensureFirebaseAuth();
+      await ensureFirestore();
+
+      return new Promise((resolve) => {
+        if (!auth) {
+          purgeAdminSession();
+          return resolve(false);
+        }
+
+        const unsubscribe = auth.onAuthStateChanged(async (user) => {
+          unsubscribe();
+          if (user) {
+            const isVerified = await checkAdminPrivileges(user);
+            if (isVerified) {
+              isAdminVerified = true;
+              sessionStorage.setItem('healim_admin_auth', 'true');
+              sessionStorage.setItem('healim_admin_user', JSON.stringify({ name: '대표원장', email: user.email, isAdmin: true }));
+              updateAuthUI({ name: '대표원장', email: user.email, isAdmin: true });
+              resolve(true);
+            } else {
+              await purgeAdminSession();
+              resolve(false);
+            }
+          } else {
+            await purgeAdminSession();
+            resolve(false);
+          }
+        });
+      });
+    } catch (e) {
+      console.warn('Admin session verification notice:', e);
+      await purgeAdminSession();
+      return false;
+    }
+  })();
+
+  return adminSessionVerificationPromise;
+}
+
 async function handleDedicatedAdminLogin(e) {
   e.preventDefault();
   const emailInput = document.getElementById('admin-email');
@@ -852,8 +960,9 @@ async function handleDedicatedAdminLogin(e) {
   if (errorEl) errorEl.style.display = 'none';
 
   try {
-    // 1. Ensure Firebase Auth SDK is loaded on-demand
+    // 1. Ensure Firebase Auth and Firestore SDKs are loaded
     await ensureFirebaseAuth();
+    await ensureFirestore();
 
     if (!auth) {
       throw new Error('Firebase Auth 모듈을 불러올 수 없습니다. 네트워크 연결을 확인해주세요.');
@@ -868,14 +977,51 @@ async function handleDedicatedAdminLogin(e) {
     const userCredential = await auth.signInWithEmailAndPassword(email, password);
     const user = userCredential.user;
 
-    localStorage.setItem('healim_admin_logged', 'true');
-    closeAuthModal();
-    showAuthToast('👑 관리자 인증되었습니다. 관리자 센터로 이동합니다...');
+    // 3. Existing Admin Privilege Verification (Rule 2)
+    const isVerified = await checkAdminPrivileges(user);
+    if (!isVerified) {
+      // Rule 3: Session cleanup on admin auth failure
+      await purgeAdminSession();
+      if (errorEl) {
+        errorEl.textContent = '관리자 권한이 등록되지 않은 계정입니다. 로그인 권한이 거부되었습니다.';
+        errorEl.style.display = 'block';
+      }
+      return;
+    }
 
-    // 3. Redirect to /admin/ where existing Auth/Firestore/App Check handles verification
-    setTimeout(() => {
-      window.location.href = '/admin/';
-    }, 350);
+    // 4. Verification Succeeded
+    isAdminVerified = true;
+    sessionStorage.setItem('healim_admin_auth', 'true');
+    sessionStorage.setItem('healim_admin_user', JSON.stringify({ name: '대표원장', email: user.email, isAdmin: true }));
+    localStorage.setItem('healim_admin_logged', 'true');
+    updateAuthUI({ name: '대표원장', email: user.email, isAdmin: true });
+
+    closeAuthModal();
+
+    // 5. Routing and Target Modal Handling (Rule 5 & Target Flow)
+    const target = window.adminTargetModal;
+    window.adminTargetModal = null; // Always clear after use (Rule 5)
+
+    const isReviewsPage = window.location.pathname.startsWith('/reviews');
+    const isBlogPage = window.location.pathname.startsWith('/blog');
+    const isAdminPage = window.location.pathname.startsWith('/admin');
+
+    if (target === 'case' || isReviewsPage) {
+      showAuthToast('👑 관리자 인증되었습니다.');
+      openAdminWriterModal();
+    } else if (target === 'column' || isBlogPage) {
+      showAuthToast('👑 관리자 인증되었습니다.');
+      openAdminColumnWriterModal();
+    } else if (isAdminPage) {
+      showAuthToast('👑 관리자 인증되었습니다. 관리자 센터로 이동합니다...');
+      const loginCard = document.getElementById('admin-auth-login-card');
+      const adminPanel = document.getElementById('admin-authenticated-panel');
+      if (loginCard) loginCard.style.display = 'none';
+      if (adminPanel) adminPanel.style.display = 'block';
+      if (typeof listenToAdminInquiries === 'function') listenToAdminInquiries();
+    } else {
+      showAuthToast('👑 관리자 인증되었습니다.');
+    }
   } catch (err) {
     console.error('[ADMIN AUTH ERROR]', err);
     isAdminVerified = false;
@@ -965,6 +1111,7 @@ async function logoutUser() {
     console.warn('Firebase signOut notice:', e);
   }
   isAdminVerified = false;
+  window.adminTargetModal = null;
   localStorage.removeItem('healim_auth_user');
   sessionStorage.removeItem('healim_admin_auth');
   sessionStorage.removeItem('healim_admin_user');
@@ -1077,46 +1224,43 @@ const CATEGORY_NAME_MAP = {
 };
 
 function isUserAdmin() {
-  return isAdminVerified && auth && auth.currentUser !== null;
+  return !!(
+    auth &&
+    auth.currentUser &&
+    isAdminVerified === true
+  );
 }
 
 function initAdminCaseWriter() {
   renderCustomCasesToList();
 }
 
-function openAdminCaseWriter() {
+async function openAdminCaseWriter() {
   if (isUserAdmin()) {
     openAdminWriterModal();
-  } else {
-    openAdminAuthModal('case');
+    return;
   }
+
+  // If sessionStorage hint is present, wait for in-flight verification
+  if (sessionStorage.getItem('healim_admin_auth') === 'true') {
+    if (adminSessionVerificationPromise) {
+      await adminSessionVerificationPromise;
+      if (isUserAdmin()) {
+        openAdminWriterModal();
+        return;
+      }
+    }
+  }
+
+  // Rule 7: Skip legacy password modal, open Firebase admin login directly
+  window.adminTargetModal = 'case';
+  openAuthModal('admin');
 }
 
 function openAdminAuthModal(targetType = 'case') {
   window.adminTargetModal = targetType;
-  const modal = document.getElementById('admin-auth-modal');
-  const titleEl = document.getElementById('admin-auth-title');
-  const subEl = document.querySelector('#admin-auth-modal .modal-subtitle');
-  const errEl = document.getElementById('admin-auth-error');
-  const pwdInput = document.getElementById('admin-password-input');
-
-  if (targetType === 'column') {
-    if (titleEl) titleEl.innerHTML = '<strong>관리자 인증</strong> (원장 칼럼 직접 등록)';
-    if (subEl) subEl.textContent = '원장 칼럼을 직접 작성하고 썸네일을 등록하려면 관리자 비밀번호를 입력해주세요.';
-  } else {
-    if (titleEl) titleEl.innerHTML = '<strong>관리자 인증</strong> (치료사례 직접 등록)';
-    if (subEl) subEl.textContent = '치료사례를 직접 작성하고 사진을 업로드하려면 관리자 비밀번호를 입력해주세요.';
-  }
-
-  if (errEl) errEl.style.display = 'none';
-  if (pwdInput) pwdInput.value = '';
-  if (modal) {
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-    setTimeout(() => {
-      if (pwdInput) pwdInput.focus();
-    }, 100);
-  }
+  // Legacy bypass: directly open real auth modal in admin mode
+  openAuthModal('admin');
 }
 
 function closeAdminAuthModal() {
@@ -1350,6 +1494,10 @@ function renderHashtagPills(hashtags) {
 
 function handleAdminCaseSubmit(e) {
   e.preventDefault();
+  if (!isUserAdmin()) {
+    alert('관리자 권한이 필요합니다.');
+    return;
+  }
   const cat = document.getElementById('case-input-category').value;
   const startMonth = document.getElementById('case-input-start-month').value;
   const endMonth = document.getElementById('case-input-end-month').value;
@@ -1525,6 +1673,10 @@ function closeCustomCaseReader() {
 }
 
 function deleteCurrentCustomCase() {
+  if (!isUserAdmin()) {
+    alert('관리자 권한이 필요합니다.');
+    return;
+  }
   if (!currentOpenedCustomCaseId) return;
   if (!confirm('정말 이 치료사례를 삭제하시겠습니까?')) return;
 
@@ -1591,12 +1743,24 @@ function initAdminColumnBoard() {
   renderCustomColumns();
 }
 
-function openAdminColumnWriter() {
+async function openAdminColumnWriter() {
   if (isUserAdmin()) {
     openAdminColumnWriterModal();
-  } else {
-    openAdminAuthModal('column');
+    return;
   }
+
+  if (sessionStorage.getItem('healim_admin_auth') === 'true') {
+    if (adminSessionVerificationPromise) {
+      await adminSessionVerificationPromise;
+      if (isUserAdmin()) {
+        openAdminColumnWriterModal();
+        return;
+      }
+    }
+  }
+
+  window.adminTargetModal = 'column';
+  openAuthModal('admin');
 }
 
 function openAdminColumnWriterModal() {
@@ -3319,6 +3483,7 @@ async function handleFirebaseAdminLogout() {
     await auth.signOut();
   }
   isAdminVerified = false;
+  window.adminTargetModal = null;
   localStorage.removeItem('healim_admin_logged');
   sessionStorage.removeItem('healim_admin_auth');
   sessionStorage.removeItem('healim_admin_user');

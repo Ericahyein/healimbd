@@ -24,6 +24,7 @@ const mainJsPath = path.join(__dirname, '..', 'assets', 'js', 'main.js');
 const mainJs = fs.readFileSync(mainJsPath, 'utf8');
 
 // Mock browser DOM and Storages
+global.window = { adminTargetModal: null };
 class MockStorage {
   constructor() {
     this.store = {};
@@ -103,12 +104,13 @@ await test('1. admins/{uid} role verification in initFirebase() sets healim_admi
   assert.ok(mainJs.includes("sessionStorage.removeItem('healim_admin_user')"), 'Must clean up healim_admin_user on auth fail/logout');
 });
 
-// 2. Static Analysis: Login button alone does NOT set healim_admin_auth
-await test('2. handleDedicatedAdminLogin() does NOT set healim_admin_auth directly (only /admin/ does)', () => {
+// 2. Static Analysis: handleDedicatedAdminLogin requires checkAdminPrivileges before setting healim_admin_auth
+await test('2. handleDedicatedAdminLogin() verifies admin with checkAdminPrivileges before setting healim_admin_auth', () => {
   const loginFuncMatch = mainJs.match(/async function handleDedicatedAdminLogin\(e\) \{([\s\S]*?)\n\}/);
   assert.ok(loginFuncMatch, 'handleDedicatedAdminLogin exists');
   const loginFuncBody = loginFuncMatch[1];
-  assert.ok(!loginFuncBody.includes("sessionStorage.setItem('healim_admin_auth'"), 'Login button must not set healim_admin_auth directly');
+  assert.ok(loginFuncBody.includes('await checkAdminPrivileges(user)'), 'Must check admin privileges before setting session');
+  assert.ok(loginFuncBody.includes("sessionStorage.setItem('healim_admin_auth', 'true')"), 'Sets healim_admin_auth upon verified admin');
 });
 
 // 3. Behavioral Simulation: Guest Visitor (Not Logged In)
@@ -120,6 +122,7 @@ await test('3. Guest Visitor: Review remains locked, banner hidden, login button
     const localStorage = env.localStorage;
     const sessionStorage = env.sessionStorage;
     const document = env.document;
+    const verifyExistingAdminSession = () => {};
     ${mainJs.match(/function updateAuthUI\(user\) \{[\s\S]*?\n\}/)[0]}
     ${mainJs.match(/function checkAdminSessionFallback\(\) \{[\s\S]*?\n\}/)[0]}
     ${mainJs.match(/function initAuth\(\) \{[\s\S]*?\n\}/)[0]}
@@ -167,6 +170,7 @@ await test('5. Admin Verified in /admin/ -> Reviews Page unlocks without re-logi
     const localStorage = env.localStorage;
     const sessionStorage = env.sessionStorage;
     const document = env.document;
+    const verifyExistingAdminSession = () => {};
     ${mainJs.match(/function updateAuthUI\(user\) \{[\s\S]*?\n\}/)[0]}
     ${mainJs.match(/function checkAdminSessionFallback\(\) \{[\s\S]*?\n\}/)[0]}
     ${mainJs.match(/function initAuth\(\) \{[\s\S]*?\n\}/)[0]}
