@@ -5682,17 +5682,7 @@ html, body {
     gap: 4px 8px;
     letter-spacing: -0.2px;
   }
-}
 
-@media (max-width: 360px) {
-  .site-footer {
-    padding: 14px 8px;
-  }
-  .site-footer .footer-legal-bar {
-    font-size: 11.5px;
-    gap: 4px 6px;
-  }
-}
   .container {
     padding-left: 16px;
     padding-right: 16px;
@@ -6258,6 +6248,16 @@ html, body {
     width: 38px !important;
     height: 38px !important;
     font-size: 0.9rem !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .site-footer {
+    padding: 14px 8px;
+  }
+  .site-footer .footer-legal-bar {
+    font-size: 11.5px;
+    gap: 4px 6px;
   }
 }
 
