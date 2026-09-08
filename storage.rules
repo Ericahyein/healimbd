@@ -1,24 +1,40 @@
 rules_version = '2';
+
 service firebase.storage {
   match /b/{bucket}/o {
 
-    // Helper: Check if requester is verified admin
+    // Helper: Verify requester is authenticated via Firebase Auth
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    // Helper: Strictly verify requester is admin via Custom Claim or Firestore admins/{uid} document
     function isAdmin() {
-      return request.auth != null && (
+      return signedIn() && (
         request.auth.token.admin == true ||
         firestore.exists(/databases/(default)/documents/admins/$(request.auth.uid))
       );
     }
 
+    // Helper: Validate image file upload properties (create / update only)
+    function isValidImageUpload() {
+      return request.resource != null &&
+        request.resource.size <= 20 * 1024 * 1024 &&
+        request.resource.contentType.matches('image/.*');
+    }
+
     // ========================================================================
-    // CLINICAL TREATMENT REVIEW IMAGES (treatment-reviews/**)
+    // CLINICAL TREATMENT REVIEWS IMAGES (treatment-reviews/**)
     // ========================================================================
     match /treatment-reviews/{reviewId}/{fileName} {
-      // 1. Read: Authenticated users only (Matches site member review access policy)
-      allow read: if request.auth != null;
+      // 1. Read: Any signed-in user (Matches site member review access policy)
+      allow read: if signedIn();
 
-      // 2. Write (create, update, delete): Strictly verified Admin only
-      allow write: if isAdmin();
+      // 2. Create & Update: Verified Admin only + Image MIME and size validation
+      allow create, update: if isAdmin() && isValidImageUpload();
+
+      // 3. Delete: Verified Admin only (request.resource is null on delete)
+      allow delete: if isAdmin();
     }
 
     // Default deny for all other storage paths

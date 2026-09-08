@@ -30,8 +30,12 @@ async function run() {
   const storageRules = fs.readFileSync('storage.rules', 'utf8');
   await test('2. storage.rules contains treatment-reviews/{reviewId}/{fileName} with authenticated read and admin-only write', () => {
     assert.ok(storageRules.includes('match /treatment-reviews/{reviewId}/{fileName}'), 'treatment-reviews path exists');
-    assert.ok(storageRules.includes('allow read: if request.auth != null;'), 'read restricted to authenticated users');
-    assert.ok(storageRules.includes('allow write: if isAdmin();'), 'write restricted to isAdmin()');
+    assert.ok(storageRules.includes('function signedIn()'), 'signedIn helper exists');
+    assert.ok(storageRules.includes('function isAdmin()'), 'isAdmin helper exists');
+    assert.ok(storageRules.includes('function isValidImageUpload()'), 'isValidImageUpload helper exists');
+    assert.ok(storageRules.includes('allow read: if signedIn();'), 'read restricted to signedIn()');
+    assert.ok(storageRules.includes('allow create, update: if isAdmin() && isValidImageUpload();'), 'create/update restricted to admin and valid image');
+    assert.ok(storageRules.includes('allow delete: if isAdmin();'), 'delete restricted to admin without resource gating');
     assert.ok(storageRules.includes('match /{allPaths=**} {\n      allow read, write: if false;'), 'Default deny exists');
   });
 
@@ -128,7 +132,7 @@ async function run() {
     // 2. Firestore: Read requires authenticated user
     assert.ok(firestoreRules.includes('match /treatment_reviews/{reviewId} {\n      // 1. Read: Authenticated users only (Matches site member review access policy)\n      allow read: if request.auth != null;'));
     // 3. Storage: Read requires authenticated user
-    assert.ok(storageRules.includes('match /treatment-reviews/{reviewId}/{fileName} {\n      // 1. Read: Authenticated users only (Matches site member review access policy)\n      allow read: if request.auth != null;'));
+    assert.ok(storageRules.includes('match /treatment-reviews/{reviewId}/{fileName}') && storageRules.includes('allow read: if signedIn();'), 'Storage restricts read to signedIn()');
   });
 
   // 10. Creation Flow: Storage upload occurs before Firestore write, rollback occurs on failure
