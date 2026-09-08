@@ -2453,11 +2453,27 @@ async function executeCasesMigration() {
       try {
         const deterministicDocId = 'legacy_' + item.id.replace(/[^a-zA-Z0-9_-]/g, '_');
 
-        // 1. Upload image to Firebase Storage if Base64 exists
+        // 1. Resolve image path (Resume/Repair: Reuse existing Storage image, NEVER re-upload!)
         let storagePath = `treatment-reviews/${deterministicDocId}/original.jpg`;
         let downloadUrl = '';
+        let alreadyInStorage = false;
 
-        if (item.image && typeof item.image === 'string' && item.image.startsWith('data:image/')) {
+        try {
+          downloadUrl = await storage.ref(storagePath).getDownloadURL();
+          alreadyInStorage = true;
+        } catch (e1) {
+          try {
+            const pngPath = `treatment-reviews/${deterministicDocId}/original.png`;
+            downloadUrl = await storage.ref(pngPath).getDownloadURL();
+            storagePath = pngPath;
+            alreadyInStorage = true;
+          } catch (e2) {
+            alreadyInStorage = false;
+          }
+        }
+
+        // Only upload if NOT already present in Storage
+        if (!alreadyInStorage && item.image && typeof item.image === 'string' && item.image.startsWith('data:image/')) {
           const mimeMatch = item.image.match(/^data:([^;]+);base64,/);
           const mimeType = mimeMatch ? mimeMatch[1] : 'image/jpeg';
           const ext = mimeType.includes('png') ? 'png' : 'jpg';
