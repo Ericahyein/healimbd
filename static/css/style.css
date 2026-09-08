@@ -10587,61 +10587,173 @@ body.philosophy-page {
 
 body.philosophy-page .philosophy-page-section {
   background: #FFFFFF;
-  padding: 85px 0 100px;
+  padding: 80px 0 110px;
 }
 
-/* A. Top Doctor Profile: Open Editorial Magazine Intro (No Heavy Outer Card) */
-body.philosophy-page .philo-doctor-profile-hero {
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  border-radius: 0;
-  padding: 0;
-  margin-bottom: 70px;
-  border-bottom: 1px solid #E2E8F0;
-  padding-bottom: 60px;
+/* A. Top Doctor Editorial Intro (Integrated Composition) */
+body.philosophy-page .philo-editorial-intro {
+  display: grid;
+  grid-template-columns: 1.25fr 0.95fr;
+  gap: 56px;
   align-items: center;
+  margin-bottom: 90px;
+  padding-bottom: 80px;
+  border-bottom: 1px solid #E2E8F0;
+  position: relative;
 }
 
-body.philosophy-page .philo-hero-photo-wrap {
+body.philosophy-page .philo-intro-subtag {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+body.philosophy-page .philo-role-pill {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--primary);
+  background: var(--primary-light);
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  letter-spacing: 0.8px;
+}
+
+body.philosophy-page .philo-branch-pill {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #64748B;
+  background: #F1F5F9;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+}
+
+body.philosophy-page .philo-intro-headline {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  letter-spacing: -0.8px;
+  margin-bottom: 18px;
+  line-height: 1.2;
+}
+
+body.philosophy-page .philo-title-light {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #64748B;
+  margin-left: 6px;
+}
+
+body.philosophy-page .philo-intro-slogan {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #0F766E;
+  line-height: 1.55;
+  margin-bottom: 34px;
+  word-break: keep-all;
+  padding-left: 18px;
+  border-left: 3px solid #0D9488;
+}
+
+body.philosophy-page .philo-commitments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+body.philosophy-page .philo-commit-item {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 16px 20px;
+  background: #F8FAFC;
+  border-radius: var(--radius-md);
+  border: 1px solid #F1F5F9;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+body.philosophy-page .philo-commit-item:hover {
+  background: #F1F5F9;
+  transform: translateX(4px);
+}
+
+body.philosophy-page .philo-commit-num {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--primary);
+  line-height: 1;
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+
+body.philosophy-page .philo-commit-title {
+  font-size: 1.02rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin-bottom: 4px;
+}
+
+body.philosophy-page .philo-commit-desc {
+  font-size: 0.9rem;
+  color: #64748B;
+  line-height: 1.55;
+  margin: 0;
+  word-break: keep-all;
+}
+
+body.philosophy-page .philo-photo-blend-wrap {
+  position: relative;
   border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: radial-gradient(circle at center, #F8FAFC 0%, #E2E8F0 100%);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
   border: 1px solid #E2E8F0;
-  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
 }
 
-body.philosophy-page .philo-credentials-clean-box {
-  background: transparent;
-  border: none;
-  border-top: 1px solid #E2E8F0;
-  border-radius: 0;
-  padding: 20px 0 0 0;
-  margin-top: 14px;
+body.philosophy-page .philo-blend-img {
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
-/* B. Greeting Lead: Open Typography Banner */
-body.philosophy-page .philo-story-greeting-block {
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  border-radius: 0;
-  padding: 20px 0 40px;
+body.philosophy-page .philo-photo-gradient-mask {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(to top, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 25%);
 }
 
-/* C. Story Chapters 01~04: Open Editorial Layout */
-body.philosophy-page .philo-chapter-section {
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  border-radius: 0;
-  padding: 0;
-  padding-bottom: 70px;
-  margin-bottom: 70px;
+/* B. Streamlined 3-Chapter Editorial Story Stream */
+body.philosophy-page .philo-editorial-stream {
+  margin-bottom: 60px;
+}
+
+body.philosophy-page .philo-story-row {
+  display: grid;
+  grid-template-columns: 1.18fr 0.82fr;
+  gap: 60px;
+  align-items: center;
+  margin-bottom: 95px;
+  padding-bottom: 90px;
   border-bottom: 1px solid #E2E8F0;
 }
 
-body.philosophy-page .chapter-num-pill {
+body.philosophy-page .philo-story-row.reverse {
+  grid-template-columns: 0.82fr 1.18fr;
+}
+
+body.philosophy-page .philo-story-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+body.philosophy-page .philo-story-number {
   font-family: 'Outfit', sans-serif;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   font-weight: 800;
   color: var(--primary);
   background: var(--primary-light);
@@ -10650,99 +10762,200 @@ body.philosophy-page .chapter-num-pill {
   letter-spacing: 0.5px;
 }
 
-body.philosophy-page .chapter-main-title {
+body.philosophy-page .philo-story-label {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #94A3B8;
+  letter-spacing: 0.8px;
+}
+
+body.philosophy-page .philo-story-title {
   font-size: 1.85rem;
   font-weight: 800;
   color: var(--text-dark);
-  margin-bottom: 28px;
+  line-height: 1.35;
+  margin-bottom: 20px;
   letter-spacing: -0.5px;
-}
-
-body.philosophy-page .chapter-text-col p {
-  font-size: 1.05rem;
-  color: #334155;
-  line-height: 1.85;
-  margin-bottom: 18px;
   word-break: keep-all;
 }
 
-body.philosophy-page .philo-quote-highlight {
-  background: rgba(235, 246, 252, 0.5);
-  border-left: 3px solid var(--primary);
+body.philosophy-page .philo-pullquote-strip {
+  background: rgba(240, 253, 250, 0.7);
+  border-left: 3px solid #0D9488;
   padding: 16px 20px;
-  margin: 24px 0;
+  margin-bottom: 22px;
   border-radius: 4px;
 }
 
-body.philosophy-page .philo-quote-highlight p {
-  font-size: 1.08rem;
+body.philosophy-page .philo-pullquote-strip p {
+  font-size: 1.05rem;
   font-weight: 700;
-  color: var(--text-dark);
-  line-height: 1.7;
+  color: #0F766E;
+  line-height: 1.6;
   margin: 0;
+  word-break: keep-all;
 }
 
-body.philosophy-page .chapter-img-card {
+body.philosophy-page .philo-story-body p {
+  font-size: 1.02rem;
+  color: #334155;
+  line-height: 1.85;
+  margin-bottom: 16px;
+  word-break: keep-all;
+}
+
+body.philosophy-page .philo-story-body p:last-child {
+  margin-bottom: 0;
+}
+
+body.philosophy-page .philo-visual-frame {
+  position: relative;
   border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
   border: 1px solid #E2E8F0;
+  background: #FFFFFF;
 }
 
-body.philosophy-page .family-care-subblock {
-  background: #F8FAFC;
-  border-radius: var(--radius-md);
-  border-left: 3px solid var(--secondary);
-  padding: 22px 24px;
-  margin-top: 24px;
+body.philosophy-page .philo-visual-img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  display: block;
 }
 
-/* D. Chapter 5 & Closing Pull-Quote */
-body.philosophy-page .philo-scope-section {
-  padding-bottom: 60px;
-  border-bottom: 1px solid #E2E8F0;
-  margin-bottom: 60px;
+body.philosophy-page .philo-visual-caption {
+  padding: 12px 18px;
+  background: #FFFFFF;
+  border-top: 1px solid #F1F5F9;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
-body.philosophy-page .philo-final-quote-card {
+body.philosophy-page .caption-tag {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: 0.5px;
+}
+
+body.philosophy-page .caption-text {
+  font-size: 0.88rem;
+  color: #64748B;
+  font-weight: 600;
+}
+
+/* C. Editorial Pull-Quote Message */
+body.philosophy-page .philo-editorial-quote-card {
   background: linear-gradient(135deg, #0F2B48 0%, #153E65 50%, #175478 100%);
   border-radius: var(--radius-lg);
-  border: none;
-  box-shadow: 0 10px 30px rgba(15, 43, 72, 0.15);
-  padding: 48px 40px;
+  padding: 52px 40px;
+  text-align: center;
   color: white;
-  margin-top: 40px;
+  margin: 40px 0 70px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 16px 36px rgba(15, 43, 72, 0.16);
+}
+
+body.philosophy-page .editorial-quote-mark {
+  font-family: 'Outfit', serif;
+  font-size: 5rem;
+  line-height: 1;
+  color: rgba(94, 234, 212, 0.25);
+  margin-bottom: -15px;
+}
+
+body.philosophy-page .editorial-quote-text {
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: white;
+  line-height: 1.65;
+  margin-bottom: 22px;
+  word-break: keep-all;
+  max-width: 780px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body.philosophy-page .editorial-quote-author {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+body.philosophy-page .author-name {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #5EEAD4;
+}
+
+body.philosophy-page .author-title {
+  font-size: 0.88rem;
+  color: #CBD5E1;
+}
+
+/* D. Streamlined Closing CTA */
+body.philosophy-page .philo-streamlined-cta {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: var(--radius-lg);
+  padding: 48px 36px;
   text-align: center;
 }
 
-body.philosophy-page .closing-quote-icon {
-  color: #5EEAD4;
-  font-size: 2rem;
-  margin-bottom: 14px;
+body.philosophy-page .philo-cta-tag {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: 1px;
+  display: inline-block;
+  margin-bottom: 10px;
 }
 
-body.philosophy-page .closing-quote-text {
-  font-size: 1.35rem;
-  font-weight: 700;
-  color: white;
-  line-height: 1.6;
-  margin-bottom: 14px;
+body.philosophy-page .philo-cta-title {
+  font-size: 1.55rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin-bottom: 10px;
+  line-height: 1.4;
 }
 
-body.philosophy-page .closing-sub-text {
+body.philosophy-page .philo-cta-desc {
   font-size: 0.96rem;
-  color: #CBD5E1;
-  line-height: 1.7;
-  margin: 0;
+  color: #64748B;
+  margin-bottom: 28px;
 }
 
-/* E. Bottom CTA Banner */
-body.philosophy-page .philo-contact-cta-banner {
+body.philosophy-page .philo-cta-actions {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+body.philosophy-page .btn-cta-tel-minimal {
+  background: white;
+  border: 1.5px solid #CBD5E1;
+  color: var(--text-dark);
+  font-weight: 700;
+  padding: 12px 24px;
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+body.philosophy-page .btn-cta-tel-minimal:hover {
+  border-color: var(--primary);
+  color: var(--primary);
   background: #F8FAFC;
-  border-radius: var(--radius-lg);
-  border: 1px solid #E2E8F0;
-  padding: 48px 36px;
-  box-shadow: none;
 }
 
 /* --------------------------------------------------------------------------
@@ -10823,7 +11036,7 @@ body.treatments-page .treatment-card.theme-warm-orange .treatment-circle-wrap {
 }
 
 /* --------------------------------------------------------------------------
-   3. /reservation/ (상담예약 및 오시는 길 - Effortless Booking Experience)
+   3. /reservation/ (상담예약 및 오시는 길 - 3-Block Practical Information Guide)
    -------------------------------------------------------------------------- */
 body.reservation-page {
   background-color: #FFFFFF;
@@ -10882,30 +11095,335 @@ body.reservation-page .btn-res-action {
   justify-content: center;
 }
 
-/* Section 2: Location & Hours - Unboxed Layout */
-body.reservation-page .location-section {
+/* Section 2: 3-Block Info Section (Hours, Transit Guide, Interactive Map) */
+body.reservation-page .reservation-info-section {
   background: #F8FAFC;
-  padding: 90px 0 100px;
+  padding: 90px 0 110px;
 }
 
-body.reservation-page .location-card {
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  border-radius: 0;
-  padding: 0;
+body.reservation-page .res-info-2col-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.12fr;
+  gap: 32px;
+  margin-bottom: 40px;
 }
 
-body.reservation-page .address-box {
-  background: transparent;
-  border-radius: 0;
-  padding: 0 0 18px 0;
-  margin-bottom: 22px;
+body.reservation-page .res-info-block {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: var(--radius-md);
+  padding: 36px 32px;
+  box-shadow: 0 2px 12px rgba(15, 23, 42, 0.03);
+}
+
+body.reservation-page .res-block-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #F1F5F9;
+}
+
+body.reservation-page .res-block-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--primary-light);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
+
+body.reservation-page .res-block-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin: 0;
+}
+
+/* Block 1: Clean Hours Table */
+body.reservation-page .res-clean-hours-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+body.reservation-page .res-clean-hours-table th {
+  text-align: left;
+  padding: 13px 0;
+  font-size: 0.94rem;
+  color: #64748B;
+  font-weight: 600;
+  width: 36%;
+  border-bottom: 1px solid #F1F5F9;
+}
+
+body.reservation-page .res-clean-hours-table td {
+  text-align: right;
+  padding: 13px 0;
+  font-size: 0.96rem;
+  color: var(--text-dark);
+  font-weight: 600;
+  border-bottom: 1px solid #F1F5F9;
+}
+
+body.reservation-page .res-clean-hours-table .highlight-row strong {
+  color: #0284C7;
+  font-weight: 800;
+}
+
+body.reservation-page .res-clean-hours-table .highlight-row-sat strong {
+  color: #0D9488;
+  font-weight: 800;
+}
+
+body.reservation-page .res-pill-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-left: 6px;
+}
+
+body.reservation-page .res-pill-badge.night {
+  background: #E0F2FE;
+  color: #0284C7;
+}
+
+body.reservation-page .res-pill-badge.continuous {
+  background: #CCFBF1;
+  color: #0F766E;
+}
+
+body.reservation-page .res-clean-hours-table .closed-row th,
+body.reservation-page .res-clean-hours-table .closed-row td {
+  color: #EF4444;
+  font-weight: 700;
+}
+
+body.reservation-page .res-hours-notice {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 0.86rem;
+  color: #64748B;
+  line-height: 1.5;
+}
+
+/* Block 2: Transit Guide List */
+body.reservation-page .res-transit-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+body.reservation-page .res-transit-item {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+body.reservation-page .transit-item-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background: #F1F5F9;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+body.reservation-page .transit-item-icon.subway-icon {
+  background: #FEF3C7;
+  color: #D97706;
+}
+
+body.reservation-page .transit-item-icon.car-icon {
+  background: #E0F2FE;
+  color: #0284C7;
+}
+
+body.reservation-page .transit-item-body {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+body.reservation-page .transit-item-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #94A3B8;
+  letter-spacing: 0.5px;
+}
+
+body.reservation-page .transit-item-val {
+  font-size: 0.98rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  line-height: 1.45;
+  word-break: keep-all;
+}
+
+body.reservation-page .transit-item-desc {
+  font-size: 0.88rem;
+  color: #64748B;
+  line-height: 1.5;
+  margin: 3px 0 0 0;
+  word-break: keep-all;
+}
+
+/* Block 3: Interactive Map Container */
+body.reservation-page .res-map-interactive-container {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: 0 4px 18px rgba(15, 23, 42, 0.04);
+}
+
+body.reservation-page .res-map-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px 28px;
+  background: #FFFFFF;
   border-bottom: 1px solid #E2E8F0;
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
-body.reservation-page .hours-table {
-  border-top: 1px solid #E2E8F0;
+body.reservation-page .res-map-pin-badge {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #0D9488;
+  background: #CCFBF1;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 4px;
+}
+
+body.reservation-page .res-map-building-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin: 0;
+}
+
+body.reservation-page .res-map-building-title span {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #64748B;
+  margin-left: 6px;
+}
+
+body.reservation-page .res-map-cta-group {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+body.reservation-page .btn-naver-map-primary {
+  background: #03C75A;
+  color: white;
+  font-size: 0.94rem;
+  font-weight: 800;
+  padding: 11px 20px;
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(3, 199, 90, 0.2);
+}
+
+body.reservation-page .btn-naver-map-primary:hover {
+  background: #02B351;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(3, 199, 90, 0.28);
+}
+
+body.reservation-page .n-symbol-box {
+  background: white;
+  color: #03C75A;
+  font-weight: 900;
+  font-size: 0.82rem;
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+body.reservation-page .btn-kakao-map-secondary {
+  background: #FEE500;
+  color: #191919;
+  font-size: 0.92rem;
+  font-weight: 700;
+  padding: 11px 18px;
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+body.reservation-page .btn-kakao-map-secondary:hover {
+  background: #FDD835;
+  transform: translateY(-2px);
+}
+
+body.reservation-page .res-map-viewport-frame {
+  position: relative;
+  width: 100%;
+  height: 420px;
+  background: #E2E8F0;
+}
+
+body.reservation-page .res-live-map-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+body.reservation-page .res-map-floating-pill {
+  position: absolute;
+  bottom: 20px;
+  left: 24px;
+  background: rgba(15, 23, 42, 0.88);
+  color: white;
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+  z-index: 5;
+  pointer-events: none;
+}
+
+body.reservation-page .res-map-floating-pill i {
+  color: #5EEAD4;
 }
 
 /* --------------------------------------------------------------------------
@@ -11099,27 +11617,50 @@ body.inquiry-page-body .inquiry-table tbody tr:hover {
 }
 
 @media (max-width: 900px) {
-  body.philosophy-page .philo-doctor-profile-hero {
+  body.philosophy-page .philo-editorial-intro {
     grid-template-columns: 1fr;
-    gap: 28px;
+    gap: 36px;
     text-align: center;
   }
-  body.philosophy-page .philo-hero-photo-wrap {
-    max-width: 220px;
-    margin: 0 auto;
-  }
-  body.philosophy-page .philo-badge-row {
+  body.philosophy-page .philo-intro-subtag {
     justify-content: center;
   }
-  body.philosophy-page .chapter-content-grid {
-    grid-template-columns: 1fr !important;
-    gap: 28px;
+  body.philosophy-page .philo-intro-slogan {
+    border-left: none;
+    padding-left: 0;
+    border-bottom: 2px solid #0D9488;
+    padding-bottom: 16px;
   }
-  body.philosophy-page .philo-chapter-section.reverse .chapter-photo-col {
+  body.philosophy-page .philo-photo-blend-wrap {
+    max-width: 320px;
+    margin: 0 auto;
+  }
+  body.philosophy-page .philo-story-row,
+  body.philosophy-page .philo-story-row.reverse {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  body.philosophy-page .philo-story-row.reverse .philo-story-visual-col {
     order: 2;
   }
-  body.philosophy-page .philo-chapter-section.reverse .chapter-text-col {
+  body.philosophy-page .philo-story-row.reverse .philo-story-text-col {
     order: 1;
+  }
+
+  body.reservation-page .res-info-2col-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  body.reservation-page .res-map-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  body.reservation-page .res-map-cta-group {
+    width: 100%;
+  }
+  body.reservation-page .res-map-cta-group .btn {
+    flex: 1;
+    justify-content: center;
   }
 }
 
@@ -11127,7 +11668,7 @@ body.inquiry-page-body .inquiry-table tbody tr:hover {
   body.philosophy-page .philosophy-page-section,
   body.treatments-page .treatments-page-section,
   body.reservation-page .reservation-methods-section,
-  body.reservation-page .location-section,
+  body.reservation-page .reservation-info-section,
   body.blog-page .blog-page-section,
   body.reviews-page .direct-cases-section,
   body.reviews-page .naver-reviews-section,
@@ -11138,23 +11679,35 @@ body.inquiry-page-body .inquiry-table tbody tr:hover {
   body.reservation-page .res-booking-grid {
     grid-template-columns: 1fr;
   }
-  body.blog-page .column-list-wrap.blog-grid-layout {
-    grid-template-columns: 1fr;
+  body.reservation-page .res-info-block {
+    padding: 24px 20px;
+  }
+  body.reservation-page .res-map-header {
+    padding: 16px 18px;
+  }
+  body.reservation-page .res-map-viewport-frame {
+    height: 320px;
+  }
+  body.reservation-page .res-map-floating-pill {
+    left: 12px;
+    bottom: 12px;
+    font-size: 0.78rem;
+    padding: 6px 12px;
   }
 
-  body.philosophy-page .philo-final-quote-card {
-    padding: 32px 20px;
+  body.philosophy-page .philo-editorial-quote-card {
+    padding: 36px 20px;
   }
-  body.philosophy-page .closing-quote-text {
-    font-size: 1.15rem;
+  body.philosophy-page .editorial-quote-text {
+    font-size: 1.18rem;
   }
 
-  body.philosophy-page .philo-cta-buttons,
+  body.philosophy-page .philo-cta-actions,
   .treatments-cta-buttons {
     flex-direction: column;
     width: 100%;
   }
-  body.philosophy-page .philo-cta-buttons .btn,
+  body.philosophy-page .philo-cta-actions .btn,
   .treatments-cta-buttons .btn {
     width: 100%;
     justify-content: center;
