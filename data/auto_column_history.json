@@ -20,5 +20,16 @@
     "topicAngle": "adult-work-mistakes",
     "title": "[용인 ADHD] 성인 업무 중 실수가 반복되고 마무리가 어려울 때",
     "slug": "yongin-main-adhd-adult-work-mistakes"
+  },
+  {
+    "publishDate": "2026-09-08T09:32:59.606+09:00",
+    "geoId": "seongnam-bundang",
+    "displayRegion": "분당",
+    "parentRegion": "성남",
+    "regionType": "district",
+    "disease": "panic",
+    "topicAngle": "sudden-palpitation",
+    "title": "[분당 공황장애] 갑자기 숨이 차고 심장이 빨라질 때 먼저 살펴볼 부분",
+    "slug": "seongnam-bundang-panic-sudden-palpitation"
   }
 ]
