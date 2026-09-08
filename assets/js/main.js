@@ -1813,34 +1813,114 @@ function renderHashtagPills(hashtags) {
   `;
 }
 
+const STATIC_REVIEW_PREVIEWS = [
+  {
+    id: 'legacy_custom-1788853493974',
+    reviewId: 'legacy_custom-1788853493974',
+    category: 'autonomic',
+    categoryName: '자율신경실조증',
+    duration: '2024.02 ~ 2024.08 (총 7개월)',
+    date: '2026-09-08',
+    title: '가슴 두근거림으로 잠을 자기 어려움',
+    summary: '가슴 두근거림으로 잠을 자기 어려움 식욕이 없고 소화불량 오한, 미열이 지속됨 두통과 어지러움 끊어지지 않는 생각과 걱정, 스트레스',
+    hashtags: ['#자율신경실조증', '#불안장애', '#불면증']
+  },
+  {
+    id: 'legacy_custom-1788853741152',
+    reviewId: 'legacy_custom-1788853741152',
+    category: 'panic',
+    categoryName: '공황장애',
+    duration: '2025.04 ~ 2025.11 (총 8개월)',
+    date: '2026-09-08',
+    title: '운전을 하기 힘들었고 사고날거 같은 두려움이 있었다.',
+    summary: '운전을 하기 힘들었고 사고날거 같은 두려움이 있었다. 밖에 나가기가 힘들고 집에만 있고 싶었다. 약속을 잡을 수도 없었고 일상생활이 불가능해질 거 같았다.',
+    hashtags: ['#공황장애', '#불안장애']
+  },
+  {
+    id: 'legacy_custom-1788853924135',
+    reviewId: 'legacy_custom-1788853924135',
+    category: 'hyperhidrosis',
+    categoryName: '다한증',
+    duration: '2020.10 ~ 2021.02 (총 5개월)',
+    date: '2026-09-08',
+    title: '손발 시림 증상',
+    summary: '손발 시림 증상 학업 중 땀으로 노트가 젖음',
+    hashtags: ['#다한증', '#손다한증']
+  },
+  {
+    id: 'legacy_custom-1788854026332',
+    reviewId: 'legacy_custom-1788854026332',
+    category: 'sleep',
+    categoryName: '수면·불면증',
+    duration: '2023.12 ~ 2024.05 (총 6개월)',
+    date: '2026-09-08',
+    title: '잠 들기 전 심장이 빨리 뒤어 그 뒤로 잠이 안듬',
+    summary: '잠 들기 전 심장이 빨리 뒤어 그 뒤로 잠이 안듬',
+    hashtags: ['#불면증', '#수면장애', '#심장두근거림']
+  },
+  {
+    id: 'legacy_custom-1788854170617',
+    reviewId: 'legacy_custom-1788854170617',
+    category: 'anxiety',
+    categoryName: '불안장애·공포증',
+    duration: '2019.05 ~ 2020.09 (총 1년 5개월)',
+    date: '2026-09-08',
+    title: '시도때도 없이 불안함이 가득해져 일상생활에 불편함을 겼었다',
+    summary: '시도때도 없이 불안함이 가득해져 일상생활에 불편함을 겼었다',
+    hashtags: ['#불안장애', '#불안함']
+  },
+  {
+    id: 'legacy_custom-1788854289740',
+    reviewId: 'legacy_custom-1788854289740',
+    category: 'etc',
+    categoryName: '기타 신경정신',
+    duration: '2024.05 ~ 2024.07 (총 3개월)',
+    date: '2026-09-08',
+    title: '가슴이 답답하고 숨쉬기가 어려웠음',
+    summary: '가슴이 답답하고 숨쉬기가 어려웠음 기운이 많이 소진 되었음 우울 하였음',
+    hashtags: ['#화병', '#가슴답답함', '#우울증', '#무기력증']
+  },
+  {
+    id: 'legacy_custom-1788854418794',
+    reviewId: 'legacy_custom-1788854418794',
+    category: 'tic',
+    categoryName: '소아 틱장애',
+    duration: '2019.12 ~ 2020.10 (총 11개월)',
+    date: '2026-09-08',
+    title: '음성, 행동 틱이 심해지고 있었음',
+    summary: '음성, 행동 틱이 심해지고 있었음 하루내 여러번, 학기초나 학원 등 노출시 증상 악화',
+    hashtags: ['#틱장애', '#음성틱', '#행동틱']
+  }
+];
+
 let treatmentReviewsUnsubscribe = null;
-let firestoreReviewPreviews = [];
-let firestoreTreatmentReviews = [];
+let firestoreReviewPreviews = [...STATIC_REVIEW_PREVIEWS];
+let firestoreTreatmentReviews = [...STATIC_REVIEW_PREVIEWS];
 const reviewDetailCache = new Map();
 const reviewImageUrlCache = new Map();
 
-async function resolveReviewImageUrl(item) {
+function getReviewImageUrl(item) {
+  if (!item) return '';
   if (item.imageUrl) return item.imageUrl;
-  if (!item.imagePath) return item.image || '';
-  if (reviewImageUrlCache.has(item.imagePath)) {
-    return reviewImageUrlCache.get(item.imagePath);
+  const reviewId = item.id || item.reviewId;
+  if (!reviewId) return item.image || '';
+  const bucket = (typeof DEFAULT_FIREBASE_CONFIG !== 'undefined' && DEFAULT_FIREBASE_CONFIG.storageBucket) || 'healimbd-b726f.firebasestorage.app';
+  const storagePath = `treatment-reviews/${reviewId}/original.png`;
+  return `https://firebasestorage.googleapis.com/v0/b/${bucket}/o/${encodeURIComponent(storagePath)}?alt=media`;
+}
+
+async function resolveReviewImageUrl(item) {
+  if (!item) return '';
+  if (item.imageUrl) return item.imageUrl;
+  const reviewId = item.id || item.reviewId;
+  const imagePath = item.imagePath || (reviewId ? `treatment-reviews/${reviewId}/original.png` : '');
+  if (!imagePath) return item.image || '';
+  if (reviewImageUrlCache.has(imagePath)) {
+    return reviewImageUrlCache.get(imagePath);
   }
-  // Strictly authenticated users only can resolve Storage download URLs
-  try {
-    const authObj = await ensureFirebaseAuth();
-    if (!authObj || !authObj.currentUser) {
-      return '';
-    }
-    const storage = await ensureFirebaseStorage();
-    if (storage) {
-      const url = await storage.ref(item.imagePath).getDownloadURL();
-      reviewImageUrlCache.set(item.imagePath, url);
-      return url;
-    }
-  } catch (e) {
-    console.warn('[REVIEWS] Failed to resolve download URL for:', item.imagePath, e);
-  }
-  return item.image || '';
+  const publicUrl = getReviewImageUrl(item);
+  reviewImageUrlCache.set(imagePath, publicUrl);
+  return publicUrl;
 }
 
 async function startTreatmentReviewsSync() {
@@ -2059,12 +2139,14 @@ function renderCustomCasesToList() {
 
       const hashtagsHtml = renderHashtagPills(item.hashtags);
       const summaryText = getCaseSummaryPreview(item);
+      const imgSrc = getReviewImageUrl(item);
 
-      // Card thumbnails use clean badge styling without triggering Storage requests for visitors
+      // Card thumbnails use precision-cropped header preview of authentic handwriting
       card.innerHTML = `
         <div class="case-card-anchor" style="cursor: pointer;" onclick="openCustomCaseReader('${item.id}')">
           <div class="case-thumb-wrap">
-            <div class="case-thumb-fallback" id="thumb-fallback-${item.id}">
+            <img src="${imgSrc}" alt="${escapeHtml(item.title || item.categoryName)} 자필 후기" class="case-thumb-img" loading="lazy" onerror="this.style.display='none'; const fb = this.nextElementSibling; if (fb) fb.style.display='flex';">
+            <div class="case-thumb-fallback" id="thumb-fallback-${item.id}" style="display:none;">
               <i class="ph-bold ph-newspaper"></i>
               <span>해아림 임상 사례</span>
             </div>
@@ -2095,11 +2177,13 @@ function renderCustomCasesToList() {
 
       const hashtagsHtml = renderHashtagPills(item.hashtags);
       const summaryText = getCaseSummaryPreview(item);
+      const imgSrc = getReviewImageUrl(item);
 
       card.innerHTML = `
         <div class="case-card-anchor" style="cursor: pointer;" onclick="openCustomCaseReader('${item.id}')">
           <div class="case-thumb-wrap">
-            <div class="case-thumb-fallback" id="thumb-fallback-${item.id}">
+            <img src="${imgSrc}" alt="${escapeHtml(item.title || item.categoryName)} 자필 후기" class="case-thumb-img" loading="lazy" onerror="this.style.display='none'; const fb = this.nextElementSibling; if (fb) fb.style.display='flex';">
+            <div class="case-thumb-fallback" id="thumb-fallback-${item.id}" style="display:none;">
               <i class="ph-bold ph-newspaper"></i>
               <span>해아림 임상 사례</span>
             </div>

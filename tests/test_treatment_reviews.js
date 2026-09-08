@@ -28,12 +28,12 @@ async function run() {
 
   // 2. Check storage.rules file contents
   const storageRules = fs.readFileSync('storage.rules', 'utf8');
-  await test('2. storage.rules contains treatment-reviews/{reviewId}/{fileName} with authenticated read and admin-only write', () => {
+  await test('2. storage.rules contains treatment-reviews/{reviewId}/{fileName} with public read for cropped preview cards and admin-only write', () => {
     assert.ok(storageRules.includes('match /treatment-reviews/{reviewId}/{fileName}'), 'treatment-reviews path exists');
     assert.ok(storageRules.includes('function signedIn()'), 'signedIn helper exists');
     assert.ok(storageRules.includes('function isAdmin()'), 'isAdmin helper exists');
     assert.ok(storageRules.includes('function isValidImageUpload()'), 'isValidImageUpload helper exists');
-    assert.ok(storageRules.includes('allow read: if signedIn();'), 'read restricted to signedIn()');
+    assert.ok(storageRules.includes('allow read: if true;'), 'read allows public access for preview cards');
     assert.ok(storageRules.includes('allow create, update: if isAdmin() && isValidImageUpload();'), 'create/update restricted to admin and valid image');
     assert.ok(storageRules.includes('allow delete: if isAdmin();'), 'delete restricted to admin without resource gating');
     assert.ok(storageRules.includes('match /{allPaths=**} {\n      allow read, write: if false;'), 'Default deny exists');
@@ -135,8 +135,8 @@ async function run() {
     // 3. Firestore Details: Read requires authenticated user
     assert.ok(firestoreRules.includes('match /treatment_reviews/{reviewId}'), 'treatment_reviews exists');
     assert.ok(firestoreRules.includes('allow read: if request.auth != null;'), 'Details restricted to authenticated user');
-    // 4. Storage: Read requires authenticated user
-    assert.ok(storageRules.includes('match /treatment-reviews/{reviewId}/{fileName}') && storageRules.includes('allow read: if signedIn();'), 'Storage restricts read to signedIn()');
+    // 4. Storage: Read allows public preview cards
+    assert.ok(storageRules.includes('match /treatment-reviews/{reviewId}/{fileName}') && storageRules.includes('allow read: if true;'), 'Storage allows public read for preview cards');
   });
 
   // 10. Creation Flow: Atomic Two-Tier sync (Detail + Public Preview)

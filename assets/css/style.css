@@ -1210,18 +1210,19 @@ ul {
 .case-thumb-wrap {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 11;
-  min-height: 250px;
-  background: #F8FAFC;
+  aspect-ratio: 793 / 335;
+  background: #FFFFFF;
   overflow: hidden;
   border-bottom: 1px solid #E2E8F0;
 }
 
 .case-thumb-img {
   width: 100%;
-  height: 100%;
+  height: auto;
+  min-height: 100%;
+  display: block;
   object-fit: cover;
-  object-position: center top;
+  object-position: top center;
   transition: transform 0.5s ease;
 }
 
@@ -5770,8 +5771,8 @@ html, body {
   }
 
   .case-thumb-wrap {
-    min-height: 220px !important;
-    aspect-ratio: 16 / 10.5 !important;
+    min-height: 0 !important;
+    aspect-ratio: 793 / 335 !important;
   }
 
   .healim-case-card {

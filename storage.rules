@@ -27,8 +27,8 @@ service firebase.storage {
     // CLINICAL TREATMENT REVIEWS IMAGES (treatment-reviews/**)
     // ========================================================================
     match /treatment-reviews/{reviewId}/{fileName} {
-      // 1. Read: Any signed-in user (Matches site member review access policy)
-      allow read: if signedIn();
+      // 1. Read: Public (Allows review preview cards to display cropped header preview)
+      allow read: if true;
 
       // 2. Create & Update: Verified Admin only + Image MIME and size validation
       allow create, update: if isAdmin() && isValidImageUpload();
