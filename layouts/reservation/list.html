@@ -107,124 +107,82 @@
       </div>
     </section>
 
-    <!-- 2. 진료시간 & 오시는 길 3블록 정보 섹션 -->
-    <section class="section reservation-info-section" id="location-details">
+    <!-- 2. 진료시간 안내 섹션 -->
+    <section class="section res-hours-section" id="hours-details">
       <div class="container">
         
         <div class="section-header text-center">
-          <span class="section-tag">VISIT & SCHEDULE</span>
-          <h2 class="section-title">진료시간 & <strong>오시는 길</strong></h2>
-          <p class="section-desc">정자역 3번 출구 바로 앞 젤존타워 3차 4층에 위치하고 있습니다.</p>
+          <span class="section-tag">SCHEDULE</span>
+          <h2 class="section-title">진료시간 <strong>안내</strong></h2>
+          <p class="section-desc">초진은 심층 상담을 위해 예약제로 진행되며, 평일 야간 및 토요일·공휴일 진료를 시행합니다.</p>
         </div>
 
-        <!-- 2-Column Info Grid: Block 1 (Hours) & Block 2 (Location Guide) -->
-        <div class="res-info-2col-grid">
+        <div class="res-hours-card-wrap">
+          <table class="res-clean-hours-table">
+            <tbody>
+              <tr class="highlight-row">
+                <th scope="row">월 · 수요일</th>
+                <td>
+                  <strong>10:00 ~ 20:00</strong>
+                  <span class="res-pill-badge night">야간진료</span>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">화 · 금요일</th>
+                <td><strong>10:00 ~ 19:00</strong></td>
+              </tr>
+              <tr class="highlight-row-sat">
+                <th scope="row">토 · 공휴일</th>
+                <td>
+                  <strong>09:00 ~ 15:00</strong>
+                  <span class="res-pill-badge continuous">점심시간 없음</span>
+                </td>
+              </tr>
+              <tr class="lunch-row">
+                <th scope="row">점심시간</th>
+                <td>13:00 ~ 14:00 <span class="sub-text">(월/화/수/금)</span></td>
+              </tr>
+              <tr class="closed-row">
+                <th scope="row">정기 휴진</th>
+                <td><span class="closed-text">매주 목요일 · 일요일</span></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="res-hours-notice">
+            <i class="ph-bold ph-info"></i>
+            <span>토요일 및 공휴일은 점심시간 없이 연속 진료하며, 초진은 충분한 심층 상담을 위해 예약제로 진행됩니다.</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 3. 오시는 길 (네이버 지도 중심) 섹션 -->
+    <section class="section res-location-section" id="location-details">
+      <div class="container">
+        
+        <div class="res-location-header">
+          <div class="res-location-heading-col">
+            <span class="section-tag">VISIT US</span>
+            <h2 class="section-title">오시는 <strong>길</strong></h2>
+            <p class="res-location-address">
+              <i class="ph-bold ph-map-pin"></i> 경기도 성남시 분당구 성남대로331번길 3-3, 젤존타워III 405호
+            </p>
+          </div>
           
-          <!-- Block 1: 진료시간 안내 -->
-          <div class="res-info-block hours-block">
-            <div class="res-block-header">
-              <div class="res-block-icon"><i class="ph-bold ph-clock"></i></div>
-              <h3 class="res-block-title">진료시간 안내</h3>
-            </div>
-
-            <table class="res-clean-hours-table">
-              <tbody>
-                <tr class="highlight-row">
-                  <th scope="row">월 · 수요일</th>
-                  <td>
-                    <strong>10:00 ~ 20:00</strong>
-                    <span class="res-pill-badge night">야간진료</span>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">화 · 금요일</th>
-                  <td><strong>10:00 ~ 19:00</strong></td>
-                </tr>
-                <tr class="highlight-row-sat">
-                  <th scope="row">토 · 공휴일</th>
-                  <td>
-                    <strong>09:00 ~ 15:00</strong>
-                    <span class="res-pill-badge continuous">점심시간 없음</span>
-                  </td>
-                </tr>
-                <tr class="lunch-row">
-                  <th scope="row">점심시간</th>
-                  <td>13:00 ~ 14:00 <span class="sub-text">(월/화/수/금)</span></td>
-                </tr>
-                <tr class="closed-row">
-                  <th scope="row">정기 휴진</th>
-                  <td><span class="closed-text">매주 목요일 · 일요일</span></td>
-                </tr>
-              </tbody>
-            </table>
-
-            <div class="res-hours-notice">
-              <i class="ph-bold ph-info"></i>
-              <span>토요일 및 공휴일은 점심시간 없이 연속 진료하며, 초진은 충분한 심층 상담을 위해 예약제로 진행됩니다.</span>
-            </div>
+          <div class="res-map-cta-group">
+            <a href="https://map.naver.com/p/search/%ED%95%B4%EC%95%84%EB%A6%BC%ED%95%9C%EC%9D%98%EC%9B%90%20%EB%B6%84%EB%8B%B9%EC%A0%90" target="_blank" rel="noopener noreferrer" class="btn btn-naver-map-primary">
+              <span class="n-symbol-box">N</span> 네이버 지도 실시간 길찾기 <i class="ph-bold ph-arrow-up-right"></i>
+            </a>
+            <a href="https://map.kakao.com/link/search/%ED%95%B4%EC%95%84%EB%A6%BC%ED%95%9C%EC%9D%98%EC%9B%90%20%EB%B6%84%EB%8B%B9%EC%A0%90" target="_blank" rel="noopener noreferrer" class="btn btn-kakao-map-secondary">
+              <i class="ph-fill ph-map-pin"></i> 카카오맵 길찾기
+            </a>
           </div>
-
-          <!-- Block 2: 오시는 길 핵심 정보 -->
-          <div class="res-info-block transit-block">
-            <div class="res-block-header">
-              <div class="res-block-icon"><i class="ph-bold ph-map-pin"></i></div>
-              <h3 class="res-block-title">오시는 길 & 주차 안내</h3>
-            </div>
-
-            <div class="res-transit-list">
-              <!-- 주소 -->
-              <div class="res-transit-item">
-                <div class="transit-item-icon"><i class="ph-bold ph-map-pin-line"></i></div>
-                <div class="transit-item-body">
-                  <span class="transit-item-label">도로명 주소</span>
-                  <strong class="transit-item-val">경기도 성남시 분당구 성남대로331번길 3-3, 젤존타워III 405호</strong>
-                </div>
-              </div>
-
-              <!-- 지하철 -->
-              <div class="res-transit-item">
-                <div class="transit-item-icon subway-icon"><i class="ph-bold ph-train"></i></div>
-                <div class="transit-item-body">
-                  <span class="transit-item-label">지하철 이용 시</span>
-                  <strong class="transit-item-val">수인분당선 / 신분당선 정자역 3번 출구 도보 2분</strong>
-                  <p class="transit-item-desc">3번 출구로 나오셔서 전방 150m 직진 후 좌측 젤존타워III 4층으로 올라오시면 됩니다.</p>
-                </div>
-              </div>
-
-              <!-- 주차 안내 -->
-              <div class="res-transit-item">
-                <div class="transit-item-icon car-icon"><i class="ph-bold ph-car"></i></div>
-                <div class="transit-item-body">
-                  <span class="transit-item-label">자가용 & 주차 안내</span>
-                  <strong class="transit-item-val">젤존타워III 건물 내 지하주차장 무료 주차 지원</strong>
-                  <p class="transit-item-desc">내원 시 원내 데스크에 차량 번호를 말씀해 주시면 무료 주차권을 등록해 드립니다.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
         </div>
 
-        <!-- Block 3: 실제 지도 표시 영역 & 직관적 길찾기 CTA -->
-        <div class="res-map-interactive-container">
-          <div class="res-map-header">
-            <div class="res-map-meta">
-              <span class="res-map-pin-badge"><i class="ph-fill ph-map-pin"></i> 오시는 길 지도</span>
-              <h4 class="res-map-building-title">해아림한의원 분당점 <span>(정자역 3번 출구 도보 2분, 젤존타워III 4층)</span></h4>
-            </div>
-            
-            <!-- Map Action CTAs -->
-            <div class="res-map-cta-group">
-              <a href="https://map.naver.com/p/search/%ED%95%B4%EC%95%84%EB%A6%BC%ED%95%9C%EC%9D%98%EC%9B%90%20%EB%B6%84%EB%8B%B9%EC%A0%90" target="_blank" rel="noopener noreferrer" class="btn btn-naver-map-primary">
-                <span class="n-symbol-box">N</span> 네이버 지도 실시간 길찾기 <i class="ph-bold ph-arrow-up-right"></i>
-              </a>
-              <a href="https://map.kakao.com/link/search/%ED%95%B4%EC%95%84%EB%A6%BC%ED%95%9C%EC%9D%98%EC%9B%90%20%EB%B6%84%EB%8B%B9%EC%A0%90" target="_blank" rel="noopener noreferrer" class="btn btn-kakao-map-secondary">
-                <i class="ph-fill ph-map-pin"></i> 카카오맵 길찾기
-              </a>
-            </div>
-          </div>
-
-          <!-- Live Map Viewport Frame -->
+        <!-- Interactive Map Frame Box -->
+        <div class="res-map-frame-box">
           <div class="res-map-viewport-frame">
             <!-- 1순위: NAVER Maps JavaScript API v3 동적 지도 컨테이너 (정상 초기화 시 표시) -->
             <div id="naver-map" style="width:100%;height:100%;display:none;"></div>
@@ -346,6 +304,12 @@
             {{ end }}
           </div>
         </div>
+
+        <!-- 지도 바로 아래 대중교통 한 줄 안내 (no heavy card, soft gray text) -->
+        <p class="res-map-subway-hint">
+          <span class="subway-icon-symbol">🚇</span>
+          <span>정자역 3번 출구로 나오신 뒤 전방 약 150m에 위치해 있습니다.</span>
+        </p>
 
       </div>
     </section>
