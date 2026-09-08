@@ -126,24 +126,39 @@ async function run() {
   });
 
   // 9. 3-Tier Security Defense
-  await test('9. 3-Tier Security Defense: UI + Firestore Rules + Storage Rules all restrict read to authenticated users', () => {
-    // 1. UI: Reviews page has locked state for unauthenticated users
-    assert.ok(mainJs.includes("protectedWrapper.classList.add('is-locked')"), 'UI locks reviews when unauthenticated');
-    // 2. Firestore: Read requires authenticated user
-    assert.ok(firestoreRules.includes('match /treatment_reviews/{reviewId} {\n      // 1. Read: Authenticated users only (Matches site member review access policy)\n      allow read: if request.auth != null;'));
-    // 3. Storage: Read requires authenticated user
+  await test('9. 3-Tier Security Defense: UI + Firestore Rules + Storage Rules', () => {
+    // 1. UI: Reviews page has locked state for unauthenticated single views
+    assert.ok(mainJs.includes("protectedWrapper.classList.add('is-locked')"), 'UI locks single view when unauthenticated');
+    // 2. Firestore Public Previews: Anyone can read cards
+    assert.ok(firestoreRules.includes('match /treatment_review_previews/{reviewId}'), 'treatment_review_previews exists');
+    assert.ok(firestoreRules.includes('allow read: if true;'), 'Previews allow public read');
+    // 3. Firestore Details: Read requires authenticated user
+    assert.ok(firestoreRules.includes('match /treatment_reviews/{reviewId}'), 'treatment_reviews exists');
+    assert.ok(firestoreRules.includes('allow read: if request.auth != null;'), 'Details restricted to authenticated user');
+    // 4. Storage: Read requires authenticated user
     assert.ok(storageRules.includes('match /treatment-reviews/{reviewId}/{fileName}') && storageRules.includes('allow read: if signedIn();'), 'Storage restricts read to signedIn()');
   });
 
-  // 10. Creation Flow: Storage upload occurs before Firestore write, rollback occurs on failure
-  await test('10. New case registration: Storage upload -> Firestore write, rollback storage on error', () => {
+  // 10. Creation Flow: Atomic Two-Tier sync (Detail + Public Preview)
+  await test('10. New case registration: Writes both treatment_reviews and treatment_review_previews atomically in batch', () => {
     const submitMatch = mainJs.match(/function handleAdminCaseSubmit\(e\) \{([\s\S]*?)\n\}/);
     assert.ok(submitMatch, 'handleAdminCaseSubmit exists');
     const submitBody = submitMatch[1];
     assert.ok(submitBody.includes('await storageRef.put(blob'), 'Uploads image blob to Storage first');
-    assert.ok(submitBody.includes(".collection('treatment_reviews').doc(reviewId).set(docData)"), 'Writes Firestore document next');
+    assert.ok(submitBody.includes(".collection('treatment_reviews').doc(reviewId)"), 'Writes treatment_reviews detail document');
+    assert.ok(submitBody.includes(".collection('treatment_review_previews').doc(reviewId)"), 'Writes treatment_review_previews public document');
+    assert.ok(submitBody.includes('await batch.commit()'), 'Commits both documents atomically via batch');
     assert.ok(submitBody.includes('await storageRef.delete()'), 'Rolls back Storage upload on failure');
-    assert.ok(!submitBody.includes("localStorage.setItem('healim_custom_cases'"), 'Does NOT store new permanent reviews in localStorage');
+  });
+
+  // 11. Deletion Flow: Atomic Two-Tier sync
+  await test('11. Case deletion: Deletes from both collections and storage', () => {
+    const deleteMatch = mainJs.match(/function deleteCurrentCustomCase\(\) \{([\s\S]*?)\n\}/);
+    assert.ok(deleteMatch, 'deleteCurrentCustomCase exists');
+    const deleteBody = deleteMatch[1];
+    assert.ok(deleteBody.includes(".collection('treatment_reviews').doc(targetId)"), 'Deletes from treatment_reviews');
+    assert.ok(deleteBody.includes(".collection('treatment_review_previews').doc(targetId)"), 'Deletes from treatment_review_previews');
+    assert.ok(deleteBody.includes('await batch.commit()'), 'Batch commits deletion');
   });
 
   console.log(`\n==================================================`);

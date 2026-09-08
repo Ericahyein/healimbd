@@ -1350,6 +1350,9 @@ function isUserAdmin() {
 
 function initAdminCaseWriter() {
   renderCustomCasesToList();
+  if (typeof startTreatmentReviewsSync === 'function') {
+    startTreatmentReviewsSync();
+  }
 }
 
 async function openAdminCaseWriter() {
@@ -1811,7 +1814,9 @@ function renderHashtagPills(hashtags) {
 }
 
 let treatmentReviewsUnsubscribe = null;
+let firestoreReviewPreviews = [];
 let firestoreTreatmentReviews = [];
+const reviewDetailCache = new Map();
 const reviewImageUrlCache = new Map();
 
 async function resolveReviewImageUrl(item) {
@@ -1820,7 +1825,12 @@ async function resolveReviewImageUrl(item) {
   if (reviewImageUrlCache.has(item.imagePath)) {
     return reviewImageUrlCache.get(item.imagePath);
   }
+  // Strictly authenticated users only can resolve Storage download URLs
   try {
+    const authObj = await ensureFirebaseAuth();
+    if (!authObj || !authObj.currentUser) {
+      return '';
+    }
     const storage = await ensureFirebaseStorage();
     if (storage) {
       const url = await storage.ref(item.imagePath).getDownloadURL();
@@ -1839,45 +1849,35 @@ async function startTreatmentReviewsSync() {
   if (!directGrid && !homeGrid) return;
   if (treatmentReviewsUnsubscribe) return;
 
-  // Protected review query strictly starts when user is authenticated (avoids permission-denied errors)
-  try {
-    await ensureFirebaseAuth();
-  } catch (e) {
-    return;
-  }
-  if (!auth || !auth.currentUser) return;
-
   try {
     const firestoreDb = await ensureFirestore();
     if (!firestoreDb) return;
 
+    // Public catalog query on treatment_review_previews (accessible to unauthenticated and authenticated users)
     treatmentReviewsUnsubscribe = firestoreDb
-      .collection('treatment_reviews')
+      .collection('treatment_review_previews')
       .orderBy('createdAt', 'desc')
       .onSnapshot((snapshot) => {
-        firestoreTreatmentReviews = [];
+        firestoreReviewPreviews = [];
         snapshot.forEach((doc) => {
           const data = doc.data();
           data.id = doc.id;
-          firestoreTreatmentReviews.push(data);
+          firestoreReviewPreviews.push(data);
         });
+        firestoreTreatmentReviews = firestoreReviewPreviews;
         renderCustomCasesToList();
         checkAndRenderMigrationUI();
       }, (err) => {
-        console.warn('[REVIEWS SYNC] onSnapshot notice:', err.code || err.message);
+        console.warn('[REVIEWS PREVIEW SYNC] onSnapshot notice:', err.code || err.message);
       });
   } catch (err) {
-    console.warn('[REVIEWS SYNC] Failed to attach listener:', err);
+    console.warn('[REVIEWS PREVIEW SYNC] Failed to attach listener:', err);
   }
 }
 
 function stopTreatmentReviewsSync() {
-  if (treatmentReviewsUnsubscribe) {
-    treatmentReviewsUnsubscribe();
-    treatmentReviewsUnsubscribe = null;
-  }
-  firestoreTreatmentReviews = [];
-  renderCustomCasesToList();
+  // Public catalog cards remain visible for unauthenticated users
+  // Only admin migration UI container is hidden on logout
   const migrationContainer = document.getElementById('admin-cases-migration-container');
   if (migrationContainer) migrationContainer.style.display = 'none';
 }
@@ -1963,7 +1963,7 @@ function handleAdminCaseSubmit(e) {
       await storageRef.put(blob, { contentType: mimeType });
       const downloadUrl = await storageRef.getDownloadURL();
 
-      // 5. Save to Firestore treatment_reviews
+      // 5. Save to Firestore (Atomic Two-Tier Batch: Detail in treatment_reviews, Public Preview in treatment_review_previews)
       const docData = {
         id: reviewId,
         reviewType: 'direct',
@@ -1982,13 +1982,32 @@ function handleAdminCaseSubmit(e) {
         content: legacyCombinedContent,
         hashtags: parseHashtags(hashtagsVal),
         imagePath: storagePath,
-        imageUrl: downloadUrl,
+        imageUrl: '',
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
         updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
         createdBy: auth && auth.currentUser ? auth.currentUser.uid : 'admin'
       };
 
-      await firestoreDb.collection('treatment_reviews').doc(reviewId).set(docData);
+      const previewData = {
+        id: reviewId,
+        reviewId: reviewId,
+        category: cat,
+        categoryName: catName,
+        duration: durationStr,
+        date: new Date().toISOString().split('T')[0],
+        title: generatedTitle,
+        summary: previewSummary,
+        hashtags: parseHashtags(hashtagsVal),
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+        createdBy: auth && auth.currentUser ? auth.currentUser.uid : 'admin'
+      };
+
+      const batch = firestoreDb.batch();
+      batch.set(firestoreDb.collection('treatment_reviews').doc(reviewId), docData);
+      batch.set(firestoreDb.collection('treatment_review_previews').doc(reviewId), previewData);
+      await batch.commit();
+      reviewDetailCache.set(reviewId, docData);
 
       // 6. Success cleanup
       clearCaseDraft();
@@ -2018,8 +2037,8 @@ function renderCustomCasesToList() {
   const homeGrid = document.querySelector('.cases-home-grid');
   if (!directGrid && !homeGrid) return;
 
-  // Combine Firestore reviews (primary) + unmigrated local cases (temporary fallback)
-  const combined = [...firestoreTreatmentReviews];
+  // Combine public Firestore review previews (primary) + unmigrated local cases (temporary fallback)
+  const combined = [...firestoreReviewPreviews];
   const localCases = JSON.parse(localStorage.getItem('healim_custom_cases') || '[]');
   localCases.forEach(lc => {
     const isAlreadyInFirestore = combined.some(c => c.legacyId === lc.id || c.id === ('legacy_' + lc.id.replace(/[^a-zA-Z0-9_-]/g, '_')));
@@ -2040,16 +2059,12 @@ function renderCustomCasesToList() {
 
       const hashtagsHtml = renderHashtagPills(item.hashtags);
       const summaryText = getCaseSummaryPreview(item);
-      let imgSrc = item.imageUrl || item.image || '';
-      if (!imgSrc && item.imagePath && reviewImageUrlCache.has(item.imagePath)) {
-        imgSrc = reviewImageUrlCache.get(item.imagePath);
-      }
 
+      // Card thumbnails use clean badge styling without triggering Storage requests for visitors
       card.innerHTML = `
         <div class="case-card-anchor" style="cursor: pointer;" onclick="openCustomCaseReader('${item.id}')">
           <div class="case-thumb-wrap">
-            <img src="${imgSrc || ''}" data-case-thumb-id="${item.id}" alt="${item.categoryName} 치료사례" class="case-thumb-img" loading="lazy" style="${imgSrc ? '' : 'display:none;'}">
-            <div class="case-thumb-fallback" id="thumb-fallback-${item.id}" style="${imgSrc ? 'display:none;' : ''}">
+            <div class="case-thumb-fallback" id="thumb-fallback-${item.id}">
               <i class="ph-bold ph-newspaper"></i>
               <span>해아림 임상 사례</span>
             </div>
@@ -2066,22 +2081,6 @@ function renderCustomCasesToList() {
         </div>
       `;
       directGrid.prepend(card);
-
-      if (!imgSrc && item.imagePath) {
-        resolveReviewImageUrl(item).then(url => {
-          if (url) {
-            const thumbImg = card.querySelector(`[data-case-thumb-id="${item.id}"]`);
-            const fallbackEl = card.querySelector(`#thumb-fallback-${item.id}`);
-            if (thumbImg) {
-              thumbImg.src = url;
-              thumbImg.style.display = '';
-            }
-            if (fallbackEl) {
-              fallbackEl.style.display = 'none';
-            }
-          }
-        });
-      }
     });
   }
 
@@ -2096,16 +2095,11 @@ function renderCustomCasesToList() {
 
       const hashtagsHtml = renderHashtagPills(item.hashtags);
       const summaryText = getCaseSummaryPreview(item);
-      let imgSrc = item.imageUrl || item.image || '';
-      if (!imgSrc && item.imagePath && reviewImageUrlCache.has(item.imagePath)) {
-        imgSrc = reviewImageUrlCache.get(item.imagePath);
-      }
 
       card.innerHTML = `
         <div class="case-card-anchor" style="cursor: pointer;" onclick="openCustomCaseReader('${item.id}')">
           <div class="case-thumb-wrap">
-            <img src="${imgSrc || ''}" data-case-thumb-id="${item.id}" alt="${item.categoryName} 치료사례" class="case-thumb-img" loading="lazy" style="${imgSrc ? '' : 'display:none;'}">
-            <div class="case-thumb-fallback" id="thumb-fallback-${item.id}" style="${imgSrc ? 'display:none;' : ''}">
+            <div class="case-thumb-fallback" id="thumb-fallback-${item.id}">
               <i class="ph-bold ph-newspaper"></i>
               <span>해아림 임상 사례</span>
             </div>
@@ -2122,33 +2116,57 @@ function renderCustomCasesToList() {
         </div>
       `;
       homeGrid.prepend(card);
-
-      if (!imgSrc && item.imagePath) {
-        resolveReviewImageUrl(item).then(url => {
-          if (url) {
-            const thumbImg = card.querySelector(`[data-case-thumb-id="${item.id}"]`);
-            const fallbackEl = card.querySelector(`#thumb-fallback-${item.id}`);
-            if (thumbImg) {
-              thumbImg.src = url;
-              thumbImg.style.display = '';
-            }
-            if (fallbackEl) {
-              fallbackEl.style.display = 'none';
-            }
-          }
-        });
-      }
     });
   }
 }
 
 async function openCustomCaseReader(caseId) {
-  let found = firestoreTreatmentReviews.find(c => c.id === caseId);
+  // 1. Check user authentication status
+  let currentUser = null;
+  try {
+    const authObj = await ensureFirebaseAuth();
+    currentUser = authObj ? authObj.currentUser : null;
+  } catch (e) {}
+
+  if (!currentUser) {
+    // Unauthenticated: DO NOT query treatment_reviews or Storage!
+    if (typeof showAuthToast === 'function') {
+      showAuthToast('🔒 치료후기 상세 내용은 의료법 및 원내 규정에 따라 회원 로그인 후 열람 가능합니다.');
+    }
+    if (typeof openAuthModal === 'function') {
+      openAuthModal('login');
+    }
+    return;
+  }
+
+  // 2. Authenticated: Fetch detail document from treatment_reviews (or use in-memory cache)
+  let found = reviewDetailCache.get(caseId);
+  if (!found) {
+    try {
+      const firestoreDb = await ensureFirestore();
+      if (firestoreDb) {
+        const docSnap = await firestoreDb.collection('treatment_reviews').doc(caseId).get();
+        if (docSnap.exists) {
+          found = docSnap.data();
+          found.id = docSnap.id;
+          reviewDetailCache.set(caseId, found);
+        }
+      }
+    } catch (err) {
+      console.error('[TREATMENT REVIEWS DETAIL FETCH ERROR]', err);
+    }
+  }
+
+  // Fallback for unmigrated local cases if any
   if (!found) {
     const localCases = JSON.parse(localStorage.getItem('healim_custom_cases') || '[]');
     found = localCases.find(c => c.id === caseId || ('legacy_' + c.id.replace(/[^a-zA-Z0-9_-]/g, '_')) === caseId);
   }
-  if (!found) return;
+
+  if (!found) {
+    alert('치료사례 상세 정보를 불러올 수 없습니다.');
+    return;
+  }
 
   currentOpenedCustomCaseId = caseId;
   const modal = document.getElementById('custom-case-reader-modal');
@@ -2166,7 +2184,7 @@ async function openCustomCaseReader(caseId) {
   if (titleEl) titleEl.textContent = found.title;
   if (durationEl) durationEl.textContent = `치료기간: ${found.duration || '치료 완료'}`;
 
-  // Image resolution: imageUrl -> dynamic Storage getDownloadURL -> Base64 fallback
+  // Image resolution for authenticated user
   if (photoEl) {
     photoEl.src = '';
     photoEl.style.display = 'none';
@@ -2205,6 +2223,25 @@ function closeCustomCaseReader() {
   }
 }
 
+// Synchronized helper for creating or editing treatment reviews
+async function saveOrUpdateTreatmentReview(reviewId, detailDocData, previewDocData) {
+  const firestoreDb = await ensureFirestore();
+  if (!firestoreDb) throw new Error('Firestore 모듈을 불러올 수 없습니다.');
+
+  const batch = firestoreDb.batch();
+  if (detailDocData) {
+    batch.set(firestoreDb.collection('treatment_reviews').doc(reviewId), detailDocData, { merge: true });
+  }
+  if (previewDocData) {
+    batch.set(firestoreDb.collection('treatment_review_previews').doc(reviewId), previewDocData, { merge: true });
+  }
+  await batch.commit();
+
+  if (detailDocData) {
+    reviewDetailCache.set(reviewId, { ...detailDocData, id: reviewId });
+  }
+}
+
 function deleteCurrentCustomCase() {
   if (!isUserAdmin()) {
     alert('관리자 권한이 필요합니다.');
@@ -2216,27 +2253,31 @@ function deleteCurrentCustomCase() {
   (async () => {
     try {
       const targetId = currentOpenedCustomCaseId;
-      const firestoreCase = firestoreTreatmentReviews.find(c => c.id === targetId);
+      const firestoreCase = reviewDetailCache.get(targetId) || firestoreReviewPreviews.find(c => c.id === targetId);
 
-      if (firestoreCase) {
-        // 1. Delete image from Firebase Storage if path exists
-        if (firestoreCase.imagePath) {
-          try {
-            const storage = await ensureFirebaseStorage();
-            if (storage) {
-              await storage.ref(firestoreCase.imagePath).delete().catch(() => {});
-            }
-          } catch (e) {}
-        }
-
-        // 2. Delete document from Firestore
-        const firestoreDb = await ensureFirestore();
-        if (firestoreDb) {
-          await firestoreDb.collection('treatment_reviews').doc(targetId).delete();
-        }
+      // 1. Delete image from Firebase Storage if path exists
+      if (firestoreCase && firestoreCase.imagePath) {
+        try {
+          const storage = await ensureFirebaseStorage();
+          if (storage) {
+            await storage.ref(firestoreCase.imagePath).delete().catch(() => {});
+          }
+        } catch (e) {}
       }
 
-      // 3. Clean up from localStorage if present
+      // 2. Delete document from BOTH Firestore collections in an atomic batch
+      const firestoreDb = await ensureFirestore();
+      if (firestoreDb) {
+        const batch = firestoreDb.batch();
+        batch.delete(firestoreDb.collection('treatment_reviews').doc(targetId));
+        batch.delete(firestoreDb.collection('treatment_review_previews').doc(targetId));
+        await batch.commit();
+      }
+
+      // 3. Invalidate caches
+      reviewDetailCache.delete(targetId);
+
+      // 4. Clean up from localStorage if present
       let customCases = JSON.parse(localStorage.getItem('healim_custom_cases') || '[]');
       customCases = customCases.filter(c => c.id !== targetId && ('legacy_' + c.id.replace(/[^a-zA-Z0-9_-]/g, '_')) !== targetId);
       localStorage.setItem('healim_custom_cases', JSON.stringify(customCases));

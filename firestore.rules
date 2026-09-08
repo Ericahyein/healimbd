@@ -156,7 +156,20 @@ service cloud.firestore {
     }
 
     // ========================================================================
+    // CLINICAL TREATMENT REVIEW PREVIEWS COLLECTION (treatment_review_previews)
+    // Public non-sensitive card catalog for visitor discovery & filtering
+    // ========================================================================
+    match /treatment_review_previews/{reviewId} {
+      // 1. Public Read (Allows unauthenticated visitors to view catalog cards)
+      allow read: if true;
+
+      // 2. Create, Update, Delete: Strictly verified Admin only
+      allow create, update, delete: if isAdmin();
+    }
+
+    // ========================================================================
     // CLINICAL TREATMENT REVIEWS COLLECTION (treatment_reviews)
+    // Protected details: handwriting photos, Q1~Q3 answers, and full patient text
     // ========================================================================
     match /treatment_reviews/{reviewId} {
       // 1. Read: Authenticated users only (Matches site member review access policy)
