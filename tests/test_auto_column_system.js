@@ -128,11 +128,11 @@ assert.strictEqual(getKstDateString(preMidnightDate), '2026-09-06', 'Pre-midnigh
 const midnightDate = new Date('2026-09-06T15:00:00.000Z');
 assert.strictEqual(getKstDateString(midnightDate), '2026-09-07', 'Midnight UTC boundary must be 2026-09-07 KST');
 
-// Scheduled times (09:07 and 17:07 KST)
+// Scheduled times (09:07 and 16:07 KST)
 const morningSchedule = new Date('2026-09-07T00:07:00.000Z'); // 09:07 KST
-const eveningSchedule = new Date('2026-09-07T08:07:00.000Z'); // 17:07 KST
+const afternoonSchedule = new Date('2026-09-07T07:07:00.000Z'); // 16:07 KST
 assert.strictEqual(getKstDateString(morningSchedule), '2026-09-07', '09:07 KST schedule must be 2026-09-07');
-assert.strictEqual(getKstDateString(eveningSchedule), '2026-09-07', '17:07 KST schedule must be 2026-09-07');
+assert.strictEqual(getKstDateString(afternoonSchedule), '2026-09-07', '16:07 KST schedule must be 2026-09-07');
 console.log('✅ PASS: KST calendar date boundary and canary date regression tests verified 100%.');
 
 
@@ -175,7 +175,7 @@ try {
   if (fs.existsSync(testTempHistoryPath)) fs.unlinkSync(testTempHistoryPath);
 }
 
-const plan = planNextColumn({ now: new Date() });
+const plan = planNextColumn({ force: true, now: new Date() });
 assert(plan.geo && plan.disease && plan.topicAngle);
 const expectedDiseaseName = plan.titleDisease || plan.disease.name;
 assert(plan.titleCandidate.startsWith(`[${plan.geo.displayName} ${expectedDiseaseName}]`));

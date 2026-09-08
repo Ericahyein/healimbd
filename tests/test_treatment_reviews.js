@@ -18,7 +18,7 @@ async function test(name, fn) {
 
 async function run() {
   // 1. Check firestore.rules file contents
-  const firestoreRules = fs.readFileSync('firestore.rules', 'utf8');
+  const firestoreRules = fs.readFileSync('firestore.rules', 'utf8').replace(/\r\n/g, '\n');
   await test('1. firestore.rules contains treatment_reviews with authenticated read and admin-only write', () => {
     assert.ok(firestoreRules.includes('match /treatment_reviews/{reviewId}'), 'treatment_reviews match exists');
     assert.ok(firestoreRules.includes('allow read: if request.auth != null;'), 'read restricted to authenticated users');
@@ -27,7 +27,7 @@ async function run() {
   });
 
   // 2. Check storage.rules file contents
-  const storageRules = fs.readFileSync('storage.rules', 'utf8');
+  const storageRules = fs.readFileSync('storage.rules', 'utf8').replace(/\r\n/g, '\n');
   await test('2. storage.rules contains treatment-reviews/{reviewId}/{fileName} with public read for cropped preview cards and admin-only write', () => {
     assert.ok(storageRules.includes('match /treatment-reviews/{reviewId}/{fileName}'), 'treatment-reviews path exists');
     assert.ok(storageRules.includes('function signedIn()'), 'signedIn helper exists');
