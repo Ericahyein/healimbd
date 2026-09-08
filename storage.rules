@@ -1,0 +1,29 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // Helper: Check if requester is verified admin
+    function isAdmin() {
+      return request.auth != null && (
+        request.auth.token.admin == true ||
+        firestore.exists(/databases/(default)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    // ========================================================================
+    // CLINICAL TREATMENT REVIEW IMAGES (treatment-reviews/**)
+    // ========================================================================
+    match /treatment-reviews/{reviewId}/{fileName} {
+      // 1. Read: Authenticated users only (Matches site member review access policy)
+      allow read: if request.auth != null;
+
+      // 2. Write (create, update, delete): Strictly verified Admin only
+      allow write: if isAdmin();
+    }
+
+    // Default deny for all other storage paths
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

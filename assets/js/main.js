@@ -883,6 +883,37 @@ async function ensureFirestore() {
   }
 }
 
+let storagePromise = null;
+async function ensureFirebaseStorage() {
+  await ensureFirebaseAuth();
+  await ensureFirebaseAppCheck();
+
+  if (typeof firebase !== 'undefined' && typeof firebase.storage === 'function') {
+    return firebase.storage();
+  }
+
+  if (storagePromise) {
+    return storagePromise;
+  }
+
+  storagePromise = (async () => {
+    if (typeof firebase === 'undefined' || typeof firebase.storage !== 'function') {
+      await loadScriptAsync('https://www.gstatic.com/firebasejs/12.17.1/firebase-storage-compat.js');
+    }
+    if (typeof firebase !== 'undefined' && typeof firebase.storage === 'function') {
+      return firebase.storage();
+    }
+    return null;
+  })();
+
+  try {
+    return await storagePromise;
+  } catch (err) {
+    storagePromise = null;
+    throw err;
+  }
+}
+
 async function checkAdminPrivileges(user) {
   if (!user) return false;
 
@@ -1241,6 +1272,13 @@ function updateAuthUI(user) {
     if (unlockedUserName) {
       unlockedUserName.textContent = displayName;
     }
+    // Start Treatment Reviews Sync & Migration UI
+    if (typeof startTreatmentReviewsSync === 'function') {
+      startTreatmentReviewsSync();
+    }
+    if (isAdmin && typeof checkAndRenderMigrationUI === 'function') {
+      checkAndRenderMigrationUI();
+    }
   } else {
     // Header state
     if (headerLoginBtn) headerLoginBtn.style.display = 'inline-flex';
@@ -1256,6 +1294,11 @@ function updateAuthUI(user) {
     }
     if (unlockedBanner) {
       unlockedBanner.style.display = 'none';
+    }
+
+    // Stop Treatment Reviews Sync & Hide Migration UI
+    if (typeof stopTreatmentReviewsSync === 'function') {
+      stopTreatmentReviewsSync();
     }
   }
 }
@@ -1767,12 +1810,88 @@ function renderHashtagPills(hashtags) {
   `;
 }
 
+let treatmentReviewsUnsubscribe = null;
+let firestoreTreatmentReviews = [];
+const reviewImageUrlCache = new Map();
+
+async function resolveReviewImageUrl(item) {
+  if (item.imageUrl) return item.imageUrl;
+  if (!item.imagePath) return item.image || '';
+  if (reviewImageUrlCache.has(item.imagePath)) {
+    return reviewImageUrlCache.get(item.imagePath);
+  }
+  try {
+    const storage = await ensureFirebaseStorage();
+    if (storage) {
+      const url = await storage.ref(item.imagePath).getDownloadURL();
+      reviewImageUrlCache.set(item.imagePath, url);
+      return url;
+    }
+  } catch (e) {
+    console.warn('[REVIEWS] Failed to resolve download URL for:', item.imagePath, e);
+  }
+  return item.image || '';
+}
+
+async function startTreatmentReviewsSync() {
+  const directGrid = document.getElementById('direct-cases-grid');
+  const homeGrid = document.querySelector('.cases-home-grid');
+  if (!directGrid && !homeGrid) return;
+  if (treatmentReviewsUnsubscribe) return;
+
+  // Protected review query strictly starts when user is authenticated (avoids permission-denied errors)
+  try {
+    await ensureFirebaseAuth();
+  } catch (e) {
+    return;
+  }
+  if (!auth || !auth.currentUser) return;
+
+  try {
+    const firestoreDb = await ensureFirestore();
+    if (!firestoreDb) return;
+
+    treatmentReviewsUnsubscribe = firestoreDb
+      .collection('treatment_reviews')
+      .orderBy('createdAt', 'desc')
+      .onSnapshot((snapshot) => {
+        firestoreTreatmentReviews = [];
+        snapshot.forEach((doc) => {
+          const data = doc.data();
+          data.id = doc.id;
+          firestoreTreatmentReviews.push(data);
+        });
+        renderCustomCasesToList();
+        checkAndRenderMigrationUI();
+      }, (err) => {
+        console.warn('[REVIEWS SYNC] onSnapshot notice:', err.code || err.message);
+      });
+  } catch (err) {
+    console.warn('[REVIEWS SYNC] Failed to attach listener:', err);
+  }
+}
+
+function stopTreatmentReviewsSync() {
+  if (treatmentReviewsUnsubscribe) {
+    treatmentReviewsUnsubscribe();
+    treatmentReviewsUnsubscribe = null;
+  }
+  firestoreTreatmentReviews = [];
+  renderCustomCasesToList();
+  const migrationContainer = document.getElementById('admin-cases-migration-container');
+  if (migrationContainer) migrationContainer.style.display = 'none';
+}
+
 function handleAdminCaseSubmit(e) {
   e.preventDefault();
   if (!isUserAdmin()) {
     alert('관리자 권한이 필요합니다.');
     return;
   }
+
+  const submitBtn = e.target.querySelector('button[type="submit"]');
+  const originalBtnHtml = submitBtn ? submitBtn.innerHTML : '등록하기';
+
   const cat = document.getElementById('case-input-category').value;
   const startMonth = document.getElementById('case-input-start-month').value;
   const endMonth = document.getElementById('case-input-end-month').value;
@@ -1801,7 +1920,6 @@ function handleAdminCaseSubmit(e) {
   const firstLine = (q1 || q2 || q3).split('\n')[0].replace(/^[#>\s*"]+/, '').trim();
   const generatedTitle = firstLine.length > 5 ? (firstLine.slice(0, 45) + (firstLine.length > 45 ? '...' : '')) : `${catName} 임상 치료사례`;
 
-  // Hugo standard markdown heading without bold syntax overlay
   const legacyCombinedContent = `### 1. ${QUESTION_TEMPLATE[0].question}\n\n${q1}\n\n---\n\n### 2. ${QUESTION_TEMPLATE[1].question}\n\n${q2}\n\n---\n\n### 3. ${QUESTION_TEMPLATE[2].question}\n\n${q3}`;
 
   const previewSummary = getCaseSummaryPreview({
@@ -1812,52 +1930,109 @@ function handleAdminCaseSubmit(e) {
     ]
   });
 
-  const newCase = {
-    id: 'custom-' + Date.now(),
-    title: generatedTitle,
-    category: cat,
-    categoryName: catName,
-    duration: durationStr,
-    date: new Date().toISOString().split('T')[0],
-    image: currentUploadedImageDataUrl,
-    questionSetVersion: 1,
-    sections: [
-      { id: 'q1', answer: q1 },
-      { id: 'q2', answer: q2 },
-      { id: 'q3', answer: q3 }
-    ],
-    content: legacyCombinedContent,
-    summary: previewSummary,
-    hashtags: parseHashtags(hashtagsVal),
-    createdAt: Date.now()
-  };
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="ph-bold ph-spinner ph-spin"></i> <span>사진 및 본문 서버 등록 중...</span>';
+  }
 
-  const stored = JSON.parse(localStorage.getItem('healim_custom_cases') || '[]');
-  stored.unshift(newCase);
-  localStorage.setItem('healim_custom_cases', JSON.stringify(stored));
+  (async () => {
+    let storageRef = null;
+    try {
+      // 1. Ensure Firebase App Check, Auth, Storage, Firestore
+      const storage = await ensureFirebaseStorage();
+      const firestoreDb = await ensureFirestore();
 
-  clearCaseDraft();
-  closeAdminWriterModal();
+      if (!storage || !firestoreDb) {
+        throw new Error('Firebase 모듈 초기화에 실패했습니다. 네트워크를 확인해주세요.');
+      }
 
-  // Reset Form
-  document.getElementById('admin-case-write-form').reset();
-  removeCasePhoto();
-  updateDurationCalcPreview();
+      // 2. Generate clean new Review ID (Non-legacy)
+      const reviewId = 'tr_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
 
-  showAuthToast('🎉 치료사례가 성공적으로 등록되었습니다!');
-  renderCustomCasesToList();
+      // 3. Convert Base64 image to Blob
+      const mimeMatch = currentUploadedImageDataUrl.match(/^data:([^;]+);base64,/);
+      const mimeType = mimeMatch ? mimeMatch[1] : 'image/jpeg';
+      const ext = mimeType.includes('png') ? 'png' : 'jpg';
+      const storagePath = `treatment-reviews/${reviewId}/original.${ext}`;
+
+      const res = await fetch(currentUploadedImageDataUrl);
+      const blob = await res.blob();
+
+      // 4. Upload to Firebase Storage
+      storageRef = storage.ref(storagePath);
+      await storageRef.put(blob, { contentType: mimeType });
+      const downloadUrl = await storageRef.getDownloadURL();
+
+      // 5. Save to Firestore treatment_reviews
+      const docData = {
+        id: reviewId,
+        reviewType: 'direct',
+        category: cat,
+        categoryName: catName,
+        duration: durationStr,
+        date: new Date().toISOString().split('T')[0],
+        title: generatedTitle,
+        summary: previewSummary,
+        questionSetVersion: 1,
+        sections: [
+          { id: 'q1', question: QUESTION_TEMPLATE[0].question, answer: q1 },
+          { id: 'q2', question: QUESTION_TEMPLATE[1].question, answer: q2 },
+          { id: 'q3', question: QUESTION_TEMPLATE[2].question, answer: q3 }
+        ],
+        content: legacyCombinedContent,
+        hashtags: parseHashtags(hashtagsVal),
+        imagePath: storagePath,
+        imageUrl: downloadUrl,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+        createdBy: auth && auth.currentUser ? auth.currentUser.uid : 'admin'
+      };
+
+      await firestoreDb.collection('treatment_reviews').doc(reviewId).set(docData);
+
+      // 6. Success cleanup
+      clearCaseDraft();
+      closeAdminWriterModal();
+      document.getElementById('admin-case-write-form').reset();
+      removeCasePhoto();
+      updateDurationCalcPreview();
+
+      showAuthToast('🎉 치료사례가 서버(Firestore/Storage)에 안전하게 등록되었습니다!');
+    } catch (err) {
+      console.error('[ADMIN CASE SUBMIT ERROR]', err);
+      if (storageRef) {
+        await storageRef.delete().catch(() => {});
+      }
+      alert('치료사례 서버 저장 중 오류가 발생했습니다: ' + (err.message || err));
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnHtml;
+      }
+    }
+  })();
 }
 
 function renderCustomCasesToList() {
-  const customCases = JSON.parse(localStorage.getItem('healim_custom_cases') || '[]');
-  if (!customCases.length) return;
+  const directGrid = document.getElementById('direct-cases-grid');
+  const homeGrid = document.querySelector('.cases-home-grid');
+  if (!directGrid && !homeGrid) return;
+
+  // Combine Firestore reviews (primary) + unmigrated local cases (temporary fallback)
+  const combined = [...firestoreTreatmentReviews];
+  const localCases = JSON.parse(localStorage.getItem('healim_custom_cases') || '[]');
+  localCases.forEach(lc => {
+    const isAlreadyInFirestore = combined.some(c => c.legacyId === lc.id || c.id === ('legacy_' + lc.id.replace(/[^a-zA-Z0-9_-]/g, '_')));
+    if (!isAlreadyInFirestore) {
+      combined.push(lc);
+    }
+  });
 
   // 1. Direct Cases Grid on /reviews/
-  const directGrid = document.getElementById('direct-cases-grid');
   if (directGrid) {
     directGrid.querySelectorAll('.injected-custom-case').forEach(el => el.remove());
 
-    customCases.slice().reverse().forEach(item => {
+    combined.slice().reverse().forEach(item => {
       const card = document.createElement('article');
       card.className = 'healim-case-card injected-custom-case';
       card.setAttribute('data-category', item.category);
@@ -1865,11 +2040,19 @@ function renderCustomCasesToList() {
 
       const hashtagsHtml = renderHashtagPills(item.hashtags);
       const summaryText = getCaseSummaryPreview(item);
+      let imgSrc = item.imageUrl || item.image || '';
+      if (!imgSrc && item.imagePath && reviewImageUrlCache.has(item.imagePath)) {
+        imgSrc = reviewImageUrlCache.get(item.imagePath);
+      }
 
       card.innerHTML = `
         <div class="case-card-anchor" style="cursor: pointer;" onclick="openCustomCaseReader('${item.id}')">
           <div class="case-thumb-wrap">
-            <img src="${item.image}" alt="${item.categoryName} 치료사례" class="case-thumb-img" loading="lazy">
+            <img src="${imgSrc || ''}" data-case-thumb-id="${item.id}" alt="${item.categoryName} 치료사례" class="case-thumb-img" loading="lazy" style="${imgSrc ? '' : 'display:none;'}">
+            <div class="case-thumb-fallback" id="thumb-fallback-${item.id}" style="${imgSrc ? 'display:none;' : ''}">
+              <i class="ph-bold ph-newspaper"></i>
+              <span>해아림 임상 사례</span>
+            </div>
             <span class="case-tag-pill ${item.category}">${item.categoryName}</span>
             <span class="case-direct-badge">📝 임상 치료사례</span>
           </div>
@@ -1883,26 +2066,49 @@ function renderCustomCasesToList() {
         </div>
       `;
       directGrid.prepend(card);
+
+      if (!imgSrc && item.imagePath) {
+        resolveReviewImageUrl(item).then(url => {
+          if (url) {
+            const thumbImg = card.querySelector(`[data-case-thumb-id="${item.id}"]`);
+            const fallbackEl = card.querySelector(`#thumb-fallback-${item.id}`);
+            if (thumbImg) {
+              thumbImg.src = url;
+              thumbImg.style.display = '';
+            }
+            if (fallbackEl) {
+              fallbackEl.style.display = 'none';
+            }
+          }
+        });
+      }
     });
   }
 
   // 2. Cases Home Grid on Homepage (#reviews)
-  const homeGrid = document.querySelector('.cases-home-grid');
   if (homeGrid) {
     homeGrid.querySelectorAll('.injected-custom-case').forEach(el => el.remove());
 
-    customCases.slice(0, 2).reverse().forEach(item => {
+    combined.slice(0, 2).reverse().forEach(item => {
       const card = document.createElement('article');
       card.className = 'healim-case-card injected-custom-case';
       card.setAttribute('data-category', item.category);
 
       const hashtagsHtml = renderHashtagPills(item.hashtags);
       const summaryText = getCaseSummaryPreview(item);
+      let imgSrc = item.imageUrl || item.image || '';
+      if (!imgSrc && item.imagePath && reviewImageUrlCache.has(item.imagePath)) {
+        imgSrc = reviewImageUrlCache.get(item.imagePath);
+      }
 
       card.innerHTML = `
         <div class="case-card-anchor" style="cursor: pointer;" onclick="openCustomCaseReader('${item.id}')">
           <div class="case-thumb-wrap">
-            <img src="${item.image}" alt="${item.categoryName} 치료사례" class="case-thumb-img" loading="lazy">
+            <img src="${imgSrc || ''}" data-case-thumb-id="${item.id}" alt="${item.categoryName} 치료사례" class="case-thumb-img" loading="lazy" style="${imgSrc ? '' : 'display:none;'}">
+            <div class="case-thumb-fallback" id="thumb-fallback-${item.id}" style="${imgSrc ? 'display:none;' : ''}">
+              <i class="ph-bold ph-newspaper"></i>
+              <span>해아림 임상 사례</span>
+            </div>
             <span class="case-tag-pill ${item.category}">${item.categoryName}</span>
             <span class="case-direct-badge">📝 임상 치료사례</span>
           </div>
@@ -1916,13 +2122,32 @@ function renderCustomCasesToList() {
         </div>
       `;
       homeGrid.prepend(card);
+
+      if (!imgSrc && item.imagePath) {
+        resolveReviewImageUrl(item).then(url => {
+          if (url) {
+            const thumbImg = card.querySelector(`[data-case-thumb-id="${item.id}"]`);
+            const fallbackEl = card.querySelector(`#thumb-fallback-${item.id}`);
+            if (thumbImg) {
+              thumbImg.src = url;
+              thumbImg.style.display = '';
+            }
+            if (fallbackEl) {
+              fallbackEl.style.display = 'none';
+            }
+          }
+        });
+      }
     });
   }
 }
 
-function openCustomCaseReader(caseId) {
-  const customCases = JSON.parse(localStorage.getItem('healim_custom_cases') || '[]');
-  const found = customCases.find(c => c.id === caseId);
+async function openCustomCaseReader(caseId) {
+  let found = firestoreTreatmentReviews.find(c => c.id === caseId);
+  if (!found) {
+    const localCases = JSON.parse(localStorage.getItem('healim_custom_cases') || '[]');
+    found = localCases.find(c => c.id === caseId || ('legacy_' + c.id.replace(/[^a-zA-Z0-9_-]/g, '_')) === caseId);
+  }
   if (!found) return;
 
   currentOpenedCustomCaseId = caseId;
@@ -1940,7 +2165,18 @@ function openCustomCaseReader(caseId) {
   }
   if (titleEl) titleEl.textContent = found.title;
   if (durationEl) durationEl.textContent = `치료기간: ${found.duration || '치료 완료'}`;
-  if (photoEl) photoEl.src = found.image;
+
+  // Image resolution: imageUrl -> dynamic Storage getDownloadURL -> Base64 fallback
+  if (photoEl) {
+    photoEl.src = '';
+    photoEl.style.display = 'none';
+    const resolvedUrl = await resolveReviewImageUrl(found);
+    if (resolvedUrl) {
+      photoEl.src = resolvedUrl;
+      photoEl.style.display = 'block';
+    }
+  }
+
   if (bodyEl) bodyEl.innerHTML = renderCustomCaseBody(found);
 
   if (hashtagsEl) {
@@ -1977,13 +2213,317 @@ function deleteCurrentCustomCase() {
   if (!currentOpenedCustomCaseId) return;
   if (!confirm('정말 이 치료사례를 삭제하시겠습니까?')) return;
 
-  let customCases = JSON.parse(localStorage.getItem('healim_custom_cases') || '[]');
-  customCases = customCases.filter(c => c.id !== currentOpenedCustomCaseId);
-  localStorage.setItem('healim_custom_cases', JSON.stringify(customCases));
+  (async () => {
+    try {
+      const targetId = currentOpenedCustomCaseId;
+      const firestoreCase = firestoreTreatmentReviews.find(c => c.id === targetId);
 
-  closeCustomCaseReader();
-  showAuthToast('🗑️ 게시글이 삭제되었습니다.');
-  location.reload();
+      if (firestoreCase) {
+        // 1. Delete image from Firebase Storage if path exists
+        if (firestoreCase.imagePath) {
+          try {
+            const storage = await ensureFirebaseStorage();
+            if (storage) {
+              await storage.ref(firestoreCase.imagePath).delete().catch(() => {});
+            }
+          } catch (e) {}
+        }
+
+        // 2. Delete document from Firestore
+        const firestoreDb = await ensureFirestore();
+        if (firestoreDb) {
+          await firestoreDb.collection('treatment_reviews').doc(targetId).delete();
+        }
+      }
+
+      // 3. Clean up from localStorage if present
+      let customCases = JSON.parse(localStorage.getItem('healim_custom_cases') || '[]');
+      customCases = customCases.filter(c => c.id !== targetId && ('legacy_' + c.id.replace(/[^a-zA-Z0-9_-]/g, '_')) !== targetId);
+      localStorage.setItem('healim_custom_cases', JSON.stringify(customCases));
+
+      closeCustomCaseReader();
+      showAuthToast('🗑️ 게시글이 삭제되었습니다.');
+    } catch (err) {
+      console.error('[DELETE CASE ERROR]', err);
+      alert('삭제 중 오류가 발생했습니다: ' + (err.message || err));
+    }
+  })();
+}
+
+// ==========================================================================
+// LOCAL REVIEWS INSPECTION, BACKUP & DETERMINISTIC MIGRATION SUITE
+// ==========================================================================
+
+function inspectLocalReviewsData() {
+  let cases = [];
+  try {
+    cases = JSON.parse(localStorage.getItem('healim_custom_cases') || '[]');
+    if (!Array.isArray(cases)) cases = [];
+  } catch (e) {
+    cases = [];
+  }
+
+  const byCategory = {};
+  let totalBytes = 0;
+  const itemsSummary = [];
+
+  cases.forEach((c, idx) => {
+    const catName = c.categoryName || (CATEGORY_NAME_MAP[c.category] || c.category || '기타');
+    byCategory[catName] = (byCategory[catName] || 0) + 1;
+
+    const itemStr = JSON.stringify(c);
+    totalBytes += itemStr.length;
+
+    const imgLen = c.image ? c.image.length : 0;
+    const approxImgKb = Math.round((imgLen * 0.75) / 1024);
+
+    itemsSummary.push({
+      index: idx + 1,
+      id: c.id,
+      categoryName: catName,
+      title: c.title || '제목 없음',
+      hasSections: !!(c.sections && Array.isArray(c.sections) && c.sections.length === 3),
+      hasImage: !!c.image,
+      approxImgKb: approxImgKb > 0 ? approxImgKb + ' KB' : 'None',
+      sizeKb: Math.round(itemStr.length / 1024) + ' KB'
+    });
+  });
+
+  const totalSizeMb = (totalBytes / (1024 * 1024)).toFixed(2);
+
+  return {
+    count: cases.length,
+    cases,
+    byCategory,
+    totalBytes,
+    totalSizeFormatted: totalBytes > 1024 * 1024 ? totalSizeMb + ' MB' : Math.round(totalBytes / 1024) + ' KB',
+    itemsSummary
+  };
+}
+
+function downloadLocalCasesBackup() {
+  const diagnostic = inspectLocalReviewsData();
+  if (diagnostic.count === 0) {
+    alert('다운로드할 로컬 치료후기 데이터가 없습니다.');
+    return;
+  }
+
+  const now = new Date();
+  const dateStr = now.toISOString().replace(/[:T]/g, '-').slice(0, 19);
+
+  const backupPayload = {
+    exportSource: 'healim_custom_cases',
+    exportTimestamp: now.toISOString(),
+    exportLocalTime: now.toLocaleString('ko-KR'),
+    itemCount: diagnostic.count,
+    totalSize: diagnostic.totalSizeFormatted,
+    categoryBreakdown: diagnostic.byCategory,
+    itemsSummary: diagnostic.itemsSummary,
+    cases: diagnostic.cases // raw original array including Base64 images
+  };
+
+  const blob = new Blob([JSON.stringify(backupPayload, null, 2)], { type: 'application/json;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `healim_reviews_backup_${dateStr}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+
+  showAuthToast(`💾 치료후기 원본 백업 파일(${diagnostic.count}건, ${diagnostic.totalSizeFormatted})이 다운로드되었습니다.`);
+}
+
+function checkAndRenderMigrationUI() {
+  const container = document.getElementById('admin-cases-migration-container');
+  if (!container) return;
+
+  if (!isUserAdmin()) {
+    container.style.display = 'none';
+    return;
+  }
+
+  const diagnostic = inspectLocalReviewsData();
+  if (diagnostic.count === 0) {
+    container.style.display = 'none';
+    return;
+  }
+
+  const existingFirestoreIds = new Set(firestoreTreatmentReviews.map(r => r.legacyId || r.id));
+  const unmigratedCases = diagnostic.cases.filter(c => {
+    const deterministicId = 'legacy_' + c.id.replace(/[^a-zA-Z0-9_-]/g, '_');
+    return !existingFirestoreIds.has(deterministicId) && !existingFirestoreIds.has(c.id);
+  });
+
+  if (unmigratedCases.length === 0) {
+    container.style.display = 'none';
+    return;
+  }
+
+  const chipsHtml = Object.entries(diagnostic.byCategory).map(([cat, count]) => {
+    return `<span class="migration-stat-chip">${cat}: <strong>${count}건</strong></span>`;
+  }).join('');
+
+  container.style.display = 'block';
+  container.innerHTML = `
+    <div class="admin-migration-card">
+      <div class="migration-badge-header">
+        <span class="migration-tag"><i class="ph-bold ph-database"></i> 로컬 브라우저 데이터 감지</span>
+        <span class="migration-tag" style="background:#FEF3C7;color:#92400E;border-color:#FDE68A;">미이전 ${unmigratedCases.length}건 / 총 ${diagnostic.count}건</span>
+      </div>
+      <h3 class="migration-title">이 PC 브라우저에 임시 등록된 치료후기 <strong>${unmigratedCases.length}건</strong>이 있습니다.</h3>
+      <p class="migration-desc">
+        현재 후기는 이 PC의 로컬 저장소(localStorage)에만 보관되어 있어 다른 기기에서는 보이지 않습니다.<br>
+        모든 기기(모바일/다른 PC)에서 영구적으로 노출되도록 <strong>서버(Firestore & Storage)로 안전하게 이전</strong>하세요.
+      </p>
+      <div class="migration-stat-grid">
+        ${chipsHtml}
+        <span class="migration-stat-chip">데이터 용량: <strong>${diagnostic.totalSizeFormatted}</strong></span>
+      </div>
+      <div class="migration-button-group">
+        <button type="button" class="btn btn-migration-backup" onclick="downloadLocalCasesBackup()">
+          <i class="ph-bold ph-download-simple"></i> [1단계] 원본 JSON 백업 다운로드
+        </button>
+        <button type="button" class="btn btn-migration-run" id="btn-run-migration" onclick="executeCasesMigration()">
+          <i class="ph-bold ph-cloud-arrow-up"></i> [2단계] 서버(Firestore & Storage)로 ${unmigratedCases.length}건 이전 시작
+        </button>
+      </div>
+      <div id="migration-progress-box" class="migration-progress-box" style="display: none;">
+        <div class="migration-progress-bar-wrap">
+          <div id="migration-progress-fill" class="migration-progress-bar-fill"></div>
+        </div>
+        <div id="migration-progress-text" class="migration-progress-text">서버 이전 준비 중...</div>
+      </div>
+    </div>
+  `;
+}
+
+async function executeCasesMigration() {
+  if (!isUserAdmin()) {
+    alert('관리자 권한이 필요합니다.');
+    return;
+  }
+
+  const diagnostic = inspectLocalReviewsData();
+  const existingFirestoreIds = new Set(firestoreTreatmentReviews.map(r => r.legacyId || r.id));
+  const unmigratedCases = diagnostic.cases.filter(c => {
+    const deterministicId = 'legacy_' + c.id.replace(/[^a-zA-Z0-9_-]/g, '_');
+    return !existingFirestoreIds.has(deterministicId) && !existingFirestoreIds.has(c.id);
+  });
+
+  if (unmigratedCases.length === 0) {
+    alert('모든 로컬 후기가 이미 Firestore로 이전 완료되었습니다!');
+    checkAndRenderMigrationUI();
+    return;
+  }
+
+  const breakdownText = Object.entries(diagnostic.byCategory).map(([k, v]) => `• ${k}: ${v}건`).join('\n');
+  const confirmMsg = `총 ${unmigratedCases.length}건의 로컬 치료후기를 서버(Firestore 및 Firebase Storage)로 이전하시겠습니까?\n\n[질환별 내역]\n${breakdownText}\n\n※ 이전 중에도 브라우저 원본 데이터(localStorage)는 절대 삭제되지 않고 백업으로 안전하게 보존됩니다.`;
+
+  if (!confirm(confirmMsg)) return;
+
+  const btnRun = document.getElementById('btn-run-migration');
+  const progressBox = document.getElementById('migration-progress-box');
+  const progressFill = document.getElementById('migration-progress-fill');
+  const progressText = document.getElementById('migration-progress-text');
+
+  if (btnRun) btnRun.disabled = true;
+  if (progressBox) progressBox.style.display = 'block';
+
+  let successCount = 0;
+  let failCount = 0;
+  const failedItems = [];
+
+  try {
+    const storage = await ensureFirebaseStorage();
+    const firestoreDb = await ensureFirestore();
+
+    if (!storage || !firestoreDb) {
+      throw new Error('Firebase 모듈 초기화 실패. 네트워크를 확인해주세요.');
+    }
+
+    for (let i = 0; i < unmigratedCases.length; i++) {
+      const item = unmigratedCases[i];
+      const progressPercent = Math.round(((i + 1) / unmigratedCases.length) * 100);
+
+      if (progressFill) progressFill.style.width = `${progressPercent}%`;
+      if (progressText) progressText.textContent = `이전 진행 중 (${i + 1} / ${unmigratedCases.length}): "${item.title || '치료사례'}" 업로드 중...`;
+
+      try {
+        const deterministicDocId = 'legacy_' + item.id.replace(/[^a-zA-Z0-9_-]/g, '_');
+
+        // 1. Upload image to Firebase Storage if Base64 exists
+        let storagePath = `treatment-reviews/${deterministicDocId}/original.jpg`;
+        let downloadUrl = '';
+
+        if (item.image && typeof item.image === 'string' && item.image.startsWith('data:image/')) {
+          const mimeMatch = item.image.match(/^data:([^;]+);base64,/);
+          const mimeType = mimeMatch ? mimeMatch[1] : 'image/jpeg';
+          const ext = mimeType.includes('png') ? 'png' : 'jpg';
+          storagePath = `treatment-reviews/${deterministicDocId}/original.${ext}`;
+
+          const res = await fetch(item.image);
+          const blob = await res.blob();
+
+          const storageRef = storage.ref(storagePath);
+          await storageRef.put(blob, { contentType: mimeType });
+          downloadUrl = await storageRef.getDownloadURL();
+        }
+
+        // 2. Prepare Firestore Document
+        const docData = {
+          id: deterministicDocId,
+          reviewType: 'direct',
+          category: item.category || 'etc',
+          categoryName: item.categoryName || (CATEGORY_NAME_MAP[item.category] || '임상 치료사례'),
+          duration: item.duration || '치료 완료',
+          date: item.date || new Date().toISOString().split('T')[0],
+          title: item.title || '환자 자필 치료후기',
+          summary: item.summary || getCaseSummaryPreview(item),
+          questionSetVersion: item.questionSetVersion || 1,
+          sections: (item.sections && Array.isArray(item.sections)) ? item.sections : [
+            { id: 'q1', question: QUESTION_TEMPLATE[0].question, answer: '' },
+            { id: 'q2', question: QUESTION_TEMPLATE[1].question, answer: '' },
+            { id: 'q3', question: QUESTION_TEMPLATE[2].question, answer: '' }
+          ],
+          content: item.content || '',
+          hashtags: item.hashtags || [],
+          imagePath: storagePath,
+          imageUrl: downloadUrl || '',
+          legacyId: item.id,
+          migratedAt: firebase.firestore.FieldValue.serverTimestamp(),
+          createdAt: item.createdAt ? new Date(item.createdAt) : firebase.firestore.FieldValue.serverTimestamp(),
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+          createdBy: auth && auth.currentUser ? auth.currentUser.uid : 'admin_migration'
+        };
+
+        // 3. Save to Firestore (idempotent merge)
+        await firestoreDb.collection('treatment_reviews').doc(deterministicDocId).set(docData, { merge: true });
+        successCount++;
+      } catch (itemErr) {
+        console.error('[MIGRATION ITEM ERROR]', item.id, itemErr);
+        failCount++;
+        failedItems.push({ id: item.id, title: item.title, error: itemErr.message });
+      }
+    }
+
+    if (progressText) {
+      progressText.textContent = `이전 완료: 성공 ${successCount}건 / 실패 ${failCount}건`;
+    }
+
+    const toastMsg = failCount === 0
+      ? `🎉 ${successCount}건의 치료후기가 서버(Firestore/Storage)로 안전하게 이전되었습니다!`
+      : `⚠️ ${successCount}건 이전 성공, ${failCount}건 실패. 실패 항목은 다시 시도할 수 있습니다.`;
+    showAuthToast(toastMsg);
+
+    checkAndRenderMigrationUI();
+  } catch (err) {
+    console.error('[MIGRATION GENERAL ERROR]', err);
+    alert('서버 이전 중 오류가 발생했습니다: ' + (err.message || err));
+  } finally {
+    if (btnRun) btnRun.disabled = false;
+  }
 }
 
 /* ==========================================================================

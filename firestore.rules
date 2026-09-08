@@ -156,6 +156,17 @@ service cloud.firestore {
     }
 
     // ========================================================================
+    // CLINICAL TREATMENT REVIEWS COLLECTION (treatment_reviews)
+    // ========================================================================
+    match /treatment_reviews/{reviewId} {
+      // 1. Read: Authenticated users only (Matches site member review access policy)
+      allow read: if request.auth != null;
+
+      // 2. Create, Update, Delete: Strictly verified Admin only
+      allow create, update, delete: if isAdmin();
+    }
+
+    // ========================================================================
     // ADMIN IDENTIFIER COLLECTION (admins/{uid})
     // ========================================================================
     match /admins/{adminId} {
