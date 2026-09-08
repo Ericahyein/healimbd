@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { sanitizeAnchorTitle } = require('./internal_linker');
+const { extractInternalLinks } = require('./content_validator');
 
 const PLANNER_MODEL = process.env.OPENAI_PLANNER_MODEL || 'gpt-5.6-luna';
 const WRITER_MODEL = process.env.OPENAI_WRITER_MODEL || 'gpt-5.6-terra';
@@ -370,6 +371,8 @@ async function generateArticleBody(plan, outline, knowledge, internalLinks, apiK
   if (!apiKey) {
     const isAdult = plan.ageGroup === 'adult';
     const guardianDesc = isAdult ? '환자분' : '보호자분';
+    const targetDiseaseName = plan.titleDisease || plan.displayDisease || plan.disease.name;
+    const topicAngleText = plan.topicAngle ? (plan.topicAngle.titleSuffix || plan.topicAngle.focus || '') : '';
 
     return `
 <div class="column-key-summary-box">
@@ -386,13 +389,13 @@ async function generateArticleBody(plan, outline, knowledge, internalLinks, apiK
 
 ## 1. 진료실에서 자주 마주하는 고민
 
-${plan.geo.displayName} 지역에서 ${plan.disease.name} 증상으로 상담을 청하시는 ${guardianDesc}들의 이야기를 듣다 보면 "일상 생활에서 증상이 더 두드러지는 것 같은데 어떻게 대처해야 하는지"에 대한 질문을 자주 받습니다.
+${plan.geo.displayName} 지역에서 ${targetDiseaseName} 증상(${topicAngleText})으로 상담을 청하시는 ${guardianDesc}들의 이야기를 듣다 보면 "일상 생활에서 증상이 더 두드러지는 것 같은데 어떻게 대처해야 하는지"에 대한 질문을 자주 받습니다.
 진료실에서는 단순한 인내나 방치보다는, 일상 속 스트레스 요인이 두뇌 흥분도와 조절력에 미치는 영향을 균형 있게 이해하고 대처하는 것이 필요하다고 안내해 드립니다.
 
 ## 2. 신경생물학적 특성과 생활 환경이 증상에 미치는 영향
 
 ${knowledge.approvedDefinition}
-임상 연구에서는 ${plan.disease.name}와 관련하여 다음과 같은 점들을 명확히 구분하여 살펴보고 있습니다:
+임상 연구에서는 ${targetDiseaseName}와 관련하여 다음과 같은 점들을 명확히 구분하여 살펴보고 있습니다:
 
 - **질환의 발생 및 신경학적 배경**: 신경전달 체계와 조절 회로의 특성이 주요 신경생물학적 배경으로 연구되고 있습니다.
 - **증상의 악화 및 변동 요인**: 질환의 기저 특성과 별개로, 이미 나타나는 증상의 정도는 피로, 수면 상태, 정서적 긴장 및 ${knowledge.possibleAggravatingFactors.join(', ')} 등에 따라 변동될 수 있습니다.
@@ -416,7 +419,7 @@ ${knowledge.evaluationGuidance}
 ## 5. 일상생활에서 실천할 수 있는 적극적인 생활 조절 수칙
 
 1. **규칙적인 휴식 확보**: 일과 휴식의 리듬을 조절하여 신체적·정신적 피로가 누적되지 않도록 관리합니다.
-2. **증상 안정 관찰**: 생활 리듬을 조절하며 일정 기간 동안 ${plan.disease.name} 관련 불편감 및 수면, 일상 긴장도의 변화를 차분히 관찰합니다.
+2. **증상 안정 관찰**: 생활 리듬을 조절하며 일정 기간 동안 ${targetDiseaseName} 관련 불편감 및 수면, 일상 긴장도의 변화를 차분히 관찰합니다.
 3. **이완 시간 마련**: 가벼운 산책이나 규칙적인 스트레칭, 편안한 대화 시간을 통해 긴장을 완화합니다.
 
 ## 6. 자주 묻는 질문 (FAQ)
@@ -426,6 +429,9 @@ A. ${knowledge.faqCandidates[0]?.a || '무리하게 참으려 하기보다 편�
 
 **Q2. ${knowledge.faqCandidates[1]?.q || '생활 관리는 어떻게 시작해야 하나요?'}**  
 A. ${knowledge.faqCandidates[1]?.a || '개인 상황에 맞게 불필요한 과로와 긴장을 줄이고, 수면과 휴식의 질을 점검하는 것이 권장됩니다.'}
+
+**Q3. ${knowledge.faqCandidates[2]?.q || '치료 상담은 어떻게 진행되나요?'}**  
+A. ${knowledge.faqCandidates[2]?.a || '증상의 경과와 전반적인 건강 상태를 종합적으로 평가한 후 1:1 맞춤 관리 계획을 세웁니다.'}
 
 ---
 
@@ -742,8 +748,9 @@ ${linksListMd || '내부링크 없음'}
    - "매우 잦게 반복되거나", "일정 기간 동안", "규칙적으로", "꾸준히", "차분하게" 등으로 표현하십시오.
 10. [의료 표현 제약]
     - 완치, 근본 치료, 기저핵/자율신경/뇌기능 정상화, 신경전달물질 완벽 조절, 약물 임의 중단 유도 금지.
-11. [내부링크 품질 우선 및 URL 중복 엄격 금지 (GLOBAL RULE)]
-    - 위 제공된 내부링크 목록 중 주제와 실질적으로 가장 관련성이 높은 실존 링크만 자연스럽게 삽입하십시오.
+11. [내부링크 필수 포함 및 URL 중복 엄격 금지 (GLOBAL MEDICAL POLICY)]
+    - 위 제공된 [사용 가능한 검증된 내부링크 후보] 목록 중 최소 1개(권장 1~2개)의 실존 내부링크를 마크다운 링크 형식([앵커텍스트](URL))으로 본문에 반드시 포함해야 합니다. (내부링크 0개 시 품질 검증 실패로 자동 발행이 차단됩니다)
+    - 본문 설명 흐름 중간에 자연스럽게 링크를 녹여 삽입하거나, 글 하단(FAQ 아래)에 '### 🔗 함께 읽어보면 좋은 연관 안내' 항목을 두고 후보 중 가장 연관된 링크를 배치하십시오.
     - [품질 > 개수 원칙] 관련성이 높은 링크가 1개뿐이라면 본문에 1개만 삽입해도 충분합니다.
     - 2~4개 개수를 채우기 위해 다른 질환을 갑자기 언급하거나, 별도 소제목/문단을 만들거나, 억지 연결 문장을 생성하는 행위를 엄격히 금지합니다.
     - [동일 URL 중복 절대 금지] 하나의 URL은 아티클 전체에서 최대 1회만 사용할 수 있습니다. 동일한 URL을 서로 다른 앵커 텍스트로 중복 삽입하는 것을 엄격히 금지합니다.
@@ -778,6 +785,16 @@ ${fatigueBurnoutGuideline}
   let cleanedContent = (response.choices[0].message.content || '').trim();
   // Strip duplicate leading H1 if generated
   cleanedContent = cleanedContent.replace(/^#\s+[^\r\n]+(\r?\n)+/, '');
+
+  // Programmatic Guarantee: Ensure at least 1 verified internal link is present
+  const existingLinks = extractInternalLinks(cleanedContent);
+  if (existingLinks.length === 0 && Array.isArray(internalLinks) && internalLinks.length > 0) {
+    const topLink = internalLinks[0];
+    const rawAnchor = topLink.cleanAnchor || topLink.title || '관련 질환 안내';
+    const cleanAnchor = sanitizeAnchorTitle(rawAnchor);
+    cleanedContent += `\n\n---\n\n### 🔗 함께 읽어보면 좋은 연관 안내\n- [${cleanAnchor}](${topLink.url})\n`;
+    console.log(`ℹ️ [AI Writer Guard] Programmatically appended verified internal link: [${cleanAnchor}](${topLink.url})`);
+  }
   return cleanedContent;
 }
 

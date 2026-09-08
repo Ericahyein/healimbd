@@ -177,8 +177,9 @@ try {
 
 const plan = planNextColumn({ now: new Date() });
 assert(plan.geo && plan.disease && plan.topicAngle);
-assert(plan.titleCandidate.startsWith(`[${plan.geo.displayName} ${plan.disease.name}]`));
-console.log(`✅ PASS: Topic Planner selected target -> [${plan.geo.displayName}] ${plan.disease.name} (${plan.titleCandidate})`);
+const expectedDiseaseName = plan.titleDisease || plan.disease.name;
+assert(plan.titleCandidate.startsWith(`[${plan.geo.displayName} ${expectedDiseaseName}]`));
+console.log(`✅ PASS: Topic Planner selected target -> [${plan.geo.displayName}] ${expectedDiseaseName} (${plan.titleCandidate})`);
 
 // 5. Medical Safety & Content Validator Tests
 console.log('\n--- 5. 3-Tier Content, GEO Consistency & Medical Safety Validator ---');
