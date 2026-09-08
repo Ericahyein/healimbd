@@ -26,7 +26,7 @@ clinic_info:
   naver_booking_url: 'https://naver.me/xbARooIc'
   kakao_chat_url: 'http://pf.kakao.com/_NEUHT'
   blog_url: 'https://blog.naver.com/peaceful_one'
-  naver_map_client_id: '' # NAVER Cloud Platform Maps Web Dynamic Map ncpKeyId (발급 후 입력 시 네이버 지도 v3 자동 활성화)
+  naver_map_client_id: 'g5wzgrvi9k' # NAVER Cloud Platform Maps Web Dynamic Map Client ID (ncpKeyId)
 
 theme:
   colors:
