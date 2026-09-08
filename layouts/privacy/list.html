@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>개인정보처리방침 | 해아림한의원 분당점</title>
+  <meta name="description" content="해아림한의원 분당점의 개인정보처리방침입니다. 환자분의 개인정보와 의료정보를 안전하게 보호합니다.">
+  <link rel="canonical" href="{{ .Permalink }}">
+
+  <!-- Fonts (Pretendard & Outfit) -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+
+  <!-- Main Stylesheet -->
+  {{ $style := resources.Get "css/style.css" | resources.Minify | resources.Fingerprint }}
+  <link rel="stylesheet" href="{{ $style.RelPermalink }}">
+</head>
+<body class="policy-page">
+  {{ partial "header.html" . }}
+
+  <main id="main-content">
+    <section class="cases-page-header">
+      <div class="container text-center">
+        <span class="cases-top-pill">LEGAL & PRIVACY</span>
+        <h1 class="cases-main-title">개인정보처리방침</h1>
+        <p class="cases-main-desc">
+          해아림한의원 분당점은 「개인정보 보호법」 및 「의료법」에 따라<br>
+          환자분의 개인정보와 의료정보를 철저하고 안전하게 보호하고 있습니다.
+        </p>
+      </div>
+    </section>
+
+    <section class="section policy-content-section" style="padding: 60px 0 90px; background: #F8FAFC;">
+      <div class="container" style="max-width: 860px; margin: 0 auto;">
+        <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: var(--radius-md, 12px); padding: 40px 48px; box-shadow: 0 4px 18px rgba(15,23,42,0.03); line-height: 1.8; color: #334155; font-size: 0.96rem;">
+          
+          <h3 style="font-size: 1.25rem; font-weight: 800; color: #0F172A; margin: 0 0 12px; border-bottom: 2px solid #E2E8F0; padding-bottom: 10px;">1. 개인정보의 처리 목적</h3>
+          <p style="margin-bottom: 24px;">
+            해아림한의원 분당점(이하 "본원")은 진료 예약, 진료 및 상담 서비스 제공, 진료비 청구, 제증명서 발급 등 「의료법」에 정해진 의료 서비스 제공 및 관련 법령에 따른 본인 식별을 목적으로 최소한의 개인정보를 처리합니다.
+          </p>
+
+          <h3 style="font-size: 1.25rem; font-weight: 800; color: #0F172A; margin: 0 0 12px; border-bottom: 2px solid #E2E8F0; padding-bottom: 10px;">2. 처리하는 개인정보의 항목</h3>
+          <ul style="margin-bottom: 24px; padding-left: 20px;">
+            <li><strong>진료 예약 및 상담:</strong> 성명, 연락처(휴대전화번호), 상담 내용 및 희망 진료일시</li>
+            <li><strong>진료 기록(의료법):</strong> 성명, 주민등록번호(진료 시), 주소, 진료 기록 및 건강 상태 관련 정보</li>
+            <li><strong>인터넷 서비스 이용 시:</strong> 접속 IP, 쿠키, 서비스 이용 기록(원활한 상담 서비스 제공 목적)</li>
+          </ul>
+
+          <h3 style="font-size: 1.25rem; font-weight: 800; color: #0F172A; margin: 0 0 12px; border-bottom: 2px solid #E2E8F0; padding-bottom: 10px;">3. 개인정보의 보유 및 이용 기간</h3>
+          <p style="margin-bottom: 24px;">
+            본원은 관련 법령에 따른 개인정보 보유·이용 기간 또는 정보주체로부터 개인정보를 수집 시에 동의받은 개인정보 보유·이용 기간 내에서 개인정보를 처리·보유합니다.<br>
+            - <strong>진료기록부 등 의료 기록:</strong> 「의료법 시행규칙」 제15조에 따라 10년 보관<br>
+            - <strong>예약 및 일반 상담 정보:</strong> 상담 및 진료 예약 목적 달성 시까지 (단, 법령에 특별한 규정이 있는 경우 해당 기간)
+          </p>
+
+          <h3 style="font-size: 1.25rem; font-weight: 800; color: #0F172A; margin: 0 0 12px; border-bottom: 2px solid #E2E8F0; padding-bottom: 10px;">4. 개인정보의 안전성 확보 조치</h3>
+          <p style="margin-bottom: 24px;">
+            본원은 개인정보의 안전성 확보를 위해 관리적 조치(내부관리계획 수립·시행, 직원 교육) 및 기술적 조치(접근권한 관리, 백신 프로그램 설치, 암호화 전송 SSL/TLS 적용)를 다하고 있습니다.
+          </p>
+
+          <h3 style="font-size: 1.25rem; font-weight: 800; color: #0F172A; margin: 0 0 12px; border-bottom: 2px solid #E2E8F0; padding-bottom: 10px;">5. 개인정보 보호책임자</h3>
+          <div style="background: #F1F5F9; padding: 18px 24px; border-radius: 8px; font-size: 0.92rem;">
+            <p style="margin: 0 0 4px;"><strong>성명:</strong> 손지웅 대표원장</p>
+            <p style="margin: 0 0 4px;"><strong>직책:</strong> 개인정보 보호책임자</p>
+            <p style="margin: 0 0 4px;"><strong>전화번호:</strong> 031-716-8575</p>
+            <p style="margin: 0;"><strong>주소:</strong> 경기도 성남시 분당구 성남대로331번길 3-3, 젤존타워III 405호</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  {{ partial "footer.html" . }}
+  {{ partial "floating_bar.html" . }}
+
+  {{ $script := resources.Get "js/main.js" | resources.Minify | resources.Fingerprint }}
+  <script src="{{ $script.RelPermalink }}"></script>
+</body>
+</html>

@@ -5491,85 +5491,54 @@ ul {
 }
 
 /* ==========================================================================
-   10. SITE FOOTER (Compact Minimalist Legal Baseline)
+   10. SITE FOOTER (Ultra-Minimal White Legal Bar)
    ========================================================================== */
 .site-footer {
-  background: #20262E;
-  color: #94A3B8;
-  padding: 42px 0 36px;
-  border-top: 1px solid #2D3748;
+  background: #FFFFFF;
+  color: #475569;
+  border-top: 1px solid #E2E8F0;
+  padding: 22px 20px;
+  text-align: center;
+  box-shadow: none;
+  border-radius: 0;
 }
 
-.site-footer .footer-inner {
+.site-footer .footer-legal-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 6px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: #475569;
   max-width: 980px;
   margin: 0 auto;
 }
 
-.site-footer .footer-legal-info {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.site-footer .footer-brand-row {
-  margin-bottom: 4px;
-}
-
-.site-footer .footer-brand-name {
-  font-size: 1.05rem;
-  font-weight: 800;
-  color: #FFFFFF;
-  letter-spacing: -0.2px;
-}
-
-.site-footer .footer-meta-line {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px 12px;
-  font-size: 0.85rem;
-  color: #94A3B8;
-  line-height: 1.6;
-  margin: 0;
-}
-
-.site-footer .footer-meta-line strong {
-  color: #CBD5E1;
-  font-weight: 600;
-}
-
-.site-footer .footer-meta-line .sep {
+.site-footer .footer-link {
   color: #475569;
-  user-select: none;
-}
-
-.site-footer .footer-meta-line .tel-link {
-  color: inherit;
   text-decoration: none;
   transition: color 0.15s ease;
+  cursor: pointer;
 }
 
-.site-footer .footer-meta-line .tel-link:hover {
-  color: #FFFFFF;
+.site-footer .footer-link:hover,
+.site-footer .footer-link:focus {
+  color: var(--primary, #1B8FD1);
   text-decoration: underline;
 }
 
-.site-footer .footer-notice-line {
-  margin: 6px 0 0 0;
-  line-height: 1.5;
+.site-footer .footer-sep {
+  color: #94A3B8;
+  user-select: none;
 }
 
-.site-footer .legal-notice {
-  font-size: 0.8rem;
-  color: #64748B;
-}
-
-.site-footer .copyright {
-  margin: 8px 0 0 0;
-  font-size: 0.78rem;
-  color: #64748B;
-  font-family: 'Outfit', sans-serif;
-  letter-spacing: 0.2px;
+.site-footer .footer-copy {
+  color: #475569;
+  font-family: 'Outfit', -apple-system, sans-serif;
+  font-weight: 500;
 }
 
 /* ==========================================================================
@@ -5706,19 +5675,24 @@ html, body {
 
 @media (max-width: 768px) {
   .site-footer {
-    padding: 32px 0 28px;
+    padding: 16px 12px;
   }
-  .site-footer .footer-meta-line {
+  .site-footer .footer-legal-bar {
+    font-size: 12px;
     gap: 4px 8px;
-    font-size: 0.82rem;
-    line-height: 1.6;
+    letter-spacing: -0.2px;
   }
-  .site-footer .legal-notice {
-    font-size: 0.76rem;
+}
+
+@media (max-width: 360px) {
+  .site-footer {
+    padding: 14px 8px;
   }
-  .site-footer .copyright {
-    font-size: 0.75rem;
+  .site-footer .footer-legal-bar {
+    font-size: 11.5px;
+    gap: 4px 6px;
   }
+}
   .container {
     padding-left: 16px;
     padding-right: 16px;

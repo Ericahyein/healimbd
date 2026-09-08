@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>비급여 진료비용 안내 | 해아림한의원 분당점</title>
+  <meta name="description" content="의료법 제45조 및 동법 시행규칙 제42조의2에 따른 해아림한의원 분당점 비급여 진료항목 및 비용 안내입니다.">
+  <link rel="canonical" href="{{ .Permalink }}">
+
+  <!-- Fonts (Pretendard & Outfit) -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+
+  <!-- Main Stylesheet -->
+  {{ $style := resources.Get "css/style.css" | resources.Minify | resources.Fingerprint }}
+  <link rel="stylesheet" href="{{ $style.RelPermalink }}">
+</head>
+<body class="policy-page">
+  {{ partial "header.html" . }}
+
+  <main id="main-content">
+    <section class="cases-page-header">
+      <div class="container text-center">
+        <span class="cases-top-pill">MEDICAL NOTICE</span>
+        <h1 class="cases-main-title">비급여 진료비용 안내</h1>
+        <p class="cases-main-desc">
+          「의료법」 제45조 및 동법 시행규칙 제42조의2에 따라<br>
+          해아림한의원 분당점의 주요 비급여 진료항목 및 비용을 투명하게 안내해 드립니다.
+        </p>
+      </div>
+    </section>
+
+    <section class="section policy-content-section" style="padding: 60px 0 90px; background: #F8FAFC;">
+      <div class="container" style="max-width: 860px; margin: 0 auto;">
+        <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: var(--radius-md, 12px); padding: 40px 48px; box-shadow: 0 4px 18px rgba(15,23,42,0.03); line-height: 1.8; color: #334155; font-size: 0.96rem;">
+          
+          <div style="background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 8px; padding: 16px 20px; margin-bottom: 28px; font-size: 0.92rem; color: #1E40AF; display: flex; align-items: flex-start; gap: 10px;">
+            <i class="ph-bold ph-info" style="font-size: 1.2rem; flex-shrink: 0; margin-top: 2px;"></i>
+            <div>
+              <strong>안내 사항:</strong> 환자분의 증상, 체질, 질환의 중증도 및 처방 약재 구성에 따라 세부 비용은 달라질 수 있습니다. 원내 데스크에 비치된 책자 및 진료 상담 시 상세한 내용을 투명하게 사전 안내해 드립니다.
+            </div>
+          </div>
+
+          <h3 style="font-size: 1.25rem; font-weight: 800; color: #0F172A; margin: 0 0 16px; border-bottom: 2px solid #E2E8F0; padding-bottom: 10px;">주요 비급여 진료 항목</h3>
+          
+          <table style="width: 100%; border-collapse: collapse; margin-bottom: 28px; font-size: 0.94rem;">
+            <thead>
+              <tr style="background: #F1F5F9; border-bottom: 2px solid #CBD5E1;">
+                <th style="padding: 12px 14px; text-align: left; font-weight: 700; color: #0F172A; width: 30%;">구분</th>
+                <th style="padding: 12px 14px; text-align: left; font-weight: 700; color: #0F172A; width: 45%;">항목 및 내용</th>
+                <th style="padding: 12px 14px; text-align: right; font-weight: 700; color: #0F172A; width: 25%;">기준 비용</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid #E2E8F0;">
+                <td style="padding: 12px 14px; font-weight: 700;">맞춤 한약</td>
+                <td style="padding: 12px 14px; color: #64748B;">개인별 체질 맞춤 탕약 (1제 / 15일~1개월)</td>
+                <td style="padding: 12px 14px; text-align: right; font-weight: 700; color: #0F172A;">원내 고지</td>
+              </tr>
+              <tr style="border-bottom: 1px solid #E2E8F0;">
+                <td style="padding: 12px 14px; font-weight: 700;">특수 약침</td>
+                <td style="padding: 12px 14px; color: #64748B;">자율신경 및 긴장 완화 약침 요법 (1회)</td>
+                <td style="padding: 12px 14px; text-align: right; font-weight: 700; color: #0F172A;">원내 고지</td>
+              </tr>
+              <tr style="border-bottom: 1px solid #E2E8F0;">
+                <td style="padding: 12px 14px; font-weight: 700;">두뇌 훈련 프로그램</td>
+                <td style="padding: 12px 14px; color: #64748B;">뉴로피드백 / 바이오피드백 / 감각통합 훈련 (1회)</td>
+                <td style="padding: 12px 14px; text-align: right; font-weight: 700; color: #0F172A;">원내 고지</td>
+              </tr>
+              <tr style="border-bottom: 1px solid #E2E8F0;">
+                <td style="padding: 12px 14px; font-weight: 700;">두뇌 및 자율신경 검사</td>
+                <td style="padding: 12px 14px; color: #64748B;">뇌파 검사, 자율신경 균형 검사, 스트레스 검사</td>
+                <td style="padding: 12px 14px; text-align: right; font-weight: 700; color: #0F172A;">원내 고지</td>
+              </tr>
+              <tr style="border-bottom: 1px solid #E2E8F0;">
+                <td style="padding: 12px 14px; font-weight: 700;">제증명 수수료</td>
+                <td style="padding: 12px 14px; color: #64748B;">진단서, 소견서, 진료확인서 등 제증명 발급</td>
+                <td style="padding: 12px 14px; text-align: right; font-weight: 700; color: #0F172A;">보건복지부 기준</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3 style="font-size: 1.25rem; font-weight: 800; color: #0F172A; margin: 0 0 12px; border-bottom: 2px solid #E2E8F0; padding-bottom: 10px;">상세 비용 안내 및 문의</h3>
+          <p style="margin: 0; line-height: 1.7;">
+            비급여 진료비용에 관한 세부 항목 및 금액은 원내 안내 데스크에 비치된 책자를 통해 열람하실 수 있으며, 전화(031-716-8575) 또는 원내 상담 시 상세히 안내해 드립니다.
+          </p>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  {{ partial "footer.html" . }}
+  {{ partial "floating_bar.html" . }}
+
+  {{ $script := resources.Get "js/main.js" | resources.Minify | resources.Fingerprint }}
+  <script src="{{ $script.RelPermalink }}"></script>
+</body>
+</html>
