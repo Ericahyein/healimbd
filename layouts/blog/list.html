@@ -18,7 +18,7 @@
   {{ $style := resources.Get "css/style.css" | resources.Minify | resources.Fingerprint }}
   <link rel="stylesheet" href="{{ $style.RelPermalink }}">
 </head>
-<body>
+<body class="blog-page">
   {{ partial "header.html" . }}
 
   <main id="main-content">

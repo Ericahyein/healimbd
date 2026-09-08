@@ -10567,4 +10567,599 @@ body.home-page .hours-table {
   }
 }
 
+/* ==========================================================================
+   SUBPAGES PHASE 3: SECTION-LEVEL UNBOXING & BRAND CONTINUITY
+   Scope: Strictly under page-specific selectors:
+   - body.philosophy-page
+   - body.treatments-page
+   - body.reservation-page
+   - body.blog-page
+   - body.reviews-page
+   - body.inquiry-page
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. /philosophy/ (진료철학 - Editorial Brand Story & Magazine Style)
+   -------------------------------------------------------------------------- */
+body.philosophy-page {
+  background-color: #FFFFFF;
+}
+
+body.philosophy-page .philosophy-page-section {
+  background: #FFFFFF;
+  padding: 85px 0 100px;
+}
+
+/* A. Top Doctor Profile: Open Editorial Magazine Intro (No Heavy Outer Card) */
+body.philosophy-page .philo-doctor-profile-hero {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0;
+  margin-bottom: 70px;
+  border-bottom: 1px solid #E2E8F0;
+  padding-bottom: 60px;
+  align-items: center;
+}
+
+body.philosophy-page .philo-hero-photo-wrap {
+  border-radius: var(--radius-lg);
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
+}
+
+body.philosophy-page .philo-credentials-clean-box {
+  background: transparent;
+  border: none;
+  border-top: 1px solid #E2E8F0;
+  border-radius: 0;
+  padding: 20px 0 0 0;
+  margin-top: 14px;
+}
+
+/* B. Greeting Lead: Open Typography Banner */
+body.philosophy-page .philo-story-greeting-block {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 20px 0 40px;
+}
+
+/* C. Story Chapters 01~04: Open Editorial Layout */
+body.philosophy-page .philo-chapter-section {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0;
+  padding-bottom: 70px;
+  margin-bottom: 70px;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+body.philosophy-page .chapter-num-pill {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--primary);
+  background: var(--primary-light);
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  letter-spacing: 0.5px;
+}
+
+body.philosophy-page .chapter-main-title {
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin-bottom: 28px;
+  letter-spacing: -0.5px;
+}
+
+body.philosophy-page .chapter-text-col p {
+  font-size: 1.05rem;
+  color: #334155;
+  line-height: 1.85;
+  margin-bottom: 18px;
+  word-break: keep-all;
+}
+
+body.philosophy-page .philo-quote-highlight {
+  background: rgba(235, 246, 252, 0.5);
+  border-left: 3px solid var(--primary);
+  padding: 16px 20px;
+  margin: 24px 0;
+  border-radius: 4px;
+}
+
+body.philosophy-page .philo-quote-highlight p {
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  line-height: 1.7;
+  margin: 0;
+}
+
+body.philosophy-page .chapter-img-card {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+  border: 1px solid #E2E8F0;
+}
+
+body.philosophy-page .family-care-subblock {
+  background: #F8FAFC;
+  border-radius: var(--radius-md);
+  border-left: 3px solid var(--secondary);
+  padding: 22px 24px;
+  margin-top: 24px;
+}
+
+/* D. Chapter 5 & Closing Pull-Quote */
+body.philosophy-page .philo-scope-section {
+  padding-bottom: 60px;
+  border-bottom: 1px solid #E2E8F0;
+  margin-bottom: 60px;
+}
+
+body.philosophy-page .philo-final-quote-card {
+  background: linear-gradient(135deg, #0F2B48 0%, #153E65 50%, #175478 100%);
+  border-radius: var(--radius-lg);
+  border: none;
+  box-shadow: 0 10px 30px rgba(15, 43, 72, 0.15);
+  padding: 48px 40px;
+  color: white;
+  margin-top: 40px;
+  text-align: center;
+}
+
+body.philosophy-page .closing-quote-icon {
+  color: #5EEAD4;
+  font-size: 2rem;
+  margin-bottom: 14px;
+}
+
+body.philosophy-page .closing-quote-text {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: white;
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+
+body.philosophy-page .closing-sub-text {
+  font-size: 0.96rem;
+  color: #CBD5E1;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* E. Bottom CTA Banner */
+body.philosophy-page .philo-contact-cta-banner {
+  background: #F8FAFC;
+  border-radius: var(--radius-lg);
+  border: 1px solid #E2E8F0;
+  padding: 48px 36px;
+  box-shadow: none;
+}
+
+/* --------------------------------------------------------------------------
+   2. /treatments/ (진료과목 - Clean Medical Service Navigator)
+   -------------------------------------------------------------------------- */
+body.treatments-page {
+  background-color: #FFFFFF;
+}
+
+body.treatments-page .treatments-page-section {
+  background: #FFFFFF;
+  padding: 70px 0 100px;
+}
+
+body.treatments-page .treatments-unified-grid {
+  margin-bottom: 80px;
+  border-bottom: 1px solid #E2E8F0;
+  padding-bottom: 80px;
+}
+
+/* Disease Cards Softening */
+body.treatments-page .treatment-card {
+  border: 1px solid #E2E8F0;
+  border-top: 3px solid #0D9488;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+body.treatments-page .treatment-card.theme-warm-orange {
+  border-top-color: #D97706;
+}
+
+body.treatments-page .treatment-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(27, 143, 209, 0.12);
+  border-color: #1B8FD1 !important;
+  border-top-color: #1B8FD1 !important;
+}
+
+body.treatments-page .treatment-circle-wrap {
+  border: 2.5px solid #0D9488;
+  box-shadow: 0 4px 14px rgba(13, 148, 136, 0.15);
+}
+
+body.treatments-page .treatment-card.theme-warm-orange .treatment-circle-wrap {
+  border-color: #D97706;
+  box-shadow: 0 4px 14px rgba(217, 119, 6, 0.15);
+}
+
+/* Bottom CTA in Treatments */
+.treatments-bottom-cta {
+  background: linear-gradient(135deg, #0F2B48 0%, #153E65 50%, #175478 100%);
+  border-radius: var(--radius-lg);
+  padding: 48px 36px;
+  color: white;
+  margin-top: 60px;
+}
+
+.treatments-cta-title {
+  font-size: 1.55rem;
+  font-weight: 800;
+  color: white;
+  line-height: 1.4;
+  margin-bottom: 10px;
+}
+
+.treatments-cta-desc {
+  font-size: 0.98rem;
+  color: #CBD5E1;
+  margin-bottom: 24px;
+}
+
+.treatments-cta-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+/* --------------------------------------------------------------------------
+   3. /reservation/ (상담예약 및 오시는 길 - Effortless Booking Experience)
+   -------------------------------------------------------------------------- */
+body.reservation-page {
+  background-color: #FFFFFF;
+}
+
+body.reservation-page .reservation-methods-section {
+  background: #FFFFFF;
+  padding: 70px 0 90px;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+/* 4 Booking Channels: 4-Column Feature Row */
+body.reservation-page .res-booking-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+body.reservation-page .res-card {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: var(--radius-md);
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03);
+  padding: 28px 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+body.reservation-page .res-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(27, 143, 209, 0.1);
+  border-color: #CBD5E1;
+}
+
+body.reservation-page .res-card-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin: 12px 0 8px;
+}
+
+body.reservation-page .res-card-desc {
+  font-size: 0.9rem;
+  color: #64748B;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  word-break: keep-all;
+}
+
+body.reservation-page .btn-res-action {
+  margin-top: auto;
+  width: 100%;
+  justify-content: center;
+}
+
+/* Section 2: Location & Hours - Unboxed Layout */
+body.reservation-page .location-section {
+  background: #F8FAFC;
+  padding: 90px 0 100px;
+}
+
+body.reservation-page .location-card {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0;
+}
+
+body.reservation-page .address-box {
+  background: transparent;
+  border-radius: 0;
+  padding: 0 0 18px 0;
+  margin-bottom: 22px;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+body.reservation-page .hours-table {
+  border-top: 1px solid #E2E8F0;
+}
+
+/* --------------------------------------------------------------------------
+   4. /blog/ (원장칼럼 - Editorial Medical Journal)
+   -------------------------------------------------------------------------- */
+body.blog-page {
+  background-color: #FFFFFF;
+}
+
+body.blog-page .blog-page-section {
+  background: #FFFFFF;
+  padding: 70px 0 100px;
+}
+
+body.blog-page .column-list-wrap.blog-grid-layout {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  margin-bottom: 50px;
+}
+
+body.blog-page .doctor-column-row-item.blog-card-item {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: var(--radius-md);
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03);
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+body.blog-page .doctor-column-row-item.blog-card-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(27, 143, 209, 0.12);
+  border-color: #CBD5E1;
+}
+
+body.blog-page .col-card-thumb-wrap {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  position: relative;
+  background: #0F172A;
+}
+
+body.blog-page .col-card-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease;
+}
+
+body.blog-page .doctor-column-row-item.blog-card-item:hover .col-card-thumb-img {
+  transform: scale(1.04);
+}
+
+body.blog-page .col-card-body {
+  padding: 22px 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+body.blog-page .col-card-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  line-height: 1.45;
+  color: var(--text-dark);
+  margin: 10px 0 10px;
+  word-break: keep-all;
+}
+
+body.blog-page .col-card-desc {
+  font-size: 0.92rem;
+  color: #64748B;
+  line-height: 1.6;
+  margin-bottom: 16px;
+  word-break: keep-all;
+}
+
+body.blog-page .col-card-footer {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 14px;
+  border-top: 1px solid #F1F5F9;
+}
+
+/* --------------------------------------------------------------------------
+   5. /reviews/ (치료후기 - Trustworthy Testimonial & Social Proof)
+   -------------------------------------------------------------------------- */
+body.reviews-page {
+  background-color: #FFFFFF;
+}
+
+body.reviews-page .direct-cases-section {
+  background: #FFFFFF;
+  padding: 70px 0 90px;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+body.reviews-page .naver-reviews-section {
+  background: #F8FAFC;
+  padding: 90px 0 100px;
+}
+
+body.reviews-page .healim-case-card {
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+body.reviews-page .healim-case-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(27, 143, 209, 0.12);
+  border-color: #CBD5E1;
+}
+
+body.reviews-page .naver-card-theme {
+  border-color: #E2E8F0;
+}
+
+/* --------------------------------------------------------------------------
+   6. /inquiry/ (온라인문의 - Clean Functional Consultation List)
+   -------------------------------------------------------------------------- */
+body.inquiry-page,
+body.inquiry-page-body {
+  background-color: #FFFFFF;
+}
+
+body.inquiry-page .inquiry-board-section,
+body.inquiry-page-body .inquiry-board-section {
+  background: #FFFFFF;
+  padding: 60px 0 90px;
+  min-height: auto; /* Remove excessive blank void before footer */
+}
+
+/* Notice Strip: Light & Informational */
+body.inquiry-page .inquiry-notice-strip,
+body.inquiry-page-body .inquiry-notice-strip {
+  background: #EFF6FF;
+  border: 1px solid rgba(27, 143, 209, 0.2);
+  border-left: 4px solid var(--primary);
+  border-radius: var(--radius-sm);
+  padding: 14px 18px;
+  margin-bottom: 24px;
+}
+
+/* Table Wrapper: Thin Line Dividers without Heavy Card Outer Box */
+body.inquiry-page .inquiry-board-table-wrap,
+body.inquiry-page-body .inquiry-board-table-wrap {
+  border: 1px solid #E2E8F0;
+  border-radius: var(--radius-md);
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03);
+  overflow: hidden;
+}
+
+body.inquiry-page .inquiry-table thead,
+body.inquiry-page-body .inquiry-table thead {
+  background: #F8FAFC;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+body.inquiry-page .inquiry-table tbody tr,
+body.inquiry-page-body .inquiry-table tbody tr {
+  border-bottom: 1px solid #F1F5F9;
+  transition: background-color 0.15s ease;
+}
+
+body.inquiry-page .inquiry-table tbody tr:hover,
+body.inquiry-page-body .inquiry-table tbody tr:hover {
+  background-color: #F8FAFC;
+}
+
+/* --------------------------------------------------------------------------
+   Responsive Subpage Media Queries (1440, 1280, 1024, 768, 430, 390, 360)
+   -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  body.reservation-page .res-booking-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  body.blog-page .column-list-wrap.blog-grid-layout {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+  }
+}
+
+@media (max-width: 900px) {
+  body.philosophy-page .philo-doctor-profile-hero {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    text-align: center;
+  }
+  body.philosophy-page .philo-hero-photo-wrap {
+    max-width: 220px;
+    margin: 0 auto;
+  }
+  body.philosophy-page .philo-badge-row {
+    justify-content: center;
+  }
+  body.philosophy-page .chapter-content-grid {
+    grid-template-columns: 1fr !important;
+    gap: 28px;
+  }
+  body.philosophy-page .philo-chapter-section.reverse .chapter-photo-col {
+    order: 2;
+  }
+  body.philosophy-page .philo-chapter-section.reverse .chapter-text-col {
+    order: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  body.philosophy-page .philosophy-page-section,
+  body.treatments-page .treatments-page-section,
+  body.reservation-page .reservation-methods-section,
+  body.reservation-page .location-section,
+  body.blog-page .blog-page-section,
+  body.reviews-page .direct-cases-section,
+  body.reviews-page .naver-reviews-section,
+  body.inquiry-page .inquiry-board-section {
+    padding: 50px 0 60px;
+  }
+
+  body.reservation-page .res-booking-grid {
+    grid-template-columns: 1fr;
+  }
+  body.blog-page .column-list-wrap.blog-grid-layout {
+    grid-template-columns: 1fr;
+  }
+
+  body.philosophy-page .philo-final-quote-card {
+    padding: 32px 20px;
+  }
+  body.philosophy-page .closing-quote-text {
+    font-size: 1.15rem;
+  }
+
+  body.philosophy-page .philo-cta-buttons,
+  .treatments-cta-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+  body.philosophy-page .philo-cta-buttons .btn,
+  .treatments-cta-buttons .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+
 
