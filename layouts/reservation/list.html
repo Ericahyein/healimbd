@@ -177,7 +177,7 @@
                 <div class="transit-item-icon"><i class="ph-bold ph-map-pin-line"></i></div>
                 <div class="transit-item-body">
                   <span class="transit-item-label">도로명 주소</span>
-                  <strong class="transit-item-val">경기도 성남시 분당구 성남대로 331번길 3-3, 젤존타워 3차 405호</strong>
+                  <strong class="transit-item-val">경기도 성남시 분당구 성남대로331번길 3-3, 젤존타워III 405호</strong>
                 </div>
               </div>
 
@@ -187,7 +187,7 @@
                 <div class="transit-item-body">
                   <span class="transit-item-label">지하철 이용 시</span>
                   <strong class="transit-item-val">수인분당선 / 신분당선 정자역 3번 출구 도보 2분</strong>
-                  <p class="transit-item-desc">3번 출구로 나오셔서 전방 150m 직진 후 좌측 젤존타워 3차 4층으로 올라오시면 됩니다.</p>
+                  <p class="transit-item-desc">3번 출구로 나오셔서 전방 150m 직진 후 좌측 젤존타워III 4층으로 올라오시면 됩니다.</p>
                 </div>
               </div>
 
@@ -196,7 +196,7 @@
                 <div class="transit-item-icon car-icon"><i class="ph-bold ph-car"></i></div>
                 <div class="transit-item-body">
                   <span class="transit-item-label">자가용 & 주차 안내</span>
-                  <strong class="transit-item-val">젤존타워 3차 건물 내 지하주차장 무료 주차 지원</strong>
+                  <strong class="transit-item-val">젤존타워III 건물 내 지하주차장 무료 주차 지원</strong>
                   <p class="transit-item-desc">내원 시 원내 데스크에 차량 번호를 말씀해 주시면 무료 주차권을 등록해 드립니다.</p>
                 </div>
               </div>
@@ -210,7 +210,7 @@
           <div class="res-map-header">
             <div class="res-map-meta">
               <span class="res-map-pin-badge"><i class="ph-fill ph-map-pin"></i> 오시는 길 지도</span>
-              <h4 class="res-map-building-title">해아림한의원 분당점 <span>(정자역 3번 출구 도보 2분, 젤존타워 3차 4층)</span></h4>
+              <h4 class="res-map-building-title">해아림한의원 분당점 <span>(정자역 3번 출구 도보 2분, 젤존타워III 4층)</span></h4>
             </div>
             
             <!-- Map Action CTAs -->
@@ -224,19 +224,64 @@
             </div>
           </div>
 
-          <!-- Live Interactive Map Frame -->
+          <!-- Live Map Viewport Frame -->
           <div class="res-map-viewport-frame">
-            <iframe 
-              src="https://www.openstreetmap.org/export/embed.html?bbox=127.1020%2C37.3630%2C127.1148%2C37.3705&amp;layer=mapnik&amp;marker=37.36676%2C127.10842" 
-              class="res-live-map-iframe" 
-              title="해아림한의원 분당점 위치 지도" 
-              loading="lazy">
-            </iframe>
-            <!-- Visual Floating Pin Card -->
-            <div class="res-map-floating-pill">
-              <i class="ph-fill ph-navigation-arrow"></i>
-              <span><strong>해아림한의원 분당점</strong> | 젤존타워 3차 405호</span>
-            </div>
+            {{ if .Site.Params.clinic_info.naver_map_client_id }}
+              <!-- 1순위: NAVER Maps JavaScript API v3 동적 지도 -->
+              <div id="naver-map" style="width:100%;height:100%;"></div>
+              <script src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId={{ .Site.Params.clinic_info.naver_map_client_id }}"></script>
+              <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                  var clinicPos = new naver.maps.LatLng(37.36533, 127.10770);
+                  var map = new naver.maps.Map('naver-map', {
+                    center: clinicPos,
+                    zoom: 17,
+                    zoomControl: true,
+                    zoomControlOptions: {
+                      position: naver.maps.Position.TOP_RIGHT
+                    }
+                  });
+                  var marker = new naver.maps.Marker({
+                    position: clinicPos,
+                    map: map,
+                    title: '해아림한의원 분당점'
+                  });
+                  var infoContent = [
+                    '<div style="padding:12px 16px;min-width:200px;font-family:Pretendard,sans-serif;line-height:1.45;">',
+                    '  <h4 style="margin:0 0 4px;font-size:14px;font-weight:800;color:#0F172A;">해아림한의원 분당점</h4>',
+                    '  <p style="margin:0;font-size:12px;color:#64748B;">젤존타워III 405호 (정자역 3번 출구)</p>',
+                    '</div>'
+                  ].join('');
+                  var infoWindow = new naver.maps.InfoWindow({
+                    content: infoContent,
+                    borderWidth: 1,
+                    borderColor: '#CBD5E1',
+                    borderRadius: '8px'
+                  });
+                  infoWindow.open(map, marker);
+                  naver.maps.Event.addListener(marker, 'click', function() {
+                    if (infoWindow.getMap()) {
+                      infoWindow.close();
+                    } else {
+                      infoWindow.open(map, marker);
+                    }
+                  });
+                });
+              </script>
+            {{ else }}
+              <!-- 2순위 Fallback: 검증된 젤존타워III 정밀 좌표(37.36533, 127.10770) 인터랙티브 지도 -->
+              <iframe 
+                src="https://www.openstreetmap.org/export/embed.html?bbox=127.1030%2C37.3620%2C127.1124%2C37.3686&amp;layer=mapnik&amp;marker=37.36533%2C127.10770" 
+                class="res-live-map-iframe" 
+                title="해아림한의원 분당점 젤존타워III 위치 지도" 
+                loading="lazy">
+              </iframe>
+              <!-- Visual Floating Pin Card -->
+              <div class="res-map-floating-pill">
+                <i class="ph-fill ph-navigation-arrow"></i>
+                <span><strong>해아림한의원 분당점</strong> | 젤존타워III 405호</span>
+              </div>
+            {{ end }}
           </div>
         </div>
 

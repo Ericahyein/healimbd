@@ -11397,7 +11397,8 @@ body.reservation-page .res-map-viewport-frame {
   background: #E2E8F0;
 }
 
-body.reservation-page .res-live-map-iframe {
+body.reservation-page .res-live-map-iframe,
+body.reservation-page #naver-map {
   width: 100%;
   height: 100%;
   border: none;
