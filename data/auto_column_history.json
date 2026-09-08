@@ -31,5 +31,16 @@
     "topicAngle": "sudden-palpitation",
     "title": "[분당 공황장애] 갑자기 숨이 차고 심장이 빨라질 때 먼저 살펴볼 부분",
     "slug": "seongnam-bundang-panic-sudden-palpitation"
+  },
+  {
+    "publishDate": "2026-09-08T20:33:12.068+09:00",
+    "geoId": "yongin-suji",
+    "displayRegion": "수지",
+    "parentRegion": "용인",
+    "regionType": "district",
+    "disease": "anxiety",
+    "topicAngle": "presentation-anxiety",
+    "title": "[수지 사회공포증] 발표나 미팅 때 목소리가 떨리고 시선이 두려울 때",
+    "slug": "yongin-suji-social-phobia-presentation-anxiety"
   }
 ]
