@@ -9952,3 +9952,619 @@ body.is-admin .admin-only-btn {
   }
 }
 
+/* ==========================================================================
+   HOMEPAGE PHASE 2: SECTION-LEVEL UNBOXING & CONTINUOUS LANDING PAGE FLOW
+   Scope: Strictly under `body.home-page` to prevent any subpage regressions.
+   Alternating full-width section bands, eliminating outer box wrappers,
+   streamlining process steps into a timeline, editorial blog list,
+   border-bottom FAQ accordion, unboxed location, and unified final CTA band.
+   ========================================================================== */
+
+/* 1. Base Homepage Background & Spacing */
+body.home-page {
+  background-color: #FFFFFF;
+}
+
+body.home-page .section {
+  padding: 105px 0 110px;
+  position: relative;
+}
+
+/* 2. Full-Width Section Alternating Rhythm */
+body.home-page .home-about-section {
+  background-color: #FFFFFF;
+  padding: 105px 0 110px;
+}
+
+body.home-page .treatments-home-section {
+  background-color: #F8FAFC;
+  padding: 105px 0 110px;
+}
+
+body.home-page .home-process-section {
+  background-color: #FFFFFF;
+  padding: 105px 0 110px;
+}
+
+body.home-page .cases-home-section {
+  background-color: #F8FAFC;
+  padding: 105px 0 110px;
+}
+
+body.home-page .blog-section {
+  background-color: #FFFFFF;
+  padding: 105px 0 110px;
+}
+
+body.home-page .faq-section {
+  background-color: #F8FAFC;
+  padding: 105px 0 110px;
+}
+
+body.home-page .location-section {
+  background-color: #FFFFFF;
+  padding: 105px 0 110px;
+}
+
+/* 3. 진료철학 (#about) Unboxing Refinements */
+body.home-page .home-philo-director-quote {
+  background: rgba(235, 246, 252, 0.45);
+  border-left: 3px solid var(--primary);
+  box-shadow: none;
+  border-radius: var(--radius-sm);
+  padding: 18px 22px;
+}
+
+/* 4. 주요 진료영역 (#clinics) Card Softening */
+body.home-page .treatment-card {
+  border: 1px solid #E2E8F0;
+  border-top: 3px solid #0D9488;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+body.home-page .treatment-card.theme-warm-orange {
+  border-top-color: #D97706;
+}
+
+body.home-page .treatment-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(27, 143, 209, 0.12);
+  border-color: #1B8FD1 !important;
+  border-top-color: #1B8FD1 !important;
+}
+
+body.home-page .treatment-circle-wrap {
+  border: 2.5px solid #0D9488;
+  box-shadow: 0 4px 14px rgba(13, 148, 136, 0.15);
+}
+
+body.home-page .treatment-card.theme-warm-orange .treatment-circle-wrap {
+  border-color: #D97706;
+  box-shadow: 0 4px 14px rgba(217, 119, 6, 0.15);
+}
+
+/* 5. 내원 진료과정 & 초진안내 (#process) Streamlining */
+.home-precheck-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  margin-bottom: 70px;
+}
+
+.home-precheck-item {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding-right: 28px;
+  border-right: 1px solid #E2E8F0;
+}
+
+.home-precheck-item:last-child {
+  border-right: none;
+  padding-right: 0;
+}
+
+.home-precheck-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.home-precheck-num {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--primary);
+  background: var(--primary-light);
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+}
+
+.home-precheck-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #EFF6FF;
+  color: #1B8FD1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  border: 1px solid rgba(27, 143, 209, 0.2);
+}
+
+.home-precheck-item.highlight-item .home-precheck-icon {
+  background: #F0FDF4;
+  color: #16A34A;
+  border-color: rgba(22, 163, 74, 0.2);
+}
+
+.home-precheck-title {
+  font-size: 1.12rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin: 0;
+  letter-spacing: -0.3px;
+}
+
+.home-precheck-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  width: fit-content;
+  background: #EFF6FF;
+  color: #1E40AF;
+}
+
+.home-precheck-badge.time-badge {
+  background: #FEF3C7;
+  color: #92400E;
+}
+
+.home-precheck-badge.deadline-badge {
+  background: #FEE2E2;
+  color: #991B1B;
+}
+
+.home-precheck-text {
+  font-size: 0.93rem;
+  color: #475569;
+  line-height: 1.65;
+  margin: 0;
+  word-break: keep-all;
+}
+
+/* 6-Step Clinical Process Timeline */
+.home-process-timeline-wrap {
+  width: 100%;
+}
+
+.home-process-timeline-head {
+  text-align: center;
+  margin-bottom: 44px;
+}
+
+.home-process-timeline-subtag {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: 1px;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.home-process-timeline-title {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin: 0;
+  letter-spacing: -0.4px;
+}
+
+.home-step-timeline {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px 32px;
+  width: 100%;
+}
+
+.home-step-item {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.home-step-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  position: relative;
+}
+
+.home-step-num {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+
+.home-step-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #EFF6FF;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  border: 1px solid rgba(27, 143, 209, 0.2);
+  flex-shrink: 0;
+  transition: var(--transition);
+}
+
+.home-step-item:hover .home-step-icon {
+  background: var(--primary);
+  color: white;
+  transform: scale(1.06);
+}
+
+.home-step-line {
+  flex: 1;
+  height: 1px;
+  background: #E2E8F0;
+}
+
+.home-step-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+  letter-spacing: -0.3px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.home-step-tag {
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #0D9488;
+  background: #E6FFFA;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.home-step-desc {
+  font-size: 0.93rem;
+  color: #475569;
+  line-height: 1.65;
+  margin: 0;
+  word-break: keep-all;
+}
+
+/* 6. 치료후기 (#reviews) Proof Card Softening */
+body.home-page .healim-case-card {
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03);
+}
+
+body.home-page .healim-case-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(27, 143, 209, 0.12);
+  border-color: #CBD5E1;
+}
+
+/* 7. 원장칼럼 (#blog) Editorial List Refinement */
+body.home-page .column-list-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-top: 1px solid #E2E8F0;
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0;
+  margin-bottom: 36px;
+}
+
+body.home-page .doctor-column-row-item {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #E2E8F0;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 26px 12px;
+  gap: 26px;
+  transition: background-color 0.2s ease, border-radius 0.2s ease;
+}
+
+body.home-page .doctor-column-row-item:hover {
+  background-color: #F8FAFC;
+  border-radius: 8px;
+  transform: none;
+  box-shadow: none;
+  border-color: #E2E8F0;
+}
+
+/* 8. FAQ (#faq) Clean Border-Bottom Accordion */
+body.home-page .faq-accordion {
+  gap: 0;
+  border-top: 1px solid #E2E8F0;
+  max-width: 880px;
+}
+
+body.home-page .faq-item {
+  border: none;
+  border-bottom: 1px solid #E2E8F0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  transition: background-color 0.2s ease;
+}
+
+body.home-page .faq-item.active {
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: none;
+  border-color: #E2E8F0;
+}
+
+body.home-page .faq-question {
+  padding: 22px 14px;
+  background: transparent;
+  transition: background-color 0.2s ease;
+}
+
+body.home-page .faq-question:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+body.home-page .faq-answer-inner {
+  padding: 0 14px 24px 54px;
+}
+
+/* 9. Location & Hours (#location) Unboxed Typography Layout */
+body.home-page .location-card {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0;
+}
+
+body.home-page .address-box {
+  background: transparent;
+  border-radius: 0;
+  padding: 0 0 18px 0;
+  margin-bottom: 22px;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+body.home-page .hours-table {
+  border-top: 1px solid #E2E8F0;
+}
+
+/* 10. Final Action CTA Band */
+.home-final-cta-section {
+  background: linear-gradient(135deg, #0F2B48 0%, #153E65 50%, #175478 100%);
+  color: white;
+  padding: 95px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.home-final-cta-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 80% 30%, rgba(36, 181, 152, 0.2) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.home-final-cta-content {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.home-final-cta-tag {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: #5EEAD4;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+.home-final-cta-title {
+  font-size: 2.15rem;
+  font-weight: 800;
+  color: white;
+  line-height: 1.35;
+  letter-spacing: -0.6px;
+  margin-bottom: 16px;
+  word-break: keep-all;
+}
+
+.home-final-cta-title strong {
+  color: #FEF08A;
+}
+
+.home-final-cta-desc {
+  font-size: 1.05rem;
+  color: #CBD5E1;
+  line-height: 1.7;
+  margin-bottom: 34px;
+  word-break: keep-all;
+}
+
+.home-final-cta-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.home-final-cta-buttons .btn {
+  padding: 14px 28px;
+  font-size: 1.02rem;
+  font-weight: 700;
+}
+
+/* 11. Responsive Breakpoints (Desktop 1440/1280/1024, Tablet/Mobile 768/430/390/360) */
+@media (max-width: 1024px) {
+  .home-step-timeline {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px 24px;
+  }
+}
+
+@media (max-width: 900px) {
+  .home-precheck-row {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .home-precheck-item {
+    border-right: none;
+    border-bottom: 1px solid #E2E8F0;
+    padding-right: 0;
+    padding-bottom: 20px;
+  }
+  .home-precheck-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  .location-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  body.home-page .section {
+    padding: 65px 0 70px;
+  }
+  body.home-page .home-about-section,
+  body.home-page .treatments-home-section,
+  body.home-page .home-process-section,
+  body.home-page .cases-home-section,
+  body.home-page .blog-section,
+  body.home-page .faq-section,
+  body.home-page .location-section {
+    padding: 65px 0 70px;
+  }
+
+  .home-precheck-row {
+    margin-bottom: 48px;
+  }
+
+  .home-process-timeline-head {
+    margin-bottom: 32px;
+  }
+  .home-process-timeline-title {
+    font-size: 1.3rem;
+  }
+
+  /* Mobile Continuous Timeline Rail */
+  .home-step-timeline {
+    grid-template-columns: 1fr;
+    gap: 26px;
+    padding-left: 14px;
+    position: relative;
+  }
+
+  .home-step-timeline::before {
+    content: '';
+    position: absolute;
+    top: 18px;
+    bottom: 24px;
+    left: 31px;
+    width: 2px;
+    background: #E2E8F0;
+    z-index: 0;
+  }
+
+  .home-step-top {
+    z-index: 1;
+  }
+
+  .home-step-line {
+    display: none;
+  }
+
+  .home-step-item {
+    padding-left: 48px;
+    margin-left: -14px;
+  }
+
+  .home-step-item .home-step-top {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+
+  .home-step-item .home-step-num {
+    display: none;
+  }
+
+  .home-step-desc {
+    font-size: 0.88rem;
+  }
+
+  body.home-page .doctor-column-row-item {
+    flex-direction: column;
+    padding: 20px 8px;
+    gap: 16px;
+  }
+
+  body.home-page .faq-answer-inner {
+    padding: 0 10px 20px 36px;
+  }
+
+  .home-final-cta-section {
+    padding: 65px 0 70px;
+  }
+  .home-final-cta-title {
+    font-size: 1.65rem;
+  }
+  .home-final-cta-desc {
+    font-size: 0.94rem;
+    margin-bottom: 28px;
+  }
+  .home-final-cta-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+  .home-final-cta-buttons .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-final-cta-title {
+    font-size: 1.45rem;
+  }
+}
+
+

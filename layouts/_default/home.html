@@ -76,7 +76,7 @@
   }
   </script>
 </head>
-<body>
+<body class="home-page">
   {{ partial "header.html" . }}
 
   <main id="main-content">
@@ -396,8 +396,8 @@
   </div>
 </section>
 
-<!-- 5. Unified Medical Process & Guide (내원 진료 과정 & 초진 안내 - 소아/성인 통일) -->
-<section class="section process-section" id="process">
+<!-- 5. Unified Medical Process & Guide (내원 진료 과정 & 초진 안내) -->
+<section class="section process-section home-process-section" id="process">
   <div class="container">
     <div class="section-header text-center">
       <span class="section-tag">MEDICAL PROCESS</span>
@@ -405,166 +405,127 @@
       <p class="section-desc">소아부터 성인까지, 처음 방문부터 일상 속 회복까지 모든 과정을 세심하고 투명하게 진행합니다.</p>
     </div>
 
-    <!-- Before Visit Pre-checks (초진 내원 전 필수 체크 3) -->
-    <div class="before-visit-grid">
+    <!-- Before Visit Pre-checks (초진 내원 전 핵심 확인 3) -->
+    <div class="home-precheck-row">
       <!-- 01. 사전 예약 -->
-      <div class="before-card">
-        <div class="before-card-top">
-          <div class="before-icon-box">
-            <i class="ph-bold ph-calendar-check"></i>
-          </div>
-          <span class="before-step-pill">PRE-CHECK 01</span>
+      <div class="home-precheck-item">
+        <div class="home-precheck-header">
+          <span class="home-precheck-num">01</span>
+          <div class="home-precheck-icon"><i class="ph-bold ph-calendar-check"></i></div>
+          <h3 class="home-precheck-title">한의원 문의 & 사전 예약</h3>
         </div>
-        <div class="before-body">
-          <h3 class="before-title">한의원 문의 & 사전 예약</h3>
-          <div class="before-badge-highlight">
-            <i class="ph-bold ph-check-circle"></i> 100% 예약 우선제 운영
-          </div>
-          <p class="before-text">
-            <strong>전화(031-716-8575)</strong>, <strong>네이버 실시간 예약</strong>, <strong>카카오톡 상담</strong> 중 가장 편하신 방법으로 사전 예약 후 내원해 주세요.
-          </p>
+        <div class="home-precheck-badge">
+          <i class="ph-bold ph-check-circle"></i> 100% 예약 우선제 운영
         </div>
+        <p class="home-precheck-text">
+          <strong>전화(031-716-8575)</strong>, <strong>네이버 실시간 예약</strong>, <strong>카카오톡 상담</strong> 중 가장 편하신 방법으로 사전 예약 후 내원해 주세요.
+        </p>
       </div>
 
       <!-- 02. 소요 시간 -->
-      <div class="before-card highlight-card">
-        <div class="before-card-top">
-          <div class="before-icon-box">
-            <i class="ph-bold ph-clock"></i>
-          </div>
-          <span class="before-step-pill">PRE-CHECK 02</span>
+      <div class="home-precheck-item highlight-item">
+        <div class="home-precheck-header">
+          <span class="home-precheck-num">02</span>
+          <div class="home-precheck-icon"><i class="ph-bold ph-clock"></i></div>
+          <h3 class="home-precheck-title">초진 진료 소요시간 확인</h3>
         </div>
-        <div class="before-body">
-          <h3 class="before-title">초진 진료 소요시간 확인</h3>
-          <div class="before-badge-highlight time-badge">
-            <i class="ph-bold ph-timer"></i> 총 1시간 30분 ~ 2시간 소요
-          </div>
-          <p class="before-text">
-            첫 내원 시 정밀 뇌기능·심리 검사와 손지웅 대표원장의 <strong>1:1 심층 문진 및 상담</strong>이 진행되므로 여유 있게 일정을 계획해 주세요.
-          </p>
+        <div class="home-precheck-badge time-badge">
+          <i class="ph-bold ph-timer"></i> 총 1시간 30분 ~ 2시간 소요
         </div>
+        <p class="home-precheck-text">
+          첫 내원 시 정밀 뇌기능·심리 검사와 손지웅 대표원장의 <strong>1:1 심층 문진 및 상담</strong>이 진행되므로 여유 있게 일정을 계획해 주세요.
+        </p>
       </div>
 
       <!-- 03. 접수 마감 -->
-      <div class="before-card">
-        <div class="before-card-top">
-          <div class="before-icon-box">
-            <i class="ph-bold ph-door-open"></i>
-          </div>
-          <span class="before-step-pill">PRE-CHECK 03</span>
+      <div class="home-precheck-item">
+        <div class="home-precheck-header">
+          <span class="home-precheck-num">03</span>
+          <div class="home-precheck-icon"><i class="ph-bold ph-door-open"></i></div>
+          <h3 class="home-precheck-title">초진 접수 마감 시간 안내</h3>
         </div>
-        <div class="before-body">
-          <h3 class="before-title">초진 접수 마감 시간 안내</h3>
-          <div class="before-badge-highlight deadline-badge">
-            <i class="ph-bold ph-warning-circle"></i> 마감 1시간 30분 전 내원
-          </div>
-          <p class="before-text">
-            충분한 정밀 검사와 맞춤 진료를 위해, 초진 접수는 <strong>진료 마감 1시간 30분 전까지</strong> 원내로 도착해 주셔야 합니다.
-          </p>
+        <div class="home-precheck-badge deadline-badge">
+          <i class="ph-bold ph-warning-circle"></i> 마감 1시간 30분 전 내원
         </div>
+        <p class="home-precheck-text">
+          충분한 정밀 검사와 맞춤 진료를 위해, 초진 접수는 <strong>진료 마감 1시간 30분 전까지</strong> 원내로 도착해 주셔야 합니다.
+        </p>
       </div>
     </div>
 
-    <!-- 6-Step Clinical Process Timeline List (위아래 순차 열거형) -->
-    <div class="process-timeline-list">
-      <!-- STEP 01 -->
-      <div class="timeline-step-card">
-        <div class="timeline-step-badge">
-          <span class="step-badge-pill">STEP 01</span>
-          <div class="timeline-icon-box">
-            <i class="ph-bold ph-calendar-check"></i>
-          </div>
-        </div>
-        <div class="timeline-step-content">
-          <h4 class="timeline-step-title">사전 예약 (100% 예약제)</h4>
-          <p class="timeline-step-desc">대기 시간 최소화와 충분한 1:1 상담을 위해 내원 전 전화, 네이버, 카카오톡으로 일정을 예약합니다.</p>
-        </div>
+    <!-- 6-Step Clinical Process Timeline Flow -->
+    <div class="home-process-timeline-wrap">
+      <div class="home-process-timeline-head">
+        <span class="home-process-timeline-subtag">CLINICAL TIMELINE</span>
+        <h3 class="home-process-timeline-title">체계적인 6단계 진료 로드맵</h3>
       </div>
 
-      <!-- STEP 02 -->
-      <div class="timeline-step-card">
-        <div class="timeline-step-badge">
-          <span class="step-badge-pill">STEP 02</span>
-          <div class="timeline-icon-box">
-            <i class="ph-bold ph-clipboard-text"></i>
+      <div class="home-step-timeline">
+        <!-- STEP 01 -->
+        <div class="home-step-item">
+          <div class="home-step-top">
+            <span class="home-step-num">01</span>
+            <div class="home-step-icon"><i class="ph-bold ph-calendar-check"></i></div>
+            <span class="home-step-line"></span>
           </div>
+          <h4 class="home-step-title">사전 예약 <span class="home-step-tag">100% 예약제</span></h4>
+          <p class="home-step-desc">대기 시간 최소화와 충분한 1:1 상담을 위해 내원 전 전화, 네이버, 카카오톡으로 일정을 예약합니다.</p>
         </div>
-        <div class="timeline-step-content">
-          <h4 class="timeline-step-title">내원 및 기초 설문 작성</h4>
-          <p class="timeline-step-desc">예약된 시간에 방문하여 현재 불편한 증상, 발병 시기, 이전 치료력 등에 대한 사전 문진표를 작성합니다.</p>
-        </div>
-      </div>
 
-      <!-- STEP 03 -->
-      <div class="timeline-step-card">
-        <div class="timeline-step-badge">
-          <span class="step-badge-pill">STEP 03</span>
-          <div class="timeline-icon-box">
-            <i class="ph-bold ph-brain"></i>
+        <!-- STEP 02 -->
+        <div class="home-step-item">
+          <div class="home-step-top">
+            <span class="home-step-num">02</span>
+            <div class="home-step-icon"><i class="ph-bold ph-clipboard-text"></i></div>
+            <span class="home-step-line"></span>
           </div>
+          <h4 class="home-step-title">내원 및 기초 설문 작성</h4>
+          <p class="home-step-desc">예약된 시간에 방문하여 현재 불편한 증상, 발병 시기, 이전 치료력 등에 대한 사전 문진표를 작성합니다.</p>
         </div>
-        <div class="timeline-step-content">
-          <h4 class="timeline-step-title">4대 두뇌·자율신경 정밀 검사</h4>
-          <p class="timeline-step-desc">뇌기능 검사(뇌파·자율신경), 뇌인지 검사, 종합 주의력 검사, 심리 척도 검사를 통해 원인을 과학적으로 측정합니다.</p>
-        </div>
-      </div>
 
-      <!-- STEP 04 -->
-      <div class="timeline-step-card">
-        <div class="timeline-step-badge">
-          <span class="step-badge-pill">STEP 04</span>
-          <div class="timeline-icon-box">
-            <i class="ph-bold ph-stethoscope"></i>
+        <!-- STEP 03 -->
+        <div class="home-step-item">
+          <div class="home-step-top">
+            <span class="home-step-num">03</span>
+            <div class="home-step-icon"><i class="ph-bold ph-brain"></i></div>
+            <span class="home-step-line"></span>
           </div>
+          <h4 class="home-step-title">4대 두뇌·자율신경 정밀 검사</h4>
+          <p class="home-step-desc">뇌기능 검사(뇌파·자율신경), 뇌인지 검사, 종합 주의력 검사, 심리 척도 검사를 통해 원인을 과학적으로 측정합니다.</p>
         </div>
-        <div class="timeline-step-content">
-          <h4 class="timeline-step-title">대표원장 1:1 심층 진료 및 맥진</h4>
-          <p class="timeline-step-desc">손지웅 대표원장이 검사 결과를 직접 분석하며, 체질 맥진 및 설진과 심층 문진을 통해 근본 불균형을 진단합니다.</p>
-        </div>
-      </div>
 
-      <!-- STEP 05 -->
-      <div class="timeline-step-card">
-        <div class="timeline-step-badge">
-          <span class="step-badge-pill">STEP 05</span>
-          <div class="timeline-icon-box">
-            <i class="ph-bold ph-pill"></i>
+        <!-- STEP 04 -->
+        <div class="home-step-item">
+          <div class="home-step-top">
+            <span class="home-step-num">04</span>
+            <div class="home-step-icon"><i class="ph-bold ph-stethoscope"></i></div>
+            <span class="home-step-line"></span>
           </div>
+          <h4 class="home-step-title">1:1 심층 진료 및 맥진</h4>
+          <p class="home-step-desc">손지웅 대표원장이 검사 결과를 직접 분석하며, 체질 맥진 및 설진과 심층 문진을 통해 근본 불균형을 진단합니다.</p>
         </div>
-        <div class="timeline-step-content">
-          <h4 class="timeline-step-title">맞춤 치료 계획 수립 & 원내 치료</h4>
-          <p class="timeline-step-desc">개인별 원인에 맞춘 한약 처방 및 뇌기능 훈련, 침구 치료, 이완 요법 등 단계별 치료 계획을 확정합니다.</p>
-        </div>
-      </div>
 
-      <!-- STEP 06 -->
-      <div class="timeline-step-card">
-        <div class="timeline-step-badge">
-          <span class="step-badge-pill">STEP 06</span>
-          <div class="timeline-icon-box">
-            <i class="ph-bold ph-package"></i>
+        <!-- STEP 05 -->
+        <div class="home-step-item">
+          <div class="home-step-top">
+            <span class="home-step-num">05</span>
+            <div class="home-step-icon"><i class="ph-bold ph-pill"></i></div>
+            <span class="home-step-line"></span>
           </div>
+          <h4 class="home-step-title">맞춤 치료 계획 & 원내 치료</h4>
+          <p class="home-step-desc">개인별 원인에 맞춘 한약 처방 및 뇌기능 훈련, 침구 치료, 이완 요법 등 단계별 치료 계획을 확정합니다.</p>
         </div>
-        <div class="timeline-step-content">
-          <h4 class="timeline-step-title">처방 한약 안심 배송 & 경과 관리</h4>
-          <p class="timeline-step-desc">엄선된 청정 한약재로 조제된 맞춤 한약을 안심 배송해 드리며, 정기적인 경과 피드백과 생활 관리를 이어갑니다.</p>
-        </div>
-      </div>
-    </div>
 
-    <!-- Bottom Direct CTA Box -->
-    <div class="process-cta-banner">
-      <div class="process-cta-text">
-        <h3>편안한 마음으로 일상을 되찾으실 수 있도록<br class="hide-pc"> 해아림이 함께합니다.</h3>
-        <p>초진은 충분한 검사와 심층 상담을 위해<br class="hide-pc"> 예약제로 운영됩니다.</p>
-      </div>
-      <div class="process-cta-buttons">
-        <button class="btn btn-inquiry-header" onclick="document.getElementById('inquiry-modal').classList.add('active'); document.body.style.overflow='hidden';">
-          <i class="ph-bold ph-chat-teardrop-dots"></i> 빠른 상담 및 예약
-        </button>
-        <a href="https://naver.me/xbARooIc" target="_blank" rel="noopener noreferrer" class="btn btn-hero-naver-dark">
-          <span class="n-box">N</span> 네이버 실시간 예약
-        </a>
+        <!-- STEP 06 -->
+        <div class="home-step-item">
+          <div class="home-step-top">
+            <span class="home-step-num">06</span>
+            <div class="home-step-icon"><i class="ph-bold ph-package"></i></div>
+            <span class="home-step-line"></span>
+          </div>
+          <h4 class="home-step-title">안심 배송 & 정기 경과 관리</h4>
+          <p class="home-step-desc">엄선된 청정 한약재로 조제된 맞춤 한약을 안심 배송해 드리며, 정기적인 경과 피드백과 생활 관리를 이어갑니다.</p>
+        </div>
       </div>
     </div>
   </div>
@@ -1039,6 +1000,31 @@
     </div>
   </div>
 </section>
+ 
+<!-- 9. Final Action CTA Band (Full-Width Action Anchor) -->
+<section class="home-final-cta-section">
+  <div class="container">
+    <div class="home-final-cta-content text-center">
+      <span class="home-final-cta-tag">CONSULTATION & RESERVATION</span>
+      <h2 class="home-final-cta-title">
+        궁금한 증상이 있으신가요?<br>
+        <strong>현재 상태부터 차근히 상담해드립니다.</strong>
+      </h2>
+      <p class="home-final-cta-desc">
+        소아부터 성인까지, 몸과 뇌·마음의 불균형을 다각도로 살피고 회복의 길을 함께 찾습니다.
+      </p>
+      <div class="home-final-cta-buttons">
+        <a href="https://booking.naver.com/booking/13/bizes/1167448" target="_blank" rel="noopener noreferrer" class="btn btn-hero-naver-dark">
+          <span class="n-symbol">N</span> 네이버 실시간 예약
+        </a>
+        <button type="button" class="btn btn-hero-inquiry" onclick="document.getElementById('inquiry-modal').classList.add('active'); document.body.style.overflow='hidden';">
+          <i class="ph-bold ph-chat-teardrop-dots"></i> 온라인 간편 문의
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
   </main>
 
   {{ partial "footer.html" . }}
