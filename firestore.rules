@@ -100,11 +100,12 @@ service cloud.firestore {
     // Validation for question updating (Admin only, backward-compatible with legacy nickname posts)
     function isUpdateValid() {
       let data = request.resource.data;
-      let allowedUpdateKeys = ['region', 'ageText', 'gender', 'nickname', 'title', 'content', 'category', 'status', 'createdAt', 'answer', 'answeredAt', 'updatedAt'];
+      let allowedUpdateKeys = ['region', 'ageText', 'gender', 'nickname', 'title', 'content', 'category', 'status', 'createdAt', 'answer', 'answeredAt', 'updatedAt', 'hasDeletePassword'];
 
       return (
         // 1. Must strictly restrict updated document to allowed schema fields (Prevents PII / arbitrary field injection)
         data.keys().hasOnly(allowedUpdateKeys) &&
+        (!('hasDeletePassword' in data) || data.hasDeletePassword is bool) &&
 
         // 2. Immutable creation timestamp
         data.createdAt == resource.data.createdAt &&

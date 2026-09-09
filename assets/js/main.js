@@ -4074,9 +4074,9 @@ function openInquiryDetailModal(id) {
     statusTag.className = 'detail-status-tag ' + (found.status === 'answered' ? 'answered' : 'pending');
   }
   if (titleEl) titleEl.textContent = found.title;
-  if (authorEl) authorEl.textContent = found.author;
+  if (authorEl) authorEl.textContent = formatAuthorInfo(found);
   if (regionEl) regionEl.textContent = found.region;
-  if (ageEl) ageEl.textContent = found.age;
+  if (ageEl) ageEl.textContent = found.ageText || found.age || '';
   if (genderEl) genderEl.textContent = found.gender;
   if (dateEl) dateEl.textContent = found.date;
   if (contentEl) contentEl.textContent = found.content;
@@ -4127,7 +4127,9 @@ function openDoctorReplyEditorModal() {
   const textarea = document.getElementById('doctor-reply-textarea');
 
   if (summaryEl) {
-    summaryEl.innerHTML = `<strong>상담 대상:</strong> [${found.disease}] ${found.title} (${found.author}, ${found.region} ${found.age} / ${found.gender})`;
+    const diseaseName = found.disease || getCategoryTitle(found.category || 'etc');
+    const authorInfo = formatAuthorInfo(found);
+    summaryEl.innerHTML = `<strong>상담 대상:</strong> [${escapeHtml(diseaseName)}] ${escapeHtml(found.title)} (${escapeHtml(authorInfo)})`;
   }
   if (textarea) {
     textarea.value = found.answer || '';

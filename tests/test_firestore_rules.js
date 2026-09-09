@@ -91,11 +91,12 @@ function evaluateFirestoreRules({ action, path, auth, requestData, resourceData,
   // Helper isUpdateValid (Backward-compatible with legacy nickname posts)
   function isUpdateValid(data, existing, time) {
     if (!data || !existing) return false;
-    const allowedUpdateKeys = ['region', 'ageText', 'gender', 'nickname', 'title', 'content', 'category', 'status', 'createdAt', 'answer', 'answeredAt', 'updatedAt'];
+    const allowedUpdateKeys = ['region', 'ageText', 'gender', 'nickname', 'title', 'content', 'category', 'status', 'createdAt', 'answer', 'answeredAt', 'updatedAt', 'hasDeletePassword'];
     const keys = Object.keys(data);
 
     // 1. Must only contain strictly allowed update keys
     if (!keys.every(k => allowedUpdateKeys.includes(k))) return false;
+    if ('hasDeletePassword' in data && typeof data.hasDeletePassword !== 'boolean') return false;
 
     // 2. Immutable createdAt
     if (data.createdAt !== existing.createdAt) return false;
