@@ -42,5 +42,16 @@
     "topicAngle": "presentation-anxiety",
     "title": "[수지 사회공포증] 발표나 미팅 때 목소리가 떨리고 시선이 두려울 때",
     "slug": "yongin-suji-social-phobia-presentation-anxiety"
+  },
+  {
+    "publishDate": "2026-09-09T09:32:52.401+09:00",
+    "geoId": "seongnam-sujeong",
+    "displayRegion": "수정구",
+    "parentRegion": "성남",
+    "regionType": "district",
+    "disease": "sleep",
+    "topicAngle": "early-awakening",
+    "title": "[수정구 불면증] 잠은 드는데 새벽마다 깨서 다시 잠들지 못하는 이유",
+    "slug": "seongnam-sujeong-sleep-early-awakening"
   }
 ]
