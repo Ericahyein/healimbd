@@ -53,5 +53,16 @@
     "topicAngle": "early-awakening",
     "title": "[수정구 불면증] 잠은 드는데 새벽마다 깨서 다시 잠들지 못하는 이유",
     "slug": "seongnam-sujeong-sleep-early-awakening"
+  },
+  {
+    "publishDate": "2026-09-09T16:20:14.995+09:00",
+    "geoId": "yongin-giheung",
+    "displayRegion": "기흥구",
+    "parentRegion": "용인",
+    "regionType": "district",
+    "disease": "autonomic",
+    "topicAngle": "digestive-dizziness",
+    "title": "[기흥구 자율신경실조증] 원인 모를 어지럼증과 소화불량이 동시에 나타날 때",
+    "slug": "yongin-giheung-autonomic-digestive-dizziness"
   }
 ]
