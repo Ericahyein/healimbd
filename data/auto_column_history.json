@@ -64,5 +64,16 @@
     "topicAngle": "digestive-dizziness",
     "title": "[기흥구 자율신경실조증] 원인 모를 어지럼증과 소화불량이 동시에 나타날 때",
     "slug": "yongin-giheung-autonomic-digestive-dizziness"
+  },
+  {
+    "publishDate": "2026-09-10T09:27:53.056+09:00",
+    "geoId": "seongnam-jungwon",
+    "displayRegion": "중원구",
+    "parentRegion": "성남",
+    "regionType": "district",
+    "disease": "tic",
+    "topicAngle": "school-stress",
+    "title": "[중원구 틱장애] 새 학기 환경 변화와 긴장으로 증상이 두드러질 때",
+    "slug": "seongnam-jungwon-tic-school-stress"
   }
 ]
