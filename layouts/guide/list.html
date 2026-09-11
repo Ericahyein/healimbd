@@ -31,10 +31,10 @@
   {{ partial "header.html" . }}
 
   <main id="main-content">
-    <!-- 1. Header Banner -->
+    <!-- 1. Header Banner (Clean Editorial Hero Banner) -->
     <section class="guide-header-banner">
       <div class="container text-center">
-        <span class="guide-top-pill">CLINICAL GUIDE & HOURS</span>
+        <span class="editorial-section-tag">CLINICAL GUIDE & HOURS</span>
         <h1 class="guide-main-title">진료안내</h1>
         <p class="guide-main-desc">
           몸과 마음, 뇌의 온전한 균형을 회복할 수 있도록 세심하게 경청하고 진단합니다.<br>
@@ -43,331 +43,262 @@
       </div>
     </section>
 
-    <!-- [SECTION 1] 진료과목 -->
+    <!-- [SECTION 1] 진료과목 (Unboxed Architectural Grid) -->
     <section class="section guide-treatments-section" id="guide-treatments">
       <div class="container">
-        <div class="section-header text-center">
-          <span class="section-tag">TREATMENTS</span>
-          <h2 class="section-title"><strong>9대 주요 진료과목</strong></h2>
-          <p class="section-desc">소아청소년부터 성인까지, 몸과 뇌·신경계의 상호작용을 깊이 살피는 한방신경정신과 특화 진료입니다.</p>
+        <div class="section-header-unboxed text-center">
+          <span class="editorial-section-tag">TREATMENTS</span>
+          <h2 class="editorial-section-title"><strong>9대 주요 진료과목</strong></h2>
+          <p class="editorial-section-desc">소아청소년부터 성인까지, 몸과 뇌·신경계의 상호작용을 깊이 살피는 한방신경정신과 특화 진료입니다.</p>
         </div>
 
-        <div class="treatments-unified-grid">
+        <div class="treatments-unboxed-grid">
           <!-- 01. 틱장애 -->
-          <article class="treatment-card">
-            <div class="treatment-card-top">
-              <div class="treatment-circle-wrap">
-                <img src="{{ "images/clinics/clinic-tic.jpg" | relURL }}" alt="틱장애 · 뚜렛증후군" class="treatment-circle-img" loading="lazy">
-                <span class="card-num-badge">01</span>
-              </div>
-              <div class="treatment-title-wrap">
-                <h3 class="treatment-name">틱장애 · 뚜렛증후군</h3>
+          <article class="treatment-unboxed-item">
+            <div class="treatment-unboxed-top">
+              <span class="treatment-unboxed-num">01</span>
+              <div class="treatment-unboxed-thumb">
+                <img src="{{ "images/clinics/clinic-tic.jpg" | relURL }}" alt="틱장애 · 뚜렛증후군" class="treatment-thumb-img" loading="lazy">
               </div>
             </div>
-            <div class="treatment-tags-row">
-              <span class="sub-tag">운동틱</span>
-              <span class="sub-tag">음성틱</span>
-              <span class="sub-tag">근육틱</span>
-              <span class="sub-tag">복합틱</span>
-              <span class="sub-tag">성인틱</span>
+            <h3 class="treatment-unboxed-name">틱장애 · 뚜렛증후군</h3>
+            <div class="treatment-unboxed-tags">
+              <span>운동틱</span> · <span>음성틱</span> · <span>근육틱</span> · <span>복합틱</span> · <span>성인틱</span>
             </div>
           </article>
 
           <!-- 02. ADHD -->
-          <article class="treatment-card theme-warm-orange">
-            <div class="treatment-card-top">
-              <div class="treatment-circle-wrap">
-                <img src="{{ "images/clinics/clinic-adhd.jpg" | relURL }}" alt="주의집중력 소아·성인 ADHD" class="treatment-circle-img" loading="lazy">
-                <span class="card-num-badge">02</span>
-              </div>
-              <div class="treatment-title-wrap">
-                <h3 class="treatment-name">주의집중력 (ADHD)</h3>
+          <article class="treatment-unboxed-item">
+            <div class="treatment-unboxed-top">
+              <span class="treatment-unboxed-num">02</span>
+              <div class="treatment-unboxed-thumb">
+                <img src="{{ "images/clinics/clinic-adhd.jpg" | relURL }}" alt="주의집중력 소아·성인 ADHD" class="treatment-thumb-img" loading="lazy">
               </div>
             </div>
-            <div class="treatment-tags-row">
-              <span class="sub-tag">소아 ADHD</span>
-              <span class="sub-tag">성인 ADHD</span>
-              <span class="sub-tag">주의력결핍</span>
-              <span class="sub-tag">과잉행동·충동성</span>
+            <h3 class="treatment-unboxed-name">주의집중력 (ADHD)</h3>
+            <div class="treatment-unboxed-tags">
+              <span>소아 ADHD</span> · <span>성인 ADHD</span> · <span>주의력결핍</span> · <span>과잉행동·충동성</span>
             </div>
           </article>
 
           <!-- 03. 공황장애 -->
-          <article class="treatment-card">
-            <div class="treatment-card-top">
-              <div class="treatment-circle-wrap">
-                <img src="{{ "images/clinics/clinic-panic.jpg" | relURL }}" alt="공황장애" class="treatment-circle-img" loading="lazy">
-                <span class="card-num-badge">03</span>
-              </div>
-              <div class="treatment-title-wrap">
-                <h3 class="treatment-name">공황장애</h3>
+          <article class="treatment-unboxed-item">
+            <div class="treatment-unboxed-top">
+              <span class="treatment-unboxed-num">03</span>
+              <div class="treatment-unboxed-thumb">
+                <img src="{{ "images/clinics/clinic-panic.jpg" | relURL }}" alt="공황장애" class="treatment-thumb-img" loading="lazy">
               </div>
             </div>
-            <div class="treatment-tags-row">
-              <span class="sub-tag">공황발작</span>
-              <span class="sub-tag">예기불안</span>
-              <span class="sub-tag">광장공포증</span>
-              <span class="sub-tag">과호흡</span>
+            <h3 class="treatment-unboxed-name">공황장애</h3>
+            <div class="treatment-unboxed-tags">
+              <span>공황발작</span> · <span>예기불안</span> · <span>광장공포증</span> · <span>과호흡</span>
             </div>
           </article>
 
           <!-- 04. 불안장애 -->
-          <article class="treatment-card theme-warm-orange reverse-card">
-            <div class="treatment-card-top">
-              <div class="treatment-circle-wrap">
-                <img src="{{ "images/clinics/clinic-anxiety.jpg" | relURL }}" alt="불안장애 · 사회공포증" class="treatment-circle-img" loading="lazy">
-                <span class="card-num-badge">04</span>
-              </div>
-              <div class="treatment-title-wrap">
-                <h3 class="treatment-name">불안장애 · 공포증</h3>
+          <article class="treatment-unboxed-item">
+            <div class="treatment-unboxed-top">
+              <span class="treatment-unboxed-num">04</span>
+              <div class="treatment-unboxed-thumb">
+                <img src="{{ "images/clinics/clinic-anxiety.jpg" | relURL }}" alt="불안장애 · 사회공포증" class="treatment-thumb-img" loading="lazy">
               </div>
             </div>
-            <div class="treatment-tags-row">
-              <span class="sub-tag">범불안장애</span>
-              <span class="sub-tag">사회공포증</span>
-              <span class="sub-tag">대인기피증</span>
-              <span class="sub-tag">발표불안</span>
+            <h3 class="treatment-unboxed-name">불안장애 · 공포증</h3>
+            <div class="treatment-unboxed-tags">
+              <span>범불안장애</span> · <span>사회공포증</span> · <span>대인기피증</span> · <span>발표불안</span>
             </div>
           </article>
 
           <!-- 05. 수면 · 불면증 -->
-          <article class="treatment-card reverse-card">
-            <div class="treatment-card-top">
-              <div class="treatment-circle-wrap">
-                <img src="{{ "images/clinics/clinic-sleep.jpg" | relURL }}" alt="수면 · 불면증" class="treatment-circle-img" loading="lazy">
-                <span class="card-num-badge">05</span>
-              </div>
-              <div class="treatment-title-wrap">
-                <h3 class="treatment-name">수면 · 불면증</h3>
+          <article class="treatment-unboxed-item">
+            <div class="treatment-unboxed-top">
+              <span class="treatment-unboxed-num">05</span>
+              <div class="treatment-unboxed-thumb">
+                <img src="{{ "images/clinics/clinic-sleep.jpg" | relURL }}" alt="수면 · 불면증" class="treatment-thumb-img" loading="lazy">
               </div>
             </div>
-            <div class="treatment-tags-row">
-              <span class="sub-tag">입면장애</span>
-              <span class="sub-tag">수면유지장애</span>
-              <span class="sub-tag">조기각성</span>
-              <span class="sub-tag">수면제 단약</span>
+            <h3 class="treatment-unboxed-name">수면 · 불면증</h3>
+            <div class="treatment-unboxed-tags">
+              <span>입면장애</span> · <span>수면유지장애</span> · <span>조기각성</span> · <span>수면제 단약</span>
             </div>
           </article>
 
           <!-- 06. 자율신경실조증 -->
-          <article class="treatment-card theme-warm-orange reverse-card">
-            <div class="treatment-card-top">
-              <div class="treatment-circle-wrap">
-                <img src="{{ "images/clinics/clinic-autonomic.jpg" | relURL }}" alt="자율신경실조증" class="treatment-circle-img" loading="lazy">
-                <span class="card-num-badge">06</span>
-              </div>
-              <div class="treatment-title-wrap">
-                <h3 class="treatment-name">자율신경실조증</h3>
+          <article class="treatment-unboxed-item">
+            <div class="treatment-unboxed-top">
+              <span class="treatment-unboxed-num">06</span>
+              <div class="treatment-unboxed-thumb">
+                <img src="{{ "images/clinics/clinic-autonomic.jpg" | relURL }}" alt="자율신경실조증" class="treatment-thumb-img" loading="lazy">
               </div>
             </div>
-            <div class="treatment-tags-row">
-              <span class="sub-tag">만성 두통</span>
-              <span class="sub-tag">어지럼증</span>
-              <span class="sub-tag">가슴 답답함</span>
-              <span class="sub-tag">신체화장애</span>
+            <h3 class="treatment-unboxed-name">자율신경실조증</h3>
+            <div class="treatment-unboxed-tags">
+              <span>만성 두통</span> · <span>어지럼증</span> · <span>가슴 답답함</span> · <span>신체화장애</span>
             </div>
           </article>
 
           <!-- 07. 다한증 -->
-          <article class="treatment-card">
-            <div class="treatment-card-top">
-              <div class="treatment-circle-wrap">
-                <img src="{{ "images/clinics/clinic-hyperhidrosis.jpg" | relURL }}" alt="다한증 손발·전신·안면" class="treatment-circle-img" loading="lazy">
-                <span class="card-num-badge">07</span>
-              </div>
-              <div class="treatment-title-wrap">
-                <h3 class="treatment-name">다한증 (손발·전신·안면)</h3>
+          <article class="treatment-unboxed-item">
+            <div class="treatment-unboxed-top">
+              <span class="treatment-unboxed-num">07</span>
+              <div class="treatment-unboxed-thumb">
+                <img src="{{ "images/clinics/clinic-hyperhidrosis.jpg" | relURL }}" alt="다한증 손발·전신·안면" class="treatment-thumb-img" loading="lazy">
               </div>
             </div>
-            <div class="treatment-tags-row">
-              <span class="sub-tag">손발 다한증</span>
-              <span class="sub-tag">전신 다한증</span>
-              <span class="sub-tag">안면 다한증</span>
-              <span class="sub-tag">긴장성 발한</span>
+            <h3 class="treatment-unboxed-name">다한증 (손발·전신·안면)</h3>
+            <div class="treatment-unboxed-tags">
+              <span>손발 다한증</span> · <span>전신 다한증</span> · <span>안면 다한증</span> · <span>긴장성 발한</span>
             </div>
           </article>
 
           <!-- 08. 과민성대장증후군 -->
-          <article class="treatment-card theme-warm-orange">
-            <div class="treatment-card-top">
-              <div class="treatment-circle-wrap">
-                <img src="{{ "images/clinics/clinic-ibs.jpg" | relURL }}" alt="과민성대장증후군 · 만성 소화장애" class="treatment-circle-img" loading="lazy">
-                <span class="card-num-badge">08</span>
-              </div>
-              <div class="treatment-title-wrap">
-                <h3 class="treatment-name">과민성대장증후군</h3>
+          <article class="treatment-unboxed-item">
+            <div class="treatment-unboxed-top">
+              <span class="treatment-unboxed-num">08</span>
+              <div class="treatment-unboxed-thumb">
+                <img src="{{ "images/clinics/clinic-ibs.jpg" | relURL }}" alt="과민성대장증후군 · 만성 소화장애" class="treatment-thumb-img" loading="lazy">
               </div>
             </div>
-            <div class="treatment-tags-row">
-              <span class="sub-tag">신경성 복통</span>
-              <span class="sub-tag">만성 설사·변비</span>
-              <span class="sub-tag">복부 팽만감</span>
-              <span class="sub-tag">장-뇌 축 안정</span>
+            <h3 class="treatment-unboxed-name">과민성대장증후군</h3>
+            <div class="treatment-unboxed-tags">
+              <span>신경성 복통</span> · <span>만성 설사·변비</span> · <span>복부 팽만감</span> · <span>장-뇌 축 안정</span>
             </div>
           </article>
 
           <!-- 09. 미주신경성 실신 -->
-          <article class="treatment-card">
-            <div class="treatment-card-top">
-              <div class="treatment-circle-wrap">
-                <img src="{{ "images/clinics/clinic-syncope.jpg" | relURL }}" alt="미주신경성 실신 · 기립성 어지럼" class="treatment-circle-img" loading="lazy">
-                <span class="card-num-badge">09</span>
-              </div>
-              <div class="treatment-title-wrap">
-                <h3 class="treatment-name">미주신경성 실신</h3>
+          <article class="treatment-unboxed-item">
+            <div class="treatment-unboxed-top">
+              <span class="treatment-unboxed-num">09</span>
+              <div class="treatment-unboxed-thumb">
+                <img src="{{ "images/clinics/clinic-syncope.jpg" | relURL }}" alt="미주신경성 실신 · 기립성 어지럼" class="treatment-thumb-img" loading="lazy">
               </div>
             </div>
-            <div class="treatment-tags-row">
-              <span class="sub-tag">혈관미주신경성</span>
-              <span class="sub-tag">기립성 어지럼</span>
-              <span class="sub-tag">기립성 저혈압</span>
-              <span class="sub-tag">실신 전조증상</span>
+            <h3 class="treatment-unboxed-name">미주신경성 실신</h3>
+            <div class="treatment-unboxed-tags">
+              <span>혈관미주신경성</span> · <span>기립성 어지럼</span> · <span>기립성 저혈압</span> · <span>실신 전조증상</span>
             </div>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- [SECTION 2] 진료시간 안내 -->
-    <section class="section guide-hours-section" id="guide-hours">
+    <!-- [SECTION 2] 진료시간 안내 (Unboxed Editorial Timetable & Pre-checks) -->
+    <section class="section guide-hours-unboxed-section" id="guide-hours">
       <div class="container">
-        <div class="section-header text-center">
-          <span class="section-tag">OPENING HOURS</span>
-          <h2 class="section-title"><strong>진료시간 안내</strong></h2>
-          <p class="section-desc">환자분의 소중한 일정을 고려하여 월/수 야간진료 및 토요일·공휴일 연속진료를 운영합니다.</p>
+        <div class="section-header-unboxed text-center">
+          <span class="editorial-section-tag">OPENING HOURS</span>
+          <h2 class="editorial-section-title"><strong>진료시간 안내</strong></h2>
+          <p class="editorial-section-desc">환자분의 소중한 일정을 고려하여 월/수 야간진료 및 토요일·공휴일 연속진료를 운영합니다.</p>
         </div>
 
-        <div class="guide-hours-card-wrap">
-          <div class="guide-hours-box">
-            <table class="hours-table">
-              <tbody>
-                <tr class="highlight-row">
-                  <th>월요일 · 수요일</th>
-                  <td>
-                    <strong>10:00 ~ 20:00</strong>
-                    <span class="badge-night-inline">야간진료</span>
-                  </td>
-                </tr>
-                <tr>
-                  <th>화요일 · 금요일</th>
-                  <td>10:00 ~ 19:00</td>
-                </tr>
-                <tr class="highlight-row-holiday">
-                  <th>토요일 · 공휴일</th>
-                  <td>
-                    <strong>09:00 ~ 15:00</strong>
-                    <span class="badge-holiday-inline">점심시간 없음</span>
-                  </td>
-                </tr>
-                <tr class="sub-info-row">
-                  <th>점심시간</th>
-                  <td>13:00 ~ 14:00 <span class="lunch-note">(월/화/수/금에 한함)</span></td>
-                </tr>
-                <tr class="closed-row">
-                  <th>정기 휴진일</th>
-                  <td><strong>매주 목요일, 일요일</strong></td>
-                </tr>
-              </tbody>
-            </table>
+        <div class="guide-hours-unboxed-container">
+          <table class="editorial-timetable">
+            <tbody>
+              <tr class="highlight-row">
+                <th>월요일 · 수요일</th>
+                <td>
+                  <strong>10:00 ~ 20:00</strong>
+                  <span class="badge-night-inline">야간진료</span>
+                </td>
+              </tr>
+              <tr>
+                <th>화요일 · 금요일</th>
+                <td>10:00 ~ 19:00</td>
+              </tr>
+              <tr class="highlight-row-holiday">
+                <th>토요일 · 공휴일</th>
+                <td>
+                  <strong>09:00 ~ 15:00</strong>
+                  <span class="badge-holiday-inline">점심시간 없음</span>
+                </td>
+              </tr>
+              <tr class="sub-info-row">
+                <th>점심시간</th>
+                <td>13:00 ~ 14:00 <span class="lunch-note">(월/화/수/금에 한함)</span></td>
+              </tr>
+              <tr class="closed-row">
+                <th>정기 휴진일</th>
+                <td><strong>매주 목요일, 일요일</strong></td>
+              </tr>
+            </tbody>
+          </table>
 
-            <div class="guide-precheck-notes">
-              <div class="precheck-note-item">
-                <i class="ph-bold ph-calendar-check text-primary"></i>
-                <div>
-                  <strong>100% 예약 우선제 운영</strong>
-                  <p>충분한 1:1 심층 상담과 대기 시간 최소화를 위해 사전 예약 후 내원해 주시기 바랍니다.</p>
-                </div>
-              </div>
-              <div class="precheck-note-item">
-                <i class="ph-bold ph-clock text-accent"></i>
-                <div>
-                  <strong>초진 진료 소요시간</strong>
-                  <p>정밀 뇌기능·심리 검사와 심층 문진이 진행되므로 초진은 약 1시간 30분 ~ 2시간이 소요됩니다.</p>
-                </div>
-              </div>
-              <div class="precheck-note-item">
-                <i class="ph-bold ph-warning-circle text-danger"></i>
-                <div>
-                  <strong>초진 접수 마감 시간</strong>
-                  <p>원활하고 정밀한 검사 진행을 위해 진료 마감 1시간 30분 전까지 내원해 주셔야 합니다.</p>
-                </div>
-              </div>
+          <!-- 3-Column Unboxed Pre-check Strip directly on canvas -->
+          <div class="editorial-precheck-strip">
+            <div class="editorial-precheck-col">
+              <span class="precheck-idx">01</span>
+              <h4 class="precheck-name">100% 예약 우선제 운영</h4>
+              <p class="precheck-desc">충분한 1:1 심층 상담과 대기 시간 최소화를 위해 사전 예약 후 내원해 주시기 바랍니다.</p>
+            </div>
+            <div class="editorial-precheck-col">
+              <span class="precheck-idx">02</span>
+              <h4 class="precheck-name">초진 진료 소요시간</h4>
+              <p class="precheck-desc">정밀 뇌기능·심리 검사와 심층 문진이 진행되므로 초진은 약 1시간 30분 ~ 2시간이 소요됩니다.</p>
+            </div>
+            <div class="editorial-precheck-col">
+              <span class="precheck-idx">03</span>
+              <h4 class="precheck-name">초진 접수 마감 시간</h4>
+              <p class="precheck-desc">원활하고 정밀한 검사 진행을 위해 진료 마감 1시간 30분 전까지 내원해 주셔야 합니다.</p>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- [SECTION 3] 내원 및 예약 안내 -->
-    <section class="section guide-booking-section" id="guide-booking">
+    <!-- [SECTION 3] 내원 및 예약 안내 (4-Column Editorial Strip) -->
+    <section class="section guide-booking-unboxed-section" id="guide-booking">
       <div class="container">
-        <div class="section-header text-center">
-          <span class="section-tag">RESERVATION & INQUIRY</span>
-          <h2 class="section-title">내원 및 <strong>예약 안내</strong></h2>
-          <p class="section-desc">편리하신 채널을 통해 사전 예약하시면 친절하고 상세하게 안내해 드립니다.</p>
+        <div class="section-header-unboxed text-center">
+          <span class="editorial-section-tag">RESERVATION & INQUIRY</span>
+          <h2 class="editorial-section-title">내원 및 <strong>예약 안내</strong></h2>
+          <p class="editorial-section-desc">편리하신 채널을 통해 사전 예약하시면 친절하고 상세하게 안내해 드립니다.</p>
         </div>
 
-        <div class="guide-channel-grid">
-          <!-- 1. Phone Call (Top Primary) -->
-          <div class="guide-channel-card primary-phone">
-            <div class="channel-icon-wrap phone-bg">
-              <i class="ph-bold ph-phone-call"></i>
-            </div>
-            <div class="channel-info">
-              <span class="channel-badge phone-badge">가장 빠른 유선 상담</span>
-              <h3 class="channel-title">전화 문의 및 예약</h3>
-              <p class="channel-tel">031-716-8575</p>
-              <p class="channel-desc">진료 일정 문의, 야간진료 예약 등 유선 상담원을 통해 즉시 확인 가능합니다.</p>
-            </div>
-            <a href="tel:031-716-8575" class="btn btn-channel-action phone-btn">
+        <div class="editorial-booking-channels">
+          <!-- 1. Phone Call -->
+          <div class="editorial-channel-entry primary-channel">
+            <span class="channel-order">01</span>
+            <span class="editorial-channel-pill phone">가장 빠른 유선 상담</span>
+            <h3 class="editorial-channel-title">전화 문의 및 예약</h3>
+            <p class="editorial-channel-tel">031-716-8575</p>
+            <p class="editorial-channel-desc">진료 일정 문의, 야간진료 예약 등 유선 상담원을 통해 즉시 확인 가능합니다.</p>
+            <a href="tel:031-716-8575" class="link-editorial-more">
               <span>전화 바로 연결</span>
               <i class="ph-bold ph-arrow-right"></i>
             </a>
           </div>
 
           <!-- 2. Naver Booking -->
-          <div class="guide-channel-card">
-            <div class="channel-icon-wrap naver-bg">
-              <span class="n-symbol-lg">N</span>
-            </div>
-            <div class="channel-info">
-              <span class="channel-badge naver-badge">실시간 일정 확인</span>
-              <h3 class="channel-title">네이버 실시간 진료 예약</h3>
-              <p class="channel-desc">원하시는 날짜와 시간대를 직접 확인하고 간편하게 예약 일정을 확정하세요.</p>
-            </div>
-            <a href="https://booking.naver.com/booking/13/bizes/1167448" target="_blank" rel="noopener noreferrer" class="btn btn-channel-action naver-btn">
+          <div class="editorial-channel-entry">
+            <span class="channel-order">02</span>
+            <span class="editorial-channel-pill naver">실시간 일정 확인</span>
+            <h3 class="editorial-channel-title">네이버 실시간 진료 예약</h3>
+            <p class="editorial-channel-desc">원하시는 날짜와 시간대를 직접 확인하고 간편하게 예약 일정을 확정하세요.</p>
+            <a href="https://booking.naver.com/booking/13/bizes/1167448" target="_blank" rel="noopener noreferrer" class="link-editorial-more">
               <span>네이버 예약 바로가기</span>
               <i class="ph-bold ph-arrow-up-right"></i>
             </a>
           </div>
 
           <!-- 3. KakaoTalk Chat -->
-          <div class="guide-channel-card">
-            <div class="channel-icon-wrap kakao-bg">
-              <i class="ph-fill ph-chat-circle-dots"></i>
-            </div>
-            <div class="channel-info">
-              <span class="channel-badge kakao-badge">1:1 실시간 톡</span>
-              <h3 class="channel-title">카카오톡 1:1 상담</h3>
-              <p class="channel-desc">증상 고민, 진료 과정, 진료시간을 메신저를 통해 부담 없이 1:1로 질문하세요.</p>
-            </div>
-            <a href="http://pf.kakao.com/_NEUHT" target="_blank" rel="noopener noreferrer" class="btn btn-channel-action kakao-btn">
+          <div class="editorial-channel-entry">
+            <span class="channel-order">03</span>
+            <span class="editorial-channel-pill kakao">1:1 실시간 톡</span>
+            <h3 class="editorial-channel-title">카카오톡 1:1 상담</h3>
+            <p class="editorial-channel-desc">증상 고민, 진료 과정, 진료시간을 메신저를 통해 부담 없이 1:1로 질문하세요.</p>
+            <a href="http://pf.kakao.com/_NEUHT" target="_blank" rel="noopener noreferrer" class="link-editorial-more">
               <span>카카오톡 상담하기</span>
               <i class="ph-bold ph-arrow-up-right"></i>
             </a>
           </div>
 
           <!-- 4. Online Board Inquiry -->
-          <div class="guide-channel-card">
-            <div class="channel-icon-wrap inquiry-bg">
-              <i class="ph-bold ph-chat-teardrop-text"></i>
-            </div>
-            <div class="channel-info">
-              <span class="channel-badge inquiry-badge">24시간 온라인 접수</span>
-              <h3 class="channel-title">온라인 간편 문의</h3>
-              <p class="channel-desc">홈페이지 온라인 문의 게시판을 통해 질문을 남겨주시면 원장단이 직접 답변드립니다.</p>
-            </div>
-            <a href="{{ "inquiry/" | relURL }}" class="btn btn-channel-action inquiry-btn">
+          <div class="editorial-channel-entry">
+            <span class="channel-order">04</span>
+            <span class="editorial-channel-pill inquiry">24시간 온라인 접수</span>
+            <h3 class="editorial-channel-title">온라인 간편 문의</h3>
+            <p class="editorial-channel-desc">홈페이지 온라인 문의 게시판을 통해 질문을 남겨주시면 원장단이 직접 답변드립니다.</p>
+            <a href="{{ "inquiry/" | relURL }}" class="link-editorial-more">
               <span>온라인 문의 작성하기</span>
               <i class="ph-bold ph-arrow-right"></i>
             </a>
@@ -376,51 +307,51 @@
       </div>
     </section>
 
-    <!-- [SECTION 4] 오시는길 -->
-    <section class="section guide-location-section" id="guide-location">
+    <!-- [SECTION 4] 오시는길 (Unboxed Editorial Spread) -->
+    <section class="section guide-location-unboxed-section" id="guide-location">
       <div class="container">
-        <div class="section-header text-center">
-          <span class="section-tag">VISIT US</span>
-          <h2 class="section-title">오시는 길 & <strong>위치 안내</strong></h2>
-          <p class="section-desc">수인분당선 / 신분당선 정자역 3번 출구 도보 2분 거리 (젤존타워 3차 4층)</p>
+        <div class="section-header-unboxed text-center">
+          <span class="editorial-section-tag">VISIT US</span>
+          <h2 class="editorial-section-title">오시는 길 & <strong>위치 안내</strong></h2>
+          <p class="editorial-section-desc">수인분당선 / 신분당선 정자역 3번 출구 도보 2분 거리 (젤존타워 3차 4층)</p>
         </div>
 
-        <div class="guide-location-grid">
-          <!-- Reusable NAVER Maps Component -->
-          <div class="guide-map-column">
+        <div class="guide-location-unboxed-spread">
+          <!-- Reusable NAVER Maps Component directly in canvas -->
+          <div class="editorial-map-canvas">
             {{ partial "naver_map.html" . }}
           </div>
 
           <!-- Transit & Parking Details Column -->
-          <div class="guide-transit-column">
-            <div class="address-box-large">
-              <span class="addr-label">도로명 주소</span>
-              <strong class="addr-text">경기도 성남시 분당구 성남대로 331번길 3-3, 젤존타워 3차, 405호</strong>
+          <div class="guide-location-unboxed-info">
+            <div class="editorial-address-line">
+              <span class="address-chip">도로명 주소</span>
+              <strong class="address-full">경기도 성남시 분당구 성남대로 331번길 3-3, 젤존타워 3차, 405호</strong>
             </div>
 
-            <div class="transit-guide-card">
-              <div class="transit-guide-item">
-                <div class="transit-guide-icon subway"><i class="ph-bold ph-train"></i></div>
+            <div class="editorial-transit-list">
+              <div class="editorial-transit-row">
+                <span class="transit-tag-pill subway">지하철</span>
                 <div>
-                  <h4 class="transit-guide-title">지하철 이용 시</h4>
-                  <p class="transit-guide-desc">수인분당선 / 신분당선 <strong>정자역 3번 출구</strong>로 나오신 뒤 직진 150m (도보 2분, 파리바게뜨 건물 젤존타워 3차 4층)</p>
+                  <strong class="transit-title">수인분당선 / 신분당선 정자역 3번 출구</strong>
+                  <p class="transit-desc-text">정자역 3번 출구로 나오신 뒤 직진 150m (도보 2분, 파리바게뜨 건물 젤존타워 3차 4층)</p>
                 </div>
               </div>
 
-              <div class="transit-guide-item">
-                <div class="transit-guide-icon car"><i class="ph-bold ph-car"></i></div>
+              <div class="editorial-transit-row">
+                <span class="transit-tag-pill car">자가용 및 주차</span>
                 <div>
-                  <h4 class="transit-guide-title">자가용 및 주차 안내</h4>
-                  <p class="transit-guide-desc">젤존타워 3차 건물 지하주차장에 편리하게 주차하실 수 있으며, <strong>진료 후 무료 주차권을 지원</strong>해 드립니다.</p>
+                  <strong class="transit-title">젤존타워 3차 건물 지하주차장</strong>
+                  <p class="transit-desc-text">편리하게 주차하실 수 있으며, <strong>진료 후 무료 주차권을 지원</strong>해 드립니다.</p>
                 </div>
               </div>
             </div>
 
-            <div class="guide-map-links">
-              <a href="https://map.naver.com/p/search/%ED%95%B4%EC%95%84%EB%A6%BC%ED%95%9C%EC%9D%98%EC%9B%90%20%EB%B6%84%EB%8B%B9%EC%A0%90" target="_blank" rel="noopener noreferrer" class="btn btn-naver-map">
+            <div class="editorial-map-actions">
+              <a href="https://map.naver.com/p/search/%ED%95%B4%EC%95%84%EB%A6%BC%ED%95%9C%EC%9D%98%EC%9B%90%20%EB%B6%84%EB%8B%B9%EC%A0%90" target="_blank" rel="noopener noreferrer" class="btn-editorial-map naver">
                 <span class="n-icon">N</span> 네이버 지도 길찾기
               </a>
-              <a href="https://map.kakao.com/link/search/%ED%95%B4%EC%95%84%EB%A6%BC%ED%95%9C%EC%9D%98%EC%9B%90%20%EB%B6%84%EB%8B%B9%EC%A0%90" target="_blank" rel="noopener noreferrer" class="btn btn-kakao-map">
+              <a href="https://map.kakao.com/link/search/%ED%95%B4%EC%95%84%EB%A6%BC%ED%95%9C%EC%9D%98%EC%9B%90%20%EB%B6%84%EB%8B%B9%EC%A0%90" target="_blank" rel="noopener noreferrer" class="btn-editorial-map kakao">
                 <i class="ph-fill ph-map-pin"></i> 카카오맵 길찾기
               </a>
             </div>

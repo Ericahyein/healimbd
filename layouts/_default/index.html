@@ -109,32 +109,31 @@
   </div>
 </section>
 
-<!-- 2. Representative Director Section (손지웅 대표원장 소개) -->
+<!-- 2. Representative Director Section (손지웅 대표원장 소개 - Unboxed Editorial) -->
 <section class="section home-director-section" id="director">
   <div class="container">
-    <div class="director-editorial-grid">
+    <div class="director-unboxed-layout">
       
-      <!-- Left Column: Director Portrait Photo -->
-      <div class="director-portrait-col">
-        <div class="director-portrait-frame">
-          <img src="{{ "images/doctor-son.png" | relURL }}" alt="해아림한의원 분당점 손지웅 대표원장" class="director-portrait-img" loading="lazy">
-          <div class="director-signature-strip">
-            <span class="sig-vertical-text">Clinic Director, Jiwoong Son</span>
-          </div>
+      <!-- Left Column: Director Portrait Photo directly on canvas -->
+      <div class="director-unboxed-portrait">
+        <img src="{{ "images/doctor-son.png" | relURL }}" alt="해아림한의원 분당점 손지웅 대표원장" class="director-unboxed-img" loading="lazy">
+        <div class="director-unboxed-caption">
+          <span class="director-unboxed-role">대표원장 · 한의학 박사과정</span>
+          <span class="director-unboxed-en">Clinic Director, Jiwoong Son</span>
         </div>
       </div>
 
       <!-- Right Column: Greetings & Philosophy & Credentials -->
-      <div class="director-bio-col">
+      <div class="director-unboxed-content">
         <div class="director-greeting-head">
-          <span class="section-tag">GREETING · 대표원장 인사말</span>
-          <h2 class="director-main-heading">
+          <span class="editorial-section-tag">DIRECTOR'S GREETING</span>
+          <h2 class="director-unboxed-heading">
             안녕하세요. 해아림한의원<br>
-            <strong class="text-gradient">분당점 대표원장 손지웅</strong>입니다.
+            <strong class="text-accent-blue">분당점 대표원장 손지웅</strong>입니다.
           </h2>
         </div>
 
-        <div class="director-message-body">
+        <div class="director-unboxed-body">
           <p>몸이 힘들다는 말 한마디에도<br>
           그 안에는 쉽게 설명하기 어려운 불편함과 걱정, 저마다의 시간이 담겨 있습니다.</p>
 
@@ -155,31 +154,32 @@
 
           <p>환자분의 이야기를 충분히 듣고, 작은 변화까지 놓치지 않는 진료를 하겠습니다.</p>
 
-          <p class="director-salute">
-            감사합니다.<br>
-            <strong class="sign-name">대표원장 손지웅 드림</strong>
-          </p>
+          <div class="director-unboxed-salute">
+            <span>감사합니다.</span>
+            <strong class="director-sign-name">대표원장 손지웅 드림</strong>
+          </div>
         </div>
 
         <!-- Philosophy Text Link (NO button style) -->
-        <div class="director-philo-link-wrap">
-          <a href="{{ "philosophy/" | relURL }}" class="link-philosophy-more">
+        <div class="director-unboxed-link-wrap">
+          <a href="{{ "philosophy/" | relURL }}" class="link-editorial-more link-philosophy-more">
             <span>진료철학 자세히 보러가기</span>
             <i class="ph-bold ph-arrow-right"></i>
           </a>
         </div>
 
-        <!-- Credentials Divider & List -->
-        <div class="director-creds-divider"></div>
+        <!-- Hairline Divider -->
+        <div class="editorial-hairline-divider"></div>
 
-        <div class="director-creds-block">
-          <h4 class="director-creds-title">손지웅 대표원장 주요 이력</h4>
-          <ul class="director-creds-list">
-            <li><i class="ph-bold ph-check"></i> <span><strong>현)</strong> 해아림한의원 분당점 대표원장</span></li>
-            <li><i class="ph-bold ph-check"></i> <span><strong>대한한방신경정신과학회</strong> 정회원</span></li>
-            <li><i class="ph-bold ph-check"></i> <span><strong>대한한방두뇌신경의학회</strong> 정회원</span></li>
-            <li><i class="ph-bold ph-check"></i> <span>두뇌 인지기능 및 자율신경계 불균형 임상 연구</span></li>
-            <li><i class="ph-bold ph-check"></i> <span>소아청소년 뇌신경질환(틱·ADHD) 1:1 심층 진료</span></li>
+        <!-- Credentials (Clean Minimalist Typography, ZERO gray box) -->
+        <div class="director-unboxed-credentials">
+          <h3 class="credentials-unboxed-title">손지웅 대표원장 주요 이력</h3>
+          <ul class="credentials-unboxed-list">
+            <li><span class="cred-bullet">—</span> <span><strong>현)</strong> 해아림한의원 분당점 대표원장</span></li>
+            <li><span class="cred-bullet">—</span> <span><strong>대한한방신경정신과학회</strong> 정회원</span></li>
+            <li><span class="cred-bullet">—</span> <span><strong>대한한방두뇌신경의학회</strong> 정회원</span></li>
+            <li><span class="cred-bullet">—</span> <span>두뇌 인지기능 및 자율신경계 불균형 임상 연구</span></li>
+            <li><span class="cred-bullet">—</span> <span>소아청소년 뇌신경질환(틱·ADHD) 1:1 심층 진료</span></li>
           </ul>
         </div>
       </div>
@@ -188,14 +188,14 @@
   </div>
 </section>
 
-<!-- 3. Clinic Interior & Treatment Photos Carousel (병원 내부 및 진료 모습 슬라이드) -->
-<section class="section clinic-photos-section" id="clinic-photos">
+<!-- 3. Clinic Interior & Treatment Photos (Unboxed Editorial Gallery) -->
+<section class="section clinic-gallery-section" id="clinic-photos">
   <div class="container">
-    <div class="section-header-row">
-      <div>
-        <span class="section-tag">CLINIC & CARE</span>
-        <h2 class="section-title">편안하고 따뜻한 <strong>원내 진료 환경</strong></h2>
-        <p class="section-desc">소아부터 성인까지, 마음을 터놓고 치료에 집중할 수 있는 쾌적한 진료 공간입니다.</p>
+    <div class="gallery-section-header">
+      <div class="gallery-title-wrap">
+        <span class="editorial-section-tag">CLINIC & CARE SPACE</span>
+        <h2 class="editorial-section-title">편안하고 따뜻한 <strong>원내 진료 환경</strong></h2>
+        <p class="editorial-section-desc">소아부터 성인까지, 마음을 터놓고 치료에 집중할 수 있는 쾌적한 진료 공간입니다.</p>
       </div>
       <div class="carousel-nav-arrows">
         <button type="button" class="carousel-nav-btn prev" id="clinic-prev-btn" aria-label="이전 사진 보기">
@@ -207,115 +207,126 @@
       </div>
     </div>
 
-    <div class="photo-carousel-container" id="clinic-carousel">
-      <!-- Photo 1: Consultation -->
-      <div class="photo-carousel-card">
-        <div class="photo-img-wrap">
-          <img src="{{ "images/philosophy/philosophy-consult.jpg" | relURL }}" alt="손지웅 대표원장 1:1 심층 진료 및 검사 분석" class="photo-card-img" loading="lazy">
+    <!-- Unboxed Carousel Track (Zero white cards, zero shadows, pure photography + typography) -->
+    <div class="gallery-carousel-track" id="clinic-carousel">
+      <!-- Item 1 -->
+      <div class="gallery-item-unboxed">
+        <div class="gallery-img-container">
+          <img src="{{ "images/philosophy/philosophy-consult.jpg" | relURL }}" alt="손지웅 대표원장 1:1 심층 진료 및 검사 분석" class="gallery-unboxed-img" loading="lazy">
         </div>
-        <div class="photo-card-caption">
-          <h4 class="caption-title">1:1 심층 문진 및 뇌신경 검사 상담</h4>
-          <p class="caption-desc">검사 결과와 증상의 배경을 꼼꼼히 살피며 진료 방향을 함께 의논합니다.</p>
-        </div>
-      </div>
-
-      <!-- Photo 2: Pulse Diagnosis -->
-      <div class="photo-carousel-card">
-        <div class="photo-img-wrap">
-          <img src="{{ "images/philosophy/philosophy-pulse.jpg" | relURL }}" alt="오장육부와 자율신경 불균형을 살피는 맥진" class="photo-card-img" loading="lazy">
-        </div>
-        <div class="photo-card-caption">
-          <h4 class="caption-title">체질 맥진 및 전신 불균형 진찰</h4>
-          <p class="caption-desc">신체적 피로도와 자율신경계 긴장 상태를 맥진을 통해 종합적으로 평가합니다.</p>
+        <div class="gallery-meta-unboxed">
+          <span class="gallery-index-tag">01 / CONSULTATION</span>
+          <h4 class="gallery-item-title">1:1 심층 문진 및 뇌신경 검사 상담</h4>
+          <p class="gallery-item-desc">검사 결과와 증상의 배경을 꼼꼼히 살피며 진료 방향을 함께 의논합니다.</p>
         </div>
       </div>
 
-      <!-- Photo 3: Acupuncture -->
-      <div class="photo-carousel-card">
-        <div class="photo-img-wrap">
-          <img src="{{ "images/philosophy/philosophy-acupuncture.jpg" | relURL }}" alt="뇌신경 안정 및 전신 긴장 완화 침구 치료" class="photo-card-img" loading="lazy">
+      <!-- Item 2 -->
+      <div class="gallery-item-unboxed">
+        <div class="gallery-img-container">
+          <img src="{{ "images/philosophy/philosophy-pulse.jpg" | relURL }}" alt="오장육부와 자율신경 불균형을 살피는 맥진" class="gallery-unboxed-img" loading="lazy">
         </div>
-        <div class="photo-card-caption">
-          <h4 class="caption-title">안심 침구 치료 및 뇌신경 안정</h4>
-          <p class="caption-desc">아프지 않고 편안한 순한 침 치료로 전신 혈류를 순환시키고 긴장을 덜어냅니다.</p>
+        <div class="gallery-meta-unboxed">
+          <span class="gallery-index-tag">02 / DIAGNOSIS</span>
+          <h4 class="gallery-item-title">체질 맥진 및 전신 불균형 진찰</h4>
+          <p class="gallery-item-desc">신체적 피로도와 자율신경계 긴장 상태를 맥진을 통해 종합적으로 평가합니다.</p>
         </div>
       </div>
 
-      <!-- Photo 4: Neurofeedback -->
-      <div class="photo-carousel-card">
-        <div class="photo-img-wrap">
-          <img src="{{ "images/philosophy/philosophy-neurofeedback.jpg" | relURL }}" alt="비약물 두뇌 훈련 뉴로피드백" class="photo-card-img" loading="lazy">
+      <!-- Item 3 -->
+      <div class="gallery-item-unboxed">
+        <div class="gallery-img-container">
+          <img src="{{ "images/philosophy/philosophy-acupuncture.jpg" | relURL }}" alt="뇌신경 안정 및 전신 긴장 완화 침구 치료" class="gallery-unboxed-img" loading="lazy">
         </div>
-        <div class="photo-card-caption">
-          <h4 class="caption-title">비약물 두뇌 훈련 (뉴로피드백)</h4>
-          <p class="caption-desc">스스로 뇌파와 자율신경을 안정된 패턴으로 조절할 수 있도록 훈련합니다.</p>
+        <div class="gallery-meta-unboxed">
+          <span class="gallery-index-tag">03 / TREATMENT</span>
+          <h4 class="gallery-item-title">안심 침구 치료 및 뇌신경 안정</h4>
+          <p class="gallery-item-desc">아프지 않고 편안한 순한 침 치료로 전신 혈류를 순환시키고 긴장을 덜어냅니다.</p>
+        </div>
+      </div>
+
+      <!-- Item 4 -->
+      <div class="gallery-item-unboxed">
+        <div class="gallery-img-container">
+          <img src="{{ "images/philosophy/philosophy-neurofeedback.jpg" | relURL }}" alt="비약물 두뇌 훈련 뉴로피드백" class="gallery-unboxed-img" loading="lazy">
+        </div>
+        <div class="gallery-meta-unboxed">
+          <span class="gallery-index-tag">04 / BRAIN TRAINING</span>
+          <h4 class="gallery-item-title">비약물 두뇌 훈련 (뉴로피드백)</h4>
+          <p class="gallery-item-desc">스스로 뇌파와 자율신경을 안정된 패턴으로 조절할 수 있도록 훈련합니다.</p>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- 4. Books Section (해아림한의원 원장단 저서) -->
-<section class="section books-section" id="books">
+<!-- 4. Books Section (Unboxed Editorial Presentation) -->
+<section class="section books-unboxed-section" id="books">
   <div class="container">
-    <div class="section-header text-center">
-      <span class="section-tag">INSIGHTS FOR HEALING</span>
-      <h2 class="section-title">해아림한의원 <strong>원장단 저서</strong></h2>
-      <p class="section-desc">당신의 회복을 위한 한 권의 안내서 — 의료진이 임상 현장에서 환자와 함께하며 축적한 치유의 기록입니다.</p>
+    <div class="section-header-unboxed text-center">
+      <span class="editorial-section-tag">PUBLICATIONS & INSIGHTS</span>
+      <h2 class="editorial-section-title">해아림한의원 <strong>원장단 저서</strong></h2>
+      <p class="editorial-section-desc">당신의 회복을 위한 한 권의 안내서 — 임상 현장에서 환자와 함께하며 축적한 치유의 기록입니다.</p>
     </div>
 
-    <div class="books-editorial-grid">
+    <!-- Direct Unboxed Placement on Canvas -->
+    <div class="books-unboxed-spread">
       <!-- Book 1: 토닥토닥 틱장애 -->
-      <article class="book-card-item">
-        <div class="book-cover-wrap">
-          <img src="{{ "images/books/book-tic.png" | relURL }}" alt="토닥토닥 틱장애 - 해아림 원장단 지음" class="book-cover-img" loading="lazy">
-          <div class="book-cover-spine"></div>
+      <div class="book-entry-unboxed">
+        <div class="book-cover-stage">
+          <img src="{{ "images/books/book-tic.png" | relURL }}" alt="토닥토닥 틱장애 - 해아림 원장단 지음" class="book-real-cover" loading="lazy">
         </div>
-        <div class="book-details">
-          <span class="book-badge">소아청소년 두뇌 클리닉</span>
-          <h3 class="book-title">토닥토닥 틱장애</h3>
-          <p class="book-subtitle">슬기로운 ADHD 틱장애 완치 지침서</p>
-          <p class="book-desc">
+        <div class="book-prose-unboxed">
+          <span class="book-prose-tag">소아청소년 두뇌 클리닉</span>
+          <h3 class="book-prose-title">토닥토닥 틱장애</h3>
+          <p class="book-prose-subtitle">슬기로운 ADHD 틱장애 완치 지침서</p>
+          <p class="book-prose-summary">
             틱장애와 ADHD에 대한 올바른 의학적 이해와 임상 치료 과정, 가정에서 부모님이 실천할 수 있는 생생한 생활 관리법을 알기 쉽게 풀어낸 실용 지침서입니다.
           </p>
-          <a href="https://search.shopping.naver.com/book/catalog/32490810061?query=%ED%86%A0%EB%8B%A5%ED%86%A0%EB%8B%A5%20%ED%8B%B1%EC%9E%A5%EC%95%A0&NaPm=ct%3Dmioddx8o%7Cci%3D88cb1cfb72fd4c1bbf57c156f9cee5d974614dfa%7Ctr%3Dboksl%7Csn%3D95694%7Chk%3D999b7206e2c38eb1b0018a5227f12ca6fcf00bc4" target="_blank" rel="noopener noreferrer" class="book-view-link">
-            <span>도서 보러가기</span>
-            <i class="ph-bold ph-arrow-up-right"></i>
-          </a>
+          <div class="book-link-wrap">
+            <a href="https://search.shopping.naver.com/book/catalog/32490810061?query=%ED%86%A0%EB%8B%A5%ED%86%A0%EB%8B%A5%20%ED%8B%B1%EC%9E%A5%EC%95%A0&NaPm=ct%3Dmioddx8o%7Cci%3D88cb1cfb72fd4c1bbf57c156f9cee5d974614dfa%7Ctr%3Dboksl%7Csn%3D95694%7Chk%3D999b7206e2c38eb1b0018a5227f12ca6fcf00bc4" target="_blank" rel="noopener noreferrer" class="link-editorial-more">
+              <span>도서 정보 보러가기</span>
+              <i class="ph-bold ph-arrow-up-right"></i>
+            </a>
+          </div>
         </div>
-      </article>
+      </div>
+
+      <!-- Hairline divider between books on desktop -->
+      <div class="books-spread-divider" aria-hidden="true"></div>
 
       <!-- Book 2: 걱정마 공황장애 -->
-      <article class="book-card-item">
-        <div class="book-cover-wrap">
-          <img src="{{ "images/books/book-panic.png" | relURL }}" alt="걱정마 공황장애 - 해아림 원장단 지음" class="book-cover-img" loading="lazy">
-          <div class="book-cover-spine"></div>
+      <div class="book-entry-unboxed">
+        <div class="book-cover-stage">
+          <img src="{{ "images/books/book-panic.png" | relURL }}" alt="걱정마 공황장애 - 해아림 원장단 지음" class="book-real-cover" loading="lazy">
         </div>
-        <div class="book-details">
-          <span class="book-badge">성인 신경정신과 클리닉</span>
-          <h3 class="book-title">걱정마 공황장애</h3>
-          <p class="book-subtitle">자율신경·불면·공황을 바로 이해하는 치유 안내서</p>
-          <p class="book-desc">
+        <div class="book-prose-unboxed">
+          <span class="book-prose-tag">성인 신경정신과 클리닉</span>
+          <h3 class="book-prose-title">걱정마 공황장애</h3>
+          <p class="book-prose-subtitle">자율신경·불면·공황을 바로 이해하는 치유 안내서</p>
+          <p class="book-prose-summary">
             불안장애, 공황장애, 자율신경실조증으로 고통받는 환자분들이 두려움의 악순환을 끊고 마음의 평온과 일상의 회복을 되찾을 수 있도록 돕는 실용 안내서입니다.
           </p>
-          <a href="https://search.shopping.naver.com/book/catalog/45917649628?cat_id=50009941&frm=PBOKPRO&query=%EA%B1%B1%EC%A0%95%EB%A7%88+%EA%B3%B5%ED%99%A9%EC%9E%A5%EC%95%A0&NaPm=ct%3Dmiodf3og%7Cci%3D413a31e11c6038fd7ea36bd84c1652315960334b%7Ctr%3Dboknx%7Csn%3D95694%7Chk%3D3e81b624a9f7270d570bf19511a3b60d2a43d63e" target="_blank" rel="noopener noreferrer" class="book-view-link">
-            <span>도서 보러가기</span>
-            <i class="ph-bold ph-arrow-up-right"></i>
-          </a>
+          <div class="book-link-wrap">
+            <a href="https://search.shopping.naver.com/book/catalog/45917649628?cat_id=50009941&frm=PBOKPRO&query=%EA%B1%B1%EC%A0%95%EB%A7%88+%EA%B3%B5%ED%99%A9%EC%9E%A5%EC%95%A0&NaPm=ct%3Dmiodf3og%7Cci%3D413a31e11c6038fd7ea36bd84c1652315960334b%7Ctr%3Dboknx%7Csn%3D95694%7Chk%3D3e81b624a9f7270d570bf19511a3b60d2a43d63e" target="_blank" rel="noopener noreferrer" class="link-editorial-more">
+              <span>도서 정보 보러가기</span>
+              <i class="ph-bold ph-arrow-up-right"></i>
+            </a>
+          </div>
         </div>
-      </article>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- 5. Academic Activities Slide (해아림한의원 원장단 학술활동 슬라이드) -->
-<section class="section academic-section" id="academic">
+<!-- 5. Academic Activities (Unboxed Visual & Typography Carousel) -->
+<section class="section academic-unboxed-section" id="academic">
   <div class="container">
-    <div class="section-header-row">
-      <div>
-        <span class="section-tag">ACADEMIC RESEARCH & CLINICAL STUDIES</span>
-        <h2 class="section-title">해아림한의원 <strong>원장단 학술활동</strong></h2>
-        <p class="section-desc">지속적인 임상 연구와 학회 발표를 통해 보다 체계적이고 과학적인 한방신경정신과 치료를 이끌어갑니다.</p>
+    <div class="gallery-section-header">
+      <div class="gallery-title-wrap">
+        <span class="editorial-section-tag">CLINICAL STUDIES & RESEARCH</span>
+        <h2 class="editorial-section-title">해아림한의원 <strong>원장단 학술활동</strong></h2>
+        <p class="editorial-section-desc">지속적인 임상 연구와 학회 발표를 통해 보다 체계적이고 과학적인 한방신경정신과 치료를 이끌어갑니다.</p>
       </div>
       <div class="carousel-nav-arrows">
         <button type="button" class="carousel-nav-btn prev" id="academic-prev-btn" aria-label="이전 학술활동 보기">
@@ -327,246 +338,209 @@
       </div>
     </div>
 
-    <div class="academic-carousel-container" id="academic-carousel">
-      <!-- Academic Card 1 -->
-      <div class="academic-slide-card">
-        <div class="academic-frame">
-          <div class="academic-frame-inner">
-            <span class="academic-card-badge">학술대회 연구발표</span>
-            <h4 class="academic-slide-title">대한한방신경정신과학회 정기 학술대회 연구 발표</h4>
-            <p class="academic-slide-text">틱장애, ADHD, 공황장애의 뇌신경 기전 및 한방 임상 효능에 대한 지속적인 학술 논문 발표와 연구 공유를 진행합니다.</p>
+    <!-- Unboxed Horizontal Track (Zero dark cards, clean typography and minimal plates) -->
+    <div class="academic-unboxed-track" id="academic-carousel">
+      <!-- Item 1 -->
+      <div class="academic-unboxed-item">
+        <div class="academic-visual-stage">
+          <div class="academic-visual-plate plate-symposium">
+            <span class="academic-plate-badge">대한한방신경정신과학회</span>
+            <div class="academic-plate-num">VOL. 01</div>
           </div>
         </div>
-        <div class="academic-caption-wrap">
-          <span class="academic-caption-tag">대한한방신경정신과학회 정회원</span>
+        <div class="academic-text-stage">
+          <span class="academic-field-tag">학술대회 연구발표</span>
+          <h4 class="academic-entry-title">대한한방신경정신과학회 정기 학술대회 연구 발표</h4>
+          <p class="academic-entry-desc">틱장애, ADHD, 공황장애의 뇌신경 기전 및 한방 임상 효능에 대한 지속적인 학술 논문 발표와 연구 공유를 진행합니다.</p>
+          <span class="academic-sub-credit">대한한방신경정신과학회 정회원</span>
         </div>
       </div>
 
-      <!-- Academic Card 2 -->
-      <div class="academic-slide-card">
-        <div class="academic-frame">
-          <div class="academic-frame-inner">
-            <span class="academic-card-badge">두뇌신경의학 연구</span>
-            <h4 class="academic-slide-title">대한한방두뇌신경의학회 임상 증례 세미나</h4>
-            <p class="academic-slide-text">뇌기능 검사 및 자율신경계 정밀 진단 기법을 임상에 접목하여 근거 기반의 한방 신경정신 치료 프로토콜을 체계화합니다.</p>
+      <!-- Item 2 -->
+      <div class="academic-unboxed-item">
+        <div class="academic-visual-stage">
+          <div class="academic-visual-plate plate-brain">
+            <span class="academic-plate-badge">대한한방두뇌신경의학회</span>
+            <div class="academic-plate-num">VOL. 02</div>
           </div>
         </div>
-        <div class="academic-caption-wrap">
-          <span class="academic-caption-tag">대한한방두뇌신경의학회 정회원</span>
+        <div class="academic-text-stage">
+          <span class="academic-field-tag">두뇌신경의학 연구</span>
+          <h4 class="academic-entry-title">대한한방두뇌신경의학회 임상 증례 세미나</h4>
+          <p class="academic-entry-desc">뇌기능 검사 및 자율신경계 정밀 진단 기법을 임상에 접목하여 근거 기반의 한방 신경정신 치료 프로토콜을 체계화합니다.</p>
+          <span class="academic-sub-credit">대한한방두뇌신경의학회 정회원</span>
         </div>
       </div>
 
-      <!-- Academic Card 3 -->
-      <div class="academic-slide-card">
-        <div class="academic-frame">
-          <div class="academic-frame-inner">
-            <span class="academic-card-badge">임상 치료지침 고도화</span>
-            <h4 class="academic-slide-title">해아림 네트워크 원장단 정기 임상 컨퍼런스</h4>
-            <p class="academic-slide-text">전국 해아림 의료진과의 심층 증례 토론과 최신 뇌과학 지견 공유를 통해 환자 맞춤 치료의 정확성을 높입니다.</p>
+      <!-- Item 3 -->
+      <div class="academic-unboxed-item">
+        <div class="academic-visual-stage">
+          <div class="academic-visual-plate plate-clinical">
+            <span class="academic-plate-badge">해아림 네트워크</span>
+            <div class="academic-plate-num">VOL. 03</div>
           </div>
         </div>
-        <div class="academic-caption-wrap">
-          <span class="academic-caption-tag">해아림 임상 진료 지침 표준화</span>
+        <div class="academic-text-stage">
+          <span class="academic-field-tag">임상 치료지침 고도화</span>
+          <h4 class="academic-entry-title">해아림 네트워크 원장단 정기 임상 컨퍼런스</h4>
+          <p class="academic-entry-desc">전국 해아림 의료진과의 심층 증례 토론과 최신 뇌과학 지견 공유를 통해 환자 맞춤 치료의 정확성을 높입니다.</p>
+          <span class="academic-sub-credit">해아림 임상 진료 지침 표준화</span>
         </div>
       </div>
 
-      <!-- Academic Card 4 -->
-      <div class="academic-slide-card">
-        <div class="academic-frame">
-          <div class="academic-frame-inner">
-            <span class="academic-card-badge">자율신경 조절 임상</span>
-            <h4 class="academic-slide-title">스트레스 및 자율신경실조증 치료 기전 세미나</h4>
-            <p class="academic-slide-text">신체화장애, 불면증, 미주신경성 실신 등 교감·부교감신경 불균형 질환에 대한 한방 치료와 생활의학적 중재를 연구합니다.</p>
+      <!-- Item 4 -->
+      <div class="academic-unboxed-item">
+        <div class="academic-visual-stage">
+          <div class="academic-visual-plate plate-autonomic">
+            <span class="academic-plate-badge">자율신경 조절 임상</span>
+            <div class="academic-plate-num">VOL. 04</div>
           </div>
         </div>
-        <div class="academic-caption-wrap">
-          <span class="academic-caption-tag">뇌-신체 상호작용 통합 치료</span>
+        <div class="academic-text-stage">
+          <span class="academic-field-tag">스트레스 & 자율신경</span>
+          <h4 class="academic-entry-title">스트레스 및 자율신경실조증 치료 기전 세미나</h4>
+          <p class="academic-entry-desc">신체화장애, 불면증, 미주신경성 실신 등 교감·부교감신경 불균형 질환에 대한 한방 치료와 생활의학적 중재를 연구합니다.</p>
+          <span class="academic-sub-credit">뇌-신체 상호작용 통합 치료</span>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- 4. Treatments Section (통합 9대 핵심 진료과목) -->
-<section class="section treatments-home-section" id="clinics">
+<!-- 6. Treatments Section (Unboxed Architectural Editorial Grid) -->
+<section class="section treatments-unboxed-section" id="clinics">
   <div class="container">
-    <div class="section-header text-center">
-      <span class="section-tag">TREATMENTS</span>
-      <h2 class="section-title"><strong>9대 주요 진료과목</strong></h2>
-      <p class="section-desc hide-mobile">소아부터 성인까지, 몸과 뇌·마음의 불균형을 다각도로 살피고 원인을 치료하는 <span class="tel-nowrap">9대 특화 진료과목입니다.</span></p>
+    <div class="section-header-unboxed text-center">
+      <span class="editorial-section-tag">SPECIALIZED CLINICS</span>
+      <h2 class="editorial-section-title"><strong>9대 주요 진료과목</strong></h2>
+      <p class="editorial-section-desc">소아부터 성인까지, 몸과 뇌·마음의 불균형을 다각도로 살피고 원인을 치료하는 9대 특화 진료과목입니다.</p>
     </div>
 
-    <!-- Unified 8-Card Treatments Grid -->
-    <div class="treatments-unified-grid">
-      <!-- 01. 틱장애 (에메랄드) -->
-      <article class="treatment-card">
-        <div class="treatment-card-top">
-          <div class="treatment-circle-wrap">
-            <img src="{{ "images/clinics/clinic-tic.jpg" | relURL }}" alt="틱장애 · 뚜렛증후군" class="treatment-circle-img" loading="lazy">
-            <span class="card-num-badge">01</span>
-          </div>
-          <div class="treatment-title-wrap">
-            <h4 class="treatment-name">틱장애 · 뚜렛증후군</h4>
+    <!-- Unboxed Editorial Grid (No white card borders, separated by subtle hairlines & airy whitespace) -->
+    <div class="treatments-unboxed-grid">
+      <!-- 01. 틱장애 -->
+      <article class="treatment-unboxed-item">
+        <div class="treatment-unboxed-top">
+          <span class="treatment-unboxed-num">01</span>
+          <div class="treatment-unboxed-thumb">
+            <img src="{{ "images/clinics/clinic-tic.jpg" | relURL }}" alt="틱장애 · 뚜렛증후군" class="treatment-thumb-img" loading="lazy">
           </div>
         </div>
-        <div class="treatment-tags-row">
-          <span class="sub-tag">운동틱</span>
-          <span class="sub-tag">음성틱</span>
-          <span class="sub-tag">근육틱</span>
-          <span class="sub-tag">복합틱</span>
-          <span class="sub-tag">성인틱</span>
+        <h3 class="treatment-unboxed-name">틱장애 · 뚜렛증후군</h3>
+        <div class="treatment-unboxed-tags">
+          <span>운동틱</span> · <span>음성틱</span> · <span>근육틱</span> · <span>복합틱</span> · <span>성인틱</span>
         </div>
       </article>
 
-      <!-- 02. ADHD (톤다운 주황) -->
-      <article class="treatment-card theme-warm-orange">
-        <div class="treatment-card-top">
-          <div class="treatment-circle-wrap">
-            <img src="{{ "images/clinics/clinic-adhd.jpg" | relURL }}" alt="주의집중력 소아·성인 ADHD" class="treatment-circle-img" loading="lazy">
-            <span class="card-num-badge">02</span>
-          </div>
-          <div class="treatment-title-wrap">
-            <h4 class="treatment-name">주의집중력 (ADHD)</h4>
+      <!-- 02. ADHD -->
+      <article class="treatment-unboxed-item">
+        <div class="treatment-unboxed-top">
+          <span class="treatment-unboxed-num">02</span>
+          <div class="treatment-unboxed-thumb">
+            <img src="{{ "images/clinics/clinic-adhd.jpg" | relURL }}" alt="주의집중력 소아·성인 ADHD" class="treatment-thumb-img" loading="lazy">
           </div>
         </div>
-        <div class="treatment-tags-row">
-          <span class="sub-tag">소아 ADHD</span>
-          <span class="sub-tag">성인 ADHD</span>
-          <span class="sub-tag">주의력결핍</span>
-          <span class="sub-tag">과잉행동·충동성</span>
+        <h3 class="treatment-unboxed-name">주의집중력 (ADHD)</h3>
+        <div class="treatment-unboxed-tags">
+          <span>소아 ADHD</span> · <span>성인 ADHD</span> · <span>주의력결핍</span> · <span>과잉행동·충동성</span>
         </div>
       </article>
 
-      <!-- 03. 공황장애 (에메랄드) -->
-      <article class="treatment-card">
-        <div class="treatment-card-top">
-          <div class="treatment-circle-wrap">
-            <img src="{{ "images/clinics/clinic-panic.jpg" | relURL }}" alt="공황장애" class="treatment-circle-img" loading="lazy">
-            <span class="card-num-badge">03</span>
-          </div>
-          <div class="treatment-title-wrap">
-            <h4 class="treatment-name">공황장애</h4>
+      <!-- 03. 공황장애 -->
+      <article class="treatment-unboxed-item">
+        <div class="treatment-unboxed-top">
+          <span class="treatment-unboxed-num">03</span>
+          <div class="treatment-unboxed-thumb">
+            <img src="{{ "images/clinics/clinic-panic.jpg" | relURL }}" alt="공황장애" class="treatment-thumb-img" loading="lazy">
           </div>
         </div>
-        <div class="treatment-tags-row">
-          <span class="sub-tag">공황발작</span>
-          <span class="sub-tag">예기불안</span>
-          <span class="sub-tag">광장공포증</span>
-          <span class="sub-tag">과호흡</span>
+        <h3 class="treatment-unboxed-name">공황장애</h3>
+        <div class="treatment-unboxed-tags">
+          <span>공황발작</span> · <span>예기불안</span> · <span>광장공포증</span> · <span>과호흡</span>
         </div>
       </article>
 
-      <!-- 04. 불안장애 (톤다운 주황 & 좌우반전) -->
-      <article class="treatment-card theme-warm-orange reverse-card">
-        <div class="treatment-card-top">
-          <div class="treatment-circle-wrap">
-            <img src="{{ "images/clinics/clinic-anxiety.jpg" | relURL }}" alt="불안장애 · 사회공포증" class="treatment-circle-img" loading="lazy">
-            <span class="card-num-badge">04</span>
-          </div>
-          <div class="treatment-title-wrap">
-            <h4 class="treatment-name">불안장애 · 공포증</h4>
+      <!-- 04. 불안장애 -->
+      <article class="treatment-unboxed-item">
+        <div class="treatment-unboxed-top">
+          <span class="treatment-unboxed-num">04</span>
+          <div class="treatment-unboxed-thumb">
+            <img src="{{ "images/clinics/clinic-anxiety.jpg" | relURL }}" alt="불안장애 · 사회공포증" class="treatment-thumb-img" loading="lazy">
           </div>
         </div>
-        <div class="treatment-tags-row">
-          <span class="sub-tag">범불안장애</span>
-          <span class="sub-tag">사회공포증</span>
-          <span class="sub-tag">대인기피증</span>
-          <span class="sub-tag">발표불안</span>
+        <h3 class="treatment-unboxed-name">불안장애 · 공포증</h3>
+        <div class="treatment-unboxed-tags">
+          <span>범불안장애</span> · <span>사회공포증</span> · <span>대인기피증</span> · <span>발표불안</span>
         </div>
       </article>
 
-      <!-- 05. 수면 · 불면증 (에메랄드 & 좌우반전) -->
-      <article class="treatment-card reverse-card">
-        <div class="treatment-card-top">
-          <div class="treatment-circle-wrap">
-            <img src="{{ "images/clinics/clinic-sleep.jpg" | relURL }}" alt="수면 · 불면증" class="treatment-circle-img" loading="lazy">
-            <span class="card-num-badge">05</span>
-          </div>
-          <div class="treatment-title-wrap">
-            <h4 class="treatment-name">수면 · 불면증</h4>
+      <!-- 05. 수면 · 불면증 -->
+      <article class="treatment-unboxed-item">
+        <div class="treatment-unboxed-top">
+          <span class="treatment-unboxed-num">05</span>
+          <div class="treatment-unboxed-thumb">
+            <img src="{{ "images/clinics/clinic-sleep.jpg" | relURL }}" alt="수면 · 불면증" class="treatment-thumb-img" loading="lazy">
           </div>
         </div>
-        <div class="treatment-tags-row">
-          <span class="sub-tag">입면장애</span>
-          <span class="sub-tag">수면유지장애</span>
-          <span class="sub-tag">조기각성</span>
-          <span class="sub-tag">수면제 단약</span>
+        <h3 class="treatment-unboxed-name">수면 · 불면증</h3>
+        <div class="treatment-unboxed-tags">
+          <span>입면장애</span> · <span>수면유지장애</span> · <span>조기각성</span> · <span>수면제 단약</span>
         </div>
       </article>
 
-      <!-- 06. 자율신경실조증 (톤다운 주황 & 좌우반전) -->
-      <article class="treatment-card theme-warm-orange reverse-card">
-        <div class="treatment-card-top">
-          <div class="treatment-circle-wrap">
-            <img src="{{ "images/clinics/clinic-autonomic.jpg" | relURL }}" alt="자율신경실조증" class="treatment-circle-img" loading="lazy">
-            <span class="card-num-badge">06</span>
-          </div>
-          <div class="treatment-title-wrap">
-            <h4 class="treatment-name">자율신경실조증</h4>
+      <!-- 06. 자율신경실조증 -->
+      <article class="treatment-unboxed-item">
+        <div class="treatment-unboxed-top">
+          <span class="treatment-unboxed-num">06</span>
+          <div class="treatment-unboxed-thumb">
+            <img src="{{ "images/clinics/clinic-autonomic.jpg" | relURL }}" alt="자율신경실조증" class="treatment-thumb-img" loading="lazy">
           </div>
         </div>
-        <div class="treatment-tags-row">
-          <span class="sub-tag">만성 두통</span>
-          <span class="sub-tag">어지럼증</span>
-          <span class="sub-tag">가슴 답답함</span>
-          <span class="sub-tag">신체화장애</span>
+        <h3 class="treatment-unboxed-name">자율신경실조증</h3>
+        <div class="treatment-unboxed-tags">
+          <span>만성 두통</span> · <span>어지럼증</span> · <span>가슴 답답함</span> · <span>신체화장애</span>
         </div>
       </article>
 
-      <!-- 07. 다한증 (에메랄드) -->
-      <article class="treatment-card">
-        <div class="treatment-card-top">
-          <div class="treatment-circle-wrap">
-            <img src="{{ "images/clinics/clinic-hyperhidrosis.jpg" | relURL }}" alt="다한증 손발·전신·안면" class="treatment-circle-img" loading="lazy">
-            <span class="card-num-badge">07</span>
-          </div>
-          <div class="treatment-title-wrap">
-            <h4 class="treatment-name">다한증 (손발·전신·안면)</h4>
+      <!-- 07. 다한증 -->
+      <article class="treatment-unboxed-item">
+        <div class="treatment-unboxed-top">
+          <span class="treatment-unboxed-num">07</span>
+          <div class="treatment-unboxed-thumb">
+            <img src="{{ "images/clinics/clinic-hyperhidrosis.jpg" | relURL }}" alt="다한증 손발·전신·안면" class="treatment-thumb-img" loading="lazy">
           </div>
         </div>
-        <div class="treatment-tags-row">
-          <span class="sub-tag">손발 다한증</span>
-          <span class="sub-tag">전신 다한증</span>
-          <span class="sub-tag">안면 다한증</span>
-          <span class="sub-tag">긴장성 발한</span>
+        <h3 class="treatment-unboxed-name">다한증 (손발·전신·안면)</h3>
+        <div class="treatment-unboxed-tags">
+          <span>손발 다한증</span> · <span>전신 다한증</span> · <span>안면 다한증</span> · <span>긴장성 발한</span>
         </div>
       </article>
 
-      <!-- 08. 과민성대장증후군 (톤다운 주황) -->
-      <article class="treatment-card theme-warm-orange">
-        <div class="treatment-card-top">
-          <div class="treatment-circle-wrap">
-            <img src="{{ "images/clinics/clinic-ibs.jpg" | relURL }}" alt="과민성대장증후군 · 만성 소화장애" class="treatment-circle-img" loading="lazy">
-            <span class="card-num-badge">08</span>
-          </div>
-          <div class="treatment-title-wrap">
-            <h4 class="treatment-name">과민성대장증후군</h4>
+      <!-- 08. 과민성대장증후군 -->
+      <article class="treatment-unboxed-item">
+        <div class="treatment-unboxed-top">
+          <span class="treatment-unboxed-num">08</span>
+          <div class="treatment-unboxed-thumb">
+            <img src="{{ "images/clinics/clinic-ibs.jpg" | relURL }}" alt="과민성대장증후군 · 만성 소화장애" class="treatment-thumb-img" loading="lazy">
           </div>
         </div>
-        <div class="treatment-tags-row">
-          <span class="sub-tag">신경성 복통</span>
-          <span class="sub-tag">만성 설사·변비</span>
-          <span class="sub-tag">복부 팽만감</span>
-          <span class="sub-tag">장-뇌 축 안정</span>
+        <h3 class="treatment-unboxed-name">과민성대장증후군</h3>
+        <div class="treatment-unboxed-tags">
+          <span>신경성 복통</span> · <span>만성 설사·변비</span> · <span>복부 팽만감</span> · <span>장-뇌 축 안정</span>
         </div>
       </article>
 
-      <!-- 09. 미주신경성 실신 (에메랄드) -->
-      <article class="treatment-card">
-        <div class="treatment-card-top">
-          <div class="treatment-circle-wrap">
-            <img src="{{ "images/clinics/clinic-syncope.jpg" | relURL }}" alt="미주신경성 실신 · 기립성 어지럼" class="treatment-circle-img" loading="lazy">
-            <span class="card-num-badge">09</span>
-          </div>
-          <div class="treatment-title-wrap">
-            <h4 class="treatment-name">미주신경성 실신</h4>
+      <!-- 09. 미주신경성 실신 -->
+      <article class="treatment-unboxed-item">
+        <div class="treatment-unboxed-top">
+          <span class="treatment-unboxed-num">09</span>
+          <div class="treatment-unboxed-thumb">
+            <img src="{{ "images/clinics/clinic-syncope.jpg" | relURL }}" alt="미주신경성 실신 · 기립성 어지럼" class="treatment-thumb-img" loading="lazy">
           </div>
         </div>
-        <div class="treatment-tags-row">
-          <span class="sub-tag">혈관미주신경성</span>
-          <span class="sub-tag">기립성 어지럼</span>
-          <span class="sub-tag">기립성 저혈압</span>
-          <span class="sub-tag">실신 전조증상</span>
+        <h3 class="treatment-unboxed-name">미주신경성 실신</h3>
+        <div class="treatment-unboxed-tags">
+          <span>혈관미주신경성</span> · <span>기립성 어지럼</span> · <span>기립성 저혈압</span> · <span>실신 전조증상</span>
         </div>
       </article>
     </div>
@@ -1085,24 +1059,24 @@
   </div>
 </section>
 
-<!-- 8. Location & Hours Section -->
-<section class="section location-section" id="location">
+<!-- 8. Location & Hours Section (Unboxed Editorial Presentation) -->
+<section class="section location-unboxed-section" id="location">
   <div class="container">
-    <div class="section-header text-center">
-      <span class="section-tag">LOCATION & HOURS</span>
-      <h2 class="section-title">오시는 길 & <strong>진료시간</strong></h2>
-      <p class="section-desc">정자역 3번 출구 도보 2분 거리로 편리하게 내원하실 수 있습니다.</p>
+    <div class="section-header-unboxed text-center">
+      <span class="editorial-section-tag">LOCATION & HOURS</span>
+      <h2 class="editorial-section-title">오시는 길 & <strong>진료시간</strong></h2>
+      <p class="editorial-section-desc">정자역 3번 출구 도보 2분 거리 — 쾌적하고 편안하게 내원하실 수 있도록 세심하게 안내해 드립니다.</p>
     </div>
 
-    <div class="location-grid">
-      <!-- Hours Card -->
-      <div class="location-card hours-card">
-        <div class="loc-card-header">
-          <div class="loc-icon-circle"><i class="ph-bold ph-clock"></i></div>
-          <h3 class="loc-card-title">진료시간 안내</h3>
+    <div class="location-unboxed-spread">
+      <!-- Left: Timetable (Unboxed Editorial) -->
+      <div class="location-unboxed-hours">
+        <div class="location-col-header">
+          <span class="location-sub-label">TIME TABLE</span>
+          <h3 class="location-col-title">진료시간 안내</h3>
         </div>
 
-        <table class="hours-table">
+        <table class="editorial-timetable">
           <tbody>
             <tr class="highlight-row">
               <th>월요일 · 수요일</th>
@@ -1127,60 +1101,50 @@
               <td>13:00 ~ 14:00 <span class="lunch-note">(월/화/수/금)</span></td>
             </tr>
             <tr class="closed-row">
-              <th>휴진일</th>
+              <th>정기 휴진일</th>
               <td><strong>매주 목요일, 일요일</strong></td>
             </tr>
           </tbody>
         </table>
 
-        <div class="loc-hours-hint">
+        <div class="editorial-hours-note">
           <i class="ph-bold ph-info"></i>
           <span>토요일·공휴일은 점심시간 없이 진료하며, 100% 사전 예약 우선제로 대기 시간을 줄입니다.</span>
         </div>
       </div>
 
-      <!-- Location & Transit Card with Live Map -->
-      <div class="location-card map-info-card">
-        <div class="loc-card-header">
-          <div class="loc-icon-circle"><i class="ph-bold ph-map-pin"></i></div>
-          <h3 class="loc-card-title">오시는 길 & 주차</h3>
+      <!-- Right: Location & Live Map (Unboxed Editorial) -->
+      <div class="location-unboxed-map">
+        <div class="location-col-header">
+          <span class="location-sub-label">VISIT & PARKING</span>
+          <h3 class="location-col-title">오시는 길 & 주차 안내</h3>
         </div>
 
-        <!-- Integrated NAVER Map -->
-        <div class="home-map-embed-wrap">
+        <div class="editorial-map-canvas home-map-embed-wrap">
           {{ partial "naver_map.html" . }}
         </div>
 
-        <div class="address-box">
-          <div class="addr-main">
-            <span class="addr-label">도로명 주소</span>
-            <strong class="addr-text">경기도 성남시 분당구 성남대로 331번길 3-3, 젤존타워 3차, 405호</strong>
+        <div class="editorial-address-line">
+          <span class="address-chip">도로명 주소</span>
+          <strong class="address-full">경기도 성남시 분당구 성남대로 331번길 3-3, 젤존타워 3차, 405호</strong>
+        </div>
+
+        <div class="editorial-transit-list">
+          <div class="editorial-transit-row">
+            <span class="transit-tag-pill subway">지하철</span>
+            <p class="transit-desc-text">수인분당선 / 신분당선 <strong>정자역 3번 출구</strong> 도보 2분 거리 (젤존타워 3차 4층)</p>
+          </div>
+          <div class="editorial-transit-row">
+            <span class="transit-tag-pill car">주차 안내</span>
+            <p class="transit-desc-text">젤존타워 3차 건물 내 지하주차장 이용 가능 (내원 시 무료 주차권을 지원해 드립니다.)</p>
           </div>
         </div>
 
-        <div class="transit-info-list">
-          <div class="transit-item">
-            <div class="transit-icon subway"><i class="ph-bold ph-train"></i></div>
-            <div class="transit-text">
-              <strong>지하철 이용 시</strong>
-              <p>수인분당선 / 신분당선 <strong>정자역 3번 출구</strong> 나오셔서 도보 2분 거리 (젤존타워 3차 4층)</p>
-            </div>
-          </div>
-
-          <div class="transit-item">
-            <div class="transit-icon car"><i class="ph-bold ph-car"></i></div>
-            <div class="transit-text">
-              <strong>자가용 & 주차 안내</strong>
-              <p>젤존타워 3차 건물 내 지하주차장 이용 가능 (내원 시 무료 주차권을 지원해 드립니다.)</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="map-action-buttons">
-          <a href="https://map.naver.com/p/search/%ED%95%B4%EC%95%84%EB%A6%BC%ED%95%9C%EC%9D%98%EC%9B%90%20%EB%B6%84%EB%8B%B9%EC%A0%90" target="_blank" rel="noopener noreferrer" class="btn btn-naver-map">
+        <div class="editorial-map-actions">
+          <a href="https://map.naver.com/p/search/%ED%95%B4%EC%95%84%EB%A6%BC%ED%95%9C%EC%9D%98%EC%9B%90%20%EB%B6%84%EB%8B%B9%EC%A0%90" target="_blank" rel="noopener noreferrer" class="btn-editorial-map naver">
             <span class="n-icon">N</span> 네이버 지도 길찾기
           </a>
-          <a href="https://map.kakao.com/link/search/%ED%95%B4%EC%95%84%EB%A6%BC%ED%95%9C%EC%9D%98%EC%9B%90%20%EB%B6%84%EB%8B%B9%EC%A0%90" target="_blank" rel="noopener noreferrer" class="btn btn-kakao-map">
+          <a href="https://map.kakao.com/link/search/%ED%95%B4%EC%95%84%EB%A6%BC%ED%95%9C%EC%9D%98%EC%9B%90%20%EB%B6%84%EB%8B%B9%EC%A0%90" target="_blank" rel="noopener noreferrer" class="btn-editorial-map kakao">
             <i class="ph-fill ph-map-pin"></i> 카카오맵 길찾기
           </a>
         </div>
