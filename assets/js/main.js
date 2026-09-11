@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initFAQ();
   initScrollEffects();
   initSmoothScroll();
+  initPhotoCarousels();
   initReviewTabs();
   initNaverReviewsBoard();
   initAuth();
@@ -214,12 +215,32 @@ function initFAQ() {
   });
 }
 
-// 5. Scroll Effects & Floating Top
+// 5. Scroll Effects, Hero Header Transparency & Floating Top
 function initScrollEffects() {
   const scrollTopBtn = document.getElementById('scroll-to-top');
+  const siteHeader = document.getElementById('site-header');
+  const isHomePage = document.body.classList.contains('home-page');
+
+  function updateHeaderTransparency() {
+    if (!siteHeader || !isHomePage) return;
+    const scrollPos = window.scrollY;
+    if (scrollPos > 60) {
+      siteHeader.classList.add('scrolled');
+      siteHeader.classList.remove('hero-transparent');
+    } else {
+      siteHeader.classList.remove('scrolled');
+      siteHeader.classList.add('hero-transparent');
+    }
+  }
+
+  // Initial execution for hero header
+  if (isHomePage && siteHeader) {
+    updateHeaderTransparency();
+  }
 
   window.addEventListener('scroll', () => {
     const scrollPos = window.scrollY;
+    updateHeaderTransparency();
 
     // Floating top button
     if (scrollTopBtn) {
@@ -229,7 +250,7 @@ function initScrollEffects() {
         scrollTopBtn.classList.remove('visible');
       }
     }
-  });
+  }, { passive: true });
 
   if (scrollTopBtn) {
     scrollTopBtn.addEventListener('click', () => {
@@ -237,6 +258,42 @@ function initScrollEffects() {
         top: 0,
         behavior: 'smooth'
       });
+    });
+  }
+}
+
+// Photo & Academic Activity Horizontal Carousels
+function initPhotoCarousels() {
+  setupCarousel('clinic-carousel', 'clinic-prev-btn', 'clinic-next-btn');
+  setupCarousel('academic-carousel', 'academic-prev-btn', 'academic-next-btn');
+}
+
+function setupCarousel(trackId, prevBtnId, nextBtnId) {
+  const track = document.getElementById(trackId);
+  const prevBtn = document.getElementById(prevBtnId);
+  const nextBtn = document.getElementById(nextBtnId);
+
+  if (!track) return;
+
+  function getStep() {
+    const firstItem = track.firstElementChild;
+    if (firstItem) {
+      const style = window.getComputedStyle(track);
+      const gap = parseFloat(style.gap || 20);
+      return firstItem.getBoundingClientRect().width + gap;
+    }
+    return 360;
+  }
+
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      track.scrollBy({ left: -getStep(), behavior: 'smooth' });
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      track.scrollBy({ left: getStep(), behavior: 'smooth' });
     });
   }
 }

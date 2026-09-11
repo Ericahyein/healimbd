@@ -97,115 +97,292 @@
         <span class="hero-line-1">공황·불안, 불면, 자율신경실조증부터 틱장애·ADHD까지,</span>
         <span class="hero-line-2">증상 너머의 원인을 살피고 몸과 뇌, 마음의 균형을 함께 설계합니다.</span>
       </p>
+    </div>
+  </div>
 
-      <div class="hero-cta-buttons">
-        <a href="https://booking.naver.com/booking/13/bizes/1167448" target="_blank" rel="noopener noreferrer" class="btn btn-hero-naver-dark">
-          <span class="n-symbol">N</span> 네이버 실시간 예약
-        </a>
-        <a href="{{ "reservation/" | relURL }}" class="btn btn-hero-inquiry">
-          <i class="ph-bold ph-calendar-check"></i> 진료시간 및 오시는 길
-        </a>
+  <!-- Subtle Scroll Down Mouse Indicator -->
+  <div class="hero-scroll-indicator" aria-hidden="true">
+    <div class="mouse-wheel-icon">
+      <span class="wheel-dot"></span>
+    </div>
+    <span class="scroll-text">SCROLL</span>
+  </div>
+</section>
+
+<!-- 2. Representative Director Section (손지웅 대표원장 소개) -->
+<section class="section home-director-section" id="director">
+  <div class="container">
+    <div class="director-editorial-grid">
+      
+      <!-- Left Column: Director Portrait Photo -->
+      <div class="director-portrait-col">
+        <div class="director-portrait-frame">
+          <img src="{{ "images/doctor-son.png" | relURL }}" alt="해아림한의원 분당점 손지웅 대표원장" class="director-portrait-img" loading="lazy">
+          <div class="director-signature-strip">
+            <span class="sig-vertical-text">Clinic Director, Jiwoong Son</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Greetings & Philosophy & Credentials -->
+      <div class="director-bio-col">
+        <div class="director-greeting-head">
+          <span class="section-tag">GREETING · 대표원장 인사말</span>
+          <h2 class="director-main-heading">
+            안녕하세요. 해아림한의원<br>
+            <strong class="text-gradient">분당점 대표원장 손지웅</strong>입니다.
+          </h2>
+        </div>
+
+        <div class="director-message-body">
+          <p>몸이 힘들다는 말 한마디에도<br>
+          그 안에는 쉽게 설명하기 어려운 불편함과 걱정, 저마다의 시간이 담겨 있습니다.</p>
+
+          <p>특히 불안, 불면, 공황, 자율신경의 불균형이나<br>
+          아이들의 틱, ADHD와 같은 증상은<br>
+          겉으로 드러나는 모습만으로는 그 어려움을 온전히 이해하기 어렵습니다.</p>
+
+          <p>그래서 저는 ‘어떤 증상이 있는가’보다 ‘왜 이런 증상이 나타났는가’를 먼저 살피려 합니다.</p>
+
+          <p>현재의 증상뿐만 아니라 수면과 소화, 긴장과 스트레스, 생활환경의 변화까지 세심하게 듣고<br>
+          필요한 검사와 진찰을 바탕으로 몸과 마음의 상태를 함께 살펴봅니다.</p>
+
+          <p>같은 증상이라도 원인과 양상은 사람마다 다릅니다.<br>
+          정해진 방식에 환자를 맞추기보다, 한 분 한 분에게 맞는 치료 방향을 찾는 것이 중요하다고 생각합니다.</p>
+
+          <p>잠시 증상을 덜어내는 데 그치지 않고<br>
+          다시 편안한 일상을 이어갈 수 있도록 회복의 과정을 함께하겠습니다.</p>
+
+          <p>환자분의 이야기를 충분히 듣고, 작은 변화까지 놓치지 않는 진료를 하겠습니다.</p>
+
+          <p class="director-salute">
+            감사합니다.<br>
+            <strong class="sign-name">대표원장 손지웅 드림</strong>
+          </p>
+        </div>
+
+        <!-- Philosophy Text Link (NO button style) -->
+        <div class="director-philo-link-wrap">
+          <a href="{{ "philosophy/" | relURL }}" class="link-philosophy-more">
+            <span>진료철학 자세히 보러가기</span>
+            <i class="ph-bold ph-arrow-right"></i>
+          </a>
+        </div>
+
+        <!-- Credentials Divider & List -->
+        <div class="director-creds-divider"></div>
+
+        <div class="director-creds-block">
+          <h4 class="director-creds-title">손지웅 대표원장 주요 이력</h4>
+          <ul class="director-creds-list">
+            <li><i class="ph-bold ph-check"></i> <span><strong>현)</strong> 해아림한의원 분당점 대표원장</span></li>
+            <li><i class="ph-bold ph-check"></i> <span><strong>대한한방신경정신과학회</strong> 정회원</span></li>
+            <li><i class="ph-bold ph-check"></i> <span><strong>대한한방두뇌신경의학회</strong> 정회원</span></li>
+            <li><i class="ph-bold ph-check"></i> <span>두뇌 인지기능 및 자율신경계 불균형 임상 연구</span></li>
+            <li><i class="ph-bold ph-check"></i> <span>소아청소년 뇌신경질환(틱·ADHD) 1:1 심층 진료</span></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- 3. Clinic Interior & Treatment Photos Carousel (병원 내부 및 진료 모습 슬라이드) -->
+<section class="section clinic-photos-section" id="clinic-photos">
+  <div class="container">
+    <div class="section-header-row">
+      <div>
+        <span class="section-tag">CLINIC & CARE</span>
+        <h2 class="section-title">편안하고 따뜻한 <strong>원내 진료 환경</strong></h2>
+        <p class="section-desc">소아부터 성인까지, 마음을 터놓고 치료에 집중할 수 있는 쾌적한 진료 공간입니다.</p>
+      </div>
+      <div class="carousel-nav-arrows">
+        <button type="button" class="carousel-nav-btn prev" id="clinic-prev-btn" aria-label="이전 사진 보기">
+          <i class="ph-bold ph-caret-left"></i>
+        </button>
+        <button type="button" class="carousel-nav-btn next" id="clinic-next-btn" aria-label="다음 사진 보기">
+          <i class="ph-bold ph-caret-right"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="photo-carousel-container" id="clinic-carousel">
+      <!-- Photo 1: Consultation -->
+      <div class="photo-carousel-card">
+        <div class="photo-img-wrap">
+          <img src="{{ "images/philosophy/philosophy-consult.jpg" | relURL }}" alt="손지웅 대표원장 1:1 심층 진료 및 검사 분석" class="photo-card-img" loading="lazy">
+        </div>
+        <div class="photo-card-caption">
+          <h4 class="caption-title">1:1 심층 문진 및 뇌신경 검사 상담</h4>
+          <p class="caption-desc">검사 결과와 증상의 배경을 꼼꼼히 살피며 진료 방향을 함께 의논합니다.</p>
+        </div>
+      </div>
+
+      <!-- Photo 2: Pulse Diagnosis -->
+      <div class="photo-carousel-card">
+        <div class="photo-img-wrap">
+          <img src="{{ "images/philosophy/philosophy-pulse.jpg" | relURL }}" alt="오장육부와 자율신경 불균형을 살피는 맥진" class="photo-card-img" loading="lazy">
+        </div>
+        <div class="photo-card-caption">
+          <h4 class="caption-title">체질 맥진 및 전신 불균형 진찰</h4>
+          <p class="caption-desc">신체적 피로도와 자율신경계 긴장 상태를 맥진을 통해 종합적으로 평가합니다.</p>
+        </div>
+      </div>
+
+      <!-- Photo 3: Acupuncture -->
+      <div class="photo-carousel-card">
+        <div class="photo-img-wrap">
+          <img src="{{ "images/philosophy/philosophy-acupuncture.jpg" | relURL }}" alt="뇌신경 안정 및 전신 긴장 완화 침구 치료" class="photo-card-img" loading="lazy">
+        </div>
+        <div class="photo-card-caption">
+          <h4 class="caption-title">안심 침구 치료 및 뇌신경 안정</h4>
+          <p class="caption-desc">아프지 않고 편안한 순한 침 치료로 전신 혈류를 순환시키고 긴장을 덜어냅니다.</p>
+        </div>
+      </div>
+
+      <!-- Photo 4: Neurofeedback -->
+      <div class="photo-carousel-card">
+        <div class="photo-img-wrap">
+          <img src="{{ "images/philosophy/philosophy-neurofeedback.jpg" | relURL }}" alt="비약물 두뇌 훈련 뉴로피드백" class="photo-card-img" loading="lazy">
+        </div>
+        <div class="photo-card-caption">
+          <h4 class="caption-title">비약물 두뇌 훈련 (뉴로피드백)</h4>
+          <p class="caption-desc">스스로 뇌파와 자율신경을 안정된 패턴으로 조절할 수 있도록 훈련합니다.</p>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- 3. About Us Section (진료철학 - HEALIM STYLE) -->
-<section class="section about-section home-about-section" id="about">
+<!-- 4. Books Section (해아림한의원 원장단 저서) -->
+<section class="section books-section" id="books">
   <div class="container">
-    <!-- Editorial 2-Column Philosophy Grid -->
-    <div class="home-philo-editorial">
-      
-      <!-- Left Column: Doctor Profile & Authenticity -->
-      <aside class="home-philo-doctor-col">
-        <div class="home-philo-photo-wrap">
-          <img src="{{ "images/doctor-son.png" | relURL }}" alt="해아림한의원 분당점 손지웅 대표원장" class="home-philo-photo" loading="lazy">
-        </div>
-        <div class="home-philo-doctor-info">
-          <div class="home-philo-doc-badge-row">
-            <span class="home-philo-badge-primary">대표원장</span>
-            <span class="home-philo-badge-sub">해아림한의원 분당점</span>
-          </div>
-          <h3 class="home-philo-name">손지웅 <span>대표원장</span></h3>
-          <p class="home-philo-slogan">"환자의 아픔을 먼저 겪어보았기에,<br class="mo-br"> 진심으로 공감하고 경청합니다."</p>
+    <div class="section-header text-center">
+      <span class="section-tag">INSIGHTS FOR HEALING</span>
+      <h2 class="section-title">해아림한의원 <strong>원장단 저서</strong></h2>
+      <p class="section-desc">당신의 회복을 위한 한 권의 안내서 — 의료진이 임상 현장에서 환자와 함께하며 축적한 치유의 기록입니다.</p>
+    </div>
 
-          <!-- 3 Essential Credentials -->
-          <ul class="home-philo-credentials-list">
-            <li><i class="ph-bold ph-check"></i> <span><strong>현)</strong> 해아림한의원 분당점 대표원장</span></li>
-            <li><i class="ph-bold ph-check"></i> <span><strong>대한한방신경정신과학회</strong> 정회원</span></li>
-            <li><i class="ph-bold ph-check"></i> <span><strong>대한한방두뇌신경의학회</strong> 정회원</span></li>
-          </ul>
+    <div class="books-editorial-grid">
+      <!-- Book 1: 토닥토닥 틱장애 -->
+      <article class="book-card-item">
+        <div class="book-cover-wrap">
+          <img src="{{ "images/books/book-tic.png" | relURL }}" alt="토닥토닥 틱장애 - 해아림 원장단 지음" class="book-cover-img" loading="lazy">
+          <div class="book-cover-spine"></div>
         </div>
-      </aside>
-
-      <!-- Right Column: Core Philosophy & Director's Message -->
-      <div class="home-philo-content-col">
-        <!-- Section Eyebrow & Title -->
-        <div class="home-philo-header">
-          <span class="section-tag">CLINICAL PHILOSOPHY</span>
-          <h2 class="home-philo-title">
-            증상만 보지 않고,<br>
-            그 증상이 반복되는 이유를 함께 살핍니다.
-          </h2>
-          <p class="home-philo-desc">
-            같은 증상이라도 시작된 배경과 몸의 반응은 사람마다 다릅니다.<br class="pc-br">
-            충분히 듣고 살핀 뒤, 현재 상태에 맞는 치료 방향을 함께 찾아갑니다.
+        <div class="book-details">
+          <span class="book-badge">소아청소년 두뇌 클리닉</span>
+          <h3 class="book-title">토닥토닥 틱장애</h3>
+          <p class="book-subtitle">슬기로운 ADHD 틱장애 완치 지침서</p>
+          <p class="book-desc">
+            틱장애와 ADHD에 대한 올바른 의학적 이해와 임상 치료 과정, 가정에서 부모님이 실천할 수 있는 생생한 생활 관리법을 알기 쉽게 풀어낸 실용 지침서입니다.
           </p>
+          <a href="https://search.shopping.naver.com/book/catalog/32490810061?query=%ED%86%A0%EB%8B%A5%ED%86%A0%EB%8B%A5%20%ED%8B%B1%EC%9E%A5%EC%95%A0&NaPm=ct%3Dmioddx8o%7Cci%3D88cb1cfb72fd4c1bbf57c156f9cee5d974614dfa%7Ctr%3Dboksl%7Csn%3D95694%7Chk%3D999b7206e2c38eb1b0018a5227f12ca6fcf00bc4" target="_blank" rel="noopener noreferrer" class="book-view-link">
+            <span>도서 보러가기</span>
+            <i class="ph-bold ph-arrow-up-right"></i>
+          </a>
         </div>
+      </article>
 
-        <!-- 3 Core Philosophy Pillars (Clean Dividers, No Heavy Boxes) -->
-        <div class="home-philo-pillars-list">
-          <div class="home-philo-pillar-item">
-            <div class="home-philo-pillar-header">
-              <span class="home-philo-pillar-num">01</span>
-              <h3 class="home-philo-pillar-title">충분히 듣습니다</h3>
-            </div>
-            <p class="home-philo-pillar-text">
-              증상이 언제, 어떤 상황에서 시작되고 악화되는지 그동안의 과정을 꼼꼼히 살핍니다.
-            </p>
-          </div>
-
-          <div class="home-philo-pillar-item">
-            <div class="home-philo-pillar-header">
-              <span class="home-philo-pillar-num">02</span>
-              <h3 class="home-philo-pillar-title">몸과 마음을 함께 살핍니다</h3>
-            </div>
-            <p class="home-philo-pillar-text">
-              불안과 긴장, 수면, 소화, 두근거림처럼 서로 연결되어 나타나는 반응을 함께 확인합니다.
-            </p>
-          </div>
-
-          <div class="home-philo-pillar-item">
-            <div class="home-philo-pillar-header">
-              <span class="home-philo-pillar-num">03</span>
-              <h3 class="home-philo-pillar-title">일상의 회복을 목표로 합니다</h3>
-            </div>
-            <p class="home-philo-pillar-text">
-              증상의 변화뿐 아니라 학교·직장·가정에서 다시 편안하게 생활할 수 있는지를 중요하게 생각합니다.
-            </p>
-          </div>
+      <!-- Book 2: 걱정마 공황장애 -->
+      <article class="book-card-item">
+        <div class="book-cover-wrap">
+          <img src="{{ "images/books/book-panic.png" | relURL }}" alt="걱정마 공황장애 - 해아림 원장단 지음" class="book-cover-img" loading="lazy">
+          <div class="book-cover-spine"></div>
         </div>
-
-        <!-- Director's Warm Message -->
-        <div class="home-philo-director-quote">
-          <p class="home-philo-quote-text">
-            "치료를 받는 시간뿐 아니라, 다시 일상으로 돌아가는 과정까지 함께하겠습니다."
+        <div class="book-details">
+          <span class="book-badge">성인 신경정신과 클리닉</span>
+          <h3 class="book-title">걱정마 공황장애</h3>
+          <p class="book-subtitle">자율신경·불면·공황을 바로 이해하는 치유 안내서</p>
+          <p class="book-desc">
+            불안장애, 공황장애, 자율신경실조증으로 고통받는 환자분들이 두려움의 악순환을 끊고 마음의 평온과 일상의 회복을 되찾을 수 있도록 돕는 실용 안내서입니다.
           </p>
-          <span class="home-philo-quote-author">— 해아림한의원 분당점 손지웅 대표원장</span>
+          <a href="https://search.shopping.naver.com/book/catalog/45917649628?cat_id=50009941&frm=PBOKPRO&query=%EA%B1%B1%EC%A0%95%EB%A7%88+%EA%B3%B5%ED%99%A9%EC%9E%A5%EC%95%A0&NaPm=ct%3Dmiodf3og%7Cci%3D413a31e11c6038fd7ea36bd84c1652315960334b%7Ctr%3Dboknx%7Csn%3D95694%7Chk%3D3e81b624a9f7270d570bf19511a3b60d2a43d63e" target="_blank" rel="noopener noreferrer" class="book-view-link">
+            <span>도서 보러가기</span>
+            <i class="ph-bold ph-arrow-up-right"></i>
+          </a>
         </div>
+      </article>
+    </div>
+  </div>
+</section>
 
-        <!-- Actions Row: Booking + Link to /philosophy/ -->
-        <div class="home-philo-actions">
-          <a href="https://booking.naver.com/booking/13/bizes/1167448" target="_blank" rel="noopener noreferrer" class="btn btn-hero-naver-dark">
-            <span class="n-symbol">N</span> 네이버 실시간 예약
-          </a>
-          <a href="{{ "philosophy/" | relURL }}" class="home-philo-more-link">
-            <span>원장 치유 이야기 전문 보기</span>
-            <i class="ph-bold ph-arrow-right"></i>
-          </a>
+<!-- 5. Academic Activities Slide (해아림한의원 원장단 학술활동 슬라이드) -->
+<section class="section academic-section" id="academic">
+  <div class="container">
+    <div class="section-header-row">
+      <div>
+        <span class="section-tag">ACADEMIC RESEARCH & CLINICAL STUDIES</span>
+        <h2 class="section-title">해아림한의원 <strong>원장단 학술활동</strong></h2>
+        <p class="section-desc">지속적인 임상 연구와 학회 발표를 통해 보다 체계적이고 과학적인 한방신경정신과 치료를 이끌어갑니다.</p>
+      </div>
+      <div class="carousel-nav-arrows">
+        <button type="button" class="carousel-nav-btn prev" id="academic-prev-btn" aria-label="이전 학술활동 보기">
+          <i class="ph-bold ph-caret-left"></i>
+        </button>
+        <button type="button" class="carousel-nav-btn next" id="academic-next-btn" aria-label="다음 학술활동 보기">
+          <i class="ph-bold ph-caret-right"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="academic-carousel-container" id="academic-carousel">
+      <!-- Academic Card 1 -->
+      <div class="academic-slide-card">
+        <div class="academic-frame">
+          <div class="academic-frame-inner">
+            <span class="academic-card-badge">학술대회 연구발표</span>
+            <h4 class="academic-slide-title">대한한방신경정신과학회 정기 학술대회 연구 발표</h4>
+            <p class="academic-slide-text">틱장애, ADHD, 공황장애의 뇌신경 기전 및 한방 임상 효능에 대한 지속적인 학술 논문 발표와 연구 공유를 진행합니다.</p>
+          </div>
+        </div>
+        <div class="academic-caption-wrap">
+          <span class="academic-caption-tag">대한한방신경정신과학회 정회원</span>
         </div>
       </div>
 
+      <!-- Academic Card 2 -->
+      <div class="academic-slide-card">
+        <div class="academic-frame">
+          <div class="academic-frame-inner">
+            <span class="academic-card-badge">두뇌신경의학 연구</span>
+            <h4 class="academic-slide-title">대한한방두뇌신경의학회 임상 증례 세미나</h4>
+            <p class="academic-slide-text">뇌기능 검사 및 자율신경계 정밀 진단 기법을 임상에 접목하여 근거 기반의 한방 신경정신 치료 프로토콜을 체계화합니다.</p>
+          </div>
+        </div>
+        <div class="academic-caption-wrap">
+          <span class="academic-caption-tag">대한한방두뇌신경의학회 정회원</span>
+        </div>
+      </div>
+
+      <!-- Academic Card 3 -->
+      <div class="academic-slide-card">
+        <div class="academic-frame">
+          <div class="academic-frame-inner">
+            <span class="academic-card-badge">임상 치료지침 고도화</span>
+            <h4 class="academic-slide-title">해아림 네트워크 원장단 정기 임상 컨퍼런스</h4>
+            <p class="academic-slide-text">전국 해아림 의료진과의 심층 증례 토론과 최신 뇌과학 지견 공유를 통해 환자 맞춤 치료의 정확성을 높입니다.</p>
+          </div>
+        </div>
+        <div class="academic-caption-wrap">
+          <span class="academic-caption-tag">해아림 임상 진료 지침 표준화</span>
+        </div>
+      </div>
+
+      <!-- Academic Card 4 -->
+      <div class="academic-slide-card">
+        <div class="academic-frame">
+          <div class="academic-frame-inner">
+            <span class="academic-card-badge">자율신경 조절 임상</span>
+            <h4 class="academic-slide-title">스트레스 및 자율신경실조증 치료 기전 세미나</h4>
+            <p class="academic-slide-text">신체화장애, 불면증, 미주신경성 실신 등 교감·부교감신경 불균형 질환에 대한 한방 치료와 생활의학적 중재를 연구합니다.</p>
+          </div>
+        </div>
+        <div class="academic-caption-wrap">
+          <span class="academic-caption-tag">뇌-신체 상호작용 통합 치료</span>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -913,7 +1090,8 @@
   <div class="container">
     <div class="section-header text-center">
       <span class="section-tag">LOCATION & HOURS</span>
-      <h2 class="section-title">오시는 길 & 진료시간</h2>
+      <h2 class="section-title">오시는 길 & <strong>진료시간</strong></h2>
+      <p class="section-desc">정자역 3번 출구 도보 2분 거리로 편리하게 내원하실 수 있습니다.</p>
     </div>
 
     <div class="location-grid">
@@ -954,13 +1132,23 @@
             </tr>
           </tbody>
         </table>
+
+        <div class="loc-hours-hint">
+          <i class="ph-bold ph-info"></i>
+          <span>토요일·공휴일은 점심시간 없이 진료하며, 100% 사전 예약 우선제로 대기 시간을 줄입니다.</span>
+        </div>
       </div>
 
-      <!-- Location & Transit Card -->
+      <!-- Location & Transit Card with Live Map -->
       <div class="location-card map-info-card">
         <div class="loc-card-header">
           <div class="loc-icon-circle"><i class="ph-bold ph-map-pin"></i></div>
           <h3 class="loc-card-title">오시는 길 & 주차</h3>
+        </div>
+
+        <!-- Integrated NAVER Map -->
+        <div class="home-map-embed-wrap">
+          {{ partial "naver_map.html" . }}
         </div>
 
         <div class="address-box">

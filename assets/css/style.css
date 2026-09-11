@@ -73,9 +73,9 @@ body {
 /* Container */
 .container {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1360px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 clamp(20px, 3.5vw, 40px);
 }
 
 /* Typography Utilities */
@@ -255,6 +255,64 @@ ul {
   -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--border-light);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Home Page Hero Overlay Header (Suwon Healim Style) */
+body.home-page .site-header.hero-transparent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.85) 0%, rgba(15, 23, 42, 0.38) 65%, transparent 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: none;
+}
+
+body.home-page .site-header.hero-transparent .brand-logo-white {
+  display: block;
+}
+
+body.home-page .site-header.hero-transparent .brand-logo-default {
+  display: none;
+}
+
+body.home-page .site-header.hero-transparent .nav-link {
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+  font-weight: 600;
+}
+
+body.home-page .site-header.hero-transparent .nav-link:hover {
+  color: #38BDF8;
+}
+
+body.home-page .site-header.hero-transparent .btn-header-profile {
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+body.home-page .site-header.hero-transparent .btn-header-profile:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: #38BDF8;
+}
+
+body.home-page .site-header.hero-transparent .mobile-menu-toggle .bar {
+  background-color: #FFFFFF;
+}
+
+.brand-logo-white {
+  display: none;
+  max-height: 38px;
+  width: auto;
+  object-fit: contain;
+}
+
+.brand-logo-default {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .header-main {
@@ -272,7 +330,6 @@ ul {
 .brand-logo {
   display: flex;
   align-items: center;
-  gap: 12px;
   text-decoration: none;
   flex-shrink: 0;
 }
@@ -335,7 +392,7 @@ ul {
   gap: 10px;
 }
 
-/* Desktop Nav (Compact and robust to avoid wrapping) */
+/* Desktop Nav */
 .desktop-nav {
   flex-shrink: 1;
 }
@@ -343,16 +400,16 @@ ul {
 .desktop-nav .nav-list {
   display: flex;
   align-items: center;
-  gap: clamp(10px, 1.4vw, 22px);
+  gap: clamp(12px, 1.8vw, 28px);
   white-space: nowrap;
   flex-wrap: nowrap;
 }
 
 .nav-link {
-  font-size: clamp(0.94rem, 1.05vw, 1.06rem);
+  font-size: clamp(0.96rem, 1.1vw, 1.08rem);
   font-weight: 700;
   color: var(--text-dark);
-  padding: 8px 3px;
+  padding: 8px 4px;
   position: relative;
   transition: var(--transition);
   white-space: nowrap;
@@ -382,6 +439,30 @@ ul {
   display: flex;
   align-items: center;
   gap: 12px;
+}
+
+/* Profile Icon Button (Blank User Icon) */
+.btn-header-profile {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
+  background: var(--bg-white);
+  color: var(--text-dark);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.45rem;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.btn-header-profile:hover {
+  color: var(--primary);
+  border-color: var(--primary);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(27, 143, 209, 0.16);
 }
 
 /* Unified Inquiry Button */
@@ -779,12 +860,12 @@ ul {
    ========================================================================== */
 .hero-photo-section {
   position: relative;
-  padding: 130px 0 120px;
+  padding: 190px 0 120px;
   color: #FFFFFF;
   overflow: hidden;
   display: flex;
   align-items: center;
-  min-height: 580px;
+  min-height: 640px;
   background-color: #0F172A;
 }
 
@@ -808,7 +889,7 @@ ul {
 .hero-photo-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, rgba(15, 23, 42, 0.22) 0%, rgba(15, 23, 42, 0.42) 42%, rgba(15, 23, 42, 0.88) 70%, rgba(15, 23, 42, 0.96) 100%);
+  background: linear-gradient(90deg, rgba(15, 23, 42, 0.25) 0%, rgba(15, 23, 42, 0.48) 42%, rgba(15, 23, 42, 0.88) 72%, rgba(15, 23, 42, 0.96) 100%);
   z-index: 2;
 }
 
@@ -819,14 +900,14 @@ ul {
 }
 
 .hero-photo-content {
-  max-width: 600px;
+  max-width: 660px;
   margin-left: auto;
   margin-right: 0;
   text-align: right;
 }
 
 .hero-bold-title {
-  font-size: 3.1rem;
+  font-size: clamp(2.2rem, 3.8vw, 3.25rem);
   font-weight: 800;
   line-height: 1.32;
   letter-spacing: -1.2px;
@@ -842,11 +923,11 @@ ul {
 }
 
 .hero-light-desc {
-  font-size: 1.16rem;
+  font-size: clamp(1.04rem, 1.2vw, 1.2rem);
   font-weight: 400;
   line-height: 1.75;
   color: rgba(241, 245, 249, 0.95);
-  margin-bottom: 32px;
+  margin-bottom: 0;
   letter-spacing: -0.3px;
   text-align: right;
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
@@ -856,6 +937,50 @@ ul {
 .hero-light-desc .hero-line-1,
 .hero-light-desc .hero-line-2 {
   display: block;
+}
+
+/* Subtle Scroll Down Mouse Indicator */
+.hero-scroll-indicator {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.mouse-wheel-icon {
+  width: 20px;
+  height: 32px;
+  border: 2px solid rgba(255, 255, 255, 0.65);
+  border-radius: 12px;
+  position: relative;
+}
+
+.wheel-dot {
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 6px;
+  background: #38BDF8;
+  border-radius: 2px;
+  animation: mouseScroll 1.6s infinite ease-in-out;
+}
+
+@keyframes mouseScroll {
+  0% { transform: translate(-50%, 0); opacity: 0.8; }
+  50% { transform: translate(-50%, 7px); opacity: 1; }
+  100% { transform: translate(-50%, 14px); opacity: 0; }
 }
 
 /* 3 Core Philosophy Pillars Grid */
@@ -11666,6 +11791,975 @@ body.inquiry-page-body .inquiry-table tbody tr:hover {
   font-size: 0.85rem;
   font-weight: 600;
   color: #475569;
+}
+
+/* ==========================================================================
+   HEALIM BUNDANG - REDESIGN 2026: DIRECTOR, CAROUSELS, BOOKS, GUIDE, MAP
+   ========================================================================== */
+
+/* 1. REPRESENTATIVE DIRECTOR INTRODUCTION (손지웅 대표원장 소개) */
+.home-director-section {
+  padding: 100px 0 80px;
+  background-color: #FFFFFF;
+}
+
+.director-editorial-grid {
+  display: grid;
+  grid-template-columns: minmax(340px, 440px) 1fr;
+  gap: clamp(36px, 5vw, 76px);
+  align-items: start;
+}
+
+.director-portrait-col {
+  position: sticky;
+  top: 100px;
+}
+
+.director-portrait-frame {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  background: linear-gradient(180deg, #F8FAFC 0%, #E2E8F0 100%);
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+}
+
+.director-portrait-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.director-portrait-frame:hover .director-portrait-img {
+  transform: scale(1.02);
+}
+
+.director-signature-strip {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 14px 20px;
+  background: linear-gradient(180deg, transparent 0%, rgba(15, 23, 42, 0.85) 100%);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.sig-vertical-text {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  color: rgba(255, 255, 255, 0.85);
+  text-transform: uppercase;
+}
+
+.director-greeting-head {
+  margin-bottom: 24px;
+}
+
+.director-main-heading {
+  font-size: clamp(1.85rem, 2.5vw, 2.45rem);
+  font-weight: 800;
+  line-height: 1.35;
+  letter-spacing: -0.8px;
+  color: #0F172A;
+  margin-top: 10px;
+}
+
+.director-main-heading strong.text-gradient {
+  color: #1B8FD1;
+  background: linear-gradient(135deg, #1B8FD1 0%, #24B598 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.director-message-body {
+  font-size: clamp(1.02rem, 1.1vw, 1.1rem);
+  line-height: 1.85;
+  color: #334155;
+  word-break: keep-all;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.director-message-body p {
+  margin: 0;
+}
+
+.director-salute {
+  margin-top: 14px;
+  font-size: 1.05rem;
+  color: #1E293B;
+  line-height: 1.6;
+}
+
+.director-salute .sign-name {
+  font-size: 1.12rem;
+  font-weight: 800;
+  color: #0F172A;
+}
+
+.director-philo-link-wrap {
+  margin-top: 24px;
+}
+
+.link-philosophy-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #1B8FD1;
+  text-decoration: none;
+  transition: var(--transition);
+  padding: 4px 0;
+  border-bottom: 2px solid transparent;
+}
+
+.link-philosophy-more:hover {
+  color: #0284C7;
+  border-bottom-color: #0284C7;
+  transform: translateX(4px);
+}
+
+.director-creds-divider {
+  height: 1px;
+  background: #E2E8F0;
+  margin: 36px 0 28px;
+}
+
+.director-creds-block {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: var(--radius-md);
+  padding: 24px 26px;
+}
+
+.director-creds-title {
+  font-size: 1.12rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin-bottom: 14px;
+  letter-spacing: -0.4px;
+}
+
+.director-creds-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.director-creds-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.98rem;
+  color: #475569;
+}
+
+.director-creds-list li i {
+  color: #1B8FD1;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+/* 2. CLINIC & CARE PHOTOS CAROUSEL (병원 내부/진료 슬라이드) */
+.clinic-photos-section {
+  padding: 80px 0;
+  background-color: #F8FAFC;
+  overflow: hidden;
+}
+
+.section-header-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 32px;
+  gap: 20px;
+}
+
+.carousel-nav-arrows {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.carousel-nav-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid #CBD5E1;
+  background: #FFFFFF;
+  color: #1E293B;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
+}
+
+.carousel-nav-btn:hover {
+  background: #1B8FD1;
+  color: #FFFFFF;
+  border-color: #1B8FD1;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.photo-carousel-container {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  padding: 10px 4px 20px;
+}
+
+.photo-carousel-container::-webkit-scrollbar {
+  display: none;
+}
+
+.photo-carousel-card {
+  flex: 0 0 clamp(290px, 30vw, 360px);
+  scroll-snap-align: start;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+  transition: var(--transition);
+}
+
+.photo-carousel-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.1);
+  border-color: #BAE6FD;
+}
+
+.photo-img-wrap {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: #E2E8F0;
+}
+
+.photo-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.photo-carousel-card:hover .photo-card-img {
+  transform: scale(1.05);
+}
+
+.photo-card-caption {
+  padding: 18px 20px;
+}
+
+.caption-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin-bottom: 6px;
+  letter-spacing: -0.3px;
+}
+
+.caption-desc {
+  font-size: 0.88rem;
+  color: #64748B;
+  line-height: 1.55;
+  margin: 0;
+  word-break: keep-all;
+}
+
+/* 3. HEALIM BOOKS SECTION (해아림한의원 원장단 저서) */
+.books-section {
+  padding: 90px 0;
+  background-color: #FFFFFF;
+}
+
+.books-editorial-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 560px));
+  justify-content: center;
+  gap: clamp(28px, 4vw, 48px);
+  margin-top: 40px;
+}
+
+.book-card-item {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: var(--radius-lg);
+  padding: clamp(24px, 3.5vw, 36px);
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: clamp(20px, 3vw, 32px);
+  align-items: center;
+  box-shadow: 0 8px 28px rgba(15, 23, 42, 0.04);
+  transition: var(--transition);
+}
+
+.book-card-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(27, 143, 209, 0.12);
+  border-color: #BAE6FD;
+  background: #FFFFFF;
+}
+
+.book-cover-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 180px;
+  perspective: 800px;
+}
+
+.book-cover-img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 310 / 432;
+  object-fit: cover;
+  border-radius: 6px;
+  box-shadow: 4px 8px 24px rgba(15, 23, 42, 0.22), 1px 2px 6px rgba(0, 0, 0, 0.1);
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.book-card-item:hover .book-cover-img {
+  transform: rotateY(-6deg) scale(1.03);
+}
+
+.book-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.book-badge {
+  display: inline-block;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #1B8FD1;
+  background: #EBF6FC;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  margin-bottom: 10px;
+}
+
+.book-title {
+  font-size: clamp(1.35rem, 1.8vw, 1.6rem);
+  font-weight: 800;
+  color: #0F172A;
+  margin-bottom: 4px;
+  letter-spacing: -0.5px;
+}
+
+.book-subtitle {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #64748B;
+  margin-bottom: 12px;
+}
+
+.book-desc {
+  font-size: 0.9rem;
+  color: #475569;
+  line-height: 1.65;
+  margin-bottom: 20px;
+  word-break: keep-all;
+}
+
+.book-view-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.94rem;
+  font-weight: 700;
+  color: #1B8FD1;
+  text-decoration: none;
+  transition: var(--transition);
+  padding: 6px 0;
+  border-bottom: 1px solid transparent;
+}
+
+.book-view-link:hover {
+  color: #0284C7;
+  border-bottom-color: #0284C7;
+  transform: translateX(3px);
+}
+
+/* 4. ACADEMIC ACTIVITIES CAROUSEL (해아림한의원 원장단 학술활동) */
+.academic-section {
+  padding: 80px 0 90px;
+  background-color: #F8FAFC;
+  overflow: hidden;
+}
+
+.academic-carousel-container {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  padding: 10px 4px 20px;
+}
+
+.academic-carousel-container::-webkit-scrollbar {
+  display: none;
+}
+
+.academic-slide-card {
+  flex: 0 0 clamp(290px, 30vw, 360px);
+  scroll-snap-align: start;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+}
+
+.academic-slide-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.1);
+  border-color: #BAE6FD;
+}
+
+.academic-frame {
+  aspect-ratio: 16 / 10;
+  background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  color: #FFFFFF;
+}
+
+.academic-card-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #38BDF8;
+  background: rgba(56, 189, 248, 0.15);
+  padding: 3px 8px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  letter-spacing: -0.2px;
+}
+
+.academic-slide-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  line-height: 1.45;
+  margin-bottom: 8px;
+  letter-spacing: -0.3px;
+}
+
+.academic-slide-text {
+  font-size: 0.82rem;
+  color: rgba(241, 245, 249, 0.85);
+  line-height: 1.55;
+  margin: 0;
+  word-break: keep-all;
+}
+
+.academic-caption-wrap {
+  padding: 14px 20px;
+  background: #FFFFFF;
+  border-top: 1px solid #F1F5F9;
+}
+
+.academic-caption-tag {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #64748B;
+}
+
+/* 5. MAIN PAGE BOTTOM LOCATION & MAP */
+.home-map-embed-wrap {
+  width: 100%;
+  height: 380px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin-bottom: 20px;
+  border: 1px solid #CBD5E1;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+}
+
+.loc-hours-hint {
+  margin-top: 16px;
+  padding: 12px 14px;
+  background: #F8FAFC;
+  border-radius: 8px;
+  border: 1px solid #E2E8F0;
+  font-size: 0.86rem;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1.45;
+}
+
+.loc-hours-hint i {
+  color: #1B8FD1;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+/* 6. UNIFIED "진료안내" PAGE (.guide-page) */
+.guide-header-banner {
+  padding: 130px 0 70px;
+  background: linear-gradient(180deg, #F8FAFC 0%, #FFFFFF 100%);
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.guide-top-pill {
+  display: inline-block;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #1B8FD1;
+  background: #EBF6FC;
+  padding: 4px 14px;
+  border-radius: var(--radius-full);
+  margin-bottom: 14px;
+}
+
+.guide-main-title {
+  font-size: clamp(2.2rem, 3.5vw, 3rem);
+  font-weight: 800;
+  color: #0F172A;
+  margin-bottom: 16px;
+  letter-spacing: -1px;
+}
+
+.guide-main-desc {
+  font-size: clamp(1rem, 1.2vw, 1.15rem);
+  color: #64748B;
+  line-height: 1.7;
+  max-width: 680px;
+  margin: 0 auto;
+  word-break: keep-all;
+}
+
+.guide-treatments-section {
+  padding: 80px 0;
+  background-color: #FFFFFF;
+}
+
+.guide-hours-section {
+  padding: 80px 0;
+  background-color: #F8FAFC;
+}
+
+.guide-hours-card-wrap {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.guide-hours-box {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: var(--radius-lg);
+  padding: clamp(24px, 4vw, 44px);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+}
+
+.guide-precheck-notes {
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid #E2E8F0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.precheck-note-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.precheck-note-item i {
+  font-size: 1.4rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.precheck-note-item strong {
+  display: block;
+  font-size: 0.95rem;
+  color: #0F172A;
+  margin-bottom: 4px;
+}
+
+.precheck-note-item p {
+  font-size: 0.84rem;
+  color: #64748B;
+  line-height: 1.5;
+  margin: 0;
+  word-break: keep-all;
+}
+
+.guide-booking-section {
+  padding: 80px 0;
+  background-color: #FFFFFF;
+}
+
+.guide-channel-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-top: 36px;
+}
+
+.guide-channel-card {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: var(--radius-md);
+  padding: 28px 22px;
+  display: flex;
+  flex-direction: column;
+  transition: var(--transition);
+}
+
+.guide-channel-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: #BAE6FD;
+  background: #FFFFFF;
+}
+
+.guide-channel-card.primary-phone {
+  background: linear-gradient(180deg, #F0F9FF 0%, #FFFFFF 100%);
+  border-color: #BAE6FD;
+  box-shadow: 0 8px 24px rgba(27, 143, 209, 0.08);
+}
+
+.channel-icon-wrap {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-bottom: 18px;
+}
+
+.channel-icon-wrap.phone-bg {
+  background: #1B8FD1;
+  color: #FFFFFF;
+}
+
+.channel-icon-wrap.naver-bg {
+  background: #03C75A;
+  color: #FFFFFF;
+}
+
+.channel-icon-wrap.kakao-bg {
+  background: #FEE500;
+  color: #191919;
+}
+
+.channel-icon-wrap.inquiry-bg {
+  background: #6366F1;
+  color: #FFFFFF;
+}
+
+.channel-badge {
+  font-size: 0.74rem;
+  font-weight: 700;
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.channel-badge.phone-badge { background: #E0F2FE; color: #0284C7; }
+.channel-badge.naver-badge { background: #DCFCE7; color: #15803D; }
+.channel-badge.kakao-badge { background: #FEF9C3; color: #854D0E; }
+.channel-badge.inquiry-badge { background: #EEF2FF; color: #4338CA; }
+
+.channel-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin-bottom: 6px;
+}
+
+.channel-tel {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #1B8FD1;
+  margin-bottom: 8px;
+  letter-spacing: -0.5px;
+}
+
+.channel-desc {
+  font-size: 0.88rem;
+  color: #64748B;
+  line-height: 1.55;
+  margin-bottom: 22px;
+  flex-grow: 1;
+  word-break: keep-all;
+}
+
+.btn-channel-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.btn-channel-action.phone-btn {
+  background: #1B8FD1;
+  color: #FFFFFF;
+}
+
+.btn-channel-action.phone-btn:hover {
+  background: #0284C7;
+}
+
+.btn-channel-action.naver-btn {
+  background: #03C75A;
+  color: #FFFFFF;
+}
+
+.btn-channel-action.naver-btn:hover {
+  background: #02a148;
+}
+
+.btn-channel-action.kakao-btn {
+  background: #FEE500;
+  color: #191919;
+}
+
+.btn-channel-action.kakao-btn:hover {
+  background: #edd600;
+}
+
+.btn-channel-action.inquiry-btn {
+  background: #475569;
+  color: #FFFFFF;
+}
+
+.btn-channel-action.inquiry-btn:hover {
+  background: #334155;
+}
+
+.guide-location-section {
+  padding: 80px 0 100px;
+  background-color: #F8FAFC;
+}
+
+.guide-location-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(28px, 4vw, 44px);
+  align-items: start;
+}
+
+.guide-map-column {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+}
+
+.address-box-large {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: var(--radius-md);
+  padding: 20px 24px;
+  margin-bottom: 20px;
+}
+
+.transit-guide-card {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: var(--radius-md);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.transit-guide-item {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.transit-guide-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  flex-shrink: 0;
+}
+
+.transit-guide-icon.subway {
+  background: #FEF3C7;
+  color: #B45309;
+}
+
+.transit-guide-icon.car {
+  background: #E0E7FF;
+  color: #4338CA;
+}
+
+.transit-guide-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin-bottom: 4px;
+}
+
+.transit-guide-desc {
+  font-size: 0.92rem;
+  color: #64748B;
+  line-height: 1.6;
+  margin: 0;
+  word-break: keep-all;
+}
+
+.guide-map-links {
+  display: flex;
+  gap: 12px;
+}
+
+/* ==========================================================================
+   RESPONSIVE MEDIA QUERIES (1440, 1200, 1024, 768, 430, 390, 360)
+   ========================================================================== */
+@media (max-width: 1200px) {
+  .guide-channel-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 1024px) {
+  .director-editorial-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .director-portrait-col {
+    position: static;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+
+  .books-editorial-grid {
+    grid-template-columns: 1fr;
+    max-width: 580px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .guide-location-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .guide-precheck-notes {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-photo-section {
+    padding: 140px 0 80px;
+    min-height: 520px;
+    background-position: center;
+  }
+
+  .hero-photo-content {
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  .hero-bold-title {
+    text-align: center;
+  }
+
+  .hero-light-desc {
+    text-align: center;
+  }
+
+  .home-director-section {
+    padding: 70px 0 50px;
+  }
+
+  .book-card-item {
+    grid-template-columns: 1fr;
+    text-align: center;
+    justify-items: center;
+  }
+
+  .book-details {
+    align-items: center;
+  }
+
+  .photo-carousel-card,
+  .academic-slide-card {
+    flex: 0 0 82vw;
+  }
+
+  .guide-channel-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .guide-map-links {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-photo-section {
+    padding: 120px 0 70px;
+    min-height: 480px;
+  }
+
+  .brand-logo-white {
+    max-height: 28px;
+  }
+
+  .director-message-body {
+    font-size: 0.98rem;
+    line-height: 1.75;
+  }
+
+  .director-creds-block {
+    padding: 18px 16px;
+  }
+
+  .guide-hours-box {
+    padding: 20px 16px;
+  }
 }
 
 
