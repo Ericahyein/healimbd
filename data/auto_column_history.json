@@ -97,5 +97,16 @@
     "topicAngle": "subway-tunnel",
     "title": "[판교 공황장애] 출퇴근 대중교통이나 터널에서 답답함이 심해질 때",
     "slug": "bundang-pangyo-panic-subway-tunnel"
+  },
+  {
+    "publishDate": "2026-09-11T16:19:22.169+09:00",
+    "geoId": "gyeonggi-gwangju",
+    "displayRegion": "경기광주",
+    "parentRegion": "경기광주",
+    "regionType": "city",
+    "disease": "anxiety",
+    "topicAngle": "chronic-worry",
+    "title": "[경기광주 불안장애] 사소한 일에도 걱정이 꼬리를 물고 가슴이 답답할 때",
+    "slug": "gyeonggi-gwangju-anxiety-chronic-worry"
   }
 ]
