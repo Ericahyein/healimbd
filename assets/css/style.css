@@ -58,6 +58,8 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 body {
@@ -12967,6 +12969,887 @@ body.inquiry-page-body .inquiry-table tbody tr:hover {
     font-size: 0.92rem;
   }
 }
+
+/* ==========================================================================
+   SUWON-STYLE UNIFIED LOCATION & TIMETABLE COMPONENT
+   ========================================================================== */
+.suwon-location-section {
+  padding: 80px 0 70px;
+  background: #FFFFFF;
+}
+
+.suwon-location-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 24px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.suwon-location-tag {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #64748B;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.suwon-location-title {
+  font-size: clamp(1.75rem, 3vw, 2.3rem);
+  font-weight: 800;
+  color: #0F172A;
+  margin: 0;
+  line-height: 1.25;
+}
+
+.suwon-location-title .text-accent {
+  color: #1B8FD1;
+}
+
+.suwon-location-header-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn-suwon-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  border-radius: 9999px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.btn-suwon-reviews {
+  background: #1E293B;
+  color: #FFFFFF;
+}
+
+.btn-suwon-reviews:hover {
+  background: #0F172A;
+  transform: translateY(-1px);
+}
+
+.btn-suwon-navermap {
+  background: #1B8FD1;
+  color: #FFFFFF;
+}
+
+.btn-suwon-navermap:hover {
+  background: #0284C7;
+  transform: translateY(-1px);
+}
+
+.suwon-map-container {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #E2E8F0;
+  margin-bottom: 36px;
+}
+
+.suwon-map-container .res-map-frame-box {
+  margin: 0;
+  border: none;
+}
+
+.suwon-map-container .res-map-viewport-frame {
+  min-height: 420px;
+  height: 440px;
+}
+
+.suwon-info-spread {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+.suwon-address-block {
+  margin-bottom: 20px;
+}
+
+.suwon-addr-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.suwon-icon-pin {
+  color: #1B8FD1;
+  font-size: 1.35rem;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.suwon-addr-title {
+  font-size: 1.12rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.suwon-addr-sub {
+  font-size: 0.92rem;
+  color: #64748B;
+  margin: 0 0 0 28px;
+  line-height: 1.5;
+}
+
+.suwon-transit-card {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  padding: 22px 24px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.suwon-transit-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.suwon-transit-type {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  color: #1E293B;
+  font-size: 0.95rem;
+}
+
+.transit-type-label {
+  font-weight: 800;
+}
+
+.transit-stop-pill {
+  background: #1E293B;
+  color: #FFFFFF;
+  font-size: 0.72rem;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.suwon-transit-routes {
+  font-size: 0.88rem;
+  color: #475569;
+  line-height: 1.6;
+  margin: 0;
+  padding-left: 24px;
+}
+
+.suwon-transit-routes p {
+  margin: 2px 0;
+}
+
+.suwon-route-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-route-naver {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 12px 18px;
+  background: #03C75A;
+  color: #FFFFFF;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.92rem;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.btn-route-naver:hover {
+  opacity: 0.92;
+}
+
+.btn-route-kakao {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 12px 18px;
+  background: #FEE500;
+  color: #191919;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.92rem;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.btn-route-kakao:hover {
+  opacity: 0.92;
+}
+
+.suwon-phone-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.suwon-phone-icon {
+  color: #1B8FD1;
+  font-size: 1.6rem;
+}
+
+.suwon-phone-number {
+  font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+  font-weight: 800;
+  color: #0F172A;
+  text-decoration: none;
+  letter-spacing: -0.5px;
+}
+
+.suwon-phone-number:hover {
+  color: #1B8FD1;
+}
+
+.suwon-hours-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+  color: #0F172A;
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+.suwon-hours-title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+.suwon-hours-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 18px;
+}
+
+.suwon-hours-table th {
+  text-align: left;
+  padding: 10px 0;
+  font-size: 0.95rem;
+  color: #475569;
+  font-weight: 600;
+  border-bottom: 1px solid #F1F5F9;
+  width: 135px;
+  white-space: nowrap;
+}
+
+.suwon-hours-table td {
+  text-align: left;
+  padding: 10px 0 10px 16px;
+  font-size: 0.95rem;
+  color: #1E293B;
+  border-bottom: 1px solid #F1F5F9;
+}
+
+.suwon-badge-night {
+  background: #E0F2FE;
+  color: #0369A1;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+.suwon-badge-nolunch {
+  background: #E6FFFA;
+  color: #0D9488;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+.suwon-lunch-row th,
+.suwon-lunch-row td {
+  color: #64748B;
+  font-size: 0.88rem;
+}
+
+.suwon-hours-notices {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.86rem;
+  color: #64748B;
+  line-height: 1.5;
+  margin-top: 14px;
+}
+
+.suwon-notice-point.text-teal {
+  color: #0D9488;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   PHOTO HEADERS FOR GUIDE & LOCATION PAGES
+   ========================================================================== */
+.guide-header-banner,
+.location-header-banner {
+  position: relative;
+  padding: 140px 0 80px;
+  background-color: #0F172A;
+  overflow: hidden;
+}
+
+.guide-header-bg,
+.location-header-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center 30%;
+  filter: brightness(0.85);
+}
+
+.guide-header-overlay,
+.location-header-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.72) 0%, rgba(15, 23, 42, 0.85) 100%);
+}
+
+.guide-header-container,
+.location-header-container {
+  position: relative;
+  z-index: 2;
+}
+
+.guide-header-tag,
+.location-header-tag {
+  color: #5EEAD4;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.guide-main-title,
+.location-header-title {
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 800;
+  color: #FFFFFF !important;
+  margin: 0 0 14px;
+  line-height: 1.25;
+}
+
+.guide-main-desc,
+.location-header-desc {
+  font-size: clamp(1rem, 1.5vw, 1.15rem);
+  color: rgba(255, 255, 255, 0.9) !important;
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* ==========================================================================
+   DISEASE BLOCKS WITH FULL BACKGROUND PHOTO (GUIDE PAGE)
+   ========================================================================== */
+.treatments-photo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 36px;
+}
+
+.treatment-photo-card {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  min-height: 220px;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: flex-end;
+  padding: 24px 22px;
+  text-decoration: none;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.treatment-photo-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.18);
+}
+
+.treatment-photo-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.35) 0%, rgba(15, 23, 42, 0.88) 100%);
+  transition: background 0.3s ease;
+}
+
+.treatment-photo-card:hover .treatment-photo-overlay {
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.2) 0%, rgba(15, 23, 42, 0.92) 100%);
+}
+
+.treatment-photo-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+
+.treatment-photo-num {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.4);
+  line-height: 1;
+  display: block;
+  margin-bottom: 6px;
+  font-family: 'Outfit', sans-serif;
+}
+
+.treatment-photo-name {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #FFFFFF !important;
+  margin: 0 0 6px;
+  line-height: 1.3;
+}
+
+.treatment-photo-tags {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.85) !important;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* ==========================================================================
+   SEAMLESS CLINIC PHOTO STREAM (HOMEPAGE SECTION 3)
+   ========================================================================== */
+.clinic-gallery-seamless {
+  padding: 30px 0 60px;
+  background: #FFFFFF;
+}
+
+.clinic-slider-container {
+  position: relative;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 4vw, 40px);
+}
+
+.clinic-slider-controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.clinic-photo-stream {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 8px;
+}
+
+.clinic-photo-stream::-webkit-scrollbar {
+  display: none;
+}
+
+.clinic-stream-item {
+  flex: 0 0 340px;
+  max-width: 340px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid #E2E8F0;
+  background: #FFFFFF;
+}
+
+.clinic-stream-item .gallery-img-container {
+  height: 220px;
+  overflow: hidden;
+}
+
+.clinic-stream-item .gallery-unboxed-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.clinic-stream-item:hover .gallery-unboxed-img {
+  transform: scale(1.04);
+}
+
+.clinic-stream-caption {
+  padding: 12px 16px;
+}
+
+.clinic-stream-tag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #0284C7;
+  letter-spacing: 0.5px;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.clinic-stream-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1E293B;
+  margin: 0;
+}
+
+/* ==========================================================================
+   ACADEMIC THESIS STREAM (HOMEPAGE SECTION 5)
+   ========================================================================== */
+.academic-seamless-section {
+  padding: 60px 0 80px;
+  background: #FFFFFF;
+}
+
+.academic-subhead-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 28px;
+}
+
+.academic-small-title {
+  font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+  font-weight: 800;
+  color: #0F172A;
+  margin: 4px 0 0;
+}
+
+.academic-thesis-track {
+  display: flex;
+  gap: 28px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 8px;
+}
+
+.academic-thesis-track::-webkit-scrollbar {
+  display: none;
+}
+
+.academic-thesis-item {
+  flex: 0 0 380px;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.thesis-img-box {
+  height: 270px;
+  background: #F8FAFC;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.thesis-paper-img {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  border-radius: 4px;
+}
+
+.thesis-caption-box {
+  padding: 18px 20px;
+}
+
+.thesis-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #0284C7;
+  background: #E0F2FE;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.thesis-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin: 0 0 6px;
+  line-height: 1.35;
+}
+
+.thesis-desc {
+  font-size: 0.85rem;
+  color: #64748B;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   EDITORIAL SECTION HEADINGS (BOOKS & ACADEMIC)
+   ========================================================================== */
+.editorial-section-tag {
+  display: inline-block;
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #0284C7;
+  margin-bottom: 8px;
+}
+
+.editorial-section-title {
+  font-size: clamp(1.45rem, 3.2vw, 2.2rem);
+  font-weight: 800;
+  color: #0F172A;
+  margin: 0 0 10px;
+  line-height: 1.35;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+.editorial-section-desc {
+  font-size: clamp(0.92rem, 1.4vw, 1.05rem);
+  color: #64748B;
+  margin: 0;
+  line-height: 1.6;
+  word-break: keep-all;
+}
+
+@media (max-width: 480px) {
+  .editorial-section-title {
+    font-size: 1.4rem;
+  }
+}
+@media (max-width: 380px) {
+  .editorial-section-title {
+    font-size: 1.28rem;
+  }
+}
+
+/* ==========================================================================
+   PHOTO CTA BAND (HOMEPAGE FINAL ACTION)
+   ========================================================================== */
+.cta-photo-background {
+  position: relative;
+  background-image: url('../images/clinic/clinic-interior-01.jpg');
+  background-size: cover;
+  background-position: center;
+  padding: 100px 0;
+  overflow: hidden;
+}
+
+.cta-photo-background .home-final-cta-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.78) 0%, rgba(15, 23, 42, 0.88) 100%);
+}
+
+.cta-photo-background .home-final-cta-container {
+  position: relative;
+  z-index: 2;
+}
+
+.cta-photo-background .home-final-cta-tag {
+  color: #5EEAD4 !important;
+}
+
+.cta-photo-background .home-final-cta-title {
+  color: #FFFFFF !important;
+}
+
+.cta-photo-background .home-final-cta-desc {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* ==========================================================================
+   ADDITIONAL RESPONSIVE RULES (1024, 768, 480, 390, 360)
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .suwon-info-spread {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .treatments-photo-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .treatments-photo-grid {
+    grid-template-columns: 1fr;
+  }
+  .treatment-photo-card {
+    min-height: 180px;
+    padding: 20px 16px;
+  }
+  .academic-thesis-item {
+    flex: 0 0 85vw;
+    max-width: 85vw;
+  }
+  .clinic-stream-item {
+    flex: 0 0 80vw;
+    max-width: 80vw;
+  }
+  .suwon-location-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .suwon-location-header-actions {
+    width: 100%;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .suwon-location-header-actions .btn-suwon-action {
+    flex: 1;
+    min-width: 140px;
+    justify-content: center;
+    font-size: 0.85rem;
+    padding: 10px 14px;
+  }
+  .suwon-route-buttons {
+    flex-direction: column;
+  }
+  .suwon-hours-table th {
+    width: 110px;
+    font-size: 0.88rem;
+    white-space: nowrap;
+    padding: 8px 0;
+    text-align: left;
+  }
+  .suwon-hours-table td {
+    font-size: 0.88rem;
+    text-align: left;
+    padding: 8px 0 8px 10px;
+  }
+  .suwon-badge-night,
+  .suwon-badge-nolunch {
+    font-size: 0.72rem;
+    padding: 2px 6px;
+    white-space: nowrap;
+    margin-left: 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  .suwon-location-header-actions {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .suwon-location-header-actions .btn-suwon-action {
+    font-size: 0.8rem;
+    padding: 8px 10px;
+    min-width: 120px;
+  }
+  .suwon-map-container .res-map-viewport-frame {
+    min-height: 320px;
+    height: 340px;
+  }
+  .suwon-location-title {
+    font-size: 1.45rem;
+  }
+  .suwon-phone-number {
+    font-size: 1.6rem;
+  }
+  .suwon-addr-title {
+    font-size: 1rem;
+    word-break: keep-all;
+    line-height: 1.4;
+  }
+  .suwon-hours-table th {
+    width: 100px;
+    font-size: 0.84rem;
+    padding: 8px 0;
+    text-align: left;
+  }
+  .suwon-hours-table td {
+    font-size: 0.84rem;
+    padding: 8px 0 8px 8px;
+    text-align: left;
+  }
+  .hours-lunch {
+    font-size: 0.8rem;
+    display: block;
+    line-height: 1.4;
+  }
+  .suwon-transit-card {
+    padding: 16px 14px;
+  }
+  .suwon-addr-sub {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 380px) {
+  .suwon-location-header-actions .btn-suwon-action {
+    font-size: 0.75rem;
+    padding: 7px 8px;
+    min-width: 110px;
+    gap: 4px;
+  }
+  .suwon-phone-number {
+    font-size: 1.45rem;
+  }
+  .suwon-hours-table th {
+    width: 90px;
+    font-size: 0.8rem;
+    padding: 6px 0;
+    text-align: left;
+  }
+  .suwon-hours-table td {
+    font-size: 0.8rem;
+    padding: 6px 0 6px 6px;
+    text-align: left;
+  }
+  .suwon-badge-night,
+  .suwon-badge-nolunch {
+    font-size: 0.68rem;
+    padding: 1px 4px;
+  }
+  .treatment-photo-name {
+    font-size: 1.15rem;
+  }
+  .container {
+    padding: 0 14px;
+  }
+}
+
 
 
 

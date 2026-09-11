@@ -262,13 +262,13 @@ function initScrollEffects() {
   }
 }
 
-// Photo & Academic Activity Horizontal Carousels
+// Photo & Academic Activity Horizontal Carousels with Smooth Auto-Slide
 function initPhotoCarousels() {
-  setupCarousel('clinic-carousel', 'clinic-prev-btn', 'clinic-next-btn');
-  setupCarousel('academic-carousel', 'academic-prev-btn', 'academic-next-btn');
+  setupCarousel('clinic-carousel', 'clinic-prev-btn', 'clinic-next-btn', true, 4500);
+  setupCarousel('academic-carousel', 'academic-prev-btn', 'academic-next-btn', true, 5000);
 }
 
-function setupCarousel(trackId, prevBtnId, nextBtnId) {
+function setupCarousel(trackId, prevBtnId, nextBtnId, autoSlide = true, intervalMs = 4500) {
   const track = document.getElementById(trackId);
   const prevBtn = document.getElementById(prevBtnId);
   const nextBtn = document.getElementById(nextBtnId);
@@ -285,16 +285,62 @@ function setupCarousel(trackId, prevBtnId, nextBtnId) {
     return 360;
   }
 
+  function scrollNext() {
+    const maxScroll = track.scrollWidth - track.clientWidth - 10;
+    if (track.scrollLeft >= maxScroll) {
+      track.scrollTo({ left: 0, behavior: 'smooth' });
+    } else {
+      track.scrollBy({ left: getStep(), behavior: 'smooth' });
+    }
+  }
+
+  function scrollPrev() {
+    if (track.scrollLeft <= 10) {
+      track.scrollTo({ left: track.scrollWidth - track.clientWidth, behavior: 'smooth' });
+    } else {
+      track.scrollBy({ left: -getStep(), behavior: 'smooth' });
+    }
+  }
+
   if (prevBtn) {
     prevBtn.addEventListener('click', () => {
-      track.scrollBy({ left: -getStep(), behavior: 'smooth' });
+      scrollPrev();
+      resetTimer();
     });
   }
 
   if (nextBtn) {
     nextBtn.addEventListener('click', () => {
-      track.scrollBy({ left: getStep(), behavior: 'smooth' });
+      scrollNext();
+      resetTimer();
     });
+  }
+
+  let autoTimer = null;
+  function startTimer() {
+    if (!autoSlide) return;
+    stopTimer();
+    autoTimer = setInterval(scrollNext, intervalMs);
+  }
+
+  function stopTimer() {
+    if (autoTimer) {
+      clearInterval(autoTimer);
+      autoTimer = null;
+    }
+  }
+
+  function resetTimer() {
+    stopTimer();
+    startTimer();
+  }
+
+  if (autoSlide) {
+    track.addEventListener('mouseenter', stopTimer);
+    track.addEventListener('mouseleave', startTimer);
+    track.addEventListener('touchstart', stopTimer, { passive: true });
+    track.addEventListener('touchend', startTimer, { passive: true });
+    startTimer();
   }
 }
 
