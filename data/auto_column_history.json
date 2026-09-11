@@ -86,5 +86,16 @@
     "topicAngle": "child-impulsivity",
     "title": "[처인구 ADHD] 산만함과 충동성이 훈육만으로 조절되지 않을 때",
     "slug": "yongin-cheoin-adhd-child-impulsivity"
+  },
+  {
+    "publishDate": "2026-09-11T09:29:21.634+09:00",
+    "geoId": "bundang-pangyo",
+    "displayRegion": "판교",
+    "parentRegion": "성남",
+    "regionType": "selected_local_area",
+    "disease": "panic",
+    "topicAngle": "subway-tunnel",
+    "title": "[판교 공황장애] 출퇴근 대중교통이나 터널에서 답답함이 심해질 때",
+    "slug": "bundang-pangyo-panic-subway-tunnel"
   }
 ]
