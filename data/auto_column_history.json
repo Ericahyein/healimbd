@@ -108,5 +108,16 @@
     "topicAngle": "chronic-worry",
     "title": "[경기광주 불안장애] 사소한 일에도 걱정이 꼬리를 물고 가슴이 답답할 때",
     "slug": "gyeonggi-gwangju-anxiety-chronic-worry"
+  },
+  {
+    "publishDate": "2026-09-12T09:28:06.391+09:00",
+    "geoId": "gyeonggi-icheon",
+    "displayRegion": "이천",
+    "parentRegion": "이천",
+    "regionType": "city",
+    "disease": "sleep",
+    "topicAngle": "racing-thoughts",
+    "title": "[이천 불면증] 베개에 누우면 잡생각이 멈추지 않고 뇌가 깨어있을 때",
+    "slug": "gyeonggi-icheon-sleep-racing-thoughts"
   }
 ]
