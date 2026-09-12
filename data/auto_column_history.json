@@ -119,5 +119,16 @@
     "topicAngle": "racing-thoughts",
     "title": "[이천 불면증] 베개에 누우면 잡생각이 멈추지 않고 뇌가 깨어있을 때",
     "slug": "gyeonggi-icheon-sleep-racing-thoughts"
+  },
+  {
+    "publishDate": "2026-09-12T16:15:46.210+09:00",
+    "geoId": "seongnam-wirye",
+    "displayRegion": "위례",
+    "parentRegion": "위례",
+    "regionType": "special_area",
+    "disease": "autonomic",
+    "topicAngle": "hot-cold-dysregulation",
+    "title": "[위례 자율신경실조증] 얼굴은 화끈거리는데 손발은 차가운 상열하한 현상",
+    "slug": "seongnam-wirye-autonomic-hot-cold-dysregulation"
   }
 ]
