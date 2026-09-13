@@ -130,5 +130,16 @@
     "topicAngle": "hot-cold-dysregulation",
     "title": "[위례 자율신경실조증] 얼굴은 화끈거리는데 손발은 차가운 상열하한 현상",
     "slug": "seongnam-wirye-autonomic-hot-cold-dysregulation"
+  },
+  {
+    "publishDate": "2026-09-13T09:29:15.458+09:00",
+    "geoId": "seongnam-main",
+    "displayRegion": "성남",
+    "parentRegion": "성남",
+    "regionType": "city",
+    "disease": "adhd",
+    "topicAngle": "focus-fluctuation",
+    "title": "[성남 ADHD] 좋아하는 일에는 과몰입하고 일상 과제는 미루는 이유",
+    "slug": "seongnam-main-adhd-focus-fluctuation"
   }
 ]
