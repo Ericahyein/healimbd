@@ -141,5 +141,16 @@
     "topicAngle": "focus-fluctuation",
     "title": "[성남 ADHD] 좋아하는 일에는 과몰입하고 일상 과제는 미루는 이유",
     "slug": "seongnam-main-adhd-focus-fluctuation"
+  },
+  {
+    "publishDate": "2026-09-13T16:17:28.170+09:00",
+    "geoId": "yongin-main",
+    "displayRegion": "용인",
+    "parentRegion": "용인",
+    "regionType": "city",
+    "disease": "tic",
+    "topicAngle": "cough-distinction",
+    "title": "[용인 틱장애] 잦은 헛기침과 비염 증상과의 구별 포인트",
+    "slug": "yongin-main-tic-cough-distinction"
   }
 ]
