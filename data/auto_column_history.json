@@ -152,5 +152,16 @@
     "topicAngle": "cough-distinction",
     "title": "[용인 틱장애] 잦은 헛기침과 비염 증상과의 구별 포인트",
     "slug": "yongin-main-tic-cough-distinction"
+  },
+  {
+    "publishDate": "2026-09-14T09:29:48.205+09:00",
+    "geoId": "seongnam-bundang",
+    "displayRegion": "분당",
+    "parentRegion": "성남",
+    "regionType": "district",
+    "disease": "anxiety",
+    "topicAngle": "somatization",
+    "title": "[분당 불안장애] 불안이 신체 통증이나 어지럼증으로 나타나는 과정",
+    "slug": "seongnam-bundang-anxiety-somatization"
   }
 ]
