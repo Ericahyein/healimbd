@@ -163,5 +163,16 @@
     "topicAngle": "somatization",
     "title": "[분당 불안장애] 불안이 신체 통증이나 어지럼증으로 나타나는 과정",
     "slug": "seongnam-bundang-anxiety-somatization"
+  },
+  {
+    "publishDate": "2026-09-14T16:20:44.763+09:00",
+    "geoId": "yongin-suji",
+    "displayRegion": "수지",
+    "parentRegion": "용인",
+    "regionType": "district",
+    "disease": "panic",
+    "topicAngle": "anticipatory-anxiety",
+    "title": "[수지 공황장애] 증상이 다시 나타날까 두려운 예기불안의 악순환 끊기",
+    "slug": "yongin-suji-panic-anticipatory-anxiety"
   }
 ]
