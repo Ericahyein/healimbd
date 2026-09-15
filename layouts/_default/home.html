@@ -81,949 +81,309 @@
 
   <main id="main-content">
 
-<!-- 1. Hero Section with Tone-down Background Photo -->
-<section class="hero-photo-section" id="hero">
-  <div class="hero-photo-bg" style="background-image: url('{{ "images/hero-doctor.jpg" | relURL }}');"></div>
-  <div class="hero-photo-overlay"></div>
+    <!-- 1. Hero Section (New Doctor Hand Reaching Out Hero Image) -->
+    <section class="hero-photo-section" id="hero">
+      <div class="hero-photo-bg" style="background-image: url('{{ "images/healim_open_hand_hero.png" | relURL }}');"></div>
+      <div class="hero-photo-overlay"></div>
 
-  <div class="container hero-photo-container">
-    <div class="hero-photo-content">
-      <h1 class="hero-bold-title">
-        몸과 뇌, 마음을 함께 살피는<br>
-        <span class="hero-highlight">신경정신과 한방 진료</span>
-      </h1>
+      <div class="container hero-photo-container">
+        <div class="hero-photo-content">
+          <h1 class="hero-bold-title">
+            몸과 뇌, 마음을 함께 살피는<br>
+            <span class="hero-highlight">신경정신과 한방 진료</span>
+          </h1>
 
-      <p class="hero-light-desc">
-        <span class="hero-line-1">공황·불안, 불면, 자율신경실조증부터 틱장애·ADHD까지,</span>
-        <span class="hero-line-2">증상 너머의 원인을 살피고 몸과 뇌, 마음의 균형을 함께 설계합니다.</span>
-      </p>
-
-      <div class="hero-cta-buttons">
-        <a href="https://booking.naver.com/booking/13/bizes/1167448" target="_blank" rel="noopener noreferrer" class="btn btn-hero-naver-dark">
-          <span class="n-symbol">N</span> 네이버 실시간 예약
-        </a>
-        <a href="{{ "reservation/" | relURL }}" class="btn btn-hero-inquiry">
-          <i class="ph-bold ph-calendar-check"></i> 진료시간 및 오시는 길
-        </a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 3. About Us Section (진료철학 - HEALIM STYLE) -->
-<section class="section about-section home-about-section" id="about">
-  <div class="container">
-    <!-- Editorial 2-Column Philosophy Grid -->
-    <div class="home-philo-editorial">
-      
-      <!-- Left Column: Doctor Profile & Authenticity -->
-      <aside class="home-philo-doctor-col">
-        <div class="home-philo-photo-wrap">
-          <img src="{{ "images/doctor-son.png" | relURL }}" alt="해아림한의원 분당점 손지웅 대표원장" class="home-philo-photo" loading="lazy">
-        </div>
-        <div class="home-philo-doctor-info">
-          <div class="home-philo-doc-badge-row">
-            <span class="home-philo-badge-primary">대표원장</span>
-            <span class="home-philo-badge-sub">해아림한의원 분당점</span>
-          </div>
-          <h3 class="home-philo-name">손지웅 <span>대표원장</span></h3>
-          <p class="home-philo-slogan">"환자의 아픔을 먼저 겪어보았기에,<br class="mo-br"> 진심으로 공감하고 경청합니다."</p>
-
-          <!-- 3 Essential Credentials -->
-          <ul class="home-philo-credentials-list">
-            <li><i class="ph-bold ph-check"></i> <span><strong>현)</strong> 해아림한의원 분당점 대표원장</span></li>
-            <li><i class="ph-bold ph-check"></i> <span><strong>대한한방신경정신과학회</strong> 정회원</span></li>
-            <li><i class="ph-bold ph-check"></i> <span><strong>대한한방두뇌신경의학회</strong> 정회원</span></li>
-          </ul>
-        </div>
-      </aside>
-
-      <!-- Right Column: Core Philosophy & Director's Message -->
-      <div class="home-philo-content-col">
-        <!-- Section Eyebrow & Title -->
-        <div class="home-philo-header">
-          <span class="section-tag">CLINICAL PHILOSOPHY</span>
-          <h2 class="home-philo-title">
-            증상만 보지 않고,<br>
-            그 증상이 반복되는 이유를 함께 살핍니다.
-          </h2>
-          <p class="home-philo-desc">
-            같은 증상이라도 시작된 배경과 몸의 반응은 사람마다 다릅니다.<br class="pc-br">
-            충분히 듣고 살핀 뒤, 현재 상태에 맞는 치료 방향을 함께 찾아갑니다.
+          <p class="hero-light-desc">
+            <span class="hero-line-1">공황·불안, 불면, 자율신경실조증부터 틱장애·ADHD까지,</span>
+            <span class="hero-line-2">증상 너머의 원인을 살피고 몸과 뇌, 마음의 균형을 함께 설계합니다.</span>
           </p>
-        </div>
-
-        <!-- 3 Core Philosophy Pillars (Clean Dividers, No Heavy Boxes) -->
-        <div class="home-philo-pillars-list">
-          <div class="home-philo-pillar-item">
-            <div class="home-philo-pillar-header">
-              <span class="home-philo-pillar-num">01</span>
-              <h3 class="home-philo-pillar-title">충분히 듣습니다</h3>
-            </div>
-            <p class="home-philo-pillar-text">
-              증상이 언제, 어떤 상황에서 시작되고 악화되는지 그동안의 과정을 꼼꼼히 살핍니다.
-            </p>
-          </div>
-
-          <div class="home-philo-pillar-item">
-            <div class="home-philo-pillar-header">
-              <span class="home-philo-pillar-num">02</span>
-              <h3 class="home-philo-pillar-title">몸과 마음을 함께 살핍니다</h3>
-            </div>
-            <p class="home-philo-pillar-text">
-              불안과 긴장, 수면, 소화, 두근거림처럼 서로 연결되어 나타나는 반응을 함께 확인합니다.
-            </p>
-          </div>
-
-          <div class="home-philo-pillar-item">
-            <div class="home-philo-pillar-header">
-              <span class="home-philo-pillar-num">03</span>
-              <h3 class="home-philo-pillar-title">일상의 회복을 목표로 합니다</h3>
-            </div>
-            <p class="home-philo-pillar-text">
-              증상의 변화뿐 아니라 학교·직장·가정에서 다시 편안하게 생활할 수 있는지를 중요하게 생각합니다.
-            </p>
-          </div>
-        </div>
-
-        <!-- Director's Warm Message -->
-        <div class="home-philo-director-quote">
-          <p class="home-philo-quote-text">
-            "치료를 받는 시간뿐 아니라, 다시 일상으로 돌아가는 과정까지 함께하겠습니다."
-          </p>
-          <span class="home-philo-quote-author">— 해아림한의원 분당점 손지웅 대표원장</span>
-        </div>
-
-        <!-- Actions Row: Booking + Link to /philosophy/ -->
-        <div class="home-philo-actions">
-          <a href="https://booking.naver.com/booking/13/bizes/1167448" target="_blank" rel="noopener noreferrer" class="btn btn-hero-naver-dark">
-            <span class="n-symbol">N</span> 네이버 실시간 예약
-          </a>
-          <a href="{{ "philosophy/" | relURL }}" class="home-philo-more-link">
-            <span>원장 치유 이야기 전문 보기</span>
-            <i class="ph-bold ph-arrow-right"></i>
-          </a>
         </div>
       </div>
 
-    </div>
-  </div>
-</section>
+      <!-- Subtle Scroll Down Mouse Indicator -->
+      <div class="hero-scroll-indicator" aria-hidden="true">
+        <div class="mouse-wheel-icon">
+          <span class="wheel-dot"></span>
+        </div>
+        <span class="scroll-text">SCROLL</span>
+      </div>
+    </section>
 
-<!-- 4. Treatments Section (통합 9대 핵심 진료과목) -->
-<section class="section treatments-home-section" id="clinics">
-  <div class="container">
-    <div class="section-header text-center">
-      <span class="section-tag">TREATMENTS</span>
-      <h2 class="section-title"><strong>9대 주요 진료과목</strong></h2>
-      <p class="section-desc hide-mobile">소아부터 성인까지, 몸과 뇌·마음의 불균형을 다각도로 살피고 원인을 치료하는 <span class="tel-nowrap">9대 특화 진료과목입니다.</span></p>
-    </div>
+    <!-- 2. Representative Director Section (손지웅 대표원장 소개 - Unboxed Editorial) -->
+    <section class="section home-director-section" id="director">
+      <div class="container">
+        <div class="director-unboxed-layout">
+          
+          <!-- Left Column: Director Portrait Photo directly on canvas -->
+          <div class="director-unboxed-portrait">
+            <img src="{{ "images/doctor-son-profile.png" | relURL }}" alt="해아림한의원 분당점 손지웅 대표원장" class="director-unboxed-img" loading="lazy">
+            <div class="director-portrait-credentials">
+              <h3 class="director-portrait-cred-title">손지웅 대표원장 이력</h3>
+              <ul class="director-portrait-cred-list">
+                <li>현) 해아림한의원 분당점 대표원장</li>
+                <li>대구한의대 한의학과 졸</li>
+                <li>전)해아림네트워크 대구본점 진료원장</li>
+                <li>전)울진군 온정면 보건지소 한방 진료과장</li>
+                <li>대한 한방 신경정신과 학회 정회원</li>
+                <li>대한 한방 두뇌신경의 학회 정회원</li>
+                <li>대한 한방 소아과 학회 정회원</li>
+              </ul>
+            </div>
+          </div>
 
-    <!-- Unified 8-Card Treatments Grid -->
-    <div class="treatments-unified-grid">
-      <!-- 01. 틱장애 (에메랄드) -->
-      <article class="treatment-card">
-        <div class="treatment-card-top">
-          <div class="treatment-circle-wrap">
-            <img src="{{ "images/clinics/clinic-tic.jpg" | relURL }}" alt="틱장애 · 뚜렛증후군" class="treatment-circle-img" loading="lazy">
-            <span class="card-num-badge">01</span>
-          </div>
-          <div class="treatment-title-wrap">
-            <h4 class="treatment-name">틱장애 · 뚜렛증후군</h4>
-          </div>
-        </div>
-        <div class="treatment-tags-row">
-          <span class="sub-tag">운동틱</span>
-          <span class="sub-tag">음성틱</span>
-          <span class="sub-tag">근육틱</span>
-          <span class="sub-tag">복합틱</span>
-          <span class="sub-tag">성인틱</span>
-        </div>
-      </article>
+          <!-- Right Column: Greetings & Philosophy & Credentials -->
+          <div class="director-unboxed-content">
+            <div class="director-greeting-head">
+              <span class="editorial-section-tag">DIRECTOR'S GREETING</span>
+              <h2 class="director-unboxed-heading">
+                안녕하세요. 해아림한의원<br>
+                <strong class="text-accent-blue">분당점 대표원장 손지웅</strong>입니다.
+              </h2>
+            </div>
 
-      <!-- 02. ADHD (톤다운 주황) -->
-      <article class="treatment-card theme-warm-orange">
-        <div class="treatment-card-top">
-          <div class="treatment-circle-wrap">
-            <img src="{{ "images/clinics/clinic-adhd.jpg" | relURL }}" alt="주의집중력 소아·성인 ADHD" class="treatment-circle-img" loading="lazy">
-            <span class="card-num-badge">02</span>
-          </div>
-          <div class="treatment-title-wrap">
-            <h4 class="treatment-name">주의집중력 (ADHD)</h4>
-          </div>
-        </div>
-        <div class="treatment-tags-row">
-          <span class="sub-tag">소아 ADHD</span>
-          <span class="sub-tag">성인 ADHD</span>
-          <span class="sub-tag">주의력결핍</span>
-          <span class="sub-tag">과잉행동·충동성</span>
-        </div>
-      </article>
+            <div class="director-unboxed-body">
+              <p>몸이 힘들다는 말 한마디에도<br>
+              그 안에는 쉽게 설명하기 어려운 불편함과 걱정, 저마다의 시간이 담겨 있습니다.</p>
 
-      <!-- 03. 공황장애 (에메랄드) -->
-      <article class="treatment-card">
-        <div class="treatment-card-top">
-          <div class="treatment-circle-wrap">
-            <img src="{{ "images/clinics/clinic-panic.jpg" | relURL }}" alt="공황장애" class="treatment-circle-img" loading="lazy">
-            <span class="card-num-badge">03</span>
-          </div>
-          <div class="treatment-title-wrap">
-            <h4 class="treatment-name">공황장애</h4>
-          </div>
-        </div>
-        <div class="treatment-tags-row">
-          <span class="sub-tag">공황발작</span>
-          <span class="sub-tag">예기불안</span>
-          <span class="sub-tag">광장공포증</span>
-          <span class="sub-tag">과호흡</span>
-        </div>
-      </article>
+              <p>특히 불안, 불면, 공황, 자율신경의 불균형이나<br>
+              아이들의 틱, ADHD와 같은 증상은<br>
+              겉으로 드러나는 모습만으로는 그 어려움을 온전히 이해하기 어렵습니다.</p>
 
-      <!-- 04. 불안장애 (톤다운 주황 & 좌우반전) -->
-      <article class="treatment-card theme-warm-orange reverse-card">
-        <div class="treatment-card-top">
-          <div class="treatment-circle-wrap">
-            <img src="{{ "images/clinics/clinic-anxiety.jpg" | relURL }}" alt="불안장애 · 사회공포증" class="treatment-circle-img" loading="lazy">
-            <span class="card-num-badge">04</span>
-          </div>
-          <div class="treatment-title-wrap">
-            <h4 class="treatment-name">불안장애 · 공포증</h4>
-          </div>
-        </div>
-        <div class="treatment-tags-row">
-          <span class="sub-tag">범불안장애</span>
-          <span class="sub-tag">사회공포증</span>
-          <span class="sub-tag">대인기피증</span>
-          <span class="sub-tag">발표불안</span>
-        </div>
-      </article>
+              <p>그래서 저는 ‘어떤 증상이 있는가’보다 ‘왜 이런 증상이 나타났는가’를 먼저 살피려 합니다.</p>
 
-      <!-- 05. 수면 · 불면증 (에메랄드 & 좌우반전) -->
-      <article class="treatment-card reverse-card">
-        <div class="treatment-card-top">
-          <div class="treatment-circle-wrap">
-            <img src="{{ "images/clinics/clinic-sleep.jpg" | relURL }}" alt="수면 · 불면증" class="treatment-circle-img" loading="lazy">
-            <span class="card-num-badge">05</span>
-          </div>
-          <div class="treatment-title-wrap">
-            <h4 class="treatment-name">수면 · 불면증</h4>
-          </div>
-        </div>
-        <div class="treatment-tags-row">
-          <span class="sub-tag">입면장애</span>
-          <span class="sub-tag">수면유지장애</span>
-          <span class="sub-tag">조기각성</span>
-          <span class="sub-tag">수면제 단약</span>
-        </div>
-      </article>
+              <p>현재의 증상뿐만 아니라 수면과 소화, 긴장과 스트레스, 생활환경의 변화까지 세심하게 듣고<br>
+              필요한 검사와 진찰을 바탕으로 몸과 마음의 상태를 함께 살펴봅니다.</p>
 
-      <!-- 06. 자율신경실조증 (톤다운 주황 & 좌우반전) -->
-      <article class="treatment-card theme-warm-orange reverse-card">
-        <div class="treatment-card-top">
-          <div class="treatment-circle-wrap">
-            <img src="{{ "images/clinics/clinic-autonomic.jpg" | relURL }}" alt="자율신경실조증" class="treatment-circle-img" loading="lazy">
-            <span class="card-num-badge">06</span>
-          </div>
-          <div class="treatment-title-wrap">
-            <h4 class="treatment-name">자율신경실조증</h4>
-          </div>
-        </div>
-        <div class="treatment-tags-row">
-          <span class="sub-tag">만성 두통</span>
-          <span class="sub-tag">어지럼증</span>
-          <span class="sub-tag">가슴 답답함</span>
-          <span class="sub-tag">신체화장애</span>
-        </div>
-      </article>
+              <p>같은 증상이라도 원인과 양상은 사람마다 다릅니다.<br>
+              정해진 방식에 환자를 맞추기보다, 한 분 한 분에게 맞는 치료 방향을 찾는 것이 중요하다고 생각합니다.</p>
 
-      <!-- 07. 다한증 (에메랄드) -->
-      <article class="treatment-card">
-        <div class="treatment-card-top">
-          <div class="treatment-circle-wrap">
-            <img src="{{ "images/clinics/clinic-hyperhidrosis.jpg" | relURL }}" alt="다한증 손발·전신·안면" class="treatment-circle-img" loading="lazy">
-            <span class="card-num-badge">07</span>
-          </div>
-          <div class="treatment-title-wrap">
-            <h4 class="treatment-name">다한증 (손발·전신·안면)</h4>
-          </div>
-        </div>
-        <div class="treatment-tags-row">
-          <span class="sub-tag">손발 다한증</span>
-          <span class="sub-tag">전신 다한증</span>
-          <span class="sub-tag">안면 다한증</span>
-          <span class="sub-tag">긴장성 발한</span>
-        </div>
-      </article>
+              <p>잠시 증상을 덜어내는 데 그치지 않고<br>
+              다시 편안한 일상을 이어갈 수 있도록 회복의 과정을 함께하겠습니다.</p>
 
-      <!-- 08. 과민성대장증후군 (톤다운 주황) -->
-      <article class="treatment-card theme-warm-orange">
-        <div class="treatment-card-top">
-          <div class="treatment-circle-wrap">
-            <img src="{{ "images/clinics/clinic-ibs.jpg" | relURL }}" alt="과민성대장증후군 · 만성 소화장애" class="treatment-circle-img" loading="lazy">
-            <span class="card-num-badge">08</span>
-          </div>
-          <div class="treatment-title-wrap">
-            <h4 class="treatment-name">과민성대장증후군</h4>
-          </div>
-        </div>
-        <div class="treatment-tags-row">
-          <span class="sub-tag">신경성 복통</span>
-          <span class="sub-tag">만성 설사·변비</span>
-          <span class="sub-tag">복부 팽만감</span>
-          <span class="sub-tag">장-뇌 축 안정</span>
-        </div>
-      </article>
+              <p>환자분의 이야기를 충분히 듣고, 작은 변화까지 놓치지 않는 진료를 하겠습니다.</p>
 
-      <!-- 09. 미주신경성 실신 (에메랄드) -->
-      <article class="treatment-card">
-        <div class="treatment-card-top">
-          <div class="treatment-circle-wrap">
-            <img src="{{ "images/clinics/clinic-syncope.jpg" | relURL }}" alt="미주신경성 실신 · 기립성 어지럼" class="treatment-circle-img" loading="lazy">
-            <span class="card-num-badge">09</span>
-          </div>
-          <div class="treatment-title-wrap">
-            <h4 class="treatment-name">미주신경성 실신</h4>
-          </div>
-        </div>
-        <div class="treatment-tags-row">
-          <span class="sub-tag">혈관미주신경성</span>
-          <span class="sub-tag">기립성 어지럼</span>
-          <span class="sub-tag">기립성 저혈압</span>
-          <span class="sub-tag">실신 전조증상</span>
-        </div>
-      </article>
-    </div>
-  </div>
-</section>
+              <div class="director-unboxed-salute">
+                <span>감사합니다.</span>
+                <strong class="director-sign-name">대표원장 손지웅 드림</strong>
+              </div>
+            </div>
 
-<!-- 5. Unified Medical Process & Guide (내원 진료 과정 & 초진 안내) -->
-<section class="section process-section home-process-section" id="process">
-  <div class="container">
-    <div class="section-header text-center">
-      <span class="section-tag">MEDICAL PROCESS</span>
-      <h2 class="section-title"><strong>내원 진료과정 & 초진안내</strong></h2>
-      <p class="section-desc">소아부터 성인까지, 처음 방문부터 일상 속 회복까지 모든 과정을 세심하고 투명하게 진행합니다.</p>
-    </div>
+            <!-- Philosophy Text Link -->
+            <div class="director-unboxed-link-wrap">
+              <a href="{{ "philosophy/" | relURL }}" class="link-editorial-more link-philosophy-more">
+                <span>진료철학 자세히 보러가기</span>
+                <i class="ph-bold ph-arrow-right"></i>
+              </a>
+            </div>
+          </div>
 
-    <!-- Before Visit Pre-checks (초진 내원 전 핵심 확인 3) -->
-    <div class="home-precheck-row">
-      <!-- 01. 사전 예약 -->
-      <div class="home-precheck-item">
-        <div class="home-precheck-header">
-          <span class="home-precheck-num">01</span>
-          <div class="home-precheck-icon"><i class="ph-bold ph-calendar-check"></i></div>
-          <h3 class="home-precheck-title">한의원 문의 & 사전 예약</h3>
         </div>
-        <div class="home-precheck-badge">
-          <i class="ph-bold ph-check-circle"></i> 100% 예약 우선제 운영
+      </div>
+    </section>
+
+    <!-- 3. 원내/진료환경 이미지 슬라이드 (설명문 없이 사진 중심 seamless 무한 자동 슬라이드) -->
+    <section class="section clinic-gallery-section clinic-gallery-seamless" id="clinic-photos">
+      <div class="container-fluid clinic-slider-container">
+        <!-- Horizontal Seamless Track: 8 Photos duplicated for infinite loop -->
+        <div class="clinic-photo-stream" id="clinic-carousel">
+          <!-- Set 1 (8 Photos) -->
+          <div class="clinic-stream-item">
+            <img src="{{ "images/clinic/healim-entrance.jpg" | relURL }}" alt="해아림한의원 분당점 원내 진료환경" class="clinic-stream-photo" loading="lazy">
+          </div>
+          <div class="clinic-stream-item">
+            <img src="{{ "images/clinic/clinic-interior-01.jpg" | relURL }}" alt="해아림한의원 분당점 원내 진료환경" class="clinic-stream-photo" loading="lazy">
+          </div>
+          <div class="clinic-stream-item">
+            <img src="{{ "images/clinic/clinic-interior-02.jpg" | relURL }}" alt="해아림한의원 분당점 원내 진료환경" class="clinic-stream-photo" loading="lazy">
+          </div>
+          <div class="clinic-stream-item">
+            <img src="{{ "images/clinic/clinic-interior-03.jpg" | relURL }}" alt="해아림한의원 분당점 원내 진료환경" class="clinic-stream-photo" loading="lazy">
+          </div>
+          <div class="clinic-stream-item">
+            <img src="{{ "images/clinic/clinic-interior-04.jpg" | relURL }}" alt="해아림한의원 분당점 원내 진료환경" class="clinic-stream-photo" loading="lazy">
+          </div>
+          <div class="clinic-stream-item">
+            <img src="{{ "images/philosophy/philosophy-consult.jpg" | relURL }}" alt="해아림한의원 분당점 원내 진료환경" class="clinic-stream-photo" loading="lazy">
+          </div>
+          <div class="clinic-stream-item">
+            <img src="{{ "images/philosophy/philosophy-pulse.jpg" | relURL }}" alt="해아림한의원 분당점 원내 진료환경" class="clinic-stream-photo" loading="lazy">
+          </div>
+          <div class="clinic-stream-item">
+            <img src="{{ "images/philosophy/philosophy-acupuncture.jpg" | relURL }}" alt="해아림한의원 분당점 원내 진료환경" class="clinic-stream-photo" loading="lazy">
+          </div>
+          <!-- Set 2 (Duplicated for Seamless Infinite Loop) -->
+          <div class="clinic-stream-item">
+            <img src="{{ "images/clinic/healim-entrance.jpg" | relURL }}" alt="해아림한의원 분당점 원내 진료환경" class="clinic-stream-photo" loading="lazy">
+          </div>
+          <div class="clinic-stream-item">
+            <img src="{{ "images/clinic/clinic-interior-01.jpg" | relURL }}" alt="해아림한의원 분당점 원내 진료환경" class="clinic-stream-photo" loading="lazy">
+          </div>
+          <div class="clinic-stream-item">
+            <img src="{{ "images/clinic/clinic-interior-02.jpg" | relURL }}" alt="해아림한의원 분당점 원내 진료환경" class="clinic-stream-photo" loading="lazy">
+          </div>
+          <div class="clinic-stream-item">
+            <img src="{{ "images/clinic/clinic-interior-03.jpg" | relURL }}" alt="해아림한의원 분당점 원내 진료환경" class="clinic-stream-photo" loading="lazy">
+          </div>
+          <div class="clinic-stream-item">
+            <img src="{{ "images/clinic/clinic-interior-04.jpg" | relURL }}" alt="해아림한의원 분당점 원내 진료환경" class="clinic-stream-photo" loading="lazy">
+          </div>
+          <div class="clinic-stream-item">
+            <img src="{{ "images/philosophy/philosophy-consult.jpg" | relURL }}" alt="해아림한의원 분당점 원내 진료환경" class="clinic-stream-photo" loading="lazy">
+          </div>
+          <div class="clinic-stream-item">
+            <img src="{{ "images/philosophy/philosophy-pulse.jpg" | relURL }}" alt="해아림한의원 분당점 원내 진료환경" class="clinic-stream-photo" loading="lazy">
+          </div>
+          <div class="clinic-stream-item">
+            <img src="{{ "images/philosophy/philosophy-acupuncture.jpg" | relURL }}" alt="해아림한의원 분당점 원내 진료환경" class="clinic-stream-photo" loading="lazy">
+          </div>
         </div>
-        <p class="home-precheck-text">
-          <strong>전화(031-716-8575)</strong>, <strong>네이버 실시간 예약</strong>, <strong>카카오톡 상담</strong> 중 가장 편하신 방법으로 사전 예약 후 내원해 주세요.
+      </div>
+    </section>
+
+    <!-- 4. Books Section (새 소제목·타이틀·설명문 및 선명한 도서 표지) -->
+    <section class="section books-unboxed-section" id="books">
+      <div class="container">
+        <div class="section-header-unboxed text-center">
+          <span class="editorial-section-tag">Insights of HEALIM</span>
+          <h2 class="editorial-section-title">회복을 돕는 <span style="white-space: nowrap;"><strong>해아림한의원 저서</strong></span></h2>
+          <p class="editorial-section-desc">나의 질환을 해아림 의료진의<br class="mobile-break"> 전문 저술을 통해 살펴보세요.</p>
+        </div>
+
+        <!-- Direct Unboxed Placement on Canvas -->
+        <div class="books-unboxed-spread">
+          <!-- Book 1: 토닥토닥 틱장애 -->
+          <div class="book-entry-unboxed">
+            <div class="book-cover-stage">
+              <img src="{{ "images/books/book-tic.png" | relURL }}" alt="토닥토닥 틱장애 - 해아림 원장단 지음" class="book-real-cover" loading="lazy">
+            </div>
+            <div class="book-prose-unboxed">
+              <span class="book-prose-tag">소아청소년 두뇌 클리닉</span>
+              <h3 class="book-prose-title">토닥토닥 틱장애</h3>
+              <p class="book-prose-subtitle">슬기로운 ADHD 틱장애 완치 지침서</p>
+              <p class="book-prose-summary">
+                틱장애와 ADHD에 대한 올바른 의학적 이해와 임상 치료 과정, 가정에서 부모님이 실천할 수 있는 생생한 생활 관리법을 알기 쉽게 풀어낸 실용 지침서입니다.
+              </p>
+              <div class="book-link-wrap">
+                <a href="https://search.shopping.naver.com/book/catalog/32490810061?query=%ED%86%A0%EB%8B%A5%ED%86%A0%EB%8B%A5%20%ED%8B%B1%EC%9E%A5%EC%95%A0&NaPm=ct%3Dmioddx8o%7Cci%3D88cb1cfb72fd4c1bbf57c156f9cee5d974614dfa%7Ctr%3Dboksl%7Csn%3D95694%7Chk%3D999b7206e2c38eb1b0018a5227f12ca6fcf00bc4" target="_blank" rel="noopener noreferrer" class="link-editorial-more">
+                  <span>도서 정보 보러가기</span>
+                  <i class="ph-bold ph-arrow-up-right"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hairline divider between books on desktop -->
+          <div class="books-spread-divider" aria-hidden="true"></div>
+
+          <!-- Book 2: 걱정마 공황장애 -->
+          <div class="book-entry-unboxed">
+            <div class="book-cover-stage">
+              <img src="{{ "images/books/book-panic.png" | relURL }}" alt="걱정마 공황장애 - 해아림 원장단 지음" class="book-real-cover" loading="lazy">
+            </div>
+            <div class="book-prose-unboxed">
+              <span class="book-prose-tag">성인 신경정신과 클리닉</span>
+              <h3 class="book-prose-title">걱정마 공황장애</h3>
+              <p class="book-prose-subtitle">자율신경·불면·공황을 바로 이해하는 치유 안내서</p>
+              <p class="book-prose-summary">
+                불안장애, 공황장애, 자율신경실조증으로 고통받는 환자분들이 두려움의 악순환을 끊고 마음의 평온과 일상의 회복을 되찾을 수 있도록 돕는 실용 안내서입니다.
+              </p>
+              <div class="book-link-wrap">
+                <a href="https://search.shopping.naver.com/book/catalog/45917649628?cat_id=50009941&frm=PBOKPRO&query=%EA%B1%B1%EC%A0%95%EB%A7%88+%EA%B3%B5%ED%99%A9%EC%9E%A5%EC%95%A0&NaPm=ct%3Dmiodf3og%7Cci%3D413a31e11c6038fd7ea36bd84c1652315960334b%7Ctr%3Dboknx%7Csn%3D95694%7Chk%3D3e81b624a9f7270d570bf19511a3b60d2a43d63e" target="_blank" rel="noopener noreferrer" class="link-editorial-more">
+                  <span>도서 정보 보러가기</span>
+                  <i class="ph-bold ph-arrow-up-right"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Academic Studies (도서 바로 아래, 동일 배경, 소제목 스타일, 실제 논문 3개 이미지 무한 자동 슬라이드) -->
+    <section class="section academic-unboxed-section academic-seamless-section" id="academic">
+      <div class="container">
+        <div class="academic-subhead-row">
+          <div class="academic-subhead-text">
+            <span class="editorial-section-tag">CLINICAL STUDIES &amp; RESEARCH</span>
+            <h3 class="academic-small-title"><span style="white-space: nowrap;">해아림한의원</span> <span style="white-space: nowrap;"><strong>학술활동</strong></span></h3>
+          </div>
+        </div>
+
+        <!-- Academic Paper Seamless Track (3 Actual Provided Theses repeated for infinite loop) -->
+        <div class="academic-thesis-track" id="academic-carousel">
+          <!-- Item 1: 틱장애 연구 논문 -->
+          <div class="academic-thesis-item">
+            <img src="{{ "images/academic/thesis-tic.png" | relURL }}" alt="해아림한의원 학술활동 연구 논문" class="thesis-paper-img" loading="lazy">
+          </div>
+          <!-- Item 2: 한방신경정신과 학회지 게재 논문 -->
+          <div class="academic-thesis-item">
+            <img src="{{ "images/academic/thesis-memory.png" | relURL }}" alt="해아림한의원 학술활동 연구 논문" class="thesis-paper-img" loading="lazy">
+          </div>
+          <!-- Item 3: 공황장애 연구 논문 -->
+          <div class="academic-thesis-item">
+            <img src="{{ "images/academic/thesis-panic.png" | relURL }}" alt="해아림한의원 학술활동 연구 논문" class="thesis-paper-img" loading="lazy">
+          </div>
+          <!-- Repeat 1 -->
+          <div class="academic-thesis-item">
+            <img src="{{ "images/academic/thesis-tic.png" | relURL }}" alt="해아림한의원 학술활동 연구 논문" class="thesis-paper-img" loading="lazy">
+          </div>
+          <!-- Repeat 2 -->
+          <div class="academic-thesis-item">
+            <img src="{{ "images/academic/thesis-memory.png" | relURL }}" alt="해아림한의원 학술활동 연구 논문" class="thesis-paper-img" loading="lazy">
+          </div>
+          <!-- Repeat 3 -->
+          <div class="academic-thesis-item">
+            <img src="{{ "images/academic/thesis-panic.png" | relURL }}" alt="해아림한의원 학술활동 연구 논문" class="thesis-paper-img" loading="lazy">
+          </div>
+          <!-- Repeat 1 -->
+          <div class="academic-thesis-item">
+            <img src="{{ "images/academic/thesis-tic.png" | relURL }}" alt="해아림한의원 학술활동 연구 논문" class="thesis-paper-img" loading="lazy">
+          </div>
+          <!-- Repeat 2 -->
+          <div class="academic-thesis-item">
+            <img src="{{ "images/academic/thesis-memory.png" | relURL }}" alt="해아림한의원 학술활동 연구 논문" class="thesis-paper-img" loading="lazy">
+          </div>
+          <!-- Repeat 3 -->
+          <div class="academic-thesis-item">
+            <img src="{{ "images/academic/thesis-panic.png" | relURL }}" alt="해아림한의원 학술활동 연구 논문" class="thesis-paper-img" loading="lazy">
+          </div>
+          <!-- Repeat 1 -->
+          <div class="academic-thesis-item">
+            <img src="{{ "images/academic/thesis-tic.png" | relURL }}" alt="해아림한의원 학술활동 연구 논문" class="thesis-paper-img" loading="lazy">
+          </div>
+          <!-- Repeat 2 -->
+          <div class="academic-thesis-item">
+            <img src="{{ "images/academic/thesis-memory.png" | relURL }}" alt="해아림한의원 학술활동 연구 논문" class="thesis-paper-img" loading="lazy">
+          </div>
+          <!-- Repeat 3 -->
+          <div class="academic-thesis-item">
+            <img src="{{ "images/academic/thesis-panic.png" | relURL }}" alt="해아림한의원 학술활동 연구 논문" class="thesis-paper-img" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Location & Timetable (수원점 스타일 1:1 반영 통합 컴포넌트 재사용) -->
+    {{ partial "suwon_location_section.html" . }}
+
+    <!-- 7. Main Page Closing Full-Width Image Section -->
+    <section class="home-closing-hero-section philo-closing-hero-section">
+      <div class="philo-closing-bg" style="background-image: url('{{ "images/philosophy-closing.png" | relURL }}');"></div>
+      <div class="philo-closing-overlay"></div>
+      <div class="container philo-closing-container text-center">
+        <p class="philo-closing-lead">
+          몸이 보내는 신호에는 이유가 있습니다.<br>
+          겉으로 드러난 증상만이 아닌, 그 시작과 원인을 세심하게 살피겠습니다.
         </p>
-      </div>
-
-      <!-- 02. 소요 시간 -->
-      <div class="home-precheck-item highlight-item">
-        <div class="home-precheck-header">
-          <span class="home-precheck-num">02</span>
-          <div class="home-precheck-icon"><i class="ph-bold ph-clock"></i></div>
-          <h3 class="home-precheck-title">초진 진료 소요시간 확인</h3>
-        </div>
-        <div class="home-precheck-badge time-badge">
-          <i class="ph-bold ph-timer"></i> 총 1시간 30분 ~ 2시간 소요
-        </div>
-        <p class="home-precheck-text">
-          첫 내원 시 정밀 뇌기능·심리 검사와 손지웅 대표원장의 <strong>1:1 심층 문진 및 상담</strong>이 진행되므로 여유 있게 일정을 계획해 주세요.
+        <p class="philo-closing-sub">
+          해아림 분당점은 편안한 일상으로 돌아가는 과정까지 함께합니다.
         </p>
-      </div>
-
-      <!-- 03. 접수 마감 -->
-      <div class="home-precheck-item">
-        <div class="home-precheck-header">
-          <span class="home-precheck-num">03</span>
-          <div class="home-precheck-icon"><i class="ph-bold ph-door-open"></i></div>
-          <h3 class="home-precheck-title">초진 접수 마감 시간 안내</h3>
-        </div>
-        <div class="home-precheck-badge deadline-badge">
-          <i class="ph-bold ph-warning-circle"></i> 마감 1시간 30분 전 내원
-        </div>
-        <p class="home-precheck-text">
-          충분한 정밀 검사와 맞춤 진료를 위해, 초진 접수는 <strong>진료 마감 1시간 30분 전까지</strong> 원내로 도착해 주셔야 합니다.
-        </p>
-      </div>
-    </div>
-
-    <!-- 6-Step Clinical Process Timeline Flow -->
-    <div class="home-process-timeline-wrap">
-      <div class="home-process-timeline-head">
-        <span class="home-process-timeline-subtag">CLINICAL TIMELINE</span>
-        <h3 class="home-process-timeline-title">체계적인 6단계 진료 로드맵</h3>
-      </div>
-
-      <div class="home-step-timeline">
-        <!-- STEP 01 -->
-        <div class="home-step-item">
-          <div class="home-step-top">
-            <span class="home-step-num">01</span>
-            <div class="home-step-icon"><i class="ph-bold ph-calendar-check"></i></div>
-            <span class="home-step-line"></span>
-          </div>
-          <h4 class="home-step-title">사전 예약 <span class="home-step-tag">100% 예약제</span></h4>
-          <p class="home-step-desc">대기 시간 최소화와 충분한 1:1 상담을 위해 내원 전 전화, 네이버, 카카오톡으로 일정을 예약합니다.</p>
-        </div>
-
-        <!-- STEP 02 -->
-        <div class="home-step-item">
-          <div class="home-step-top">
-            <span class="home-step-num">02</span>
-            <div class="home-step-icon"><i class="ph-bold ph-clipboard-text"></i></div>
-            <span class="home-step-line"></span>
-          </div>
-          <h4 class="home-step-title">내원 및 기초 설문 작성</h4>
-          <p class="home-step-desc">예약된 시간에 방문하여 현재 불편한 증상, 발병 시기, 이전 치료력 등에 대한 사전 문진표를 작성합니다.</p>
-        </div>
-
-        <!-- STEP 03 -->
-        <div class="home-step-item">
-          <div class="home-step-top">
-            <span class="home-step-num">03</span>
-            <div class="home-step-icon"><i class="ph-bold ph-brain"></i></div>
-            <span class="home-step-line"></span>
-          </div>
-          <h4 class="home-step-title">4대 두뇌·자율신경 정밀 검사</h4>
-          <p class="home-step-desc">뇌기능 검사(뇌파·자율신경), 뇌인지 검사, 종합 주의력 검사, 심리 척도 검사를 통해 원인을 과학적으로 측정합니다.</p>
-        </div>
-
-        <!-- STEP 04 -->
-        <div class="home-step-item">
-          <div class="home-step-top">
-            <span class="home-step-num">04</span>
-            <div class="home-step-icon"><i class="ph-bold ph-stethoscope"></i></div>
-            <span class="home-step-line"></span>
-          </div>
-          <h4 class="home-step-title">1:1 심층 진료 및 맥진</h4>
-          <p class="home-step-desc">손지웅 대표원장이 검사 결과를 직접 분석하며, 체질 맥진 및 설진과 심층 문진을 통해 근본 불균형을 진단합니다.</p>
-        </div>
-
-        <!-- STEP 05 -->
-        <div class="home-step-item">
-          <div class="home-step-top">
-            <span class="home-step-num">05</span>
-            <div class="home-step-icon"><i class="ph-bold ph-pill"></i></div>
-            <span class="home-step-line"></span>
-          </div>
-          <h4 class="home-step-title">맞춤 치료 계획 & 원내 치료</h4>
-          <p class="home-step-desc">개인별 원인에 맞춘 한약 처방 및 뇌기능 훈련, 침구 치료, 이완 요법 등 단계별 치료 계획을 확정합니다.</p>
-        </div>
-
-        <!-- STEP 06 -->
-        <div class="home-step-item">
-          <div class="home-step-top">
-            <span class="home-step-num">06</span>
-            <div class="home-step-icon"><i class="ph-bold ph-package"></i></div>
-            <span class="home-step-line"></span>
-          </div>
-          <h4 class="home-step-title">안심 배송 & 정기 경과 관리</h4>
-          <p class="home-step-desc">엄선된 청정 한약재로 조제된 맞춤 한약을 안심 배송해 드리며, 정기적인 경과 피드백과 생활 관리를 이어갑니다.</p>
+        <div class="philo-closing-sign">
+          <span class="philo-sign-name">손지웅 대표원장</span>
+          <span class="philo-sign-clinic">해아림한의원 분당점</span>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- 2. Treatment Cases & Naver Reviews Section -->
-<section class="section cases-home-section" id="reviews">
-  <div class="container">
-    <div class="section-header text-center">
-      <span class="section-tag">REVIEWS & CLINICAL CASES</span>
-      <h2 class="section-title">마음과 몸을 되찾은 <strong>치료후기<span class="desktop-only"> & 실시간 환자후기</span></strong></h2>
-      <p class="section-desc reviews-header-desc">원내 직접 등록 임상 치료후기와 네이버 영수증 인증 실시간 방문자 후기를 투명하게 공개합니다.</p>
-    </div>
-
-    <!-- Quick Type Toggle Links (Mobile 2-Tier Stacked: Top '전체 치료후기' / Bottom '원내 치료후기' + '네이버 실시간 후기') -->
-    <div class="review-type-switcher">
-      <a href="{{ "/reviews/" | relURL }}" class="type-switch-btn btn-all active">
-        <i class="ph-bold ph-squares-four"></i> 전체 치료후기
-      </a>
-      <div class="type-switch-subgroup">
-        <a href="{{ "/reviews/?type=direct" | relURL }}" class="type-switch-btn btn-direct">
-          <i class="ph-bold ph-clipboard-text"></i> 원내 치료후기
-        </a>
-        <a href="{{ "/reviews/?type=naver" | relURL }}" class="type-switch-btn btn-naver">
-          <span class="n-pill-icon">N</span> 네이버 실시간 후기
-        </a>
-      </div>
-    </div>
-
-    <!-- Cases Card Grid (Direct Cases & Naver Reviews Mixed Showcase) -->
-    <div class="cases-home-grid">
-      <!-- Case Card 1 (Direct - 자필 체험수기) -->
-      <article class="healim-case-card" data-category="tic">
-        <a href="{{ "/reviews/case-01-tic/" | relURL }}" class="case-card-anchor">
-          <div class="case-thumb-wrap">
-            <img src="{{ "images/reviews/case-01-handwriting.png" | relURL }}" alt="소아 틱장애 환아 보호자 자필 후기" class="case-thumb-img" loading="lazy">
-            <span class="case-tag-pill tic">소아 틱장애</span>
-            <span class="case-direct-badge">📝 자필 체험 수기</span>
-          </div>
-          <div class="case-body-wrap">
-            <div class="case-meta-top">
-              <span class="case-duration-text"><i class="ph-bold ph-calendar-blank"></i> 치료기간: 2026.04 ~ 2026.07 (총 4개월)</span>
-            </div>
-            <p class="case-summary-text">
-              7세 때 눈깜빡임으로 시작해 나아졌다가 10세부터 재발함. 눈깜빡임이 심해지고 킁킁거림, 찡그림, 머리를 끄덕이고 몸을 움직이는 등 복합 증세가 나타남. 맞춤 한약과 비염약, 환 복용 후 복합적 증세가 줄어들고 현재는 눈깜빡임도 거의 없음.
-            </p>
-          </div>
-        </a>
-      </article>
-
-      <!-- Case Card 2 (Naver Review) -->
-      <article class="healim-case-card naver-card-theme" data-category="panic">
-        <div class="naver-review-card-inner">
-          <div class="naver-card-header">
-            <div class="naver-badge-label">
-              <span class="n-green-badge">N</span>
-              <span class="n-badge-text">네이버 플레이스 방문자 인증</span>
-            </div>
-            <div class="naver-star-rating">
-              <span class="stars">★★★★★</span>
-              <span class="score">5.0</span>
-            </div>
-          </div>
-          <div class="naver-card-meta">
-            <span class="naver-author-name"><i class="ph-bold ph-user-circle"></i> 네이버 예약 환자 (p****님)</span>
-            <span class="naver-date-text">2026.08.22</span>
-            <span class="naver-sub-pill">불안·공황장애</span>
-          </div>
-          <h3 class="naver-review-title">
-            "손지웅 원장님께서 정말 꼼꼼하게 증상을 들어주시고 치료 방향을 자세히 설명해주셔서 안심이 되었어요"
-          </h3>
-          <div class="naver-keyword-chips">
-            <span class="n-keyword-chip">#친절해요</span>
-            <span class="n-keyword-chip">#설명이 자세해요</span>
-            <span class="n-keyword-chip">#원장님이 꼼꼼해요</span>
-          </div>
-          <p class="naver-review-summary">
-            공황 때문에 다른 병원도 가봤지만 이렇게 원인을 깊이 있게 설명해주신 곳은 처음입니다. 침도 아프지 않게 잘 놔주시고 맞춤 한약 먹으면서 불안감이 정말 많이 줄어들었어요.
-          </p>
-          <div class="naver-card-footer">
-            <span class="naver-verified-status"><i class="ph-bold ph-shield-check"></i> 영수증 / 예약 인증 완료</span>
-            <a href="https://map.naver.com/p/entry/place/1272285133?placePath=%2Freview%2Fvisitor" target="_blank" rel="noopener noreferrer" class="naver-direct-link">
-              네이버 후기 원문 <i class="ph-bold ph-arrow-up-right"></i>
-            </a>
-          </div>
-        </div>
-      </article>
-
-      <!-- Case Card 3 (Naver Review) -->
-      <article class="healim-case-card naver-card-theme" data-category="autonomic">
-        <div class="naver-review-card-inner">
-          <div class="naver-card-header">
-            <div class="naver-badge-label">
-              <span class="n-green-badge">N</span>
-              <span class="n-badge-text">네이버 플레이스 방문자 인증</span>
-            </div>
-            <div class="naver-star-rating">
-              <span class="stars">★★★★★</span>
-              <span class="score">5.0</span>
-            </div>
-          </div>
-          <div class="naver-card-meta">
-            <span class="naver-author-name"><i class="ph-bold ph-user-circle"></i> 네이버 예약 환자 (k****님)</span>
-            <span class="naver-date-text">2026.08.08</span>
-            <span class="naver-sub-pill">자율신경실조증</span>
-          </div>
-          <h3 class="naver-review-title">
-            "병원 검사에서 아무 이상 없다던 어지럼증과 소화불량이 해아림 치료받고 싹 나았습니다"
-          </h3>
-          <div class="naver-keyword-chips">
-            <span class="n-keyword-chip">#근본원인을 짚어줘요</span>
-            <span class="n-keyword-chip">#설명이 자세해요</span>
-            <span class="n-keyword-chip">#친절해요</span>
-          </div>
-          <p class="naver-review-summary">
-            이유 없는 어지럼증과 가슴 답답함으로 온갖 검사를 다 받아도 원인을 못 찾았는데 손원장님께서 정확히 진단해주시고 맞춤 한약 복용 후 몸이 정말 가벼워졌습니다.
-          </p>
-          <div class="naver-card-footer">
-            <span class="naver-verified-status"><i class="ph-bold ph-shield-check"></i> 영수증 / 예약 인증 완료</span>
-            <a href="https://map.naver.com/p/entry/place/1272285133?placePath=%2Freview%2Fvisitor" target="_blank" rel="noopener noreferrer" class="naver-direct-link">
-              네이버 후기 원문 <i class="ph-bold ph-arrow-up-right"></i>
-            </a>
-          </div>
-        </div>
-      </article>
-
-      <!-- Case Card 4 (Naver Review) -->
-      <article class="healim-case-card naver-card-theme" data-category="sleep">
-        <div class="naver-review-card-inner">
-          <div class="naver-card-header">
-            <div class="naver-badge-label">
-              <span class="n-green-badge">N</span>
-              <span class="n-badge-text">네이버 플레이스 방문자 인증</span>
-            </div>
-            <div class="naver-star-rating">
-              <span class="stars">★★★★★</span>
-              <span class="score">5.0</span>
-            </div>
-          </div>
-          <div class="naver-card-meta">
-            <span class="naver-author-name"><i class="ph-bold ph-user-circle"></i> 네이버 예약 환자 (j****님)</span>
-            <span class="naver-date-text">2026.08.12</span>
-            <span class="naver-sub-pill">만성 불면증</span>
-          </div>
-          <h3 class="naver-review-title">
-            "수면제 없이는 잠들지 못했는데 2달 만에 약 끊고 자연스럽게 푹 자게 되었습니다"
-          </h3>
-          <div class="naver-keyword-chips">
-            <span class="n-keyword-chip">#효과가 좋아요</span>
-            <span class="n-keyword-chip">#원장님이 꼼꼼해요</span>
-            <span class="n-keyword-chip">#친절해요</span>
-          </div>
-          <p class="naver-review-summary">
-            오랫동안 수면유도제를 먹으면서 낮에 머리가 무겁고 피로했는데 해아림 맞춤 한약과 침 치료를 받고 수면제 없이도 스르륵 잠들게 되었습니다. 아침이 정말 상쾌합니다.
-          </p>
-          <div class="naver-card-footer">
-            <span class="naver-verified-status"><i class="ph-bold ph-shield-check"></i> 영수증 / 예약 인증 완료</span>
-            <a href="https://map.naver.com/p/entry/place/1272285133?placePath=%2Freview%2Fvisitor" target="_blank" rel="noopener noreferrer" class="naver-direct-link">
-              네이버 후기 원문 <i class="ph-bold ph-arrow-up-right"></i>
-            </a>
-          </div>
-        </div>
-      </article>
-    </div>
-
-    <!-- Action Buttons -->
-    <div class="cases-bottom-layout">
-      <div class="cases-naver-cta-center text-center">
-        <a href="https://map.naver.com/p/entry/place/1272285133?placePath=%2Freview%2Fvisitor" target="_blank" rel="noopener noreferrer" class="btn btn-naver-review-cta">
-          <span class="n-pill-icon">N</span> 네이버 실시간 리뷰 보기 <i class="ph-bold ph-arrow-up-right"></i>
-        </a>
-      </div>
-      <div class="cases-admin-write-wrap">
-        <button type="button" class="btn btn-case-write-bottom admin-only-btn" onclick="openAdminCaseWriter()">
-          <i class="ph ph-plus-circle"></i> 치료후기 등록하기
-        </button>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 6. Doctor's Column & Official Board -->
-<section class="section blog-section" id="blog">
-  <div class="container">
-    <div class="section-header text-center">
-      <span class="section-tag">DOCTOR COLUMN & CLINICAL BOARD</span>
-      <h2 class="section-title">손지웅 대표원장의 <strong>마음·두뇌 치유 칼럼</strong></h2>
-      <p class="section-desc">질환별 발병 원인과 한방 치료원리,<br>몸과 두뇌의 온전한 회복 이야기를 직접 연재합니다</p>
-    </div>
-
-    <!-- Category Tabs & Top Right-aligned Write Button -->
-    <div class="column-board-controls">
-      <div class="column-category-tabs" id="column-category-tabs">
-        <button type="button" class="col-tab-btn active" data-filter="all" onclick="filterColumnCategory('all')">전체</button>
-        <button type="button" class="col-tab-btn" data-filter="tic" onclick="filterColumnCategory('tic')">틱장애·뚜렛</button>
-        <button type="button" class="col-tab-btn" data-filter="adhd" onclick="filterColumnCategory('adhd')">ADHD·집중력</button>
-        <button type="button" class="col-tab-btn" data-filter="panic" onclick="filterColumnCategory('panic')">공황장애</button>
-        <button type="button" class="col-tab-btn" data-filter="anxiety" onclick="filterColumnCategory('anxiety')">불안·사회공포</button>
-        <button type="button" class="col-tab-btn" data-filter="sleep" onclick="filterColumnCategory('sleep')">수면·불면증</button>
-        <button type="button" class="col-tab-btn" data-filter="autonomic" onclick="filterColumnCategory('autonomic')">자율신경</button>
-        <button type="button" class="col-tab-btn" data-filter="hyperhidrosis" onclick="filterColumnCategory('hyperhidrosis')">다한증</button>
-        <button type="button" class="col-tab-btn" data-filter="ibs" onclick="filterColumnCategory('ibs')">과민성대장</button>
-        <button type="button" class="col-tab-btn" data-filter="syncope" onclick="filterColumnCategory('syncope')">실신</button>
-        <button type="button" class="col-tab-btn" data-filter="general" onclick="filterColumnCategory('general')">두뇌·건강</button>
-      </div>
-
-      <div class="column-action-right">
-        <button type="button" class="btn btn-subtle-write admin-only-btn" onclick="openAdminColumnWriter()" title="칼럼 등록">
-          <i class="ph ph-plus-circle"></i> <span>칼럼 등록하기</span>
-        </button>
-      </div>
-    </div>
-
-    <!-- Doctor Column Horizontal List Wrap -->
-    <div class="column-list-wrap" id="column-cards-grid">
-      {{ range where .Site.RegularPages "Section" "blog" }}
-      <article class="doctor-column-row-item static-column-card" 
-               data-category="{{ .Params.category }}"
-               onclick="location.href='{{ .RelPermalink }}'">
-        <a href="{{ .RelPermalink }}" class="col-row-thumb-wrap" aria-label="{{ .Title }}">
-          {{ if .Params.image }}
-          <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}" class="col-row-thumb-img" loading="lazy">
-          {{ else }}
-          <img src="{{ "images/clinics/autonomic.jpg" | relURL }}" alt="{{ .Title }}" class="col-row-thumb-img" loading="lazy">
-          {{ end }}
-          <span class="col-badge-pill {{ .Params.category }}">{{ .Params.category_name }}</span>
-        </a>
-
-        <div class="col-row-body">
-          <div>
-            <div class="col-row-meta-top">
-              <span class="col-badge-pill-inline {{ .Params.category }}">{{ .Params.category_name }}</span>
-              <span class="col-row-date">{{ .Date.Format "2006.01.02" }}</span>
-            </div>
-            <h3 class="col-row-title">
-              <a href="{{ .RelPermalink }}" style="color: inherit; text-decoration: none;">{{ .Title }}</a>
-            </h3>
-            <p class="col-row-desc">{{ .Params.summary }}</p>
-          </div>
-
-          <div class="col-row-footer">
-            <span class="col-row-author"><i class="ph-bold ph-stethoscope"></i> {{ .Params.author | default "손지웅 대표원장" }}</span>
-            {{ if .Params.hashtags }}
-            <div class="hashtag-pill-group">
-              {{ range .Params.hashtags }}
-              <span class="hashtag-pill">#{{ . }}</span>
-              {{ end }}
-            </div>
-            {{ end }}
-            <a href="{{ .RelPermalink }}" class="col-row-read-btn">
-              <span>칼럼 전문 읽기</span>
-              <i class="ph-bold ph-arrow-right"></i>
-            </a>
-          </div>
-        </div>
-      </article>
-      {{ else }}
-      <div class="column-empty-state" id="column-empty-state">
-        <div class="empty-icon"><i class="ph-bold ph-newspaper-clipping"></i></div>
-        <p class="empty-title">등록된 원장 칼럼이 없습니다.</p>
-        <p class="empty-sub">손지웅 대표원장의 전문 의학 칼럼이 곧 업데이트될 예정입니다.</p>
-      </div>
-      {{ end }}
-    </div>
-  </div>
-</section>
-
-<!-- 7. FAQ Section -->
-<section class="section faq-section" id="faq">
-  <div class="container">
-    <div class="section-header text-center">
-      <span class="section-tag">FAQ</span>
-      <h2 class="section-title">자주 묻는 질문</h2>
-      <p class="section-desc">진료 전 환자분들과 부모님께서<br class="hide-pc"> 가장 많이 궁금해하시는 질문을 모아봤습니다.</p>
-    </div>
-
-    <div class="faq-accordion" id="faq-accordion">
-      <!-- Q1 -->
-      <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">
-          <span class="faq-q-badge">Q1</span>
-          <span class="faq-q-text">정신건강의학과 약을 복용 중인데 한방 치료를 함께 받을 수 있나요?</span>
-          <i class="ph-bold ph-caret-down faq-chevron"></i>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">
-            <p>
-              현재 복용 중인 약의 종류와 복용 기간, 증상 상태를 확인한 뒤 한방 치료의 병행 여부를 판단합니다. 
-              복용 중인 약은 임의로 중단하거나 감량하지 않으며, 변경이 필요한 경우에는 처방 의료진과 충분히 상의하도록 안내합니다.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Q2 -->
-      <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">
-          <span class="faq-q-badge">Q2</span>
-          <span class="faq-q-text">치료 기간은 어느 정도 걸리나요?</span>
-          <i class="ph-bold ph-caret-down faq-chevron"></i>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">
-            <p>
-              증상이 시작된 시기와 정도, 동반 증상, 생활환경 등에 따라 치료 기간은 달라질 수 있습니다. 
-              초기 진료와 검사를 통해 현재 상태를 확인한 후 예상 치료 과정과 내원 계획을 세밀하게 안내드립니다.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Q3 -->
-      <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">
-          <span class="faq-q-badge">Q3</span>
-          <span class="faq-q-text">아이가 한약을 잘 먹지 못하면 어떻게 하나요?</span>
-          <i class="ph-bold ph-caret-down faq-chevron"></i>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">
-            <p>
-              아이의 연령과 체질, 평소 복용 습관 등을 고려해 순하고 부담 없는 처방을 진행하며, 
-              복용이 어려운 경우에는 보호자와 상담하여 보다 편하게 복용할 수 있는 섭취 방법과 제형을 함께 안내합니다.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Q4 -->
-      <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">
-          <span class="faq-q-badge">Q4</span>
-          <span class="faq-q-text">아이가 침 치료나 두뇌 훈련을 무서워하지 않을까요?</span>
-          <i class="ph-bold ph-caret-down faq-chevron"></i>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">
-            <p>
-              아이의 연령과 긴장 정도를 고려해 치료 강도와 방법을 조절합니다. 
-              뉴로피드백과 같은 두뇌 훈련은 통증을 유발하는 방식이 아니며, 아이가 치료 환경에 편안하게 적응할 수 있도록 단계적으로 진행합니다.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Q5 -->
-      <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">
-          <span class="faq-q-badge">Q5</span>
-          <span class="faq-q-text">처음 방문하면 어떤 검사와 상담을 받게 되나요?</span>
-          <i class="ph-bold ph-caret-down faq-chevron"></i>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">
-            <p>
-              현재 가장 불편한 증상과 발생 과정, 수면·스트레스·생활습관 등을 자세히 확인하고, 
-              필요한 경우 뇌기능검사, 뇌인지검사, 심리척도검사, 종합주의력검사를 함께 시행합니다. 검사 결과를 토대로 현재 상태와 치료 방향을 친절히 설명드립니다.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Q6 -->
-      <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">
-          <span class="faq-q-badge">Q6</span>
-          <span class="faq-q-text">한약만 먹으면 되나요? 침이나 훈련도 꼭 해야 하나요?</span>
-          <i class="ph-bold ph-caret-down faq-chevron"></i>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">
-            <p>
-              모든 치료를 동일하게 일률적으로 진행하지 않습니다. 
-              증상과 연령, 검사 결과에 따라 한약·침 치료·뉴로피드백·상담 등 꼭 필요한 치료를 개별적으로 최적화하여 구성합니다.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 8. Location & Hours Section -->
-<section class="section location-section" id="location">
-  <div class="container">
-    <div class="section-header text-center">
-      <span class="section-tag">LOCATION & HOURS</span>
-      <h2 class="section-title">오시는 길 & 진료시간</h2>
-    </div>
-
-    <div class="location-grid">
-      <!-- Hours Card -->
-      <div class="location-card hours-card">
-        <div class="loc-card-header">
-          <div class="loc-icon-circle"><i class="ph-bold ph-clock"></i></div>
-          <h3 class="loc-card-title">진료시간 안내</h3>
-        </div>
-
-        <table class="hours-table">
-          <tbody>
-            <tr class="highlight-row">
-              <th>월요일 · 수요일</th>
-              <td>
-                <strong>10:00 ~ 20:00</strong>
-                <span class="badge-night-inline">야간진료</span>
-              </td>
-            </tr>
-            <tr>
-              <th>화요일 · 금요일</th>
-              <td>10:00 ~ 19:00</td>
-            </tr>
-            <tr class="highlight-row-holiday">
-              <th>토요일 · 공휴일</th>
-              <td>
-                <strong>09:00 ~ 15:00</strong>
-                <span class="badge-holiday-inline">점심시간 없음</span>
-              </td>
-            </tr>
-            <tr class="sub-info-row">
-              <th>점심시간</th>
-              <td>13:00 ~ 14:00 <span class="lunch-note">(월/화/수/금)</span></td>
-            </tr>
-            <tr class="closed-row">
-              <th>휴진일</th>
-              <td><strong>매주 목요일, 일요일</strong></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Location & Transit Card -->
-      <div class="location-card map-info-card">
-        <div class="loc-card-header">
-          <div class="loc-icon-circle"><i class="ph-bold ph-map-pin"></i></div>
-          <h3 class="loc-card-title">오시는 길 & 주차</h3>
-        </div>
-
-        <div class="address-box">
-          <div class="addr-main">
-            <span class="addr-label">도로명 주소</span>
-            <strong class="addr-text">경기도 성남시 분당구 성남대로 331번길 3-3, 젤존타워 3차, 405호</strong>
-          </div>
-        </div>
-
-        <div class="transit-info-list">
-          <div class="transit-item">
-            <div class="transit-icon subway"><i class="ph-bold ph-train"></i></div>
-            <div class="transit-text">
-              <strong>지하철 이용 시</strong>
-              <p>수인분당선 / 신분당선 <strong>정자역 3번 출구</strong> 나오셔서 도보 2분 거리 (젤존타워 3차 4층)</p>
-            </div>
-          </div>
-
-          <div class="transit-item">
-            <div class="transit-icon car"><i class="ph-bold ph-car"></i></div>
-            <div class="transit-text">
-              <strong>자가용 & 주차 안내</strong>
-              <p>젤존타워 3차 건물 내 지하주차장 이용 가능 (내원 시 무료 주차권을 지원해 드립니다.)</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="map-action-buttons">
-          <a href="https://map.naver.com/p/search/%ED%95%B4%EC%95%84%EB%A6%BC%ED%95%9C%EC%9D%98%EC%9B%90%20%EB%B6%84%EB%8B%B9%EC%A0%90" target="_blank" rel="noopener noreferrer" class="btn btn-naver-map">
-            <span class="n-icon">N</span> 네이버 지도 길찾기
-          </a>
-          <a href="https://map.kakao.com/link/search/%ED%95%B4%EC%95%84%EB%A6%BC%ED%95%9C%EC%9D%98%EC%9B%90%20%EB%B6%84%EB%8B%B9%EC%A0%90" target="_blank" rel="noopener noreferrer" class="btn btn-kakao-map">
-            <i class="ph-fill ph-map-pin"></i> 카카오맵 길찾기
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
- 
-<!-- 9. Final Action CTA Band (Full-Width Action Anchor) -->
-<section class="home-final-cta-section">
-  <div class="container">
-    <div class="home-final-cta-content text-center">
-      <span class="home-final-cta-tag">CONSULTATION & RESERVATION</span>
-      <h2 class="home-final-cta-title">
-        궁금한 증상이 있으신가요?<br>
-        <strong>현재 상태부터 차근히 상담해드립니다.</strong>
-      </h2>
-      <p class="home-final-cta-desc">
-        소아부터 성인까지, 몸과 뇌·마음의 불균형을 다각도로 살피고 회복의 길을 함께 찾습니다.
-      </p>
-      <div class="home-final-cta-buttons">
-        <a href="https://booking.naver.com/booking/13/bizes/1167448" target="_blank" rel="noopener noreferrer" class="btn btn-hero-naver-dark">
-          <span class="n-symbol">N</span> 네이버 실시간 예약
-        </a>
-        <button type="button" class="btn btn-hero-inquiry" onclick="document.getElementById('inquiry-modal').classList.add('active'); document.body.style.overflow='hidden';">
-          <i class="ph-bold ph-chat-teardrop-dots"></i> 온라인 간편 문의
-        </button>
-      </div>
-    </div>
-  </div>
-</section>
+    </section>
 
   </main>
 

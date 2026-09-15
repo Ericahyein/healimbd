@@ -22,85 +22,149 @@
   {{ partial "header.html" . }}
 
   <main id="main-content">
-    <!-- Blog Page Header Banner -->
-    <section class="cases-page-header blog-page-header">
-      <div class="container text-center">
-        <span class="cases-top-pill">DOCTOR COLUMN & CLINICAL ESSAY</span>
-        <h1 class="cases-main-title">손지웅 대표원장의 <strong>의학 칼럼</strong></h1>
-        <p class="cases-main-desc">
-          질환별 발병 원인과 한방 치료원리,<br>
-          몸과 두뇌의 온전한 회복 이야기를 직접 연재합니다
-        </p>
-      </div>
-    </section>
+    <!-- 1. Common Page Hero Banner (Preserved 100%) -->
+    {{ partial "page_hero.html" (dict "Tag" "DOCTOR COLUMN &amp; CLINICAL ESSAY" "Title" "손지웅 대표원장의 의학 칼럼" "Subtitle" "질환의 원인과 증상이 나타나는 과정을 이해하기 쉽게 설명하고,<br>진료 현장에서 바라보는 치료의 원리와 방향을 전합니다." "BgImage" "images/hero-blog.png" "HeroClass" "blog-hero") }}
 
     <!-- Column Board Main Section -->
     <section class="section blog-page-section">
       <div class="container">
-        <!-- Category Tabs & Top Right-aligned Write Button -->
+        <!-- 2. Slim Magazine Category Tabs & Search Action -->
         <div class="column-board-controls">
+          {{ $blogCategories := slice 
+            (dict "key" "all" "name" "전체")
+            (dict "key" "tic" "name" "틱장애·투렛")
+            (dict "key" "adhd" "name" "ADHD·집중력")
+            (dict "key" "panic" "name" "공황장애")
+            (dict "key" "anxiety" "name" "불안·강박")
+            (dict "key" "sleep" "name" "수면·불면증")
+            (dict "key" "autonomic" "name" "자율신경")
+            (dict "key" "hyperhidrosis" "name" "다한증")
+            (dict "key" "ibs" "name" "과민성대장")
+            (dict "key" "syncope" "name" "실신")
+            (dict "key" "general" "name" "두뇌·건강")
+          }}
           <div class="column-category-tabs" id="column-category-tabs">
-            <button type="button" class="col-tab-btn active" data-filter="all" onclick="filterColumnCategory('all')">전체</button>
-            <button type="button" class="col-tab-btn" data-filter="tic" onclick="filterColumnCategory('tic')">틱장애·뚜렛</button>
-            <button type="button" class="col-tab-btn" data-filter="adhd" onclick="filterColumnCategory('adhd')">ADHD·집중력</button>
-            <button type="button" class="col-tab-btn" data-filter="panic" onclick="filterColumnCategory('panic')">공황장애</button>
-            <button type="button" class="col-tab-btn" data-filter="anxiety" onclick="filterColumnCategory('anxiety')">불안·사회공포</button>
-            <button type="button" class="col-tab-btn" data-filter="sleep" onclick="filterColumnCategory('sleep')">수면·불면증</button>
-            <button type="button" class="col-tab-btn" data-filter="autonomic" onclick="filterColumnCategory('autonomic')">자율신경</button>
-            <button type="button" class="col-tab-btn" data-filter="hyperhidrosis" onclick="filterColumnCategory('hyperhidrosis')">다한증</button>
-            <button type="button" class="col-tab-btn" data-filter="ibs" onclick="filterColumnCategory('ibs')">과민성대장</button>
-            <button type="button" class="col-tab-btn" data-filter="syncope" onclick="filterColumnCategory('syncope')">실신</button>
-            <button type="button" class="col-tab-btn" data-filter="general" onclick="filterColumnCategory('general')">두뇌·건강</button>
+            {{ range $idx, $cat := $blogCategories }}
+            <button type="button" class="col-tab-btn{{ if eq $idx 0 }} active{{ end }}" data-filter="{{ $cat.key }}" onclick="filterColumnCategory('{{ $cat.key }}')">{{ $cat.name }}</button>
+            {{ end }}
+          </div>
+
+          <!-- Mobile Unified Category Dropdown (Only visible <= 768px, single source with desktop chips) -->
+          <div class="mobile-category-dropdown" id="blog-mobile-dropdown">
+            <button type="button" class="mobile-dropdown-toggle" id="blog-dropdown-toggle" aria-haspopup="listbox" aria-expanded="false">
+              <span class="dropdown-selected-label">전체</span>
+              <i class="ph-bold ph-caret-down dropdown-chevron"></i>
+            </button>
+            <ul class="mobile-dropdown-menu" role="listbox" aria-labelledby="blog-dropdown-toggle">
+              {{ range $idx, $cat := $blogCategories }}
+              <li class="dropdown-option{{ if eq $idx 0 }} active{{ end }}" role="option" data-value="{{ $cat.key }}" aria-selected="{{ if eq $idx 0 }}true{{ else }}false{{ end }}">
+                <span>{{ $cat.name }}</span>
+                <i class="ph-bold ph-check check-icon"></i>
+              </li>
+              {{ end }}
+            </ul>
           </div>
 
           <div class="column-action-right">
             <button type="button" class="btn btn-subtle-write admin-only-btn" onclick="openAdminColumnWriter()" title="칼럼 등록">
               <i class="ph ph-plus-circle"></i> <span>칼럼 등록하기</span>
             </button>
+            <div class="column-search-trigger" aria-label="칼럼 검색">
+              <i class="ph-bold ph-magnifying-glass"></i>
+            </div>
           </div>
         </div>
 
-        <!-- Doctor Column 3-Column Card Grid Wrap -->
-        <div class="column-list-wrap blog-grid-layout" id="column-cards-grid">
-          {{ range where .Site.RegularPages "Section" "blog" }}
-          <article class="doctor-column-row-item blog-card-item static-column-card" 
-                   data-category="{{ .Params.category }}"
-                   onclick="location.href='{{ .RelPermalink }}'">
-            <!-- 1. Top Featured Image -->
-            <a href="{{ .RelPermalink }}" class="col-card-thumb-wrap" aria-label="{{ .Title }}">
-              {{ if .Params.image }}
-              <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}" class="col-card-thumb-img" loading="lazy">
-              {{ else }}
-              <img src="{{ "images/clinics/autonomic.jpg" | relURL }}" alt="{{ .Title }}" class="col-card-thumb-img" loading="lazy">
-              {{ end }}
+        {{ $allPosts := (where .Site.RegularPages "Section" "blog").ByDate.Reverse }}
+        {{ $totalPosts := len $allPosts }}
+
+
+        <!-- 3. Featured Article Section (Latest Article by Date Descending) -->
+        {{ if gt $totalPosts 0 }}
+        {{ $featured := index $allPosts 0 }}
+        {{ $featuredThumb := $featured.Params.thumbnail | default $featured.Params.image | default "images/philosophy/philosophy-consult.jpg" }}
+        <div class="featured-article-container" id="featured-article-container">
+          <article class="featured-article-item" 
+                   id="featured-article-element"
+                   data-category="{{ $featured.Params.category }}"
+                   onclick="location.href='{{ $featured.RelPermalink }}'">
+            <!-- Left Large Thumbnail (~55% width, clean 16:10 ratio, cover fit) -->
+            <a href="{{ $featured.RelPermalink }}" class="featured-thumb-wrap" aria-label="{{ $featured.Title }}">
+              <img src="{{ $featuredThumb | relURL }}" alt="{{ $featured.Title }}" class="featured-thumb-img" id="featured-thumb-img" loading="eager">
             </a>
 
-            <!-- 2. Content Body -->
-            <div class="col-card-body">
-              <!-- Meta: Category badge + Date -->
-              <div class="col-card-meta-top">
-                <span class="col-badge-pill-inline {{ .Params.category }}">{{ .Params.category_name }}</span>
-                <span class="col-card-date">{{ .Date.Format "2006.01.02" }}</span>
+            <!-- Right Content (~45% width) -->
+            <div class="featured-content-wrap">
+              <div class="featured-badge-row">
+                <span class="featured-label-tag">FEATURED ARTICLE</span>
+                <span class="editorial-cat-badge col-badge-pill-inline {{ $featured.Params.category }}" id="featured-cat-badge">{{ $featured.Params.category_name }}</span>
               </div>
 
-              <!-- Title: max 2 lines with accessible link -->
-              <h3 class="col-card-title">
-                <a href="{{ .RelPermalink }}" class="col-card-title-link">{{ .Title }}</a>
-              </h3>
+              <h2 class="featured-title">
+                <a href="{{ $featured.RelPermalink }}" class="featured-title-link" id="featured-title-link">{{ $featured.Title }}</a>
+              </h2>
 
-              <!-- Summary: max 3 lines -->
-              <p class="col-card-desc">{{ .Params.summary }}</p>
+              <p class="featured-summary" id="featured-summary">{{ $featured.Params.summary }}</p>
 
-              <!-- 3. Card Footer: Author + Read Button -->
-              <div class="col-card-footer">
-                <span class="col-card-author">
-                  <i class="ph-bold ph-stethoscope"></i> {{ .Params.author | default "손지웅 대표원장" }}
-                </span>
-                <a href="{{ .RelPermalink }}" class="col-card-read-btn">
-                  <span>칼럼 전문 읽기</span>
+              <div class="featured-footer-meta">
+                <div class="featured-date-author">
+                  <span class="featured-date" id="featured-date">{{ $featured.Date.Format "2006.01.02" }}</span>
+                  <span class="featured-sep">·</span>
+                  <span class="featured-author" id="featured-author">
+                    <i class="ph-bold ph-stethoscope"></i> {{ $featured.Params.author | default "손지웅 대표원장" }}
+                  </span>
+                </div>
+                <a href="{{ $featured.RelPermalink }}" class="featured-read-link" id="featured-read-link">
+                  <span>칼럼 읽기</span>
                   <i class="ph-bold ph-arrow-right"></i>
                 </a>
               </div>
+            </div>
+          </article>
+        </div>
+        {{ end }}
+
+        <!-- 4. All Articles / 의학 칼럼 아카이브 Header -->
+        <div class="archive-section-header" id="blog-archive-section">
+          <div class="archive-header-text">
+            <span class="archive-sub-tag">ALL ARTICLES</span>
+            <h2 class="archive-main-title">의학 칼럼 아카이브</h2>
+            <p class="archive-desc">해아림한의원 손지웅 대표원장의 진료 경험과 의학적 인사이트를 통해 건강한 일상을 위한 다양한 이야기를 전합니다.</p>
+          </div>
+          <div class="archive-sort-indicator">
+            <span>최신순</span>
+            <i class="ph-bold ph-caret-down"></i>
+          </div>
+        </div>
+
+        <!-- 5. Doctor Column 3-Column Thumbnail Archive Grid -->
+        <div class="column-list-wrap blog-grid-layout brand-archive-grid" id="column-cards-grid">
+          {{ range after 1 $allPosts }}
+          {{ $archiveThumb := .Params.thumbnail | default .Params.image | default "images/philosophy/philosophy-consult.jpg" }}
+          <article class="brand-archive-item static-column-card" 
+                   data-category="{{ .Params.category }}"
+                   onclick="location.href='{{ .RelPermalink }}'">
+            <!-- Top Thumbnail (100% width, 16:10 ratio, clean canvas placement) -->
+            <a href="{{ .RelPermalink }}" class="brand-archive-thumb-wrap" aria-label="{{ .Title }}">
+              <img src="{{ $archiveThumb | relURL }}" alt="{{ .Title }}" class="brand-archive-thumb-img" loading="lazy">
+            </a>
+
+            <!-- Content info below thumbnail -->
+            <div class="brand-archive-info">
+              <h3 class="brand-archive-title">
+                <a href="{{ .RelPermalink }}" class="brand-archive-title-link">{{ .Title }}</a>
+              </h3>
+
+              <div class="brand-archive-meta">
+                <span class="brand-archive-date">{{ .Date.Format "2006.01.02" }}</span>
+                <span class="brand-archive-sep">·</span>
+                <span class="brand-archive-author">{{ .Params.author | default "손지웅 대표원장" }}</span>
+              </div>
+
+              <a href="{{ .RelPermalink }}" class="brand-archive-read-link">
+                <span>칼럼 읽기</span>
+                <i class="ph-bold ph-arrow-right"></i>
+              </a>
             </div>
           </article>
           {{ else }}
@@ -111,6 +175,32 @@
           </div>
           {{ end }}
         </div>
+
+        <!-- 6. Real Pagination Container -->
+        <nav class="blog-pagination-nav" id="blog-pagination-nav" aria-label="칼럼 페이지 번호"></nav>
+
+        <!-- Static Articles Data for Instant Client Filtering & Real Pagination -->
+        <script id="blog-articles-data" type="application/json">
+        [
+          {{ range $index, $p := $allPosts }}
+          {{ if $index }},{{ end }}
+          {{ $pCat := $p.Params.category | default "general" }}
+          {{ $thumbImg := $p.Params.thumbnail | default $p.Params.image | default "images/philosophy/philosophy-consult.jpg" }}
+          {
+            "id": {{ $p.File.BaseFileName }},
+            "title": {{ $p.Title }},
+            "url": {{ $p.RelPermalink }},
+            "date": {{ $p.Date.Format "2006.01.02" }},
+            "category": {{ $pCat }},
+            "categoryName": {{ $p.Params.category_name | default "두뇌·건강" }},
+            "author": {{ $p.Params.author | default "손지웅 대표원장" }},
+            "summary": {{ $p.Params.summary }},
+            "thumbnail": {{ $thumbImg | relURL }},
+            "image": {{ $thumbImg | relURL }}
+          }
+          {{ end }}
+        ]
+        </script>
       </div>
     </section>
   </main>

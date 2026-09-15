@@ -255,6 +255,8 @@ ${articleBody}
   await compositeThumbnail({
     bgImageBuffer,
     outputPath: localThumbPath,
+    categoryName: plan.disease.categoryName || plan.disease.name,
+    category: plan.disease.category,
     yellowText: thumbnailCopy.yellowText,
     whiteText: thumbnailCopy.whiteText,
     greenText: thumbnailCopy.greenText

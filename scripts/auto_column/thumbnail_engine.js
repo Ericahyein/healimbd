@@ -51,84 +51,109 @@ function getTargetFontSize(text, baseSize, maxTargetWidthPx = 730, minSize = 56)
 }
 
 /**
- * Generates an SVG overlay with ultra-heavy 3-line typography, 16~20px black stroke, and high-contrast dark overlay
+ * Generates an SVG overlay with left-aligned editorial typography, top-left category badge, and left-to-right scrim
  */
-function generateSvgOverlay(yellowText, whiteText, greenText, width = 800, height = 800) {
-  // Ultra-bold sizing - 85~92% canvas coverage
-  const yellowSize = getTargetFontSize(yellowText, 88, 700, 58);
-  const whiteSize = getTargetFontSize(whiteText, 86, 730, 56);
-  const greenSize = getTargetFontSize(greenText, 104, 740, 68);
+function generateSvgOverlay(yellowText, whiteText, greenText, width = 800, height = 800, options = {}) {
+  const categoryName = options.categoryName || '의학 칼럼';
+  const safeCategory = escapeXml(categoryName);
+  const safeLine1 = escapeXml(yellowText);
+  const safeLine2 = escapeXml(whiteText);
+  const safeLine3 = escapeXml(greenText);
 
-  // Heavy 16~20px stroke outline for crystal clear legibility on mobile cards
-  const yellowStroke = Math.max(16, Math.min(20, Math.round(yellowSize * 0.20)));
-  const whiteStroke = Math.max(16, Math.min(20, Math.round(whiteSize * 0.20)));
-  const greenStroke = Math.max(18, Math.min(22, Math.round(greenSize * 0.20)));
+  // Badge sizing
+  const badgeTextLen = safeCategory.length;
+  const badgeWidth = Math.max(96, Math.round(badgeTextLen * 19 + 34));
+  const badgeHeight = 36;
 
-  const safeYellow = escapeXml(yellowText);
-  const safeWhite = escapeXml(whiteText);
-  const safeGreen = escapeXml(greenText);
+  // Font size calculation for left-aligned text within 55~65% max canvas width (max ~480px)
+  const line1Size = getTargetFontSize(yellowText, 52, 470, 36);
+  const line2Size = getTargetFontSize(whiteText, 54, 480, 38);
+  const line3Size = getTargetFontSize(greenText, 70, 480, 48);
+
+  const stroke1 = Math.max(10, Math.min(14, Math.round(line1Size * 0.22)));
+  const stroke2 = Math.max(10, Math.min(14, Math.round(line2Size * 0.22)));
+  const stroke3 = Math.max(12, Math.min(16, Math.round(line3Size * 0.22)));
 
   return `
     <svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <filter id="heavy-text-shadow" x="-25%" y="-25%" width="150%" height="150%">
-          <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#000000" flood-opacity="0.95"/>
-          <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#000000" flood-opacity="0.85"/>
+        <!-- Heavy clean text shadow for maximum legibility on any photo -->
+        <filter id="editorial-text-shadow" x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#000000" flood-opacity="0.92"/>
+          <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.78"/>
         </filter>
-        <radialGradient id="natural-vignette" cx="50%" cy="50%" r="70%">
-          <stop offset="0%" stop-color="#0B132B" stop-opacity="0.50"/>
-          <stop offset="45%" stop-color="#0F172A" stop-opacity="0.46"/>
-          <stop offset="75%" stop-color="#090E1A" stop-opacity="0.58"/>
-          <stop offset="100%" stop-color="#020617" stop-opacity="0.75"/>
-        </radialGradient>
+        <filter id="badge-shadow" x="-10%" y="-10%" width="120%" height="120%">
+          <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#000000" flood-opacity="0.6"/>
+        </filter>
+
+        <!-- Left Scrim Gradient: Dark on left 0~55%, smoothly transparent on right 80~100% -->
+        <linearGradient id="left-scrim" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#020617" stop-opacity="0.88"/>
+          <stop offset="42%" stop-color="#090E1A" stop-opacity="0.75"/>
+          <stop offset="68%" stop-color="#0F172A" stop-opacity="0.36"/>
+          <stop offset="88%" stop-color="#0F172A" stop-opacity="0.08"/>
+          <stop offset="100%" stop-color="#0F172A" stop-opacity="0.0"/>
+        </linearGradient>
+
         <style>
-          .title-text {
-            font-family: 'Noto Sans CJK KR', 'Noto Sans KR', 'NanumGothic', 'Pretendard', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+          .thumb-text {
+            font-family: 'Noto Sans CJK KR', 'Noto Sans KR', 'Pretendard', 'NanumGothic', 'Apple SD Gothic Neo', sans-serif;
             font-weight: 900;
-            text-anchor: middle;
+            text-anchor: start;
             paint-order: stroke fill;
             stroke-linejoin: round;
             stroke-linecap: round;
-            letter-spacing: -1.5px;
+            letter-spacing: -1.2px;
           }
-          .yellow-line {
-            font-size: ${yellowSize}px;
-            fill: #FFE600;
-            stroke: #000000;
-            stroke-width: ${yellowStroke}px;
-            filter: url(#heavy-text-shadow);
-          }
-          .white-line {
-            font-size: ${whiteSize}px;
+          .line-hook {
+            font-size: ${line1Size}px;
             fill: #FFFFFF;
-            stroke: #000000;
-            stroke-width: ${whiteStroke}px;
-            filter: url(#heavy-text-shadow);
+            stroke: #050B14;
+            stroke-width: ${stroke1}px;
+            filter: url(#editorial-text-shadow);
           }
-          .green-line {
-            font-size: ${greenSize}px;
-            fill: #00FF33;
-            stroke: #000000;
-            stroke-width: ${greenStroke}px;
-            filter: url(#heavy-text-shadow);
+          .line-symptom {
+            font-size: ${line2Size}px;
+            fill: #FFFFFF;
+            stroke: #050B14;
+            stroke-width: ${stroke2}px;
+            filter: url(#editorial-text-shadow);
+          }
+          .line-accent {
+            font-size: ${line3Size}px;
+            fill: #FFE600;
+            stroke: #050B14;
+            stroke-width: ${stroke3}px;
+            filter: url(#editorial-text-shadow);
+          }
+          .badge-label {
+            font-family: 'Noto Sans CJK KR', 'Noto Sans KR', 'Pretendard', sans-serif;
+            font-size: 19px;
+            font-weight: 700;
+            fill: #38BDF8;
+            letter-spacing: -0.3px;
           }
         </style>
       </defs>
 
-      <!-- 1. Smooth Natural Dark Vignette Overlay across photo -->
-      <rect x="0" y="0" width="${width}" height="${height}" fill="url(#natural-vignette)" />
+      <!-- 1. Left-to-Right Dark Scrim for High-Contrast Typography on Left (~8-10% margin, ~55-65% width) -->
+      <rect x="0" y="0" width="${width}" height="${height}" fill="url(#left-scrim)" />
 
-      <!-- 2. Neon Green Border -->
-      <rect x="14" y="14" width="${width - 28}" height="${height - 28}" fill="none" stroke="#00FF33" stroke-width="4" rx="6" />
+      <!-- 2. [Top Left] Category Badge Label (Safe Area ~64px margin, rx=6) -->
+      <g transform="translate(64, 66)" filter="url(#badge-shadow)">
+        <rect x="0" y="0" width="${badgeWidth}" height="${badgeHeight}" rx="6" ry="6" fill="#0F172A" fill-opacity="0.9" stroke="#38BDF8" stroke-width="1.8" />
+        <text x="${badgeWidth / 2}" y="24" text-anchor="middle" class="badge-label">${safeCategory}</text>
+      </g>
 
-      <!-- 4. Line 1: Yellow Hook (Y ~ 290) -->
-      <text x="${width / 2}" y="290" class="title-text yellow-line">${safeYellow}</text>
+      <!-- 3. [Left Center] Main Headline (Left Aligned, 2~3 Lines) -->
+      <!-- Line 1: Hook (Y ~ 275) -->
+      <text x="64" y="275" class="thumb-text line-hook">${safeLine1}</text>
 
-      <!-- 5. Line 2: White Core Symptom (Y ~ 430) -->
-      <text x="${width / 2}" y="430" class="title-text white-line">${safeWhite}</text>
+      <!-- Line 2: Symptom / Question (Y ~ 365) -->
+      <text x="64" y="365" class="thumb-text line-symptom">${safeLine2}</text>
 
-      <!-- 6. Line 3: Neon Green Disease Name - The Main Hero (Y ~ 580) -->
-      <text x="${width / 2}" y="580" class="title-text green-line">${safeGreen}</text>
+      <!-- Line 3: Accent Highlight Disease Name (Y ~ 475) -->
+      <text x="64" y="475" class="thumb-text line-accent">${safeLine3}</text>
     </svg>
   `;
 }
@@ -144,6 +169,8 @@ async function compositeThumbnail(options = {}) {
     yellowText,
     whiteText,
     greenText,
+    categoryName,
+    category,
     logoPath = LOGO_DEFAULT_PATH,
     width = 800,
     height = 800
@@ -155,12 +182,12 @@ async function compositeThumbnail(options = {}) {
 
   verifyKoreanFontAvailable();
 
-  // 1. Prepare Base Background
+  // 1. Prepare Base Background (Fitted cover)
   let baseSharp;
   if (bgImageBuffer) {
-    baseSharp = sharp(bgImageBuffer).resize(width, height, { fit: 'cover' });
+    baseSharp = sharp(bgImageBuffer).resize(width, height, { fit: 'cover', position: 'right' });
   } else if (bgImagePath && fs.existsSync(bgImagePath)) {
-    baseSharp = sharp(bgImagePath).resize(width, height, { fit: 'cover' });
+    baseSharp = sharp(bgImagePath).resize(width, height, { fit: 'cover', position: 'right' });
   } else {
     baseSharp = sharp({
       create: {
@@ -172,8 +199,8 @@ async function compositeThumbnail(options = {}) {
     });
   }
 
-  // 2. Prepare SVG Overlay Buffer
-  const svgString = generateSvgOverlay(yellowText, whiteText, greenText, width, height);
+  // 2. Prepare SVG Overlay Buffer with Left-aligned Typography & Category Badge
+  const svgString = generateSvgOverlay(yellowText, whiteText, greenText, width, height, { categoryName, category });
   const svgBuffer = Buffer.from(svgString);
 
   // 3. Composite Layers
@@ -181,21 +208,21 @@ async function compositeThumbnail(options = {}) {
     { input: svgBuffer, top: 0, left: 0 }
   ];
 
-  // 4. Attach Healim Logo at bottom right if exists
+  // 4. Attach Healim Logo at bottom left (aligned with x=64, y=height - logoHeight - 54)
   const effectiveLogoPath = fs.existsSync(logoPath) ? logoPath : LOGO_DEFAULT_PATH;
   if (fs.existsSync(effectiveLogoPath)) {
-    const logoWidth = 190;
+    const logoWidth = 180;
     const resizedLogoBuffer = await sharp(effectiveLogoPath)
       .resize(logoWidth)
       .toBuffer();
 
     const logoMeta = await sharp(resizedLogoBuffer).metadata();
-    const logoHeight = logoMeta.height || 48;
+    const logoHeight = logoMeta.height || 46;
 
     compositeLayers.push({
       input: resizedLogoBuffer,
-      top: height - logoHeight - 25,
-      left: width - logoWidth - 25
+      top: height - logoHeight - 54,
+      left: 64
     });
   }
 

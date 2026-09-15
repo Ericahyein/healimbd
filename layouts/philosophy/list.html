@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>진료철학 | 해아림한의원 분당점</title>
-  <meta name="description" content="환자의 아픔을 먼저 겪어보았기에 더 깊이 공감하고 경청합니다. 해아림한의원 분당점 손지웅 대표원장의 진솔한 치유 스토리와 진료철학입니다.">
+  <meta name="description" content="한 사람의 증상에는 저마다 다른 이유와 이야기가 있습니다. 충분히 듣고, 세심하게 살피며, 회복을 위한 방향을 함께 찾아갑니다.">
   <link rel="canonical" href="{{ .Permalink }}">
 
   <!-- Fonts (Pretendard & Outfit) -->
@@ -22,222 +22,139 @@
   {{ partial "header.html" . }}
 
   <main id="main-content">
-    <!-- Philosophy Page Header Banner -->
-    <section class="cases-page-header philosophy-page-header">
-      <div class="container text-center">
-        <span class="cases-top-pill">CLINICAL PHILOSOPHY</span>
-        <h1 class="cases-main-title">진료철학</h1>
-        <p class="cases-main-desc">
-          마음을 듣고 몸을 세우는 해아림의 진솔한 치유 이야기
-        </p>
+    <!-- 1. Common Page Hero Banner -->
+    {{ partial "page_hero.html" (dict "Tag" "CLINICAL PHILOSOPHY" "Title" "진료철학" "Subtitle" "한 사람의 증상에는 저마다 다른 이유와 이야기가 있습니다.<br>충분히 듣고, 세심하게 살피며, 회복을 위한 방향을 함께 찾아갑니다." "BgImage" "images/hero-philosophy.jpg" "HeroClass" "philosophy-hero") }}
+
+    <!-- 2. Editorial Philosophy Body Section -->
+    <section class="philosophy-editorial-section">
+      <div class="container philo-editorial-container">
+
+        <!-- A. Representative Director Intro (Unboxed 2-Column) -->
+        <article class="philo-intro-unboxed">
+          <div class="philo-intro-photo-col">
+            <div class="philo-intro-photo-frame">
+              <img src="{{ "images/doctor-son-profile.png" | relURL }}" alt="해아림한의원 분당점 대표원장 손지웅" class="philo-intro-photo" loading="lazy">
+            </div>
+          </div>
+          <div class="philo-intro-text-col">
+            <span class="philo-eyebrow-tag">REPRESENTATIVE DOCTOR</span>
+            <h2 class="philo-intro-title">
+              안녕하세요.<br>
+              해아림한의원 분당점 대표원장 손지웅입니다.
+            </h2>
+            <div class="philo-editorial-prose">
+              <p>몸이 힘들다는 말 한마디에도&nbsp;<br class="pc-br">그 안에는 쉽게 설명하기 어려운 불편함과 걱정, 저마다의 시간이 담겨 있습니다.</p>
+              <p>특히 불안, 불면, 공황, 자율신경의 불균형이나&nbsp;<br class="pc-br">아이들의 틱, ADHD와 같은 증상은&nbsp;<br class="pc-br">겉으로 드러나는 모습만으로는 그 어려움을 온전히 이해하기 어렵습니다.</p>
+              <p>그래서 저는 ‘어떤 증상이 있는가’보다&nbsp;<br class="pc-br">‘왜 이런 증상이 나타났는가’를 먼저 살피려 합니다.</p>
+              <p>환자분의 이야기를 충분히 듣고,&nbsp;<br class="pc-br">몸과 마음의 상태를 함께 살피며&nbsp;<br class="pc-br">한 분 한 분에게 맞는 치료 방향을 찾아가겠습니다.</p>
+            </div>
+          </div>
+        </article>
+
+        <!-- Divider -->
+        <div class="philo-editorial-divider" aria-hidden="true"></div>
+
+        <!-- B. STORY 01 (TEXT LEFT / IMAGE RIGHT) -->
+        <article class="philo-story-item story-01">
+          <div class="philo-story-text-col">
+            <span class="philo-story-badge">STORY 01 · LISTENING FIRST</span>
+            <h3 class="philo-story-title">
+              증상보다 먼저,<br>
+              그 사람의 이야기를 듣습니다.
+            </h3>
+            <div class="philo-highlight-box">
+              <p>“같은 증상이라도 시작된 이유와 힘들어하는 지점은 사람마다 다릅니다.”</p>
+            </div>
+            <div class="philo-editorial-prose">
+              <p>불안이나 공황, 불면, 두근거림 같은 증상은&nbsp;<br class="pc-br">검사상 특별한 이상이 없더라도 일상을 크게 흔들 수 있습니다.</p>
+              <p>아이들의 틱이나 ADHD 역시&nbsp;<br class="pc-br">겉으로 보이는 행동만으로는 아이가 겪고 있는 어려움을 모두 이해하기 어렵습니다.</p>
+              <p>그래서 진료의 시작은 증상을 분류하는 일이 아니라&nbsp;<br class="pc-br">언제부터, 어떤 상황에서 불편함이 시작되었는지 충분히 듣는 것이라고 생각합니다.</p>
+              <p>수면과 소화, 긴장과 스트레스, 생활환경의 변화까지 함께 살피며&nbsp;<br class="pc-br">현재의 상태를 이해하는 것에서 치료를 시작합니다.</p>
+            </div>
+          </div>
+          <div class="philo-story-image-col">
+            <div class="philo-story-img-frame">
+              <img src="{{ "images/philosophy/philosophy-consult.jpg" | relURL }}" alt="환자와 마주 앉아 상담하는 손지웅 대표원장" class="philo-story-img" loading="lazy">
+            </div>
+          </div>
+        </article>
+
+        <!-- Divider -->
+        <div class="philo-editorial-divider" aria-hidden="true"></div>
+
+        <!-- C. STORY 02 (IMAGE LEFT / TEXT RIGHT on Desktop, TEXT FIRST on Mobile) -->
+        <article class="philo-story-item story-02 reverse-desktop">
+          <div class="philo-story-image-col">
+            <div class="philo-story-img-frame">
+              <img src="{{ "images/philosophy/philosophy-neurofeedback.jpg" | relURL }}" alt="검사 결과 및 자율신경 상태를 설명하는 손지웅 대표원장" class="philo-story-img" loading="lazy">
+            </div>
+          </div>
+          <div class="philo-story-text-col">
+            <span class="philo-story-badge">STORY 02 · WHOLE BODY APPROACH</span>
+            <h3 class="philo-story-title">
+              마음의 불편함은 몸으로 나타나고,<br>
+              몸의 변화는 다시 마음에 영향을 줍니다.
+            </h3>
+            <div class="philo-highlight-box">
+              <p>“한 가지 증상만 떼어 보기보다 몸과 마음의 흐름을 함께 살펴야 합니다.”</p>
+            </div>
+            <div class="philo-editorial-prose">
+              <p>불안이 심해지면서 가슴이 두근거리거나 숨이 답답해지고,&nbsp;<br class="pc-br">잠을 이루기 어려워지는 분들이 있습니다.</p>
+              <p>반대로 수면이 무너지거나 소화가 불편해지면서&nbsp;<br class="pc-br">예민함과 긴장이 더욱 커지기도 합니다.</p>
+              <p>이런 증상들은 각각 따로 존재하기보다&nbsp;<br class="pc-br">서로 영향을 주고받는 경우가 많습니다.</p>
+              <p>해아림한의원 분당점에서는 현재 가장 불편한 증상뿐 아니라&nbsp;<br class="pc-br">수면, 소화, 긴장 상태와 생활 패턴까지 함께 살펴 치료 방향을 정합니다.</p>
+            </div>
+          </div>
+        </article>
+
+        <!-- Divider -->
+        <div class="philo-editorial-divider" aria-hidden="true"></div>
+
+        <!-- D. STORY 03 (TEXT LEFT / IMAGE RIGHT) -->
+        <article class="philo-story-item story-03">
+          <div class="philo-story-text-col">
+            <span class="philo-story-badge">STORY 03 · RETURN TO DAILY LIFE</span>
+            <h3 class="philo-story-title">
+              치료의 목표는<br>
+              다시 편안한 일상으로 돌아가는 것입니다.
+            </h3>
+            <div class="philo-highlight-box">
+              <p>“증상을 잠시 덜어내는 데 그치지 않고,<br>스스로 일상을 이어갈 수 있는 회복을 바라봅니다.”</p>
+            </div>
+            <div class="philo-editorial-prose">
+              <p>증상이 좋아졌다는 것은&nbsp;<br class="pc-br">단순히 불편함이 줄었다는 것만을 의미하지 않습니다.</p>
+              <p>잠을 조금 더 편안하게 자고,&nbsp;<br class="pc-br">학교나 직장생활을 이어가며,&nbsp;<br class="pc-br">가족과의 시간을 다시 자연스럽게 보내는 것.</p>
+              <p>이런 작은 변화들이 쌓여 비로소 일상이 회복된다고 생각합니다.</p>
+              <p>치료 과정에서 나타나는 작은 변화까지 세심하게 살피며,&nbsp;<br class="pc-br">치료가 끝난 뒤에도 스스로 안정된 생활을 이어갈 수 있도록 돕는 것을 중요하게 생각합니다.</p>
+            </div>
+          </div>
+          <div class="philo-story-image-col">
+            <div class="philo-story-img-frame">
+              <img src="{{ "images/philosophy/philosophy-pulse.jpg" | relURL }}" alt="환자의 체질과 신체 반응을 살피는 손지웅 대표원장" class="philo-story-img" loading="lazy">
+            </div>
+          </div>
+        </article>
+
       </div>
     </section>
 
-    <!-- Philosophy Main Article Section -->
-    <section class="philosophy-page-section">
-      <div class="container">
-        
-        <!-- 1. Top Doctor Editorial Intro (Integrated Composition) -->
-        <div class="philo-editorial-intro">
-          <div class="philo-intro-text-col">
-            <div class="philo-intro-subtag">
-              <span class="philo-role-pill">REPRESENTATIVE DOCTOR</span>
-              <span class="philo-branch-pill">해아림한의원 분당점</span>
-            </div>
-            <h2 class="philo-intro-headline">
-              손지웅 <span class="philo-title-light">대표원장</span>
-            </h2>
-            <p class="philo-intro-slogan">
-              "환자의 아픔을 먼저 겪어보았기에,<br>
-              단 1분의 진료도 형식적일 수 없습니다."
-            </p>
-
-            <!-- 3 Core Clinical Commitments -->
-            <div class="philo-commitments-list">
-              <div class="philo-commit-item">
-                <div class="philo-commit-num">01</div>
-                <div class="philo-commit-content">
-                  <h4 class="philo-commit-title">충분한 시간의 깊은 경청</h4>
-                  <p class="philo-commit-desc">시간에 쫓기지 않는 1:1 심층 상담으로 환자가 겪어온 삶의 맥락과 감정까지 귀 기울입니다.</p>
-                </div>
-              </div>
-              <div class="philo-commit-item">
-                <div class="philo-commit-num">02</div>
-                <div class="philo-commit-content">
-                  <h4 class="philo-commit-title">몸과 마음을 함께 살피는 균형 치료</h4>
-                  <p class="philo-commit-desc">심리적 긴장과 신체 반응, 수면 상태를 함께 살피며 일상의 회복을 돕는 것을 목표로 합니다.</p>
-                </div>
-              </div>
-              <div class="philo-commit-item">
-                <div class="philo-commit-num">03</div>
-                <div class="philo-commit-content">
-                  <h4 class="philo-commit-title">환자와 온 가족의 평온한 일상 동행</h4>
-                  <p class="philo-commit-desc">단순한 증상 완화를 넘어, 환자와 그 가족 모두가 삶의 활력과 평온을 회복할 때까지 함께합니다.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Doctor Photo Integrated Blend -->
-          <div class="philo-intro-photo-col">
-            <div class="philo-photo-blend-wrap">
-              <img src="{{ "images/doctor-son.png" | relURL }}" alt="해아림한의원 분당점 손지웅 대표원장" class="philo-blend-img">
-              <div class="philo-photo-gradient-mask"></div>
-            </div>
-          </div>
+    <!-- 3. Final Full-Width Message Section (Seamless, No divider, Pulled up tightly) -->
+    <section class="philo-closing-hero-section">
+      <div class="philo-closing-bg" style="background-image: url('{{ "images/philosophy-closing.png" | relURL }}');"></div>
+      <div class="philo-closing-overlay"></div>
+      <div class="container philo-closing-container text-center">
+        <p class="philo-closing-lead">
+          치료의 시작은 증상을 없애는 것이 아니라,<br>
+          지금의 불편함을 제대로 이해하는 것에서 시작한다고 생각합니다.
+        </p>
+        <p class="philo-closing-sub">
+          한 분 한 분의 이야기에 귀 기울이고<br>
+          다시 편안한 일상을 이어갈 수 있도록 함께하겠습니다.
+        </p>
+        <div class="philo-closing-sign">
+          <span class="philo-sign-name">손지웅 대표원장</span>
+          <span class="philo-sign-clinic">해아림한의원 분당점</span>
         </div>
-
-        <!-- 2. Streamlined 3-Chapter Editorial Story Stream -->
-        <div class="philo-editorial-stream">
-
-          <!-- Story 01: 내가 먼저 아파보았기에 (체험과 공감) -->
-          <article class="philo-story-row">
-            <div class="philo-story-text-col">
-              <div class="philo-story-meta">
-                <span class="philo-story-number">STORY 01</span>
-                <span class="philo-story-label">EMPATHY & LISTENING</span>
-              </div>
-              <h3 class="philo-story-title">
-                어린 시절의 아픔과 청년 시절의 시련이<br class="pc-br">
-                만들어낸 진심의 공감
-              </h3>
-              <div class="philo-pullquote-strip">
-                <p>"저 역시 오랜 시간 아파보았기에, 환자분이 마주한 고립감과 불안의 무게를 결코 가볍게 여기지 않습니다."</p>
-              </div>
-              <div class="philo-story-body">
-                <p>
-                  유년 시절 잦은 잔병치레 속에서 할머니의 손을 잡고 찾았던 한의원, 제 손목을 따스하게 쥐어주시던 원장님의 맥진은 어린 제게 <strong>'한의사는 아픔을 온기로 보듬는 사람'</strong>이라는 평생의 이정표가 되었습니다.
-                </p>
-                <p>
-                  하지만 대학 시절 겪은 큰 교통사고로 장기간 혼수상태와 신체 손상을 겪으며, 멈춰버린 일상과 뒤처진다는 극심한 불안, 우울에 빠져 무력한 시간을 보내기도 했습니다.
-                </p>
-                <p>
-                  그 막막했던 시기에 진심으로 제 이야기에 귀 기울이고 손을 내밀어준 선배 한의사의 공감과 치료를 통해, <strong>몸과 마음이 깊이 연결되어 있음</strong>을 제 스스로의 몸으로 절감했습니다. 아픔을 머리가 아닌 가슴으로 먼저 겪어보았기에, 진료실을 찾는 모든 분들의 이야기에 온 마음으로 귀 기울입니다.
-                </p>
-              </div>
-            </div>
-            <div class="philo-story-visual-col">
-              <div class="philo-visual-frame">
-                <img src="{{ "images/philosophy/philosophy-pulse.jpg" | relURL }}" alt="손지웅 대표원장의 체질 맥진 및 심층 진료" class="philo-visual-img" loading="lazy">
-                <div class="philo-visual-caption">
-                  <span class="caption-tag">PULSE DIAGNOSIS</span>
-                  <span class="caption-text">환자의 체질과 신체 반응을 온기로 살피는 맥진</span>
-                </div>
-              </div>
-            </div>
-          </article>
-
-          <!-- Story 02: 긴장과 신체 반응을 함께 살피는 균형 치료 -->
-          <article class="philo-story-row reverse">
-            <div class="philo-story-visual-col">
-              <div class="philo-story-mosaic">
-                <div class="mosaic-main-img">
-                  <img src="{{ "images/philosophy/philosophy-neurofeedback.jpg" | relURL }}" alt="뇌파 및 자율신경계 검사 참고" class="philo-visual-img" loading="lazy">
-                  <div class="philo-visual-caption">
-                    <span class="caption-tag">NEUROLOGICAL CHECK</span>
-                    <span class="caption-text">긴장도와 자율신경 상태를 살피는 참고 검사</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="philo-story-text-col">
-              <div class="philo-story-meta">
-                <span class="philo-story-number">STORY 02</span>
-                <span class="philo-story-label">INTEGRATIVE APPROACH</span>
-              </div>
-              <h3 class="philo-story-title">
-                마음의 불편함은 의지만의 문제가 아닙니다.<br class="pc-br">
-                긴장, 수면, 신체 반응이 서로 영향을 주며 나타날 수 있습니다.
-              </h3>
-              <div class="philo-pullquote-strip">
-                <p>"공황, 불안, 불면과 같은 증상은 심리적 스트레스뿐 아니라 수면, 긴장 상태, 신체 반응과 함께 나타나는 경우가 많습니다."</p>
-              </div>
-              <div class="philo-story-body">
-                <p>
-                  많은 분들이 마음의 고통을 겪으면서도 <em>"내가 나약해서 그런 것은 아닐까"</em> 자책하며 홀로 견디곤 합니다. 하지만 일상을 흔드는 증상들은 단순한 마음가짐의 문제가 아니라, 누적된 피로와 긴장 속에서 몸과 신경계가 조화로운 리듬을 잃어 나타나는 신호입니다.
-                </p>
-                <p>
-                  분당 해아림은 뇌파 및 자율신경 검사 등을 통해 <strong>현재 긴장도와 스트레스 반응을 구체적인 참고 자료</strong>로 살피고, 체질 맥진과 심층 문진을 더해 몸 전체의 불균형을 입체적으로 파악합니다.
-                </p>
-                <p>
-                  개인별 맞춤 한약과 두뇌 훈련, 침구 치료를 통해 긴장과 신체 반응을 함께 다스리며, <strong>스스로 일상을 회복해 갈 수 있는 자생력</strong>을 돕습니다.
-                </p>
-              </div>
-            </div>
-          </article>
-
-          <!-- Story 03: 한 사람의 치유가 온 가족의 봄날로 (동행과 온기) -->
-          <article class="philo-story-row">
-            <div class="philo-story-text-col">
-              <div class="philo-story-meta">
-                <span class="philo-story-number">STORY 03</span>
-                <span class="philo-story-label">FAMILY & RESTORATION</span>
-              </div>
-              <h3 class="philo-story-title">
-                한 사람의 치유는 온 가족의 평온이며,<br class="pc-br">
-                다시 시작되는 일상의 봄날입니다.
-              </h3>
-              <div class="philo-pullquote-strip">
-                <p>"증상 너머, 환자와 소중한 가족이 함께 짊어져 온 삶의 무게를 함께 나눕니다."</p>
-              </div>
-              <div class="philo-story-body">
-                <p>
-                  틱장애나 ADHD를 겪는 아이를 데려오신 부모님과 상담할 때면, 아이의 고통 못지않게 부모님이 짊어진 죄책감과 막막함의 크기를 마주하게 됩니다. 공황장애나 불면증으로 지친 성인 환자들 역시 자신의 고통이 가족에게 짐이 될까 두려워하곤 합니다.
-                </p>
-                <p>
-                  그렇기에 신경정신과 진료는 환자 한 사람에 머무르지 않고, <strong>소중한 가족의 일상까지 함께 보듬는 과정</strong>이어야 합니다.
-                </p>
-                <p>
-                  어두운 터널을 지날 때 곁에서 등불을 비춰주는 것만으로도 나아갈 힘이 생기듯, 해아림한의원 분당점은 환자분과 가족이 마침내 안도의 숨을 내쉬는 그날까지 가장 믿음직한 치유의 동반자가 되어 드리겠습니다.
-                </p>
-              </div>
-            </div>
-            <div class="philo-story-visual-col">
-              <div class="philo-visual-frame">
-                <img src="{{ "images/philosophy/philosophy-consult.jpg" | relURL }}" alt="손지웅 대표원장의 1:1 심층 공감 상담" class="philo-visual-img" loading="lazy">
-                <div class="philo-visual-caption">
-                  <span class="caption-tag">1:1 CONSULTATION</span>
-                  <span class="caption-text">환자의 마음과 일상을 함께 보듬는 심층 상담</span>
-                </div>
-              </div>
-            </div>
-          </article>
-
-        </div>
-
-        <!-- 3. Editorial Pull-Quote Message -->
-        <div class="philo-editorial-quote-card">
-          <div class="editorial-quote-mark">“</div>
-          <blockquote class="editorial-quote-text">
-            삶의 무게를 홀로 감당하기 어려울 때,<br>
-            누군가 진심으로 귀 기울여주는 것만으로도 치유는 이미 시작됩니다.
-          </blockquote>
-          <div class="editorial-quote-author">
-            <span class="author-name">손지웅 대표원장</span>
-            <span class="author-title">해아림한의원 분당점</span>
-          </div>
-        </div>
-
-        <!-- 4. Refined Closing CTA Band -->
-        <div class="philo-streamlined-cta">
-          <div class="philo-cta-header text-center">
-            <span class="philo-cta-tag">EASY APPOINTMENT</span>
-            <h3 class="philo-cta-title">치유의 첫걸음, 해아림이 따뜻하게 함께하겠습니다.</h3>
-            <p class="philo-cta-desc">초진은 충분한 검사와 심층 상담을 위해 100% 예약 우선제로 운영됩니다.</p>
-          </div>
-          <div class="philo-cta-actions">
-            <a href="https://booking.naver.com/booking/13/bizes/1167448" target="_blank" rel="noopener noreferrer" class="btn btn-hero-naver-dark">
-              <span class="n-symbol">N</span> 네이버 실시간 예약
-            </a>
-            <button type="button" class="btn btn-hero-inquiry" onclick="document.getElementById('inquiry-modal').classList.add('active'); document.body.style.overflow='hidden';">
-              <i class="ph-bold ph-chat-teardrop-dots"></i> 빠른 온라인 문의
-            </button>
-            <a href="tel:031-716-8575" class="btn btn-cta-tel-minimal">
-              <i class="ph-bold ph-phone"></i> 031-716-8575
-            </a>
-          </div>
-        </div>
-
       </div>
     </section>
   </main>

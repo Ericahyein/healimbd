@@ -12,8 +12,9 @@
   <meta property="og:description" content="{{ .Params.summary }}">
   <meta property="og:type" content="article">
   <meta property="og:url" content="{{ .Permalink }}">
-  {{ if .Params.image }}
-  <meta property="og:image" content="{{ .Params.image | absURL }}">
+  {{ $ogThumb := .Params.thumbnail | default .Params.image }}
+  {{ if $ogThumb }}
+  <meta property="og:image" content="{{ $ogThumb | absURL }}">
   {{ end }}
   <meta property="article:author" content="손지웅 대표원장">
   <meta property="article:published_time" content="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">
@@ -81,10 +82,11 @@
           </div>
         </div>
 
-        <!-- Article Featured Image / Visual Thumbnail -->
-        {{ if .Params.image }}
+        <!-- Article Featured Image / Visual Thumbnail (Always uses text thumbnail for single page / SNS) -->
+        {{ $detailThumb := .Params.thumbnail | default .Params.image }}
+        {{ if $detailThumb }}
         <div class="blog-featured-media-box">
-          <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}" class="blog-featured-img">
+          <img src="{{ $detailThumb | relURL }}" alt="{{ .Title }}" class="blog-featured-img">
         </div>
         {{ end }}
 

@@ -4,6 +4,8 @@ date: 2026-09-09T09:32:52.401+09:00
 category: "sleep"
 category_name: "수면·불면증"
 author: "손지웅 대표원장"
+thumbnail: "images/blog/seongnam-sujeong-sleep-early-awakening.jpg"
+editorialImage: "images/blog/seongnam-sujeong-sleep-early-awakening-editorial.jpg"
 image: "images/blog/seongnam-sujeong-sleep-early-awakening.jpg"
 summary: "불면증 중 수면 유지 장애와 조기각성의 양상을 살펴보고, 수면 리듬과 긴장도에 맞춘 관리 방향을 안내합니다."
 hashtags:

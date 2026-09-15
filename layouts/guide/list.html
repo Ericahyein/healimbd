@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>진료안내 | 해아림한의원 분당점</title>
+  <meta name="description" content="해아림한의원 분당점의 9대 핵심 진료과목, 내원 및 예약 방법, 진료시간과 오시는 길을 한눈에 확인하세요.">
+  <link rel="canonical" href="{{ .Permalink }}">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ .Permalink }}">
+  <meta property="og:title" content="진료안내 | 해아림한의원 분당점">
+  <meta property="og:description" content="해아림한의원 분당점의 9대 핵심 진료과목, 예약 및 내원 안내, 오시는 길과 진료시간 안내입니다.">
+  <meta property="og:image" content="{{ "images/og-image.png" | absURL }}">
+
+  <!-- Fonts (Pretendard & Outfit) -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+
+  <!-- Main Stylesheet -->
+  {{ $style := resources.Get "css/style.css" | resources.Minify | resources.Fingerprint }}
+  <link rel="stylesheet" href="{{ $style.RelPermalink }}">
+</head>
+<body class="guide-page">
+  {{ partial "header.html" . }}
+
+  <main id="main-content">
+    <!-- 1. Common Page Hero Banner -->
+    {{ partial "page_hero.html" (dict "Tag" "CLINICAL GUIDE &amp; HOURS" "Title" "진료과목" "Subtitle" "증상만을 바라보기보다 몸과 마음의 상태를 함께 살피고,<br>현재의 불편이 어디에서 시작되었는지 세심하게 진료합니다.<br><br>해아림한의원 분당점의 주요 진료과목과 진료시간, 예약 방법을 안내합니다." "BgImage" "images/clinic/guide-hero.jpg" "HeroClass" "guide-hero") }}
+
+    <!-- [SECTION 1] 질환: 9대 특화 진료과목 (Full Photo Background Blocks + White Typography) -->
+    <section class="section guide-treatments-section" id="guide-treatments">
+      <div class="container">
+        <div class="section-header-unboxed guide-treatments-head">
+          <span class="editorial-section-tag">TREATMENTS</span>
+          <h2 class="editorial-section-title guide-section-title-reduced"><strong>9대 주요 진료과목</strong></h2>
+          <p class="editorial-section-desc">소아청소년부터 성인까지, 몸과 뇌·신경계의 상호작용을 깊이 살피는 한방신경정신과 특화 진료입니다.</p>
+        </div>
+
+        <div class="treatments-photo-grid">
+          <!-- 01. 틱장애 -->
+          <article class="treatment-photo-card" style="background-image: url('{{ "images/clinics/clinic-tic.jpg" | relURL }}');">
+            <div class="treatment-photo-overlay"></div>
+            <div class="treatment-photo-content">
+              <span class="treatment-photo-num">01</span>
+              <h3 class="treatment-photo-name">틱장애 · 뚜렛증후군</h3>
+              <p class="treatment-photo-tags">운동틱 · 음성틱 · 근육틱 · 복합틱 · 성인틱</p>
+            </div>
+          </article>
+
+          <!-- 02. ADHD -->
+          <article class="treatment-photo-card" style="background-image: url('{{ "images/clinics/clinic-adhd.jpg" | relURL }}');">
+            <div class="treatment-photo-overlay"></div>
+            <div class="treatment-photo-content">
+              <span class="treatment-photo-num">02</span>
+              <h3 class="treatment-photo-name">주의집중력 (ADHD)</h3>
+              <p class="treatment-photo-tags">소아 ADHD · 성인 ADHD · 주의력결핍 · 과잉행동·충동성</p>
+            </div>
+          </article>
+
+          <!-- 03. 공황장애 -->
+          <article class="treatment-photo-card" style="background-image: url('{{ "images/clinics/clinic-panic.jpg" | relURL }}');">
+            <div class="treatment-photo-overlay"></div>
+            <div class="treatment-photo-content">
+              <span class="treatment-photo-num">03</span>
+              <h3 class="treatment-photo-name">공황장애</h3>
+              <p class="treatment-photo-tags">공황발작 · 예기불안 · 광장공포증 · 과호흡</p>
+            </div>
+          </article>
+
+          <!-- 04. 불안장애 -->
+          <article class="treatment-photo-card" style="background-image: url('{{ "images/clinics/clinic-anxiety.jpg" | relURL }}');">
+            <div class="treatment-photo-overlay"></div>
+            <div class="treatment-photo-content">
+              <span class="treatment-photo-num">04</span>
+              <h3 class="treatment-photo-name">불안장애 · 공포증</h3>
+              <p class="treatment-photo-tags">범불안장애 · 사회공포증 · 대인기피증 · 발표불안</p>
+            </div>
+          </article>
+
+          <!-- 05. 수면 · 불면증 -->
+          <article class="treatment-photo-card" style="background-image: url('{{ "images/clinics/clinic-sleep.jpg" | relURL }}');">
+            <div class="treatment-photo-overlay"></div>
+            <div class="treatment-photo-content">
+              <span class="treatment-photo-num">05</span>
+              <h3 class="treatment-photo-name">수면 · 불면증</h3>
+              <p class="treatment-photo-tags">입면장애 · 수면유지장애 · 조기각성 · 수면제 단약</p>
+            </div>
+          </article>
+
+          <!-- 06. 자율신경실조증 -->
+          <article class="treatment-photo-card" style="background-image: url('{{ "images/clinics/clinic-autonomic.jpg" | relURL }}');">
+            <div class="treatment-photo-overlay"></div>
+            <div class="treatment-photo-content">
+              <span class="treatment-photo-num">06</span>
+              <h3 class="treatment-photo-name">자율신경실조증</h3>
+              <p class="treatment-photo-tags">만성 두통 · 어지럼증 · 가슴 답답함 · 신체화장애</p>
+            </div>
+          </article>
+
+          <!-- 07. 다한증 -->
+          <article class="treatment-photo-card" style="background-image: url('{{ "images/clinics/clinic-hyperhidrosis.jpg" | relURL }}');">
+            <div class="treatment-photo-overlay"></div>
+            <div class="treatment-photo-content">
+              <span class="treatment-photo-num">07</span>
+              <h3 class="treatment-photo-name">다한증 (손발·전신·안면)</h3>
+              <p class="treatment-photo-tags">손발 다한증 · 전신 다한증 · 안면 다한증 · 긴장성 발한</p>
+            </div>
+          </article>
+
+          <!-- 08. 과민성대장증후군 -->
+          <article class="treatment-photo-card" style="background-image: url('{{ "images/clinics/clinic-ibs.jpg" | relURL }}');">
+            <div class="treatment-photo-overlay"></div>
+            <div class="treatment-photo-content">
+              <span class="treatment-photo-num">08</span>
+              <h3 class="treatment-photo-name">과민성대장증후군</h3>
+              <p class="treatment-photo-tags">신경성 복통 · 만성 설사·변비 · 복부 팽만감 · 장-뇌 축 안정</p>
+            </div>
+          </article>
+
+          <!-- 09. 미주신경성 실신 -->
+          <article class="treatment-photo-card" style="background-image: url('{{ "images/clinics/clinic-syncope.jpg" | relURL }}');">
+            <div class="treatment-photo-overlay"></div>
+            <div class="treatment-photo-content">
+              <span class="treatment-photo-num">09</span>
+              <h3 class="treatment-photo-name">미주신경성 실신</h3>
+              <p class="treatment-photo-tags">혈관미주신경성 · 기립성 어지럼 · 기립성 저혈압 · 실신 전조증상</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- [SECTION 2] 내원 및 예약 안내 (Left-Aligned Header, 4-Channel Editorial Strip) -->
+    <section class="section guide-booking-unboxed-section" id="guide-booking">
+      <div class="container">
+        <div class="section-header-unboxed text-left">
+          <span class="editorial-section-tag">RESERVATION &amp; INQUIRY</span>
+          <h2 class="editorial-section-title guide-section-title-reduced">내원 및 <strong>예약 안내</strong></h2>
+          <p class="editorial-section-desc text-left" style="text-align: left;">편리하신 채널을 통해 사전 예약하시면 친절하고 상세하게 안내해 드립니다.</p>
+        </div>
+
+        <div class="editorial-booking-channels">
+          <!-- 1. Phone Call -->
+          <div class="editorial-channel-entry primary-channel">
+            <span class="channel-order">01</span>
+            <span class="editorial-channel-pill phone">가장 빠른 유선 상담</span>
+            <h3 class="editorial-channel-title">전화 문의 및 예약</h3>
+            <p class="editorial-channel-tel">031-716-8575</p>
+            <p class="editorial-channel-desc">진료 일정 문의, 야간진료 예약 등 유선 상담원을 통해 즉시 확인 가능합니다.</p>
+            <a href="tel:031-716-8575" class="link-editorial-more">
+              <span>전화 바로 연결</span>
+              <i class="ph-bold ph-arrow-right"></i>
+            </a>
+          </div>
+
+          <!-- 2. Naver Booking -->
+          <div class="editorial-channel-entry">
+            <span class="channel-order">02</span>
+            <span class="editorial-channel-pill naver">실시간 일정 확인</span>
+            <h3 class="editorial-channel-title">네이버 실시간 진료 예약</h3>
+            <p class="editorial-channel-desc">원하시는 날짜와 시간대를 직접 확인하고 간편하게 예약 일정을 확정하세요.</p>
+            <a href="https://booking.naver.com/booking/13/bizes/1167448" target="_blank" rel="noopener noreferrer" class="link-editorial-more">
+              <span>네이버 예약 바로가기</span>
+              <i class="ph-bold ph-arrow-up-right"></i>
+            </a>
+          </div>
+
+          <!-- 3. KakaoTalk Chat -->
+          <div class="editorial-channel-entry">
+            <span class="channel-order">03</span>
+            <span class="editorial-channel-pill kakao">1:1 실시간 톡</span>
+            <h3 class="editorial-channel-title">카카오톡 1:1 상담</h3>
+            <p class="editorial-channel-desc">증상 고민, 진료 과정, 진료시간을 메신저를 통해 부담 없이 1:1로 질문하세요.</p>
+            <a href="http://pf.kakao.com/_NEUHT" target="_blank" rel="noopener noreferrer" class="link-editorial-more">
+              <span>카카오톡 상담하기</span>
+              <i class="ph-bold ph-arrow-up-right"></i>
+            </a>
+          </div>
+
+          <!-- 4. Online Board Inquiry -->
+          <div class="editorial-channel-entry">
+            <span class="channel-order">04</span>
+            <span class="editorial-channel-pill inquiry">24시간 온라인 접수</span>
+            <h3 class="editorial-channel-title">온라인 간편 문의</h3>
+            <p class="editorial-channel-desc">홈페이지 온라인 문의 게시판을 통해 질문을 남겨주시면 원장단이 직접 답변드립니다.</p>
+            <a href="{{ "inquiry/" | relURL }}" class="link-editorial-more">
+              <span>온라인 문의 작성하기</span>
+              <i class="ph-bold ph-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- [SECTION 3] 오시는길 & 진료시간 (수원점 통합 스타일 컴포넌트 재사용) -->
+    {{ partial "suwon_location_section.html" . }}
+  </main>
+
+  {{ partial "footer.html" . }}
+  {{ partial "floating_bar.html" . }}
+
+  <!-- Scripts -->
+  {{ $script := resources.Get "js/main.js" | resources.Minify | resources.Fingerprint }}
+  <script src="{{ $script.RelPermalink }}"></script>
+</body>
+</html>
