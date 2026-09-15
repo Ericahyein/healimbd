@@ -26,19 +26,19 @@
 
     <!-- 1. Hero Section (New Doctor Hand Reaching Out Hero Image) -->
     <section class="hero-photo-section" id="hero">
-      <div class="hero-photo-bg" style="background-image: url('{{ "images/healim_open_hand_hero.png" | relURL }}');"></div>
+      <div class="hero-photo-bg" style="background-image: url('{{ "images/healim_open_hand_hero.png" | relURL }}'); background-image: url('{{ "images/healim_open_hand_hero.webp" | relURL }}');"></div>
       <div class="hero-photo-overlay"></div>
 
       <div class="container hero-photo-container">
         <div class="hero-photo-content">
           <h1 class="hero-bold-title">
-            몸과 뇌, 마음을 함께 살피는<br>
-            <span class="hero-highlight">신경정신과 한방 진료</span>
+            <span class="hero-title-chunk">몸과 뇌, 마음을 함께 살피는</span><br class="pc-br">
+            <span class="hero-title-chunk hero-highlight">신경정신과 한방 진료</span>
           </h1>
 
           <p class="hero-light-desc">
-            <span class="hero-line-1">공황·불안, 불면, 자율신경실조증부터 틱장애·ADHD까지,</span>
-            <span class="hero-line-2">증상 너머의 원인을 살피고 몸과 뇌, 마음의 균형을 함께 설계합니다.</span>
+            <span class="hero-desc-chunk">공황·불안, 불면, 자율신경실조증부터 틱장애·ADHD까지,</span><br class="pc-br">
+            <span class="hero-desc-chunk">증상 너머의 원인을 살피고 몸과 뇌, 마음의 균형을 함께 설계합니다.</span>
           </p>
         </div>
       </div>
@@ -59,7 +59,10 @@
           
           <!-- Left Column: Director Portrait Photo directly on canvas -->
           <div class="director-unboxed-portrait">
-            <img src="{{ "images/doctor-son-profile.png" | relURL }}" alt="해아림한의원 분당점 손지웅 대표원장" class="director-unboxed-img" loading="lazy">
+            <picture>
+              <source srcset="{{ "images/doctor-son-profile.webp" | relURL }}" type="image/webp">
+              <img src="{{ "images/doctor-son-profile.png" | relURL }}" alt="해아림한의원 분당점 손지웅 대표원장 진료 프로필" class="director-unboxed-img" loading="lazy" width="682" height="1024">
+            </picture>
             <div class="director-portrait-credentials">
               <p class="director-portrait-cred-title">손지웅 대표원장 이력</p>
               <ul class="director-portrait-cred-list">
@@ -68,56 +71,52 @@
                 <li>전)해아림네트워크 대구본점 진료원장</li>
                 <li>전)울진군 온정면 보건지소 한방 진료과장</li>
                 <li>대한 한방 신경정신과 학회 정회원</li>
-                <li>대한 한방 두뇌신경의 학회 정회원</li>
-                <li>대한 한방 소아과 학회 정회원</li>
+                <li>대한 아시혈 학회 정회원</li>
+                <li>통합뇌질환학회 정회원</li>
               </ul>
             </div>
           </div>
 
-          <!-- Right Column: Greetings & Philosophy & Credentials -->
-          <div class="director-unboxed-content">
-            <div class="director-greeting-head">
-              <span class="editorial-section-tag">DIRECTOR'S GREETING</span>
-              <h2 class="director-unboxed-heading">
-                안녕하세요. 해아림한의원<br>
-                <strong class="text-accent-blue">분당점 대표원장 손지웅</strong>입니다.
-              </h2>
-            </div>
+          <!-- Right Column: Director Philosophy Editorial (No Box / No Border) -->
+          <div class="director-unboxed-narrative">
+            <span class="director-unboxed-tag">DIRECTOR'S GREETING</span>
+            
+            <h2 class="director-unboxed-headline">
+              안녕하세요. 해아림한의원<br>
+              <strong>분당점 대표원장 손지웅</strong>입니다.
+            </h2>
 
             <div class="director-unboxed-body">
-              <p>몸이 힘들다는 말 한마디에도<br>
-              그 안에는 쉽게 설명하기 어려운 불편함과 걱정, 저마다의 시간이 담겨 있습니다.</p>
+              <p>
+                현대사회를 살아가는 많은 분들이 <strong>과도한 스트레스와 뇌 신경계의 피로</strong>로 인해 
+                공황장애, 불면증, 자율신경실조증, 또는 아이들의 틱장애와 ADHD 같은 
+                다양한 신경정신과적 증상으로 일상의 평온을 잃고 계십니다.
+              </p>
+              
+              <p>
+                마음의 병은 단순히 의지의 문제가 아니며, <strong>신체와 두뇌 신경계의 불균형이 보내는 신호</strong>입니다. 
+                겉으로 드러나는 증상 억제에만 머무르지 않고, 뇌 기능과 오장육부의 기혈 순환을 함께 바로잡는 
+                <strong>통합적 한방 신경정신과 치료</strong>를 통해 마음과 몸이 스스로 균형을 되찾도록 돕겠습니다.
+              </p>
 
-              <p>특히 불안, 불면, 공황, 자율신경의 불균형이나<br>
-              아이들의 틱, ADHD와 같은 증상은<br>
-              겉으로 드러나는 모습만으로는 그 어려움을 온전히 이해하기 어렵습니다.</p>
-
-              <p>그래서 저는 ‘어떤 증상이 있는가’보다 ‘왜 이런 증상이 나타났는가’를 먼저 살피려 합니다.</p>
-
-              <p>현재의 증상뿐만 아니라 수면과 소화, 긴장과 스트레스, 생활환경의 변화까지 세심하게 듣고<br>
-              필요한 검사와 진찰을 바탕으로 몸과 마음의 상태를 함께 살펴봅니다.</p>
-
-              <p>같은 증상이라도 원인과 양상은 사람마다 다릅니다.<br>
-              정해진 방식에 환자를 맞추기보다, 한 분 한 분에게 맞는 치료 방향을 찾는 것이 중요하다고 생각합니다.</p>
-
-              <p>잠시 증상을 덜어내는 데 그치지 않고<br>
-              다시 편안한 일상을 이어갈 수 있도록 회복의 과정을 함께하겠습니다.</p>
-
-              <p>환자분의 이야기를 충분히 듣고, 작은 변화까지 놓치지 않는 진료를 하겠습니다.</p>
-
-              <div class="director-unboxed-salute">
-                <span>감사합니다.</span>
-                <strong class="director-sign-name">대표원장 손지웅 드림</strong>
-              </div>
+              <p>
+                한 분 한 분의 이야기에 깊이 귀 기울이고, 환자분과 가족의 아픔에 진심으로 공감하며, 
+                다시 건강한 일상으로 걸어 나가실 수 있도록 <strong>든든한 치유의 동반자</strong>가 되어 드리겠습니다.
+              </p>
             </div>
 
-            <!-- Philosophy Text Link -->
-            <div class="director-unboxed-link-wrap">
-              <a href="{{ "philosophy/" | relURL }}" class="link-editorial-more link-philosophy-more">
-                <span>진료철학 자세히 보러가기</span>
+            <div class="director-unboxed-closing">
+              <span class="closing-sign-title">해아림한의원 분당점 대표원장</span>
+              <span class="closing-sign-name">손 지 웅</span>
+            </div>
+
+            <div class="director-unboxed-actions">
+              <a href="{{ "/philosophy/" | relURL }}" class="btn btn-outline-brand">
+                <span>진료철학 자세히 보기</span>
                 <i class="ph-bold ph-arrow-right"></i>
               </a>
             </div>
+
           </div>
 
         </div>
@@ -129,55 +128,103 @@
       <div class="container-fluid clinic-slider-container">
         <!-- Horizontal Seamless Track: 8 Photos duplicated for infinite loop -->
         <div class="clinic-photo-stream" id="clinic-carousel">
-          <!-- Set 1 (8 Photos) -->
+          <!-- Set 1 (8 Photos with distinct Korean descriptions) -->
           <div class="clinic-stream-item">
-            <img src="{{ "images/clinic/healim-entrance.jpg" | relURL }}" alt="해아림한의원 분당점 원내 진료환경" class="clinic-stream-photo" loading="lazy">
+            <picture>
+              <source srcset="{{ "images/clinic/healim-entrance.webp" | relURL }}" type="image/webp">
+              <img src="{{ "images/clinic/healim-entrance.jpg" | relURL }}" alt="해아림한의원 분당점 입구 및 안내 데스크" class="clinic-stream-photo" loading="lazy">
+            </picture>
           </div>
           <div class="clinic-stream-item">
-            <img src="{{ "images/clinic/clinic-interior-01.jpg" | relURL }}" alt="해아림한의원 분당점 원내 진료환경" class="clinic-stream-photo" loading="lazy">
+            <picture>
+              <source srcset="{{ "images/clinic/clinic-interior-01.webp" | relURL }}" type="image/webp">
+              <img src="{{ "images/clinic/clinic-interior-01.jpg" | relURL }}" alt="해아림한의원 분당점 아늑한 대기실 라운지" class="clinic-stream-photo" loading="lazy">
+            </picture>
           </div>
           <div class="clinic-stream-item">
-            <img src="{{ "images/clinic/clinic-interior-02.jpg" | relURL }}" alt="해아림한의원 분당점 원내 진료환경" class="clinic-stream-photo" loading="lazy">
+            <picture>
+              <source srcset="{{ "images/clinic/clinic-interior-02.webp" | relURL }}" type="image/webp">
+              <img src="{{ "images/clinic/clinic-interior-02.jpg" | relURL }}" alt="분당 해아림한의원 1인 정밀 진료실" class="clinic-stream-photo" loading="lazy">
+            </picture>
           </div>
           <div class="clinic-stream-item">
-            <img src="{{ "images/clinic/clinic-interior-03.jpg" | relURL }}" alt="해아림한의원 분당점 원내 진료환경" class="clinic-stream-photo" loading="lazy">
+            <picture>
+              <source srcset="{{ "images/clinic/clinic-interior-03.webp" | relURL }}" type="image/webp">
+              <img src="{{ "images/clinic/clinic-interior-03.jpg" | relURL }}" alt="두뇌 밸런스 훈련 및 뇌파 검사실" class="clinic-stream-photo" loading="lazy">
+            </picture>
           </div>
           <div class="clinic-stream-item">
-            <img src="{{ "images/clinic/clinic-interior-04.jpg" | relURL }}" alt="해아림한의원 분당점 원내 진료환경" class="clinic-stream-photo" loading="lazy">
+            <picture>
+              <source srcset="{{ "images/clinic/clinic-interior-04.webp" | relURL }}" type="image/webp">
+              <img src="{{ "images/clinic/clinic-interior-04.jpg" | relURL }}" alt="프라이빗 집중 침구 치료실" class="clinic-stream-photo" loading="lazy">
+            </picture>
           </div>
           <div class="clinic-stream-item">
-            <img src="{{ "images/philosophy/philosophy-consult.jpg" | relURL }}" alt="해아림한의원 분당점 원내 진료환경" class="clinic-stream-photo" loading="lazy">
+            <picture>
+              <source srcset="{{ "images/philosophy/philosophy-consult.webp" | relURL }}" type="image/webp">
+              <img src="{{ "images/philosophy/philosophy-consult.jpg" | relURL }}" alt="손지웅 대표원장 1:1 심층 진료 상담" class="clinic-stream-photo" loading="lazy">
+            </picture>
           </div>
           <div class="clinic-stream-item">
-            <img src="{{ "images/philosophy/philosophy-pulse.jpg" | relURL }}" alt="해아림한의원 분당점 원내 진료환경" class="clinic-stream-photo" loading="lazy">
+            <picture>
+              <source srcset="{{ "images/philosophy/philosophy-pulse.webp" | relURL }}" type="image/webp">
+              <img src="{{ "images/philosophy/philosophy-pulse.jpg" | relURL }}" alt="맥진 및 자율신경계 정밀 진찰" class="clinic-stream-photo" loading="lazy">
+            </picture>
           </div>
           <div class="clinic-stream-item">
-            <img src="{{ "images/philosophy/philosophy-acupuncture.jpg" | relURL }}" alt="해아림한의원 분당점 원내 진료환경" class="clinic-stream-photo" loading="lazy">
+            <picture>
+              <source srcset="{{ "images/philosophy/philosophy-acupuncture.webp" | relURL }}" type="image/webp">
+              <img src="{{ "images/philosophy/philosophy-acupuncture.jpg" | relURL }}" alt="두뇌 및 자율신경 안정 맞춤 침구 치료" class="clinic-stream-photo" loading="lazy">
+            </picture>
           </div>
-          <!-- Set 2 (Duplicated for Seamless Infinite Loop) -->
+          <!-- Set 2 (Decorative Duplication for Infinite Loop) -->
           <div class="clinic-stream-item">
-            <img src="{{ "images/clinic/healim-entrance.jpg" | relURL }}" alt="해아림한의원 분당점 원내 진료환경" class="clinic-stream-photo" loading="lazy">
-          </div>
-          <div class="clinic-stream-item">
-            <img src="{{ "images/clinic/clinic-interior-01.jpg" | relURL }}" alt="해아림한의원 분당점 원내 진료환경" class="clinic-stream-photo" loading="lazy">
-          </div>
-          <div class="clinic-stream-item">
-            <img src="{{ "images/clinic/clinic-interior-02.jpg" | relURL }}" alt="해아림한의원 분당점 원내 진료환경" class="clinic-stream-photo" loading="lazy">
-          </div>
-          <div class="clinic-stream-item">
-            <img src="{{ "images/clinic/clinic-interior-03.jpg" | relURL }}" alt="해아림한의원 분당점 원내 진료환경" class="clinic-stream-photo" loading="lazy">
+            <picture>
+              <source srcset="{{ "images/clinic/healim-entrance.webp" | relURL }}" type="image/webp">
+              <img src="{{ "images/clinic/healim-entrance.jpg" | relURL }}" alt="" aria-hidden="true" class="clinic-stream-photo" loading="lazy">
+            </picture>
           </div>
           <div class="clinic-stream-item">
-            <img src="{{ "images/clinic/clinic-interior-04.jpg" | relURL }}" alt="해아림한의원 분당점 원내 진료환경" class="clinic-stream-photo" loading="lazy">
+            <picture>
+              <source srcset="{{ "images/clinic/clinic-interior-01.webp" | relURL }}" type="image/webp">
+              <img src="{{ "images/clinic/clinic-interior-01.jpg" | relURL }}" alt="" aria-hidden="true" class="clinic-stream-photo" loading="lazy">
+            </picture>
           </div>
           <div class="clinic-stream-item">
-            <img src="{{ "images/philosophy/philosophy-consult.jpg" | relURL }}" alt="해아림한의원 분당점 원내 진료환경" class="clinic-stream-photo" loading="lazy">
+            <picture>
+              <source srcset="{{ "images/clinic/clinic-interior-02.webp" | relURL }}" type="image/webp">
+              <img src="{{ "images/clinic/clinic-interior-02.jpg" | relURL }}" alt="" aria-hidden="true" class="clinic-stream-photo" loading="lazy">
+            </picture>
           </div>
           <div class="clinic-stream-item">
-            <img src="{{ "images/philosophy/philosophy-pulse.jpg" | relURL }}" alt="해아림한의원 분당점 원내 진료환경" class="clinic-stream-photo" loading="lazy">
+            <picture>
+              <source srcset="{{ "images/clinic/clinic-interior-03.webp" | relURL }}" type="image/webp">
+              <img src="{{ "images/clinic/clinic-interior-03.jpg" | relURL }}" alt="" aria-hidden="true" class="clinic-stream-photo" loading="lazy">
+            </picture>
           </div>
           <div class="clinic-stream-item">
-            <img src="{{ "images/philosophy/philosophy-acupuncture.jpg" | relURL }}" alt="해아림한의원 분당점 원내 진료환경" class="clinic-stream-photo" loading="lazy">
+            <picture>
+              <source srcset="{{ "images/clinic/clinic-interior-04.webp" | relURL }}" type="image/webp">
+              <img src="{{ "images/clinic/clinic-interior-04.jpg" | relURL }}" alt="" aria-hidden="true" class="clinic-stream-photo" loading="lazy">
+            </picture>
+          </div>
+          <div class="clinic-stream-item">
+            <picture>
+              <source srcset="{{ "images/philosophy/philosophy-consult.webp" | relURL }}" type="image/webp">
+              <img src="{{ "images/philosophy/philosophy-consult.jpg" | relURL }}" alt="" aria-hidden="true" class="clinic-stream-photo" loading="lazy">
+            </picture>
+          </div>
+          <div class="clinic-stream-item">
+            <picture>
+              <source srcset="{{ "images/philosophy/philosophy-pulse.webp" | relURL }}" type="image/webp">
+              <img src="{{ "images/philosophy/philosophy-pulse.jpg" | relURL }}" alt="" aria-hidden="true" class="clinic-stream-photo" loading="lazy">
+            </picture>
+          </div>
+          <div class="clinic-stream-item">
+            <picture>
+              <source srcset="{{ "images/philosophy/philosophy-acupuncture.webp" | relURL }}" type="image/webp">
+              <img src="{{ "images/philosophy/philosophy-acupuncture.jpg" | relURL }}" alt="" aria-hidden="true" class="clinic-stream-photo" loading="lazy">
+            </picture>
           </div>
         </div>
       </div>
@@ -197,7 +244,10 @@
           <!-- Book 1: 토닥토닥 틱장애 -->
           <div class="book-entry-unboxed">
             <div class="book-cover-stage">
-              <img src="{{ "images/books/book-tic.png" | relURL }}" alt="토닥토닥 틱장애 - 해아림 원장단 지음" class="book-real-cover" loading="lazy">
+              <picture>
+                <source srcset="{{ "images/books/book-tic.webp" | relURL }}" type="image/webp">
+                <img src="{{ "images/books/book-tic.png" | relURL }}" alt="토닥토닥 틱장애 도서 표지 - 해아림 원장단 지음" class="book-real-cover" loading="lazy" width="700" height="1000">
+              </picture>
             </div>
             <div class="book-prose-unboxed">
               <span class="book-prose-tag">소아청소년 두뇌 클리닉</span>
@@ -221,7 +271,10 @@
           <!-- Book 2: 걱정마 공황장애 -->
           <div class="book-entry-unboxed">
             <div class="book-cover-stage">
-              <img src="{{ "images/books/book-panic.png" | relURL }}" alt="걱정마 공황장애 - 해아림 원장단 지음" class="book-real-cover" loading="lazy">
+              <picture>
+                <source srcset="{{ "images/books/book-panic.webp" | relURL }}" type="image/webp">
+                <img src="{{ "images/books/book-panic.png" | relURL }}" alt="걱정마 공황장애 도서 표지 - 해아림 원장단 지음" class="book-real-cover" loading="lazy" width="700" height="1000">
+              </picture>
             </div>
             <div class="book-prose-unboxed">
               <span class="book-prose-tag">성인 신경정신과 클리닉</span>
@@ -256,51 +309,87 @@
         <div class="academic-thesis-track" id="academic-carousel">
           <!-- Item 1: 틱장애 연구 논문 -->
           <div class="academic-thesis-item">
-            <img src="{{ "images/academic/thesis-tic.png" | relURL }}" alt="해아림한의원 학술활동 연구 논문" class="thesis-paper-img" loading="lazy">
+            <picture>
+              <source srcset="{{ "images/academic/thesis-tic.webp" | relURL }}" type="image/webp">
+              <img src="{{ "images/academic/thesis-tic.png" | relURL }}" alt="해아림한의원 틱장애 한방 치료 임상 연구 논문" class="thesis-paper-img" loading="lazy" width="1024" height="609">
+            </picture>
           </div>
           <!-- Item 2: 한방신경정신과 학회지 게재 논문 -->
           <div class="academic-thesis-item">
-            <img src="{{ "images/academic/thesis-memory.png" | relURL }}" alt="해아림한의원 학술활동 연구 논문" class="thesis-paper-img" loading="lazy">
+            <picture>
+              <source srcset="{{ "images/academic/thesis-memory.webp" | relURL }}" type="image/webp">
+              <img src="{{ "images/academic/thesis-memory.png" | relURL }}" alt="기억력 및 인지기능 개선 한방 연구 논문" class="thesis-paper-img" loading="lazy" width="1024" height="609">
+            </picture>
           </div>
           <!-- Item 3: 공황장애 연구 논문 -->
           <div class="academic-thesis-item">
-            <img src="{{ "images/academic/thesis-panic.png" | relURL }}" alt="해아림한의원 학술활동 연구 논문" class="thesis-paper-img" loading="lazy">
+            <picture>
+              <source srcset="{{ "images/academic/thesis-panic.webp" | relURL }}" type="image/webp">
+              <img src="{{ "images/academic/thesis-panic.png" | relURL }}" alt="공황장애 및 불안장애 신경정신과 연구 논문" class="thesis-paper-img" loading="lazy" width="1024" height="609">
+            </picture>
           </div>
           <!-- Repeat 1 -->
           <div class="academic-thesis-item">
-            <img src="{{ "images/academic/thesis-tic.png" | relURL }}" alt="해아림한의원 학술활동 연구 논문" class="thesis-paper-img" loading="lazy">
+            <picture>
+              <source srcset="{{ "images/academic/thesis-tic.webp" | relURL }}" type="image/webp">
+              <img src="{{ "images/academic/thesis-tic.png" | relURL }}" alt="" aria-hidden="true" class="thesis-paper-img" loading="lazy" width="1024" height="609">
+            </picture>
           </div>
           <!-- Repeat 2 -->
           <div class="academic-thesis-item">
-            <img src="{{ "images/academic/thesis-memory.png" | relURL }}" alt="해아림한의원 학술활동 연구 논문" class="thesis-paper-img" loading="lazy">
+            <picture>
+              <source srcset="{{ "images/academic/thesis-memory.webp" | relURL }}" type="image/webp">
+              <img src="{{ "images/academic/thesis-memory.png" | relURL }}" alt="" aria-hidden="true" class="thesis-paper-img" loading="lazy" width="1024" height="609">
+            </picture>
           </div>
           <!-- Repeat 3 -->
           <div class="academic-thesis-item">
-            <img src="{{ "images/academic/thesis-panic.png" | relURL }}" alt="해아림한의원 학술활동 연구 논문" class="thesis-paper-img" loading="lazy">
+            <picture>
+              <source srcset="{{ "images/academic/thesis-panic.webp" | relURL }}" type="image/webp">
+              <img src="{{ "images/academic/thesis-panic.png" | relURL }}" alt="" aria-hidden="true" class="thesis-paper-img" loading="lazy" width="1024" height="609">
+            </picture>
           </div>
           <!-- Repeat 1 -->
           <div class="academic-thesis-item">
-            <img src="{{ "images/academic/thesis-tic.png" | relURL }}" alt="해아림한의원 학술활동 연구 논문" class="thesis-paper-img" loading="lazy">
+            <picture>
+              <source srcset="{{ "images/academic/thesis-tic.webp" | relURL }}" type="image/webp">
+              <img src="{{ "images/academic/thesis-tic.png" | relURL }}" alt="" aria-hidden="true" class="thesis-paper-img" loading="lazy" width="1024" height="609">
+            </picture>
           </div>
           <!-- Repeat 2 -->
           <div class="academic-thesis-item">
-            <img src="{{ "images/academic/thesis-memory.png" | relURL }}" alt="해아림한의원 학술활동 연구 논문" class="thesis-paper-img" loading="lazy">
+            <picture>
+              <source srcset="{{ "images/academic/thesis-memory.webp" | relURL }}" type="image/webp">
+              <img src="{{ "images/academic/thesis-memory.png" | relURL }}" alt="" aria-hidden="true" class="thesis-paper-img" loading="lazy" width="1024" height="609">
+            </picture>
           </div>
           <!-- Repeat 3 -->
           <div class="academic-thesis-item">
-            <img src="{{ "images/academic/thesis-panic.png" | relURL }}" alt="해아림한의원 학술활동 연구 논문" class="thesis-paper-img" loading="lazy">
+            <picture>
+              <source srcset="{{ "images/academic/thesis-panic.webp" | relURL }}" type="image/webp">
+              <img src="{{ "images/academic/thesis-panic.png" | relURL }}" alt="" aria-hidden="true" class="thesis-paper-img" loading="lazy" width="1024" height="609">
+            </picture>
           </div>
           <!-- Repeat 1 -->
           <div class="academic-thesis-item">
-            <img src="{{ "images/academic/thesis-tic.png" | relURL }}" alt="해아림한의원 학술활동 연구 논문" class="thesis-paper-img" loading="lazy">
+            <picture>
+              <source srcset="{{ "images/academic/thesis-tic.webp" | relURL }}" type="image/webp">
+              <img src="{{ "images/academic/thesis-tic.png" | relURL }}" alt="" aria-hidden="true" class="thesis-paper-img" loading="lazy" width="1024" height="609">
+            </picture>
           </div>
           <!-- Repeat 2 -->
           <div class="academic-thesis-item">
-            <img src="{{ "images/academic/thesis-memory.png" | relURL }}" alt="해아림한의원 학술활동 연구 논문" class="thesis-paper-img" loading="lazy">
+            <picture>
+              <source srcset="{{ "images/academic/thesis-memory.webp" | relURL }}" type="image/webp">
+              <img src="{{ "images/academic/thesis-memory.png" | relURL }}" alt="" aria-hidden="true" class="thesis-paper-img" loading="lazy" width="1024" height="609">
+            </picture>
           </div>
           <!-- Repeat 3 -->
           <div class="academic-thesis-item">
-            <img src="{{ "images/academic/thesis-panic.png" | relURL }}" alt="해아림한의원 학술활동 연구 논문" class="thesis-paper-img" loading="lazy">
+            <picture>
+              <source srcset="{{ "images/academic/thesis-panic.webp" | relURL }}" type="image/webp">
+              <img src="{{ "images/academic/thesis-panic.png" | relURL }}" alt="" aria-hidden="true" class="thesis-paper-img" loading="lazy" width="1024" height="609">
+            </picture>
           </div>
         </div>
       </div>
@@ -311,7 +400,7 @@
 
     <!-- 7. Main Page Closing Full-Width Image Section -->
     <section class="home-closing-hero-section philo-closing-hero-section">
-      <div class="philo-closing-bg" style="background-image: url('{{ "images/philosophy-closing.png" | relURL }}');"></div>
+      <div class="philo-closing-bg" style="background-image: url('{{ "images/philosophy-closing.png" | relURL }}'); background-image: url('{{ "images/philosophy-closing.webp" | relURL }}');"></div>
       <div class="philo-closing-overlay"></div>
       <div class="container philo-closing-container text-center">
         <p class="philo-closing-lead">

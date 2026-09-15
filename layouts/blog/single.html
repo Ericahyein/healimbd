@@ -49,7 +49,17 @@
         {{ $detailThumb := .Params.thumbnail | default .Params.image }}
         {{ if $detailThumb }}
         <div class="blog-featured-media-box">
-          <img src="{{ $detailThumb | relURL }}" alt="{{ .Title }}" class="blog-featured-img">
+          {{ if not (hasPrefix $detailThumb "http") }}
+            {{ $ext := path.Ext $detailThumb }}
+            {{ $base := strings.TrimSuffix $ext $detailThumb }}
+            {{ $webp := printf "%s.webp" $base }}
+            <picture>
+              <source srcset="{{ $webp | relURL }}" type="image/webp">
+              <img src="{{ $detailThumb | relURL }}" alt="{{ .Title }}" class="blog-featured-img">
+            </picture>
+          {{ else }}
+            <img src="{{ $detailThumb | relURL }}" alt="{{ .Title }}" class="blog-featured-img">
+          {{ end }}
         </div>
         {{ end }}
 

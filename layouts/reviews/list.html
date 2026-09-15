@@ -122,7 +122,17 @@
             <div class="case-card-anchor" onclick="openStaticCaseReader('{{ .File.BaseFileName }}', '{{ .RelPermalink }}')" style="cursor: pointer;">
               <div class="case-thumb-wrap">
                 {{ if .Params.image }}
-                <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}" class="case-thumb-img" loading="lazy">
+                  {{ if not (hasPrefix .Params.image "http") }}
+                    {{ $ext := path.Ext .Params.image }}
+                    {{ $base := strings.TrimSuffix $ext .Params.image }}
+                    {{ $webp := printf "%s.webp" $base }}
+                    <picture>
+                      <source srcset="{{ $webp | relURL }}" type="image/webp">
+                      <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}" class="case-thumb-img" loading="lazy">
+                    </picture>
+                  {{ else }}
+                    <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}" class="case-thumb-img" loading="lazy">
+                  {{ end }}
                 {{ else }}
                 <div class="case-thumb-fallback">
                   <i class="ph-bold ph-newspaper"></i>
