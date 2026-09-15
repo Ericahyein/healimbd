@@ -6045,7 +6045,7 @@ ul {
 }
 
 .floating-branches {
-  background: rgba(255, 255, 255, 0.94);
+  background: rgba(255, 255, 255, 0.96);
   color: #123A63;
   border: 1px solid rgba(214, 227, 238, 0.95);
   box-shadow: 0 4px 14px rgba(18, 58, 99, 0.08);
@@ -6061,6 +6061,17 @@ ul {
   transition: color 0.2s ease;
 }
 
+.floating-brand-logo {
+  width: 20px;
+  height: 19px;
+  object-fit: contain;
+  vertical-align: middle;
+  flex-shrink: 0;
+  display: inline-block;
+  image-rendering: -webkit-optimize-contrast;
+  transition: transform 0.2s ease;
+}
+
 .floating-branches:hover {
   background: #F5FAFD;
   border-color: #BFD6E6;
@@ -6069,8 +6080,8 @@ ul {
   box-shadow: 0 6px 16px rgba(18, 58, 99, 0.12);
 }
 
-.floating-branches:hover .floating-icon {
-  color: #0F3153;
+.floating-branches:hover .floating-brand-logo {
+  transform: scale(1.08);
 }
 
 .floating-naver {
@@ -6552,12 +6563,70 @@ html, body {
     display: none;
   }
 
+  .header-main-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .brand-logo {
+    flex-shrink: 1;
+    min-width: 0;
+  }
+
+  .header-cta-group {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    flex-shrink: 0 !important;
+    margin-left: auto !important;
+  }
+
   .header-cta-group .btn-inquiry-header {
+    display: none !important;
+  }
+
+  .header-auth-container {
+    flex-shrink: 1;
+    min-width: 0;
+  }
+
+  .header-user-badge {
+    padding: 3px 8px !important;
+    font-size: 0.74rem !important;
+    gap: 3px !important;
+    max-width: 125px !important;
+    flex-shrink: 1 !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .header-user-badge .user-greeting {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 72px;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .header-user-badge .user-greeting i {
     display: none;
   }
 
+  .header-user-badge .btn-logout-link {
+    font-size: 0.70rem !important;
+    padding: 0 2px !important;
+    flex-shrink: 0 !important;
+  }
+
   .mobile-menu-toggle {
-    display: flex;
+    display: flex !important;
+    flex-shrink: 0 !important;
+    order: 99 !important;
+    margin-left: 4px !important;
+    z-index: 10;
   }
 
   .brand-logo-img {
@@ -6598,23 +6667,27 @@ html, body {
   }
 
   .hero-bold-title {
-    font-size: 1.95rem;
-    line-height: 1.4;
+    font-size: clamp(1.55rem, 5.8vw, 1.95rem);
+    line-height: 1.38;
     text-align: center;
+    word-break: keep-all;
+    letter-spacing: -0.5px;
   }
 
   .hero-light-desc {
-    font-size: 0.94rem;
-    line-height: 1.55;
+    font-size: clamp(0.86rem, 3.2vw, 0.94rem);
+    line-height: 1.62;
     margin-bottom: 24px;
     text-align: center;
-    letter-spacing: -0.4px;
+    letter-spacing: -0.3px;
+    word-break: keep-all;
   }
 
   .hero-light-desc .hero-line-1,
-  .hero-light-desc .hero-line-2 {
-    display: block;
-    white-space: nowrap;
+  .hero-light-desc .hero-line-2,
+  .hero-desc-chunk {
+    display: inline;
+    white-space: normal;
   }
 
   .philo-core-pillars-grid {
@@ -6740,6 +6813,14 @@ html, body {
     border-radius: 50% !important;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
     font-size: 0.9rem !important;
+  }
+
+  .floating-branches .floating-brand-logo {
+    width: 22px !important;
+    height: 21px !important;
+    object-fit: contain !important;
+    display: block !important;
+    margin: 0 auto !important;
   }
 
   .floating-top {
@@ -12952,11 +13033,27 @@ body.reviews-page .btn-naver-full-link .n-symbol-auth {
     gap: 14px;
   }
   body.reviews-page .reviews-section-nav {
-    flex-direction: column;
-    align-items: stretch;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    width: 100% !important;
+    max-width: 480px !important;
+    margin: 0 auto !important;
+    flex-wrap: nowrap !important;
   }
   body.reviews-page .btn-review-nav {
-    justify-content: center;
+    flex: 1 1 calc(50% - 4px) !important;
+    max-width: calc(50% - 4px) !important;
+    width: calc(50% - 4px) !important;
+    min-width: 0 !important;
+    padding: 11px 4px !important;
+    font-size: clamp(0.72rem, 3.1vw, 0.84rem) !important;
+    justify-content: center !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    box-sizing: border-box !important;
   }
 }
 
@@ -15561,18 +15658,38 @@ body.inquiry-page-body .inquiry-table tbody tr:hover {
   margin-right: 2px;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   .reviews-jump-bar {
-    padding: 16px 0;
+    padding: 14px 0;
   }
   .reviews-section-nav {
-    gap: 10px;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    width: 100% !important;
+    max-width: 480px !important;
+    margin: 0 auto !important;
+    flex-wrap: nowrap !important;
   }
   .btn-review-nav {
-    width: 100%;
-    max-width: 320px;
-    padding: 11px 18px;
-    font-size: 0.90rem;
+    flex: 1 1 calc(50% - 4px) !important;
+    max-width: calc(50% - 4px) !important;
+    width: calc(50% - 4px) !important;
+    min-width: 0 !important;
+    padding: 11px 4px !important;
+    font-size: clamp(0.72rem, 3.1vw, 0.84rem) !important;
+    justify-content: center !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    box-sizing: border-box !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .btn-tail-word {
+    display: none !important;
   }
 }
 
@@ -15585,52 +15702,77 @@ body.philosophy-page .philosophy-page-section {
   padding-bottom: clamp(36px, 5vw, 60px) !important;
 }
 
-/* 2. Circular Route Finding CTA Buttons (Naver Map & Kakao Map) */
-.suwon-route-circular-group {
+/* 2. Location Route Finding CTA Buttons (Naver Map & Kakao Map Action Buttons) */
+.suwon-location-header-actions {
   display: flex;
   align-items: center;
-  gap: 22px;
+  gap: 10px;
+  flex-shrink: 0;
 }
 
-.route-circle-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  text-decoration: none;
-  transition: transform 0.25s ease, opacity 0.25s ease;
-}
-
-.route-circle-item:hover {
-  transform: translateY(-2px) scale(1.04);
-  opacity: 0.92;
-}
-
-.route-circle-btn {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  display: flex;
+.btn-location-action {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.12), 0 1px 3px rgba(0, 0, 0, 0.08);
-  transition: box-shadow 0.25s ease;
-}
-
-.route-circle-btn.circle-naver {
-  background-color: #03C75A;
-}
-
-.route-circle-btn.circle-kakao {
-  background-color: #FEE500;
-}
-
-.route-circle-label {
-  font-size: 0.82rem;
+  gap: 7px;
+  padding: 10px 18px;
+  border-radius: 9999px;
+  font-size: 0.88rem;
   font-weight: 700;
-  color: #334155;
-  letter-spacing: -0.2px;
+  text-decoration: none !important;
+  border: 1px solid #E2E8F0;
+  background: #FFFFFF;
+  color: #1E293B;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
+  transition: all 0.2s ease;
   white-space: nowrap;
+}
+
+.btn-location-action:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.1);
+}
+
+.btn-location-action.btn-naver-map {
+  border-color: rgba(3, 199, 90, 0.35);
+  color: #038E40;
+}
+
+.btn-location-action.btn-naver-map:hover {
+  background: #F0FDF4;
+  border-color: #03C75A;
+}
+
+.btn-location-action.btn-kakao-map {
+  border-color: rgba(254, 229, 0, 0.7);
+  color: #191919;
+}
+
+.btn-location-action.btn-kakao-map:hover {
+  background: #FEFCE8;
+  border-color: #EAB308;
+}
+
+.location-btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  font-size: 0.74rem;
+  font-weight: 900;
+  flex-shrink: 0;
+}
+
+.location-btn-icon.icon-naver {
+  background-color: #03C75A;
+  color: #FFFFFF;
+}
+
+.location-btn-icon.icon-kakao {
+  background-color: #FEE500;
+  color: #191919;
 }
 
 /* 3. Timetable Table: Left-Aligned Day, Right-Aligned Status Badge & Time */
@@ -15892,16 +16034,74 @@ body.philosophy-page .philosophy-page-section {
   }
 }
 
+/* Hero Line Break & Semantic Chunk Utilities */
+.pc-br {
+  display: inline;
+}
+.hero-title-chunk {
+  display: inline-block;
+  white-space: nowrap;
+}
+.hero-desc-chunk {
+  display: inline-block;
+}
+
 @media (max-width: 768px) {
-  .suwon-location-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
+  .pc-br {
+    display: none !important;
   }
-  .suwon-route-circular-group {
-    width: 100%;
-    justify-content: flex-start;
-    gap: 20px;
+  .page-hero-container {
+    padding: 0 16px;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  .page-hero-title {
+    font-size: clamp(1.5rem, 5.8vw, 1.85rem) !important;
+    line-height: 1.35 !important;
+    letter-spacing: -0.5px !important;
+    margin-bottom: 10px !important;
+    word-break: keep-all !important;
+    word-wrap: break-word !important;
+  }
+  .page-hero-desc {
+    font-size: clamp(0.85rem, 3.4vw, 0.94rem) !important;
+    line-height: 1.62 !important;
+    letter-spacing: -0.3px !important;
+    max-width: 96% !important;
+    margin: 0 auto !important;
+    word-break: keep-all !important;
+    word-wrap: break-word !important;
+  }
+  .hero-sub-gap {
+    display: inline-block;
+    margin-top: 4px;
+  }
+  .suwon-location-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+    margin-bottom: 16px !important;
+  }
+  .suwon-location-header-actions {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 8px !important;
+    flex-wrap: nowrap !important;
+  }
+  .btn-location-action {
+    flex: 1 1 calc(50% - 4px) !important;
+    max-width: calc(50% - 4px) !important;
+    width: calc(50% - 4px) !important;
+    min-width: 0 !important;
+    padding: 9px 2px !important;
+    font-size: clamp(0.72rem, 3vw, 0.82rem) !important;
+    justify-content: center !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    box-sizing: border-box !important;
   }
   .philo-closing-hero-section {
     min-height: 320px;
@@ -15910,13 +16110,6 @@ body.philosophy-page .philosophy-page-section {
 }
 
 @media (max-width: 480px) {
-  .route-circle-btn {
-    width: 48px;
-    height: 48px;
-  }
-  .route-circle-label {
-    font-size: 0.76rem;
-  }
   .suwon-hours-table th.hours-day-col {
     font-size: 0.88rem;
   }

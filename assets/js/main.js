@@ -1555,13 +1555,19 @@ function updateAuthUI(user) {
   const unlockedUserName = document.getElementById('unlocked-user-name');
 
   const isAuthorized = !!user;
-  const displayName = (user && user.name) || (isAdmin ? '대표원장' : '회원');
+  let displayName = (user && user.name) || (isAdmin ? '대표원장' : '회원');
+  let headerDisplayName = displayName;
+  if (headerDisplayName === '카카오 인증회원') {
+    headerDisplayName = '카카오 회원';
+  } else if (headerDisplayName === '네이버 인증회원') {
+    headerDisplayName = '네이버 회원';
+  }
 
   if (isAuthorized) {
     // Header state
     if (headerLoginBtn) headerLoginBtn.style.display = 'none';
     if (headerUserBadge) headerUserBadge.style.display = 'inline-flex';
-    if (loggedUserName) loggedUserName.textContent = displayName;
+    if (loggedUserName) loggedUserName.textContent = headerDisplayName;
 
     // Mobile drawer state
     if (drawerGuestBox) drawerGuestBox.style.display = 'none';
