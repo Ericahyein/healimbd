@@ -5,15 +5,32 @@
     <div class="suwon-location-header">
       <div class="suwon-location-title-wrap">
         <span class="suwon-location-tag">Location</span>
-        <h2 class="suwon-location-title">해아림한의원 분당점 <span class="text-accent">오시는 길</span></h2>
+        <h2 class="suwon-location-title"><span style="white-space: nowrap;">해아림한의원 분당점</span> <span style="white-space: nowrap;" class="text-accent">오시는 길</span></h2>
       </div>
+
+      <!-- Route Finding CTA: Naver Map & Kakao Map Circular Image Buttons -->
       <div class="suwon-location-header-actions">
-        <a href="{{ "reviews/" | relURL }}" class="btn-suwon-action btn-suwon-reviews">
-          <i class="ph-bold ph-star"></i> 치료사례 더보기
-        </a>
-        <a href="https://map.naver.com/p/entry/place/1888421884" target="_blank" rel="noopener noreferrer" class="btn-suwon-action btn-suwon-navermap">
-          <i class="ph-bold ph-map-pin"></i> 네이버 지도 바로가기
-        </a>
+        <div class="suwon-route-circular-group">
+          <!-- 1. Naver Map Circular Button -->
+          <a href="https://map.naver.com/p/entry/place/1888421884" target="_blank" rel="noopener noreferrer" class="route-circle-item" aria-label="네이버 지도 길찾기">
+            <div class="route-circle-btn circle-naver">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M16.2 3H21V21H16.2L7.8 8.8V21H3V3H7.8L16.2 15.2V3Z" fill="#FFFFFF"/>
+              </svg>
+            </div>
+            <span class="route-circle-label">네이버 지도 길찾기</span>
+          </a>
+
+          <!-- 2. Kakao Map Circular Button -->
+          <a href="https://map.kakao.com/link/to/해아림한의원분당점,37.36533,127.10770" target="_blank" rel="noopener noreferrer" class="route-circle-item" aria-label="카카오맵 길찾기">
+            <div class="route-circle-btn circle-kakao">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 3C6.477 3 2 6.477 2 10.765C2 13.435 3.738 15.77 6.388 17.062L5.275 21.144C5.176 21.507 5.584 21.792 5.888 21.589L10.748 18.35C11.159 18.404 11.576 18.431 12 18.431C17.523 18.431 22 14.954 22 10.765C22 6.477 17.523 3 12 3Z" fill="#191919"/>
+              </svg>
+            </div>
+            <span class="route-circle-label">카카오맵 길찾기</span>
+          </a>
+        </div>
       </div>
     </div>
 
@@ -24,24 +41,22 @@
 
     <!-- Bottom 2-Column Information Spread -->
     <div class="suwon-info-spread">
-      <!-- Left: Address & Transportation -->
+      <!-- Left: Address & Transportation (Parking removed, bottom route buttons removed) -->
       <div class="suwon-info-col suwon-transit-col">
         <div class="suwon-address-block">
           <div class="suwon-addr-header">
             <i class="ph-fill ph-map-pin suwon-icon-pin"></i>
             <h3 class="suwon-addr-title">경기 성남시 분당구 성남대로 331번길 3-3, 젤존타워 3차 405호</h3>
           </div>
-          <p class="suwon-addr-sub">수인지하철·신분당선 정자역 3번 출구에서 150m (도보 2분), 파리바게뜨 건물 젤존타워 3차 4층</p>
+          <p class="suwon-addr-sub">수인지하철·신분당선 정자역 3번 출구에서 150m (도보 2분)</p>
         </div>
 
         <div class="suwon-transit-card">
           <!-- Bus Info -->
           <div class="suwon-transit-item">
-            <div class="suwon-transit-type">
+            <div class="suwon-transit-type transit-bus">
               <i class="ph-bold ph-bus"></i>
               <span class="transit-type-label">버스</span>
-              <span class="transit-stop-pill">정자역 3번출구</span>
-              <span class="transit-stop-pill">분당경찰서</span>
             </div>
             <div class="suwon-transit-routes">
               <p><strong>일반:</strong> 2, 2-1, 109-1, 220, 250, 300, 380, 520, 720-1, 720-2</p>
@@ -52,7 +67,7 @@
 
           <!-- Subway Info -->
           <div class="suwon-transit-item">
-            <div class="suwon-transit-type">
+            <div class="suwon-transit-type transit-subway">
               <i class="ph-bold ph-train"></i>
               <span class="transit-type-label">지하철</span>
             </div>
@@ -61,25 +76,16 @@
             </div>
           </div>
 
-          <!-- Parking Info -->
+          <!-- Car / Parking Info -->
           <div class="suwon-transit-item">
-            <div class="suwon-transit-type">
+            <div class="suwon-transit-type transit-car">
               <i class="ph-bold ph-car"></i>
-              <span class="transit-type-label">자가용 / 주차</span>
+              <span class="transit-type-label">자차</span>
             </div>
             <div class="suwon-transit-routes">
-              <p>젤존타워 3차 건물 지하주차장 이용 시 <strong>진료 후 무료 주차권</strong>을 지원해 드립니다.</p>
+              <p>지하 3층까지 주차장이 마련되어 있습니다.(주차비 지원)</p>
             </div>
           </div>
-        </div>
-
-        <div class="suwon-route-buttons">
-          <a href="https://map.naver.com/p/entry/place/1888421884" target="_blank" rel="noopener noreferrer" class="btn btn-route-naver">
-            <span class="n-symbol">N</span> 네이버 지도 길찾기
-          </a>
-          <a href="https://map.kakao.com/link/to/해아림한의원분당점,37.36533,127.10770" target="_blank" rel="noopener noreferrer" class="btn btn-route-kakao">
-            <i class="ph-fill ph-navigation-arrow"></i> 카카오맵 길찾기
-          </a>
         </div>
       </div>
 
@@ -97,48 +103,40 @@
           <h3 class="suwon-hours-title">진료시간 안내</h3>
         </div>
 
-        <!-- Timetable Table -->
+        <!-- Timetable Table (Merged Tue/Fri, Day on Left, Label + Time on Right) -->
         <table class="suwon-hours-table" aria-label="진료시간 안내표">
           <tbody>
             <tr>
-              <th scope="row">월요일 / 수요일</th>
-              <td>
-                <span class="hours-time font-bold">10:00 ~ 20:00</span>
-                <span class="suwon-badge-night">야간진료</span>
+              <th scope="row" class="hours-day-col">월/수</th>
+              <td class="hours-time-col">
+                <span class="suwon-badge-night">[야간진료]</span>
+                <span class="hours-time font-bold">10:00 - 20:00</span>
               </td>
             </tr>
             <tr>
-              <th scope="row">화 요 일</th>
-              <td><span class="hours-time">10:00 ~ 19:00</span></td>
-            </tr>
-            <tr>
-              <th scope="row">금 요 일</th>
-              <td><span class="hours-time">10:00 ~ 19:00</span></td>
-            </tr>
-            <tr>
-              <th scope="row">토 요 일</th>
-              <td>
-                <span class="hours-time font-bold">09:00 ~ 15:00</span>
-                <span class="suwon-badge-nolunch">점심시간 없음</span>
+              <th scope="row" class="hours-day-col">화/금</th>
+              <td class="hours-time-col">
+                <span class="hours-time">10:00 - 19:00</span>
               </td>
             </tr>
             <tr>
-              <th scope="row">공 휴 일</th>
-              <td>
-                <span class="hours-time font-bold">09:00 ~ 15:00</span>
-                <span class="suwon-badge-nolunch">점심시간 없음</span>
+              <th scope="row" class="hours-day-col">토/공휴일</th>
+              <td class="hours-time-col">
+                <span class="suwon-badge-nolunch">[점심시간 없음]</span>
+                <span class="hours-time font-bold">09:00 - 15:00</span>
               </td>
             </tr>
             <tr class="suwon-lunch-row">
-              <th scope="row">점심시간</th>
-              <td><span class="hours-lunch">13:00 ~ 14:00 (월/화/수/금에 한함)</span></td>
+              <th scope="row" class="hours-day-col">점심시간</th>
+              <td class="hours-time-col">
+                <span class="hours-lunch">13:00 - 14:00</span>
+              </td>
             </tr>
           </tbody>
         </table>
 
         <!-- Notice Points -->
         <div class="suwon-hours-notices">
-          <p class="suwon-notice-point text-teal">* 금요일/토요일/공휴일은 점심시간 없이 진료합니다.</p>
           <p class="suwon-notice-point text-teal">* 매주 목요일 / 일요일은 휴진입니다.</p>
           <p class="suwon-notice-point">* 원활하고 정밀한 검사를 위해 사전 예약 후 내원해 주시기 바랍니다.</p>
         </div>

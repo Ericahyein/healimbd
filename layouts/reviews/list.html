@@ -22,40 +22,35 @@
   {{ partial "header.html" . }}
 
   <main id="main-content">
-    <!-- Top Hero Banner: Stories of Real Recovery -->
-    <section class="cases-page-header">
-      <div class="container text-center">
-        <span class="story-tag-en">Stories of Real Recovery</span>
-        <h1 class="story-main-title">분당 해아림에서 시작된 <strong class="story-highlight">진짜 변화의 기록</strong></h1>
-        <p class="story-desc-text">
-          작은 변화부터 큰 회복까지, <strong>분당 해아림을 찾은 분들의 실제 치료 경험</strong>을 담았습니다.<br>
-          비슷한 고민을 가진 분들에게 조금이라도 도움이 되길 바랍니다.
-        </p>
+    <!-- 1. Common Page Hero Banner -->
+    {{ partial "page_hero.html" (dict "Tag" "PATIENT STORIES" "Title" "치료후기" "Subtitle" "치료를 시작하기 전의 고민부터 치료 과정에서 느낀 변화까지,<br>해아림한의원 분당점을 찾아주신 분들의 치료 경험을 확인하실 수 있습니다." "BgImage" "images/hero-reviews.jpg" "HeroClass" "reviews-hero") }}
 
-        <!-- Fast Section Jump Buttons -->
+    <!-- Fast Section Jump Bar -->
+    <section class="reviews-jump-bar">
+      <div class="container text-center">
         <div class="reviews-section-nav">
-          <a href="#direct-cases-section" class="btn btn-review-nav direct-nav">
+          <a href="#handwritten-reviews" class="btn btn-review-nav direct-nav">
             <i class="ph-bold ph-pencil-line"></i>
-            <span>자필 치료 후기 바로가기</span>
+            <span>자필 치료 후기 보러가기</span>
           </a>
-          <a href="#naver-reviews-section" class="btn btn-review-nav naver-nav">
+          <a href="#naver-reviews" class="btn btn-review-nav naver-nav">
             <span class="n-pill-icon">N</span>
-            <span>네이버 실시간 환자 후기 바로가기</span>
+            <span>네이버 환자 후기 보러가기</span>
           </a>
         </div>
       </div>
     </section>
 
     <!-- 1. DIRECT CLINICAL CASES SECTION (자필 치료 후기) -->
-    <section class="section direct-cases-section" id="direct-cases-section">
+    <section class="section direct-cases-section" id="handwritten-reviews">
       <div class="container">
         
         <!-- Section Header -->
-        <div class="naver-section-header">
+        <div class="naver-section-header reviews-clean-header">
           <div class="naver-header-left">
             <h2 class="section-main-title">자필 치료 후기</h2>
             <p class="section-desc">
-              해아림한의원 분당점에서 치료 종결하신 환자 분들의 실제 이야기
+              치료를 마친 환자분들이 직접 작성해주신 소중한 후기입니다.
             </p>
           </div>
           <div class="naver-header-right">
@@ -71,23 +66,62 @@
         <!-- Disease Category Tabs Toolbar -->
         <div class="cases-toolbar-clean">
           <div class="cases-category-tabs" id="category-tabs-container">
-            <button class="cases-tab-btn active" data-filter="all">전체 질환</button>
+            <button class="cases-tab-btn active" data-filter="all">전체</button>
             <button class="cases-tab-btn" data-filter="panic">불안·공황장애</button>
             <button class="cases-tab-btn" data-filter="autonomic">자율신경실조증</button>
-            <button class="cases-tab-btn" data-filter="tic-adhd">소아 틱·ADHD</button>
-            <button class="cases-tab-btn" data-filter="sleep">만성 불면증</button>
-            <button class="cases-tab-btn" data-filter="hyperhidrosis">다한증</button>
-            <button class="cases-tab-btn" data-filter="ibs">과민성대장증후군</button>
+            <button class="cases-tab-btn" data-filter="tic-adhd">소아·틱·ADHD</button>
+            <button class="cases-tab-btn" data-filter="sleep">수면·불면증</button>
+            <button class="cases-tab-btn" data-filter="mood">우울·기분장애</button>
+            <button class="cases-tab-btn" data-filter="etc">기타</button>
+          </div>
+
+          <!-- Mobile Unified Category Dropdown (Only visible <= 768px) -->
+          <div class="mobile-category-dropdown" id="handwritten-mobile-dropdown">
+            <button type="button" class="mobile-dropdown-toggle" id="handwritten-dropdown-toggle" aria-haspopup="listbox" aria-expanded="false">
+              <span class="dropdown-selected-label">전체</span>
+              <i class="ph-bold ph-caret-down dropdown-chevron"></i>
+            </button>
+            <ul class="mobile-dropdown-menu" role="listbox" aria-labelledby="handwritten-dropdown-toggle">
+              <li class="dropdown-option active" role="option" data-value="all" aria-selected="true">
+                <span>전체</span>
+                <i class="ph-bold ph-check check-icon"></i>
+              </li>
+              <li class="dropdown-option" role="option" data-value="panic" aria-selected="false">
+                <span>불안·공황장애</span>
+                <i class="ph-bold ph-check check-icon"></i>
+              </li>
+              <li class="dropdown-option" role="option" data-value="autonomic" aria-selected="false">
+                <span>자율신경실조증</span>
+                <i class="ph-bold ph-check check-icon"></i>
+              </li>
+              <li class="dropdown-option" role="option" data-value="tic-adhd" aria-selected="false">
+                <span>소아·틱·ADHD</span>
+                <i class="ph-bold ph-check check-icon"></i>
+              </li>
+              <li class="dropdown-option" role="option" data-value="sleep" aria-selected="false">
+                <span>수면·불면증</span>
+                <i class="ph-bold ph-check check-icon"></i>
+              </li>
+              <li class="dropdown-option" role="option" data-value="mood" aria-selected="false">
+                <span>우울·기분장애</span>
+                <i class="ph-bold ph-check check-icon"></i>
+              </li>
+              <li class="dropdown-option" role="option" data-value="etc" aria-selected="false">
+                <span>기타</span>
+                <i class="ph-bold ph-check check-icon"></i>
+              </li>
+            </ul>
           </div>
         </div>
 
-        <!-- Direct Clinical Cases Grid -->
-        <div class="cases-grid-container" id="direct-cases-grid">
+        <!-- Direct Clinical Cases Grid (3-Column Editorial Grid on Desktop) -->
+        <div class="cases-grid-container handwritten-cases-grid" id="direct-cases-grid">
           {{ range where .Pages "Params.review_type" "direct" }}
-          <article class="healim-case-card" 
+          <article class="healim-case-card static-markdown-case" 
+                   data-id="{{ .File.BaseFileName }}"
                    data-category="{{ .Params.category }}" 
                    data-review-type="direct">
-            <a href="{{ .RelPermalink }}" class="case-card-anchor">
+            <div class="case-card-anchor" onclick="openStaticCaseReader('{{ .File.BaseFileName }}', '{{ .RelPermalink }}')" style="cursor: pointer;">
               <div class="case-thumb-wrap">
                 {{ if .Params.image }}
                 <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}" class="case-thumb-img" loading="lazy">
@@ -98,67 +132,110 @@
                 </div>
                 {{ end }}
                 <span class="case-tag-pill {{ .Params.category }}">{{ .Params.category_name }}</span>
-                <span class="case-direct-badge">📝 자필 체험 수기</span>
+                <span class="case-direct-badge">📝 자필 후기</span>
               </div>
 
               <div class="case-body-wrap">
+                <h3 class="case-card-title">{{ .Title }}</h3>
                 <div class="case-meta-top">
                   <span class="case-duration-text"><i class="ph-bold ph-calendar-blank"></i> 치료기간: {{ .Params.duration | default "치료 완료" }}</span>
                 </div>
-
-                <h3 class="case-card-title">{{ .Title }}</h3>
                 <p class="case-summary-text">{{ .Params.summary }}</p>
               </div>
-            </a>
+            </div>
           </article>
           {{ end }}
+        </div>
+
+        <!-- Handwritten Reviews Pagination Container (9 items per page) -->
+        <div class="handwritten-pagination-wrap" id="handwritten-reviews-pagination">
+          <!-- Dynamically populated by JS -->
         </div>
       </div>
     </section>
 
-    <!-- 2. NAVER REAL-TIME REVIEWS SECTION (네이버 실시간 환자 후기) -->
-    <section class="section naver-reviews-section" id="naver-reviews-section">
+    <!-- 2. NAVER REAL-TIME REVIEWS SECTION (네이버 환자 후기) -->
+    <section class="section naver-reviews-section" id="naver-reviews">
       <div class="container">
         
-        <div class="naver-section-header">
+        <div class="naver-section-header reviews-clean-header">
           <div class="naver-header-left">
-            <h2 class="section-main-title">네이버 실시간 환자 후기</h2>
+            <h2 class="section-main-title">네이버 환자 후기</h2>
             <p class="section-desc">
-              네이버 예약을 통해 실제 진료를 받으신 환자분들의 영수증/예약 인증 리뷰
+              네이버 예약을 통해 실제 내원하신 환자분들이 남겨주신 소중한 후기입니다.
             </p>
           </div>
           <div class="naver-header-right">
             <a href="https://map.naver.com/p/entry/place/1272285133?placePath=%2Freview%2Fvisitor" target="_blank" rel="noopener noreferrer" class="btn btn-naver-full-link">
               <span class="n-symbol-auth">N</span>
-              <span>네이버 플레이스 실시간 리뷰 전체보기</span>
+              <span>네이버 환자 후기 더보기</span>
               <i class="ph-bold ph-arrow-up-right"></i>
             </a>
           </div>
         </div>
 
-        <!-- Naver Filter & Total Count Toolbar -->
-        <div class="naver-controls-wrap">
-          <div class="naver-category-chips" id="naver-filter-tabs">
-            <button class="naver-filter-btn active" data-filter="all">전체 후기</button>
+        <!-- Naver Category Filter Tabs -->
+        <div class="cases-toolbar-clean">
+          <div class="cases-category-tabs naver-category-tabs" id="naver-filter-tabs">
+            <button class="naver-filter-btn active" data-filter="all">전체</button>
             <button class="naver-filter-btn" data-filter="panic">불안·공황장애</button>
             <button class="naver-filter-btn" data-filter="autonomic">자율신경실조증</button>
-            <button class="naver-filter-btn" data-filter="tic-adhd">소아 틱·ADHD</button>
-            <button class="naver-filter-btn" data-filter="sleep">만성 불면증</button>
-            <button class="naver-filter-btn" data-filter="hyperhidrosis-ibs">다한증·과민성대장</button>
+            <button class="naver-filter-btn" data-filter="tic-adhd">소아·틱·ADHD</button>
+            <button class="naver-filter-btn" data-filter="sleep">수면·불면증</button>
+            <button class="naver-filter-btn" data-filter="mood">우울·기분장애</button>
+            <button class="naver-filter-btn" data-filter="etc">기타</button>
           </div>
-          <div class="naver-count-info">
-            <i class="ph-bold ph-chats-circle"></i> <span id="naver-total-count-text">총 <strong id="naver-total-count-num">10</strong>개의 방문자 영수증 인증 리뷰</span>
+
+          <!-- Mobile Unified Category Dropdown (Only visible <= 768px) -->
+          <div class="mobile-category-dropdown" id="naver-mobile-dropdown">
+            <button type="button" class="mobile-dropdown-toggle" id="naver-dropdown-toggle" aria-haspopup="listbox" aria-expanded="false">
+              <span class="dropdown-selected-label">전체</span>
+              <i class="ph-bold ph-caret-down dropdown-chevron"></i>
+            </button>
+            <ul class="mobile-dropdown-menu" role="listbox" aria-labelledby="naver-dropdown-toggle">
+              <li class="dropdown-option active" role="option" data-value="all" aria-selected="true">
+                <span>전체</span>
+                <i class="ph-bold ph-check check-icon"></i>
+              </li>
+              <li class="dropdown-option" role="option" data-value="panic" aria-selected="false">
+                <span>불안·공황장애</span>
+                <i class="ph-bold ph-check check-icon"></i>
+              </li>
+              <li class="dropdown-option" role="option" data-value="autonomic" aria-selected="false">
+                <span>자율신경실조증</span>
+                <i class="ph-bold ph-check check-icon"></i>
+              </li>
+              <li class="dropdown-option" role="option" data-value="tic-adhd" aria-selected="false">
+                <span>소아·틱·ADHD</span>
+                <i class="ph-bold ph-check check-icon"></i>
+              </li>
+              <li class="dropdown-option" role="option" data-value="sleep" aria-selected="false">
+                <span>수면·불면증</span>
+                <i class="ph-bold ph-check check-icon"></i>
+              </li>
+              <li class="dropdown-option" role="option" data-value="mood" aria-selected="false">
+                <span>우울·기분장애</span>
+                <i class="ph-bold ph-check check-icon"></i>
+              </li>
+              <li class="dropdown-option" role="option" data-value="etc" aria-selected="false">
+                <span>기타</span>
+                <i class="ph-bold ph-check check-icon"></i>
+              </li>
+            </ul>
           </div>
         </div>
 
-        <!-- Naver Reviews Grid (Dynamically Rendered with Pagination) -->
-        <div class="cases-grid-container naver-stream-grid" id="naver-reviews-grid">
-          <!-- Dynamically populated by JS with pagination -->
+        <!-- Naver Reviews Row List (Dynamically Rendered as Clean List Rows) -->
+        <div class="naver-reviews-row-list" id="naver-reviews-grid">
+          <!-- Dynamically populated by JS as horizontal rows with thin dividers -->
         </div>
 
-        <!-- Naver Pagination Container -->
-        <div class="naver-pagination-wrap" id="naver-reviews-pagination">
-          <!-- Page buttons generated by JS -->
+        <!-- Naver Section Bottom More Button -->
+        <div class="naver-more-wrap text-center">
+          <a href="https://map.naver.com/p/entry/place/1272285133?placePath=%2Freview%2Fvisitor" target="_blank" rel="noopener noreferrer" class="btn btn-naver-more">
+            <span>더 많은 네이버 후기 보기</span>
+            <i class="ph-bold ph-arrow-right"></i>
+          </a>
         </div>
       </div>
     </section>

@@ -20,7 +20,7 @@
       <!-- Desktop Nav -->
       <nav class="desktop-nav" aria-label="주요 메뉴">
         <ul class="nav-list">
-          <li><a href="{{ "guide/" | relURL }}" class="nav-link">진료안내</a></li>
+          <li><a href="{{ "guide/" | relURL }}" class="nav-link">진료과목</a></li>
           <li><a href="{{ "philosophy/" | relURL }}" class="nav-link">진료철학</a></li>
           <li><a href="{{ "reviews/" | relURL }}" class="nav-link">치료후기</a></li>
           <li><a href="{{ "blog/" | relURL }}" class="nav-link">원장 칼럼</a></li>
@@ -34,7 +34,7 @@
         <!-- Member Login / Logged In State Container -->
         <div class="header-auth-container" id="header-auth-container">
           <button class="btn btn-header-profile" id="btn-header-login" onclick="openAuthModal('login')" aria-label="로그인" title="회원 로그인">
-            <i class="ph-bold ph-user-circle"></i>
+            <img src="{{ "images/user-profile-icon.png" | relURL }}" alt="회원 로그인" class="header-profile-avatar" width="30" height="30">
           </button>
           <div class="header-user-badge" id="header-user-badge" style="display: none;">
             <span class="user-greeting"><i class="ph-bold ph-user-circle-check"></i> <strong id="logged-user-name">회원</strong>님</span>
@@ -90,7 +90,7 @@
 
   <!-- Mobile Nav Links -->
   <ul class="mobile-nav-list">
-    <li><a href="{{ "guide/" | relURL }}" class="mobile-nav-link"><i class="ph ph-calendar-check"></i> 진료안내</a></li>
+    <li><a href="{{ "guide/" | relURL }}" class="mobile-nav-link"><i class="ph ph-calendar-check"></i> 진료과목</a></li>
     <li><a href="{{ "philosophy/" | relURL }}" class="mobile-nav-link"><i class="ph ph-heart"></i> 진료철학</a></li>
     <li><a href="{{ "reviews/" | relURL }}" class="mobile-nav-link"><i class="ph ph-star"></i> 치료후기</a></li>
     <li><a href="{{ "blog/" | relURL }}" class="mobile-nav-link"><i class="ph ph-article"></i> 원장 칼럼</a></li>

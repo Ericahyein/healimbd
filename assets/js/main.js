@@ -220,9 +220,11 @@ function initScrollEffects() {
   const scrollTopBtn = document.getElementById('scroll-to-top');
   const siteHeader = document.getElementById('site-header');
   const isHomePage = document.body.classList.contains('home-page');
+  const hasPageHero = !!document.querySelector('.page-hero-banner');
+  const hasTransparentHero = isHomePage || hasPageHero || document.body.classList.contains('guide-page') || document.body.classList.contains('philosophy-page') || document.body.classList.contains('reviews-page') || document.body.classList.contains('blog-page') || document.body.classList.contains('inquiry-page') || document.body.classList.contains('location-page');
 
   function updateHeaderTransparency() {
-    if (!siteHeader || !isHomePage) return;
+    if (!siteHeader || !hasTransparentHero) return;
     const scrollPos = window.scrollY;
     if (scrollPos > 60) {
       siteHeader.classList.add('scrolled');
@@ -234,7 +236,7 @@ function initScrollEffects() {
   }
 
   // Initial execution for hero header
-  if (isHomePage && siteHeader) {
+  if (hasTransparentHero && siteHeader) {
     updateHeaderTransparency();
   }
 
@@ -262,86 +264,44 @@ function initScrollEffects() {
   }
 }
 
-// Photo & Academic Activity Horizontal Carousels with Smooth Auto-Slide
+// Photo & Academic Activity Horizontal Carousels with Seamless Infinite Loop
 function initPhotoCarousels() {
-  setupCarousel('clinic-carousel', 'clinic-prev-btn', 'clinic-next-btn', true, 4500);
-  setupCarousel('academic-carousel', 'academic-prev-btn', 'academic-next-btn', true, 5000);
+  setupSeamlessInfiniteLoop('clinic-carousel', 0.8);
+  setupSeamlessInfiniteLoop('academic-carousel', 0.65);
 }
 
-function setupCarousel(trackId, prevBtnId, nextBtnId, autoSlide = true, intervalMs = 4500) {
+function setupSeamlessInfiniteLoop(trackId, speed = 0.8) {
   const track = document.getElementById(trackId);
-  const prevBtn = document.getElementById(prevBtnId);
-  const nextBtn = document.getElementById(nextBtnId);
-
   if (!track) return;
 
-  function getStep() {
-    const firstItem = track.firstElementChild;
-    if (firstItem) {
-      const style = window.getComputedStyle(track);
-      const gap = parseFloat(style.gap || 20);
-      return firstItem.getBoundingClientRect().width + gap;
+  let isPaused = false;
+  let isTouching = false;
+  let animId = null;
+
+  function step() {
+    if (!isPaused && !isTouching) {
+      track.scrollLeft += speed;
+      const halfWidth = track.scrollWidth / 2;
+      if (halfWidth > 0 && track.scrollLeft >= halfWidth) {
+        track.scrollLeft -= halfWidth;
+      }
     }
-    return 360;
+    animId = requestAnimationFrame(step);
   }
 
-  function scrollNext() {
-    const maxScroll = track.scrollWidth - track.clientWidth - 10;
-    if (track.scrollLeft >= maxScroll) {
-      track.scrollTo({ left: 0, behavior: 'smooth' });
-    } else {
-      track.scrollBy({ left: getStep(), behavior: 'smooth' });
+  animId = requestAnimationFrame(step);
+
+  track.addEventListener('mouseenter', () => { isPaused = true; });
+  track.addEventListener('mouseleave', () => { isPaused = false; });
+  track.addEventListener('touchstart', () => { isTouching = true; }, { passive: true });
+  track.addEventListener('touchend', () => {
+    const halfWidth = track.scrollWidth / 2;
+    if (halfWidth > 0) {
+      if (track.scrollLeft >= halfWidth) track.scrollLeft -= halfWidth;
+      else if (track.scrollLeft < 0) track.scrollLeft += halfWidth;
     }
-  }
-
-  function scrollPrev() {
-    if (track.scrollLeft <= 10) {
-      track.scrollTo({ left: track.scrollWidth - track.clientWidth, behavior: 'smooth' });
-    } else {
-      track.scrollBy({ left: -getStep(), behavior: 'smooth' });
-    }
-  }
-
-  if (prevBtn) {
-    prevBtn.addEventListener('click', () => {
-      scrollPrev();
-      resetTimer();
-    });
-  }
-
-  if (nextBtn) {
-    nextBtn.addEventListener('click', () => {
-      scrollNext();
-      resetTimer();
-    });
-  }
-
-  let autoTimer = null;
-  function startTimer() {
-    if (!autoSlide) return;
-    stopTimer();
-    autoTimer = setInterval(scrollNext, intervalMs);
-  }
-
-  function stopTimer() {
-    if (autoTimer) {
-      clearInterval(autoTimer);
-      autoTimer = null;
-    }
-  }
-
-  function resetTimer() {
-    stopTimer();
-    startTimer();
-  }
-
-  if (autoSlide) {
-    track.addEventListener('mouseenter', stopTimer);
-    track.addEventListener('mouseleave', startTimer);
-    track.addEventListener('touchstart', stopTimer, { passive: true });
-    track.addEventListener('touchend', startTimer, { passive: true });
-    startTimer();
-  }
+    setTimeout(() => { isTouching = false; }, 800);
+  }, { passive: true });
 }
 
 // 6. Smooth Scroll for Anchor Links
@@ -368,84 +328,375 @@ function initSmoothScroll() {
   });
 }
 
-// 7. Case & Naver Review Filter Tabs & Live Search
-function initReviewTabs() {
-  const catBtns = document.querySelectorAll('.cases-tab-btn, .review-tab-btn');
-  const directCards = document.querySelectorAll('#direct-cases-grid .healim-case-card, .cases-home-grid .healim-case-card[data-review-type="direct"]');
-  const naverCards = document.querySelectorAll('#naver-reviews-grid .healim-case-card, .cases-home-grid .healim-case-card[data-review-type="naver"]');
-  const searchInput = document.getElementById('cases-search-input');
+// 7. Handwritten Patient Reviews Pagination & Disease Category Engine
+const HANDWRITTEN_ITEMS_PER_PAGE = 9;
+let currentHandwrittenPage = 1;
+let currentHandwrittenFilter = 'all';
 
-  if (directCards.length === 0 && naverCards.length === 0) return;
+const STATIC_MARKDOWN_CASES = [
+  {
+    id: 'case-01-tic',
+    reviewId: 'case-01-tic',
+    reviewType: 'direct',
+    category: 'tic',
+    categoryName: '소아 틱장애',
+    duration: '2026.04 ~ 2026.07 (총 4개월)',
+    date: '2026-08-25',
+    title: '틱장애 치료 잘하는 곳이라고 소개를 받아 내원했습니다',
+    summary: '7세 때 눈깜빡임으로 시작해 10세에 재발하며 킁킁거림, 찡그림, 머리 끄덕임, 몸 움직임으로 악화되었습니다. 해아림 맞춤 한약과 환약 치료 후 복합 증상이 완화되고 현재는 눈깜빡임도 거의 없이 호전되었습니다.',
+    image: '/images/reviews/case-01-handwriting.png',
+    imageUrl: '/images/reviews/case-01-handwriting.png',
+    hashtags: ['#틱장애', '#소아틱장애', '#맞춤한약'],
+    isStatic: true,
+    permalink: '/reviews/case-01-tic/'
+  }
+];
 
-  function filterDirectCases() {
-    const activeCatBtn = document.querySelector('.cases-tab-btn.active, .review-tab-btn.active');
-    const catFilter = activeCatBtn ? activeCatBtn.getAttribute('data-filter') : 'all';
-    const query = searchInput ? searchInput.value.trim().toLowerCase() : '';
+function getAllDirectCases() {
+  const rawList = [];
 
-    // Filter Direct Clinical Cases with disease categories
-    directCards.forEach(card => {
-      const cardCat = card.getAttribute('data-category') || '';
-      const text = card.textContent.toLowerCase();
-
-      let matchCat = false;
-      if (catFilter === 'all') {
-        matchCat = true;
-      } else if (catFilter === 'tic-adhd') {
-        matchCat = (cardCat === 'tic' || cardCat === 'adhd');
-      } else {
-        matchCat = (cardCat === catFilter);
-      }
-
-      let matchQuery = true;
-      if (query) {
-        matchQuery = text.includes(query);
-      }
-
-      if (matchCat && matchQuery) {
-        card.style.display = 'flex';
-      } else {
-        card.style.display = 'none';
-      }
-    });
-
-    // Naver reviews are listed continuously, only filtered if user searches keywords
-    naverCards.forEach(card => {
-      const text = card.textContent.toLowerCase();
-      if (query) {
-        card.style.display = text.includes(query) ? 'flex' : 'none';
-      } else {
-        card.style.display = 'flex';
-      }
-    });
+  // 1. Firestore Review Previews (or fallback STATIC_REVIEW_PREVIEWS)
+  if (typeof firestoreReviewPreviews !== 'undefined' && Array.isArray(firestoreReviewPreviews)) {
+    rawList.push(...firestoreReviewPreviews);
+  } else if (typeof STATIC_REVIEW_PREVIEWS !== 'undefined' && Array.isArray(STATIC_REVIEW_PREVIEWS)) {
+    rawList.push(...STATIC_REVIEW_PREVIEWS);
   }
 
-  // Category Tab Click Handlers (Applied to direct clinical cases)
-  catBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      catBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      filterDirectCases();
+  // 2. Unmigrated LocalStorage Cases
+  try {
+    const localCases = JSON.parse(localStorage.getItem('healim_custom_cases') || '[]');
+    if (Array.isArray(localCases)) {
+      rawList.push(...localCases);
+    }
+  } catch (e) {}
+
+  // 3. Static Markdown Reviews
+  if (Array.isArray(STATIC_MARKDOWN_CASES)) {
+    rawList.push(...STATIC_MARKDOWN_CASES);
+  }
+
+  // 4. Strict Deduplication by ID (preserve existing IDs: reviewId || id || legacyId)
+  const seenIds = new Set();
+  const deduplicated = [];
+  for (const item of rawList) {
+    const idKey = item.id || item.reviewId;
+    if (!idKey || seenIds.has(idKey)) continue;
+
+    const legacyKey = item.legacyId;
+    if (legacyKey && seenIds.has(legacyKey)) continue;
+
+    seenIds.add(idKey);
+    if (legacyKey) seenIds.add(legacyKey);
+    deduplicated.push(item);
+  }
+
+  // 5. Preserve established sort order (createdAt / date descending, keeping established relative order)
+  deduplicated.sort((a, b) => {
+    const timeA = a.createdAt ? (a.createdAt.toMillis ? a.createdAt.toMillis() : new Date(a.createdAt).getTime()) : (a.date ? new Date(a.date).getTime() : 0);
+    const timeB = b.createdAt ? (b.createdAt.toMillis ? b.createdAt.toMillis() : new Date(b.createdAt).getTime()) : (b.date ? new Date(b.date).getTime() : 0);
+    if (timeA && timeB && timeA !== timeB) {
+      return timeB - timeA;
+    }
+    return 0;
+  });
+
+  return deduplicated;
+}
+
+function matchesHandwrittenCategory(item, filter) {
+  if (!filter || filter === 'all') return true;
+  const cat = (item.category || '').toLowerCase();
+  const catName = (item.categoryName || '').toLowerCase();
+  const title = (item.title || '').toLowerCase();
+
+  if (filter === 'panic') {
+    return cat === 'panic' || cat === 'anxiety' || cat === 'phobia' || catName.includes('공황') || catName.includes('불안') || title.includes('공황') || title.includes('불안');
+  }
+  if (filter === 'autonomic') {
+    return cat === 'autonomic' || catName.includes('자율신경') || title.includes('자율신경');
+  }
+  if (filter === 'tic-adhd') {
+    return cat === 'tic' || cat === 'adhd' || cat === 'tic-adhd' || catName.includes('틱') || catName.includes('adhd') || title.includes('틱') || title.includes('adhd');
+  }
+  if (filter === 'sleep') {
+    return cat === 'sleep' || cat === 'insomnia' || catName.includes('수면') || catName.includes('불면') || title.includes('수면') || title.includes('불면');
+  }
+  if (filter === 'mood') {
+    return cat === 'mood' || cat === 'depression' || catName.includes('우울') || catName.includes('기분') || title.includes('우울') || title.includes('기분');
+  }
+  if (filter === 'etc') {
+    return cat === 'etc' || cat === 'hyperhidrosis' || cat === 'ibs' || cat === 'hwabyung' || catName.includes('기타') || catName.includes('다한') || catName.includes('과민성') || catName.includes('화병') || title.includes('다한') || title.includes('답답');
+  }
+  return cat === filter;
+}
+
+function renderHandwrittenReviewsPage() {
+  const container = document.getElementById('direct-cases-grid');
+  const paginationContainer = document.getElementById('handwritten-reviews-pagination');
+  if (!container) return;
+
+  const allItems = getAllDirectCases();
+  const filtered = allItems.filter(item => matchesHandwrittenCategory(item, currentHandwrittenFilter));
+
+  const totalItems = filtered.length;
+  const totalPages = Math.ceil(totalItems / HANDWRITTEN_ITEMS_PER_PAGE) || 1;
+
+  if (currentHandwrittenPage > totalPages) currentHandwrittenPage = totalPages;
+  if (currentHandwrittenPage < 1) currentHandwrittenPage = 1;
+
+  const startIndex = (currentHandwrittenPage - 1) * HANDWRITTEN_ITEMS_PER_PAGE;
+  const endIndex = Math.min(startIndex + HANDWRITTEN_ITEMS_PER_PAGE, totalItems);
+  const pageItems = filtered.slice(startIndex, endIndex);
+
+  // Clear container
+  container.innerHTML = '';
+
+  if (pageItems.length === 0) {
+    container.innerHTML = `
+      <div class="reviews-empty-state" style="grid-column: 1 / -1; text-align: center; padding: 64px 20px; color: #64748B;">
+        <i class="ph-bold ph-newspaper" style="font-size: 2.5rem; color: #CBD5E1; margin-bottom: 12px; display: block;"></i>
+        <p style="font-size: 1.05rem; font-weight: 600;">선택하신 질환 분류의 자필 후기가 준비 중입니다.</p>
+        <p style="font-size: 0.9rem; color: #94A3B8; margin-top: 4px;">다른 카테고리를 선택하시거나 전체 후기를 확인해보세요.</p>
+      </div>
+    `;
+    if (paginationContainer) paginationContainer.innerHTML = '';
+    return;
+  }
+
+  // Render cards
+  pageItems.forEach(item => {
+    const card = document.createElement('article');
+    card.className = 'healim-case-card injected-custom-case';
+    card.setAttribute('data-id', item.id);
+    card.setAttribute('data-category', item.category || '');
+    card.setAttribute('data-review-type', 'direct');
+
+    const imgSrc = getReviewImageUrl(item);
+    const summaryText = getCaseSummaryPreview(item);
+    const clickHandler = item.isStatic ? `openStaticCaseReader('${item.id}', '${item.permalink || `/reviews/${item.id}/`}')` : `openCustomCaseReader('${item.id}')`;
+
+    card.innerHTML = `
+      <div class="case-card-anchor" style="cursor: pointer;" onclick="${clickHandler}">
+        <div class="case-thumb-wrap">
+          <img src="${imgSrc}" alt="${escapeHtml(item.title || item.categoryName || '치료사례')} 자필 후기" class="case-thumb-img" loading="lazy" onerror="this.style.display='none'; const fb = this.nextElementSibling; if (fb) fb.style.display='flex';">
+          <div class="case-thumb-fallback" id="thumb-fallback-${item.id}" style="display:none;">
+            <i class="ph-bold ph-newspaper"></i>
+            <span>해아림 자필 후기</span>
+          </div>
+          <span class="case-tag-pill ${item.category || ''}">${escapeHtml(item.categoryName || '치료사례')}</span>
+          <span class="case-direct-badge">📝 자필 후기</span>
+        </div>
+        <div class="case-body-wrap">
+          <h3 class="case-card-title">${escapeHtml(item.title || '치료 후기')}</h3>
+          <div class="case-meta-top">
+            <span class="case-duration-text"><i class="ph-bold ph-calendar-blank"></i> 치료기간: ${escapeHtml(item.duration || '치료 완료')}</span>
+          </div>
+          <p class="case-summary-text">${escapeHtml(summaryText)}</p>
+        </div>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+
+  // Render Pagination (Hide if <= 9 items, i.e., totalPages <= 1)
+  if (paginationContainer) {
+    if (totalPages <= 1) {
+      paginationContainer.innerHTML = '';
+      return;
+    }
+
+    let pagHtml = `
+      <button type="button" class="handwritten-page-btn handwritten-page-prev" ${currentHandwrittenPage === 1 ? 'disabled' : ''} onclick="goToHandwrittenPage(${currentHandwrittenPage - 1})">
+        <i class="ph-bold ph-caret-left"></i> 이전
+      </button>
+    `;
+
+    for (let p = 1; p <= totalPages; p++) {
+      pagHtml += `
+        <button type="button" class="handwritten-page-btn ${p === currentHandwrittenPage ? 'active' : ''}" onclick="goToHandwrittenPage(${p})">
+          ${p}
+        </button>
+      `;
+    }
+
+    pagHtml += `
+      <button type="button" class="handwritten-page-btn handwritten-page-next" ${currentHandwrittenPage === totalPages ? 'disabled' : ''} onclick="goToHandwrittenPage(${currentHandwrittenPage + 1})">
+        다음 <i class="ph-bold ph-caret-right"></i>
+      </button>
+    `;
+
+    paginationContainer.innerHTML = pagHtml;
+  }
+}
+
+function goToHandwrittenPage(page) {
+  currentHandwrittenPage = page;
+  renderHandwrittenReviewsPage();
+  const targetSection = document.getElementById('handwritten-reviews');
+  if (targetSection) {
+    const siteHeader = document.getElementById('site-header');
+    const headerHeight = siteHeader ? siteHeader.offsetHeight : 80;
+    const targetTop = targetSection.getBoundingClientRect().top + window.scrollY - headerHeight - 20;
+    window.scrollTo({
+      top: Math.max(0, targetTop),
+      behavior: 'smooth'
+    });
+  }
+}
+
+async function openStaticCaseReader(id, permalink) {
+  let currentUser = null;
+  try {
+    const authObj = await ensureFirebaseAuth();
+    currentUser = authObj ? authObj.currentUser : null;
+  } catch (e) {}
+
+  const storedUser = localStorage.getItem('healim_auth_user');
+  if (!currentUser && !storedUser) {
+    if (typeof showAuthToast === 'function') {
+      showAuthToast('🔒 의료법 규정에 따라 치료후기 전문 및 원본 자필 이미지는 로그인 후 열람하실 수 있습니다.');
+    }
+    if (typeof openLoginModal === 'function') {
+      openLoginModal();
+    }
+    return;
+  }
+
+  if (permalink) {
+    window.location.href = permalink;
+  }
+}
+
+// Generic Custom Mobile Dropdown Handler & Synchronizer
+let mobileDropdownGlobalBound = false;
+function bindMobileDropdownGlobalEvents() {
+  if (mobileDropdownGlobalBound) return;
+  mobileDropdownGlobalBound = true;
+
+  document.addEventListener('click', () => {
+    document.querySelectorAll('.mobile-category-dropdown.is-open').forEach(dd => {
+      dd.classList.remove('is-open');
+      dd.querySelector('.mobile-dropdown-toggle')?.setAttribute('aria-expanded', 'false');
     });
   });
 
-  // Search Input Handler
-  if (searchInput) {
-    searchInput.addEventListener('input', () => {
-      filterDirectCases();
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.mobile-category-dropdown.is-open').forEach(dd => {
+        dd.classList.remove('is-open');
+        dd.querySelector('.mobile-dropdown-toggle')?.setAttribute('aria-expanded', 'false');
+      });
+    }
+  });
+}
+
+function setupCustomDropdown(dropdownId, onSelect) {
+  const dd = document.getElementById(dropdownId);
+  if (!dd) return;
+  const toggleBtn = dd.querySelector('.mobile-dropdown-toggle');
+  const options = dd.querySelectorAll('.dropdown-option');
+  const labelEl = dd.querySelector('.dropdown-selected-label');
+
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = dd.classList.contains('is-open');
+      document.querySelectorAll('.mobile-category-dropdown.is-open').forEach(other => {
+        if (other !== dd) {
+          other.classList.remove('is-open');
+          other.querySelector('.mobile-dropdown-toggle')?.setAttribute('aria-expanded', 'false');
+        }
+      });
+      dd.classList.toggle('is-open', !isOpen);
+      toggleBtn.setAttribute('aria-expanded', String(!isOpen));
     });
   }
 
-  // Check URL params on initial load
+  options.forEach(opt => {
+    opt.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const val = opt.getAttribute('data-value') || 'all';
+      const text = opt.querySelector('span')?.textContent.trim() || '전체';
+
+      options.forEach(o => {
+        o.classList.remove('active');
+        o.setAttribute('aria-selected', 'false');
+      });
+      opt.classList.add('active');
+      opt.setAttribute('aria-selected', 'true');
+      if (labelEl) labelEl.textContent = text;
+
+      dd.classList.remove('is-open');
+      toggleBtn?.setAttribute('aria-expanded', 'false');
+
+      if (typeof onSelect === 'function') {
+        onSelect(val, text);
+      }
+    });
+  });
+}
+
+function syncDropdownSelected(dropdownId, value) {
+  const dd = document.getElementById(dropdownId);
+  if (!dd) return;
+  const options = dd.querySelectorAll('.dropdown-option');
+  const labelEl = dd.querySelector('.dropdown-selected-label');
+  options.forEach(opt => {
+    if (opt.getAttribute('data-value') === value) {
+      opt.classList.add('active');
+      opt.setAttribute('aria-selected', 'true');
+      if (labelEl) labelEl.textContent = opt.querySelector('span')?.textContent.trim() || '전체';
+    } else {
+      opt.classList.remove('active');
+      opt.setAttribute('aria-selected', 'false');
+    }
+  });
+}
+
+function setHandwrittenFilter(filterKey) {
+  currentHandwrittenFilter = filterKey;
+  currentHandwrittenPage = 1;
+
+  // Sync Desktop tabs
+  const catBtns = document.querySelectorAll('#category-tabs-container .cases-tab-btn');
+  catBtns.forEach(b => {
+    if (b.getAttribute('data-filter') === filterKey) {
+      b.classList.add('active');
+    } else {
+      b.classList.remove('active');
+    }
+  });
+
+  // Sync Mobile dropdown
+  syncDropdownSelected('handwritten-mobile-dropdown', filterKey);
+
+  renderHandwrittenReviewsPage();
+}
+
+function initReviewTabs() {
+  bindMobileDropdownGlobalEvents();
+
+  const catBtns = document.querySelectorAll('#category-tabs-container .cases-tab-btn');
+  if (catBtns.length > 0) {
+    catBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const filterKey = btn.getAttribute('data-filter') || 'all';
+        setHandwrittenFilter(filterKey);
+      });
+    });
+  }
+
+  // Setup Mobile Dropdown
+  setupCustomDropdown('handwritten-mobile-dropdown', (filterKey) => {
+    setHandwrittenFilter(filterKey);
+  });
+
   const urlParams = new URLSearchParams(window.location.search);
   const filterParam = urlParams.get('filter');
-
   if (filterParam) {
-    const matchingCatBtn = document.querySelector(`.cases-tab-btn[data-filter="${filterParam}"], .review-tab-btn[data-filter="${filterParam}"]`);
-    if (matchingCatBtn) {
-      catBtns.forEach(b => b.classList.remove('active'));
-      matchingCatBtn.classList.add('active');
-      filterDirectCases();
-    }
+    setHandwrittenFilter(filterParam);
+  } else {
+    renderHandwrittenReviewsPage();
   }
 }
 
@@ -606,28 +857,49 @@ const NAVER_REVIEWS_DATA = [
   }
 ];
 
-let currentNaverPage = 1;
-const NAVER_ITEMS_PER_PAGE = 5;
 let currentNaverFilter = 'all';
+
+function setNaverFilter(filterKey) {
+  currentNaverFilter = filterKey;
+
+  // Sync Desktop tabs
+  const filterTabs = document.getElementById('naver-filter-tabs');
+  if (filterTabs) {
+    const filterBtns = filterTabs.querySelectorAll('.naver-filter-btn');
+    filterBtns.forEach(b => {
+      if (b.getAttribute('data-filter') === filterKey) {
+        b.classList.add('active');
+      } else {
+        b.classList.remove('active');
+      }
+    });
+  }
+
+  // Sync Mobile dropdown
+  syncDropdownSelected('naver-mobile-dropdown', filterKey);
+
+  renderNaverReviewsPage();
+}
 
 function initNaverReviewsBoard() {
   const container = document.getElementById('naver-reviews-grid');
   const filterTabs = document.getElementById('naver-filter-tabs');
   if (!container) return;
 
-  // Filter button clicks
   if (filterTabs) {
     const filterBtns = filterTabs.querySelectorAll('.naver-filter-btn');
     filterBtns.forEach(btn => {
       btn.addEventListener('click', () => {
-        filterBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        currentNaverFilter = btn.getAttribute('data-filter') || 'all';
-        currentNaverPage = 1;
-        renderNaverReviewsPage();
+        const val = btn.getAttribute('data-filter') || 'all';
+        setNaverFilter(val);
       });
     });
   }
+
+  // Setup Mobile Dropdown
+  setupCustomDropdown('naver-mobile-dropdown', (filterKey) => {
+    setNaverFilter(filterKey);
+  });
 
   renderNaverReviewsPage();
 }
@@ -637,133 +909,64 @@ function getFilteredNaverReviews() {
     return NAVER_REVIEWS_DATA;
   }
   return NAVER_REVIEWS_DATA.filter(item => {
-    if (currentNaverFilter === 'panic') return item.category === 'panic';
-    if (currentNaverFilter === 'autonomic') return item.category === 'autonomic';
-    if (currentNaverFilter === 'tic-adhd') return item.category === 'tic-adhd';
-    if (currentNaverFilter === 'sleep') return item.category === 'sleep';
-    if (currentNaverFilter === 'hyperhidrosis-ibs') return item.category === 'hyperhidrosis-ibs';
-    return item.category === currentNaverFilter;
+    const cat = (item.category || '').toLowerCase();
+    if (currentNaverFilter === 'panic') return cat === 'panic';
+    if (currentNaverFilter === 'autonomic') return cat === 'autonomic';
+    if (currentNaverFilter === 'tic-adhd') return cat === 'tic-adhd';
+    if (currentNaverFilter === 'sleep') return cat === 'sleep';
+    if (currentNaverFilter === 'mood') return cat === 'mood';
+    if (currentNaverFilter === 'etc') return cat === 'etc' || cat === 'hyperhidrosis-ibs' || cat === 'hyperhidrosis' || cat === 'ibs';
+    return cat === currentNaverFilter;
   });
 }
 
 function renderNaverReviewsPage() {
   const container = document.getElementById('naver-reviews-grid');
-  const paginationContainer = document.getElementById('naver-reviews-pagination');
-  const countNumEl = document.getElementById('naver-total-count-num');
   if (!container) return;
 
   const filtered = getFilteredNaverReviews();
-  const totalItems = filtered.length;
-  const totalPages = Math.ceil(totalItems / NAVER_ITEMS_PER_PAGE) || 1;
 
-  if (currentNaverPage > totalPages) currentNaverPage = totalPages;
-  if (currentNaverPage < 1) currentNaverPage = 1;
-
-  if (countNumEl) {
-    countNumEl.textContent = totalItems;
-  }
-
-  const startIndex = (currentNaverPage - 1) * NAVER_ITEMS_PER_PAGE;
-  const endIndex = Math.min(startIndex + NAVER_ITEMS_PER_PAGE, totalItems);
-  const pageItems = filtered.slice(startIndex, endIndex);
-
-  if (pageItems.length === 0) {
+  if (filtered.length === 0) {
     container.innerHTML = `
-      <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: #64748B;">
+      <div class="naver-reviews-empty" style="text-align: center; padding: 60px 20px; color: #64748B;">
         <i class="ph-bold ph-chats-circle" style="font-size: 2.5rem; color: #CBD5E1; margin-bottom: 12px; display: block;"></i>
-        <p style="font-size: 1.05rem; font-weight: 600;">선택하신 분류의 네이버 후기가 없습니다.</p>
+        <p style="font-size: 1.05rem; font-weight: 600;">선택하신 분류의 네이버 후기가 준비 중입니다.</p>
+        <p style="font-size: 0.9rem; color: #94A3B8; margin-top: 4px;">상단 또는 하단 더보기 버튼을 통해 네이버 플레이스의 전체 방문자 리뷰를 확인하실 수 있습니다.</p>
       </div>
     `;
-    if (paginationContainer) paginationContainer.innerHTML = '';
     return;
   }
 
   let html = '';
-  pageItems.forEach(item => {
-    const keywordChipsHtml = (item.keywords || []).map(k => `<span class="n-keyword-chip">#${k}</span>`).join(' ');
+  filtered.forEach(item => {
+    const hasKeywords = Array.isArray(item.keywords) && item.keywords.length > 0;
+    const keywordChipsHtml = hasKeywords 
+      ? `<div class="naver-row-keywords">${item.keywords.map(k => `<span class="n-keyword-chip">#${escapeHtml(k)}</span>`).join(' ')}</div>` 
+      : '';
+
     html += `
-      <article class="healim-case-card naver-card-theme" data-category="${item.category}" data-review-type="naver">
-        <div class="naver-review-card-inner">
-          <div class="naver-card-header">
-            <div class="naver-badge-label">
-              <span class="n-green-badge">N</span>
-              <span class="n-badge-text">네이버 플레이스 방문자 인증</span>
-            </div>
-            <div class="naver-star-rating">
-              <span class="stars">★★★★★</span>
-              <span class="score">${item.rating.toFixed(1)}</span>
-            </div>
+      <article class="naver-review-row" data-category="${escapeHtml(item.category || '')}">
+        <div class="naver-row-meta">
+          <div class="naver-badge-rating">
+            <span class="n-green-badge">N</span>
+            ${item.rating ? `<span class="naver-row-score">★ <strong>${item.rating.toFixed(1)}</strong></span>` : ''}
           </div>
-
-          <div class="naver-card-meta">
-            <span class="naver-author-name"><i class="ph-bold ph-user-circle"></i> ${item.author}</span>
-            <span class="naver-date-text">${item.date}</span>
-            <span class="naver-sub-pill">${item.categoryName}</span>
+          <div class="naver-user-date">
+            ${item.author ? `<span class="naver-row-author">${escapeHtml(item.author)}</span>` : ''}
+            ${item.date ? `<span class="naver-row-date">${escapeHtml(item.date)}</span>` : ''}
           </div>
-
-          <h3 class="naver-review-title">
-            "${item.title}"
-          </h3>
-
-          <div class="naver-keyword-chips">
-            ${keywordChipsHtml}
-          </div>
-
-          <p class="naver-review-summary">${item.summary}</p>
-
-          <div class="naver-card-footer">
-            <span class="naver-verified-status"><i class="ph-bold ph-shield-check"></i> 영수증 / 예약 인증 완료</span>
-            <a href="${BUNDANG_NAVER_REVIEW_URL}" target="_blank" rel="noopener noreferrer" class="naver-direct-link">
-              네이버 후기 원문 보기 <i class="ph-bold ph-arrow-up-right"></i>
-            </a>
-          </div>
+          ${item.categoryName ? `<span class="naver-row-cat-pill">${escapeHtml(item.categoryName)}</span>` : ''}
+        </div>
+        <div class="naver-row-content">
+          ${item.title ? `<h4 class="naver-row-title">"${escapeHtml(item.title)}"</h4>` : ''}
+          ${item.summary ? `<p class="naver-row-summary">${escapeHtml(item.summary)}</p>` : ''}
+          ${keywordChipsHtml}
         </div>
       </article>
     `;
   });
 
   container.innerHTML = html;
-
-  // Render pagination buttons
-  if (paginationContainer) {
-    if (totalPages <= 1) {
-      paginationContainer.innerHTML = '';
-      return;
-    }
-
-    let pagHtml = `
-      <button type="button" class="naver-page-btn naver-page-prev" ${currentNaverPage === 1 ? 'disabled' : ''} onclick="goToNaverPage(${currentNaverPage - 1})">
-        <i class="ph-bold ph-caret-left"></i> 이전
-      </button>
-    `;
-
-    for (let p = 1; p <= totalPages; p++) {
-      pagHtml += `
-        <button type="button" class="naver-page-btn ${p === currentNaverPage ? 'active' : ''}" onclick="goToNaverPage(${p})">
-          ${p}
-        </button>
-      `;
-    }
-
-    pagHtml += `
-      <button type="button" class="naver-page-btn naver-page-next" ${currentNaverPage === totalPages ? 'disabled' : ''} onclick="goToNaverPage(${currentNaverPage + 1})">
-        다음 <i class="ph-bold ph-caret-right"></i>
-      </button>
-    `;
-
-    paginationContainer.innerHTML = pagHtml;
-  }
-}
-
-function goToNaverPage(page) {
-  currentNaverPage = page;
-  renderNaverReviewsPage();
-  const section = document.getElementById('naver-reviews-section');
-  if (section) {
-    const headerHeight = document.getElementById('site-header')?.offsetHeight || 80;
-    const targetPos = section.getBoundingClientRect().top + window.scrollY - headerHeight - 10;
-    window.scrollTo({ top: targetPos, behavior: 'smooth' });
-  }
 }
 
 // 8. Medical Law Member Auth System (로그인 / 회원가입 & 보호 콘텐츠 열람)
@@ -2005,8 +2208,9 @@ const reviewImageUrlCache = new Map();
 function getReviewImageUrl(item) {
   if (!item) return '';
   if (item.imageUrl) return item.imageUrl;
+  if (item.image) return item.image;
   const reviewId = item.id || item.reviewId;
-  if (!reviewId) return item.image || '';
+  if (!reviewId) return '';
   const bucket = (typeof DEFAULT_FIREBASE_CONFIG !== 'undefined' && DEFAULT_FIREBASE_CONFIG.storageBucket) || 'healimbd-b726f.firebasestorage.app';
   const storagePath = `treatment-reviews/${reviewId}/original.png`;
   return `https://firebasestorage.googleapis.com/v0/b/${bucket}/o/${encodeURIComponent(storagePath)}?alt=media`;
@@ -2015,6 +2219,7 @@ function getReviewImageUrl(item) {
 async function resolveReviewImageUrl(item) {
   if (!item) return '';
   if (item.imageUrl) return item.imageUrl;
+  if (item.image) return item.image;
   const reviewId = item.id || item.reviewId;
   const imagePath = item.imagePath || (reviewId ? `treatment-reviews/${reviewId}/original.png` : '');
   if (!imagePath) return item.image || '';
@@ -2220,59 +2425,17 @@ function renderCustomCasesToList() {
   const homeGrid = document.querySelector('.cases-home-grid');
   if (!directGrid && !homeGrid) return;
 
-  // Combine public Firestore review previews (primary) + unmigrated local cases (temporary fallback)
-  const combined = [...firestoreReviewPreviews];
-  const localCases = JSON.parse(localStorage.getItem('healim_custom_cases') || '[]');
-  localCases.forEach(lc => {
-    const isAlreadyInFirestore = combined.some(c => c.legacyId === lc.id || c.id === ('legacy_' + lc.id.replace(/[^a-zA-Z0-9_-]/g, '_')));
-    if (!isAlreadyInFirestore) {
-      combined.push(lc);
-    }
-  });
-
-  // 1. Direct Cases Grid on /reviews/
+  // 1. Direct Cases Grid on /reviews/ with coordinated pagination and filtering
   if (directGrid) {
-    directGrid.querySelectorAll('.injected-custom-case').forEach(el => el.remove());
-
-    combined.slice().reverse().forEach(item => {
-      const card = document.createElement('article');
-      card.className = 'healim-case-card injected-custom-case';
-      card.setAttribute('data-category', item.category);
-      card.setAttribute('data-review-type', 'direct');
-
-      const hashtagsHtml = renderHashtagPills(item.hashtags);
-      const summaryText = getCaseSummaryPreview(item);
-      const imgSrc = getReviewImageUrl(item);
-
-      // Card thumbnails use precision-cropped header preview of authentic handwriting
-      card.innerHTML = `
-        <div class="case-card-anchor" style="cursor: pointer;" onclick="openCustomCaseReader('${item.id}')">
-          <div class="case-thumb-wrap">
-            <img src="${imgSrc}" alt="${escapeHtml(item.title || item.categoryName)} 자필 후기" class="case-thumb-img" loading="lazy" onerror="this.style.display='none'; const fb = this.nextElementSibling; if (fb) fb.style.display='flex';">
-            <div class="case-thumb-fallback" id="thumb-fallback-${item.id}" style="display:none;">
-              <i class="ph-bold ph-newspaper"></i>
-              <span>해아림 임상 사례</span>
-            </div>
-            <span class="case-tag-pill ${item.category}">${item.categoryName}</span>
-            <span class="case-direct-badge">📝 임상 치료사례</span>
-          </div>
-          <div class="case-body-wrap">
-            <div class="case-meta-top">
-              <span class="case-duration-text"><i class="ph-bold ph-calendar-blank"></i> 치료기간: ${item.duration || '치료 완료'}</span>
-            </div>
-            <p class="case-summary-text">${escapeHtml(summaryText)}</p>
-            ${hashtagsHtml}
-          </div>
-        </div>
-      `;
-      directGrid.prepend(card);
-    });
+    if (typeof renderHandwrittenReviewsPage === 'function') {
+      renderHandwrittenReviewsPage();
+    }
   }
 
   // 2. Cases Home Grid on Homepage (#reviews)
   if (homeGrid) {
     homeGrid.querySelectorAll('.injected-custom-case').forEach(el => el.remove());
-
+    const combined = typeof getAllDirectCases === 'function' ? getAllDirectCases() : [...firestoreReviewPreviews];
     combined.slice(0, 2).reverse().forEach(item => {
       const card = document.createElement('article');
       card.className = 'healim-case-card injected-custom-case';
@@ -2281,9 +2444,10 @@ function renderCustomCasesToList() {
       const hashtagsHtml = renderHashtagPills(item.hashtags);
       const summaryText = getCaseSummaryPreview(item);
       const imgSrc = getReviewImageUrl(item);
+      const clickHandler = item.isStatic ? `openStaticCaseReader('${item.id}', '${item.permalink || `/reviews/${item.id}/`}')` : `openCustomCaseReader('${item.id}')`;
 
       card.innerHTML = `
-        <div class="case-card-anchor" style="cursor: pointer;" onclick="openCustomCaseReader('${item.id}')">
+        <div class="case-card-anchor" style="cursor: pointer;" onclick="${clickHandler}">
           <div class="case-thumb-wrap">
             <img src="${imgSrc}" alt="${escapeHtml(item.title || item.categoryName)} 자필 후기" class="case-thumb-img" loading="lazy" onerror="this.style.display='none'; const fb = this.nextElementSibling; if (fb) fb.style.display='flex';">
             <div class="case-thumb-fallback" id="thumb-fallback-${item.id}" style="display:none;">
@@ -3094,8 +3258,41 @@ function renderCustomColumns() {
   });
 }
 
+// ==========================================================================
+// 8. DOCTOR COLUMN (/blog/) - EDITORIAL ARCHIVE & REAL PAGINATION ENGINE
+// ==========================================================================
+let currentBlogFilter = 'all';
+let currentBlogPage = 1;
+const BLOG_ITEMS_PER_PAGE = 6;
+let cachedBlogArticles = null;
+
+// Priority for blog list: 1. thumbnail -> 2. image -> 3. generic fallback
+function getArticleThumbnail(item) {
+  if (!item) return '/images/philosophy/philosophy-consult.jpg';
+  return item.thumbnail || item.image || '/images/philosophy/philosophy-consult.jpg';
+}
+
+function getBlogArticlesData() {
+  if (cachedBlogArticles) return cachedBlogArticles;
+  const scriptEl = document.getElementById('blog-articles-data');
+  if (scriptEl) {
+    try {
+      cachedBlogArticles = JSON.parse(scriptEl.textContent.trim());
+      // Ensure sorted by date descending (safeguard)
+      cachedBlogArticles.sort((a, b) => new Date(b.date) - new Date(a.date));
+      return cachedBlogArticles;
+    } catch (e) {
+      console.error('Failed to parse blog articles data:', e);
+    }
+  }
+  return [];
+}
+
 function filterColumnCategory(filterKey) {
-  // Update Tab Active state
+  currentBlogFilter = filterKey;
+  currentBlogPage = 1;
+
+  // Update Tab Active state (Desktop)
   const tabs = document.querySelectorAll('.column-category-tabs .col-tab-btn');
   tabs.forEach(tab => {
     if (tab.getAttribute('data-filter') === filterKey) {
@@ -3105,19 +3302,208 @@ function filterColumnCategory(filterKey) {
     }
   });
 
-  // Filter column cards
-  const cards = document.querySelectorAll('.doctor-column-row-item');
-  let visibleCount = 0;
-  cards.forEach(card => {
-    const cardCat = card.getAttribute('data-category');
-    if (filterKey === 'all' || cardCat === filterKey) {
-      card.style.display = 'flex';
-      card.classList.add('fade-in');
-      visibleCount++;
-    } else {
-      card.style.display = 'none';
+  // Update Mobile Dropdown
+  syncDropdownSelected('blog-mobile-dropdown', filterKey);
+
+  renderBlogArchive();
+}
+window.filterColumnCategory = filterColumnCategory;
+
+function goToBlogArchivePage(page) {
+  currentBlogPage = page;
+  renderBlogArchive();
+
+  // Smooth scroll to top of archive section
+  const section = document.getElementById('blog-archive-section');
+  if (section) {
+    const headerHeight = document.getElementById('site-header')?.offsetHeight || 72;
+    const targetPos = section.getBoundingClientRect().top + window.scrollY - headerHeight - 15;
+    window.scrollTo({ top: targetPos, behavior: 'smooth' });
+  }
+}
+
+function renderBlogArchive() {
+  const allArticles = getBlogArticlesData();
+  if (!allArticles || allArticles.length === 0) return;
+
+  // 1. Filter articles by category
+  let filtered = allArticles;
+  if (currentBlogFilter !== 'all') {
+    filtered = allArticles.filter(item => {
+      if (item.category === currentBlogFilter) return true;
+      if (currentBlogFilter === 'tic' && (item.category === 'tic-adhd' || item.category === 'tic')) return true;
+      if (currentBlogFilter === 'adhd' && (item.category === 'tic-adhd' || item.category === 'adhd')) return true;
+      if (currentBlogFilter === 'anxiety' && item.category === 'anxiety') return true;
+      if (currentBlogFilter === 'panic' && item.category === 'panic') return true;
+      if (currentBlogFilter === 'sleep' && item.category === 'sleep') return true;
+      if (currentBlogFilter === 'autonomic' && item.category === 'autonomic') return true;
+      if (currentBlogFilter === 'hyperhidrosis' && item.category === 'hyperhidrosis') return true;
+      if (currentBlogFilter === 'ibs' && item.category === 'ibs') return true;
+      if (currentBlogFilter === 'syncope' && item.category === 'syncope') return true;
+      if (currentBlogFilter === 'general' && item.category === 'general') return true;
+      return false;
+    });
+  }
+
+  const featContainer = document.getElementById('featured-article-container');
+  const archiveGrid = document.getElementById('column-cards-grid');
+  const pagNav = document.getElementById('blog-pagination-nav');
+
+  // Case A: No articles in this category
+  if (filtered.length === 0) {
+    if (featContainer) featContainer.style.display = 'none';
+    if (archiveGrid) {
+      archiveGrid.innerHTML = `
+        <div class="column-empty-state" style="grid-column: 1 / -1; padding: 60px 20px; text-align: center;">
+          <div class="empty-icon" style="font-size: 2.4rem; color: #CBD5E1; margin-bottom: 12px;"><i class="ph-bold ph-newspaper-clipping"></i></div>
+          <p class="empty-title" style="font-size: 1.1rem; font-weight: 700; color: #334155; margin-bottom: 6px;">선택하신 카테고리의 등록된 칼럼이 없습니다.</p>
+          <p class="empty-sub" style="font-size: 0.92rem; color: #64748B;">손지웅 대표원장의 전문 의학 칼럼이 곧 업데이트될 예정입니다.</p>
+        </div>
+      `;
     }
+    if (pagNav) pagNav.innerHTML = '';
+    return;
+  }
+
+  // Case B: At least 1 article exists -> Featured Article is the latest 1 (filtered[0])
+  const featuredArticle = filtered[0];
+  if (featContainer) {
+    featContainer.style.display = 'block';
+    const featEl = document.getElementById('featured-article-element');
+    if (featEl) {
+      featEl.setAttribute('data-category', featuredArticle.category);
+      featEl.onclick = () => { location.href = featuredArticle.url; };
+    }
+    const featThumbWrap = featContainer.querySelector('.featured-thumb-wrap');
+    if (featThumbWrap) {
+      featThumbWrap.href = featuredArticle.url;
+      featThumbWrap.setAttribute('aria-label', featuredArticle.title);
+    }
+    const featThumbImg = document.getElementById('featured-thumb-img');
+    if (featThumbImg) {
+      featThumbImg.src = getArticleThumbnail(featuredArticle);
+      featThumbImg.alt = featuredArticle.title;
+    }
+    const featCatBadge = document.getElementById('featured-cat-badge');
+    if (featCatBadge) {
+      featCatBadge.textContent = featuredArticle.categoryName;
+      featCatBadge.className = 'editorial-cat-badge col-badge-pill-inline ' + featuredArticle.category;
+    }
+    const featTitleLink = document.getElementById('featured-title-link');
+    if (featTitleLink) {
+      featTitleLink.textContent = featuredArticle.title;
+      featTitleLink.href = featuredArticle.url;
+    }
+    const featSummary = document.getElementById('featured-summary');
+    if (featSummary) {
+      featSummary.textContent = featuredArticle.summary;
+    }
+    const featDate = document.getElementById('featured-date');
+    if (featDate) {
+      featDate.textContent = featuredArticle.date;
+    }
+    const featAuthor = document.getElementById('featured-author');
+    if (featAuthor) {
+      featAuthor.innerHTML = '<i class="ph-bold ph-stethoscope"></i> ' + (featuredArticle.author || '손지웅 대표원장');
+    }
+    const featReadLink = document.getElementById('featured-read-link');
+    if (featReadLink) {
+      featReadLink.href = featuredArticle.url;
+    }
+  }
+
+  // 2. Remaining articles go to Archive Grid (Desktop 3-Column, Tablet 2-Column, Mobile 1-Column)
+  const remaining = filtered.slice(1);
+  const totalRemaining = remaining.length;
+  const totalPages = Math.ceil(totalRemaining / BLOG_ITEMS_PER_PAGE) || 1;
+
+  if (currentBlogPage > totalPages) currentBlogPage = totalPages;
+  if (currentBlogPage < 1) currentBlogPage = 1;
+
+  if (archiveGrid) {
+    if (totalRemaining === 0) {
+      archiveGrid.innerHTML = `
+        <div style="grid-column: 1 / -1; padding: 48px 20px; text-align: center; color: #64748B;">
+          <p style="font-size: 0.95rem; font-weight: 500;">상단에 소개된 대표 칼럼 외 추가 아카이브 칼럼이 곧 업데이트될 예정입니다.</p>
+        </div>
+      `;
+    } else {
+      const startIndex = (currentBlogPage - 1) * BLOG_ITEMS_PER_PAGE;
+      const endIndex = Math.min(startIndex + BLOG_ITEMS_PER_PAGE, totalRemaining);
+      const pageItems = remaining.slice(startIndex, endIndex);
+
+      let gridHtml = '';
+      pageItems.forEach(item => {
+        const itemImgSrc = getArticleThumbnail(item);
+        gridHtml += `
+          <article class="brand-archive-item static-column-card" 
+                   data-category="${item.category}"
+                   onclick="location.href='${item.url}'">
+            <a href="${item.url}" class="brand-archive-thumb-wrap" aria-label="${item.title}">
+              <img src="${itemImgSrc}" alt="${item.title}" class="brand-archive-thumb-img" loading="lazy">
+            </a>
+            <div class="brand-archive-info">
+              <h3 class="brand-archive-title">
+                <a href="${item.url}" class="brand-archive-title-link">${item.title}</a>
+              </h3>
+              <div class="brand-archive-meta">
+                <span class="brand-archive-date">${item.date}</span>
+                <span class="brand-archive-sep">·</span>
+                <span class="brand-archive-author">${item.author || '손지웅 대표원장'}</span>
+              </div>
+              <a href="${item.url}" class="brand-archive-read-link">
+                <span>칼럼 읽기</span>
+                <i class="ph-bold ph-arrow-right"></i>
+              </a>
+            </div>
+          </article>
+        `;
+      });
+      archiveGrid.innerHTML = gridHtml;
+    }
+  }
+
+  // 3. Render Pagination
+  if (pagNav) {
+    if (totalPages <= 1) {
+      pagNav.innerHTML = '';
+    } else {
+      let pagHtml = `
+        <button type="button" class="blog-pag-btn prev" ${currentBlogPage === 1 ? 'disabled' : ''} onclick="goToBlogArchivePage(${currentBlogPage - 1})" aria-label="이전 페이지">
+          <i class="ph-bold ph-caret-left"></i>
+        </button>
+      `;
+
+      for (let p = 1; p <= totalPages; p++) {
+        pagHtml += `
+          <button type="button" class="blog-pag-btn ${p === currentBlogPage ? 'active' : ''}" ${p === currentBlogPage ? 'aria-current="page"' : ''} onclick="goToBlogArchivePage(${p})">
+            ${p}
+          </button>
+        `;
+      }
+
+      pagHtml += `
+        <button type="button" class="blog-pag-btn next" ${currentBlogPage === totalPages ? 'disabled' : ''} onclick="goToBlogArchivePage(${currentBlogPage + 1})" aria-label="다음 페이지">
+          <i class="ph-bold ph-caret-right"></i>
+        </button>
+      `;
+      pagNav.innerHTML = pagHtml;
+    }
+  }
+}
+
+function initBlogArchiveEngine() {
+  bindMobileDropdownGlobalEvents();
+
+  // Setup Mobile Dropdown for Blog
+  setupCustomDropdown('blog-mobile-dropdown', (filterKey) => {
+    filterColumnCategory(filterKey);
   });
+
+  const dataEl = document.getElementById('blog-articles-data');
+  if (dataEl) {
+    renderBlogArchive();
+  }
 }
 
 function openDefaultColumnModal(catKey) {
@@ -3500,6 +3886,12 @@ function initOnlineInquiry() {
   const tbody = document.getElementById('inquiry-list-tbody');
   if (!tbody) return;
 
+  // Initialize Mobile Category Dropdown events
+  bindMobileDropdownGlobalEvents();
+  setupCustomDropdown('inquiry-mobile-dropdown', (val, label) => {
+    filterInquiryCategory(val, label);
+  });
+
   // Initialize Firebase Cloud connection
   initFirebase();
 
@@ -3548,10 +3940,27 @@ function getStoredInquiries() {
   return cloudInquiries || [];
 }
 
+let currentInquiryPage = 1;
+const INQUIRY_PAGE_SIZE = 10;
+
+function goToInquiryPage(page) {
+  currentInquiryPage = page;
+  renderInquiryList();
+
+  const boardSection = document.querySelector('.inquiry-board-section') || document.getElementById('inquiry-table');
+  if (boardSection) {
+    const headerHeight = document.getElementById('site-header')?.offsetHeight || 72;
+    const targetPos = boardSection.getBoundingClientRect().top + window.scrollY - headerHeight - 15;
+    window.scrollTo({ top: targetPos, behavior: 'smooth' });
+  }
+}
+window.goToInquiryPage = goToInquiryPage;
+
 function renderInquiryList() {
   const tbody = document.getElementById('inquiry-list-tbody');
   const table = document.getElementById('inquiry-table');
   const emptyState = document.getElementById('inquiry-empty-state');
+  const pagNav = document.getElementById('inquiry-pagination-nav');
   if (!tbody) return;
 
   const allItems = getStoredInquiries();
@@ -3579,15 +3988,28 @@ function renderInquiryList() {
     tbody.innerHTML = '';
     if (table) table.style.display = 'none';
     if (emptyState) emptyState.style.display = 'block';
+    if (pagNav) {
+      pagNav.style.display = 'none';
+      pagNav.innerHTML = '';
+    }
     return;
   }
 
-  if (table) table.style.display = 'table';
+  if (table) table.style.display = '';
   if (emptyState) emptyState.style.display = 'none';
 
+  const totalItems = filtered.length;
+  const totalPages = Math.ceil(totalItems / INQUIRY_PAGE_SIZE);
+  if (currentInquiryPage > totalPages) {
+    currentInquiryPage = Math.max(1, totalPages);
+  }
+
+  const startIndex = (currentInquiryPage - 1) * INQUIRY_PAGE_SIZE;
+  const pagedItems = filtered.slice(startIndex, startIndex + INQUIRY_PAGE_SIZE);
+
   let html = '';
-  filtered.forEach((item, index) => {
-    const num = filtered.length - index;
+  pagedItems.forEach((item, index) => {
+    const num = totalItems - (startIndex + index);
     const catClass = escapeHtml(item.category || 'etc');
     const isAnswered = item.status === 'answered';
     const statusText = isAnswered ? '답변완료' : '답변대기';
@@ -3603,23 +4025,54 @@ function renderInquiryList() {
       <tr onclick="handleInquiryRowClick(event, '${cleanId}')">
         <td class="col-num">${num}</td>
         <td class="col-cat">
-          <span class="cat-badge ${catClass}">${cleanDisease}</span>
+          <span class="inq-cat-tag ${catClass}">${cleanDisease}</span>
         </td>
         <td class="col-title">
-          <a href="/inquiry/${cleanId}/" class="table-title-link" style="color:inherit;text-decoration:none;display:block;" onclick="handleInquiryLinkClick(event, '${cleanId}')">
+          <a href="/inquiry/${cleanId}/" class="table-title-link" onclick="handleInquiryLinkClick(event, '${cleanId}')">
             <span>${cleanTitle}</span>
           </a>
         </td>
         <td class="col-info">${cleanNickname}</td>
         <td class="col-date">${cleanDate}</td>
         <td class="col-status">
-          <span class="status-badge ${statusClass}">${statusText}</span>
+          <span class="inq-status-indicator ${statusClass}">
+            <span class="inq-status-dot">●</span>
+            <span class="inq-status-text">${statusText}</span>
+          </span>
         </td>
       </tr>
     `;
   });
 
   tbody.innerHTML = html;
+
+  // Real Pagination Render (Only when > 10 items)
+  if (pagNav) {
+    if (totalItems > INQUIRY_PAGE_SIZE && totalPages > 1) {
+      pagNav.style.display = 'flex';
+      let pagHtml = `
+        <button type="button" class="inquiry-pag-btn prev" ${currentInquiryPage === 1 ? 'disabled' : ''} onclick="goToInquiryPage(${currentInquiryPage - 1})" aria-label="이전 페이지">
+          <i class="ph-bold ph-caret-left"></i>
+        </button>
+      `;
+      for (let p = 1; p <= totalPages; p++) {
+        pagHtml += `
+          <button type="button" class="inquiry-pag-btn ${p === currentInquiryPage ? 'active' : ''}" ${p === currentInquiryPage ? 'aria-current="page"' : ''} onclick="goToInquiryPage(${p})">
+            ${p}
+          </button>
+        `;
+      }
+      pagHtml += `
+        <button type="button" class="inquiry-pag-btn next" ${currentInquiryPage === totalPages ? 'disabled' : ''} onclick="goToInquiryPage(${currentInquiryPage + 1})" aria-label="다음 페이지">
+          <i class="ph-bold ph-caret-right"></i>
+        </button>
+      `;
+      pagNav.innerHTML = pagHtml;
+    } else {
+      pagNav.style.display = 'none';
+      pagNav.innerHTML = '';
+    }
+  }
 }
 
 function getCategoryTitle(cat) {
@@ -3641,8 +4094,11 @@ function getCategoryTitle(cat) {
   return map[cat] || '기타 질환';
 }
 
-function filterInquiryCategory(cat) {
+function filterInquiryCategory(cat, label) {
   currentInquiryFilter = cat;
+  currentInquiryPage = 1;
+
+  // Sync Desktop tabs
   const btns = document.querySelectorAll('#inquiry-category-tabs .inquiry-tab-btn');
   btns.forEach(btn => {
     if (btn.getAttribute('data-category') === cat) {
@@ -3651,11 +4107,28 @@ function filterInquiryCategory(cat) {
       btn.classList.remove('active');
     }
   });
+
+  // Sync Mobile Dropdown options
+  syncDropdownSelected('inquiry-mobile-dropdown', cat);
+
+  // Sync Mobile Dropdown toggle label
+  const toggleLabel = document.querySelector('#inquiry-mobile-dropdown .dropdown-selected-label');
+  if (toggleLabel) {
+    if (cat === 'all') {
+      toggleLabel.textContent = '질환 선택하기';
+    } else {
+      const activeOpt = document.querySelector(`#inquiry-mobile-dropdown .dropdown-option[data-value="${cat}"]`);
+      toggleLabel.textContent = activeOpt?.querySelector('span')?.textContent.trim() || label || '질환 선택하기';
+    }
+  }
+
   renderInquiryList();
 }
+window.filterInquiryCategory = filterInquiryCategory;
 
 function handleInquirySearch(query) {
   currentInquirySearchQuery = query.trim();
+  currentInquiryPage = 1;
   renderInquiryList();
 }
 
@@ -4763,7 +5236,8 @@ async function handleAdminDeleteInquiryFromTable(id) {
   }
 }
 
-// Attach admin init to DOMContentLoaded
+// Attach inits to DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
   initAdminDashboard();
+  initBlogArchiveEngine();
 });

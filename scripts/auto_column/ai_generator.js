@@ -814,16 +814,17 @@ async function generateThumbnailCopy(plan, articleBody, apiKey, telemetry, retry
   }
 
   const prompt = `
-당신은 해아림한의원 800x800 썸네일 카피라이터입니다.
-칼럼 본문을 바탕으로 썸네일용 3줄 한글 카피를 JSON으로 추출하세요.
+당신은 해아림한의원 800x800 좌측정렬 썸네일 카피라이터입니다.
+칼럼 본문을 바탕으로 썸네일 좌측에 배치될 3줄 한글 카피를 JSON으로 추출하세요.
 
-[규칙 및 제약사항]
-1. yellowText (상단 노랑): 환자의 상황 또는 고민 훅 (1~8자 한글, 자연스러운 한국어 띄어쓰기 필수, 빈칸 금지, 예: "원인 모를", "갑자기 찾아오는", "아이의 틱", "나도 모르게")
-2. whiteText (중간 흰색): 대표 증상 또는 핵심 질문 (1~12자 한글, 자연스러운 한국어 띄어쓰기 필수, 빈칸 금지, 예: "어지럼증·소화불량", "두근거림·숨막힘", "스마트폰 사용 늘었다면")
-3. greenText (하단 초록): 질환명 (1~8자 한글, 반드시 '${targetDisease}', 빈칸 금지. 상위 질환 카테고리로 대체 절대 금지!)
-4. 지역명(${plan.geo.displayName}, 분당, 성남, 용인, 수지 등)은 3개 문구 어디에도 절대 포함하지 마십시오.
-5. "나도모르게", "눈깜빡임·헛기침"처럼 띄어쓰기를 무시하고 붙여 쓰지 마십시오. 반드시 올바른 맞춤법/띄어쓰기를 준수하십시오.
-6. [주제 앵글(Topic Angle) 일치 필수 원칙 (GLOBAL RULE)]
+[좌측정렬 썸네일 디자인 원칙]
+1. yellowText (1행 라인): 환자의 고민 훅 또는 상황 유발 문구 (1~8자 한글, 자연스러운 한국어 띄어쓰기 필수, 예: "잠은 드는데", "원인 모를", "갑자기 찾아오는", "나도 모르게")
+2. whiteText (2행 라인): 핵심 증상 또는 질문 (1~12자 한글, 자연스러운 한국어 띄어쓰기 필수, 예: "새벽마다 깬다면", "어지럼증·소화불량", "두근거림·숨막힘")
+3. greenText (3행 라인): 핵심 질환명 (1~8자 한글, 반드시 '${targetDisease}', 썸네일 내 유일한 강조 액센트 컬러 단어)
+4. 본문 문장은 중앙정렬이 아닌 좌측정렬(왼쪽 맞춤)로 배치되므로, 좌측 흐름이 자연스럽고 직관적인 2~3줄로 작성하십시오.
+5. 지역명(${plan.geo.displayName}, 분당, 성남, 용인, 수지 등)은 3개 문구 어디에도 절대 포함하지 마십시오.
+6. "나도모르게", "눈깜빡임·헛기침"처럼 띄어쓰기를 무시하고 붙여 쓰지 마십시오. 반드시 올바른 맞춤법/띄어쓰기를 준수하십시오.
+7. [주제 앵글(Topic Angle) 일치 필수 원칙]
    현재 주제 앵글: ${plan.topicAngle.titleSuffix} (${plan.topicAngle.id})
    썸네일 문구는 반드시 현재 주제 앵글의 핵심 증상 및 상황을 직관적으로 반영해야 합니다:
    - early-awakening (새벽 각성): "잠들기 어렵다면", "밤마다 뒤척여" 같은 입면장애 문구 절대 금지. "잠은 드는데 / 새벽마다 깬다면", "새벽에 깨서 / 다시 못 잔다면" 등 새벽 각성 표현 작성.
@@ -832,8 +833,8 @@ async function generateThumbnailCopy(plan, articleBody, apiKey, telemetry, retry
 
 반드시 다음 JSON 형식으로만 응답해야 하며, 각 필드는 절대 빈 문자열("")이어서는 안 됩니다:
 {
-  "yellowText": "원인 모를",
-  "whiteText": "어지럼증·소화불량",
+  "yellowText": "잠은 드는데",
+  "whiteText": "새벽마다 깬다면",
   "greenText": "${targetDisease}"
 }
 `;
@@ -901,8 +902,11 @@ async function generateBackgroundImage(diseaseId, diseaseName, topicAngleId, top
     return null;
   }
 
-  const primaryPrompt = buildImagePrompt(diseaseId, diseaseName, topicAngleId, topicAngleFocus, ageGroup);
-  const fallbackPrompt = buildFallbackImagePrompt(diseaseId, diseaseName, topicAngleId, topicAngleFocus, ageGroup);
+  const basePrimary = buildImagePrompt(diseaseId, diseaseName, topicAngleId, topicAngleFocus, ageGroup);
+  const baseFallback = buildFallbackImagePrompt(diseaseId, diseaseName, topicAngleId, topicAngleFocus, ageGroup);
+  const compositionRule = " Composition rule: The main person or subject MUST be naturally positioned on the RIGHT side of the frame (right 40-50%), leaving clean, uncluttered negative space on the LEFT side (left 50-60%) for typographic text overlay. Do NOT place or center the face/subject in the middle or left. Strictly no text, no letters, no watermark, no logo.";
+  const primaryPrompt = `${basePrimary}${compositionRule}`;
+  const fallbackPrompt = `${baseFallback}${compositionRule}`;
 
   let attempts = 0;
   let moderationRetries = 0;

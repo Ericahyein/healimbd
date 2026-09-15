@@ -22,38 +22,35 @@
   {{ partial "header.html" . }}
 
   <main id="main-content">
-    <!-- 1. Inquiry Page Header Banner -->
-    <section class="cases-page-header inquiry-header-banner">
-      <div class="container text-center">
-        <span class="cases-top-pill">1:1 ONLINE CONSULTATION & Q&A</span>
-        <h1 class="cases-main-title">온라인 상담 & 문의</h1>
-        <p class="cases-main-desc">
-          두뇌·마음·신경계 질환에 대한 모든 궁금증을 남겨주세요.<br>
-          <strong>손지웅 대표원장이 직접 1:1로</strong> 원인과 한방 치료 원리를 성심성의껏 답변해 드립니다.
-        </p>
-      </div>
-    </section>
+    <!-- 1. Common Page Hero Banner -->
+    {{ partial "page_hero.html" (dict "Tag" "1:1 ONLINE CONSULTATION &amp; Q&amp;A" "Title" "온라인 상담 &amp; 문의" "Subtitle" "현재 겪고 계신 증상이나 치료에 대해 궁금한 점을 남겨주세요.<br>손지웅 대표원장이 내용을 확인하고 직접 답변드립니다." "BgImage" "images/hero-inquiry.jpg" "HeroClass" "inquiry-hero") }}
 
     <!-- 2. Q&A Board Main Section -->
     <section class="section inquiry-board-section">
       <div class="container">
 
-        <!-- Top Control Bar (Categories and Right-aligned Write Button) -->
+        {{ $inquiryCategories := slice 
+          (dict "key" "all" "name" "전체")
+          (dict "key" "tic" "name" "틱장애·뚜렛")
+          (dict "key" "adhd" "name" "ADHD·집중력")
+          (dict "key" "panic" "name" "공황장애")
+          (dict "key" "anxiety" "name" "불안·공포")
+          (dict "key" "sleep" "name" "수면·불면증")
+          (dict "key" "autonomic" "name" "자율신경")
+          (dict "key" "hyperhidrosis" "name" "다한증")
+          (dict "key" "ibs" "name" "과민성대장")
+          (dict "key" "headache" "name" "두통·어지럼")
+          (dict "key" "depression" "name" "우울·강박")
+          (dict "key" "child" "name" "소아 성장·야뇨")
+          (dict "key" "etc" "name" "기타 질환")
+        }}
+
+        <!-- Top Control Bar (Desktop: Editorial Category Nav + Right Write Button) -->
         <div class="inquiry-toolbar">
-          <div class="inquiry-category-tabs" id="inquiry-category-tabs">
-            <button type="button" class="inquiry-tab-btn active" data-category="all" onclick="filterInquiryCategory('all')">전체</button>
-            <button type="button" class="inquiry-tab-btn" data-category="tic" onclick="filterInquiryCategory('tic')">틱장애·뚜렛</button>
-            <button type="button" class="inquiry-tab-btn" data-category="adhd" onclick="filterInquiryCategory('adhd')">ADHD·집중력</button>
-            <button type="button" class="inquiry-tab-btn" data-category="panic" onclick="filterInquiryCategory('panic')">공황장애</button>
-            <button type="button" class="inquiry-tab-btn" data-category="anxiety" onclick="filterInquiryCategory('anxiety')">불안·공포</button>
-            <button type="button" class="inquiry-tab-btn" data-category="sleep" onclick="filterInquiryCategory('sleep')">수면·불면증</button>
-            <button type="button" class="inquiry-tab-btn" data-category="autonomic" onclick="filterInquiryCategory('autonomic')">자율신경</button>
-            <button type="button" class="inquiry-tab-btn" data-category="hyperhidrosis" onclick="filterInquiryCategory('hyperhidrosis')">다한증</button>
-            <button type="button" class="inquiry-tab-btn" data-category="ibs" onclick="filterInquiryCategory('ibs')">과민성대장</button>
-            <button type="button" class="inquiry-tab-btn" data-category="headache" onclick="filterInquiryCategory('headache')">두통·어지럼</button>
-            <button type="button" class="inquiry-tab-btn" data-category="depression" onclick="filterInquiryCategory('depression')">우울·강박</button>
-            <button type="button" class="inquiry-tab-btn" data-category="child" onclick="filterInquiryCategory('child')">소아 성장·야뇨</button>
-            <button type="button" class="inquiry-tab-btn" data-category="etc" onclick="filterInquiryCategory('etc')">기타 질환</button>
+          <div class="inquiry-category-tabs" id="inquiry-category-tabs" role="navigation" aria-label="질환 카테고리">
+            {{ range $idx, $cat := $inquiryCategories }}
+            <button type="button" class="inquiry-tab-btn{{ if eq $idx 0 }} active{{ end }}" data-category="{{ $cat.key }}" onclick="filterInquiryCategory('{{ $cat.key }}', '{{ $cat.name }}')">{{ $cat.name }}</button>
+            {{ end }}
           </div>
 
           <div class="inquiry-action-right">
@@ -64,15 +61,45 @@
           </div>
         </div>
 
-        <!-- Info Notice Strip -->
-        <div class="inquiry-notice-strip">
-          <i class="ph-bold ph-info"></i>
-          <p>
-            <strong>온라인 상담 안내:</strong> 누구나 자유롭게 질환별 상담글과 손지웅 대표원장의 전문 1:1 답변을 열람하실 수 있습니다. (개인정보 보호를 위해 작성자 이름 없이 안전하게 등록됩니다)
-          </p>
+        <!-- Mobile Controls (Only visible <= 768px): Single Dropdown + Write Button -->
+        <div class="inquiry-mobile-controls">
+          <div class="mobile-category-dropdown" id="inquiry-mobile-dropdown">
+            <button type="button" class="mobile-dropdown-toggle" id="inquiry-dropdown-toggle" aria-haspopup="listbox" aria-expanded="false">
+              <span class="dropdown-selected-label">질환 선택하기</span>
+              <i class="ph-bold ph-caret-down dropdown-chevron"></i>
+            </button>
+            <ul class="mobile-dropdown-menu" role="listbox" aria-labelledby="inquiry-dropdown-toggle">
+              {{ range $idx, $cat := $inquiryCategories }}
+              <li class="dropdown-option{{ if eq $idx 0 }} active{{ end }}" role="option" data-value="{{ $cat.key }}" aria-selected="{{ if eq $idx 0 }}true{{ else }}false{{ end }}">
+                <span>{{ $cat.name }}</span>
+                <i class="ph-bold ph-check check-icon"></i>
+              </li>
+              {{ end }}
+            </ul>
+          </div>
+
+          <button type="button" class="btn btn-inquiry-write-trigger btn-inquiry-write-mobile" onclick="openInquiryWriteModal()">
+            <i class="ph-bold ph-pencil-simple-line"></i>
+            <span>상담글 작성하기</span>
+          </button>
         </div>
 
-        <!-- Q&A Table & Cards Container -->
+        <!-- Info Notice Strip (Clean editorial with blue vertical accent line on pure white canvas) -->
+        <div class="inquiry-notice-strip">
+          <div class="inquiry-notice-accent-line"></div>
+          <div class="inquiry-notice-content">
+            <div class="inquiry-notice-header">
+              <i class="ph-bold ph-info"></i>
+              <span class="inquiry-notice-title">온라인 상담 안내</span>
+            </div>
+            <p class="inquiry-notice-desc">
+              누구나 자유롭게 질환별 상담글과 손지웅 대표원장의 전문 1:1 답변을 열람하실 수 있습니다.<br class="mo-hide">
+              개인정보 보호를 위해 작성자 이름은 표시되지 않습니다.
+            </p>
+          </div>
+        </div>
+
+        <!-- Q&A Table & Cards Container (Directly on white canvas without outer box / shadow) -->
         <div class="inquiry-board-table-wrap">
           <table class="inquiry-table" id="inquiry-table">
             <thead>
@@ -97,6 +124,9 @@
             <button type="button" class="btn btn-inquiry-write-trigger" onclick="openInquiryWriteModal()">상담글 작성하기</button>
           </div>
         </div>
+
+        <!-- Real Pagination Nav Container -->
+        <nav class="inquiry-pagination-nav" id="inquiry-pagination-nav" aria-label="상담 페이지 번호" style="display: none;"></nav>
 
       </div>
     </section>

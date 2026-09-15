@@ -4,6 +4,8 @@ date: 2026-09-08T20:33:12.068+09:00
 category: "anxiety"
 category_name: "불안·사회공포"
 author: "손지웅 대표원장"
+thumbnail: "images/blog/yongin-suji-social-phobia-presentation-anxiety.jpg"
+editorialImage: "images/blog/yongin-suji-social-phobia-presentation-anxiety-editorial.jpg"
 image: "images/blog/yongin-suji-social-phobia-presentation-anxiety.jpg"
 summary: "사회공포증으로 발표와 미팅에서 나타나는 불안·신체 긴장의 양상을 살펴보고, 상태에 맞는 평가와 관리 방향을 안내합니다."
 hashtags:
