@@ -3,9 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>온라인문의 & 1:1 상담 | 해아림한의원 분당점</title>
-  <meta name="description" content="두뇌·신경정신 질환에 대한 궁금증을 남겨주시면 손지웅 대표원장이 직접 1:1로 성심성의껏 전문적인 한의학 답변을 드립니다.">
-  <link rel="canonical" href="{{ .Permalink }}">
+  {{ partial "head_seo.html" . }}
 
   <!-- Fonts (Pretendard & Outfit) -->
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
@@ -138,7 +136,7 @@
   <div class="inquiry-form-modal" id="inquiry-write-modal" role="dialog" aria-modal="true" aria-labelledby="inquiry-write-title">
     <div class="inquiry-modal-card">
       <div class="inquiry-modal-top">
-        <h3 id="inquiry-write-title" class="inquiry-modal-title"><i class="ph-bold ph-note-pencil"></i> 온라인 1:1 공개 상담글 작성</h3>
+        <div id="inquiry-write-title" class="inquiry-modal-title" role="heading" aria-level="2"><i class="ph-bold ph-note-pencil"></i> 온라인 1:1 공개 상담글 작성</div>
         <button type="button" class="modal-close-btn" onclick="closeInquiryWriteModal()" aria-label="닫기">
           <i class="ph ph-x"></i>
         </button>
@@ -157,7 +155,7 @@
         <!-- Section 1: 작성자 정보 (거주지역 / 나이 / 성별) -->
         <div class="form-block-section">
           <div class="form-block-header">
-            <h4>작성자 정보 (필수)</h4>
+            <div class="form-block-title">작성자 정보 (필수)</div>
           </div>
           <div class="form-grid-row">
             <div class="form-field-group">
@@ -188,7 +186,7 @@
         <!-- Section 2: 상담 질환 선택 -->
         <div class="form-block-section">
           <div class="form-block-header">
-            <h4>상담 질환 선택</h4>
+            <div class="form-block-title">상담 질환 선택</div>
           </div>
           <div class="disease-chips-grid">
             <label class="disease-chip"><input type="radio" name="inq-disease" value="틱장애·뚜렛" data-category="tic" checked><span>틱장애·뚜렛</span></label>
@@ -210,7 +208,7 @@
         <!-- Section 3: 상담내용 -->
         <div class="form-block-section">
           <div class="form-block-header">
-            <h4>상담내용</h4>
+            <div class="form-block-title">상담내용</div>
           </div>
           <div class="form-field-group mb-12">
             <label for="inq-title">제목</label>
@@ -225,7 +223,7 @@
         <!-- Section 4: 삭제 비밀번호 설정 -->
         <div class="form-block-section">
           <div class="form-block-header">
-            <h4>삭제 비밀번호 설정 (필수)</h4>
+            <div class="form-block-title">삭제 비밀번호 설정 (필수)</div>
           </div>
           <div class="form-grid-row">
             <div class="form-field-group">
@@ -265,11 +263,11 @@
   <!-- ==========================================================================
        MODAL 2: Password Verification Modal (For Secret Posts)
        ========================================================================== -->
-  <div class="inquiry-pwd-modal" id="inquiry-pwd-modal" role="dialog" aria-modal="true">
+  <div class="inquiry-pwd-modal" id="inquiry-pwd-modal" role="dialog" aria-modal="true" aria-labelledby="inquiry-pwd-title">
     <div class="inquiry-pwd-card">
       <button type="button" class="modal-close-btn" onclick="closeInquiryPwdModal()"><i class="ph ph-x"></i></button>
       <div class="pwd-modal-icon"><i class="ph-bold ph-lock-key"></i></div>
-      <h3>비밀글 열람 인증</h3>
+      <div id="inquiry-pwd-title" class="pwd-modal-title" role="heading" aria-level="2">비밀글 열람 인증</div>
       <p>작성 시 설정하신 <strong>비밀번호(4자리)</strong>를 입력해주세요.</p>
       <form onsubmit="handleInquiryPwdSubmit(event)">
         <input type="password" id="inq-verify-pwd-input" placeholder="비밀번호 입력" required autofocus>
@@ -287,7 +285,7 @@
   <!-- ==========================================================================
        MODAL 3: Consultation Detail & Doctor Reply View Modal
        ========================================================================== -->
-  <div class="inquiry-detail-modal" id="inquiry-detail-modal" role="dialog" aria-modal="true">
+  <div class="inquiry-detail-modal" id="inquiry-detail-modal" role="dialog" aria-modal="true" aria-labelledby="view-inq-title">
     <div class="inquiry-detail-card">
       <div class="inquiry-detail-header">
         <div class="detail-top-row">
@@ -299,7 +297,7 @@
             <i class="ph-bold ph-x"></i> <span>닫기</span>
           </button>
         </div>
-        <h2 class="detail-main-title" id="view-inq-title">상담 제목이 들어갑니다</h2>
+        <div class="detail-main-title" id="view-inq-title" role="heading" aria-level="2">상담 제목이 들어갑니다</div>
         <div class="detail-meta-info">
           <span><i class="ph-bold ph-user"></i> 작성자: <span id="view-inq-author">분당 · 30대 · 여</span><span id="view-inq-nickname" style="display:none;"></span></span>
           <span><i class="ph-bold ph-calendar"></i> 작성일: <span id="view-inq-date">2026.08.31</span></span>
@@ -337,7 +335,7 @@
         <!-- 3. Unanswered Pending Box -->
         <div class="inq-unanswered-box" id="view-unanswered-box" style="display: none;">
           <div class="pending-icon"><i class="ph-bold ph-clock"></i></div>
-          <h4>손지웅 대표원장이 상담 내용을 확인 중입니다.</h4>
+          <div class="pending-title">손지웅 대표원장이 상담 내용을 확인 중입니다.</div>
           <p>빠른 시일 내에 성심성의껏 전문 답변을 등록해 드리겠습니다.</p>
         </div>
 
@@ -366,10 +364,10 @@
   <!-- ==========================================================================
        MODAL 4: Doctor Reply Editor Modal (For Admin to compose/edit answer)
        ========================================================================== -->
-  <div class="inquiry-reply-editor-modal" id="inquiry-reply-editor-modal" role="dialog" aria-modal="true">
+  <div class="inquiry-reply-editor-modal" id="inquiry-reply-editor-modal" role="dialog" aria-modal="true" aria-labelledby="inquiry-reply-title">
     <div class="inquiry-reply-card">
       <div class="reply-card-header">
-        <h3><i class="ph-bold ph-stethoscope"></i> 손지웅 대표원장 답변 작성 / 수정</h3>
+        <div id="inquiry-reply-title" class="modal-title-text" role="heading" aria-level="2"><i class="ph-bold ph-stethoscope"></i> 손지웅 대표원장 답변 작성 / 수정</div>
         <button type="button" class="modal-close-btn" onclick="closeDoctorReplyEditorModal()"><i class="ph ph-x"></i></button>
       </div>
       <form onsubmit="handleDoctorReplySubmit(event)">
@@ -392,11 +390,11 @@
   <!-- ==========================================================================
        MODAL 5: Author Delete Verification Modal (6-digit password)
        ========================================================================== -->
-  <div class="inquiry-pwd-modal" id="inquiry-author-delete-modal" role="dialog" aria-modal="true">
+  <div class="inquiry-pwd-modal" id="inquiry-author-delete-modal" role="dialog" aria-modal="true" aria-labelledby="inquiry-delete-title">
     <div class="inquiry-pwd-card">
       <button type="button" class="modal-close-btn" onclick="closeAuthorDeleteModal()"><i class="ph ph-x"></i></button>
       <div class="pwd-modal-icon" style="background: #FEF2F2; color: #DC2626;"><i class="ph-bold ph-trash"></i></div>
-      <h3>작성자 문의 삭제</h3>
+      <div id="inquiry-delete-title" class="pwd-modal-title" role="heading" aria-level="2">작성자 문의 삭제</div>
       <p style="font-size: 0.9rem; color: #475569; margin-bottom: 12px;">
         작성 시 설정한 <strong>숫자 6자리 삭제 비밀번호</strong>를 입력해주세요.
       </p>

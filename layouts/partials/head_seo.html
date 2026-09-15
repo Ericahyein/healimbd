@@ -1,0 +1,183 @@
+{{/* SEO & Metadata Partial for Healim Clinic Bundang */}}
+{{ $isHome := .IsHome }}
+{{ $siteTitle := site.Title }}
+{{ $title := "" }}
+{{ if $isHome }}
+  {{ $title = printf "%s | 분당 한방신경정신과·공황장애·불면증·틱장애·ADHD" $siteTitle }}
+{{ else if .Title }}
+  {{ $title = printf "%s | %s" .Title $siteTitle }}
+{{ else }}
+  {{ $title = $siteTitle }}
+{{ end }}
+
+{{ $desc := .Params.summary | default .Params.description | default site.Params.description }}
+{{ $canonical := .Permalink }}
+
+<title>{{ $title }}</title>
+<meta name="description" content="{{ $desc }}">
+{{ if site.Params.keywords }}<meta name="keywords" content="{{ site.Params.keywords }}">{{ end }}
+<link rel="canonical" href="{{ $canonical }}">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:site_name" content="해아림한의원 분당점">
+<meta property="og:type" content="{{ if and (not $isHome) (eq .Section "blog") (not .IsSection) }}article{{ else }}website{{ end }}">
+<meta property="og:url" content="{{ $canonical }}">
+<meta property="og:title" content="{{ $title }}">
+<meta property="og:description" content="{{ $desc }}">
+{{ $ogThumb := .Params.thumbnail | default .Params.image }}
+{{ if $ogThumb }}
+<meta property="og:image" content="{{ $ogThumb | absURL }}">
+{{ else }}
+<meta property="og:image" content="{{ "images/og-image.png" | absURL }}">
+{{ end }}
+{{ if and (not $isHome) (eq .Section "blog") (not .IsSection) }}
+<meta property="article:author" content="손지웅 대표원장">
+{{ if not .Date.IsZero }}<meta property="article:published_time" content="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">{{ end }}
+{{ if not .Lastmod.IsZero }}<meta property="article:modified_time" content="{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}">{{ end }}
+{{ end }}
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="{{ $canonical }}">
+<meta property="twitter:title" content="{{ $title }}">
+<meta property="twitter:description" content="{{ $desc }}">
+{{ if $ogThumb }}
+<meta property="twitter:image" content="{{ $ogThumb | absURL }}">
+{{ else }}
+<meta property="twitter:image" content="{{ "images/og-image.png" | absURL }}">
+{{ end }}
+
+<!-- Favicons & Manifest -->
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+
+{{/* Schema.org Structured Data Graph */}}
+{{ $clinicId := "https://healimbd.com/#clinic" }}
+{{ $websiteId := "https://healimbd.com/#website" }}
+{{ $doctorId := "https://healimbd.com/#doctor-jiwoong-son" }}
+{{ $webpageId := printf "%s#webpage" $canonical }}
+{{ $breadcrumbId := printf "%s#breadcrumb" $canonical }}
+
+{{ $clinic := dict
+  "@type" "MedicalClinic"
+  "@id" $clinicId
+  "name" "해아림한의원 분당점"
+  "url" "https://healimbd.com/"
+  "logo" ("images/healim-symbol-logo.png" | absURL)
+  "image" ("images/og-image.png" | absURL)
+  "telephone" "031-716-8575"
+  "medicalSpecialty" (slice "Psychiatric" "Pediatric")
+  "address" (dict
+    "@type" "PostalAddress"
+    "streetAddress" "경기도 성남시 분당구 성남대로 331번길 3-3, 젤존타워 3차, 405호"
+    "addressLocality" "성남시 분당구"
+    "addressRegion" "경기도"
+    "postalCode" "13558"
+    "addressCountry" "KR"
+  )
+  "geo" (dict
+    "@type" "GeoCoordinates"
+    "latitude" 37.36533
+    "longitude" 127.10770
+  )
+  "openingHoursSpecification" (slice
+    (dict "@type" "OpeningHoursSpecification" "dayOfWeek" (slice "Monday" "Wednesday") "opens" "10:00" "closes" "13:00")
+    (dict "@type" "OpeningHoursSpecification" "dayOfWeek" (slice "Monday" "Wednesday") "opens" "14:00" "closes" "20:00")
+    (dict "@type" "OpeningHoursSpecification" "dayOfWeek" (slice "Tuesday" "Friday") "opens" "10:00" "closes" "13:00")
+    (dict "@type" "OpeningHoursSpecification" "dayOfWeek" (slice "Tuesday" "Friday") "opens" "14:00" "closes" "19:00")
+    (dict "@type" "OpeningHoursSpecification" "dayOfWeek" (slice "Saturday" "PublicHolidays") "opens" "09:00" "closes" "15:00")
+  )
+  "sameAs" (slice
+    "https://naver.me/xbARooIc"
+    "https://blog.naver.com/peaceful_one"
+    "https://pf.kakao.com/_NEUHT"
+  )
+}}
+
+{{ $website := dict
+  "@type" "WebSite"
+  "@id" $websiteId
+  "url" "https://healimbd.com/"
+  "name" "해아림한의원 분당점"
+  "publisher" (dict "@id" $clinicId)
+  "inLanguage" "ko-KR"
+}}
+
+{{ $doctor := dict
+  "@type" "Person"
+  "@id" $doctorId
+  "name" "손지웅 대표원장"
+  "jobTitle" "대표원장"
+  "worksFor" (dict "@id" $clinicId)
+  "knowsAbout" (slice "한방신경정신과" "공황장애" "불면증" "자율신경실조증" "틱장애" "ADHD")
+}}
+
+{{ $webpage := dict
+  "@type" "WebPage"
+  "@id" $webpageId
+  "url" $canonical
+  "name" $title
+  "description" $desc
+  "isPartOf" (dict "@id" $websiteId)
+  "breadcrumb" (dict "@id" $breadcrumbId)
+  "inLanguage" "ko-KR"
+}}
+
+{{/* Breadcrumbs */}}
+{{ $breadcrumbElements := slice }}
+{{ $breadcrumbElements = $breadcrumbElements | append (dict "@type" "ListItem" "position" 1 "name" "홈" "item" "https://healimbd.com/") }}
+
+{{ if and (not $isHome) (eq .Section "blog") (not .IsSection) }}
+  {{/* 3-tier: Home -> Doctor Column -> Post */}}
+  {{ $breadcrumbElements = $breadcrumbElements | append (dict "@type" "ListItem" "position" 2 "name" "원장 칼럼" "item" ("blog/" | absURL)) }}
+  {{ $breadcrumbElements = $breadcrumbElements | append (dict "@type" "ListItem" "position" 3 "name" .Title "item" $canonical) }}
+{{ else if not $isHome }}
+  {{/* 2-tier: Home -> Subpage */}}
+  {{ $breadcrumbElements = $breadcrumbElements | append (dict "@type" "ListItem" "position" 2 "name" .Title "item" $canonical) }}
+{{ end }}
+
+{{ $breadcrumb := dict
+  "@type" "BreadcrumbList"
+  "@id" $breadcrumbId
+  "itemListElement" $breadcrumbElements
+}}
+
+{{ $articleDict := dict }}
+{{ if and (not $isHome) (eq .Section "blog") (not .IsSection) }}
+  {{/* Article Entity & Link from WebPage */}}
+  {{ $articleId := printf "%s#article" $canonical }}
+  {{ $webpage = merge $webpage (dict "mainEntity" (dict "@id" $articleId)) }}
+  {{ $articleDict = dict
+    "@type" "Article"
+    "@id" $articleId
+    "headline" .Title
+    "description" $desc
+    "url" $canonical
+    "mainEntityOfPage" (dict "@id" $webpageId)
+    "author" (dict "@id" $doctorId)
+    "publisher" (dict "@id" $clinicId)
+    "inLanguage" "ko-KR"
+  }}
+  {{ if not .Date.IsZero }}
+    {{ $articleDict = merge $articleDict (dict "datePublished" (.Date.Format "2006-01-02T15:04:05Z07:00")) }}
+  {{ end }}
+  {{ if not .Lastmod.IsZero }}
+    {{ $articleDict = merge $articleDict (dict "dateModified" (.Lastmod.Format "2006-01-02T15:04:05Z07:00")) }}
+  {{ end }}
+  {{ if $ogThumb }}
+    {{ $articleDict = merge $articleDict (dict "image" ($ogThumb | absURL)) }}
+  {{ end }}
+{{ end }}
+
+{{ $graph := slice $clinic $website $doctor $webpage $breadcrumb }}
+{{ if and (not $isHome) (eq .Section "blog") (not .IsSection) }}
+  {{ $graph = $graph | append $articleDict }}
+{{ end }}
+
+{{ $schemaData := dict "@context" "https://schema.org" "@graph" $graph }}
+<script type="application/ld+json">
+{{ $schemaData | jsonify (dict "indent" "  ") | safeJS }}
+</script>

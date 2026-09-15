@@ -3,16 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>진료안내 | 해아림한의원 분당점</title>
-  <meta name="description" content="해아림한의원 분당점의 9대 핵심 진료과목, 내원 및 예약 방법, 진료시간과 오시는 길을 한눈에 확인하세요.">
-  <link rel="canonical" href="{{ .Permalink }}">
-
-  <!-- Open Graph -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="{{ .Permalink }}">
-  <meta property="og:title" content="진료안내 | 해아림한의원 분당점">
-  <meta property="og:description" content="해아림한의원 분당점의 9대 핵심 진료과목, 예약 및 내원 안내, 오시는 길과 진료시간 안내입니다.">
-  <meta property="og:image" content="{{ "images/og-image.png" | absURL }}">
+  {{ partial "head_seo.html" . }}
 
   <!-- Fonts (Pretendard & Outfit) -->
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
@@ -178,7 +169,7 @@
             <span class="editorial-channel-pill kakao">1:1 실시간 톡</span>
             <h3 class="editorial-channel-title">카카오톡 1:1 상담</h3>
             <p class="editorial-channel-desc">증상 고민, 진료 과정, 진료시간을 메신저를 통해 부담 없이 1:1로 질문하세요.</p>
-            <a href="http://pf.kakao.com/_NEUHT" target="_blank" rel="noopener noreferrer" class="link-editorial-more">
+            <a href="https://pf.kakao.com/_NEUHT" target="_blank" rel="noopener noreferrer" class="link-editorial-more">
               <span>카카오톡 상담하기</span>
               <i class="ph-bold ph-arrow-up-right"></i>
             </a>

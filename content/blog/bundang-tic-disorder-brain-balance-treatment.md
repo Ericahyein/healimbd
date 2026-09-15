@@ -57,7 +57,7 @@ keywords:
 <div class="card-header">
 <div class="card-icon"><i class="ph-bold ph-shield-check"></i></div>
 <div>
-<h4 class="card-title">정상 두뇌 기저핵 (필터링 정상)</h4>
+<h3 class="card-title">정상 두뇌 기저핵 (필터링 정상)</h3>
 <span class="card-tag tag-sym">불필요 신호 억제</span>
 </div>
 </div>
@@ -73,7 +73,7 @@ keywords:
 <div class="card-header">
 <div class="card-icon"><i class="ph-bold ph-warning-circle"></i></div>
 <div>
-<h4 class="card-title">기저핵 기능 미성숙 (필터링 저하)</h4>
+<h3 class="card-title">기저핵 기능 미성숙 (필터링 저하)</h3>
 <span class="card-tag tag-para">틱 증상 발현</span>
 </div>
 </div>

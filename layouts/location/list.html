@@ -3,16 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>오시는 길 & 진료시간 | 해아림한의원 분당점</title>
-  <meta name="description" content="해아림한의원 분당점 오시는 길, 정자역 3번 출구 도보 2분, 젤존타워 3차 405호 위치 지도, 대중교통 및 주차 지원, 진료시간 안내입니다.">
-  <link rel="canonical" href="{{ .Permalink }}">
-
-  <!-- Open Graph -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="{{ .Permalink }}">
-  <meta property="og:title" content="오시는 길 & 진료시간 | 해아림한의원 분당점">
-  <meta property="og:description" content="정자역 3번 출구 도보 2분거리, 해아림한의원 분당점 위치 지도와 진료시간 안내입니다.">
-  <meta property="og:image" content="{{ "images/og-image.png" | absURL }}">
+  {{ partial "head_seo.html" . }}
 
   <!-- Fonts (Pretendard & Outfit) -->
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />

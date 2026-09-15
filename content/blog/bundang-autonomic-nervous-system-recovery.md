@@ -59,7 +59,7 @@ keywords:
 <!-- 교감신경 카드 -->
 <div class="diagram-card sympathetic">
 <div class="diagram-card-head">
-<h4 class="diagram-card-title">교감신경 (액셀러레이터)</h4>
+<h3 class="diagram-card-title">교감신경 (액셀러레이터)</h3>
 <span class="diagram-card-badge">긴장·비상 대응</span>
 </div>
 <ul class="diagram-card-list">
@@ -73,7 +73,7 @@ keywords:
 <!-- 부교감신경 카드 -->
 <div class="diagram-card parasympathetic">
 <div class="diagram-card-head">
-<h4 class="diagram-card-title">부교감신경 (브레이크)</h4>
+<h3 class="diagram-card-title">부교감신경 (브레이크)</h3>
 <span class="diagram-card-badge">휴식·재생</span>
 </div>
 <ul class="diagram-card-list">
