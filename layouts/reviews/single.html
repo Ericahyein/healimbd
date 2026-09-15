@@ -3,9 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ .Title }} | 해아림한의원 분당점 치료후기</title>
-  <meta name="description" content="{{ .Params.summary }}">
-  <link rel="canonical" href="{{ .Permalink }}">
+  {{ partial "head_seo.html" . }}
 
   <!-- Fonts (Pretendard & Outfit) -->
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
@@ -62,7 +60,17 @@
           {{ if .Params.image }}
           <div class="case-single-photo-box">
             <div class="photo-box-frame">
-              <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}" class="case-full-photo-img" loading="eager">
+              {{ if not (hasPrefix .Params.image "http") }}
+                {{ $ext := path.Ext .Params.image }}
+                {{ $base := strings.TrimSuffix $ext .Params.image }}
+                {{ $webp := printf "%s.webp" $base }}
+                <picture>
+                  <source srcset="{{ $webp | relURL }}" type="image/webp">
+                  <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}" class="case-full-photo-img" loading="eager">
+                </picture>
+              {{ else }}
+                <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}" class="case-full-photo-img" loading="eager">
+              {{ end }}
             </div>
           </div>
           {{ end }}
@@ -115,7 +123,7 @@
         <!-- Doctor Consultation CTA Box -->
         <div class="case-cta-banner">
           <div class="cta-banner-text">
-            <h3>유사한 증상으로 일상에 어려움을 겪고 계신가요?</h3>
+            <h2>유사한 증상으로 일상에 어려움을 겪고 계신가요?</h2>
             <p>손지웅 대표원장이 직접 1:1로 원인을 분석하고 맞춤 치료 계획을 설계해 드립니다.</p>
           </div>
           <div class="cta-banner-buttons">

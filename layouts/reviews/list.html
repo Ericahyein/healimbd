@@ -3,9 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>치료후기 | 해아림한의원 분당점</title>
-  <meta name="description" content="분당 해아림에서 시작된 진짜 변화의 기록. 해아림한의원 분당점에서 치료 종결하신 환자분들의 자필 치료 후기와 네이버 실시간 영수증 인증 환자 후기입니다.">
-  <link rel="canonical" href="{{ .Permalink }}">
+  {{ partial "head_seo.html" . }}
 
   <!-- Fonts (Pretendard & Outfit) -->
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
@@ -124,7 +122,17 @@
             <div class="case-card-anchor" onclick="openStaticCaseReader('{{ .File.BaseFileName }}', '{{ .RelPermalink }}')" style="cursor: pointer;">
               <div class="case-thumb-wrap">
                 {{ if .Params.image }}
-                <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}" class="case-thumb-img" loading="lazy">
+                  {{ if not (hasPrefix .Params.image "http") }}
+                    {{ $ext := path.Ext .Params.image }}
+                    {{ $base := strings.TrimSuffix $ext .Params.image }}
+                    {{ $webp := printf "%s.webp" $base }}
+                    <picture>
+                      <source srcset="{{ $webp | relURL }}" type="image/webp">
+                      <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}" class="case-thumb-img" loading="lazy">
+                    </picture>
+                  {{ else }}
+                    <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}" class="case-thumb-img" loading="lazy">
+                  {{ end }}
                 {{ else }}
                 <div class="case-thumb-fallback">
                   <i class="ph-bold ph-newspaper"></i>

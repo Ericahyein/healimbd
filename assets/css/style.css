@@ -3602,6 +3602,7 @@ ul {
   min-width: 0;
 }
 
+.cta-banner-text h2,
 .cta-banner-text h3 {
   font-size: 1.28rem;
   font-weight: 800;
@@ -3634,6 +3635,7 @@ ul {
     gap: 20px;
   }
 
+  .cta-banner-text h2,
   .cta-banner-text h3 {
     font-size: 1.15rem;
     line-height: 1.45;
@@ -7289,6 +7291,7 @@ html, body {
   color: inherit;
 }
 
+.case-typed-body h2,
 .case-typed-body h3 {
   font-size: 1.02rem;
   font-weight: 700;
@@ -7298,6 +7301,7 @@ html, body {
   line-height: 1.5;
 }
 
+.case-typed-body h2:first-child,
 .case-typed-body h3:first-child {
   margin-top: 0;
 }
@@ -9241,7 +9245,8 @@ body.is-admin .admin-only-btn {
   border-radius: 11px 11px 0 0;
 }
 
-.form-block-header h4 {
+.form-block-header h4,
+.form-block-header .form-block-title {
   font-size: 0.95rem;
   font-weight: 700;
   color: #1E293B;
@@ -9645,7 +9650,8 @@ body.is-admin .admin-only-btn {
   margin-bottom: 8px;
 }
 
-.inq-unanswered-box h4 {
+.inq-unanswered-box h4,
+.inq-unanswered-box .pending-title {
   font-size: 1.05rem;
   font-weight: 700;
   color: #1E293B;
@@ -9727,7 +9733,8 @@ body.is-admin .admin-only-btn {
   margin-bottom: 10px;
 }
 
-.inquiry-pwd-card h3 {
+.inquiry-pwd-card h3,
+.inquiry-pwd-card .pwd-modal-title {
   font-size: 1.2rem;
   font-weight: 800;
   color: #0F172A;
@@ -9804,6 +9811,14 @@ body.is-admin .admin-only-btn {
   border-bottom: 1.5px solid #E2E8F0;
   padding-bottom: 14px;
   margin-bottom: 16px;
+}
+
+.reply-card-header h3,
+.reply-card-header .modal-title-text {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #0F172A;
+  margin: 0;
 }
 
 .reply-target-summary {

@@ -3,9 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>원장 칼럼 | 해아림한의원 분당점</title>
-  <meta name="description" content="해아림한의원 분당점 손지웅 대표원장의 질환별 의학 칼럼 및 마음·두뇌 치유 이야기 게시판입니다.">
-  <link rel="canonical" href="{{ .Permalink }}">
+  {{ partial "head_seo.html" . }}
 
   <!-- Fonts (Pretendard & Outfit) -->
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
@@ -90,7 +88,17 @@
                    onclick="location.href='{{ $featured.RelPermalink }}'">
             <!-- Left Large Thumbnail (~55% width, clean 16:10 ratio, cover fit) -->
             <a href="{{ $featured.RelPermalink }}" class="featured-thumb-wrap" aria-label="{{ $featured.Title }}">
-              <img src="{{ $featuredThumb | relURL }}" alt="{{ $featured.Title }}" class="featured-thumb-img" id="featured-thumb-img" loading="eager">
+              {{ if not (hasPrefix $featuredThumb "http") }}
+                {{ $ext := path.Ext $featuredThumb }}
+                {{ $base := strings.TrimSuffix $ext $featuredThumb }}
+                {{ $webp := printf "%s.webp" $base }}
+                <picture>
+                  <source srcset="{{ $webp | relURL }}" type="image/webp">
+                  <img src="{{ $featuredThumb | relURL }}" alt="{{ $featured.Title }}" class="featured-thumb-img" id="featured-thumb-img" loading="eager" width="600" height="375">
+                </picture>
+              {{ else }}
+                <img src="{{ $featuredThumb | relURL }}" alt="{{ $featured.Title }}" class="featured-thumb-img" id="featured-thumb-img" loading="eager">
+              {{ end }}
             </a>
 
             <!-- Right Content (~45% width) -->
@@ -146,7 +154,17 @@
                    onclick="location.href='{{ .RelPermalink }}'">
             <!-- Top Thumbnail (100% width, 16:10 ratio, clean canvas placement) -->
             <a href="{{ .RelPermalink }}" class="brand-archive-thumb-wrap" aria-label="{{ .Title }}">
-              <img src="{{ $archiveThumb | relURL }}" alt="{{ .Title }}" class="brand-archive-thumb-img" loading="lazy">
+              {{ if not (hasPrefix $archiveThumb "http") }}
+                {{ $ext := path.Ext $archiveThumb }}
+                {{ $base := strings.TrimSuffix $ext $archiveThumb }}
+                {{ $webp := printf "%s.webp" $base }}
+                <picture>
+                  <source srcset="{{ $webp | relURL }}" type="image/webp">
+                  <img src="{{ $archiveThumb | relURL }}" alt="{{ .Title }}" class="brand-archive-thumb-img" loading="lazy" width="400" height="250">
+                </picture>
+              {{ else }}
+                <img src="{{ $archiveThumb | relURL }}" alt="{{ .Title }}" class="brand-archive-thumb-img" loading="lazy">
+              {{ end }}
             </a>
 
             <!-- Content info below thumbnail -->

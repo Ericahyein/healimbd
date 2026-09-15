@@ -3,44 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ .Title }} | 해아림한의원 분당점</title>
-  <meta name="description" content="{{ .Params.summary }}">
-  <link rel="canonical" href="{{ .Permalink }}">
-
-  <!-- OpenGraph & SEO Meta Tags -->
-  <meta property="og:title" content="{{ .Title }} | 해아림한의원 분당점">
-  <meta property="og:description" content="{{ .Params.summary }}">
-  <meta property="og:type" content="article">
-  <meta property="og:url" content="{{ .Permalink }}">
-  {{ $ogThumb := .Params.thumbnail | default .Params.image }}
-  {{ if $ogThumb }}
-  <meta property="og:image" content="{{ $ogThumb | absURL }}">
-  {{ end }}
-  <meta property="article:author" content="손지웅 대표원장">
-  <meta property="article:published_time" content="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">
-
-  <!-- Schema.org Article Structured Data (AI & Search Engine Indexing) -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "MedicalWebPage",
-    "headline": "{{ .Title }}",
-    "description": "{{ .Params.summary }}",
-    "author": {
-      "@type": "Physician",
-      "name": "손지웅 대표원장",
-      "medicalSpecialty": "Korean Medicine Neuropsychiatry",
-      "hospitalAffiliation": "해아림한의원 분당점"
-    },
-    "publisher": {
-      "@type": "MedicalOrganization",
-      "name": "해아림한의원 분당점",
-      "url": "https://healimbd.pages.dev"
-    },
-    "datePublished": "{{ .Date.Format "2006-01-02" }}",
-    "inLanguage": "ko-KR"
-  }
-  </script>
+  {{ partial "head_seo.html" . }}
 
   <!-- Fonts (Pretendard & Outfit) -->
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
@@ -86,7 +49,17 @@
         {{ $detailThumb := .Params.thumbnail | default .Params.image }}
         {{ if $detailThumb }}
         <div class="blog-featured-media-box">
-          <img src="{{ $detailThumb | relURL }}" alt="{{ .Title }}" class="blog-featured-img">
+          {{ if not (hasPrefix $detailThumb "http") }}
+            {{ $ext := path.Ext $detailThumb }}
+            {{ $base := strings.TrimSuffix $ext $detailThumb }}
+            {{ $webp := printf "%s.webp" $base }}
+            <picture>
+              <source srcset="{{ $webp | relURL }}" type="image/webp">
+              <img src="{{ $detailThumb | relURL }}" alt="{{ .Title }}" class="blog-featured-img">
+            </picture>
+          {{ else }}
+            <img src="{{ $detailThumb | relURL }}" alt="{{ .Title }}" class="blog-featured-img">
+          {{ end }}
         </div>
         {{ end }}
 

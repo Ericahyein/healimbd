@@ -59,7 +59,7 @@ keywords:
 <div class="card-header">
 <div class="card-icon"><i class="ph-bold ph-moon-stars"></i></div>
 <div>
-<h4 class="card-title">정상 수면 뇌 리듬 (자연 이완)</h4>
+<h3 class="card-title">정상 수면 뇌 리듬 (자연 이완)</h3>
 <span class="card-tag tag-sym">부교감신경 활성</span>
 </div>
 </div>
@@ -75,7 +75,7 @@ keywords:
 <div class="card-header">
 <div class="card-icon"><i class="ph-bold ph-lightning"></i></div>
 <div>
-<h4 class="card-title">불면증 뇌 신경계 (과각성 지속)</h4>
+<h3 class="card-title">불면증 뇌 신경계 (과각성 지속)</h3>
 <span class="card-tag tag-para">교감신경 항진</span>
 </div>
 </div>

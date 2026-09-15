@@ -24,7 +24,7 @@ clinic_info:
   subway: '수인분당선 / 신분당선 정자역 3번 출구 도보 2분'
   parking: '젤존타워 3차 지하주차장 무료 주차 지원'
   naver_booking_url: 'https://naver.me/xbARooIc'
-  kakao_chat_url: 'http://pf.kakao.com/_NEUHT'
+  kakao_chat_url: 'https://pf.kakao.com/_NEUHT'
   blog_url: 'https://blog.naver.com/peaceful_one'
   naver_map_client_id: 'g5wzgrvi9k' # NAVER Cloud Platform Maps Web Dynamic Map Client ID (ncpKeyId)
 
