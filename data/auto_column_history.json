@@ -174,5 +174,16 @@
     "topicAngle": "anticipatory-anxiety",
     "title": "[수지 공황장애] 증상이 다시 나타날까 두려운 예기불안의 악순환 끊기",
     "slug": "yongin-suji-panic-anticipatory-anxiety"
+  },
+  {
+    "publishDate": "2026-09-15T09:30:15.703+09:00",
+    "geoId": "seongnam-sujeong",
+    "displayRegion": "수정구",
+    "parentRegion": "성남",
+    "regionType": "district",
+    "disease": "autonomic",
+    "topicAngle": "brain-fog-fatigue",
+    "title": "[수정구 만성피로] 머리에 안개가 낀 듯 멍하고 피로가 가시지 않을 때",
+    "slug": "seongnam-sujeong-fatigue-brain-fog-fatigue"
   }
 ]
