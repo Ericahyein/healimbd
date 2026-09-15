@@ -1,9 +1,15 @@
 {{/* SEO & Metadata Partial for Healim Clinic Bundang */}}
 {{ $isHome := .IsHome }}
 {{ $siteTitle := site.Title }}
+{{ $is404 := or (eq .Kind "404") (eq .RelPermalink "/404.html") }}
+{{ $isTaxonomy := or (eq .Kind "taxonomy") (eq .Kind "term") (in .RelPermalink "/categories/") (in .RelPermalink "/tags/") }}
 {{ $title := "" }}
-{{ if $isHome }}
+{{ if $is404 }}
+  {{ $title = printf "404 Page not found | %s" $siteTitle }}
+{{ else if $isHome }}
   {{ $title = printf "%s | 분당 한방신경정신과·공황장애·불면증·틱장애·ADHD" $siteTitle }}
+{{ else if $isTaxonomy }}
+  {{ $title = printf "%s | %s" .Title $siteTitle }}
 {{ else if .Title }}
   {{ $title = printf "%s | %s" .Title $siteTitle }}
 {{ else }}
@@ -11,10 +17,20 @@
 {{ end }}
 
 {{ $desc := .Params.summary | default .Params.description | default site.Params.description }}
+{{ if $is404 }}
+  {{ $desc = "요청하신 페이지를 찾을 수 없습니다." }}
+{{ end }}
 {{ $canonical := .Permalink }}
 
 <title>{{ $title }}</title>
 <meta name="description" content="{{ $desc }}">
+{{ if $is404 }}
+<meta name="robots" content="noindex, follow">
+{{ else if $isTaxonomy }}
+<meta name="robots" content="noindex, follow">
+{{ else if .Params.robots }}
+<meta name="robots" content="{{ .Params.robots }}">
+{{ end }}
 {{ if site.Params.keywords }}<meta name="keywords" content="{{ site.Params.keywords }}">{{ end }}
 <link rel="canonical" href="{{ $canonical }}">
 
@@ -65,6 +81,7 @@
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
 
+{{ if and (not $is404) (not $isTaxonomy) }}
 {{/* Schema.org Structured Data Graph */}}
 {{ $clinicId := "https://healimbd.com/#clinic" }}
 {{ $websiteId := "https://healimbd.com/#website" }}
@@ -194,3 +211,4 @@
 <script type="application/ld+json">
 {{ $schemaData | jsonify (dict "indent" "  ") | safeJS }}
 </script>
+{{ end }}
