@@ -17,3 +17,5 @@ Thumbs.db
 auto_column_artifacts/
 downloaded_qa_results/
 
+# Scratch & Local Diagnostic
+scratch/
