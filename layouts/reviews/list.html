@@ -23,7 +23,7 @@
 
   <main id="main-content">
     <!-- 1. Common Page Hero Banner -->
-    {{ partial "page_hero.html" (dict "Tag" "PATIENT STORIES" "Title" "치료후기" "Subtitle" "치료를 시작하기 전의 고민부터 치료 과정에서 느낀 변화까지,<br>해아림한의원 분당점을 찾아주신 분들의 치료 경험을 확인하실 수 있습니다." "BgImage" "images/hero-reviews.jpg" "HeroClass" "reviews-hero") }}
+    {{ partial "page_hero.html" (dict "Tag" "PATIENT STORIES" "Title" "치료후기" "Subtitle" "치료를 시작하기 전의 고민부터 치료 과정에서 느낀 변화까지,<br class=\"pc-br\">해아림한의원 분당점을 찾아주신 분들의 치료 경험을 확인하실 수 있습니다." "BgImage" "images/hero-reviews.jpg" "HeroClass" "reviews-hero") }}
 
     <!-- Fast Section Jump Bar -->
     <section class="reviews-jump-bar">
@@ -31,11 +31,11 @@
         <div class="reviews-section-nav">
           <a href="#handwritten-reviews" class="btn btn-review-nav direct-nav">
             <i class="ph-bold ph-pencil-line"></i>
-            <span>자필 치료 후기 보러가기</span>
+            <span>자필 치료 후기<span class="btn-tail-word"> 보러가기</span></span>
           </a>
           <a href="#naver-reviews" class="btn btn-review-nav naver-nav">
             <span class="n-pill-icon">N</span>
-            <span>네이버 환자 후기 보러가기</span>
+            <span>네이버 환자 후기<span class="btn-tail-word"> 보러가기</span></span>
           </a>
         </div>
       </div>

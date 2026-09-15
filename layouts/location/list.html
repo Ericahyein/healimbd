@@ -32,7 +32,7 @@
 
   <main id="main-content">
     <!-- 1. Common Page Hero Banner -->
-    {{ partial "page_hero.html" (dict "Tag" "LOCATION &amp; CLINIC HOURS" "Title" "오시는 길 &amp; 진료시간" "Subtitle" "해아림한의원 분당점은 정자역 3번 출구에서 도보 2분,<br>젤존타워 3차 4층에 위치하고 있습니다.<br><br>내원 전 위치와 진료시간, 예약 방법을 편리하게 확인하실 수 있습니다." "BgImage" "images/hero-location.png" "HeroClass" "location-hero") }}
+    {{ partial "page_hero.html" (dict "Tag" "LOCATION &amp; CLINIC HOURS" "Title" "<span class=\"hero-title-chunk\">오시는 길</span> <span class=\"hero-title-chunk\">&amp; 진료시간</span>" "Subtitle" "해아림한의원 분당점은 정자역 3번 출구에서 도보 2분,<br class=\"pc-br\">젤존타워 3차 4층에 위치하고 있습니다.<br class=\"pc-br\"><span class=\"hero-sub-gap\">내원 전 위치와 진료시간, 예약 방법을 편리하게 확인하실 수 있습니다.</span>" "BgImage" "images/hero-location.png" "HeroClass" "location-hero") }}
 
     <!-- Suwon-Style Reusable Location & Timetable Component -->
     {{ partial "suwon_location_section.html" . }}
