@@ -1538,7 +1538,7 @@ async function handleSocialLogin(provider) {
 
   if (!isSocialAuthDeployed) {
     if (typeof showAuthToast === 'function') {
-      showAuthToast(`💡 ${providerName} 간편 로그인은 클라우드 보안 시스템 연동 준비 중입니다. 아래 이메일 로그인을 이용하시면 즉시 치료후기를 열람하실 수 있습니다.`);
+      showAuthToast('💡 네이버·카카오 간편 로그인은 현재 보안 연동 준비 중입니다. 현재는 이메일 회원가입 및 로그인을 이용해 주세요.');
     }
     const emailInput = document.getElementById('login-email');
     if (emailInput) {
