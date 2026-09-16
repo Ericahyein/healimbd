@@ -471,17 +471,16 @@ function renderHandwrittenReviewsPage() {
     card.setAttribute('data-category', item.category || '');
     card.setAttribute('data-review-type', 'direct');
 
-    const imgSrc = getReviewImageUrl(item);
     const summaryText = getCaseSummaryPreview(item);
     const clickHandler = item.isStatic ? `openStaticCaseReader('${item.id}', '${item.permalink || `/reviews/${item.id}/`}')` : `openCustomCaseReader('${item.id}')`;
 
     card.innerHTML = `
       <div class="case-card-anchor" style="cursor: pointer;" onclick="${clickHandler}">
         <div class="case-thumb-wrap">
-          <img src="${imgSrc}" alt="${escapeHtml(item.title || item.categoryName || '치료사례')} 자필 후기" class="case-thumb-img" loading="lazy" onerror="this.style.display='none'; const fb = this.nextElementSibling; if (fb) fb.style.display='flex';">
-          <div class="case-thumb-fallback" id="thumb-fallback-${item.id}" style="display:none;">
-            <i class="ph-bold ph-newspaper"></i>
-            <span>해아림 자필 후기</span>
+          <div class="case-thumb-fallback">
+            <div class="thumb-watermark-icon"><i class="ph-bold ph-file-text"></i></div>
+            <span class="thumb-title-badge">해아림 임상 치험례</span>
+            <span class="thumb-lock-hint"><i class="ph-bold ph-lock-key"></i> 자필 전문은 인증 후 열람</span>
           </div>
           <span class="case-tag-pill ${item.category || ''}">${escapeHtml(item.categoryName || '치료사례')}</span>
           <span class="case-direct-badge">📝 자필 후기</span>
@@ -1759,6 +1758,9 @@ async function logoutUser() {
   document.body.classList.remove('is-admin');
   updateAuthUI(null);
 
+  if (typeof revokeActiveReviewBlobUrl === 'function') {
+    revokeActiveReviewBlobUrl();
+  }
   if (typeof closeCustomCaseReader === 'function') {
     closeCustomCaseReader();
   }
@@ -2443,17 +2445,19 @@ let treatmentReviewsUnsubscribe = null;
 let firestoreReviewPreviews = [...STATIC_REVIEW_PREVIEWS];
 let firestoreTreatmentReviews = [...STATIC_REVIEW_PREVIEWS];
 const reviewDetailCache = new Map();
-const reviewImageUrlCache = new Map();
+let activeReviewBlobUrl = null;
 
-function getReviewImageUrl(item) {
-  if (!item) return '';
-  if (item.imageUrl) return item.imageUrl;
-  if (item.image) return item.image;
-  const reviewId = item.id || item.reviewId;
-  if (!reviewId) return '';
-  const bucket = (typeof DEFAULT_FIREBASE_CONFIG !== 'undefined' && DEFAULT_FIREBASE_CONFIG.storageBucket) || 'healimbd-b726f.firebasestorage.app';
-  const storagePath = `treatment-reviews/${reviewId}/original.png`;
-  return `https://firebasestorage.googleapis.com/v0/b/${bucket}/o/${encodeURIComponent(storagePath)}?alt=media`;
+function revokeActiveReviewBlobUrl() {
+  if (activeReviewBlobUrl) {
+    try {
+      URL.revokeObjectURL(activeReviewBlobUrl);
+    } catch (e) {}
+    activeReviewBlobUrl = null;
+  }
+}
+
+if (typeof window !== 'undefined') {
+  window.addEventListener('beforeunload', revokeActiveReviewBlobUrl);
 }
 
 async function resolveReviewImageUrl(item) {
@@ -2462,20 +2466,18 @@ async function resolveReviewImageUrl(item) {
   const imagePath = item.imagePath || (reviewId ? `treatment-reviews/${reviewId}/handwriting.webp` : '');
   if (!imagePath) return '';
 
-  if (reviewImageUrlCache.has(imagePath)) {
-    return reviewImageUrlCache.get(imagePath);
-  }
-
   try {
     const storage = await ensureFirebaseStorage();
     if (storage) {
       const ref = storage.ref(imagePath);
-      const downloadUrl = await ref.getDownloadURL();
-      reviewImageUrlCache.set(imagePath, downloadUrl);
-      return downloadUrl;
+      // Strictly stream binary via ref.getBlob() - Zero permanent URLs exposed
+      const blob = await ref.getBlob();
+      revokeActiveReviewBlobUrl();
+      activeReviewBlobUrl = URL.createObjectURL(blob);
+      return activeReviewBlobUrl;
     }
   } catch (err) {
-    console.warn('[STORAGE DOWNLOAD NOTICE]', err.code || err.message);
+    console.warn('[STORAGE BLOB STREAM NOTICE]', err.code || err.message);
   }
   return '';
 }
@@ -2598,7 +2600,6 @@ function handleAdminCaseSubmit(e) {
       // 4. Upload to Firebase Storage
       storageRef = storage.ref(storagePath);
       await storageRef.put(blob, { contentType: mimeType });
-      const downloadUrl = await storageRef.getDownloadURL();
 
       // 5. Save to Firestore (Atomic Two-Tier Batch: Detail in treatment_reviews, Public Preview in treatment_review_previews)
       const docData = {
@@ -2692,16 +2693,15 @@ function renderCustomCasesToList() {
 
       const hashtagsHtml = renderHashtagPills(item.hashtags);
       const summaryText = getCaseSummaryPreview(item);
-      const imgSrc = getReviewImageUrl(item);
       const clickHandler = item.isStatic ? `openStaticCaseReader('${item.id}', '${item.permalink || `/reviews/${item.id}/`}')` : `openCustomCaseReader('${item.id}')`;
 
       card.innerHTML = `
         <div class="case-card-anchor" style="cursor: pointer;" onclick="${clickHandler}">
           <div class="case-thumb-wrap">
-            <img src="${imgSrc}" alt="${escapeHtml(item.title || item.categoryName)} 자필 후기" class="case-thumb-img" loading="lazy" onerror="this.style.display='none'; const fb = this.nextElementSibling; if (fb) fb.style.display='flex';">
-            <div class="case-thumb-fallback" id="thumb-fallback-${item.id}" style="display:none;">
-              <i class="ph-bold ph-newspaper"></i>
-              <span>해아림 임상 사례</span>
+            <div class="case-thumb-fallback">
+              <div class="thumb-watermark-icon"><i class="ph-bold ph-file-text"></i></div>
+              <span class="thumb-title-badge">해아림 임상 치험례</span>
+              <span class="thumb-lock-hint"><i class="ph-bold ph-lock-key"></i> 자필 전문은 인증 후 열람</span>
             </div>
             <span class="case-tag-pill ${item.category}">${item.categoryName}</span>
             <span class="case-direct-badge">📝 임상 치료사례</span>
@@ -2818,6 +2818,12 @@ async function openCustomCaseReader(caseId) {
 function closeCustomCaseReader() {
   const modal = document.getElementById('custom-case-reader-modal');
   currentOpenedCustomCaseId = null;
+  revokeActiveReviewBlobUrl();
+  const photoEl = document.getElementById('custom-reader-photo');
+  if (photoEl) {
+    photoEl.src = '';
+    photoEl.style.display = 'none';
+  }
   if (modal) {
     modal.classList.remove('active');
     document.body.style.overflow = '';
@@ -3097,16 +3103,15 @@ async function executeCasesMigration() {
 
         // 1. Resolve image path (Resume/Repair: Reuse existing Storage image, NEVER re-upload!)
         let storagePath = `treatment-reviews/${deterministicDocId}/original.jpg`;
-        let downloadUrl = '';
         let alreadyInStorage = false;
 
         try {
-          downloadUrl = await storage.ref(storagePath).getDownloadURL();
+          await storage.ref(storagePath).getMetadata();
           alreadyInStorage = true;
         } catch (e1) {
           try {
             const pngPath = `treatment-reviews/${deterministicDocId}/original.png`;
-            downloadUrl = await storage.ref(pngPath).getDownloadURL();
+            await storage.ref(pngPath).getMetadata();
             storagePath = pngPath;
             alreadyInStorage = true;
           } catch (e2) {
@@ -3126,10 +3131,9 @@ async function executeCasesMigration() {
 
           const storageRef = storage.ref(storagePath);
           await storageRef.put(blob, { contentType: mimeType });
-          downloadUrl = await storageRef.getDownloadURL();
         }
 
-        // 2. Prepare Firestore Document
+        // 2. Prepare Firestore Document (Only relative storagePath stored, zero permanent download URLs)
         const docData = {
           id: deterministicDocId,
           reviewType: 'direct',
@@ -3148,7 +3152,7 @@ async function executeCasesMigration() {
           content: item.content || '',
           hashtags: item.hashtags || [],
           imagePath: storagePath,
-          imageUrl: downloadUrl || '',
+          imageUrl: '',
           legacyId: item.id,
           migratedAt: firebase.firestore.FieldValue.serverTimestamp(),
           createdAt: item.createdAt ? new Date(item.createdAt) : firebase.firestore.FieldValue.serverTimestamp(),
