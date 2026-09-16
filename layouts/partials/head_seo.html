@@ -225,3 +225,10 @@
 {{ $schemaData | jsonify (dict "indent" "  ") | safeJS }}
 </script>
 {{ end }}
+
+<!-- Client Public Configuration & Feature Flags (Guaranteed to execute in <head> before main.js) -->
+<script>
+  window.HEALIM_CONFIG = window.HEALIM_CONFIG || {};
+  window.HEALIM_CONFIG.SOCIAL_AUTH_DEPLOYED = {{ .Site.Params.features.social_auth_deployed | default false }};
+  window.HEALIM_SOCIAL_AUTH_DEPLOYED = window.HEALIM_CONFIG.SOCIAL_AUTH_DEPLOYED;
+</script>

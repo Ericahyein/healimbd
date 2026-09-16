@@ -13,7 +13,7 @@ const kakaoRestApiKey = defineSecret('KAKAO_REST_API_KEY');
 const kakaoClientSecret = defineSecret('KAKAO_CLIENT_SECRET');
 
 const REGION = 'asia-northeast3'; // Seoul
-const ALLOWED_ORIGINS = ['https://healimbd.com', 'http://localhost:1313', 'http://localhost:8085'];
+const ALLOWED_ORIGINS = ['https://healimbd.com', 'http://localhost:1313'];
 
 /**
  * 1. kakaoAuthStart:
@@ -24,7 +24,7 @@ exports.kakaoAuthStart = onRequest(
   {
     region: REGION,
     minInstances: 0,
-    maxInstances: 10,
+    maxInstances: 3,
     secrets: [kakaoRestApiKey]
   },
   async (req, res) => {
@@ -71,7 +71,7 @@ exports.kakaoAuthCallback = onRequest(
   {
     region: REGION,
     minInstances: 0,
-    maxInstances: 10,
+    maxInstances: 3,
     secrets: [kakaoRestApiKey, kakaoClientSecret]
   },
   async (req, res) => {
@@ -213,7 +213,13 @@ exports.kakaoAuthCallback = onRequest(
       if (window.opener && !window.opener.closed) {
         for (const origin of allowedOrigins) {
           try {
-            window.opener.postMessage({ type: 'KAKAO_AUTH_SUCCESS', customToken: token }, origin);
+            window.opener.postMessage({
+              type: 'KAKAO_AUTH_SUCCESS',
+              provider: 'kakao',
+              status: 'success',
+              stateVerified: true,
+              customToken: token
+            }, origin);
           } catch(e) {}
         }
         window.close();
@@ -246,7 +252,7 @@ exports.naverAuthStart = onRequest(
   {
     region: REGION,
     minInstances: 0,
-    maxInstances: 10,
+    maxInstances: 3,
     secrets: [naverClientId]
   },
   async (req, res) => {
@@ -290,7 +296,7 @@ exports.naverAuthCallback = onRequest(
   {
     region: REGION,
     minInstances: 0,
-    maxInstances: 10,
+    maxInstances: 3,
     secrets: [naverClientId, naverClientSecret]
   },
   async (req, res) => {
@@ -422,7 +428,13 @@ exports.naverAuthCallback = onRequest(
       if (window.opener && !window.opener.closed) {
         for (const origin of allowedOrigins) {
           try {
-            window.opener.postMessage({ type: 'NAVER_AUTH_SUCCESS', customToken: token }, origin);
+            window.opener.postMessage({
+              type: 'NAVER_AUTH_SUCCESS',
+              provider: 'naver',
+              status: 'success',
+              stateVerified: true,
+              customToken: token
+            }, origin);
           } catch(e) {}
         }
         window.close();

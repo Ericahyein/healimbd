@@ -1528,12 +1528,17 @@ async function handleDedicatedAdminLogin(e) {
   }
 }
 
+let activeSocialAuthPopup = null;
+let activeSocialAuthCleanup = null;
+
 async function handleSocialLogin(provider) {
   const providerName = provider === 'naver' ? '네이버' : '카카오';
 
-  // Before Cloud Functions are deployed to live Firebase, prevent mock login bypass
-  // and politely guide user to email login without creating fake session
-  const isSocialAuthDeployed = window.HEALIM_SOCIAL_AUTH_DEPLOYED === true;
+  // 1. Read configuration flag injected by Hugo in <head>
+  const isSocialAuthDeployed = !!(
+    (typeof window.HEALIM_CONFIG !== 'undefined' && window.HEALIM_CONFIG.SOCIAL_AUTH_DEPLOYED) ||
+    window.HEALIM_SOCIAL_AUTH_DEPLOYED === true
+  );
 
   if (!isSocialAuthDeployed) {
     if (typeof showAuthToast === 'function') {
@@ -1548,6 +1553,22 @@ async function handleSocialLogin(provider) {
 
   if (provider !== 'kakao' && provider !== 'naver') return;
 
+  // 2. Prevent concurrent / duplicate popup launches
+  if (activeSocialAuthPopup && !activeSocialAuthPopup.closed) {
+    try {
+      activeSocialAuthPopup.focus();
+    } catch (e) {}
+    if (typeof showAuthToast === 'function') {
+      showAuthToast(`⚠️ 이미 ${providerName} 로그인 창이 열려 있습니다. 진행 중인 창에서 인증을 완료해 주세요.`);
+    }
+    return;
+  }
+
+  // Cleanup any leftover listener from previous attempts
+  if (typeof activeSocialAuthCleanup === 'function') {
+    activeSocialAuthCleanup();
+  }
+
   try {
     await ensureFirebaseAuth();
   } catch (e) {}
@@ -1557,7 +1578,7 @@ async function handleSocialLogin(provider) {
     return;
   }
 
-  // Cloud Functions v2 HTTPS endpoints
+  // 3. Resolve HTTPS start endpoint
   const endpoint = provider === 'kakao'
     ? (window.HEALIM_KAKAO_AUTH_START_URL || 'https://asia-northeast3-healimbd-b726f.cloudfunctions.net/kakaoAuthStart')
     : (window.HEALIM_NAVER_AUTH_START_URL || 'https://asia-northeast3-healimbd-b726f.cloudfunctions.net/naverAuthStart');
@@ -1578,41 +1599,105 @@ async function handleSocialLogin(provider) {
     return;
   }
 
+  activeSocialAuthPopup = popup;
   showAuthToast(`${providerName} 로그인 창이 열렸습니다. 인증을 진행해 주세요.`);
 
+  // 4. Strict postMessage & lifecycle validation
   const expectedSuccessType = provider === 'kakao' ? 'KAKAO_AUTH_SUCCESS' : 'NAVER_AUTH_SUCCESS';
+  let isMessageProcessed = false;
+  let pollTimer = null;
+  let timeoutTimer = null;
+
+  const cleanup = () => {
+    window.removeEventListener('message', onSocialAuthMessage);
+    if (pollTimer) {
+      clearInterval(pollTimer);
+      pollTimer = null;
+    }
+    if (timeoutTimer) {
+      clearTimeout(timeoutTimer);
+      timeoutTimer = null;
+    }
+    if (activeSocialAuthPopup && !activeSocialAuthPopup.closed) {
+      try {
+        activeSocialAuthPopup.close();
+      } catch (e) {}
+    }
+    activeSocialAuthPopup = null;
+    activeSocialAuthCleanup = null;
+  };
+  activeSocialAuthCleanup = cleanup;
+
+  // Poll for user manually closing the popup
+  pollTimer = setInterval(() => {
+    if (popup.closed) {
+      cleanup();
+    }
+  }, 1000);
+
+  // 5 minutes timeout guard
+  timeoutTimer = setTimeout(() => {
+    if (!isMessageProcessed) {
+      cleanup();
+      showAuthToast(`⏱️ ${providerName} 로그인 대기 시간이 초과되었습니다. 다시 시도해 주세요.`);
+    }
+  }, 5 * 60 * 1000);
 
   const onSocialAuthMessage = async (event) => {
-    const allowedOrigins = [
-      'https://asia-northeast3-healimbd-b726f.cloudfunctions.net',
-      window.location.origin
-    ];
-    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-      allowedOrigins.push('http://localhost:5001', 'http://127.0.0.1:5001');
+    // Condition 1: Exact allowed Cloud Functions origin
+    const isLocalhost = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+    const expectedOrigin = isLocalhost
+      ? ((event.origin === 'http://localhost:5001' || event.origin === 'http://127.0.0.1:5001') ? event.origin : 'https://asia-northeast3-healimbd-b726f.cloudfunctions.net')
+      : 'https://asia-northeast3-healimbd-b726f.cloudfunctions.net';
+
+    if (event.origin !== expectedOrigin) return;
+
+    // Condition 2: Exact popup window instance check
+    if (event.source !== popup) return;
+
+    // Condition 3: Expected data payload & provider check
+    if (!event.data || event.data.type !== expectedSuccessType) return;
+    if (event.data.provider !== provider) return;
+
+    // Condition 4: Server state verification status check
+    if (event.data.stateVerified !== true || event.data.status !== 'success') {
+      showAuthToast(`❌ ${providerName} 인증 상태 검증(CSRF)에 실패했습니다.`);
+      cleanup();
+      return;
     }
 
-    if (!allowedOrigins.includes(event.origin)) return;
-    if (!event.data || event.data.type !== expectedSuccessType) return;
+    // Condition 5: Single execution guarantee - immediately remove listener
+    if (isMessageProcessed) return;
+    isMessageProcessed = true;
+    cleanup();
 
-    window.removeEventListener('message', onSocialAuthMessage);
-
+    // Condition 6: Custom Token validation & memory-only consumption
     let customToken = event.data.customToken;
-    if (!customToken) {
+    if (!customToken || typeof customToken !== 'string') {
       showAuthToast(`❌ ${providerName} 토큰 정보가 유효하지 않습니다.`);
       return;
     }
 
     try {
-      // Consume token in JavaScript memory only and sign in with Firebase Custom Token
-      const userCred = await auth.signInWithCustomToken(customToken);
+      // Memory-only sign-in: Never written to URL, localStorage, sessionStorage, or logs
+      await auth.signInWithCustomToken(customToken);
       customToken = null; // Purge immediately from memory
 
       closeAuthModal();
       showAuthToast(`🎉 ${providerName} 회원 인증이 완료되었습니다! 모든 치료사례를 열람하실 수 있습니다.`);
+
+      // Resume pending review reader if target exists
+      const pendingTarget = sessionStorage.getItem('pendingReviewTarget');
+      if (pendingTarget) {
+        sessionStorage.removeItem('pendingReviewTarget');
+        if (typeof openCustomCaseReader === 'function') {
+          openCustomCaseReader(pendingTarget);
+        }
+      }
     } catch (err) {
       customToken = null;
-      console.error(`[${providerName.toUpperCase()} SIGNIN ERROR]`, err);
-      showAuthToast(`❌ ${providerName} 인증 처리 실패: ` + (err.message || '다시 시도해 주세요.'));
+      console.error(`[${providerName.toUpperCase()} AUTH ERROR]`, err.code || 'sign_in_failed');
+      showAuthToast(`❌ ${providerName} 인증 처리 실패: 다시 시도해 주세요.`);
     }
   };
 
