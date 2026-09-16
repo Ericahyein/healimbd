@@ -21,11 +21,11 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Setup Java 17 for Firebase Emulators
+      - name: Setup Java 21 for Firebase Emulators
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '17'
+          java-version: '21'
 
       - name: Verify Java Installation
         run: java -version
@@ -44,7 +44,7 @@ jobs:
 
       - name: Execute Firebase Rules Unit Tests in Emulator
         run: |
-          npx firebase-tools emulators:exec \
+          firebase emulators:exec \
             --only firestore,storage \
             --project demo-healimbd-rules-test \
-            "cd tests/rules && npm test"
+            "npm --prefix tests/rules test"

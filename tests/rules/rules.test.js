@@ -8,7 +8,7 @@ const {
   assertSucceeds
 } = require('@firebase/rules-unit-testing');
 
-const PROJECT_ID = 'demo-healimbd-rules-test-' + Date.now();
+const PROJECT_ID = process.env.GCLOUD_PROJECT || 'demo-healimbd-rules-test';
 let testEnv;
 
 describe('Healim Firebase Rules Emulator Verification', () => {
