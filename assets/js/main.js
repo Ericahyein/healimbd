@@ -1566,49 +1566,85 @@ async function handleSocialLogin(provider) {
 
   // Cleanup any leftover listener from previous attempts
   if (typeof activeSocialAuthCleanup === 'function') {
-    activeSocialAuthCleanup();
+    activeSocialAuthCleanup(false);
   }
 
-  try {
-    await ensureFirebaseAuth();
-  } catch (e) {}
-
-  if (!auth) {
-    showAuthToast('⚠️ 인증 모듈을 초기화할 수 없습니다. 잠시 후 다시 시도해 주세요.');
-    return;
-  }
-
-  // 3. Resolve HTTPS start endpoint
-  const endpoint = provider === 'kakao'
-    ? (window.HEALIM_KAKAO_AUTH_START_URL || 'https://asia-northeast3-healimbd-b726f.cloudfunctions.net/kakaoAuthStart')
-    : (window.HEALIM_NAVER_AUTH_START_URL || 'https://asia-northeast3-healimbd-b726f.cloudfunctions.net/naverAuthStart');
-
+  // 3. SYNCHRONOUS POPUP INITIALIZATION (Directly within user click call-stack before any await)
+  // Modern browsers (Chrome, Safari, Edge) discard user activation if window.open is called after an await.
+  // Opening 'about:blank' synchronously guarantees the popup is never blocked.
   const width = 500;
   const height = 650;
   const left = Math.max(0, (window.screen.width - width) / 2);
   const top = Math.max(0, (window.screen.height - height) / 2);
 
   const popup = window.open(
-    endpoint,
+    'about:blank',
     `${provider}_oauth_popup`,
     `width=${width},height=${height},top=${top},left=${left},scrollbars=yes,resizable=yes`
   );
 
+  // Failure Case A: Browser Popup Blocked
   if (!popup || popup.closed || typeof popup.closed === 'undefined') {
-    showAuthToast('⚠️ 팝업이 차단되었습니다. 브라우저 주소창에서 팝업을 허용해 주세요.');
+    showAuthToast('⚠️ 브라우저에 의해 팝업이 차단되었습니다. 주소창의 팝업 차단을 해제한 후 다시 시도해 주세요.');
     return;
   }
 
   activeSocialAuthPopup = popup;
+
+  // 4. Await Firebase Auth Initialization
+  try {
+    await ensureFirebaseAuth();
+  } catch (e) {
+    console.warn('[AUTH INIT NOTICE]', e);
+  }
+
+  // Failure Case B: Firebase Auth initialization failed
+  if (!auth) {
+    try { popup.close(); } catch (_) {}
+    activeSocialAuthPopup = null;
+    showAuthToast('⚠️ 인증 모듈을 초기화할 수 없습니다. 네트워크 연결을 확인한 후 다시 시도해 주세요.');
+    return;
+  }
+
+  // Failure Case C: User closed blank popup while waiting for auth initialization
+  if (popup.closed) {
+    activeSocialAuthPopup = null;
+    showAuthToast(`💡 ${providerName} 로그인 창이 닫혔습니다.`);
+    return;
+  }
+
+  // 5. Resolve HTTPS start endpoint and redirect popup location
+  const currentOrigin = window.location.origin;
+  const baseEndpoint = provider === 'kakao'
+    ? (window.HEALIM_KAKAO_AUTH_START_URL || 'https://asia-northeast3-healimbd-b726f.cloudfunctions.net/kakaoAuthStart')
+    : (window.HEALIM_NAVER_AUTH_START_URL || 'https://asia-northeast3-healimbd-b726f.cloudfunctions.net/naverAuthStart');
+
+  // Securely pass origin query param (server strictly validates against ALLOWED_ORIGINS)
+  let targetUrl = baseEndpoint;
+  try {
+    const parsed = new URL(baseEndpoint, window.location.href);
+    parsed.searchParams.set('origin', currentOrigin);
+    targetUrl = parsed.toString();
+  } catch (e) {
+    targetUrl = `${baseEndpoint}?origin=${encodeURIComponent(currentOrigin)}`;
+  }
+
+  try {
+    popup.location.href = targetUrl;
+  } catch (e) {
+    popup.location = targetUrl;
+  }
+
   showAuthToast(`${providerName} 로그인 창이 열렸습니다. 인증을 진행해 주세요.`);
 
-  // 4. Strict postMessage & lifecycle validation
+  // 6. Strict postMessage & lifecycle validation (Success, Explicit Failure, User Cancel, Timeout)
   const expectedSuccessType = provider === 'kakao' ? 'KAKAO_AUTH_SUCCESS' : 'NAVER_AUTH_SUCCESS';
+  const expectedErrorType = provider === 'kakao' ? 'KAKAO_AUTH_ERROR' : 'NAVER_AUTH_ERROR';
   let isMessageProcessed = false;
   let pollTimer = null;
   let timeoutTimer = null;
 
-  const cleanup = () => {
+  const cleanup = (shouldClosePopup = true) => {
     window.removeEventListener('message', onSocialAuthMessage);
     if (pollTimer) {
       clearInterval(pollTimer);
@@ -1618,7 +1654,7 @@ async function handleSocialLogin(provider) {
       clearTimeout(timeoutTimer);
       timeoutTimer = null;
     }
-    if (activeSocialAuthPopup && !activeSocialAuthPopup.closed) {
+    if (shouldClosePopup && activeSocialAuthPopup && !activeSocialAuthPopup.closed) {
       try {
         activeSocialAuthPopup.close();
       } catch (e) {}
@@ -1628,17 +1664,22 @@ async function handleSocialLogin(provider) {
   };
   activeSocialAuthCleanup = cleanup;
 
-  // Poll for user manually closing the popup
+  // Poll for user manually closing the popup window
   pollTimer = setInterval(() => {
     if (popup.closed) {
-      cleanup();
+      if (!isMessageProcessed) {
+        cleanup(false);
+        showAuthToast(`💡 ${providerName} 로그인 창이 닫혔습니다.`);
+      } else {
+        cleanup(false);
+      }
     }
-  }, 1000);
+  }, 800);
 
   // 5 minutes timeout guard
   timeoutTimer = setTimeout(() => {
     if (!isMessageProcessed) {
-      cleanup();
+      cleanup(true);
       showAuthToast(`⏱️ ${providerName} 로그인 대기 시간이 초과되었습니다. 다시 시도해 주세요.`);
     }
   }, 5 * 60 * 1000);
@@ -1655,21 +1696,39 @@ async function handleSocialLogin(provider) {
     // Condition 2: Exact popup window instance check
     if (event.source !== popup) return;
 
-    // Condition 3: Expected data payload & provider check
-    if (!event.data || event.data.type !== expectedSuccessType) return;
+    if (!event.data) return;
+
+    // Condition 3A: Immediate error message handling from Cloud Functions
+    if (event.data.type === expectedErrorType) {
+      isMessageProcessed = true;
+      cleanup(true);
+      const errCode = event.data.error;
+      if (errCode === 'access_denied') {
+        showAuthToast(`💡 ${providerName} 로그인이 취소되었습니다.`);
+      } else if (errCode === 'state_mismatch') {
+        showAuthToast(`❌ 보안 검증(CSRF state)에 실패했습니다. 다시 시도해 주세요.`);
+      } else {
+        showAuthToast(`❌ ${providerName} 로그인 처리 중 오류가 발생했습니다. 다시 시도해 주세요.`);
+      }
+      return;
+    }
+
+    // Condition 3B: Expected data payload & provider check
+    if (event.data.type !== expectedSuccessType) return;
     if (event.data.provider !== provider) return;
 
     // Condition 4: Server state verification status check
     if (event.data.stateVerified !== true || event.data.status !== 'success') {
+      isMessageProcessed = true;
+      cleanup(true);
       showAuthToast(`❌ ${providerName} 인증 상태 검증(CSRF)에 실패했습니다.`);
-      cleanup();
       return;
     }
 
     // Condition 5: Single execution guarantee - immediately remove listener
     if (isMessageProcessed) return;
     isMessageProcessed = true;
-    cleanup();
+    cleanup(true);
 
     // Condition 6: Custom Token validation & memory-only consumption
     let customToken = event.data.customToken;
