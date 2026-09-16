@@ -226,15 +226,19 @@ async function compositeThumbnail(options = {}) {
     });
   }
 
-  const finalPipeline = baseSharp.composite(compositeLayers).jpeg({ quality: 92, progressive: true });
+  const compositedSharp = baseSharp.composite(compositeLayers);
+  const jpegBuffer = await compositedSharp.clone().jpeg({ quality: 92, progressive: true }).toBuffer();
+  const webpBuffer = await compositedSharp.clone().webp({ quality: 90 }).toBuffer();
 
   if (outputPath) {
     const outputDir = path.dirname(outputPath);
     if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir, { recursive: true });
-    await finalPipeline.toFile(outputPath);
+    await fs.promises.writeFile(outputPath, jpegBuffer);
+    const webpPath = outputPath.replace(/\.jpe?g$/i, '.webp');
+    await fs.promises.writeFile(webpPath, webpBuffer);
   }
 
-  return await finalPipeline.toBuffer();
+  return jpegBuffer;
 }
 
 module.exports = {

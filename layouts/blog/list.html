@@ -89,13 +89,18 @@
             <!-- Left Large Thumbnail (~55% width, clean 16:10 ratio, cover fit) -->
             <a href="{{ $featured.RelPermalink }}" class="featured-thumb-wrap" aria-label="{{ $featured.Title }}">
               {{ if not (hasPrefix $featuredThumb "http") }}
-                {{ $ext := path.Ext $featuredThumb }}
-                {{ $base := strings.TrimSuffix $ext $featuredThumb }}
+                {{ $cleanThumb := strings.TrimPrefix "/" $featuredThumb }}
+                {{ $ext := path.Ext $cleanThumb }}
+                {{ $base := strings.TrimSuffix $ext $cleanThumb }}
                 {{ $webp := printf "%s.webp" $base }}
+                {{ if fileExists (printf "static/%s" $webp) }}
                 <picture>
                   <source srcset="{{ $webp | relURL }}" type="image/webp">
-                  <img src="{{ $featuredThumb | relURL }}" alt="{{ $featured.Title }}" class="featured-thumb-img" id="featured-thumb-img" loading="eager" width="600" height="375">
+                  <img src="{{ $cleanThumb | relURL }}" alt="{{ $featured.Title }}" class="featured-thumb-img" id="featured-thumb-img" loading="eager" width="600" height="375">
                 </picture>
+                {{ else }}
+                <img src="{{ $cleanThumb | relURL }}" alt="{{ $featured.Title }}" class="featured-thumb-img" id="featured-thumb-img" loading="eager" width="600" height="375">
+                {{ end }}
               {{ else }}
                 <img src="{{ $featuredThumb | relURL }}" alt="{{ $featured.Title }}" class="featured-thumb-img" id="featured-thumb-img" loading="eager">
               {{ end }}
@@ -155,13 +160,18 @@
             <!-- Top Thumbnail (100% width, 16:10 ratio, clean canvas placement) -->
             <a href="{{ .RelPermalink }}" class="brand-archive-thumb-wrap" aria-label="{{ .Title }}">
               {{ if not (hasPrefix $archiveThumb "http") }}
-                {{ $ext := path.Ext $archiveThumb }}
-                {{ $base := strings.TrimSuffix $ext $archiveThumb }}
+                {{ $cleanThumb := strings.TrimPrefix "/" $archiveThumb }}
+                {{ $ext := path.Ext $cleanThumb }}
+                {{ $base := strings.TrimSuffix $ext $cleanThumb }}
                 {{ $webp := printf "%s.webp" $base }}
+                {{ if fileExists (printf "static/%s" $webp) }}
                 <picture>
                   <source srcset="{{ $webp | relURL }}" type="image/webp">
-                  <img src="{{ $archiveThumb | relURL }}" alt="{{ .Title }}" class="brand-archive-thumb-img" loading="lazy" width="400" height="250">
+                  <img src="{{ $cleanThumb | relURL }}" alt="{{ .Title }}" class="brand-archive-thumb-img" loading="lazy" width="400" height="250">
                 </picture>
+                {{ else }}
+                <img src="{{ $cleanThumb | relURL }}" alt="{{ .Title }}" class="brand-archive-thumb-img" loading="lazy" width="400" height="250">
+                {{ end }}
               {{ else }}
                 <img src="{{ $archiveThumb | relURL }}" alt="{{ .Title }}" class="brand-archive-thumb-img" loading="lazy">
               {{ end }}

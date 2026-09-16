@@ -50,13 +50,18 @@
         {{ if $detailThumb }}
         <div class="blog-featured-media-box">
           {{ if not (hasPrefix $detailThumb "http") }}
-            {{ $ext := path.Ext $detailThumb }}
-            {{ $base := strings.TrimSuffix $ext $detailThumb }}
+            {{ $cleanThumb := strings.TrimPrefix "/" $detailThumb }}
+            {{ $ext := path.Ext $cleanThumb }}
+            {{ $base := strings.TrimSuffix $ext $cleanThumb }}
             {{ $webp := printf "%s.webp" $base }}
+            {{ if fileExists (printf "static/%s" $webp) }}
             <picture>
               <source srcset="{{ $webp | relURL }}" type="image/webp">
-              <img src="{{ $detailThumb | relURL }}" alt="{{ .Title }}" class="blog-featured-img">
+              <img src="{{ $cleanThumb | relURL }}" alt="{{ .Title }}" class="blog-featured-img">
             </picture>
+            {{ else }}
+            <img src="{{ $cleanThumb | relURL }}" alt="{{ .Title }}" class="blog-featured-img">
+            {{ end }}
           {{ else }}
             <img src="{{ $detailThumb | relURL }}" alt="{{ .Title }}" class="blog-featured-img">
           {{ end }}
