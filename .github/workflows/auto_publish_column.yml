@@ -119,6 +119,10 @@ jobs:
         if: env.AUTO_COLUMN_ENABLED == 'true' || (github.event_name == 'workflow_dispatch' && inputs.force_publish == true)
         run: hugo --minify -d public
 
+      - name: Validate Column Image Assets and Rendered Output
+        if: env.AUTO_COLUMN_ENABLED == 'true' || (github.event_name == 'workflow_dispatch' && inputs.force_publish == true)
+        run: node scripts/auto_column/pre_publish_check.js
+
       - name: Commit and Push to Main (Production Mode Only)
         if: env.AUTO_COLUMN_ENABLED == 'true' || (github.event_name == 'workflow_dispatch' && inputs.force_publish == true)
         run: |
@@ -136,6 +140,7 @@ jobs:
 
           ARTICLE_FILE="content/blog/${CURRENT_SLUG}.md"
           IMAGE_FILE="static/images/blog/${CURRENT_SLUG}.jpg"
+          WEBP_FILE="static/images/blog/${CURRENT_SLUG}.webp"
           HISTORY_FILE="data/auto_column_history.json"
 
           # 2. Check existence of the exact expected files
@@ -150,6 +155,10 @@ jobs:
 
           # 3. Stage ONLY the exact allowlisted files
           git add "$ARTICLE_FILE" "$IMAGE_FILE" "$HISTORY_FILE"
+          if [ -f "$WEBP_FILE" ]; then
+            git add "$WEBP_FILE"
+            echo "  ✅ Staged WebP counterpart: $WEBP_FILE"
+          fi
 
           # 4. Strict Allowlist Verification via git diff --cached --name-only
           echo "Verifying staged files against strict allowlist..."
@@ -163,7 +172,7 @@ jobs:
           FORBIDDEN_FOUND=0
           while IFS= read -r staged_file; do
             [ -z "$staged_file" ] && continue
-            if [ "$staged_file" != "$ARTICLE_FILE" ] && [ "$staged_file" != "$IMAGE_FILE" ] && [ "$staged_file" != "$HISTORY_FILE" ]; then
+            if [ "$staged_file" != "$ARTICLE_FILE" ] && [ "$staged_file" != "$IMAGE_FILE" ] && [ "$staged_file" != "$WEBP_FILE" ] && [ "$staged_file" != "$HISTORY_FILE" ]; then
               echo "❌ ALLOWLIST VIOLATION: Unexpected file staged: $staged_file"
               FORBIDDEN_FOUND=1
             else
