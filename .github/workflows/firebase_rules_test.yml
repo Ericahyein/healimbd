@@ -2,6 +2,9 @@ name: Firebase Rules Emulator Verification
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - 'feat/review-auth-and-public-summary'
   pull_request:
     paths:
       - 'firestore.rules'
@@ -43,5 +46,5 @@ jobs:
         run: |
           npx firebase-tools emulators:exec \
             --only firestore,storage \
-            --project healimbd-rules-test \
+            --project demo-healimbd-rules-test \
             "cd tests/rules && npm test"
