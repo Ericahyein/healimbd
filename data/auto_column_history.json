@@ -196,5 +196,16 @@
     "topicAngle": "sleeping-pill-concern",
     "title": "[기흥구 불면증] 수면유도제 없이 자연스러운 수면 리듬을 회복하는 길",
     "slug": "yongin-giheung-sleep-sleeping-pill-concern"
+  },
+  {
+    "publishDate": "2026-09-16T09:27:36.266+09:00",
+    "geoId": "seongnam-jungwon",
+    "displayRegion": "중원구",
+    "parentRegion": "성남",
+    "regionType": "district",
+    "disease": "adhd",
+    "topicAngle": "tic-comorbidity",
+    "title": "[중원구 ADHD] 틱장애나 불안감이 함께 나타날 때 살펴볼 점",
+    "slug": "seongnam-jungwon-adhd-tic-comorbidity"
   }
 ]
