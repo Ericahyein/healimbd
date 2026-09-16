@@ -135,8 +135,9 @@
                   {{ end }}
                 {{ else }}
                 <div class="case-thumb-fallback">
-                  <i class="ph-bold ph-newspaper"></i>
-                  <span>해아림 임상 사례</span>
+                  <div class="thumb-watermark-icon"><i class="ph-bold ph-file-text"></i></div>
+                  <span class="thumb-title-badge">해아림 임상 치험례</span>
+                  <span class="thumb-lock-hint"><i class="ph-bold ph-lock-key"></i> 자필 전문은 인증 후 열람</span>
                 </div>
                 {{ end }}
                 <span class="case-tag-pill {{ .Params.category }}">{{ .Params.category_name }}</span>

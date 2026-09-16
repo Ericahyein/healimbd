@@ -544,27 +544,34 @@ function goToHandwrittenPage(page) {
   }
 }
 
-async function openStaticCaseReader(id, permalink) {
-  let currentUser = null;
+async function openProtectedCaseReader(caseId, permalink) {
   try {
-    const authObj = await ensureFirebaseAuth();
-    currentUser = authObj ? authObj.currentUser : null;
+    await ensureAuthReady();
   } catch (e) {}
 
-  const storedUser = localStorage.getItem('healim_auth_user');
-  if (!currentUser && !storedUser) {
+  const currentUser = auth ? auth.currentUser : null;
+  const isNonAnonymousMember = !!(currentUser && !currentUser.isAnonymous);
+
+  if (!isNonAnonymousMember) {
+    sessionStorage.setItem('pendingReviewTarget', caseId);
     if (typeof showAuthToast === 'function') {
       showAuthToast('🔒 의료법 규정에 따라 치료후기 전문 및 원본 자필 이미지는 로그인 후 열람하실 수 있습니다.');
     }
-    if (typeof openLoginModal === 'function') {
-      openLoginModal();
+    if (typeof openAuthModal === 'function') {
+      openAuthModal('login');
     }
     return;
   }
 
-  if (permalink) {
+  if (typeof openCustomCaseReader === 'function') {
+    openCustomCaseReader(caseId);
+  } else if (permalink) {
     window.location.href = permalink;
   }
+}
+
+async function openStaticCaseReader(id, permalink) {
+  return openProtectedCaseReader(id, permalink);
 }
 
 // Generic Custom Mobile Dropdown Handler & Synchronizer
@@ -970,34 +977,103 @@ function renderNaverReviewsPage() {
 }
 
 // 8. Medical Law Member Auth System (로그인 / 회원가입 & 보호 콘텐츠 열람)
-function initAuth() {
-  const storedUser = localStorage.getItem('healim_auth_user');
-  if (storedUser) {
-    try {
-      const user = JSON.parse(storedUser);
-      if (user && user.isAdmin) {
-        user.name = '관리자';
-        localStorage.setItem('healim_auth_user', JSON.stringify(user));
-      }
-      updateAuthUI(user);
-    } catch (e) {
-      localStorage.removeItem('healim_auth_user');
-      checkAdminSessionFallback();
-    }
-  } else {
-    checkAdminSessionFallback();
-  }
+let authReadyPromise = null;
+let authReadyResolve = null;
+
+function ensureAuthReady() {
+  if (authReadyPromise) return authReadyPromise;
+  authReadyPromise = new Promise((resolve) => {
+    authReadyResolve = resolve;
+  });
+  return authReadyPromise;
 }
 
-function checkAdminSessionFallback() {
-  const isAdminAuth = sessionStorage.getItem('healim_admin_auth') === 'true';
-  if (isAdminAuth) {
-    // Rule 1: sessionStorage is a temporary UI restoration hint only.
-    // Immediately verify the actual session against Firebase Auth & Firestore admins collection.
-    // Do NOT activate admin UI prior to successful verification.
-    verifyExistingAdminSession();
-  } else {
-    updateAuthUI(null);
+function initAuth() {
+  ensureAuthReady();
+  setupFirebaseAuthListener();
+}
+
+let firebaseAuthListenerAttached = false;
+async function setupFirebaseAuthListener() {
+  if (firebaseAuthListenerAttached) return;
+  firebaseAuthListenerAttached = true;
+
+  try {
+    await ensureFirebaseAuth();
+    if (!auth) {
+      if (authReadyResolve) {
+        authReadyResolve(null);
+        authReadyResolve = null;
+      }
+      return;
+    }
+
+    auth.onAuthStateChanged(async (user) => {
+      console.log('[FIREBASE AUTH STATE]', user ? (user.uid + ' (anon: ' + user.isAnonymous + ')') : 'unauthenticated');
+
+      if (user && !user.isAnonymous) {
+        let isAdmin = false;
+        try {
+          isAdmin = await checkAdminPrivileges(user);
+        } catch (e) {
+          console.warn('[ADMIN CHECK NOTICE]', e);
+        }
+
+        if (isAdmin) {
+          isAdminVerified = true;
+          sessionStorage.setItem('healim_admin_auth', 'true');
+          sessionStorage.setItem('healim_admin_user', JSON.stringify({ name: '대표원장', email: user.email, isAdmin: true }));
+          localStorage.setItem('healim_admin_logged', 'true');
+        }
+
+        const isKakao = user.uid.startsWith('kakao:');
+        let displayName = user.displayName;
+        if (!displayName) {
+          if (isKakao) displayName = '카카오 회원';
+          else if (user.email) displayName = user.email.split('@')[0];
+          else displayName = '회원';
+        }
+
+        const memberData = {
+          uid: user.uid,
+          name: displayName,
+          email: user.email || (isKakao ? '카카오 인증계정' : ''),
+          isAdmin: isAdmin,
+          provider: isKakao ? 'kakao' : ((user.providerData && user.providerData[0] && user.providerData[0].providerId) || 'password')
+        };
+
+        localStorage.setItem('healim_auth_user', JSON.stringify(memberData));
+        updateAuthUI(memberData);
+
+        // Resume target review if pending
+        const pending = sessionStorage.getItem('pendingReviewTarget');
+        if (pending) {
+          sessionStorage.removeItem('pendingReviewTarget');
+          setTimeout(() => {
+            openProtectedCaseReader(pending);
+          }, 350);
+        }
+      } else {
+        isAdminVerified = false;
+        localStorage.removeItem('healim_auth_user');
+        sessionStorage.removeItem('healim_admin_auth');
+        sessionStorage.removeItem('healim_admin_user');
+        localStorage.removeItem('healim_admin_logged');
+        document.body.classList.remove('is-admin');
+        updateAuthUI(null);
+      }
+
+      if (authReadyResolve) {
+        authReadyResolve(user && !user.isAnonymous ? user : null);
+        authReadyResolve = null;
+      }
+    });
+  } catch (err) {
+    console.warn('[AUTH LISTENER INIT NOTICE]', err);
+    if (authReadyResolve) {
+      authReadyResolve(null);
+      authReadyResolve = null;
+    }
   }
 }
 
@@ -1453,67 +1529,205 @@ async function handleDedicatedAdminLogin(e) {
   }
 }
 
-function handleSocialLogin(provider) {
-  const providerName = provider === 'naver' ? '네이버' : '카카오';
-  const dummyUser = {
-    name: provider === 'naver' ? '네이버 인증회원' : '카카오 인증회원',
-    email: provider === 'naver' ? 'naver_user@naver.com' : 'kakao_user@kakao.com',
-    provider: provider,
-    loginAt: new Date().toISOString()
+async function handleSocialLogin(provider) {
+  if (provider === 'naver') {
+    showAuthToast('💡 네이버 로그인은 인증 시스템 정비 중입니다. 카카오 로그인 또는 이메일 로그인을 이용해 주세요.');
+    return;
+  }
+
+  if (provider !== 'kakao') return;
+
+  try {
+    await ensureFirebaseAuth();
+  } catch (e) {}
+
+  if (!auth) {
+    showAuthToast('⚠️ 인증 모듈을 초기화할 수 없습니다. 잠시 후 다시 시도해 주세요.');
+    return;
+  }
+
+  // Cloud Functions v2 endpoint
+  const endpoint = window.HEALIM_KAKAO_AUTH_START_URL ||
+    'https://asia-northeast3-healimbd-b726f.cloudfunctions.net/kakaoAuthStart';
+
+  const width = 500;
+  const height = 650;
+  const left = Math.max(0, (window.screen.width - width) / 2);
+  const top = Math.max(0, (window.screen.height - height) / 2);
+
+  const popup = window.open(
+    endpoint,
+    'kakao_oauth_popup',
+    `width=${width},height=${height},top=${top},left=${left},scrollbars=yes,resizable=yes`
+  );
+
+  if (!popup || popup.closed || typeof popup.closed === 'undefined') {
+    showAuthToast('⚠️ 팝업이 차단되었습니다. 브라우저 주소창에서 팝업을 허용해 주세요.');
+    return;
+  }
+
+  showAuthToast('카카오 로그인 창이 열렸습니다. 인증을 진행해 주세요.');
+
+  const onKakaoAuthMessage = async (event) => {
+    const allowedOrigins = [
+      'https://asia-northeast3-healimbd-b726f.cloudfunctions.net',
+      window.location.origin
+    ];
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+      allowedOrigins.push('http://localhost:5001', 'http://127.0.0.1:5001');
+    }
+
+    if (!allowedOrigins.includes(event.origin)) return;
+    if (!event.data || event.data.type !== 'KAKAO_AUTH_SUCCESS') return;
+
+    window.removeEventListener('message', onKakaoAuthMessage);
+
+    let customToken = event.data.customToken;
+    if (!customToken) {
+      showAuthToast('❌ 카카오 토큰 정보가 유효하지 않습니다.');
+      return;
+    }
+
+    try {
+      // Consume token in JavaScript memory only and sign in
+      const userCred = await auth.signInWithCustomToken(customToken);
+      customToken = null; // Purge immediately from memory
+
+      closeAuthModal();
+      showAuthToast('🎉 카카오 회원 인증이 완료되었습니다! 모든 치료사례를 열람하실 수 있습니다.');
+    } catch (err) {
+      customToken = null;
+      console.error('[KAKAO SIGNIN ERROR]', err);
+      showAuthToast('❌ 카카오 인증 처리 실패: ' + (err.message || '다시 시도해 주세요.'));
+    }
   };
 
-  localStorage.setItem('healim_auth_user', JSON.stringify(dummyUser));
-  updateAuthUI(dummyUser);
-  closeAuthModal();
-  showAuthToast(`🎉 ${providerName} 간편 로그인 완료! 모든 치료사례와 자필 수기를 열람하실 수 있습니다.`);
+  window.addEventListener('message', onKakaoAuthMessage);
 }
 
-function handleEmailLogin(e) {
+async function handleEmailLogin(e) {
   e.preventDefault();
   const emailInput = document.getElementById('login-email');
   const passwordInput = document.getElementById('login-password');
-  const email = emailInput ? emailInput.value.trim() : '회원';
+  const errorEl = document.getElementById('login-error');
+  const submitBtn = document.getElementById('btn-login-submit') || e.target.querySelector('button[type="submit"]');
+
+  const email = emailInput ? emailInput.value.trim() : '';
   const password = passwordInput ? passwordInput.value.trim() : '';
 
-  let name = email.split('@')[0] || '회원';
+  if (!email || !password) {
+    if (errorEl) {
+      errorEl.textContent = '이메일과 비밀번호를 모두 입력해 주세요.';
+      errorEl.style.display = 'block';
+    }
+    return;
+  }
 
-  const user = {
-    name: name,
-    email: email,
-    provider: 'email',
-    isAdmin: false,
-    loginAt: new Date().toISOString()
-  };
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="ph-bold ph-spinner ph-spin"></i> <span>로그인 중...</span>';
+  }
+  if (errorEl) errorEl.style.display = 'none';
 
-  localStorage.setItem('healim_auth_user', JSON.stringify(user));
-  updateAuthUI(user);
-  closeAuthModal();
-  showAuthToast(`🎉 ${name}님 환영합니다! 로그인되어 자필 수기를 열람하실 수 있습니다.`);
+  try {
+    await ensureFirebaseAuth();
+    if (!auth) throw new Error('Firebase Auth 모듈을 불러올 수 없습니다.');
+
+    // Real Firebase Email Login
+    await auth.signInWithEmailAndPassword(email, password);
+    closeAuthModal();
+    showAuthToast('🎉 로그인되었습니다.');
+  } catch (err) {
+    console.warn('[EMAIL LOGIN FAIL]', err.code || err.message);
+    if (errorEl) {
+      let msg = '로그인에 실패했습니다. 이메일과 비밀번호를 확인해 주세요.';
+      if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
+        msg = '이메일 또는 비밀번호가 일치하지 않습니다.';
+      } else if (err.code === 'auth/invalid-email') {
+        msg = '올바른 이메일 형식을 입력해 주세요.';
+      } else if (err.code === 'auth/too-many-requests') {
+        msg = '너무 많은 로그인 시도가 감지되었습니다. 잠시 후 다시 시도해 주세요.';
+      }
+      errorEl.textContent = msg;
+      errorEl.style.display = 'block';
+    }
+  } finally {
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<span>로그인하고 치료수기 열람하기</span> <i class="ph-bold ph-arrow-right"></i>';
+    }
+  }
 }
 
-function handleEmailSignup(e) {
+async function handleEmailSignup(e) {
   e.preventDefault();
   const nameInput = document.getElementById('signup-name');
   const emailInput = document.getElementById('signup-email');
+  const passwordInput = document.getElementById('signup-password');
+  const errorEl = document.getElementById('signup-error');
+  const submitBtn = e.target.querySelector('button[type="submit"]');
+
   const name = nameInput ? nameInput.value.trim() : '회원';
-  const email = emailInput ? emailInput.value.trim() : 'user@example.com';
+  const email = emailInput ? emailInput.value.trim() : '';
+  const password = passwordInput ? passwordInput.value.trim() : '';
 
-  const user = {
-    name: name,
-    email: email,
-    provider: 'signup',
-    isAdmin: false,
-    loginAt: new Date().toISOString()
-  };
+  if (!email || !password) {
+    if (errorEl) {
+      errorEl.textContent = '이메일과 비밀번호를 모두 입력해 주세요.';
+      errorEl.style.display = 'block';
+    }
+    return;
+  }
 
-  localStorage.setItem('healim_auth_user', JSON.stringify(user));
-  updateAuthUI(user);
-  closeAuthModal();
-  showAuthToast(`🎉 회원가입이 완료되었습니다! ${name}님 환영합니다.`);
+  if (password.length < 6) {
+    if (errorEl) {
+      errorEl.textContent = '비밀번호는 최소 6자리 이상이어야 합니다.';
+      errorEl.style.display = 'block';
+    }
+    return;
+  }
+
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="ph-bold ph-spinner ph-spin"></i> <span>가입 처리 중...</span>';
+  }
+  if (errorEl) errorEl.style.display = 'none';
+
+  try {
+    await ensureFirebaseAuth();
+    if (!auth) throw new Error('Firebase Auth 모듈을 불러올 수 없습니다.');
+
+    const userCred = await auth.createUserWithEmailAndPassword(email, password);
+    if (name && userCred.user && typeof userCred.user.updateProfile === 'function') {
+      await userCred.user.updateProfile({ displayName: name });
+    }
+    closeAuthModal();
+    showAuthToast(`🎉 회원가입이 완료되었습니다! ${name}님 환영합니다.`);
+  } catch (err) {
+    console.warn('[EMAIL SIGNUP FAIL]', err.code || err.message);
+    if (errorEl) {
+      let msg = '회원가입에 실패했습니다.';
+      if (err.code === 'auth/email-already-in-use') {
+        msg = '이미 가입된 이메일 주소입니다. 로그인 탭을 이용해 주세요.';
+      } else if (err.code === 'auth/invalid-email') {
+        msg = '올바른 이메일 형식을 입력해 주세요.';
+      } else if (err.code === 'auth/weak-password') {
+        msg = '비밀번호는 최소 6자리 이상이어야 합니다.';
+      }
+      errorEl.textContent = msg;
+      errorEl.style.display = 'block';
+    }
+  } finally {
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<span>회원가입 완료 &amp; 수기 열람</span> <i class="ph-bold ph-check"></i>';
+    }
+  }
 }
 
 async function logoutUser() {
   try {
+    await ensureFirebaseAuth();
     if (auth) {
       await auth.signOut();
     }
@@ -1525,9 +1739,14 @@ async function logoutUser() {
   localStorage.removeItem('healim_auth_user');
   sessionStorage.removeItem('healim_admin_auth');
   sessionStorage.removeItem('healim_admin_user');
+  sessionStorage.removeItem('pendingReviewTarget');
   localStorage.removeItem('healim_admin_logged');
   document.body.classList.remove('is-admin');
   updateAuthUI(null);
+
+  if (typeof closeCustomCaseReader === 'function') {
+    closeCustomCaseReader();
+  }
   showAuthToast('로그아웃 되었습니다.');
   if (typeof renderInquiryList === 'function') {
     renderInquiryList();
@@ -2224,17 +2443,26 @@ function getReviewImageUrl(item) {
 
 async function resolveReviewImageUrl(item) {
   if (!item) return '';
-  if (item.imageUrl) return item.imageUrl;
-  if (item.image) return item.image;
   const reviewId = item.id || item.reviewId;
-  const imagePath = item.imagePath || (reviewId ? `treatment-reviews/${reviewId}/original.png` : '');
-  if (!imagePath) return item.image || '';
+  const imagePath = item.imagePath || (reviewId ? `treatment-reviews/${reviewId}/handwriting.webp` : '');
+  if (!imagePath) return '';
+
   if (reviewImageUrlCache.has(imagePath)) {
     return reviewImageUrlCache.get(imagePath);
   }
-  const publicUrl = getReviewImageUrl(item);
-  reviewImageUrlCache.set(imagePath, publicUrl);
-  return publicUrl;
+
+  try {
+    const storage = await ensureFirebaseStorage();
+    if (storage) {
+      const ref = storage.ref(imagePath);
+      const downloadUrl = await ref.getDownloadURL();
+      reviewImageUrlCache.set(imagePath, downloadUrl);
+      return downloadUrl;
+    }
+  } catch (err) {
+    console.warn('[STORAGE DOWNLOAD NOTICE]', err.code || err.message);
+  }
+  return '';
 }
 
 async function startTreatmentReviewsSync() {
@@ -2478,15 +2706,16 @@ function renderCustomCasesToList() {
 }
 
 async function openCustomCaseReader(caseId) {
-  // 1. Check user authentication status
-  let currentUser = null;
+  // 1. Check user authentication status - Real non-anonymous Firebase user required
   try {
-    const authObj = await ensureFirebaseAuth();
-    currentUser = authObj ? authObj.currentUser : null;
+    await ensureAuthReady();
   } catch (e) {}
 
-  if (!currentUser) {
-    // Unauthenticated: DO NOT query treatment_reviews or Storage!
+  const currentUser = auth ? auth.currentUser : null;
+  const isNonAnonymousMember = !!(currentUser && !currentUser.isAnonymous);
+
+  if (!isNonAnonymousMember) {
+    sessionStorage.setItem('pendingReviewTarget', caseId);
     if (typeof showAuthToast === 'function') {
       showAuthToast('🔒 치료후기 상세 내용은 의료법 및 원내 규정에 따라 회원 로그인 후 열람 가능합니다.');
     }

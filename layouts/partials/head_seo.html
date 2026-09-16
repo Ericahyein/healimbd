@@ -8,6 +8,8 @@
   {{ $title = printf "404 Page not found | %s" $siteTitle }}
 {{ else if $isHome }}
   {{ $title = printf "%s | 분당 한방신경정신과·공황장애·불면증·틱장애·ADHD" $siteTitle }}
+{{ else if eq .Section "reviews" }}
+  {{ $title = printf "치료후기 안내 | %s" $siteTitle }}
 {{ else if $isTaxonomy }}
   {{ $title = printf "%s | %s" .Title $siteTitle }}
 {{ else if .Title }}
@@ -19,6 +21,8 @@
 {{ $desc := .Params.summary | default .Params.description | default site.Params.description }}
 {{ if $is404 }}
   {{ $desc = "요청하신 페이지를 찾을 수 없습니다." }}
+{{ else if eq .Section "reviews" }}
+  {{ $desc = "해아림한의원 분당점 치료후기 안내입니다. 상세 치료 경과 및 자필 수기는 의료법 준수와 환자 개인정보 보호를 위해 회원 인증 후 열람하실 수 있습니다." }}
 {{ end }}
 {{ $canonical := .Permalink }}
 
@@ -26,6 +30,8 @@
 <meta name="description" content="{{ $desc }}">
 {{ if $is404 }}
 <meta name="robots" content="noindex, follow">
+{{ else if eq .Section "reviews" }}
+<meta name="robots" content="noindex, nofollow">
 {{ else if $isTaxonomy }}
 <meta name="robots" content="noindex, follow">
 {{ else if .Params.robots }}
@@ -41,7 +47,10 @@
 <meta property="og:title" content="{{ $title }}">
 <meta property="og:description" content="{{ $desc }}">
 {{ $ogImage := "" }}
-{{ $candidateImg := .Params.thumbnail | default .Params.image }}
+{{ $candidateImg := "" }}
+{{ if ne .Section "reviews" }}
+  {{ $candidateImg = .Params.thumbnail | default .Params.image }}
+{{ end }}
 {{ if $candidateImg }}
   {{ if hasPrefix $candidateImg "http" }}
     {{ $ogImage = $candidateImg }}
@@ -166,7 +175,11 @@
   {{ $breadcrumbElements = $breadcrumbElements | append (dict "@type" "ListItem" "position" 3 "name" .Title "item" $canonical) }}
 {{ else if not $isHome }}
   {{/* 2-tier: Home -> Subpage */}}
-  {{ $breadcrumbElements = $breadcrumbElements | append (dict "@type" "ListItem" "position" 2 "name" .Title "item" $canonical) }}
+  {{ $breadcrumbName := .Title }}
+  {{ if eq .Section "reviews" }}
+    {{ $breadcrumbName = "치료후기" }}
+  {{ end }}
+  {{ $breadcrumbElements = $breadcrumbElements | append (dict "@type" "ListItem" "position" 2 "name" $breadcrumbName "item" $canonical) }}
 {{ end }}
 
 {{ $breadcrumb := dict

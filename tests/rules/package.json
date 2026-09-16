@@ -1,0 +1,12 @@
+{
+  "name": "healim-rules-tests",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Rules unit testing with Firebase Emulator",
+  "scripts": {
+    "test": "node --test rules.test.js"
+  },
+  "dependencies": {
+    "@firebase/rules-unit-testing": "^3.0.4"
+  }
+}

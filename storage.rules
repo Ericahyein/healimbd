@@ -8,6 +8,11 @@ service firebase.storage {
       return request.auth != null;
     }
 
+    // Helper: Verify requester is NOT an anonymous user
+    function isNonAnonymous() {
+      return signedIn() && request.auth.token.firebase.sign_in_provider != 'anonymous';
+    }
+
     // Helper: Strictly verify requester is admin via Custom Claim or Firestore admins/{uid} document
     function isAdmin() {
       return signedIn() && (
@@ -24,17 +29,28 @@ service firebase.storage {
     }
 
     // ========================================================================
-    // CLINICAL TREATMENT REVIEWS IMAGES (treatment-reviews/**)
+    // PROTECTED CLINICAL TREATMENT REVIEWS (treatment-reviews/**)
+    // Protected handwriting originals and patient documents
+    // Unauthenticated: DENY | Anonymous: DENY | Member: READ ONLY | Admin: WRITE
     // ========================================================================
     match /treatment-reviews/{reviewId}/{fileName} {
-      // 1. Read: Public (Allows review preview cards to display cropped header preview)
-      allow read: if true;
+      // 1. Read: Authenticated non-anonymous members only (Blocks guests, anonymous, & forged tokens)
+      allow read: if isNonAnonymous();
 
       // 2. Create & Update: Verified Admin only + Image MIME and size validation
       allow create, update: if isAdmin() && isValidImageUpload();
 
       // 3. Delete: Verified Admin only (request.resource is null on delete)
       allow delete: if isAdmin();
+    }
+
+    // ========================================================================
+    // PUBLIC REVIEW NON-SENSITIVE PREVIEWS (public-review-previews/**)
+    // Non-identifying graphics, badges, or illustrations
+    // ========================================================================
+    match /public-review-previews/{fileName} {
+      allow read: if true;
+      allow write: if isAdmin() && isValidImageUpload();
     }
 
     // Default deny for all other storage paths
