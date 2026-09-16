@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   {{ partial "head_seo.html" . }}
 
+  <!-- Explicit Medical Review Robots Meta (Never index protected single cases) -->
+  <meta name="robots" content="noindex, nofollow">
+
   <!-- Fonts (Pretendard & Outfit) -->
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,79 +47,28 @@
           </div>
         </div>
 
-        <!-- Logged-in Member Unlock Banner (Visible when logged in) -->
-        <div class="case-unlocked-banner" id="case-unlocked-banner" style="display: none;">
-          <div class="unlocked-left">
-            <i class="ph-bold ph-seal-check"></i>
-            <span><strong>인증 회원 로그인 완료:</strong> <span id="unlocked-user-name">회원</span>님, 자필 체험 수기 및 등록 치료후기를 열람 중입니다.</span>
+        <!-- De-identified Public Summary Box -->
+        <div class="case-public-summary-card" style="background: #F8FAFC; border: 1px solid #E2E8F0; border-left: 4px solid #1B8FD1; border-radius: 8px; padding: 24px 28px; margin-bottom: 24px;">
+          <div style="display: flex; align-items: center; gap: 8px; color: #0369A1; font-size: 1.05rem; font-weight: 700; margin-bottom: 12px;">
+            <i class="ph-bold ph-info"></i> <span>치료 경과 요약 안내</span>
           </div>
-          <button class="btn-logout-small" onclick="logoutUser()">로그아웃</button>
+          <p style="font-size: 0.98rem; line-height: 1.75; color: #334155; margin: 0;">{{ .Params.summary }}</p>
         </div>
 
-        <!-- Protected Case Area (Blurred when not logged in) -->
-        <div class="case-protected-wrapper is-locked" id="case-protected-wrapper">
-          
-          <!-- 1. 업로드한 사진 (Authentic Uploaded Photo) -->
-          {{ if .Params.image }}
-          <div class="case-single-photo-box">
-            <div class="photo-box-frame">
-              {{ if not (hasPrefix .Params.image "http") }}
-                {{ $ext := path.Ext .Params.image }}
-                {{ $base := strings.TrimSuffix $ext .Params.image }}
-                {{ $webp := printf "%s.webp" $base }}
-                <picture>
-                  <source srcset="{{ $webp | relURL }}" type="image/webp">
-                  <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}" class="case-full-photo-img" loading="eager">
-                </picture>
-              {{ else }}
-                <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}" class="case-full-photo-img" loading="eager">
-              {{ end }}
-            </div>
+        <!-- System Maintenance Notice Card -->
+        <div class="case-maintenance-card" style="background: #FFFFFF; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 40px 32px; text-align: center; margin-bottom: 36px; box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);">
+          <div style="width: 56px; height: 56px; background: #FEF3C7; color: #D97706; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.75rem; margin: 0 auto 16px;">
+            <i class="ph-bold ph-shield-warning"></i>
           </div>
-          {{ end }}
-
-          <!-- 2. 직접 타이핑한 본문 내용 (Pure Typed Content) -->
-          <div class="case-typed-body">
-            {{ .Content }}
-          </div>
-
-          <!-- Medical Law Auth Gate Overlay (Shown when is-locked) -->
-          <div class="case-auth-gate-overlay" id="case-auth-gate-overlay">
-            <div class="auth-gate-card">
-              <div class="gate-lock-icon">
-                <i class="ph-bold ph-lock-key"></i>
-              </div>
-              <h2 class="gate-title">의료법에 따른 <strong>로그인 / 본인인증 안내</strong></h2>
-              <p class="gate-desc">
-                의료법 제56조(의료광고 금지 기준)에 따라, 실제 환자분의 자필 체험 수기 및 상세 임상 치료후기는 <strong>회원 로그인(본인인증) 후 열람</strong>하실 수 있습니다.
-              </p>
-
-              <!-- 1-Click Social Login Buttons -->
-              <div class="gate-social-buttons">
-                <button type="button" class="btn-gate-social naver" onclick="handleSocialLogin('naver')">
-                  <span class="n-symbol-auth">N</span>
-                  <span>네이버 아이디로 1초 로그인 / 가입</span>
-                </button>
-                <button type="button" class="btn-gate-social kakao" onclick="handleSocialLogin('kakao')">
-                  <i class="ph-fill ph-chat-circle-dots"></i>
-                  <span>카카오 계정으로 1초 로그인 / 가입</span>
-                </button>
-              </div>
-
-              <!-- General Login / Signup Links -->
-              <div class="gate-action-buttons">
-                <button type="button" class="btn-gate-action btn-gate-login" onclick="openAuthModal('login')">
-                  <i class="ph-bold ph-sign-in"></i> 아이디 로그인
-                </button>
-                <button type="button" class="btn-gate-action btn-gate-signup" onclick="openAuthModal('signup')">
-                  <i class="ph-bold ph-user-plus"></i> 간편 회원가입
-                </button>
-              </div>
-
-              <div class="gate-footer-text">
-                <i class="ph-bold ph-info"></i> 가입하신 정보는 안전하게 암호화되며 의료법 준수 목적 외에 사용되지 않습니다.
-              </div>
-            </div>
+          <h2 style="font-size: 1.35rem; font-weight: 800; color: #0F172A; margin-bottom: 12px; letter-spacing: -0.3px;">치료후기 보호 시스템 점검 중입니다</h2>
+          <p style="font-size: 0.96rem; color: #475569; line-height: 1.75; max-width: 560px; margin: 0 auto 20px;">
+            의료법 제56조(의료광고 금지 기준) 준수 및 환자 개인정보 보호 강화를 위해<br class="pc-br">
+            치료후기 열람 인증 시스템 점검을 진행하고 있습니다.<br>
+            상세 임상 치료 경과 및 자필 수기 열람 서비스는 시스템 정비 후 순차적으로 재개될 예정입니다.
+          </p>
+          <div style="display: inline-flex; align-items: center; gap: 8px; font-size: 0.88rem; color: #64748B; background: #F8FAFC; border: 1px solid #E2E8F0; padding: 10px 18px; border-radius: 6px;">
+            <i class="ph-bold ph-info" style="color: #1B8FD1;"></i>
+            <span>내원 시 원내 비치된 자필 수기 바인더를 통해 언제든 전문을 열람하실 수 있습니다.</span>
           </div>
         </div>
 

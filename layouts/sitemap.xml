@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 {{- range .Data.Pages -}}
   {{- $rel := .RelPermalink -}}
-  {{- $exclude := or (in $rel "/admin/") (in $rel "/reservation/") (in $rel "/treatments/") (in $rel "/categories/") (in $rel "/tags/") (eq $rel "/404.html") (eq .Kind "404") (eq .Kind "taxonomy") (eq .Kind "term") -}}
+  {{- $exclude := or (in $rel "/admin/") (in $rel "/reservation/") (in $rel "/treatments/") (in $rel "/categories/") (in $rel "/tags/") (and (in $rel "/reviews/") (ne $rel "/reviews/")) (eq $rel "/404.html") (eq .Kind "404") (eq .Kind "taxonomy") (eq .Kind "term") -}}
   {{- if not $exclude -}}
   <url>
     <loc>{{ .Permalink }}</loc>
