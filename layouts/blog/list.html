@@ -96,13 +96,13 @@
                 {{ if fileExists (printf "static/%s" $webp) }}
                 <picture>
                   <source srcset="{{ $webp | relURL }}" type="image/webp">
-                  <img src="{{ $cleanThumb | relURL }}" alt="{{ $featured.Title }}" class="featured-thumb-img" id="featured-thumb-img" loading="eager" width="600" height="375">
+                  <img src="{{ $cleanThumb | relURL }}" alt="{{ $featured.Title }}" class="featured-thumb-img" id="featured-thumb-img" loading="eager" fetchpriority="high" decoding="async" width="600" height="375">
                 </picture>
                 {{ else }}
-                <img src="{{ $cleanThumb | relURL }}" alt="{{ $featured.Title }}" class="featured-thumb-img" id="featured-thumb-img" loading="eager" width="600" height="375">
+                <img src="{{ $cleanThumb | relURL }}" alt="{{ $featured.Title }}" class="featured-thumb-img" id="featured-thumb-img" loading="eager" fetchpriority="high" decoding="async" width="600" height="375">
                 {{ end }}
               {{ else }}
-                <img src="{{ $featuredThumb | relURL }}" alt="{{ $featured.Title }}" class="featured-thumb-img" id="featured-thumb-img" loading="eager">
+                <img src="{{ $featuredThumb | relURL }}" alt="{{ $featured.Title }}" class="featured-thumb-img" id="featured-thumb-img" loading="eager" fetchpriority="high" decoding="async">
               {{ end }}
             </a>
 
@@ -167,13 +167,13 @@
                 {{ if fileExists (printf "static/%s" $webp) }}
                 <picture>
                   <source srcset="{{ $webp | relURL }}" type="image/webp">
-                  <img src="{{ $cleanThumb | relURL }}" alt="{{ .Title }}" class="brand-archive-thumb-img" loading="lazy" width="400" height="250">
+                  <img src="{{ $cleanThumb | relURL }}" alt="{{ .Title }}" class="brand-archive-thumb-img" loading="lazy" decoding="async" width="400" height="250">
                 </picture>
                 {{ else }}
-                <img src="{{ $cleanThumb | relURL }}" alt="{{ .Title }}" class="brand-archive-thumb-img" loading="lazy" width="400" height="250">
+                <img src="{{ $cleanThumb | relURL }}" alt="{{ .Title }}" class="brand-archive-thumb-img" loading="lazy" decoding="async" width="400" height="250">
                 {{ end }}
               {{ else }}
-                <img src="{{ $archiveThumb | relURL }}" alt="{{ .Title }}" class="brand-archive-thumb-img" loading="lazy">
+                <img src="{{ $archiveThumb | relURL }}" alt="{{ .Title }}" class="brand-archive-thumb-img" loading="lazy" decoding="async">
               {{ end }}
             </a>
 

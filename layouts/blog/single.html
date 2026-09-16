@@ -57,13 +57,13 @@
             {{ if fileExists (printf "static/%s" $webp) }}
             <picture>
               <source srcset="{{ $webp | relURL }}" type="image/webp">
-              <img src="{{ $cleanThumb | relURL }}" alt="{{ .Title }}" class="blog-featured-img">
+              <img src="{{ $cleanThumb | relURL }}" alt="{{ .Title }}" class="blog-featured-img" loading="eager" fetchpriority="high" decoding="async">
             </picture>
             {{ else }}
-            <img src="{{ $cleanThumb | relURL }}" alt="{{ .Title }}" class="blog-featured-img">
+            <img src="{{ $cleanThumb | relURL }}" alt="{{ .Title }}" class="blog-featured-img" loading="eager" fetchpriority="high" decoding="async">
             {{ end }}
           {{ else }}
-            <img src="{{ $detailThumb | relURL }}" alt="{{ .Title }}" class="blog-featured-img">
+            <img src="{{ $detailThumb | relURL }}" alt="{{ .Title }}" class="blog-featured-img" loading="eager" fetchpriority="high" decoding="async">
           {{ end }}
         </div>
         {{ end }}
