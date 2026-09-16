@@ -183,7 +183,7 @@ describe('Healim Firebase Rules Emulator Verification', () => {
       const unauthContext = testEnv.unauthenticatedContext();
       const storage = unauthContext.storage();
       const ref = storage.ref('treatment-reviews/case-01-tic/handwriting.webp');
-      await assertFails(ref.getBytes());
+      await assertFails(ref.getDownloadURL());
     });
 
     test('Scenario 11 [Anonymous User]: Anonymous Firebase user CANNOT read handwriting image', async () => {
@@ -192,7 +192,7 @@ describe('Healim Firebase Rules Emulator Verification', () => {
       });
       const storage = anonContext.storage();
       const ref = storage.ref('treatment-reviews/case-01-tic/handwriting.webp');
-      await assertFails(ref.getBytes());
+      await assertFails(ref.getDownloadURL());
     });
 
     test('Scenario 12 [Email Member]: Authenticated non-anonymous user CAN read image', async () => {
@@ -202,7 +202,7 @@ describe('Healim Firebase Rules Emulator Verification', () => {
       });
       const storage = memberContext.storage();
       const ref = storage.ref('treatment-reviews/case-01-tic/handwriting.webp');
-      await assertSucceeds(ref.getBytes());
+      await assertSucceeds(ref.getDownloadURL());
     });
 
     test('Scenario 13 [Kakao Member]: Authenticated Kakao user CAN read image', async () => {
@@ -211,7 +211,7 @@ describe('Healim Firebase Rules Emulator Verification', () => {
       });
       const storage = kakaoContext.storage();
       const ref = storage.ref('treatment-reviews/case-01-tic/handwriting.webp');
-      await assertSucceeds(ref.getBytes());
+      await assertSucceeds(ref.getDownloadURL());
     });
 
     test('Scenario 13-B [Naver Member]: Authenticated Naver user CAN read image', async () => {
@@ -220,7 +220,7 @@ describe('Healim Firebase Rules Emulator Verification', () => {
       });
       const storage = naverContext.storage();
       const ref = storage.ref('treatment-reviews/case-01-tic/handwriting.webp');
-      await assertSucceeds(ref.getBytes());
+      await assertSucceeds(ref.getDownloadURL());
     });
 
     test('Scenario 14 [Member Write Block]: Regular member CANNOT upload/delete handwriting image', async () => {
@@ -262,7 +262,7 @@ describe('Healim Firebase Rules Emulator Verification', () => {
       const unauthContext = testEnv.unauthenticatedContext();
       const storage = unauthContext.storage();
       const ref = storage.ref('public-review-previews/badge-tic.webp');
-      await assertSucceeds(ref.getBytes());
+      await assertSucceeds(ref.getDownloadURL());
     });
 
     test('Scenario 17 [Public Write]: Regular user CANNOT write public previews, Admin CAN', async () => {
