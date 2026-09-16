@@ -207,5 +207,16 @@
     "topicAngle": "tic-comorbidity",
     "title": "[중원구 ADHD] 틱장애나 불안감이 함께 나타날 때 살펴볼 점",
     "slug": "seongnam-jungwon-adhd-tic-comorbidity"
+  },
+  {
+    "publishDate": "2026-09-16T16:20:13.647+09:00",
+    "geoId": "yongin-cheoin",
+    "displayRegion": "처인구",
+    "parentRegion": "용인",
+    "regionType": "district",
+    "disease": "tic",
+    "topicAngle": "eye-blinking",
+    "title": "[처인구 틱장애] 눈 깜빡임이 잦아질 때 억지로 참게 하면 안 되는 이유",
+    "slug": "yongin-cheoin-tic-eye-blinking"
   }
 ]
