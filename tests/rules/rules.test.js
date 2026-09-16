@@ -99,6 +99,14 @@ describe('Healim Firebase Rules Emulator Verification', () => {
       await assertSucceeds(db.collection('treatment_reviews').doc('case-01-tic').get());
     });
 
+    test('Scenario 5-B [Naver Member]: Authenticated Naver custom token user CAN read review', async () => {
+      const naverContext = testEnv.authenticatedContext('naver:1122334455', {
+        firebase: { sign_in_provider: 'custom' }
+      });
+      const db = naverContext.firestore();
+      await assertSucceeds(db.collection('treatment_reviews').doc('case-01-tic').get());
+    });
+
     test('Scenario 6 [Regular Member Write Block]: Regular member CANNOT create/update/delete review', async () => {
       const memberContext = testEnv.authenticatedContext('email-user-456', {
         email: 'patient@example.com',
@@ -202,6 +210,15 @@ describe('Healim Firebase Rules Emulator Verification', () => {
         firebase: { sign_in_provider: 'custom' }
       });
       const storage = kakaoContext.storage();
+      const ref = storage.ref('treatment-reviews/case-01-tic/handwriting.webp');
+      await assertSucceeds(ref.getBytes());
+    });
+
+    test('Scenario 13-B [Naver Member]: Authenticated Naver user CAN read image', async () => {
+      const naverContext = testEnv.authenticatedContext('naver:88776655', {
+        firebase: { sign_in_provider: 'custom' }
+      });
+      const storage = naverContext.storage();
       const ref = storage.ref('treatment-reviews/case-01-tic/handwriting.webp');
       await assertSucceeds(ref.getBytes());
     });

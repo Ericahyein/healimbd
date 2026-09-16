@@ -1530,12 +1530,24 @@ async function handleDedicatedAdminLogin(e) {
 }
 
 async function handleSocialLogin(provider) {
-  if (provider === 'naver') {
-    showAuthToast('💡 네이버 로그인은 인증 시스템 정비 중입니다. 카카오 로그인 또는 이메일 로그인을 이용해 주세요.');
+  const providerName = provider === 'naver' ? '네이버' : '카카오';
+
+  // Before Cloud Functions are deployed to live Firebase, prevent mock login bypass
+  // and politely guide user to email login without creating fake session
+  const isSocialAuthDeployed = window.HEALIM_SOCIAL_AUTH_DEPLOYED === true;
+
+  if (!isSocialAuthDeployed) {
+    if (typeof showAuthToast === 'function') {
+      showAuthToast(`💡 ${providerName} 간편 로그인은 클라우드 보안 시스템 연동 준비 중입니다. 아래 이메일 로그인을 이용하시면 즉시 치료후기를 열람하실 수 있습니다.`);
+    }
+    const emailInput = document.getElementById('login-email');
+    if (emailInput) {
+      emailInput.focus();
+    }
     return;
   }
 
-  if (provider !== 'kakao') return;
+  if (provider !== 'kakao' && provider !== 'naver') return;
 
   try {
     await ensureFirebaseAuth();
@@ -1546,9 +1558,10 @@ async function handleSocialLogin(provider) {
     return;
   }
 
-  // Cloud Functions v2 endpoint
-  const endpoint = window.HEALIM_KAKAO_AUTH_START_URL ||
-    'https://asia-northeast3-healimbd-b726f.cloudfunctions.net/kakaoAuthStart';
+  // Cloud Functions v2 HTTPS endpoints
+  const endpoint = provider === 'kakao'
+    ? (window.HEALIM_KAKAO_AUTH_START_URL || 'https://asia-northeast3-healimbd-b726f.cloudfunctions.net/kakaoAuthStart')
+    : (window.HEALIM_NAVER_AUTH_START_URL || 'https://asia-northeast3-healimbd-b726f.cloudfunctions.net/naverAuthStart');
 
   const width = 500;
   const height = 650;
@@ -1557,7 +1570,7 @@ async function handleSocialLogin(provider) {
 
   const popup = window.open(
     endpoint,
-    'kakao_oauth_popup',
+    `${provider}_oauth_popup`,
     `width=${width},height=${height},top=${top},left=${left},scrollbars=yes,resizable=yes`
   );
 
@@ -1566,9 +1579,11 @@ async function handleSocialLogin(provider) {
     return;
   }
 
-  showAuthToast('카카오 로그인 창이 열렸습니다. 인증을 진행해 주세요.');
+  showAuthToast(`${providerName} 로그인 창이 열렸습니다. 인증을 진행해 주세요.`);
 
-  const onKakaoAuthMessage = async (event) => {
+  const expectedSuccessType = provider === 'kakao' ? 'KAKAO_AUTH_SUCCESS' : 'NAVER_AUTH_SUCCESS';
+
+  const onSocialAuthMessage = async (event) => {
     const allowedOrigins = [
       'https://asia-northeast3-healimbd-b726f.cloudfunctions.net',
       window.location.origin
@@ -1578,31 +1593,31 @@ async function handleSocialLogin(provider) {
     }
 
     if (!allowedOrigins.includes(event.origin)) return;
-    if (!event.data || event.data.type !== 'KAKAO_AUTH_SUCCESS') return;
+    if (!event.data || event.data.type !== expectedSuccessType) return;
 
-    window.removeEventListener('message', onKakaoAuthMessage);
+    window.removeEventListener('message', onSocialAuthMessage);
 
     let customToken = event.data.customToken;
     if (!customToken) {
-      showAuthToast('❌ 카카오 토큰 정보가 유효하지 않습니다.');
+      showAuthToast(`❌ ${providerName} 토큰 정보가 유효하지 않습니다.`);
       return;
     }
 
     try {
-      // Consume token in JavaScript memory only and sign in
+      // Consume token in JavaScript memory only and sign in with Firebase Custom Token
       const userCred = await auth.signInWithCustomToken(customToken);
       customToken = null; // Purge immediately from memory
 
       closeAuthModal();
-      showAuthToast('🎉 카카오 회원 인증이 완료되었습니다! 모든 치료사례를 열람하실 수 있습니다.');
+      showAuthToast(`🎉 ${providerName} 회원 인증이 완료되었습니다! 모든 치료사례를 열람하실 수 있습니다.`);
     } catch (err) {
       customToken = null;
-      console.error('[KAKAO SIGNIN ERROR]', err);
-      showAuthToast('❌ 카카오 인증 처리 실패: ' + (err.message || '다시 시도해 주세요.'));
+      console.error(`[${providerName.toUpperCase()} SIGNIN ERROR]`, err);
+      showAuthToast(`❌ ${providerName} 인증 처리 실패: ` + (err.message || '다시 시도해 주세요.'));
     }
   };
 
-  window.addEventListener('message', onKakaoAuthMessage);
+  window.addEventListener('message', onSocialAuthMessage);
 }
 
 async function handleEmailLogin(e) {
