@@ -34,8 +34,8 @@ service firebase.storage {
     // Unauthenticated: DENY | Anonymous: DENY | Member: READ ONLY | Admin: WRITE
     // ========================================================================
     match /treatment-reviews/{reviewId}/{fileName} {
-      // 1. Read: Authenticated non-anonymous members only (Blocks guests, anonymous, & forged tokens)
-      allow read: if isNonAnonymous();
+      // 1. Read: Strictly blocked for all direct clients (Streamed via streamReviewOriginal Admin SDK)
+      allow read: if false;
 
       // 2. Create & Update: Verified Admin only + Image MIME and size validation
       allow create, update: if isAdmin() && isValidImageUpload();

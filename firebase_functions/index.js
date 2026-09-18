@@ -578,3 +578,332 @@ exports.naverAuthCallback = onRequest(
     }
   }
 );
+
+/**
+ * Detects actual image MIME type from binary magic bytes.
+ * Never prints or leaks buffer contents.
+ */
+function detectImageMagicMime(buffer) {
+  if (!buffer || buffer.length < 12) return null;
+
+  // 1. PNG: 89 50 4E 47 0D 0A 1A 0A
+  if (
+    buffer[0] === 0x89 &&
+    buffer[1] === 0x50 &&
+    buffer[2] === 0x4e &&
+    buffer[3] === 0x47 &&
+    buffer[4] === 0x0d &&
+    buffer[5] === 0x0a &&
+    buffer[6] === 0x1a &&
+    buffer[7] === 0x0a
+  ) {
+    return 'image/png';
+  }
+
+  // 2. JPEG: FF D8 FF
+  if (buffer[0] === 0xff && buffer[1] === 0xd8 && buffer[2] === 0xff) {
+    return 'image/jpeg';
+  }
+
+  // 3. WebP: 0..3 'RIFF' and 8..11 'WEBP'
+  if (
+    buffer[0] === 0x52 &&
+    buffer[1] === 0x49 &&
+    buffer[2] === 0x46 &&
+    buffer[3] === 0x46 &&
+    buffer[8] === 0x57 &&
+    buffer[9] === 0x45 &&
+    buffer[10] === 0x42 &&
+    buffer[11] === 0x50
+  ) {
+    return 'image/webp';
+  }
+
+  return null;
+}
+
+/**
+ * Derives expected MIME type from validated file extension.
+ */
+function getExpectedMimeFromExtension(filePath) {
+  if (!filePath || typeof filePath !== 'string') return null;
+  const match = filePath.match(/\.(png|jpe?g|webp)$/i);
+  if (!match) return null;
+  const ext = match[1].toLowerCase();
+  if (ext === 'png') return 'image/png';
+  if (ext === 'jpg' || ext === 'jpeg') return 'image/jpeg';
+  if (ext === 'webp') return 'image/webp';
+  return null;
+}
+
+/**
+ * streamReviewOriginal:
+ * Authenticated HTTP streaming proxy for protected handwritten reviews (asia-northeast3).
+ * Streams raw binary image directly from Google Cloud Storage to authenticated, non-anonymous members.
+ * Strictly verifies Origin, OPTIONS preflight, Firebase ID Token, App Check Token,
+ * reviewId regex, Firestore imagePath ownership, file extension, metadata contentType,
+ * and actual file binary magic bytes before sending response headers.
+ */
+exports.streamReviewOriginal = onRequest(
+  {
+    region: REGION,
+    minInstances: 0,
+    maxInstances: 5,
+    serviceAccount: 'healimbd-review-streamer@healimbd-b726f.iam.gserviceaccount.com'
+  },
+  async (req, res) => {
+    // 1. Origin & Method Check
+    const origin = req.get('origin') || '';
+    const isAllowedOrigin = ALLOWED_ORIGINS.includes(origin);
+
+    // Strict OPTIONS Preflight
+    if (req.method === 'OPTIONS') {
+      if (!isAllowedOrigin) {
+        console.warn('[STREAM_REVIEW_ORIGINAL]', 'invalid_origin');
+        return res.status(403).json({ error: 'Origin not allowed' });
+      }
+      res.setHeader('Access-Control-Allow-Origin', origin);
+      res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+      res.setHeader('Access-Control-Allow-Headers', 'Authorization, X-Firebase-AppCheck, Content-Type');
+      res.setHeader('Access-Control-Max-Age', '86400');
+      res.setHeader('Vary', 'Origin');
+      return res.status(204).send('');
+    }
+
+    // Strict GET Method Requirement
+    if (req.method !== 'GET') {
+      console.warn('[STREAM_REVIEW_ORIGINAL]', 'invalid_method');
+      res.setHeader('Allow', 'GET, OPTIONS');
+      return res.status(405).json({ error: 'Method Not Allowed' });
+    }
+
+    // Verify Origin for GET
+    let matchedOrigin = '';
+    if (origin) {
+      if (!isAllowedOrigin) {
+        console.warn('[STREAM_REVIEW_ORIGINAL]', 'invalid_origin');
+        return res.status(403).json({ error: 'Origin not allowed' });
+      }
+      matchedOrigin = origin;
+    } else {
+      const referer = req.get('referer') || '';
+      for (const allowed of ALLOWED_ORIGINS) {
+        if (referer.startsWith(allowed)) {
+          matchedOrigin = allowed;
+          break;
+        }
+      }
+      if (!matchedOrigin) {
+        console.warn('[STREAM_REVIEW_ORIGINAL]', 'invalid_origin');
+        return res.status(403).json({ error: 'Origin not allowed' });
+      }
+    }
+
+    res.setHeader('Access-Control-Allow-Origin', matchedOrigin);
+    res.setHeader('Vary', 'Origin');
+
+    try {
+      // 2. Firebase ID Token Verification
+      const authHeader = req.get('authorization') || '';
+      if (!authHeader.startsWith('Bearer ')) {
+        console.warn('[STREAM_REVIEW_ORIGINAL]', 'auth_failed');
+        return res.status(401).json({ error: 'Authentication required' });
+      }
+      const idToken = authHeader.slice(7).trim();
+      if (!idToken) {
+        console.warn('[STREAM_REVIEW_ORIGINAL]', 'auth_failed');
+        return res.status(401).json({ error: 'Authentication required' });
+      }
+
+      let decodedToken;
+      try {
+        decodedToken = await admin.auth().verifyIdToken(idToken);
+      } catch (authErr) {
+        console.warn('[STREAM_REVIEW_ORIGINAL]', 'auth_failed');
+        return res.status(401).json({ error: 'Invalid authentication token' });
+      }
+
+      // 3. Non-anonymous user verification
+      if (!decodedToken || !decodedToken.firebase || decodedToken.firebase.sign_in_provider === 'anonymous') {
+        console.warn('[STREAM_REVIEW_ORIGINAL]', 'auth_failed');
+        return res.status(403).json({ error: 'Anonymous access forbidden' });
+      }
+
+      // 4. Firebase App Check Token Verification
+      const appCheckHeader = req.get('x-firebase-appcheck') || '';
+      if (!appCheckHeader) {
+        console.warn('[STREAM_REVIEW_ORIGINAL]', 'app_check_failed');
+        return res.status(401).json({ error: 'App Check token required' });
+      }
+
+      try {
+        await admin.appCheck().verifyToken(appCheckHeader);
+      } catch (appCheckErr) {
+        console.warn('[STREAM_REVIEW_ORIGINAL]', 'app_check_failed');
+        return res.status(401).json({ error: 'Invalid App Check token' });
+      }
+
+      // 5. reviewId Parameter Format Validation
+      const reviewId = req.query && typeof req.query.reviewId === 'string' ? req.query.reviewId.trim() : '';
+      if (!reviewId || !/^(tr_\d+_[a-zA-Z0-9_-]+|legacy_custom-\d+)$/.test(reviewId)) {
+        console.warn('[STREAM_REVIEW_ORIGINAL]', 'invalid_review_id');
+        return res.status(400).json({ error: 'Invalid review identifier' });
+      }
+
+      // 6. Firestore Document Retrieval (Only executed AFTER all authentications succeed)
+      const docSnap = await admin.firestore().collection('treatment_reviews').doc(reviewId).get();
+      if (!docSnap.exists) {
+        console.warn('[STREAM_REVIEW_ORIGINAL]', 'document_not_found');
+        return res.status(404).json({ error: 'Review not found' });
+      }
+
+      // 7. imagePath Validation from Server Document
+      const docData = docSnap.data() || {};
+      const imagePath = docData.imagePath;
+      if (!imagePath || typeof imagePath !== 'string') {
+        console.warn('[STREAM_REVIEW_ORIGINAL]', 'invalid_image_path');
+        return res.status(500).json({ error: 'Invalid image path specification' });
+      }
+
+      // Strict containment check: must be inside treatment-reviews/${reviewId}/
+      const expectedPrefix = `treatment-reviews/${reviewId}/`;
+      if (!imagePath.startsWith(expectedPrefix)) {
+        console.warn('[STREAM_REVIEW_ORIGINAL]', 'invalid_image_path');
+        return res.status(403).json({ error: 'Path mismatch violation' });
+      }
+
+      // Reject path traversal, backslashes, null bytes
+      if (imagePath.includes('..') || imagePath.includes('\\') || imagePath.includes('\0')) {
+        console.warn('[STREAM_REVIEW_ORIGINAL]', 'invalid_image_path');
+        return res.status(400).json({ error: 'Illegal path traversal sequence' });
+      }
+
+      // Extension validation
+      const expectedMimeFromExt = getExpectedMimeFromExtension(imagePath);
+      if (!expectedMimeFromExt) {
+        console.warn('[STREAM_REVIEW_ORIGINAL]', 'invalid_image_path');
+        return res.status(400).json({ error: 'Unsupported file extension' });
+      }
+
+      // 8. Storage Object Metadata & MIME Type Validation
+      const bucketName = process.env.STORAGE_BUCKET || 'healimbd-b726f.firebasestorage.app';
+      const bucket = admin.storage().bucket(bucketName);
+      const file = bucket.file(imagePath);
+
+      const [exists] = await file.exists();
+      if (!exists) {
+        console.warn('[STREAM_REVIEW_ORIGINAL]', 'object_not_found');
+        return res.status(404).json({ error: 'Image object not found' });
+      }
+
+      const [metadata] = await file.getMetadata();
+      const contentType = (metadata.contentType || '').toLowerCase();
+      const allowedMimes = ['image/png', 'image/jpeg', 'image/webp'];
+      if (!allowedMimes.includes(contentType) || contentType !== expectedMimeFromExt) {
+        console.warn('[STREAM_REVIEW_ORIGINAL]', 'unsupported_image_type');
+        return res.status(415).json({ error: 'Unsupported media type' });
+      }
+
+      // Maximum file size defense (15MB maximum for handwriting reviews) and minimum header size
+      const fileSize = Number(metadata.size || 0);
+      if (fileSize < 12 || fileSize > 15 * 1024 * 1024) {
+        console.warn('[STREAM_REVIEW_ORIGINAL]', 'unsupported_image_type');
+        return res.status(415).json({ error: 'Unsupported media type' });
+      }
+
+      // 9. Inspect Binary Magic Bytes & Stream with Intact First Bytes
+      return new Promise((resolve) => {
+        const stream = file.createReadStream();
+        let validated = false;
+        let headerChunks = [];
+        let totalHeaderBytes = 0;
+
+        if (res.destroyed || res.writableEnded) {
+          stream.destroy();
+          return resolve();
+        }
+
+        res.on('finish', resolve);
+        res.on('close', () => {
+          if (!res.writableEnded) {
+            stream.destroy();
+          }
+          resolve();
+        });
+
+        stream.on('data', function onData(chunk) {
+          if (!validated) {
+            headerChunks.push(chunk);
+            totalHeaderBytes += chunk.length;
+
+            // Need at least 12 bytes to inspect all magic signatures (WebP requires 12 bytes)
+            if (totalHeaderBytes < 12) {
+              return;
+            }
+
+            // Stop listening for initial validation and pause
+            stream.removeListener('data', onData);
+            stream.pause();
+
+            const combinedHeader = Buffer.concat(headerChunks);
+            const detectedMagicMime = detectImageMagicMime(combinedHeader);
+
+            // 3-Way Consistency Check: Extension, Storage metadata contentType, and Magic bytes must agree
+            if (
+              !detectedMagicMime ||
+              detectedMagicMime !== expectedMimeFromExt ||
+              detectedMagicMime !== contentType
+            ) {
+              stream.destroy();
+              console.warn('[STREAM_REVIEW_ORIGINAL]', 'unsupported_image_type');
+              if (!res.headersSent) {
+                res.status(415).json({ error: 'Unsupported media type' });
+              }
+              return resolve();
+            }
+
+            validated = true;
+
+            // Send secure response headers
+            res.setHeader('Content-Type', detectedMagicMime);
+            res.setHeader('Content-Disposition', 'inline');
+            res.setHeader('Cache-Control', 'private, no-store, max-age=0');
+            res.setHeader('Pragma', 'no-cache');
+            res.setHeader('X-Content-Type-Options', 'nosniff');
+
+            // Send the full accumulated header bytes so no bytes are lost
+            res.write(combinedHeader);
+
+            // Pipe remaining data and resume stream
+            stream.pipe(res);
+            stream.resume();
+          }
+        });
+
+        stream.on('end', () => {
+          // In case stream ended before 12 bytes could be read (truncated header)
+          if (!validated && !res.headersSent) {
+            console.warn('[STREAM_REVIEW_ORIGINAL]', 'unsupported_image_type');
+            res.status(415).json({ error: 'Unsupported media type' });
+          }
+          resolve();
+        });
+
+        stream.on('error', (streamErr) => {
+          console.error('[STREAM_REVIEW_ORIGINAL]', 'stream_failed');
+          if (!res.headersSent) {
+            res.status(500).json({ error: 'Image streaming failed' });
+          } else {
+            res.destroy(streamErr);
+          }
+          resolve();
+        });
+      });
+    } catch (err) {
+      console.error('[STREAM_REVIEW_ORIGINAL]', 'internal_error');
+      if (!res.headersSent) {
+        res.status(500).json({ error: 'Internal server error' });
+      }
+    }
+  }
+);

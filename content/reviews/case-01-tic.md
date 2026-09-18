@@ -9,5 +9,6 @@ review_type: "direct"
 diagnosis: "복합 틱장애"
 duration: "총 4개월"
 rating: 5
+image: "images/reviews/previews/case-01-tic.png"
 summary: "처음에는 눈 깜빡임으로 시작된 증상이 점차 킁킁거리는 소리를 내는 음성틱과 얼굴 찡그림, 머리 끄덕임 증상으로 이어져 학교생활과 일상에 어려움을 겪었던 초기 내원 사례입니다."
 ---

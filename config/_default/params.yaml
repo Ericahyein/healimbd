@@ -37,4 +37,4 @@ theme:
 
 # Feature Flags (Public Client Configuration)
 features:
-  social_auth_deployed: false # Set true ONLY after Cloud Functions deployment and staging verification
+  social_auth_deployed: true

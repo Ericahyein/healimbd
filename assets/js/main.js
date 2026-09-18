@@ -344,13 +344,112 @@ const STATIC_MARKDOWN_CASES = [
     date: '2026-08-25',
     title: '틱장애 치료 잘하는 곳이라고 소개를 받아 내원했습니다',
     summary: '7세 때 눈깜빡임으로 시작해 10세에 재발하며 킁킁거림, 찡그림, 머리 끄덕임, 몸 움직임으로 악화되었습니다. 해아림 맞춤 한약과 환약 치료 후 복합 증상이 완화되고 현재는 눈깜빡임도 거의 없이 호전되었습니다.',
-    image: '/images/reviews/case-01-handwriting.png',
-    imageUrl: '/images/reviews/case-01-handwriting.png',
+    image: '/images/reviews/previews/case-01-tic.png',
+    imageUrl: '/images/reviews/previews/case-01-tic.png',
     hashtags: ['#틱장애', '#소아틱장애', '#맞춤한약'],
     isStatic: true,
     permalink: '/reviews/case-01-tic/'
   }
 ];
+
+function getReviewTimestamp(item) {
+  if (!item) return 0;
+  if (item.createdAt) {
+    if (typeof item.createdAt.toMillis === 'function') {
+      return item.createdAt.toMillis();
+    }
+    if (typeof item.createdAt.toDate === 'function') {
+      return item.createdAt.toDate().getTime();
+    }
+    if (typeof item.createdAt.seconds === 'number') {
+      return item.createdAt.seconds * 1000;
+    }
+    const t = new Date(item.createdAt).getTime();
+    if (!isNaN(t)) return t;
+  }
+  if (item.date) {
+    const t = new Date(item.date).getTime();
+    if (!isNaN(t)) return t;
+  }
+  return 0;
+}
+
+function isAllowedPublicPreviewUrl(url) {
+  if (!url || typeof url !== 'string') return false;
+  // 1. Strictly forbid protected originals and long-term download token URLs
+  if (url.includes('treatment-reviews/') || url.includes('original.') || url.includes('token=')) {
+    return false;
+  }
+  // 2. Strictly forbid generic disease placeholder graphics
+  if (url.includes('/images/reviews/review-') || url.endsWith('.svg')) {
+    return false;
+  }
+  // 3. Forbid raw storage path being used directly as relative URL (prevents localhost:1313/public-review-previews/.. 404s)
+  if (url.startsWith('public-review-previews/')) {
+    return false;
+  }
+  // 4. Allow verified public preview storage URL or verified local preview path
+  if (url.includes('public-review-previews') || url.startsWith('/images/reviews/previews/')) {
+    return true;
+  }
+  return false;
+}
+
+function getPublicPreviewMediaUrl(previewPath) {
+  if (!previewPath || typeof previewPath !== 'string') return '';
+  const trimmed = previewPath.trim();
+  // 1. Must strictly start with public-review-previews/
+  if (!trimmed.startsWith('public-review-previews/')) return '';
+  // 2. Reject path traversal, backslash, null bytes, protected originals, tokens
+  if (trimmed.includes('..') || trimmed.includes('\\') || trimmed.includes('\0') ||
+      trimmed.includes('treatment-reviews/') || trimmed.includes('original.') || trimmed.includes('token=')) {
+    return '';
+  }
+  // 3. Must end with safe image extension
+  if (!/\.(webp|png|jpe?g)$/i.test(trimmed)) return '';
+
+  const config = typeof getFirebaseConfig === 'function' ? getFirebaseConfig() : (typeof DEFAULT_FIREBASE_CONFIG !== 'undefined' ? DEFAULT_FIREBASE_CONFIG : {});
+  const bucket = config.storageBucket || 'healimbd-b726f.firebasestorage.app';
+  // Form safe public media URL without long-term download tokens
+  return `https://firebasestorage.googleapis.com/v0/b/${bucket}/o/${encodeURIComponent(trimmed)}?alt=media`;
+}
+
+function getReviewImageUrl(item) {
+  if (!item) return '';
+
+  // 1. previewUrl
+  if (isAllowedPublicPreviewUrl(item.previewUrl)) return item.previewUrl;
+
+  // 2. previewPath (safely converted to public media URL)
+  if (item.previewPath) {
+    const convertedUrl = getPublicPreviewMediaUrl(item.previewPath);
+    if (isAllowedPublicPreviewUrl(convertedUrl)) return convertedUrl;
+  }
+
+  // 3. thumbnailUrl
+  if (isAllowedPublicPreviewUrl(item.thumbnailUrl)) return item.thumbnailUrl;
+
+  // 4. Explicit verified public image / imageUrl
+  const candidateUrl = item.imageUrl || item.image;
+  if (isAllowedPublicPreviewUrl(candidateUrl)) return candidateUrl;
+
+  // 5. Match against canonical STATIC_REVIEW_PREVIEWS dataset if present (for legacy reviews)
+  if (typeof STATIC_REVIEW_PREVIEWS !== 'undefined' && Array.isArray(STATIC_REVIEW_PREVIEWS)) {
+    const itemId = item.id || item.reviewId;
+    const legacyId = item.legacyId;
+    const match = STATIC_REVIEW_PREVIEWS.find(s =>
+      s.id === itemId || s.reviewId === itemId ||
+      (legacyId && (s.id === legacyId || s.reviewId === legacyId || s.legacyId === legacyId))
+    );
+    if (match) {
+      const staticUrl = match.previewUrl || match.image || match.imageUrl;
+      if (isAllowedPublicPreviewUrl(staticUrl)) return staticUrl;
+    }
+  }
+
+  // 6. Default fallback
+  return '';
+}
 
 function getAllDirectCases() {
   const rawList = [];
@@ -390,14 +489,16 @@ function getAllDirectCases() {
     deduplicated.push(item);
   }
 
-  // 5. Preserve established sort order (createdAt / date descending, keeping established relative order)
+  // 5. Strict createdAt / date newest-first sort with deterministic ID secondary criterion
   deduplicated.sort((a, b) => {
-    const timeA = a.createdAt ? (a.createdAt.toMillis ? a.createdAt.toMillis() : new Date(a.createdAt).getTime()) : (a.date ? new Date(a.date).getTime() : 0);
-    const timeB = b.createdAt ? (b.createdAt.toMillis ? b.createdAt.toMillis() : new Date(b.createdAt).getTime()) : (b.date ? new Date(b.date).getTime() : 0);
-    if (timeA && timeB && timeA !== timeB) {
+    const timeA = getReviewTimestamp(a);
+    const timeB = getReviewTimestamp(b);
+    if (timeA !== timeB) {
       return timeB - timeA;
     }
-    return 0;
+    const idA = String(a.id || a.reviewId || '');
+    const idB = String(b.id || b.reviewId || '');
+    return idA.localeCompare(idB);
   });
 
   return deduplicated;
@@ -473,15 +574,25 @@ function renderHandwrittenReviewsPage() {
 
     const summaryText = getCaseSummaryPreview(item);
     const clickHandler = item.isStatic ? `openStaticCaseReader('${item.id}', '${item.permalink || `/reviews/${item.id}/`}')` : `openCustomCaseReader('${item.id}')`;
+    const imgSrc = getReviewImageUrl(item);
+
+    const thumbHtml = imgSrc
+      ? `<img src="${imgSrc}" alt="${escapeHtml(item.title || item.categoryName || '치료사례')} 자필 후기" class="case-thumb-img" loading="lazy" onerror="this.style.display='none'; const fb = this.nextElementSibling; if (fb) fb.style.display='flex';">
+          <div class="case-thumb-fallback" id="thumb-fallback-${item.id}" style="display:none;">
+            <div class="thumb-watermark-icon"><i class="ph-bold ph-file-text"></i></div>
+            <span class="thumb-title-badge">해아림 임상 치험례</span>
+            <span class="thumb-lock-hint"><i class="ph-bold ph-lock-key"></i> 자필 전문은 인증 후 열람</span>
+          </div>`
+      : `<div class="case-thumb-fallback" id="thumb-fallback-${item.id}" style="display:flex;">
+          <div class="thumb-watermark-icon"><i class="ph-bold ph-file-text"></i></div>
+          <span class="thumb-title-badge">해아림 임상 치험례</span>
+          <span class="thumb-lock-hint"><i class="ph-bold ph-lock-key"></i> 자필 전문은 인증 후 열람</span>
+        </div>`;
 
     card.innerHTML = `
       <div class="case-card-anchor" style="cursor: pointer;" onclick="${clickHandler}">
         <div class="case-thumb-wrap">
-          <div class="case-thumb-fallback">
-            <div class="thumb-watermark-icon"><i class="ph-bold ph-file-text"></i></div>
-            <span class="thumb-title-badge">해아림 임상 치험례</span>
-            <span class="thumb-lock-hint"><i class="ph-bold ph-lock-key"></i> 자필 전문은 인증 후 열람</span>
-          </div>
+          ${thumbHtml}
           <span class="case-tag-pill ${item.category || ''}">${escapeHtml(item.categoryName || '치료사례')}</span>
           <span class="case-direct-badge">📝 자필 후기</span>
         </div>
@@ -1685,13 +1796,16 @@ async function handleSocialLogin(provider) {
   }, 5 * 60 * 1000);
 
   const onSocialAuthMessage = async (event) => {
-    // Condition 1: Exact allowed Cloud Functions origin
-    const isLocalhost = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
-    const expectedOrigin = isLocalhost
-      ? ((event.origin === 'http://localhost:5001' || event.origin === 'http://127.0.0.1:5001') ? event.origin : 'https://asia-northeast3-healimbd-b726f.cloudfunctions.net')
-      : 'https://asia-northeast3-healimbd-b726f.cloudfunctions.net';
+    // Condition 1: Whitelist of allowed Cloud Functions / Cloud Run and local emulator origins
+    const allowedAuthOrigins = [
+      'https://asia-northeast3-healimbd-b726f.cloudfunctions.net',
+      'https://kakaoauthcallback-xhogzpofbq-du.a.run.app',
+      'https://naverauthcallback-xhogzpofbq-du.a.run.app',
+      'http://localhost:5001',
+      'http://127.0.0.1:5001'
+    ];
 
-    if (event.origin !== expectedOrigin) return;
+    if (!allowedAuthOrigins.includes(event.origin)) return;
 
     // Condition 2: Exact popup window instance check
     if (event.source !== popup) return;
@@ -2515,6 +2629,7 @@ const STATIC_REVIEW_PREVIEWS = [
     date: '2026-09-08',
     title: '가슴 두근거림으로 잠을 자기 어려움',
     summary: '가슴 두근거림으로 잠을 자기 어려움 식욕이 없고 소화불량 오한, 미열이 지속됨 두통과 어지러움 끊어지지 않는 생각과 걱정, 스트레스',
+    previewUrl: '/images/reviews/previews/legacy_custom-1788853493974.png',
     hashtags: ['#자율신경실조증', '#불안장애', '#불면증']
   },
   {
@@ -2526,6 +2641,7 @@ const STATIC_REVIEW_PREVIEWS = [
     date: '2026-09-08',
     title: '운전을 하기 힘들었고 사고날거 같은 두려움이 있었다.',
     summary: '운전을 하기 힘들었고 사고날거 같은 두려움이 있었다. 밖에 나가기가 힘들고 집에만 있고 싶었다. 약속을 잡을 수도 없었고 일상생활이 불가능해질 거 같았다.',
+    previewUrl: '/images/reviews/previews/legacy_custom-1788853741152.png',
     hashtags: ['#공황장애', '#불안장애']
   },
   {
@@ -2537,6 +2653,7 @@ const STATIC_REVIEW_PREVIEWS = [
     date: '2026-09-08',
     title: '손발 시림 증상',
     summary: '손발 시림 증상 학업 중 땀으로 노트가 젖음',
+    previewUrl: '/images/reviews/previews/legacy_custom-1788853924135.png',
     hashtags: ['#다한증', '#손다한증']
   },
   {
@@ -2548,6 +2665,7 @@ const STATIC_REVIEW_PREVIEWS = [
     date: '2026-09-08',
     title: '잠 들기 전 심장이 빨리 뒤어 그 뒤로 잠이 안듬',
     summary: '잠 들기 전 심장이 빨리 뒤어 그 뒤로 잠이 안듬',
+    previewUrl: '/images/reviews/previews/legacy_custom-1788854026332.png',
     hashtags: ['#불면증', '#수면장애', '#심장두근거림']
   },
   {
@@ -2559,6 +2677,7 @@ const STATIC_REVIEW_PREVIEWS = [
     date: '2026-09-08',
     title: '시도때도 없이 불안함이 가득해져 일상생활에 불편함을 겼었다',
     summary: '시도때도 없이 불안함이 가득해져 일상생활에 불편함을 겼었다',
+    previewUrl: '/images/reviews/previews/legacy_custom-1788854170617.png',
     hashtags: ['#불안장애', '#불안함']
   },
   {
@@ -2570,6 +2689,7 @@ const STATIC_REVIEW_PREVIEWS = [
     date: '2026-09-08',
     title: '가슴이 답답하고 숨쉬기가 어려웠음',
     summary: '가슴이 답답하고 숨쉬기가 어려웠음 기운이 많이 소진 되었음 우울 하였음',
+    previewUrl: '/images/reviews/previews/legacy_custom-1788854289740.png',
     hashtags: ['#화병', '#가슴답답함', '#우울증', '#무기력증']
   },
   {
@@ -2581,6 +2701,7 @@ const STATIC_REVIEW_PREVIEWS = [
     date: '2026-09-08',
     title: '음성, 행동 틱이 심해지고 있었음',
     summary: '음성, 행동 틱이 심해지고 있었음 하루내 여러번, 학기초나 학원 등 노출시 증상 악화',
+    previewUrl: '/images/reviews/previews/legacy_custom-1788854418794.png',
     hashtags: ['#틱장애', '#음성틱', '#행동틱']
   }
 ];
@@ -2604,24 +2725,100 @@ if (typeof window !== 'undefined') {
   window.addEventListener('beforeunload', revokeActiveReviewBlobUrl);
 }
 
+const OFFICIAL_STREAM_PROD_URL = 'https://asia-northeast3-healimbd-b726f.cloudfunctions.net/streamReviewOriginal';
+const OFFICIAL_STREAM_EMULATOR_URL = 'http://127.0.0.1:5001/healimbd-b726f/asia-northeast3/streamReviewOriginal';
+
+function getStreamReviewOriginalUrl() {
+  if (typeof window !== 'undefined') {
+    const hostname = window.location && typeof window.location.hostname === 'string' ? window.location.hostname.toLowerCase() : '';
+    // 1. Production domain and any non-localhost strictly use production endpoint
+    if (hostname !== 'localhost' && hostname !== '127.0.0.1') {
+      return OFFICIAL_STREAM_PROD_URL;
+    }
+    // 2. On localhost/127.0.0.1 only, switch to production endpoint if boolean flag is strictly true
+    if (window.HEALIM_USE_PROD_STREAM_ON_LOCALHOST === true) {
+      return OFFICIAL_STREAM_PROD_URL;
+    }
+    // 3. Default on localhost is official local Emulator endpoint
+    return OFFICIAL_STREAM_EMULATOR_URL;
+  }
+  return OFFICIAL_STREAM_PROD_URL;
+}
+
 async function resolveReviewImageUrl(item) {
   if (!item) return '';
   const reviewId = item.id || item.reviewId;
-  const imagePath = item.imagePath || (reviewId ? `treatment-reviews/${reviewId}/handwriting.webp` : '');
-  if (!imagePath) return '';
+  if (!reviewId) return '';
 
   try {
-    const storage = await ensureFirebaseStorage();
-    if (storage) {
-      const ref = storage.ref(imagePath);
-      // Strictly stream binary via ref.getBlob() - Zero permanent URLs exposed
-      const blob = await ref.getBlob();
-      revokeActiveReviewBlobUrl();
-      activeReviewBlobUrl = URL.createObjectURL(blob);
-      return activeReviewBlobUrl;
+    // 1. Strictly verify non-anonymous authenticated member
+    const currentUser = auth ? auth.currentUser : (typeof firebase !== 'undefined' && firebase.auth ? firebase.auth().currentUser : null);
+    if (!currentUser || currentUser.isAnonymous) {
+      console.warn('[REVIEW STREAM] Authentication required to fetch review original blob');
+      return '';
     }
+
+    // 2. Obtain fresh Firebase ID Token
+    const idToken = await currentUser.getIdToken();
+    if (!idToken) return '';
+
+    // 3. Obtain official App Check Token
+    let appCheckToken = '';
+    if (typeof firebase !== 'undefined' && typeof firebase.appCheck === 'function') {
+      try {
+        const tokenObj = await firebase.appCheck().getToken();
+        if (tokenObj && tokenObj.token) {
+          appCheckToken = tokenObj.token;
+        }
+      } catch (appCheckErr) {
+        // App Check failure handled without exposing details
+      }
+    }
+
+    // 4. Resolve endpoint (Local Functions Emulator vs Production)
+    const baseUrl = getStreamReviewOriginalUrl();
+    const requestUrl = `${baseUrl}?reviewId=${encodeURIComponent(reviewId)}`;
+
+    const headers = {
+      'Authorization': `Bearer ${idToken}`
+    };
+    if (appCheckToken) {
+      headers['X-Firebase-AppCheck'] = appCheckToken;
+    }
+
+    const res = await fetch(requestUrl, {
+      method: 'GET',
+      headers: headers
+    });
+
+    // 5. Must strictly be HTTP 200
+    if (res.status !== 200) {
+      console.warn('[REVIEW STREAM NOTICE] Stream status:', res.status);
+      return '';
+    }
+
+    // 6. Verify Content-Type is valid image MIME
+    const contentType = (res.headers.get('content-type') || '').toLowerCase();
+    const isAllowedMime = contentType.startsWith('image/png') ||
+                          contentType.startsWith('image/jpeg') ||
+                          contentType.startsWith('image/webp');
+    if (!isAllowedMime) {
+      console.warn('[REVIEW STREAM NOTICE] Invalid content-type received');
+      return '';
+    }
+
+    // 7. Extract binary blob and verify non-empty
+    const blob = await res.blob();
+    if (!blob || blob.size === 0) {
+      return '';
+    }
+
+    // 8. Bind ephemeral memory Blob URL (Zero permanent URLs exposed)
+    revokeActiveReviewBlobUrl();
+    activeReviewBlobUrl = URL.createObjectURL(blob);
+    return activeReviewBlobUrl;
   } catch (err) {
-    console.warn('[STORAGE BLOB STREAM NOTICE]', err.code || err.message);
+    console.warn('[REVIEW STREAM EXCEPTION]', err.code || err.message || 'fetch_failed');
   }
   return '';
 }
@@ -2838,15 +3035,25 @@ function renderCustomCasesToList() {
       const hashtagsHtml = renderHashtagPills(item.hashtags);
       const summaryText = getCaseSummaryPreview(item);
       const clickHandler = item.isStatic ? `openStaticCaseReader('${item.id}', '${item.permalink || `/reviews/${item.id}/`}')` : `openCustomCaseReader('${item.id}')`;
+      const imgSrc = getReviewImageUrl(item);
+
+      const thumbHtml = imgSrc
+        ? `<img src="${imgSrc}" alt="${escapeHtml(item.title || item.categoryName)} 자필 후기" class="case-thumb-img" loading="lazy" onerror="this.style.display='none'; const fb = this.nextElementSibling; if (fb) fb.style.display='flex';">
+            <div class="case-thumb-fallback" id="thumb-fallback-${item.id}" style="display:none;">
+              <div class="thumb-watermark-icon"><i class="ph-bold ph-file-text"></i></div>
+              <span class="thumb-title-badge">해아림 임상 치험례</span>
+              <span class="thumb-lock-hint"><i class="ph-bold ph-lock-key"></i> 자필 전문은 인증 후 열람</span>
+            </div>`
+        : `<div class="case-thumb-fallback" id="thumb-fallback-${item.id}" style="display:flex;">
+            <div class="thumb-watermark-icon"><i class="ph-bold ph-file-text"></i></div>
+            <span class="thumb-title-badge">해아림 임상 치험례</span>
+            <span class="thumb-lock-hint"><i class="ph-bold ph-lock-key"></i> 자필 전문은 인증 후 열람</span>
+          </div>`;
 
       card.innerHTML = `
         <div class="case-card-anchor" style="cursor: pointer;" onclick="${clickHandler}">
           <div class="case-thumb-wrap">
-            <div class="case-thumb-fallback">
-              <div class="thumb-watermark-icon"><i class="ph-bold ph-file-text"></i></div>
-              <span class="thumb-title-badge">해아림 임상 치험례</span>
-              <span class="thumb-lock-hint"><i class="ph-bold ph-lock-key"></i> 자필 전문은 인증 후 열람</span>
-            </div>
+            ${thumbHtml}
             <span class="case-tag-pill ${item.category}">${item.categoryName}</span>
             <span class="case-direct-badge">📝 임상 치료사례</span>
           </div>
@@ -2930,14 +3137,34 @@ async function openCustomCaseReader(caseId) {
   if (durationEl) durationEl.textContent = `치료기간: ${found.duration || '치료 완료'}`;
 
   // Image resolution for authenticated user
+  const photoBox = document.getElementById('custom-reader-photo-box');
   if (photoEl) {
+    photoEl.onload = null;
+    photoEl.onerror = null;
     photoEl.src = '';
     photoEl.style.display = 'none';
-    const resolvedUrl = await resolveReviewImageUrl(found);
-    if (resolvedUrl) {
-      photoEl.src = resolvedUrl;
-      photoEl.style.display = 'block';
-    }
+  }
+  if (photoBox) {
+    photoBox.style.display = 'none';
+  }
+
+  const resolvedUrl = await resolveReviewImageUrl(found);
+  if (resolvedUrl && photoEl) {
+    photoEl.onload = function() {
+      if (this.naturalWidth > 0 && this.naturalHeight > 0) {
+        this.style.display = 'block';
+        if (photoBox) photoBox.style.display = 'block';
+      } else {
+        this.style.display = 'none';
+        if (photoBox) photoBox.style.display = 'none';
+      }
+    };
+    photoEl.onerror = function() {
+      this.style.display = 'none';
+      if (photoBox) photoBox.style.display = 'none';
+      console.warn('[REVIEW PHOTO LOAD NOTICE] Could not render handwritten review photo');
+    };
+    photoEl.src = resolvedUrl;
   }
 
   if (bodyEl) bodyEl.innerHTML = renderCustomCaseBody(found);
@@ -2965,8 +3192,14 @@ function closeCustomCaseReader() {
   revokeActiveReviewBlobUrl();
   const photoEl = document.getElementById('custom-reader-photo');
   if (photoEl) {
+    photoEl.onload = null;
+    photoEl.onerror = null;
     photoEl.src = '';
     photoEl.style.display = 'none';
+  }
+  const photoBox = document.getElementById('custom-reader-photo-box');
+  if (photoBox) {
+    photoBox.style.display = 'none';
   }
   if (modal) {
     modal.classList.remove('active');

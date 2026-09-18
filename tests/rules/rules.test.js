@@ -195,32 +195,39 @@ describe('Healim Firebase Rules Emulator Verification', () => {
       await assertFails(ref.getDownloadURL());
     });
 
-    test('Scenario 12 [Email Member]: Authenticated non-anonymous user CAN read image', async () => {
+    test('Scenario 12 [Email Member Read Block]: Authenticated email member CANNOT read handwriting image directly', async () => {
       const memberContext = testEnv.authenticatedContext('user-456', {
         email: 'user@test.com',
         firebase: { sign_in_provider: 'password' }
       });
       const storage = memberContext.storage();
       const ref = storage.ref('treatment-reviews/case-01-tic/handwriting.webp');
-      await assertSucceeds(ref.getDownloadURL());
+      await assertFails(ref.getDownloadURL());
     });
 
-    test('Scenario 13 [Kakao Member]: Authenticated Kakao user CAN read image', async () => {
+    test('Scenario 13 [Kakao Member Read Block]: Authenticated Kakao member CANNOT read handwriting image directly', async () => {
       const kakaoContext = testEnv.authenticatedContext('kakao:12345678', {
         firebase: { sign_in_provider: 'custom' }
       });
       const storage = kakaoContext.storage();
       const ref = storage.ref('treatment-reviews/case-01-tic/handwriting.webp');
-      await assertSucceeds(ref.getDownloadURL());
+      await assertFails(ref.getDownloadURL());
     });
 
-    test('Scenario 13-B [Naver Member]: Authenticated Naver user CAN read image', async () => {
+    test('Scenario 13-B [Naver Member Read Block]: Authenticated Naver member CANNOT read handwriting image directly', async () => {
       const naverContext = testEnv.authenticatedContext('naver:88776655', {
         firebase: { sign_in_provider: 'custom' }
       });
       const storage = naverContext.storage();
       const ref = storage.ref('treatment-reviews/case-01-tic/handwriting.webp');
-      await assertSucceeds(ref.getDownloadURL());
+      await assertFails(ref.getDownloadURL());
+    });
+
+    test('Scenario 13-C [Admin Client Read Block]: Even Admin client CANNOT read handwriting image directly (Stream proxy only)', async () => {
+      const adminContext = testEnv.authenticatedContext('admin-001', { admin: true });
+      const storage = adminContext.storage();
+      const ref = storage.ref('treatment-reviews/case-01-tic/handwriting.webp');
+      await assertFails(ref.getDownloadURL());
     });
 
     test('Scenario 14 [Member Write Block]: Regular member CANNOT upload/delete handwriting image', async () => {
@@ -234,13 +241,24 @@ describe('Healim Firebase Rules Emulator Verification', () => {
       await assertFails(existingRef.delete());
     });
 
-    test('Scenario 15 [Admin]: Verified Admin CAN upload and delete handwriting image', async () => {
+    test('Scenario 15 [Admin Write & Delete]: Verified Admin CAN upload and delete valid handwriting image', async () => {
       const adminContext = testEnv.authenticatedContext('admin-001', { admin: true });
       const storage = adminContext.storage();
       const ref = storage.ref('treatment-reviews/case-02-new/handwriting.webp');
       await assertSucceeds(ref.put(testBytes, { contentType: 'image/webp' }));
       const existingRef = storage.ref('treatment-reviews/case-01-tic/handwriting.webp');
       await assertSucceeds(existingRef.delete());
+    });
+
+    test('Scenario 15-B [Invalid MIME & Oversize Block]: Admin CANNOT upload invalid MIME or oversized file', async () => {
+      const adminContext = testEnv.authenticatedContext('admin-001', { admin: true });
+      const storage = adminContext.storage();
+      const invalidMimeRef = storage.ref('treatment-reviews/case-02-new/script.exe');
+      await assertFails(invalidMimeRef.put(testBytes, { contentType: 'text/plain' }));
+
+      const oversizedBytes = Buffer.alloc(21 * 1024 * 1024); // 21MB exceeds 20MB limit
+      const oversizedRef = storage.ref('treatment-reviews/case-02-new/giant.jpg');
+      await assertFails(oversizedRef.put(oversizedBytes, { contentType: 'image/jpeg' }));
     });
   });
 
@@ -277,6 +295,21 @@ describe('Healim Firebase Rules Emulator Verification', () => {
       const adminStorage = adminContext.storage();
       const adminRef = adminStorage.ref('public-review-previews/badge-panic.webp');
       await assertSucceeds(adminRef.put(testBytes, { contentType: 'image/webp' }));
+    });
+  });
+
+  // ==========================================================================
+  // 5. STORAGE: Default Deny on All Other Paths
+  // ==========================================================================
+  describe('Storage: Default Deny /{allPaths=**}', () => {
+    test('Scenario 18 [Default Deny]: Arbitrary Storage paths are blocked for all users', async () => {
+      const unauthContext = testEnv.unauthenticatedContext();
+      const unauthRef = unauthContext.storage().ref('unauthorized-folder/data.json');
+      await assertFails(unauthRef.getDownloadURL());
+
+      const adminContext = testEnv.authenticatedContext('admin-001', { admin: true });
+      const adminRef = adminContext.storage().ref('unauthorized-folder/data.json');
+      await assertFails(adminRef.getDownloadURL());
     });
   });
 });
