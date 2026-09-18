@@ -12704,10 +12704,44 @@ body.reviews-page .case-thumb-fallback {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: #F1F5F9;
+  background: linear-gradient(145deg, #F8FAFC 0%, #EEF2F6 100%);
+  color: #475569;
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+body.reviews-page .thumb-watermark-icon {
+  font-size: 2.4rem;
+  color: #CBD5E1;
+  margin-bottom: 4px;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+body.reviews-page .healim-case-card:hover .thumb-watermark-icon {
+  transform: scale(1.08);
   color: #94A3B8;
-  gap: 6px;
-  font-size: 0.85rem;
+}
+
+body.reviews-page .thumb-title-badge {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #334155;
+  letter-spacing: -0.2px;
+}
+
+body.reviews-page .thumb-lock-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.72rem;
+  color: #64748B;
+  margin-top: 4px;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 2px 8px;
+  border-radius: 9999px;
+  border: 1px solid #E2E8F0;
 }
 
 body.reviews-page .case-tag-pill {

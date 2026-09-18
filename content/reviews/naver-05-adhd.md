@@ -1,14 +1,14 @@
 ---
-title: "산만하고 수업에 집중 못하던 아이가 뉴로피드백과 한약 치료 후 눈에 띄게 차분해졌어요"
+title: "[소아 ADHD] 산만함과 수업 및 과제 집중력 저하 사례"
 date: 2026-08-03
-author: "네이버 예약 학부모 (l****님)"
-patient_info: "초등 ADHD 학부모"
+author: "임상 사례 보호자"
+patient_info: "소아 환아"
 category: "adhd"
-category_name: "주의력결핍 (ADHD)"
+category_name: "주의력결핍(ADHD)"
 review_type: "naver"
-diagnosis: "소아 ADHD 및 주의산만"
-duration: "치료 3개월 차"
+diagnosis: "소아 ADHD"
+duration: "총 3개월"
 rating: 5
-naver_keywords: ["집중력이 좋아졌어요", "아이가 좋아해요", "친절해요", "설명이 자세해요"]
-summary: "학교에서 산만하다고 매번 지적받아 고민이 컸는데 손원장님의 뇌인지 훈련과 한약 치료를 받고 아이가 차분하게 앉아서 공부하는 시간이 많이 늘었습니다."
+naver_keywords: ["아이가 좋아해요", "친절해요", "설명이 자세해요"]
+summary: "수업 시간이나 과제 중 가만히 앉아있기 힘들어하고 충동성과 산만함으로 인해 학습 진도와 학교생활 적응에 반복적인 어려움을 겪었던 초기 사례입니다."
 ---

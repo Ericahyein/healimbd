@@ -47,7 +47,9 @@
           </label>
         </div>
 
-        <button type="submit" class="btn btn-auth-submit">
+        <div id="login-error" style="display: none; color: #DC2626; font-size: 0.85rem; margin-bottom: 12px; line-height: 1.4;"></div>
+
+        <button type="submit" class="btn btn-auth-submit" id="btn-login-submit">
           <span>로그인하고 치료수기 열람하기</span>
           <i class="ph-bold ph-arrow-right"></i>
         </button>
@@ -117,6 +119,8 @@
             <span>[필수] 개인정보 수집 및 의료정보 열람 동의</span>
           </label>
         </div>
+
+        <div id="signup-error" style="display: none; color: #DC2626; font-size: 0.85rem; margin-bottom: 12px; line-height: 1.4;"></div>
 
         <button type="submit" class="btn btn-auth-submit signup-submit">
           <span>회원가입 완료 &amp; 수기 열람</span>

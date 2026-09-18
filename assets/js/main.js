@@ -344,13 +344,112 @@ const STATIC_MARKDOWN_CASES = [
     date: '2026-08-25',
     title: '틱장애 치료 잘하는 곳이라고 소개를 받아 내원했습니다',
     summary: '7세 때 눈깜빡임으로 시작해 10세에 재발하며 킁킁거림, 찡그림, 머리 끄덕임, 몸 움직임으로 악화되었습니다. 해아림 맞춤 한약과 환약 치료 후 복합 증상이 완화되고 현재는 눈깜빡임도 거의 없이 호전되었습니다.',
-    image: '/images/reviews/case-01-handwriting.png',
-    imageUrl: '/images/reviews/case-01-handwriting.png',
+    image: '/images/reviews/previews/case-01-tic.png',
+    imageUrl: '/images/reviews/previews/case-01-tic.png',
     hashtags: ['#틱장애', '#소아틱장애', '#맞춤한약'],
     isStatic: true,
     permalink: '/reviews/case-01-tic/'
   }
 ];
+
+function getReviewTimestamp(item) {
+  if (!item) return 0;
+  if (item.createdAt) {
+    if (typeof item.createdAt.toMillis === 'function') {
+      return item.createdAt.toMillis();
+    }
+    if (typeof item.createdAt.toDate === 'function') {
+      return item.createdAt.toDate().getTime();
+    }
+    if (typeof item.createdAt.seconds === 'number') {
+      return item.createdAt.seconds * 1000;
+    }
+    const t = new Date(item.createdAt).getTime();
+    if (!isNaN(t)) return t;
+  }
+  if (item.date) {
+    const t = new Date(item.date).getTime();
+    if (!isNaN(t)) return t;
+  }
+  return 0;
+}
+
+function isAllowedPublicPreviewUrl(url) {
+  if (!url || typeof url !== 'string') return false;
+  // 1. Strictly forbid protected originals and long-term download token URLs
+  if (url.includes('treatment-reviews/') || url.includes('original.') || url.includes('token=')) {
+    return false;
+  }
+  // 2. Strictly forbid generic disease placeholder graphics
+  if (url.includes('/images/reviews/review-') || url.endsWith('.svg')) {
+    return false;
+  }
+  // 3. Forbid raw storage path being used directly as relative URL (prevents localhost:1313/public-review-previews/.. 404s)
+  if (url.startsWith('public-review-previews/')) {
+    return false;
+  }
+  // 4. Allow verified public preview storage URL or verified local preview path
+  if (url.includes('public-review-previews') || url.startsWith('/images/reviews/previews/')) {
+    return true;
+  }
+  return false;
+}
+
+function getPublicPreviewMediaUrl(previewPath) {
+  if (!previewPath || typeof previewPath !== 'string') return '';
+  const trimmed = previewPath.trim();
+  // 1. Must strictly start with public-review-previews/
+  if (!trimmed.startsWith('public-review-previews/')) return '';
+  // 2. Reject path traversal, backslash, null bytes, protected originals, tokens
+  if (trimmed.includes('..') || trimmed.includes('\\') || trimmed.includes('\0') ||
+      trimmed.includes('treatment-reviews/') || trimmed.includes('original.') || trimmed.includes('token=')) {
+    return '';
+  }
+  // 3. Must end with safe image extension
+  if (!/\.(webp|png|jpe?g)$/i.test(trimmed)) return '';
+
+  const config = typeof getFirebaseConfig === 'function' ? getFirebaseConfig() : (typeof DEFAULT_FIREBASE_CONFIG !== 'undefined' ? DEFAULT_FIREBASE_CONFIG : {});
+  const bucket = config.storageBucket || 'healimbd-b726f.firebasestorage.app';
+  // Form safe public media URL without long-term download tokens
+  return `https://firebasestorage.googleapis.com/v0/b/${bucket}/o/${encodeURIComponent(trimmed)}?alt=media`;
+}
+
+function getReviewImageUrl(item) {
+  if (!item) return '';
+
+  // 1. previewUrl
+  if (isAllowedPublicPreviewUrl(item.previewUrl)) return item.previewUrl;
+
+  // 2. previewPath (safely converted to public media URL)
+  if (item.previewPath) {
+    const convertedUrl = getPublicPreviewMediaUrl(item.previewPath);
+    if (isAllowedPublicPreviewUrl(convertedUrl)) return convertedUrl;
+  }
+
+  // 3. thumbnailUrl
+  if (isAllowedPublicPreviewUrl(item.thumbnailUrl)) return item.thumbnailUrl;
+
+  // 4. Explicit verified public image / imageUrl
+  const candidateUrl = item.imageUrl || item.image;
+  if (isAllowedPublicPreviewUrl(candidateUrl)) return candidateUrl;
+
+  // 5. Match against canonical STATIC_REVIEW_PREVIEWS dataset if present (for legacy reviews)
+  if (typeof STATIC_REVIEW_PREVIEWS !== 'undefined' && Array.isArray(STATIC_REVIEW_PREVIEWS)) {
+    const itemId = item.id || item.reviewId;
+    const legacyId = item.legacyId;
+    const match = STATIC_REVIEW_PREVIEWS.find(s =>
+      s.id === itemId || s.reviewId === itemId ||
+      (legacyId && (s.id === legacyId || s.reviewId === legacyId || s.legacyId === legacyId))
+    );
+    if (match) {
+      const staticUrl = match.previewUrl || match.image || match.imageUrl;
+      if (isAllowedPublicPreviewUrl(staticUrl)) return staticUrl;
+    }
+  }
+
+  // 6. Default fallback
+  return '';
+}
 
 function getAllDirectCases() {
   const rawList = [];
@@ -390,14 +489,16 @@ function getAllDirectCases() {
     deduplicated.push(item);
   }
 
-  // 5. Preserve established sort order (createdAt / date descending, keeping established relative order)
+  // 5. Strict createdAt / date newest-first sort with deterministic ID secondary criterion
   deduplicated.sort((a, b) => {
-    const timeA = a.createdAt ? (a.createdAt.toMillis ? a.createdAt.toMillis() : new Date(a.createdAt).getTime()) : (a.date ? new Date(a.date).getTime() : 0);
-    const timeB = b.createdAt ? (b.createdAt.toMillis ? b.createdAt.toMillis() : new Date(b.createdAt).getTime()) : (b.date ? new Date(b.date).getTime() : 0);
-    if (timeA && timeB && timeA !== timeB) {
+    const timeA = getReviewTimestamp(a);
+    const timeB = getReviewTimestamp(b);
+    if (timeA !== timeB) {
       return timeB - timeA;
     }
-    return 0;
+    const idA = String(a.id || a.reviewId || '');
+    const idB = String(b.id || b.reviewId || '');
+    return idA.localeCompare(idB);
   });
 
   return deduplicated;
@@ -471,18 +572,27 @@ function renderHandwrittenReviewsPage() {
     card.setAttribute('data-category', item.category || '');
     card.setAttribute('data-review-type', 'direct');
 
-    const imgSrc = getReviewImageUrl(item);
     const summaryText = getCaseSummaryPreview(item);
     const clickHandler = item.isStatic ? `openStaticCaseReader('${item.id}', '${item.permalink || `/reviews/${item.id}/`}')` : `openCustomCaseReader('${item.id}')`;
+    const imgSrc = getReviewImageUrl(item);
+
+    const thumbHtml = imgSrc
+      ? `<img src="${imgSrc}" alt="${escapeHtml(item.title || item.categoryName || '치료사례')} 자필 후기" class="case-thumb-img" loading="lazy" onerror="this.style.display='none'; const fb = this.nextElementSibling; if (fb) fb.style.display='flex';">
+          <div class="case-thumb-fallback" id="thumb-fallback-${item.id}" style="display:none;">
+            <div class="thumb-watermark-icon"><i class="ph-bold ph-file-text"></i></div>
+            <span class="thumb-title-badge">해아림 임상 치험례</span>
+            <span class="thumb-lock-hint"><i class="ph-bold ph-lock-key"></i> 자필 전문은 인증 후 열람</span>
+          </div>`
+      : `<div class="case-thumb-fallback" id="thumb-fallback-${item.id}" style="display:flex;">
+          <div class="thumb-watermark-icon"><i class="ph-bold ph-file-text"></i></div>
+          <span class="thumb-title-badge">해아림 임상 치험례</span>
+          <span class="thumb-lock-hint"><i class="ph-bold ph-lock-key"></i> 자필 전문은 인증 후 열람</span>
+        </div>`;
 
     card.innerHTML = `
       <div class="case-card-anchor" style="cursor: pointer;" onclick="${clickHandler}">
         <div class="case-thumb-wrap">
-          <img src="${imgSrc}" alt="${escapeHtml(item.title || item.categoryName || '치료사례')} 자필 후기" class="case-thumb-img" loading="lazy" onerror="this.style.display='none'; const fb = this.nextElementSibling; if (fb) fb.style.display='flex';">
-          <div class="case-thumb-fallback" id="thumb-fallback-${item.id}" style="display:none;">
-            <i class="ph-bold ph-newspaper"></i>
-            <span>해아림 자필 후기</span>
-          </div>
+          ${thumbHtml}
           <span class="case-tag-pill ${item.category || ''}">${escapeHtml(item.categoryName || '치료사례')}</span>
           <span class="case-direct-badge">📝 자필 후기</span>
         </div>
@@ -544,27 +654,34 @@ function goToHandwrittenPage(page) {
   }
 }
 
-async function openStaticCaseReader(id, permalink) {
-  let currentUser = null;
+async function openProtectedCaseReader(caseId, permalink) {
   try {
-    const authObj = await ensureFirebaseAuth();
-    currentUser = authObj ? authObj.currentUser : null;
+    await ensureAuthReady();
   } catch (e) {}
 
-  const storedUser = localStorage.getItem('healim_auth_user');
-  if (!currentUser && !storedUser) {
+  const currentUser = auth ? auth.currentUser : null;
+  const isNonAnonymousMember = !!(currentUser && !currentUser.isAnonymous);
+
+  if (!isNonAnonymousMember) {
+    sessionStorage.setItem('pendingReviewTarget', caseId);
     if (typeof showAuthToast === 'function') {
       showAuthToast('🔒 의료법 규정에 따라 치료후기 전문 및 원본 자필 이미지는 로그인 후 열람하실 수 있습니다.');
     }
-    if (typeof openLoginModal === 'function') {
-      openLoginModal();
+    if (typeof openAuthModal === 'function') {
+      openAuthModal('login');
     }
     return;
   }
 
-  if (permalink) {
+  if (typeof openCustomCaseReader === 'function') {
+    openCustomCaseReader(caseId);
+  } else if (permalink) {
     window.location.href = permalink;
   }
+}
+
+async function openStaticCaseReader(id, permalink) {
+  return openProtectedCaseReader(id, permalink);
 }
 
 // Generic Custom Mobile Dropdown Handler & Synchronizer
@@ -970,34 +1087,103 @@ function renderNaverReviewsPage() {
 }
 
 // 8. Medical Law Member Auth System (로그인 / 회원가입 & 보호 콘텐츠 열람)
-function initAuth() {
-  const storedUser = localStorage.getItem('healim_auth_user');
-  if (storedUser) {
-    try {
-      const user = JSON.parse(storedUser);
-      if (user && user.isAdmin) {
-        user.name = '관리자';
-        localStorage.setItem('healim_auth_user', JSON.stringify(user));
-      }
-      updateAuthUI(user);
-    } catch (e) {
-      localStorage.removeItem('healim_auth_user');
-      checkAdminSessionFallback();
-    }
-  } else {
-    checkAdminSessionFallback();
-  }
+let authReadyPromise = null;
+let authReadyResolve = null;
+
+function ensureAuthReady() {
+  if (authReadyPromise) return authReadyPromise;
+  authReadyPromise = new Promise((resolve) => {
+    authReadyResolve = resolve;
+  });
+  return authReadyPromise;
 }
 
-function checkAdminSessionFallback() {
-  const isAdminAuth = sessionStorage.getItem('healim_admin_auth') === 'true';
-  if (isAdminAuth) {
-    // Rule 1: sessionStorage is a temporary UI restoration hint only.
-    // Immediately verify the actual session against Firebase Auth & Firestore admins collection.
-    // Do NOT activate admin UI prior to successful verification.
-    verifyExistingAdminSession();
-  } else {
-    updateAuthUI(null);
+function initAuth() {
+  ensureAuthReady();
+  setupFirebaseAuthListener();
+}
+
+let firebaseAuthListenerAttached = false;
+async function setupFirebaseAuthListener() {
+  if (firebaseAuthListenerAttached) return;
+  firebaseAuthListenerAttached = true;
+
+  try {
+    await ensureFirebaseAuth();
+    if (!auth) {
+      if (authReadyResolve) {
+        authReadyResolve(null);
+        authReadyResolve = null;
+      }
+      return;
+    }
+
+    auth.onAuthStateChanged(async (user) => {
+      console.log('[FIREBASE AUTH STATE]', user ? (user.uid + ' (anon: ' + user.isAnonymous + ')') : 'unauthenticated');
+
+      if (user && !user.isAnonymous) {
+        let isAdmin = false;
+        try {
+          isAdmin = await checkAdminPrivileges(user);
+        } catch (e) {
+          console.warn('[ADMIN CHECK NOTICE]', e);
+        }
+
+        if (isAdmin) {
+          isAdminVerified = true;
+          sessionStorage.setItem('healim_admin_auth', 'true');
+          sessionStorage.setItem('healim_admin_user', JSON.stringify({ name: '대표원장', email: user.email, isAdmin: true }));
+          localStorage.setItem('healim_admin_logged', 'true');
+        }
+
+        const isKakao = user.uid.startsWith('kakao:');
+        let displayName = user.displayName;
+        if (!displayName) {
+          if (isKakao) displayName = '카카오 회원';
+          else if (user.email) displayName = user.email.split('@')[0];
+          else displayName = '회원';
+        }
+
+        const memberData = {
+          uid: user.uid,
+          name: displayName,
+          email: user.email || (isKakao ? '카카오 인증계정' : ''),
+          isAdmin: isAdmin,
+          provider: isKakao ? 'kakao' : ((user.providerData && user.providerData[0] && user.providerData[0].providerId) || 'password')
+        };
+
+        localStorage.setItem('healim_auth_user', JSON.stringify(memberData));
+        updateAuthUI(memberData);
+
+        // Resume target review if pending
+        const pending = sessionStorage.getItem('pendingReviewTarget');
+        if (pending) {
+          sessionStorage.removeItem('pendingReviewTarget');
+          setTimeout(() => {
+            openProtectedCaseReader(pending);
+          }, 350);
+        }
+      } else {
+        isAdminVerified = false;
+        localStorage.removeItem('healim_auth_user');
+        sessionStorage.removeItem('healim_admin_auth');
+        sessionStorage.removeItem('healim_admin_user');
+        localStorage.removeItem('healim_admin_logged');
+        document.body.classList.remove('is-admin');
+        updateAuthUI(null);
+      }
+
+      if (authReadyResolve) {
+        authReadyResolve(user && !user.isAnonymous ? user : null);
+        authReadyResolve = null;
+      }
+    });
+  } catch (err) {
+    console.warn('[AUTH LISTENER INIT NOTICE]', err);
+    if (authReadyResolve) {
+      authReadyResolve(null);
+      authReadyResolve = null;
+    }
   }
 }
 
@@ -1453,67 +1639,367 @@ async function handleDedicatedAdminLogin(e) {
   }
 }
 
-function handleSocialLogin(provider) {
+let activeSocialAuthPopup = null;
+let activeSocialAuthCleanup = null;
+
+async function handleSocialLogin(provider) {
   const providerName = provider === 'naver' ? '네이버' : '카카오';
-  const dummyUser = {
-    name: provider === 'naver' ? '네이버 인증회원' : '카카오 인증회원',
-    email: provider === 'naver' ? 'naver_user@naver.com' : 'kakao_user@kakao.com',
-    provider: provider,
-    loginAt: new Date().toISOString()
+
+  // 1. Read configuration flag injected by Hugo in <head>
+  const isSocialAuthDeployed = !!(
+    (typeof window.HEALIM_CONFIG !== 'undefined' && window.HEALIM_CONFIG.SOCIAL_AUTH_DEPLOYED) ||
+    window.HEALIM_SOCIAL_AUTH_DEPLOYED === true
+  );
+
+  if (!isSocialAuthDeployed) {
+    if (typeof showAuthToast === 'function') {
+      showAuthToast('💡 네이버·카카오 간편 로그인은 현재 보안 연동 준비 중입니다. 현재는 이메일 회원가입 및 로그인을 이용해 주세요.');
+    }
+    const emailInput = document.getElementById('login-email');
+    if (emailInput) {
+      emailInput.focus();
+    }
+    return;
+  }
+
+  if (provider !== 'kakao' && provider !== 'naver') return;
+
+  // 2. Prevent concurrent / duplicate popup launches
+  if (activeSocialAuthPopup && !activeSocialAuthPopup.closed) {
+    try {
+      activeSocialAuthPopup.focus();
+    } catch (e) {}
+    if (typeof showAuthToast === 'function') {
+      showAuthToast(`⚠️ 이미 ${providerName} 로그인 창이 열려 있습니다. 진행 중인 창에서 인증을 완료해 주세요.`);
+    }
+    return;
+  }
+
+  // Cleanup any leftover listener from previous attempts
+  if (typeof activeSocialAuthCleanup === 'function') {
+    activeSocialAuthCleanup(false);
+  }
+
+  // 3. SYNCHRONOUS POPUP INITIALIZATION (Directly within user click call-stack before any await)
+  // Modern browsers (Chrome, Safari, Edge) discard user activation if window.open is called after an await.
+  // Opening 'about:blank' synchronously guarantees the popup is never blocked.
+  const width = 500;
+  const height = 650;
+  const left = Math.max(0, (window.screen.width - width) / 2);
+  const top = Math.max(0, (window.screen.height - height) / 2);
+
+  const popup = window.open(
+    'about:blank',
+    `${provider}_oauth_popup`,
+    `width=${width},height=${height},top=${top},left=${left},scrollbars=yes,resizable=yes`
+  );
+
+  // Failure Case A: Browser Popup Blocked
+  if (!popup || popup.closed || typeof popup.closed === 'undefined') {
+    showAuthToast('⚠️ 브라우저에 의해 팝업이 차단되었습니다. 주소창의 팝업 차단을 해제한 후 다시 시도해 주세요.');
+    return;
+  }
+
+  activeSocialAuthPopup = popup;
+
+  // 4. Await Firebase Auth Initialization
+  try {
+    await ensureFirebaseAuth();
+  } catch (e) {
+    console.warn('[AUTH INIT NOTICE]', e);
+  }
+
+  // Failure Case B: Firebase Auth initialization failed
+  if (!auth) {
+    try { popup.close(); } catch (_) {}
+    activeSocialAuthPopup = null;
+    showAuthToast('⚠️ 인증 모듈을 초기화할 수 없습니다. 네트워크 연결을 확인한 후 다시 시도해 주세요.');
+    return;
+  }
+
+  // Failure Case C: User closed blank popup while waiting for auth initialization
+  if (popup.closed) {
+    activeSocialAuthPopup = null;
+    showAuthToast(`💡 ${providerName} 로그인 창이 닫혔습니다.`);
+    return;
+  }
+
+  // 5. Resolve HTTPS start endpoint and redirect popup location
+  const currentOrigin = window.location.origin;
+  const baseEndpoint = provider === 'kakao'
+    ? (window.HEALIM_KAKAO_AUTH_START_URL || 'https://asia-northeast3-healimbd-b726f.cloudfunctions.net/kakaoAuthStart')
+    : (window.HEALIM_NAVER_AUTH_START_URL || 'https://asia-northeast3-healimbd-b726f.cloudfunctions.net/naverAuthStart');
+
+  // Securely pass origin query param (server strictly validates against ALLOWED_ORIGINS)
+  let targetUrl = baseEndpoint;
+  try {
+    const parsed = new URL(baseEndpoint, window.location.href);
+    parsed.searchParams.set('origin', currentOrigin);
+    targetUrl = parsed.toString();
+  } catch (e) {
+    targetUrl = `${baseEndpoint}?origin=${encodeURIComponent(currentOrigin)}`;
+  }
+
+  try {
+    popup.location.href = targetUrl;
+  } catch (e) {
+    popup.location = targetUrl;
+  }
+
+  showAuthToast(`${providerName} 로그인 창이 열렸습니다. 인증을 진행해 주세요.`);
+
+  // 6. Strict postMessage & lifecycle validation (Success, Explicit Failure, User Cancel, Timeout)
+  const expectedSuccessType = provider === 'kakao' ? 'KAKAO_AUTH_SUCCESS' : 'NAVER_AUTH_SUCCESS';
+  const expectedErrorType = provider === 'kakao' ? 'KAKAO_AUTH_ERROR' : 'NAVER_AUTH_ERROR';
+  let isMessageProcessed = false;
+  let pollTimer = null;
+  let timeoutTimer = null;
+
+  const cleanup = (shouldClosePopup = true) => {
+    window.removeEventListener('message', onSocialAuthMessage);
+    if (pollTimer) {
+      clearInterval(pollTimer);
+      pollTimer = null;
+    }
+    if (timeoutTimer) {
+      clearTimeout(timeoutTimer);
+      timeoutTimer = null;
+    }
+    if (shouldClosePopup && activeSocialAuthPopup && !activeSocialAuthPopup.closed) {
+      try {
+        activeSocialAuthPopup.close();
+      } catch (e) {}
+    }
+    activeSocialAuthPopup = null;
+    activeSocialAuthCleanup = null;
+  };
+  activeSocialAuthCleanup = cleanup;
+
+  // Poll for user manually closing the popup window
+  pollTimer = setInterval(() => {
+    if (popup.closed) {
+      if (!isMessageProcessed) {
+        cleanup(false);
+        showAuthToast(`💡 ${providerName} 로그인 창이 닫혔습니다.`);
+      } else {
+        cleanup(false);
+      }
+    }
+  }, 800);
+
+  // 5 minutes timeout guard
+  timeoutTimer = setTimeout(() => {
+    if (!isMessageProcessed) {
+      cleanup(true);
+      showAuthToast(`⏱️ ${providerName} 로그인 대기 시간이 초과되었습니다. 다시 시도해 주세요.`);
+    }
+  }, 5 * 60 * 1000);
+
+  const onSocialAuthMessage = async (event) => {
+    // Condition 1: Whitelist of allowed Cloud Functions / Cloud Run and local emulator origins
+    const allowedAuthOrigins = [
+      'https://asia-northeast3-healimbd-b726f.cloudfunctions.net',
+      'https://kakaoauthcallback-xhogzpofbq-du.a.run.app',
+      'https://naverauthcallback-xhogzpofbq-du.a.run.app',
+      'http://localhost:5001',
+      'http://127.0.0.1:5001'
+    ];
+
+    if (!allowedAuthOrigins.includes(event.origin)) return;
+
+    // Condition 2: Exact popup window instance check
+    if (event.source !== popup) return;
+
+    if (!event.data) return;
+
+    // Condition 3A: Immediate error message handling from Cloud Functions
+    if (event.data.type === expectedErrorType) {
+      isMessageProcessed = true;
+      cleanup(true);
+      const errCode = event.data.error;
+      if (errCode === 'access_denied') {
+        showAuthToast(`💡 ${providerName} 로그인이 취소되었습니다.`);
+      } else if (errCode === 'state_mismatch') {
+        showAuthToast(`❌ 보안 검증(CSRF state)에 실패했습니다. 다시 시도해 주세요.`);
+      } else {
+        showAuthToast(`❌ ${providerName} 로그인 처리 중 오류가 발생했습니다. 다시 시도해 주세요.`);
+      }
+      return;
+    }
+
+    // Condition 3B: Expected data payload & provider check
+    if (event.data.type !== expectedSuccessType) return;
+    if (event.data.provider !== provider) return;
+
+    // Condition 4: Server state verification status check
+    if (event.data.stateVerified !== true || event.data.status !== 'success') {
+      isMessageProcessed = true;
+      cleanup(true);
+      showAuthToast(`❌ ${providerName} 인증 상태 검증(CSRF)에 실패했습니다.`);
+      return;
+    }
+
+    // Condition 5: Single execution guarantee - immediately remove listener
+    if (isMessageProcessed) return;
+    isMessageProcessed = true;
+    cleanup(true);
+
+    // Condition 6: Custom Token validation & memory-only consumption
+    let customToken = event.data.customToken;
+    if (!customToken || typeof customToken !== 'string') {
+      showAuthToast(`❌ ${providerName} 토큰 정보가 유효하지 않습니다.`);
+      return;
+    }
+
+    try {
+      // Memory-only sign-in: Never written to URL, localStorage, sessionStorage, or logs
+      await auth.signInWithCustomToken(customToken);
+      customToken = null; // Purge immediately from memory
+
+      closeAuthModal();
+      showAuthToast(`🎉 ${providerName} 회원 인증이 완료되었습니다! 모든 치료사례를 열람하실 수 있습니다.`);
+
+      // Resume pending review reader if target exists
+      const pendingTarget = sessionStorage.getItem('pendingReviewTarget');
+      if (pendingTarget) {
+        sessionStorage.removeItem('pendingReviewTarget');
+        if (typeof openCustomCaseReader === 'function') {
+          openCustomCaseReader(pendingTarget);
+        }
+      }
+    } catch (err) {
+      customToken = null;
+      console.error(`[${providerName.toUpperCase()} AUTH ERROR]`, err.code || 'sign_in_failed');
+      showAuthToast(`❌ ${providerName} 인증 처리 실패: 다시 시도해 주세요.`);
+    }
   };
 
-  localStorage.setItem('healim_auth_user', JSON.stringify(dummyUser));
-  updateAuthUI(dummyUser);
-  closeAuthModal();
-  showAuthToast(`🎉 ${providerName} 간편 로그인 완료! 모든 치료사례와 자필 수기를 열람하실 수 있습니다.`);
+  window.addEventListener('message', onSocialAuthMessage);
 }
 
-function handleEmailLogin(e) {
+async function handleEmailLogin(e) {
   e.preventDefault();
   const emailInput = document.getElementById('login-email');
   const passwordInput = document.getElementById('login-password');
-  const email = emailInput ? emailInput.value.trim() : '회원';
+  const errorEl = document.getElementById('login-error');
+  const submitBtn = document.getElementById('btn-login-submit') || e.target.querySelector('button[type="submit"]');
+
+  const email = emailInput ? emailInput.value.trim() : '';
   const password = passwordInput ? passwordInput.value.trim() : '';
 
-  let name = email.split('@')[0] || '회원';
+  if (!email || !password) {
+    if (errorEl) {
+      errorEl.textContent = '이메일과 비밀번호를 모두 입력해 주세요.';
+      errorEl.style.display = 'block';
+    }
+    return;
+  }
 
-  const user = {
-    name: name,
-    email: email,
-    provider: 'email',
-    isAdmin: false,
-    loginAt: new Date().toISOString()
-  };
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="ph-bold ph-spinner ph-spin"></i> <span>로그인 중...</span>';
+  }
+  if (errorEl) errorEl.style.display = 'none';
 
-  localStorage.setItem('healim_auth_user', JSON.stringify(user));
-  updateAuthUI(user);
-  closeAuthModal();
-  showAuthToast(`🎉 ${name}님 환영합니다! 로그인되어 자필 수기를 열람하실 수 있습니다.`);
+  try {
+    await ensureFirebaseAuth();
+    if (!auth) throw new Error('Firebase Auth 모듈을 불러올 수 없습니다.');
+
+    // Real Firebase Email Login
+    await auth.signInWithEmailAndPassword(email, password);
+    closeAuthModal();
+    showAuthToast('🎉 로그인되었습니다.');
+  } catch (err) {
+    console.warn('[EMAIL LOGIN FAIL]', err.code || err.message);
+    if (errorEl) {
+      let msg = '로그인에 실패했습니다. 이메일과 비밀번호를 확인해 주세요.';
+      if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
+        msg = '이메일 또는 비밀번호가 일치하지 않습니다.';
+      } else if (err.code === 'auth/invalid-email') {
+        msg = '올바른 이메일 형식을 입력해 주세요.';
+      } else if (err.code === 'auth/too-many-requests') {
+        msg = '너무 많은 로그인 시도가 감지되었습니다. 잠시 후 다시 시도해 주세요.';
+      }
+      errorEl.textContent = msg;
+      errorEl.style.display = 'block';
+    }
+  } finally {
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<span>로그인하고 치료수기 열람하기</span> <i class="ph-bold ph-arrow-right"></i>';
+    }
+  }
 }
 
-function handleEmailSignup(e) {
+async function handleEmailSignup(e) {
   e.preventDefault();
   const nameInput = document.getElementById('signup-name');
   const emailInput = document.getElementById('signup-email');
+  const passwordInput = document.getElementById('signup-password');
+  const errorEl = document.getElementById('signup-error');
+  const submitBtn = e.target.querySelector('button[type="submit"]');
+
   const name = nameInput ? nameInput.value.trim() : '회원';
-  const email = emailInput ? emailInput.value.trim() : 'user@example.com';
+  const email = emailInput ? emailInput.value.trim() : '';
+  const password = passwordInput ? passwordInput.value.trim() : '';
 
-  const user = {
-    name: name,
-    email: email,
-    provider: 'signup',
-    isAdmin: false,
-    loginAt: new Date().toISOString()
-  };
+  if (!email || !password) {
+    if (errorEl) {
+      errorEl.textContent = '이메일과 비밀번호를 모두 입력해 주세요.';
+      errorEl.style.display = 'block';
+    }
+    return;
+  }
 
-  localStorage.setItem('healim_auth_user', JSON.stringify(user));
-  updateAuthUI(user);
-  closeAuthModal();
-  showAuthToast(`🎉 회원가입이 완료되었습니다! ${name}님 환영합니다.`);
+  if (password.length < 6) {
+    if (errorEl) {
+      errorEl.textContent = '비밀번호는 최소 6자리 이상이어야 합니다.';
+      errorEl.style.display = 'block';
+    }
+    return;
+  }
+
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="ph-bold ph-spinner ph-spin"></i> <span>가입 처리 중...</span>';
+  }
+  if (errorEl) errorEl.style.display = 'none';
+
+  try {
+    await ensureFirebaseAuth();
+    if (!auth) throw new Error('Firebase Auth 모듈을 불러올 수 없습니다.');
+
+    const userCred = await auth.createUserWithEmailAndPassword(email, password);
+    if (name && userCred.user && typeof userCred.user.updateProfile === 'function') {
+      await userCred.user.updateProfile({ displayName: name });
+    }
+    closeAuthModal();
+    showAuthToast(`🎉 회원가입이 완료되었습니다! ${name}님 환영합니다.`);
+  } catch (err) {
+    console.warn('[EMAIL SIGNUP FAIL]', err.code || err.message);
+    if (errorEl) {
+      let msg = '회원가입에 실패했습니다.';
+      if (err.code === 'auth/email-already-in-use') {
+        msg = '이미 가입된 이메일 주소입니다. 로그인 탭을 이용해 주세요.';
+      } else if (err.code === 'auth/invalid-email') {
+        msg = '올바른 이메일 형식을 입력해 주세요.';
+      } else if (err.code === 'auth/weak-password') {
+        msg = '비밀번호는 최소 6자리 이상이어야 합니다.';
+      }
+      errorEl.textContent = msg;
+      errorEl.style.display = 'block';
+    }
+  } finally {
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<span>회원가입 완료 &amp; 수기 열람</span> <i class="ph-bold ph-check"></i>';
+    }
+  }
 }
 
 async function logoutUser() {
   try {
+    await ensureFirebaseAuth();
     if (auth) {
       await auth.signOut();
     }
@@ -1525,9 +2011,17 @@ async function logoutUser() {
   localStorage.removeItem('healim_auth_user');
   sessionStorage.removeItem('healim_admin_auth');
   sessionStorage.removeItem('healim_admin_user');
+  sessionStorage.removeItem('pendingReviewTarget');
   localStorage.removeItem('healim_admin_logged');
   document.body.classList.remove('is-admin');
   updateAuthUI(null);
+
+  if (typeof revokeActiveReviewBlobUrl === 'function') {
+    revokeActiveReviewBlobUrl();
+  }
+  if (typeof closeCustomCaseReader === 'function') {
+    closeCustomCaseReader();
+  }
   showAuthToast('로그아웃 되었습니다.');
   if (typeof renderInquiryList === 'function') {
     renderInquiryList();
@@ -2135,6 +2629,7 @@ const STATIC_REVIEW_PREVIEWS = [
     date: '2026-09-08',
     title: '가슴 두근거림으로 잠을 자기 어려움',
     summary: '가슴 두근거림으로 잠을 자기 어려움 식욕이 없고 소화불량 오한, 미열이 지속됨 두통과 어지러움 끊어지지 않는 생각과 걱정, 스트레스',
+    previewUrl: '/images/reviews/previews/legacy_custom-1788853493974.png',
     hashtags: ['#자율신경실조증', '#불안장애', '#불면증']
   },
   {
@@ -2146,6 +2641,7 @@ const STATIC_REVIEW_PREVIEWS = [
     date: '2026-09-08',
     title: '운전을 하기 힘들었고 사고날거 같은 두려움이 있었다.',
     summary: '운전을 하기 힘들었고 사고날거 같은 두려움이 있었다. 밖에 나가기가 힘들고 집에만 있고 싶었다. 약속을 잡을 수도 없었고 일상생활이 불가능해질 거 같았다.',
+    previewUrl: '/images/reviews/previews/legacy_custom-1788853741152.png',
     hashtags: ['#공황장애', '#불안장애']
   },
   {
@@ -2157,6 +2653,7 @@ const STATIC_REVIEW_PREVIEWS = [
     date: '2026-09-08',
     title: '손발 시림 증상',
     summary: '손발 시림 증상 학업 중 땀으로 노트가 젖음',
+    previewUrl: '/images/reviews/previews/legacy_custom-1788853924135.png',
     hashtags: ['#다한증', '#손다한증']
   },
   {
@@ -2168,6 +2665,7 @@ const STATIC_REVIEW_PREVIEWS = [
     date: '2026-09-08',
     title: '잠 들기 전 심장이 빨리 뒤어 그 뒤로 잠이 안듬',
     summary: '잠 들기 전 심장이 빨리 뒤어 그 뒤로 잠이 안듬',
+    previewUrl: '/images/reviews/previews/legacy_custom-1788854026332.png',
     hashtags: ['#불면증', '#수면장애', '#심장두근거림']
   },
   {
@@ -2179,6 +2677,7 @@ const STATIC_REVIEW_PREVIEWS = [
     date: '2026-09-08',
     title: '시도때도 없이 불안함이 가득해져 일상생활에 불편함을 겼었다',
     summary: '시도때도 없이 불안함이 가득해져 일상생활에 불편함을 겼었다',
+    previewUrl: '/images/reviews/previews/legacy_custom-1788854170617.png',
     hashtags: ['#불안장애', '#불안함']
   },
   {
@@ -2190,6 +2689,7 @@ const STATIC_REVIEW_PREVIEWS = [
     date: '2026-09-08',
     title: '가슴이 답답하고 숨쉬기가 어려웠음',
     summary: '가슴이 답답하고 숨쉬기가 어려웠음 기운이 많이 소진 되었음 우울 하였음',
+    previewUrl: '/images/reviews/previews/legacy_custom-1788854289740.png',
     hashtags: ['#화병', '#가슴답답함', '#우울증', '#무기력증']
   },
   {
@@ -2201,6 +2701,7 @@ const STATIC_REVIEW_PREVIEWS = [
     date: '2026-09-08',
     title: '음성, 행동 틱이 심해지고 있었음',
     summary: '음성, 행동 틱이 심해지고 있었음 하루내 여러번, 학기초나 학원 등 노출시 증상 악화',
+    previewUrl: '/images/reviews/previews/legacy_custom-1788854418794.png',
     hashtags: ['#틱장애', '#음성틱', '#행동틱']
   }
 ];
@@ -2209,32 +2710,117 @@ let treatmentReviewsUnsubscribe = null;
 let firestoreReviewPreviews = [...STATIC_REVIEW_PREVIEWS];
 let firestoreTreatmentReviews = [...STATIC_REVIEW_PREVIEWS];
 const reviewDetailCache = new Map();
-const reviewImageUrlCache = new Map();
+let activeReviewBlobUrl = null;
 
-function getReviewImageUrl(item) {
-  if (!item) return '';
-  if (item.imageUrl) return item.imageUrl;
-  if (item.image) return item.image;
-  const reviewId = item.id || item.reviewId;
-  if (!reviewId) return '';
-  const bucket = (typeof DEFAULT_FIREBASE_CONFIG !== 'undefined' && DEFAULT_FIREBASE_CONFIG.storageBucket) || 'healimbd-b726f.firebasestorage.app';
-  const storagePath = `treatment-reviews/${reviewId}/original.png`;
-  return `https://firebasestorage.googleapis.com/v0/b/${bucket}/o/${encodeURIComponent(storagePath)}?alt=media`;
+function revokeActiveReviewBlobUrl() {
+  if (activeReviewBlobUrl) {
+    try {
+      URL.revokeObjectURL(activeReviewBlobUrl);
+    } catch (e) {}
+    activeReviewBlobUrl = null;
+  }
+}
+
+if (typeof window !== 'undefined') {
+  window.addEventListener('beforeunload', revokeActiveReviewBlobUrl);
+}
+
+const OFFICIAL_STREAM_PROD_URL = 'https://asia-northeast3-healimbd-b726f.cloudfunctions.net/streamReviewOriginal';
+const OFFICIAL_STREAM_EMULATOR_URL = 'http://127.0.0.1:5001/healimbd-b726f/asia-northeast3/streamReviewOriginal';
+
+function getStreamReviewOriginalUrl() {
+  if (typeof window !== 'undefined') {
+    const hostname = window.location && typeof window.location.hostname === 'string' ? window.location.hostname.toLowerCase() : '';
+    // 1. Production domain and any non-localhost strictly use production endpoint
+    if (hostname !== 'localhost' && hostname !== '127.0.0.1') {
+      return OFFICIAL_STREAM_PROD_URL;
+    }
+    // 2. On localhost/127.0.0.1 only, switch to production endpoint if boolean flag is strictly true
+    if (window.HEALIM_USE_PROD_STREAM_ON_LOCALHOST === true) {
+      return OFFICIAL_STREAM_PROD_URL;
+    }
+    // 3. Default on localhost is official local Emulator endpoint
+    return OFFICIAL_STREAM_EMULATOR_URL;
+  }
+  return OFFICIAL_STREAM_PROD_URL;
 }
 
 async function resolveReviewImageUrl(item) {
   if (!item) return '';
-  if (item.imageUrl) return item.imageUrl;
-  if (item.image) return item.image;
   const reviewId = item.id || item.reviewId;
-  const imagePath = item.imagePath || (reviewId ? `treatment-reviews/${reviewId}/original.png` : '');
-  if (!imagePath) return item.image || '';
-  if (reviewImageUrlCache.has(imagePath)) {
-    return reviewImageUrlCache.get(imagePath);
+  if (!reviewId) return '';
+
+  try {
+    // 1. Strictly verify non-anonymous authenticated member
+    const currentUser = auth ? auth.currentUser : (typeof firebase !== 'undefined' && firebase.auth ? firebase.auth().currentUser : null);
+    if (!currentUser || currentUser.isAnonymous) {
+      console.warn('[REVIEW STREAM] Authentication required to fetch review original blob');
+      return '';
+    }
+
+    // 2. Obtain fresh Firebase ID Token
+    const idToken = await currentUser.getIdToken();
+    if (!idToken) return '';
+
+    // 3. Obtain official App Check Token
+    let appCheckToken = '';
+    if (typeof firebase !== 'undefined' && typeof firebase.appCheck === 'function') {
+      try {
+        const tokenObj = await firebase.appCheck().getToken();
+        if (tokenObj && tokenObj.token) {
+          appCheckToken = tokenObj.token;
+        }
+      } catch (appCheckErr) {
+        // App Check failure handled without exposing details
+      }
+    }
+
+    // 4. Resolve endpoint (Local Functions Emulator vs Production)
+    const baseUrl = getStreamReviewOriginalUrl();
+    const requestUrl = `${baseUrl}?reviewId=${encodeURIComponent(reviewId)}`;
+
+    const headers = {
+      'Authorization': `Bearer ${idToken}`
+    };
+    if (appCheckToken) {
+      headers['X-Firebase-AppCheck'] = appCheckToken;
+    }
+
+    const res = await fetch(requestUrl, {
+      method: 'GET',
+      headers: headers
+    });
+
+    // 5. Must strictly be HTTP 200
+    if (res.status !== 200) {
+      console.warn('[REVIEW STREAM NOTICE] Stream status:', res.status);
+      return '';
+    }
+
+    // 6. Verify Content-Type is valid image MIME
+    const contentType = (res.headers.get('content-type') || '').toLowerCase();
+    const isAllowedMime = contentType.startsWith('image/png') ||
+                          contentType.startsWith('image/jpeg') ||
+                          contentType.startsWith('image/webp');
+    if (!isAllowedMime) {
+      console.warn('[REVIEW STREAM NOTICE] Invalid content-type received');
+      return '';
+    }
+
+    // 7. Extract binary blob and verify non-empty
+    const blob = await res.blob();
+    if (!blob || blob.size === 0) {
+      return '';
+    }
+
+    // 8. Bind ephemeral memory Blob URL (Zero permanent URLs exposed)
+    revokeActiveReviewBlobUrl();
+    activeReviewBlobUrl = URL.createObjectURL(blob);
+    return activeReviewBlobUrl;
+  } catch (err) {
+    console.warn('[REVIEW STREAM EXCEPTION]', err.code || err.message || 'fetch_failed');
   }
-  const publicUrl = getReviewImageUrl(item);
-  reviewImageUrlCache.set(imagePath, publicUrl);
-  return publicUrl;
+  return '';
 }
 
 async function startTreatmentReviewsSync() {
@@ -2355,7 +2941,6 @@ function handleAdminCaseSubmit(e) {
       // 4. Upload to Firebase Storage
       storageRef = storage.ref(storagePath);
       await storageRef.put(blob, { contentType: mimeType });
-      const downloadUrl = await storageRef.getDownloadURL();
 
       // 5. Save to Firestore (Atomic Two-Tier Batch: Detail in treatment_reviews, Public Preview in treatment_review_previews)
       const docData = {
@@ -2449,17 +3034,26 @@ function renderCustomCasesToList() {
 
       const hashtagsHtml = renderHashtagPills(item.hashtags);
       const summaryText = getCaseSummaryPreview(item);
-      const imgSrc = getReviewImageUrl(item);
       const clickHandler = item.isStatic ? `openStaticCaseReader('${item.id}', '${item.permalink || `/reviews/${item.id}/`}')` : `openCustomCaseReader('${item.id}')`;
+      const imgSrc = getReviewImageUrl(item);
+
+      const thumbHtml = imgSrc
+        ? `<img src="${imgSrc}" alt="${escapeHtml(item.title || item.categoryName)} 자필 후기" class="case-thumb-img" loading="lazy" onerror="this.style.display='none'; const fb = this.nextElementSibling; if (fb) fb.style.display='flex';">
+            <div class="case-thumb-fallback" id="thumb-fallback-${item.id}" style="display:none;">
+              <div class="thumb-watermark-icon"><i class="ph-bold ph-file-text"></i></div>
+              <span class="thumb-title-badge">해아림 임상 치험례</span>
+              <span class="thumb-lock-hint"><i class="ph-bold ph-lock-key"></i> 자필 전문은 인증 후 열람</span>
+            </div>`
+        : `<div class="case-thumb-fallback" id="thumb-fallback-${item.id}" style="display:flex;">
+            <div class="thumb-watermark-icon"><i class="ph-bold ph-file-text"></i></div>
+            <span class="thumb-title-badge">해아림 임상 치험례</span>
+            <span class="thumb-lock-hint"><i class="ph-bold ph-lock-key"></i> 자필 전문은 인증 후 열람</span>
+          </div>`;
 
       card.innerHTML = `
         <div class="case-card-anchor" style="cursor: pointer;" onclick="${clickHandler}">
           <div class="case-thumb-wrap">
-            <img src="${imgSrc}" alt="${escapeHtml(item.title || item.categoryName)} 자필 후기" class="case-thumb-img" loading="lazy" onerror="this.style.display='none'; const fb = this.nextElementSibling; if (fb) fb.style.display='flex';">
-            <div class="case-thumb-fallback" id="thumb-fallback-${item.id}" style="display:none;">
-              <i class="ph-bold ph-newspaper"></i>
-              <span>해아림 임상 사례</span>
-            </div>
+            ${thumbHtml}
             <span class="case-tag-pill ${item.category}">${item.categoryName}</span>
             <span class="case-direct-badge">📝 임상 치료사례</span>
           </div>
@@ -2478,15 +3072,16 @@ function renderCustomCasesToList() {
 }
 
 async function openCustomCaseReader(caseId) {
-  // 1. Check user authentication status
-  let currentUser = null;
+  // 1. Check user authentication status - Real non-anonymous Firebase user required
   try {
-    const authObj = await ensureFirebaseAuth();
-    currentUser = authObj ? authObj.currentUser : null;
+    await ensureAuthReady();
   } catch (e) {}
 
-  if (!currentUser) {
-    // Unauthenticated: DO NOT query treatment_reviews or Storage!
+  const currentUser = auth ? auth.currentUser : null;
+  const isNonAnonymousMember = !!(currentUser && !currentUser.isAnonymous);
+
+  if (!isNonAnonymousMember) {
+    sessionStorage.setItem('pendingReviewTarget', caseId);
     if (typeof showAuthToast === 'function') {
       showAuthToast('🔒 치료후기 상세 내용은 의료법 및 원내 규정에 따라 회원 로그인 후 열람 가능합니다.');
     }
@@ -2542,14 +3137,34 @@ async function openCustomCaseReader(caseId) {
   if (durationEl) durationEl.textContent = `치료기간: ${found.duration || '치료 완료'}`;
 
   // Image resolution for authenticated user
+  const photoBox = document.getElementById('custom-reader-photo-box');
   if (photoEl) {
+    photoEl.onload = null;
+    photoEl.onerror = null;
     photoEl.src = '';
     photoEl.style.display = 'none';
-    const resolvedUrl = await resolveReviewImageUrl(found);
-    if (resolvedUrl) {
-      photoEl.src = resolvedUrl;
-      photoEl.style.display = 'block';
-    }
+  }
+  if (photoBox) {
+    photoBox.style.display = 'none';
+  }
+
+  const resolvedUrl = await resolveReviewImageUrl(found);
+  if (resolvedUrl && photoEl) {
+    photoEl.onload = function() {
+      if (this.naturalWidth > 0 && this.naturalHeight > 0) {
+        this.style.display = 'block';
+        if (photoBox) photoBox.style.display = 'block';
+      } else {
+        this.style.display = 'none';
+        if (photoBox) photoBox.style.display = 'none';
+      }
+    };
+    photoEl.onerror = function() {
+      this.style.display = 'none';
+      if (photoBox) photoBox.style.display = 'none';
+      console.warn('[REVIEW PHOTO LOAD NOTICE] Could not render handwritten review photo');
+    };
+    photoEl.src = resolvedUrl;
   }
 
   if (bodyEl) bodyEl.innerHTML = renderCustomCaseBody(found);
@@ -2574,6 +3189,18 @@ async function openCustomCaseReader(caseId) {
 function closeCustomCaseReader() {
   const modal = document.getElementById('custom-case-reader-modal');
   currentOpenedCustomCaseId = null;
+  revokeActiveReviewBlobUrl();
+  const photoEl = document.getElementById('custom-reader-photo');
+  if (photoEl) {
+    photoEl.onload = null;
+    photoEl.onerror = null;
+    photoEl.src = '';
+    photoEl.style.display = 'none';
+  }
+  const photoBox = document.getElementById('custom-reader-photo-box');
+  if (photoBox) {
+    photoBox.style.display = 'none';
+  }
   if (modal) {
     modal.classList.remove('active');
     document.body.style.overflow = '';
@@ -2853,16 +3480,15 @@ async function executeCasesMigration() {
 
         // 1. Resolve image path (Resume/Repair: Reuse existing Storage image, NEVER re-upload!)
         let storagePath = `treatment-reviews/${deterministicDocId}/original.jpg`;
-        let downloadUrl = '';
         let alreadyInStorage = false;
 
         try {
-          downloadUrl = await storage.ref(storagePath).getDownloadURL();
+          await storage.ref(storagePath).getMetadata();
           alreadyInStorage = true;
         } catch (e1) {
           try {
             const pngPath = `treatment-reviews/${deterministicDocId}/original.png`;
-            downloadUrl = await storage.ref(pngPath).getDownloadURL();
+            await storage.ref(pngPath).getMetadata();
             storagePath = pngPath;
             alreadyInStorage = true;
           } catch (e2) {
@@ -2882,10 +3508,9 @@ async function executeCasesMigration() {
 
           const storageRef = storage.ref(storagePath);
           await storageRef.put(blob, { contentType: mimeType });
-          downloadUrl = await storageRef.getDownloadURL();
         }
 
-        // 2. Prepare Firestore Document
+        // 2. Prepare Firestore Document (Only relative storagePath stored, zero permanent download URLs)
         const docData = {
           id: deterministicDocId,
           reviewType: 'direct',
@@ -2904,7 +3529,7 @@ async function executeCasesMigration() {
           content: item.content || '',
           hashtags: item.hashtags || [],
           imagePath: storagePath,
-          imageUrl: downloadUrl || '',
+          imageUrl: '',
           legacyId: item.id,
           migratedAt: firebase.firestore.FieldValue.serverTimestamp(),
           createdAt: item.createdAt ? new Date(item.createdAt) : firebase.firestore.FieldValue.serverTimestamp(),

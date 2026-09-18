@@ -21,7 +21,7 @@ async function run() {
   const firestoreRules = fs.readFileSync('firestore.rules', 'utf8').replace(/\r\n/g, '\n');
   await test('1. firestore.rules contains treatment_reviews with authenticated read and admin-only write', () => {
     assert.ok(firestoreRules.includes('match /treatment_reviews/{reviewId}'), 'treatment_reviews match exists');
-    assert.ok(firestoreRules.includes('allow read: if request.auth != null;'), 'read restricted to authenticated users');
+    assert.ok(firestoreRules.includes("allow read: if request.auth != null && request.auth.token.firebase.sign_in_provider != 'anonymous';"), 'read restricted to authenticated non-anonymous users');
     assert.ok(firestoreRules.includes('allow create, update, delete: if isAdmin();'), 'write restricted to isAdmin()');
     assert.ok(!firestoreRules.includes('match /treatment_reviews/{reviewId} {\n      allow read: if true;'), 'Must not allow public read');
   });
@@ -134,7 +134,7 @@ async function run() {
     assert.ok(firestoreRules.includes('allow read: if true;'), 'Previews allow public read');
     // 3. Firestore Details: Read requires authenticated user
     assert.ok(firestoreRules.includes('match /treatment_reviews/{reviewId}'), 'treatment_reviews exists');
-    assert.ok(firestoreRules.includes('allow read: if request.auth != null;'), 'Details restricted to authenticated user');
+    assert.ok(firestoreRules.includes("allow read: if request.auth != null && request.auth.token.firebase.sign_in_provider != 'anonymous';"), 'Details restricted to authenticated non-anonymous user');
     // 4. Storage: Read allows public preview cards
     assert.ok(storageRules.includes('match /treatment-reviews/{reviewId}/{fileName}') && storageRules.includes('allow read: if true;'), 'Storage allows public read for preview cards');
   });

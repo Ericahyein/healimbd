@@ -1,0 +1,5 @@
+# Development Environment Overrides for Healim Hugo Site
+# Automatically loaded during 'hugo server' or 'hugo --environment development'
+
+features:
+  social_auth_deployed: true # Enables testing social login in local development environment

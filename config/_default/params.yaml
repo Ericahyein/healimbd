@@ -34,3 +34,7 @@ theme:
     secondary: '#24B598'
     accent: '#F3AA29'
     text: '#3A4048'
+
+# Feature Flags (Public Client Configuration)
+features:
+  social_auth_deployed: true

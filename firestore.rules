@@ -173,8 +173,8 @@ service cloud.firestore {
     // Protected details: handwriting photos, Q1~Q3 answers, and full patient text
     // ========================================================================
     match /treatment_reviews/{reviewId} {
-      // 1. Read: Authenticated users only (Matches site member review access policy)
-      allow read: if request.auth != null;
+      // 1. Read: Authenticated non-anonymous members only (Blocks guests & anonymous users)
+      allow read: if request.auth != null && request.auth.token.firebase.sign_in_provider != 'anonymous';
 
       // 2. Create, Update, Delete: Strictly verified Admin only
       allow create, update, delete: if isAdmin();
