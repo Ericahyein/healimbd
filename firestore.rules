@@ -156,6 +156,24 @@ service cloud.firestore {
       allow delete: if isAdmin();
     }
 
+    // Helper: Validate review update (immutable createdAt, immutable reviewId, monotonic revision, path ownership)
+    function isValidReviewUpdate(reviewId) {
+      let data = request.resource.data;
+      let prev = resource.data;
+      return (
+        // 1. Immutable createdAt
+        (!('createdAt' in prev) || data.createdAt == prev.createdAt) &&
+        // 2. Immutable reviewId
+        (!('id' in data) || data.id == reviewId) &&
+        // 3. Monotonic revision increment (strictly prev.revision + 1)
+        (!('revision' in prev) || data.revision == prev.revision + 1) &&
+        // 4. imagePath must strictly belong to this reviewId directory
+        (!('imagePath' in data) || data.imagePath.matches('^treatment-reviews/' + reviewId + '/.*')) &&
+        // 5. previewPath must strictly belong to this reviewId
+        (!('previewPath' in data) || data.previewPath.matches('^public-review-previews/' + reviewId + '.*'))
+      );
+    }
+
     // ========================================================================
     // CLINICAL TREATMENT REVIEW PREVIEWS COLLECTION (treatment_review_previews)
     // Public non-sensitive card catalog for visitor discovery & filtering
@@ -164,20 +182,27 @@ service cloud.firestore {
       // 1. Public Read (Allows unauthenticated visitors to view catalog cards)
       allow read: if true;
 
-      // 2. Create, Update, Delete: Strictly verified Admin only
-      allow create, update, delete: if isAdmin();
+      // 2. Create, Delete: Strictly verified Admin only
+      allow create, delete: if isAdmin();
+
+      // 3. Update: Strictly verified Admin only + immutable reviewId/createdAt + monotonic revision
+      allow update: if isAdmin() && isValidReviewUpdate(reviewId);
     }
 
     // ========================================================================
     // CLINICAL TREATMENT REVIEWS COLLECTION (treatment_reviews)
     // Protected details: handwriting photos, Q1~Q3 answers, and full patient text
+    // allow create, update, delete: if isAdmin();
     // ========================================================================
     match /treatment_reviews/{reviewId} {
       // 1. Read: Authenticated non-anonymous members only (Blocks guests & anonymous users)
       allow read: if request.auth != null && request.auth.token.firebase.sign_in_provider != 'anonymous';
 
-      // 2. Create, Update, Delete: Strictly verified Admin only
-      allow create, update, delete: if isAdmin();
+      // 2. Create, Delete: Strictly verified Admin only
+      allow create, delete: if isAdmin();
+
+      // 3. Update: Strictly verified Admin only + immutable reviewId/createdAt + monotonic revision
+      allow update: if isAdmin() && isValidReviewUpdate(reviewId);
     }
 
     // ========================================================================

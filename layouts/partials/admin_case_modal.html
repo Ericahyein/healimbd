@@ -188,9 +188,184 @@
     <div class="reader-hashtags-box" id="custom-reader-hashtags" style="display: none;"></div>
 
     <div class="modal-actions reader-actions">
+      <button type="button" class="btn btn-warning-small admin-only-btn" id="btn-edit-custom-case" onclick="openAdminCaseEditor(currentOpenedCustomCaseId)"><i class="ph-bold ph-pencil-simple"></i> 이 후기 수정</button>
       <button type="button" class="btn btn-danger-small admin-only-btn" id="btn-delete-custom-case" onclick="deleteCurrentCustomCase()"><i class="ph-bold ph-trash"></i> 이 글 삭제</button>
       <button type="button" class="btn btn-secondary" onclick="closeCustomCaseReader()">닫기</button>
     </div>
   </div>
   <div class="modal-overlay" onclick="closeCustomCaseReader()"></div>
+</div>
+
+<!-- Admin Case Preflight Inspection Modal (신규 후기 등록 전 공개 미리보기 & 발췌문 최종 검수 모달) -->
+<div class="admin-modal" id="admin-case-preflight-modal" role="dialog" aria-modal="true" aria-labelledby="admin-preflight-title">
+  <div class="modal-card admin-writer-card" style="max-width: 820px;">
+    <div class="modal-header">
+      <div class="modal-header-title-wrap">
+        <div class="admin-badge-icon" style="background: #E0F2FE; color: #0369A1;"><i class="ph-bold ph-eye"></i></div>
+        <div id="admin-preflight-title" class="modal-title">공개 미리보기 및 원문 발췌 <strong>관리자 사전 검수</strong></div>
+      </div>
+      <button class="modal-close" onclick="closeAdminCasePreflight()" aria-label="닫기">
+        <i class="ph ph-x"></i>
+      </button>
+    </div>
+    <p class="modal-subtitle">서버 저장 전 공개 목록에 노출될 <strong>크롭 미리보기(793×335)</strong>와 <strong>실제 원문 발췌문</strong>을 검수·승인합니다.</p>
+
+    <!-- Preview Card Simulation -->
+    <div class="preflight-card-preview" style="background: #F8FAFC; border: 1px solid #CBD5E1; border-radius: 14px; padding: 20px; margin-bottom: 24px;">
+      <div style="font-size: 0.8rem; font-weight: 700; color: #64748B; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
+        <i class="ph-bold ph-cards"></i> 실제 공개 목록 카드 시뮬레이션
+      </div>
+      <div class="healim-case-card" style="max-width: 360px; margin: 0 auto; background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+        <div class="case-thumb-wrap" style="position: relative; aspect-ratio: 793 / 335; background: #F1F5F9; overflow: hidden;">
+          <canvas id="preflight-canvas" width="793" height="335" style="width: 100%; height: 100%; object-fit: cover; display: block;"></canvas>
+          <span class="case-tag-pill" id="preflight-badge" style="position: absolute; top: 12px; left: 12px;">질환 분류</span>
+          <span class="case-direct-badge" style="position: absolute; top: 12px; right: 12px;">📝 자필 후기</span>
+        </div>
+        <div class="case-body-wrap" style="padding: 16px;">
+          <h3 class="case-card-title" id="preflight-card-title" style="font-size: 1rem; font-weight: 700; margin-bottom: 8px; color: #0F172A;">제목</h3>
+          <div class="case-meta-top" style="margin-bottom: 8px;">
+            <span class="case-duration-text" id="preflight-card-duration" style="font-size: 0.82rem; color: #64748B;"><i class="ph-bold ph-calendar-blank"></i> 치료기간: -</span>
+          </div>
+          <p class="case-summary-text" id="preflight-card-excerpt" style="font-size: 0.86rem; color: #334155; line-height: 1.5; margin: 0;">선택된 원문 발췌문</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Preflight Inspection Checklist & Summary Configuration -->
+    <div class="preflight-checklist" style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px;">
+      <div style="background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 10px; padding: 14px 16px; font-size: 0.86rem; color: #166534;">
+        <div style="font-weight: 700; margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+          <i class="ph-bold ph-check-circle"></i> 이미지 자동 처리 규격 확인
+        </div>
+        <div>✓ 793 × 335px 크롭 &amp; 비율 2.367:1 준수 | ✓ 성명·차트번호 영역 불투명 단색 마스킹 적용 | ✓ WebP 압축 및 메타데이터 제거</div>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 0;">
+        <label style="font-weight: 700; font-size: 0.92rem; color: #0F172A; margin-bottom: 8px; display: block;">
+          검수용 공개 요약문(publicSummary) 확인 및 직접 수정 <span class="required">*</span>
+        </label>
+        <p style="font-size: 0.8rem; color: #64748B; margin: 0 0 8px 0;">첫 번째 완결 문장이 카드 제목(h3) 역할을 하며, 나머지 문장은 2~3줄 카드 설명으로 노출됩니다.</p>
+        <textarea id="preflight-input-public-summary" rows="3" style="width: 100%; padding: 10px 12px; border: 1px solid #CBD5E1; border-radius: 8px; font-size: 0.88rem; line-height: 1.5;" oninput="updatePreflightSummaryPreview()"></textarea>
+        <div id="preflight-excerpt-validation" style="margin-top: 8px; font-size: 0.82rem; font-weight: 600;"></div>
+      </div>
+    </div>
+
+    <div class="modal-actions" style="display: flex; justify-content: flex-end; gap: 10px;">
+      <button type="button" class="btn btn-secondary" onclick="closeAdminCasePreflight()">돌아가서 수정</button>
+      <button type="button" class="btn btn-primary-admin" id="btn-preflight-confirm-submit" onclick="executeApprovedCaseSubmit()">
+        <i class="ph-bold ph-cloud-arrow-up"></i> 승인 및 서버 저장 등록
+      </button>
+    </div>
+  </div>
+  <div class="modal-overlay" onclick="closeAdminCasePreflight()"></div>
+</div>
+
+<!-- Admin Case Editor Modal (기존 자필후기 관리자 수정 모달) -->
+<div class="admin-modal" id="admin-case-editor-modal" role="dialog" aria-modal="true" aria-labelledby="admin-editor-title">
+  <div class="modal-card admin-writer-card" style="max-width: 860px;">
+    <div class="modal-header">
+      <div class="modal-header-title-wrap">
+        <div class="admin-badge-icon" style="background: #FEF3C7; color: #D97706;"><i class="ph-bold ph-pencil-simple"></i></div>
+        <div id="admin-editor-title" class="modal-title">자필후기 <strong>관리자 수정</strong></div>
+      </div>
+      <button class="modal-close" onclick="closeAdminCaseEditor()" aria-label="닫기">
+        <i class="ph ph-x"></i>
+      </button>
+    </div>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 0.84rem; color: #64748B;">
+      <span>후기 ID: <strong id="editor-review-id">-</strong></span>
+      <span>현재 버전: <strong id="editor-review-revision">v1</strong> (동시 수정 방지 잠금 적용)</span>
+    </div>
+
+    <form id="admin-case-edit-form" onsubmit="handleAdminCaseEditSubmit(event)">
+      <input type="hidden" id="editor-target-id">
+      <input type="hidden" id="editor-target-revision">
+
+      <div class="form-group">
+        <label for="editor-input-title">후기 제목 (상세 화면 및 관리 참고용, 운영 목록에는 미노출) <span class="required">*</span></label>
+        <input type="text" id="editor-input-title" required style="width: 100%; padding: 10px 14px; border: 1px solid #CBD5E1; border-radius: 8px; font-size: 0.95rem;">
+      </div>
+
+      <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        <div>
+          <label for="editor-input-category">진료과목 (질환 분류) <span class="required">*</span></label>
+          <select id="editor-input-category" required style="width: 100%; padding: 10px 14px; border: 1px solid #CBD5E1; border-radius: 8px;">
+            <option value="tic">소아 틱장애 · 뚜렛</option>
+            <option value="adhd">주의집중력 (소아·성인 ADHD)</option>
+            <option value="panic">공황장애</option>
+            <option value="anxiety">불안장애 · 사회공포증</option>
+            <option value="sleep">수면 · 불면증</option>
+            <option value="autonomic">자율신경실조증</option>
+            <option value="hyperhidrosis">다한증 (손발·전신·안면)</option>
+            <option value="ibs">과민성대장증후군</option>
+            <option value="syncope">미주신경성 실신</option>
+            <option value="etc">기타 신경정신 질환</option>
+          </select>
+        </div>
+        <div>
+          <label for="editor-input-duration">치료기간 표기 <span class="required">*</span></label>
+          <input type="text" id="editor-input-duration" required placeholder="예: 2026.04 ~ 2026.07 (총 4개월)" style="width: 100%; padding: 10px 14px; border: 1px solid #CBD5E1; border-radius: 8px;">
+        </div>
+      </div>
+
+      <!-- Image Management in Edit Mode -->
+      <div class="form-group" style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 16px;">
+        <label style="font-weight: 700; color: #0F172A; display: block; margin-bottom: 8px;">
+          자필 원본 이미지 관리
+        </label>
+        <div style="display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap;">
+          <div>
+            <span style="font-size: 0.8rem; color: #64748B; display: block; margin-bottom: 4px;">현재 공개 미리보기</span>
+            <img id="editor-current-preview-img" src="" alt="현재 미리보기" style="width: 240px; height: 101px; object-fit: cover; border-radius: 8px; border: 1px solid #CBD5E1; display: block;">
+          </div>
+          <div style="flex: 1; min-width: 260px;">
+            <span style="font-size: 0.8rem; color: #64748B; display: block; margin-bottom: 4px;">새 원본 사진 교체 (선택 시 버전 경로로 안전 전환)</span>
+            <input type="file" id="editor-photo-file-input" accept="image/*" onchange="handleEditorPhotoSelect(event)" style="font-size: 0.85rem;">
+            <div id="editor-new-preview-box" style="margin-top: 10px; display: none;">
+              <span style="font-size: 0.78rem; font-weight: 700; color: #0284C7; display: block; margin-bottom: 4px;">새 미리보기 후보 (793×335 마스킹 적용)</span>
+              <canvas id="editor-new-preview-canvas" width="793" height="335" style="width: 240px; height: 101px; object-fit: cover; border-radius: 8px; border: 2px solid #0284C7; display: block;"></canvas>
+              <button type="button" class="btn btn-secondary" onclick="cancelEditorPhotoReplacement()" style="margin-top: 6px; padding: 4px 10px; font-size: 0.78rem;">교체 취소 (기존 원본 유지)</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3-Section Text Editing -->
+      <div class="form-group case-questions-group">
+        <label class="case-questions-main-label">환자 자필 수기 본문 수정 <span class="required">*</span></label>
+        <div class="case-questions-wrapper">
+          <div class="case-question-card">
+            <div class="case-question-header"><span class="q-badge">01</span><span class="q-label">치료 받기 전 증상들로 인해 얼마나 힘들었는지 구체적으로 적어주세요.</span></div>
+            <textarea id="editor-input-q1" class="case-q-textarea" rows="3" required></textarea>
+          </div>
+          <div class="case-question-card">
+            <div class="case-question-header"><span class="q-badge">02</span><span class="q-label">치료받기 전과 비교해 나아진 몸상태에 대해 적어주세요.</span></div>
+            <textarea id="editor-input-q2" class="case-q-textarea" rows="3" required></textarea>
+          </div>
+          <div class="case-question-card">
+            <div class="case-question-header"><span class="q-badge">03</span><span class="q-label">비슷한 질환을 앓고 계신 환자들에게 하고싶은 말이 있으면 적어주세요.</span></div>
+            <textarea id="editor-input-q3" class="case-q-textarea" rows="3" required></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Public Summary in Edit Mode -->
+      <div class="form-group" style="background: #F8FAFC; border: 1px solid #CBD5E1; border-radius: 10px; padding: 14px 16px;">
+        <label style="font-weight: 700; font-size: 0.92rem; color: #0F172A; margin-bottom: 6px; display: block;">
+          공개 요약문(publicSummary) 설정 <span class="required">*</span>
+        </label>
+        <p style="font-size: 0.8rem; color: #64748B; margin: 0 0 10px 0;">첫 문장은 카드 제목 역할을 하며, 나머지 문장은 카드 설명으로 표시됩니다 (비워둘 시 설명글 생략).</p>
+        <textarea id="editor-input-public-summary" rows="3" placeholder="공개 요약문 입력 (첫 문장은 제목 역할, 나머지는 설명글)" style="width: 100%; padding: 10px 12px; border: 1px solid #CBD5E1; border-radius: 8px; font-size: 0.88rem; line-height: 1.5;" oninput="validateEditorSummary()"></textarea>
+        <div id="editor-summary-validation" style="margin-top: 6px; font-size: 0.82rem; font-weight: 600;"></div>
+      </div>
+
+      <div class="modal-actions" style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button type="button" class="btn btn-secondary" onclick="closeAdminCaseEditor()">취소</button>
+        <button type="submit" class="btn btn-primary-admin" id="btn-editor-submit">
+          <i class="ph-bold ph-check"></i> 수정사항 안전 저장 (v<span id="editor-submit-revision">2</span>)
+        </button>
+      </div>
+    </form>
+  </div>
+  <div class="modal-overlay" onclick="closeAdminCaseEditor()"></div>
 </div>
