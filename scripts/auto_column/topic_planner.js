@@ -170,26 +170,127 @@ function planNextColumn(options = {}) {
 
   // Sort candidates by score descending
   validCandidates.sort((a, b) => b.score - a.score);
-  const best = validCandidates[0];
 
-  // Select topic angle that was least recently used for this disease
-  const pastAnglesForDisease = history
-    .filter(h => h.disease === best.disease.id)
-    .map(h => h.topicAngle);
+  // Find best candidate that has an eligible topic angle not in excludedPlanKeys
+  const excludedPlanKeys = options.excludedPlanKeys || new Set();
 
-  const availableAngles = best.disease.topicAngles || [];
-  let chosenAngle = availableAngles[0];
+  for (const cand of validCandidates) {
+    const excludedAngleIdsForCand = new Set();
+    (cand.disease.topicAngles || []).forEach(a => {
+      if (excludedPlanKeys.has(`${cand.region.id}:${cand.disease.id}:${a.id}`)) {
+        excludedAngleIdsForCand.add(a.id);
+      }
+    });
 
-  for (const angle of availableAngles) {
-    if (!pastAnglesForDisease.includes(angle.id)) {
-      chosenAngle = angle;
-      break;
+    const chosenAngle = selectTopicAngleForDisease(cand.disease, history, excludedAngleIdsForCand);
+    if (chosenAngle) {
+      const plan = buildProductionTopicPlan(cand.region, cand.disease, chosenAngle, now);
+      plan.score = cand.score;
+      return plan;
     }
   }
 
-  const plan = buildProductionTopicPlan(best.region, best.disease, chosenAngle, now);
-  plan.score = best.score;
-  return plan;
+  throw new Error('No available candidate topic plans remain after exclusions.');
+}
+
+/**
+ * Selects the optimal topic angle for a disease, prioritizing unused angles
+ * and then least-recently-used (LRU) angles, while excluding any rejected angle IDs.
+ */
+function selectTopicAngleForDisease(disease, history, excludedAngleIds = new Set()) {
+  const availableAngles = (disease.topicAngles || []).filter(a => !excludedAngleIds.has(a.id));
+  if (availableAngles.length === 0) return null;
+
+  // 1. Check for angles never used in history
+  const usedAngleIds = new Set(history.filter(h => h.disease === disease.id).map(h => h.topicAngle));
+  for (const angle of availableAngles) {
+    if (!usedAngleIds.has(angle.id)) {
+      return angle;
+    }
+  }
+
+  // 2. All available angles have been used in history -> select Least Recently Used (oldest publishDate)
+  let oldestAngle = availableAngles[0];
+  let oldestDate = Infinity;
+
+  for (const angle of availableAngles) {
+    const lastUse = history.slice().reverse().find(h => h.disease === disease.id && h.topicAngle === angle.id);
+    if (lastUse && lastUse.publishDate) {
+      const pubTime = new Date(lastUse.publishDate).getTime();
+      if (pubTime < oldestDate) {
+        oldestDate = pubTime;
+        oldestAngle = angle;
+      }
+    } else {
+      return angle;
+    }
+  }
+
+  return oldestAngle;
+}
+
+/**
+ * Returns ranked candidate plans sorted by score descending, respecting rotation policies.
+ * Excludes combinations listed in excludedPlanKeys (Set of `${geoId}:${diseaseId}:${angleId}`).
+ */
+function getRankedCandidatePlans(options = {}, excludedPlanKeys = new Set()) {
+  const history = loadHistory(options.historyPath);
+  const now = options.now || new Date();
+
+  const activeRegions = geoHierarchy.regions.filter(r =>
+    ['city', 'district', 'selected_local_area', 'special_area'].includes(r.regionType)
+  );
+
+  const todayPosts = getTodayPublishedItems(history, now);
+
+  const todayDiseases = new Set(todayPosts.map(p => p.disease));
+  const todayParents = new Set(todayPosts.map(p => p.parentRegion));
+
+  // Build candidate combinations
+  const validCandidates = [];
+
+  for (const region of activeRegions) {
+    for (const disease of diseaseTaxonomy.diseases) {
+      if (todayDiseases.has(disease.id)) continue;
+      if (isGeoDiseaseIn90DayCooldown(history, region.id, disease.id, now)) continue;
+      if (isDiseaseIn3DayCooldown(history, disease.id, now)) continue;
+
+      let score = 100;
+      if (todayParents.has(region.parentRegion)) score -= 30;
+
+      const lastGeoUse = history.slice().reverse().find(h => h.geoId === region.id);
+      if (lastGeoUse) {
+        const daysAgo = (now.getTime() - new Date(lastGeoUse.publishDate).getTime()) / (24 * 3600 * 1000);
+        score += Math.min(daysAgo, 30);
+      } else {
+        score += 35;
+      }
+
+      validCandidates.push({
+        region,
+        disease,
+        score
+      });
+    }
+  }
+
+  validCandidates.sort((a, b) => b.score - a.score);
+
+  const candidatePlans = [];
+
+  for (const cand of validCandidates) {
+    const availableAngles = cand.disease.topicAngles || [];
+    for (const angle of availableAngles) {
+      const planKey = `${cand.region.id}:${cand.disease.id}:${angle.id}`;
+      if (excludedPlanKeys.has(planKey)) continue;
+
+      const plan = buildProductionTopicPlan(cand.region, cand.disease, angle, now);
+      plan.score = cand.score;
+      candidatePlans.push(plan);
+    }
+  }
+
+  return candidatePlans;
 }
 
 /**
@@ -228,5 +329,7 @@ module.exports = {
   getKstDateString,
   getKstCalendarDayDiff,
   planNextColumn,
+  selectTopicAngleForDisease,
+  getRankedCandidatePlans,
   buildProductionTopicPlan
 };
