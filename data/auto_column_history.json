@@ -218,5 +218,16 @@
     "topicAngle": "eye-blinking",
     "title": "[처인구 틱장애] 눈 깜빡임이 잦아질 때 억지로 참게 하면 안 되는 이유",
     "slug": "yongin-cheoin-tic-eye-blinking"
+  },
+  {
+    "publishDate": "2026-09-19T09:27:48.957+09:00",
+    "geoId": "bundang-pangyo",
+    "displayRegion": "판교",
+    "parentRegion": "성남",
+    "regionType": "selected_local_area",
+    "disease": "tic",
+    "topicAngle": "parent-guidance",
+    "title": "[판교 뚜렛증후군] 가정에서 부모가 지켜주어야 할 대처 원칙과 소통법",
+    "slug": "bundang-pangyo-tourette-parent-guidance"
   }
 ]
