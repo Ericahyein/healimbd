@@ -1,3 +1,5 @@
+const fs = require('fs');
+const path = require('path');
 const geoHierarchy = require('./geo_hierarchy.json');
 const diseaseTaxonomy = require('./disease_taxonomy.json');
 const { isInternalUrlValid } = require('./internal_linker');
@@ -297,6 +299,97 @@ function jaroWinkler(s1, s2) {
     weight += l * p * (1 - weight);
   }
   return weight;
+}
+
+/**
+ * Standalone title similarity checker against past publication history.
+ * Strictly maintains 0.75 (75%) Jaro-Winkler threshold (never relaxed).
+ *
+ * @param {string} title - The title candidate to inspect
+ * @param {Array} history - Array of past publication records
+ * @param {number} threshold - Strict threshold default 0.75
+ * @returns {object} { valid: boolean, maxSimilarity: number, conflictingTitle?: string, error?: string }
+ */
+function checkTitleSimilarity(title, history = [], threshold = 0.75) {
+  if (!title || typeof title !== 'string' || title.trim().length === 0) {
+    return {
+      valid: false,
+      maxSimilarity: 0,
+      conflictingTitle: null,
+      error: 'Title is empty or invalid.'
+    };
+  }
+
+  let maxSimilarity = 0;
+  let conflictingTitle = null;
+
+  for (const past of history) {
+    if (past && past.title) {
+      const sim = jaroWinkler(title, past.title);
+      if (sim > maxSimilarity) {
+        maxSimilarity = sim;
+        conflictingTitle = past.title;
+      }
+    }
+  }
+
+  if (maxSimilarity > threshold) {
+    return {
+      valid: false,
+      maxSimilarity,
+      conflictingTitle,
+      error: `Title is too similar to past article: '${conflictingTitle}' (Similarity: ${(maxSimilarity * 100).toFixed(1)}%)`
+    };
+  }
+
+  return {
+    valid: true,
+    maxSimilarity,
+    conflictingTitle: null
+  };
+}
+
+/**
+ * Checks if a candidate slug collides with existing content files or past history entries.
+ *
+ * @param {string} slug - The slug to test
+ * @param {string} blogDir - Directory containing blog markdown files
+ * @param {Array} history - Array of past publication records
+ * @returns {object} { valid: boolean, error?: string }
+ */
+function checkSlugCollision(slug, blogDir, history = []) {
+  if (!slug || typeof slug !== 'string' || slug.trim().length === 0) {
+    return {
+      valid: false,
+      error: 'Slug is empty or invalid.'
+    };
+  }
+
+  // 1. Check history
+  if (Array.isArray(history)) {
+    const foundInHistory = history.some(h => h && h.slug === slug);
+    if (foundInHistory) {
+      return {
+        valid: false,
+        error: `Slug collision: '${slug}' already exists in publication history.`
+      };
+    }
+  }
+
+  // 2. Check content/blog directory if available
+  if (blogDir && fs.existsSync(blogDir)) {
+    const filePath = path.join(blogDir, `${slug}.md`);
+    if (fs.existsSync(filePath)) {
+      return {
+        valid: false,
+        error: `Slug collision: '${slug}.md' already exists in ${blogDir}.`
+      };
+    }
+  }
+
+  return {
+    valid: true
+  };
 }
 
 /**
@@ -1310,14 +1403,10 @@ function validateArticleContent(articleData, options = {}) {
     }
   }
 
-  // 8. Title Similarity against Past History
-  for (const past of history) {
-    if (past.title) {
-      const sim = jaroWinkler(title, past.title);
-      if (sim > 0.75) {
-        errors.push(`Title is too similar to past article: '${past.title}' (Similarity: ${(sim * 100).toFixed(1)}%)`);
-      }
-    }
+  // 8. Title Similarity against Past History (Strict 0.75 / 75% threshold)
+  const titleSim = checkTitleSimilarity(title, history, 0.75);
+  if (!titleSim.valid && titleSim.error) {
+    errors.push(titleSim.error);
   }
 
   // 9. Disease Image Prompt Context Validation (if imagePrompt provided)
@@ -1659,6 +1748,8 @@ function validateArticleContent(articleData, options = {}) {
 module.exports = {
   GLOBAL_BANNED_MEDICAL_PATTERNS,
   jaroWinkler,
+  checkTitleSimilarity,
+  checkSlugCollision,
   extractInternalLinks,
   validateArticleContent,
   getGeoHierarchyRules,

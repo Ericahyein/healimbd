@@ -91,11 +91,11 @@ jobs:
           TEST_QA_TARGET: ${{ (github.event_name == 'workflow_dispatch' && inputs.test_qa_target) || 'auto' }}
         run: node scripts/auto_column/index.js
 
-      - name: Upload Dry-Run Artifacts (If Generated)
+      - name: Upload Pipeline Artifacts (If Generated)
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: column-dry-run-preview-${{ github.run_number }}
+          name: column-pipeline-artifacts-${{ github.run_number }}
           path: auto_column_artifacts/
           if-no-files-found: ignore
           retention-days: 7
