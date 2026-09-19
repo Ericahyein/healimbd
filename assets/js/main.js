@@ -333,24 +333,7 @@ const HANDWRITTEN_ITEMS_PER_PAGE = 9;
 let currentHandwrittenPage = 1;
 let currentHandwrittenFilter = 'all';
 
-const STATIC_MARKDOWN_CASES = [
-  {
-    id: 'case-01-tic',
-    reviewId: 'case-01-tic',
-    reviewType: 'direct',
-    category: 'tic',
-    categoryName: '소아 틱장애',
-    duration: '2026.04 ~ 2026.07 (총 4개월)',
-    date: '2026-08-25',
-    title: '틱장애 치료 잘하는 곳이라고 소개를 받아 내원했습니다',
-    summary: '7세 때 눈깜빡임으로 시작해 10세에 재발하며 킁킁거림, 찡그림, 머리 끄덕임, 몸 움직임으로 악화되었습니다. 해아림 맞춤 한약과 환약 치료 후 복합 증상이 완화되고 현재는 눈깜빡임도 거의 없이 호전되었습니다.',
-    image: '/images/reviews/previews/case-01-tic.png',
-    imageUrl: '/images/reviews/previews/case-01-tic.png',
-    hashtags: ['#틱장애', '#소아틱장애', '#맞춤한약'],
-    isStatic: true,
-    permalink: '/reviews/case-01-tic/'
-  }
-];
+const STATIC_MARKDOWN_CASES = [];
 
 function getReviewTimestamp(item) {
   if (!item) return 0;
@@ -372,6 +355,19 @@ function getReviewTimestamp(item) {
     if (!isNaN(t)) return t;
   }
   return 0;
+}
+
+function isLocalhostDevEnvironment() {
+  if (typeof window === 'undefined' || !window.location) return false;
+  const host = window.location.hostname;
+  return host === 'localhost' || host === '127.0.0.1' || host === '[::1]';
+}
+
+function isLocalhostDevFixtureEnabled() {
+  if (!isLocalhostDevEnvironment()) return false;
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('no_fixture') === 'true') return false;
+  return true;
 }
 
 function isAllowedPublicPreviewUrl(url) {
@@ -408,6 +404,11 @@ function getPublicPreviewMediaUrl(previewPath) {
   // 3. Must end with safe image extension
   if (!/\.(webp|png|jpe?g)$/i.test(trimmed)) return '';
 
+  // Localhost development fixture environment: route to local candidate preview server
+  if (isLocalhostDevFixtureEnabled()) {
+    return `http://localhost:4200/${trimmed}`;
+  }
+
   const config = typeof getFirebaseConfig === 'function' ? getFirebaseConfig() : (typeof DEFAULT_FIREBASE_CONFIG !== 'undefined' ? DEFAULT_FIREBASE_CONFIG : {});
   const bucket = config.storageBucket || 'healimbd-b726f.firebasestorage.app';
   // Form safe public media URL without long-term download tokens
@@ -417,16 +418,14 @@ function getPublicPreviewMediaUrl(previewPath) {
 function getReviewImageUrl(item) {
   if (!item) return '';
 
-  // 1. previewUrl
-  if (isAllowedPublicPreviewUrl(item.previewUrl)) return item.previewUrl;
-
-  // 2. previewPath (safely converted to public media URL)
+  // 1. previewPath (safely converted to public media URL)
   if (item.previewPath) {
     const convertedUrl = getPublicPreviewMediaUrl(item.previewPath);
     if (isAllowedPublicPreviewUrl(convertedUrl)) return convertedUrl;
   }
 
-  // 3. thumbnailUrl
+  // 2. previewUrl or thumbnailUrl
+  if (isAllowedPublicPreviewUrl(item.previewUrl)) return item.previewUrl;
   if (isAllowedPublicPreviewUrl(item.thumbnailUrl)) return item.thumbnailUrl;
 
   // 4. Explicit verified public image / imageUrl
@@ -572,12 +571,12 @@ function renderHandwrittenReviewsPage() {
     card.setAttribute('data-category', item.category || '');
     card.setAttribute('data-review-type', 'direct');
 
-    const summaryText = getCaseSummaryPreview(item);
+    const { titleRole, descRole } = parsePublicSummaryParts(item);
     const clickHandler = item.isStatic ? `openStaticCaseReader('${item.id}', '${item.permalink || `/reviews/${item.id}/`}')` : `openCustomCaseReader('${item.id}')`;
     const imgSrc = getReviewImageUrl(item);
 
     const thumbHtml = imgSrc
-      ? `<img src="${imgSrc}" alt="${escapeHtml(item.title || item.categoryName || '치료사례')} 자필 후기" class="case-thumb-img" loading="lazy" onerror="this.style.display='none'; const fb = this.nextElementSibling; if (fb) fb.style.display='flex';">
+      ? `<img src="${imgSrc}" alt="${escapeHtml(titleRole || item.categoryName || '치료사례')} 자필 후기" class="case-thumb-img" loading="lazy" onerror="this.style.display='none'; const fb = this.nextElementSibling; if (fb) fb.style.display='flex';">
           <div class="case-thumb-fallback" id="thumb-fallback-${item.id}" style="display:none;">
             <div class="thumb-watermark-icon"><i class="ph-bold ph-file-text"></i></div>
             <span class="thumb-title-badge">해아림 임상 치험례</span>
@@ -589,6 +588,9 @@ function renderHandwrittenReviewsPage() {
           <span class="thumb-lock-hint"><i class="ph-bold ph-lock-key"></i> 자필 전문은 인증 후 열람</span>
         </div>`;
 
+    const titleHtml = titleRole ? `<h3 class="case-card-title">${escapeHtml(titleRole)}</h3>` : '';
+    const descHtml = descRole ? `<p class="case-summary-text">${escapeHtml(descRole)}</p>` : '';
+
     card.innerHTML = `
       <div class="case-card-anchor" style="cursor: pointer;" onclick="${clickHandler}">
         <div class="case-thumb-wrap">
@@ -597,11 +599,11 @@ function renderHandwrittenReviewsPage() {
           <span class="case-direct-badge">📝 자필 후기</span>
         </div>
         <div class="case-body-wrap">
-          <h3 class="case-card-title">${escapeHtml(item.title || '치료 후기')}</h3>
+          ${titleHtml}
           <div class="case-meta-top">
             <span class="case-duration-text"><i class="ph-bold ph-calendar-blank"></i> 치료기간: ${escapeHtml(item.duration || '치료 완료')}</span>
           </div>
-          <p class="case-summary-text">${escapeHtml(summaryText)}</p>
+          ${descHtml}
         </div>
       </div>
     `;
@@ -2313,25 +2315,46 @@ function parseLegacyContentToQuestions(rawContent) {
   return { q1: ans1, q2: ans2, q3: ans3 };
 }
 
+function parsePublicSummaryParts(item) {
+  if (!item) return { titleRole: '', descRole: '' };
+
+  // Explicit policy: Only use verified publicSummary field
+  // (item.summary is NEVER used as an unvetted direct fallback on production)
+  const raw = (item.publicSummary && typeof item.publicSummary === 'string') ? item.publicSummary.trim() : '';
+  if (!raw) return { titleRole: '', descRole: '' };
+
+  const clean = raw.replace(/[\r\n]+/g, ' ').replace(/\s+/g, ' ').trim();
+  if (!clean) return { titleRole: '', descRole: '' };
+
+  // Match first complete sentence ending in ., !, or ? followed by space, newline, or end
+  const match = clean.match(/^([^.!?]+[.!?]+)(?:\s+(.*))?$/);
+  if (match) {
+    const first = match[1].trim();
+    let rest = (match[2] || '').trim();
+
+    // Deduplication check: if rest equals first sentence or starts with it, strip it
+    if (rest === first) {
+      rest = '';
+    } else if (rest.startsWith(first)) {
+      rest = rest.slice(first.length).trim();
+    }
+
+    return {
+      titleRole: first,
+      descRole: rest
+    };
+  }
+
+  // Single sentence without terminator
+  return {
+    titleRole: clean,
+    descRole: ''
+  };
+}
+
 function getCaseSummaryPreview(item) {
-  if (item && item.summary && typeof item.summary === 'string' && item.summary.trim()) {
-    const s = item.summary.trim();
-    if (s.length > 120) return s.slice(0, 115) + '...';
-    return s;
-  }
-  let text = '';
-  if (item && item.sections && Array.isArray(item.sections)) {
-    const q1 = item.sections.find(s => s.id === 'q1');
-    text = q1 ? q1.answer : (item.sections[0]?.answer || '');
-  } else if (item && item.content) {
-    const parsed = parseLegacyContentToQuestions(item.content);
-    text = parsed ? parsed.q1 : item.content;
-  }
-  const cleaned = text.replace(/^[#>\s*-]+/gm, '').replace(/\s+/g, ' ').trim();
-  if (cleaned.length > 115) {
-    return cleaned.slice(0, 115) + '...';
-  }
-  return cleaned || `${item?.categoryName || '치료'} 임상 치료사례입니다.`;
+  const parts = parsePublicSummaryParts(item);
+  return parts.descRole || '';
 }
 
 function renderCustomCaseBody(item) {
@@ -2829,6 +2852,22 @@ async function startTreatmentReviewsSync() {
   if (!directGrid && !homeGrid) return;
   if (treatmentReviewsUnsubscribe) return;
 
+  // Isolated localhost dev fixture eager loading:
+  // Allows verifying full card layout (50 cards with previewPath and publicExcerpt) on localhost
+  // even if production Firestore App Check denies unauthenticated access or emulator is offline.
+  if (isLocalhostDevFixtureEnabled() && firestoreReviewPreviews.length < 50) {
+    try {
+      const fixtureRes = await fetch('http://localhost:4200/fixtures/reviews_preview_fixture.json');
+      if (fixtureRes.ok) {
+        firestoreReviewPreviews = await fixtureRes.json();
+        firestoreTreatmentReviews = firestoreReviewPreviews;
+        renderCustomCasesToList();
+      }
+    } catch (e) {
+      // Quietly ignore if local fixture server is offline
+    }
+  }
+
   try {
     const firestoreDb = await ensureFirestore();
     if (!firestoreDb) return;
@@ -2837,21 +2876,64 @@ async function startTreatmentReviewsSync() {
     treatmentReviewsUnsubscribe = firestoreDb
       .collection('treatment_review_previews')
       .orderBy('createdAt', 'desc')
-      .onSnapshot((snapshot) => {
+      .onSnapshot(async (snapshot) => {
         firestoreReviewPreviews = [];
         snapshot.forEach((doc) => {
           const data = doc.data();
           data.id = doc.id;
           firestoreReviewPreviews.push(data);
         });
+
+        // Isolated localhost dev fixture enrichment:
+        // Allows verifying full card layout (including verbatim publicExcerpt and previewPath) on localhost
+        // without writing unapproved data to production Firestore.
+        if (isLocalhostDevFixtureEnabled()) {
+          try {
+            const fixtureRes = await fetch('http://localhost:4200/fixtures/reviews_preview_fixture.json');
+            if (fixtureRes.ok) {
+              const fixtures = await fixtureRes.json();
+              const fixtureMap = new Map(fixtures.map(f => [f.id || f.reviewId, f]));
+              firestoreReviewPreviews.forEach(p => {
+                const fix = fixtureMap.get(p.id);
+                if (fix) {
+                  if (!p.publicSummary && fix.publicSummary) p.publicSummary = fix.publicSummary;
+                  if (!p.previewPath && fix.previewPath) p.previewPath = fix.previewPath;
+                }
+              });
+            }
+          } catch (e) {
+            // Quietly ignore if local fixture server is offline
+          }
+        }
+
         firestoreTreatmentReviews = firestoreReviewPreviews;
         renderCustomCasesToList();
         checkAndRenderMigrationUI();
-      }, (err) => {
+      }, async (err) => {
         console.warn('[REVIEWS PREVIEW SYNC] onSnapshot notice:', err.code || err.message);
+        if (isLocalhostDevFixtureEnabled() && firestoreReviewPreviews.length < 50) {
+          try {
+            const fixtureRes = await fetch('http://localhost:4200/fixtures/reviews_preview_fixture.json');
+            if (fixtureRes.ok) {
+              firestoreReviewPreviews = await fixtureRes.json();
+              firestoreTreatmentReviews = firestoreReviewPreviews;
+              renderCustomCasesToList();
+            }
+          } catch (e) {}
+        }
       });
   } catch (err) {
     console.warn('[REVIEWS PREVIEW SYNC] Failed to attach listener:', err);
+    if (isLocalhostDevFixtureEnabled() && firestoreReviewPreviews.length < 50) {
+      try {
+        const fixtureRes = await fetch('http://localhost:4200/fixtures/reviews_preview_fixture.json');
+        if (fixtureRes.ok) {
+          firestoreReviewPreviews = await fixtureRes.json();
+          firestoreTreatmentReviews = firestoreReviewPreviews;
+          renderCustomCasesToList();
+        }
+      } catch (e) {}
+    }
   }
 }
 
@@ -2862,15 +2944,157 @@ function stopTreatmentReviewsSync() {
   if (migrationContainer) migrationContainer.style.display = 'none';
 }
 
-function handleAdminCaseSubmit(e) {
+// ==========================================================================
+// TREATMENT REVIEWS AUTOMATION & ADMIN PIPELINE (Canvas Crop, Masking, Excerpts, Edit)
+// ==========================================================================
+
+async function generateReviewPreviewCanvas(imageSrc) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+      try {
+        const naturalW = img.naturalWidth;
+        const naturalH = img.naturalHeight;
+        if (!naturalW || !naturalH) {
+          throw new Error('유효하지 않은 이미지 규격입니다.');
+        }
+
+        // Validate aspect ratio (Fail Closed on non-sheet or distorted images)
+        const ratio = naturalW / naturalH;
+        if (ratio < 0.4 || ratio > 2.5) {
+          throw new Error(`비정상적인 가로세로 비율(${ratio.toFixed(2)})입니다. 표준 자필 설문지 양식을 첨부해주세요.`);
+        }
+
+        const isWide = naturalW > naturalH * 1.2; // 2-page side-by-side
+        const canvas = document.createElement('canvas');
+        canvas.width = 793;
+        canvas.height = 335;
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(0, 0, 793, 335);
+
+        let sx = 0, sy = 0, sw = naturalW, sh = naturalW * (335 / 793);
+        if (isWide) {
+          // crop left page
+          sw = naturalW / 2;
+          sh = (naturalW / 2) * (335 / 793);
+        }
+
+        ctx.drawImage(img, sx, sy, sw, sh, 0, 0, 793, 335);
+
+        // Apply solid opaque white mask over name / chart number area (strictly no blur)
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(145, 268, 575, 32);
+
+        canvas.toBlob((blob) => {
+          if (!blob) {
+            try {
+              const dataUrl = canvas.toDataURL('image/webp', 0.85);
+              const byteString = atob(dataUrl.split(',')[1]);
+              const ab = new ArrayBuffer(byteString.length);
+              const ia = new Uint8Array(ab);
+              for (let i = 0; i < byteString.length; i++) ia[i] = byteString.charCodeAt(i);
+              resolve({ canvas, blob: new Blob([ab], { type: 'image/webp' }), isWide });
+            } catch (e) {
+              reject(new Error('WebP 변환에 실패했습니다: ' + e.message));
+            }
+            return;
+          }
+          resolve({ canvas, blob, isWide });
+        }, 'image/webp', 0.85);
+      } catch (err) {
+        reject(err);
+      }
+    };
+    img.onerror = () => reject(new Error('이미지를 불러오거나 디코딩할 수 없습니다.'));
+    img.src = imageSrc;
+  });
+}
+
+function isPiiSafeText(text) {
+  if (!text) return true;
+  const piiPatterns = [
+    /01[0-9]-?[0-9]{3,4}-?[0-9]{4}/,
+    /\d{6}-[1-4]\d{6}/,
+    /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/,
+    /차트\s*번호/i,
+    /관리\s*번호/i,
+    /진료\s*번호/i,
+    /초등학교|중학교|고등학교|대학교/,
+    /원장님|선생님|간호사|실장님/
+  ];
+  return !piiPatterns.some(pat => pat.test(text));
+}
+
+function isDuplicateWithTitle(sentence, title) {
+  const normS = (sentence || '').replace(/[\s\.,\?!~…\-_'"`()\[\]{}:;]/g, '').toLowerCase();
+  const normT = (title || '').replace(/[\s\.,\?!~…\-_'"`()\[\]{}:;]/g, '').toLowerCase();
+  if (!normS || !normT) return false;
+  if (normS === normT) return true;
+  if (normS.length >= 6 && normT.includes(normS)) return true;
+  if (normT.length >= 6 && normS.includes(normT)) return true;
+  if (normS.length >= 8 && normT.length >= 8 && normS.slice(0, 8) === normT.slice(0, 8)) return true;
+  return false;
+}
+
+function extractExcerptCandidatesFromSections(q1, q2, q3, title) {
+  const sections = [
+    { id: 'q1', text: q1 || '' },
+    { id: 'q2', text: q2 || '' },
+    { id: 'q3', text: q3 || '' }
+  ];
+  const candidates = [];
+
+  for (const sec of sections) {
+    if (!sec.text) continue;
+    const lines = sec.text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+    for (const line of lines) {
+      const parts = line.split(/(?<=[.!?])\s+/);
+      for (let i = 0; i < parts.length; i++) {
+        const s = parts[i].trim();
+        if (s.length >= 15 && sec.text.includes(s)) {
+          candidates.push({ text: s, sectionId: sec.id });
+        }
+        if (i + 1 < parts.length) {
+          const pair = `${parts[i]} ${parts[i+1]}`.trim();
+          if (pair.length >= 25 && pair.length <= 85 && sec.text.includes(pair)) {
+            candidates.push({ text: pair, sectionId: sec.id });
+          }
+        }
+      }
+      if (line.length >= 20 && line.length <= 80 && sec.text.includes(line)) {
+        candidates.push({ text: line, sectionId: sec.id });
+      }
+    }
+  }
+
+  const valid = [];
+  const seen = new Set();
+  for (const c of candidates) {
+    if (seen.has(c.text)) continue;
+    seen.add(c.text);
+
+    if (c.text.includes('적어주세요') || c.text.includes('치료 받기 전 증상들로')) continue;
+    if (!isPiiSafeText(c.text)) continue;
+    if (isDuplicateWithTitle(c.text, title)) continue;
+
+    valid.push(c);
+  }
+
+  valid.sort((a, b) => Math.abs(a.text.length - 45) - Math.abs(b.text.length - 45));
+  return valid.slice(0, 3);
+}
+
+let pendingAdminCaseData = null;
+let pendingAdminCasePreviewBlob = null;
+
+async function handleAdminCaseFormPreflight(e) {
   e.preventDefault();
   if (!isUserAdmin()) {
     alert('관리자 권한이 필요합니다.');
     return;
   }
-
-  const submitBtn = e.target.querySelector('button[type="submit"]');
-  const originalBtnHtml = submitBtn ? submitBtn.innerHTML : '등록하기';
 
   const cat = document.getElementById('case-input-category').value;
   const startMonth = document.getElementById('case-input-start-month').value;
@@ -2884,12 +3108,10 @@ function handleAdminCaseSubmit(e) {
     alert('치료 시작년월과 종료년월을 선택해주세요.');
     return;
   }
-
   if (!q1 && !q2 && !q3) {
     alert('환자 자필 후기 답변 내용을 최소 하나 이상 입력해주세요.');
     return;
   }
-
   if (!currentUploadedImageDataUrl) {
     alert('치료사례 사진(자필 수기 또는 진료 사진)을 첨부해주세요.');
     return;
@@ -2900,67 +3122,189 @@ function handleAdminCaseSubmit(e) {
   const firstLine = (q1 || q2 || q3).split('\n')[0].replace(/^[#>\s*"]+/, '').trim();
   const generatedTitle = firstLine.length > 5 ? (firstLine.slice(0, 45) + (firstLine.length > 45 ? '...' : '')) : `${catName} 임상 치료사례`;
 
-  const legacyCombinedContent = `### 1. ${QUESTION_TEMPLATE[0].question}\n\n${q1}\n\n---\n\n### 2. ${QUESTION_TEMPLATE[1].question}\n\n${q2}\n\n---\n\n### 3. ${QUESTION_TEMPLATE[2].question}\n\n${q3}`;
+  // 1. Generate Cropped Preview on Canvas
+  let previewResult = null;
+  try {
+    previewResult = await generateReviewPreviewCanvas(currentUploadedImageDataUrl);
+  } catch (err) {
+    alert('공개 미리보기 자동 생성 실패 (Fail Closed):\n' + err.message + '\n안전을 위해 검증되지 않은 원본은 공개되지 않습니다.');
+    return;
+  }
 
-  const previewSummary = getCaseSummaryPreview({
-    sections: [
-      { id: 'q1', answer: q1 },
-      { id: 'q2', answer: q2 },
-      { id: 'q3', answer: q3 }
-    ]
-  });
+  const preflightCanvas = document.getElementById('preflight-canvas');
+  if (preflightCanvas && previewResult.canvas) {
+    const pctx = preflightCanvas.getContext('2d');
+    pctx.clearRect(0, 0, 793, 335);
+    pctx.drawImage(previewResult.canvas, 0, 0);
+  }
 
-  if (submitBtn) {
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = '<i class="ph-bold ph-spinner ph-spin"></i> <span>사진 및 본문 서버 등록 중...</span>';
+  // 2. Set card simulation metadata
+  const badgeEl = document.getElementById('preflight-badge');
+  if (badgeEl) {
+    badgeEl.textContent = catName;
+    badgeEl.className = 'case-tag-pill ' + cat;
+  }
+  const titleEl = document.getElementById('preflight-card-title');
+  if (titleEl) titleEl.textContent = generatedTitle;
+  const durEl = document.getElementById('preflight-card-duration');
+  if (durEl) durEl.innerHTML = `<i class="ph-bold ph-calendar-blank"></i> 치료기간: ${escapeHtml(durationStr)}`;
+
+  // 3. Set candidate publicSummary
+  const candidateSummary = [q1, q2].filter(Boolean).join(' ').trim().replace(/\s+/g, ' ');
+  const summaryInput = document.getElementById('preflight-input-public-summary');
+  if (summaryInput) {
+    summaryInput.value = candidateSummary;
+  }
+
+  pendingAdminCaseData = {
+    cat,
+    catName,
+    startMonth,
+    endMonth,
+    durationStr,
+    generatedTitle,
+    q1,
+    q2,
+    q3,
+    hashtagsVal,
+    fullRaw: [q1, q2, q3].join('\n')
+  };
+  pendingAdminCasePreviewBlob = previewResult.blob;
+
+  updatePreflightSummaryPreview();
+
+  const modal = document.getElementById('admin-case-preflight-modal');
+  if (modal) {
+    modal.classList.add('active');
+  }
+}
+
+function updatePreflightSummaryPreview() {
+  const summaryInput = document.getElementById('preflight-input-public-summary');
+  const val = summaryInput ? summaryInput.value.trim() : '';
+  const titleEl = document.getElementById('preflight-card-title');
+  const excerptEl = document.getElementById('preflight-card-excerpt');
+  const valEl = document.getElementById('preflight-excerpt-validation');
+
+  const parts = parsePublicSummaryParts({ publicSummary: val });
+
+  if (titleEl) {
+    titleEl.textContent = parts.titleRole || (pendingAdminCaseData ? pendingAdminCaseData.generatedTitle : '치료 후기');
+  }
+
+  if (parts.descRole) {
+    if (excerptEl) {
+      excerptEl.textContent = parts.descRole;
+      excerptEl.style.display = 'block';
+    }
+  } else {
+    if (excerptEl) {
+      excerptEl.textContent = '';
+      excerptEl.style.display = 'none';
+    }
+  }
+
+  if (valEl) {
+    if (!val) {
+      valEl.innerHTML = '<span style="color:#D97706;">⚠️ publicSummary가 비어 있습니다. 저장 시 설명글이 생략됩니다.</span>';
+    } else {
+      valEl.innerHTML = '<span style="color:#16A34A;">✓ 첫 문장(제목) / 나머지 문장(설명) 분리 완료 | ✓ 개인정보 자동 검사 통과</span>';
+    }
+  }
+}
+
+function closeAdminCasePreflight() {
+  const modal = document.getElementById('admin-case-preflight-modal');
+  if (modal) modal.classList.remove('active');
+}
+
+function handleAdminCaseSubmit(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  if (!isUserAdmin()) {
+    alert('관리자 권한이 필요합니다.');
+    return;
+  }
+
+  // Preflight check: If not yet confirmed via preflight modal, run preflight modal flow
+  if (!window._adminCasePreflightApproved) {
+    handleAdminCaseFormPreflight(e);
+    return;
+  }
+
+  const submitBtn = document.getElementById('admin-case-write-form')?.querySelector('button[type="submit"]');
+  const confirmBtn = document.getElementById('btn-preflight-confirm-submit');
+  const originalHtml = confirmBtn ? confirmBtn.innerHTML : '승인 및 서버 저장';
+  if (confirmBtn) {
+    confirmBtn.disabled = true;
+    confirmBtn.innerHTML = '<i class="ph-bold ph-spinner ph-spin"></i> <span>안전 저장 및 미리보기 등록 중...</span>';
   }
 
   (async () => {
     let storageRef = null;
+    let originalRef = null;
+    let previewRef = null;
+
     try {
-      // 1. Ensure Firebase App Check, Auth, Storage, Firestore
       const storage = await ensureFirebaseStorage();
       const firestoreDb = await ensureFirestore();
+      if (!storage || !firestoreDb) throw new Error('Firebase 연결에 실패했습니다.');
 
-      if (!storage || !firestoreDb) {
-        throw new Error('Firebase 모듈 초기화에 실패했습니다. 네트워크를 확인해주세요.');
-      }
-
-      // 2. Generate clean new Review ID (Non-legacy)
       const reviewId = 'tr_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
 
-      // 3. Convert Base64 image to Blob
       const mimeMatch = currentUploadedImageDataUrl.match(/^data:([^;]+);base64,/);
       const mimeType = mimeMatch ? mimeMatch[1] : 'image/jpeg';
       const ext = mimeType.includes('png') ? 'png' : 'jpg';
-      const storagePath = `treatment-reviews/${reviewId}/original.${ext}`;
 
-      const res = await fetch(currentUploadedImageDataUrl);
-      const blob = await res.blob();
+      const originalPath = `treatment-reviews/${reviewId}/original.${ext}`;
+      const previewPath = `public-review-previews/${reviewId}_preview.webp`;
 
-      // 4. Upload to Firebase Storage
-      storageRef = storage.ref(storagePath);
+      // 1. Upload protected original
+      const origRes = await fetch(currentUploadedImageDataUrl);
+      const blob = await origRes.blob();
+      const origBlob = blob;
+      storageRef = storage.ref(originalPath);
+      originalRef = storageRef;
       await storageRef.put(blob, { contentType: mimeType });
 
-      // 5. Save to Firestore (Atomic Two-Tier Batch: Detail in treatment_reviews, Public Preview in treatment_review_previews)
+      // 2. Upload public preview WebP
+      previewRef = storage.ref(previewPath);
+      await previewRef.put(pendingAdminCasePreviewBlob, { contentType: 'image/webp' });
+
+      // 3. Prepare Firestore docs
+      const legacyCombinedContent = `### 1. ${QUESTION_TEMPLATE[0].question}\n\n${pendingAdminCaseData.q1}\n\n---\n\n### 2. ${QUESTION_TEMPLATE[1].question}\n\n${pendingAdminCaseData.q2}\n\n---\n\n### 3. ${QUESTION_TEMPLATE[2].question}\n\n${pendingAdminCaseData.q3}`;
+
+      const summaryInput = document.getElementById('preflight-input-public-summary');
+      const approvedSummary = summaryInput ? summaryInput.value.trim() : '';
+
+      if (!approvedSummary) {
+        if (!confirm('publicSummary가 비어 있습니다. 설명글 없이 저장을 진행하시겠습니까?')) {
+          if (confirmBtn) {
+            confirmBtn.disabled = false;
+            confirmBtn.innerHTML = originalHtml;
+          }
+          return;
+        }
+      }
+
       const docData = {
         id: reviewId,
         reviewType: 'direct',
-        category: cat,
-        categoryName: catName,
-        duration: durationStr,
+        category: pendingAdminCaseData.cat,
+        categoryName: pendingAdminCaseData.catName,
+        duration: pendingAdminCaseData.durationStr,
         date: new Date().toISOString().split('T')[0],
-        title: generatedTitle,
-        summary: previewSummary,
+        title: pendingAdminCaseData.generatedTitle,
+        publicSummary: approvedSummary,
+        revision: 1,
         questionSetVersion: 1,
         sections: [
-          { id: 'q1', question: QUESTION_TEMPLATE[0].question, answer: q1 },
-          { id: 'q2', question: QUESTION_TEMPLATE[1].question, answer: q2 },
-          { id: 'q3', question: QUESTION_TEMPLATE[2].question, answer: q3 }
+          { id: 'q1', question: QUESTION_TEMPLATE[0].question, answer: pendingAdminCaseData.q1 },
+          { id: 'q2', question: QUESTION_TEMPLATE[1].question, answer: pendingAdminCaseData.q2 },
+          { id: 'q3', question: QUESTION_TEMPLATE[2].question, answer: pendingAdminCaseData.q3 }
         ],
         content: legacyCombinedContent,
-        hashtags: parseHashtags(hashtagsVal),
-        imagePath: storagePath,
+        hashtags: parseHashtags(pendingAdminCaseData.hashtagsVal),
+        imagePath: originalPath,
         imageUrl: '',
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
         updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
@@ -2970,45 +3314,356 @@ function handleAdminCaseSubmit(e) {
       const previewData = {
         id: reviewId,
         reviewId: reviewId,
-        category: cat,
-        categoryName: catName,
-        duration: durationStr,
+        category: pendingAdminCaseData.cat,
+        categoryName: pendingAdminCaseData.catName,
+        duration: pendingAdminCaseData.durationStr,
         date: new Date().toISOString().split('T')[0],
-        title: generatedTitle,
-        summary: previewSummary,
-        hashtags: parseHashtags(hashtagsVal),
+        title: pendingAdminCaseData.generatedTitle,
+        publicSummary: approvedSummary,
+        previewPath: previewPath,
+        revision: 1,
+        hashtags: parseHashtags(pendingAdminCaseData.hashtagsVal),
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-        updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-        createdBy: auth && auth.currentUser ? auth.currentUser.uid : 'admin'
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
       };
 
       const batch = firestoreDb.batch();
       batch.set(firestoreDb.collection('treatment_reviews').doc(reviewId), docData);
       batch.set(firestoreDb.collection('treatment_review_previews').doc(reviewId), previewData);
       await batch.commit();
+
       reviewDetailCache.set(reviewId, docData);
 
-      // 6. Success cleanup
+      // Success cleanup
+      window._adminCasePreflightApproved = false;
+      pendingAdminCaseData = null;
+      pendingAdminCasePreviewBlob = null;
       clearCaseDraft();
+      closeAdminCasePreflight();
       closeAdminWriterModal();
-      document.getElementById('admin-case-write-form').reset();
+      document.getElementById('admin-case-write-form')?.reset();
       removeCasePhoto();
       updateDurationCalcPreview();
 
-      showAuthToast('🎉 치료사례가 서버(Firestore/Storage)에 안전하게 등록되었습니다!');
+      showAuthToast('🎉 자필후기와 공개 미리보기가 성공적으로 자동 생성 및 등록되었습니다!');
+      renderCustomCasesToList();
     } catch (err) {
-      console.error('[ADMIN CASE SUBMIT ERROR]', err);
-      if (storageRef) {
-        await storageRef.delete().catch(() => {});
-      }
-      alert('치료사례 서버 저장 중 오류가 발생했습니다: ' + (err.message || err));
+      console.error('[ADMIN CASE SUBMIT ERROR with Safe Rollback]', err);
+      window._adminCasePreflightApproved = false;
+      if (storageRef) await storageRef.delete().catch(() => {});
+      if (originalRef) await originalRef.delete().catch(() => {});
+      if (previewRef) await previewRef.delete().catch(() => {});
+      alert('후기 등록 중 오류가 발생하여 안전하게 롤백되었습니다:\n' + (err.message || err));
     } finally {
-      if (submitBtn) {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = originalBtnHtml;
+      if (confirmBtn) {
+        confirmBtn.disabled = false;
+        confirmBtn.innerHTML = originalHtml;
       }
     }
   })();
+}
+
+async function executeApprovedCaseSubmit() {
+  if (!isUserAdmin() || !pendingAdminCaseData || !pendingAdminCasePreviewBlob) {
+    alert('검수 데이터가 올바르지 않습니다. 다시 시도해주세요.');
+    return;
+  }
+
+  const summaryInput = document.getElementById('preflight-input-public-summary');
+  const approvedSummary = summaryInput ? summaryInput.value.trim() : '';
+
+  if (approvedSummary) {
+    if (!isPiiSafeText(approvedSummary)) {
+      alert('보안 오류: 개인정보(연락처, 주민번호 등) 의심 패턴이 감지되어 승인할 수 없습니다.');
+      return;
+    }
+  }
+
+  window._adminCasePreflightApproved = true;
+  handleAdminCaseSubmit({ preventDefault: () => {} });
+}
+
+// ==========================================================================
+// ADMIN CASE EDITOR (기존 자필후기 관리자 수정 파이프라인)
+// ==========================================================================
+let editorCurrentReviewData = null;
+let editorCurrentRevision = 1;
+let editorNewPhotoBlob = null;
+let editorNewPhotoMime = '';
+
+async function openAdminCaseEditor(caseId) {
+  if (!isUserAdmin()) {
+    alert('관리자 권한이 필요합니다.');
+    return;
+  }
+  if (!caseId) {
+    alert('수정할 후기 ID를 확인할 수 없습니다.');
+    return;
+  }
+
+  try {
+    const firestoreDb = await ensureFirestore();
+    let detail = reviewDetailCache.get(caseId);
+    if (!detail && firestoreDb) {
+      const snap = await firestoreDb.collection('treatment_reviews').doc(caseId).get();
+      if (snap.exists) {
+        detail = snap.data();
+        detail.id = snap.id;
+        reviewDetailCache.set(caseId, detail);
+      }
+    }
+    if (!detail) {
+      throw new Error('해당 후기의 상세 데이터를 찾을 수 없습니다.');
+    }
+
+    editorCurrentReviewData = detail;
+    editorCurrentRevision = typeof detail.revision === 'number' ? detail.revision : 1;
+    editorNewPhotoBlob = null;
+
+    document.getElementById('editor-target-id').value = caseId;
+    document.getElementById('editor-target-revision').value = editorCurrentRevision;
+    document.getElementById('editor-review-id').textContent = caseId;
+    document.getElementById('editor-review-revision').textContent = `v${editorCurrentRevision}`;
+    document.getElementById('editor-submit-revision').textContent = editorCurrentRevision + 1;
+
+    document.getElementById('editor-input-title').value = detail.title || '';
+    document.getElementById('editor-input-category').value = detail.category || 'etc';
+    document.getElementById('editor-input-duration').value = detail.duration || '';
+
+    // Sections
+    const q1 = detail.sections?.find(s => s.id === 'q1')?.answer || '';
+    const q2 = detail.sections?.find(s => s.id === 'q2')?.answer || '';
+    const q3 = detail.sections?.find(s => s.id === 'q3')?.answer || '';
+    document.getElementById('editor-input-q1').value = q1;
+    document.getElementById('editor-input-q2').value = q2;
+    document.getElementById('editor-input-q3').value = q3;
+
+    // Current preview image
+    const curImg = getReviewImageUrl(detail);
+    const prevEl = document.getElementById('editor-current-preview-img');
+    if (prevEl) {
+      prevEl.src = curImg || '/images/reviews/previews/' + caseId + '.png';
+    }
+
+    // Reset new photo replacement box
+    cancelEditorPhotoReplacement();
+
+    // Populate publicSummary and validate
+    const editorSummaryInput = document.getElementById('editor-input-public-summary');
+    if (editorSummaryInput) {
+      editorSummaryInput.value = detail.publicSummary || detail.summary || '';
+    }
+    validateEditorSummary();
+
+    // Open Modal
+    const modal = document.getElementById('admin-case-editor-modal');
+    if (modal) modal.classList.add('active');
+  } catch (err) {
+    console.error('[OPEN EDITOR ERROR]', err);
+    alert('후기 수정 화면을 여는 중 오류가 발생했습니다: ' + err.message);
+  }
+}
+
+function closeAdminCaseEditor() {
+  const modal = document.getElementById('admin-case-editor-modal');
+  if (modal) modal.classList.remove('active');
+  editorCurrentReviewData = null;
+  editorNewPhotoBlob = null;
+}
+
+async function handleEditorPhotoSelect(e) {
+  const file = e.target.files && e.target.files[0];
+  if (!file) return;
+
+  editorNewPhotoMime = file.type || 'image/jpeg';
+  const reader = new FileReader();
+  reader.onload = async (evt) => {
+    try {
+      const dataUrl = evt.target.result;
+      const res = await generateReviewPreviewCanvas(dataUrl);
+      const canvas = document.getElementById('editor-new-preview-canvas');
+      if (canvas && res.canvas) {
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, 793, 335);
+        ctx.drawImage(res.canvas, 0, 0);
+      }
+      editorNewPhotoBlob = res.blob;
+      document.getElementById('editor-new-preview-box').style.display = 'block';
+    } catch (err) {
+      alert('새 이미지 미리보기 생성 실패: ' + err.message);
+      cancelEditorPhotoReplacement();
+    }
+  };
+  reader.readAsDataURL(file);
+}
+
+function cancelEditorPhotoReplacement() {
+  editorNewPhotoBlob = null;
+  const input = document.getElementById('editor-photo-file-input');
+  if (input) input.value = '';
+  const box = document.getElementById('editor-new-preview-box');
+  if (box) box.style.display = 'none';
+}
+
+function validateEditorSummary() {
+  const val = document.getElementById('editor-input-public-summary')?.value.trim() || '';
+  const valEl = document.getElementById('editor-summary-validation');
+  if (!valEl) return;
+
+  if (!val) {
+    valEl.innerHTML = '<span style="color:#D97706;">⚠️ publicSummary가 비어 있습니다. 저장 시 설명글이 생략됩니다.</span>';
+    return;
+  }
+
+  if (!isPiiSafeText(val)) {
+    valEl.innerHTML = '<span style="color:#DC2626;">❌ 개인정보(연락처, 실명, 학교 등) 의심 패턴이 감지되어 저장이 차단됩니다.</span>';
+    return;
+  }
+
+  const parts = parsePublicSummaryParts({ publicSummary: val });
+  valEl.innerHTML = `<span style="color:#16A34A;">✓ 첫 문장(제목): "${escapeHtml(parts.titleRole.slice(0, 35))}${parts.titleRole.length > 35 ? '...' : ''}" ${parts.descRole ? `| ✓ 설명(${parts.descRole.length}자)` : '| (설명 생략)'} | ✓ 개인정보 검사 통과</span>`;
+}
+
+async function handleAdminCaseEditSubmit(e) {
+  e.preventDefault();
+  if (!isUserAdmin() || !editorCurrentReviewData) {
+    alert('관리자 권한이 필요합니다.');
+    return;
+  }
+
+  const caseId = document.getElementById('editor-target-id').value;
+  const openedRevision = parseInt(document.getElementById('editor-target-revision').value, 10) || 1;
+  const newTitle = document.getElementById('editor-input-title').value.trim();
+  const newCategory = document.getElementById('editor-input-category').value;
+  const newCatName = CATEGORY_NAME_MAP[newCategory] || '치료사례';
+  const newDuration = document.getElementById('editor-input-duration').value.trim();
+  const q1 = document.getElementById('editor-input-q1').value.trim();
+  const q2 = document.getElementById('editor-input-q2').value.trim();
+  const q3 = document.getElementById('editor-input-q3').value.trim();
+  const newPublicSummary = document.getElementById('editor-input-public-summary')?.value.trim() || '';
+
+  if (newPublicSummary && !isPiiSafeText(newPublicSummary)) {
+    alert('보안 오류: 개인정보(연락처, 주민번호 등) 의심 패턴이 감지되어 저장할 수 없습니다.');
+    return;
+  }
+
+  const submitBtn = document.getElementById('btn-editor-submit');
+  const originalHtml = submitBtn ? submitBtn.innerHTML : '수정사항 저장';
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="ph-bold ph-spinner ph-spin"></i> <span>버전 안전 저장 중...</span>';
+  }
+
+  const nextRevision = openedRevision + 1;
+  let newOriginalRef = null;
+  let newPreviewRef = null;
+
+  try {
+    const storage = await ensureFirebaseStorage();
+    const firestoreDb = await ensureFirestore();
+    if (!storage || !firestoreDb) throw new Error('Firebase 모듈 초기화 실패');
+
+    let updatedImagePath = editorCurrentReviewData.imagePath || `treatment-reviews/${caseId}/original.png`;
+    let updatedPreviewPath = editorCurrentReviewData.previewPath || `public-review-previews/${caseId}_preview.webp`;
+
+    // 1. If Photo Replaced: Upload with version paths
+    if (editorNewPhotoBlob) {
+      const ext = editorNewPhotoMime.includes('png') ? 'png' : 'jpg';
+      const fileInput = document.getElementById('editor-photo-file-input');
+      const origFile = fileInput.files[0];
+
+      const verOrigPath = `treatment-reviews/${caseId}/original-v${nextRevision}.${ext}`;
+      const verPrevPath = `public-review-previews/${caseId}_preview_v${nextRevision}.webp`;
+
+      newOriginalRef = storage.ref(verOrigPath);
+      await newOriginalRef.put(origFile, { contentType: editorNewPhotoMime });
+
+      newPreviewRef = storage.ref(verPrevPath);
+      await newPreviewRef.put(editorNewPhotoBlob, { contentType: 'image/webp' });
+
+      updatedImagePath = verOrigPath;
+      updatedPreviewPath = verPrevPath;
+    }
+
+    // 2. Optimistic Locking & Firestore Transaction
+    await firestoreDb.runTransaction(async (transaction) => {
+      const reviewRef = firestoreDb.collection('treatment_reviews').doc(caseId);
+      const previewRefDoc = firestoreDb.collection('treatment_review_previews').doc(caseId);
+
+      const reviewDoc = await transaction.get(reviewRef);
+      if (!reviewDoc.exists) throw new Error('해당 후기 문서를 찾을 수 없습니다.');
+
+      const currentRev = typeof reviewDoc.data().revision === 'number' ? reviewDoc.data().revision : 1;
+      if (currentRev !== openedRevision) {
+        throw new Error('다른 관리자 또는 브라우저에서 먼저 수정되었습니다. 최신 내용을 다시 불러와주세요.');
+      }
+
+      const legacyCombinedContent = `### 1. ${QUESTION_TEMPLATE[0].question}\n\n${q1}\n\n---\n\n### 2. ${QUESTION_TEMPLATE[1].question}\n\n${q2}\n\n---\n\n### 3. ${QUESTION_TEMPLATE[2].question}\n\n${q3}`;
+
+      const reviewUpdates = {
+        title: newTitle,
+        category: newCategory,
+        categoryName: newCatName,
+        duration: newDuration,
+        publicSummary: newPublicSummary,
+        sections: [
+          { id: 'q1', question: QUESTION_TEMPLATE[0].question, answer: q1 },
+          { id: 'q2', question: QUESTION_TEMPLATE[1].question, answer: q2 },
+          { id: 'q3', question: QUESTION_TEMPLATE[2].question, answer: q3 }
+        ],
+        content: legacyCombinedContent,
+        imagePath: updatedImagePath,
+        revision: nextRevision,
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+        updatedBy: auth.currentUser ? auth.currentUser.uid : 'admin'
+      };
+
+      const previewUpdates = {
+        title: newTitle,
+        category: newCategory,
+        categoryName: newCatName,
+        duration: newDuration,
+        publicSummary: newPublicSummary,
+        previewPath: updatedPreviewPath,
+        revision: nextRevision,
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      };
+
+      transaction.update(reviewRef, reviewUpdates);
+      transaction.update(previewRefDoc, previewUpdates);
+    });
+
+    // 3. Update in-memory cache and close
+    const cached = reviewDetailCache.get(caseId);
+    if (cached) {
+      cached.title = newTitle;
+      cached.category = newCategory;
+      cached.categoryName = newCatName;
+      cached.duration = newDuration;
+      cached.publicSummary = newPublicSummary;
+      cached.imagePath = updatedImagePath;
+      cached.previewPath = updatedPreviewPath;
+      cached.revision = nextRevision;
+    }
+
+    closeAdminCaseEditor();
+    closeCustomCaseReader();
+    showAuthToast('🎉 자필후기 수정사항이 성공적으로 저장되었습니다!');
+
+    // Re-render list if open
+    renderCustomCasesToList();
+  } catch (err) {
+    console.error('[ADMIN CASE EDIT ERROR]', err);
+    // If transaction failed, delete newly created version files only
+    if (newOriginalRef) await newOriginalRef.delete().catch(() => {});
+    if (newPreviewRef) await newPreviewRef.delete().catch(() => {});
+    alert('후기 수정 중 오류가 발생했습니다: ' + (err.message || err));
+  } finally {
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalHtml;
+    }
+  }
 }
 
 function renderCustomCasesToList() {
@@ -3033,12 +3688,12 @@ function renderCustomCasesToList() {
       card.setAttribute('data-category', item.category);
 
       const hashtagsHtml = renderHashtagPills(item.hashtags);
-      const summaryText = getCaseSummaryPreview(item);
+      const { titleRole, descRole } = parsePublicSummaryParts(item);
       const clickHandler = item.isStatic ? `openStaticCaseReader('${item.id}', '${item.permalink || `/reviews/${item.id}/`}')` : `openCustomCaseReader('${item.id}')`;
       const imgSrc = getReviewImageUrl(item);
 
       const thumbHtml = imgSrc
-        ? `<img src="${imgSrc}" alt="${escapeHtml(item.title || item.categoryName)} 자필 후기" class="case-thumb-img" loading="lazy" onerror="this.style.display='none'; const fb = this.nextElementSibling; if (fb) fb.style.display='flex';">
+        ? `<img src="${imgSrc}" alt="${escapeHtml(titleRole || item.categoryName)} 자필 후기" class="case-thumb-img" loading="lazy" onerror="this.style.display='none'; const fb = this.nextElementSibling; if (fb) fb.style.display='flex';">
             <div class="case-thumb-fallback" id="thumb-fallback-${item.id}" style="display:none;">
               <div class="thumb-watermark-icon"><i class="ph-bold ph-file-text"></i></div>
               <span class="thumb-title-badge">해아림 임상 치험례</span>
@@ -3050,6 +3705,9 @@ function renderCustomCasesToList() {
             <span class="thumb-lock-hint"><i class="ph-bold ph-lock-key"></i> 자필 전문은 인증 후 열람</span>
           </div>`;
 
+      const titleHtml = titleRole ? `<h3 class="case-card-title">${escapeHtml(titleRole)}</h3>` : '';
+      const descHtml = descRole ? `<p class="case-summary-text">${escapeHtml(descRole)}</p>` : '';
+
       card.innerHTML = `
         <div class="case-card-anchor" style="cursor: pointer;" onclick="${clickHandler}">
           <div class="case-thumb-wrap">
@@ -3058,10 +3716,11 @@ function renderCustomCasesToList() {
             <span class="case-direct-badge">📝 임상 치료사례</span>
           </div>
           <div class="case-body-wrap">
+            ${titleHtml}
             <div class="case-meta-top">
-              <span class="case-duration-text"><i class="ph-bold ph-calendar-blank"></i> 치료기간: ${item.duration || '치료 완료'}</span>
+              <span class="case-duration-text"><i class="ph-bold ph-calendar-blank"></i> 치료기간: ${escapeHtml(item.duration || '치료 완료')}</span>
             </div>
-            <p class="case-summary-text">${escapeHtml(summaryText)}</p>
+            ${descHtml}
             ${hashtagsHtml}
           </div>
         </div>

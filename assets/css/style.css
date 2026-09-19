@@ -7236,6 +7236,25 @@ html, body {
   background: #FCA5A5;
 }
 
+.btn-warning-small {
+  background: #FEF3C7;
+  color: #B45309;
+  border: 1px solid #FDE68A;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-warning-small:hover {
+  background: #FDE68A;
+  color: #92400E;
+}
+
 /* Case Single Simplified Photo & Typed Body */
 .case-single-photo-box {
   margin-bottom: 30px;

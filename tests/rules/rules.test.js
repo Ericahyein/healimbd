@@ -52,7 +52,7 @@ describe('Healim Firebase Rules Emulator Verification', () => {
       // Seed sample review doc as admin
       await testEnv.withSecurityRulesDisabled(async (context) => {
         const db = context.firestore();
-        await db.collection('treatment_reviews').doc('case-01-tic').set({
+        await db.collection('treatment_reviews').doc('tr_mock_rules_test').set({
           title: '[소아 틱장애] 임상 사례',
           category: 'tic',
           answers: { q1: '환자 초기 증상...', q2: '호전 경과...', q3: '환자 격려...' },
@@ -64,14 +64,14 @@ describe('Healim Firebase Rules Emulator Verification', () => {
     test('Scenario 1 [Guest]: Unauthenticated user CANNOT read protected review', async () => {
       const unauthContext = testEnv.unauthenticatedContext();
       const db = unauthContext.firestore();
-      await assertFails(db.collection('treatment_reviews').doc('case-01-tic').get());
+      await assertFails(db.collection('treatment_reviews').doc('tr_mock_rules_test').get());
     });
 
     test('Scenario 2 [localStorage forgery]: Client without valid Firebase token CANNOT read', async () => {
       // localStorage modification only sets browser storage, not request.auth
       const unauthContext = testEnv.unauthenticatedContext();
       const db = unauthContext.firestore();
-      await assertFails(db.collection('treatment_reviews').doc('case-01-tic').get());
+      await assertFails(db.collection('treatment_reviews').doc('tr_mock_rules_test').get());
     });
 
     test('Scenario 3 [Anonymous User]: Anonymous Firebase Auth user CANNOT read', async () => {
@@ -79,7 +79,7 @@ describe('Healim Firebase Rules Emulator Verification', () => {
         firebase: { sign_in_provider: 'anonymous' }
       });
       const db = anonContext.firestore();
-      await assertFails(db.collection('treatment_reviews').doc('case-01-tic').get());
+      await assertFails(db.collection('treatment_reviews').doc('tr_mock_rules_test').get());
     });
 
     test('Scenario 4 [Email Member]: Authenticated non-anonymous user CAN read review', async () => {
@@ -88,7 +88,7 @@ describe('Healim Firebase Rules Emulator Verification', () => {
         firebase: { sign_in_provider: 'password' }
       });
       const db = memberContext.firestore();
-      await assertSucceeds(db.collection('treatment_reviews').doc('case-01-tic').get());
+      await assertSucceeds(db.collection('treatment_reviews').doc('tr_mock_rules_test').get());
     });
 
     test('Scenario 5 [Kakao Member]: Authenticated Kakao custom token user CAN read review', async () => {
@@ -96,7 +96,7 @@ describe('Healim Firebase Rules Emulator Verification', () => {
         firebase: { sign_in_provider: 'custom' }
       });
       const db = kakaoContext.firestore();
-      await assertSucceeds(db.collection('treatment_reviews').doc('case-01-tic').get());
+      await assertSucceeds(db.collection('treatment_reviews').doc('tr_mock_rules_test').get());
     });
 
     test('Scenario 5-B [Naver Member]: Authenticated Naver custom token user CAN read review', async () => {
@@ -104,7 +104,7 @@ describe('Healim Firebase Rules Emulator Verification', () => {
         firebase: { sign_in_provider: 'custom' }
       });
       const db = naverContext.firestore();
-      await assertSucceeds(db.collection('treatment_reviews').doc('case-01-tic').get());
+      await assertSucceeds(db.collection('treatment_reviews').doc('tr_mock_rules_test').get());
     });
 
     test('Scenario 6 [Regular Member Write Block]: Regular member CANNOT create/update/delete review', async () => {
@@ -114,7 +114,7 @@ describe('Healim Firebase Rules Emulator Verification', () => {
       });
       const db = memberContext.firestore();
       await assertFails(db.collection('treatment_reviews').doc('case-02-new').set({ title: 'hack' }));
-      await assertFails(db.collection('treatment_reviews').doc('case-01-tic').delete());
+      await assertFails(db.collection('treatment_reviews').doc('tr_mock_rules_test').delete());
     });
 
     test('Scenario 7 [Admin]: Verified Admin CAN write and delete review', async () => {
@@ -137,7 +137,7 @@ describe('Healim Firebase Rules Emulator Verification', () => {
     beforeEach(async () => {
       await testEnv.withSecurityRulesDisabled(async (context) => {
         const db = context.firestore();
-        await db.collection('treatment_review_previews').doc('case-01-tic').set({
+        await db.collection('treatment_review_previews').doc('tr_mock_rules_test').set({
           title: '[소아 틱장애] 눈 깜빡임과 킁킁거림으로 시작된 임상 사례',
           category: 'tic',
           duration: '총 4개월',
@@ -149,7 +149,7 @@ describe('Healim Firebase Rules Emulator Verification', () => {
     test('Scenario 8 [Public Catalog Read]: Unauthenticated visitor CAN read catalog previews', async () => {
       const unauthContext = testEnv.unauthenticatedContext();
       const db = unauthContext.firestore();
-      await assertSucceeds(db.collection('treatment_review_previews').doc('case-01-tic').get());
+      await assertSucceeds(db.collection('treatment_review_previews').doc('tr_mock_rules_test').get());
     });
 
     test('Scenario 9 [Catalog Write]: Regular user CANNOT write catalog previews, only Admin', async () => {
@@ -157,11 +157,11 @@ describe('Healim Firebase Rules Emulator Verification', () => {
         firebase: { sign_in_provider: 'password' }
       });
       const db = memberContext.firestore();
-      await assertFails(db.collection('treatment_review_previews').doc('case-01-tic').update({ title: 'hack' }));
+      await assertFails(db.collection('treatment_review_previews').doc('tr_mock_rules_test').update({ title: 'hack' }));
 
       const adminContext = testEnv.authenticatedContext('admin-user-001', { admin: true });
       const adminDb = adminContext.firestore();
-      await assertSucceeds(adminDb.collection('treatment_review_previews').doc('case-01-tic').update({ duration: '총 5개월' }));
+      await assertSucceeds(adminDb.collection('treatment_review_previews').doc('tr_mock_rules_test').update({ duration: '총 5개월' }));
     });
   });
 
@@ -174,7 +174,7 @@ describe('Healim Firebase Rules Emulator Verification', () => {
     beforeEach(async () => {
       await testEnv.withSecurityRulesDisabled(async (context) => {
         const storage = context.storage();
-        const ref = storage.ref('treatment-reviews/case-01-tic/handwriting.webp');
+        const ref = storage.ref('treatment-reviews/tr_mock_rules_test/handwriting.webp');
         await ref.put(testBytes, { contentType: 'image/webp' });
       });
     });
@@ -182,7 +182,7 @@ describe('Healim Firebase Rules Emulator Verification', () => {
     test('Scenario 10 [Guest]: Unauthenticated user CANNOT read handwriting image', async () => {
       const unauthContext = testEnv.unauthenticatedContext();
       const storage = unauthContext.storage();
-      const ref = storage.ref('treatment-reviews/case-01-tic/handwriting.webp');
+      const ref = storage.ref('treatment-reviews/tr_mock_rules_test/handwriting.webp');
       await assertFails(ref.getDownloadURL());
     });
 
@@ -191,7 +191,7 @@ describe('Healim Firebase Rules Emulator Verification', () => {
         firebase: { sign_in_provider: 'anonymous' }
       });
       const storage = anonContext.storage();
-      const ref = storage.ref('treatment-reviews/case-01-tic/handwriting.webp');
+      const ref = storage.ref('treatment-reviews/tr_mock_rules_test/handwriting.webp');
       await assertFails(ref.getDownloadURL());
     });
 
@@ -201,7 +201,7 @@ describe('Healim Firebase Rules Emulator Verification', () => {
         firebase: { sign_in_provider: 'password' }
       });
       const storage = memberContext.storage();
-      const ref = storage.ref('treatment-reviews/case-01-tic/handwriting.webp');
+      const ref = storage.ref('treatment-reviews/tr_mock_rules_test/handwriting.webp');
       await assertFails(ref.getDownloadURL());
     });
 
@@ -210,7 +210,7 @@ describe('Healim Firebase Rules Emulator Verification', () => {
         firebase: { sign_in_provider: 'custom' }
       });
       const storage = kakaoContext.storage();
-      const ref = storage.ref('treatment-reviews/case-01-tic/handwriting.webp');
+      const ref = storage.ref('treatment-reviews/tr_mock_rules_test/handwriting.webp');
       await assertFails(ref.getDownloadURL());
     });
 
@@ -219,14 +219,14 @@ describe('Healim Firebase Rules Emulator Verification', () => {
         firebase: { sign_in_provider: 'custom' }
       });
       const storage = naverContext.storage();
-      const ref = storage.ref('treatment-reviews/case-01-tic/handwriting.webp');
+      const ref = storage.ref('treatment-reviews/tr_mock_rules_test/handwriting.webp');
       await assertFails(ref.getDownloadURL());
     });
 
     test('Scenario 13-C [Admin Client Read Block]: Even Admin client CANNOT read handwriting image directly (Stream proxy only)', async () => {
       const adminContext = testEnv.authenticatedContext('admin-001', { admin: true });
       const storage = adminContext.storage();
-      const ref = storage.ref('treatment-reviews/case-01-tic/handwriting.webp');
+      const ref = storage.ref('treatment-reviews/tr_mock_rules_test/handwriting.webp');
       await assertFails(ref.getDownloadURL());
     });
 
@@ -237,7 +237,7 @@ describe('Healim Firebase Rules Emulator Verification', () => {
       const storage = memberContext.storage();
       const ref = storage.ref('treatment-reviews/case-02-new/hack.png');
       await assertFails(ref.put(testBytes, { contentType: 'image/png' }));
-      const existingRef = storage.ref('treatment-reviews/case-01-tic/handwriting.webp');
+      const existingRef = storage.ref('treatment-reviews/tr_mock_rules_test/handwriting.webp');
       await assertFails(existingRef.delete());
     });
 
@@ -246,7 +246,7 @@ describe('Healim Firebase Rules Emulator Verification', () => {
       const storage = adminContext.storage();
       const ref = storage.ref('treatment-reviews/case-02-new/handwriting.webp');
       await assertSucceeds(ref.put(testBytes, { contentType: 'image/webp' }));
-      const existingRef = storage.ref('treatment-reviews/case-01-tic/handwriting.webp');
+      const existingRef = storage.ref('treatment-reviews/tr_mock_rules_test/handwriting.webp');
       await assertSucceeds(existingRef.delete());
     });
 
