@@ -330,6 +330,7 @@ async function runAllTests() {
       apiKey: '',
       autoEnabled: true,
       forcePublish: false,
+      isProductionPublish: true,
       isDryRun: false
     });
   } catch (err) {
@@ -349,6 +350,7 @@ async function runAllTests() {
       apiKey: 'real-key',
       autoEnabled: true,
       forcePublish: false,
+      isProductionPublish: true,
       isDryRun: false,
       mockTitleGenerator: () => '[판교 사회공포증] 테스트'
     });

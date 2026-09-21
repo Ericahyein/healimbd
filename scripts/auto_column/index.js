@@ -84,7 +84,9 @@ async function runAutoColumnPipeline(options = {}) {
   // Strict operating mode guard:
   // In GitHub Actions, PRODUCTION_PUBLISH is ONLY allowed if event is 'schedule' AND ref is 'refs/heads/main'
   let isProductionPublish = false;
-  if (isCiEnv) {
+  if (options.isProductionPublish !== undefined) {
+    isProductionPublish = options.isProductionPublish;
+  } else if (isCiEnv) {
     if (ciEvent === 'schedule' && ciRef === 'refs/heads/main' && autoEnabled) {
       isProductionPublish = true;
     } else {
@@ -95,9 +97,7 @@ async function runAutoColumnPipeline(options = {}) {
     }
   } else {
     // Local / test execution
-    if (options.isProductionPublish !== undefined) {
-      isProductionPublish = options.isProductionPublish;
-    } else if (process.env.RUN_MODE === 'PRODUCTION_PUBLISH') {
+    if (process.env.RUN_MODE === 'PRODUCTION_PUBLISH') {
       isProductionPublish = true;
     } else if (isDryRunOption !== undefined) {
       isProductionPublish = !isDryRunOption;
