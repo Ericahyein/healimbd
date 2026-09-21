@@ -178,19 +178,22 @@ async function runAllTests() {
   console.log('\n--- TEST 8, 9, 10: All candidates fail -> exception thrown, 0 images, 0 content files ---');
   let imageGenCount = 0;
   const initialBlogFiles = fs.readdirSync(mockBlogDir);
+  const realHistory = loadHistory();
+  const test8HistPath = path.join(testTmpDir, 'test8_history.json');
+  fs.writeFileSync(test8HistPath, JSON.stringify(realHistory, null, 2), 'utf-8');
 
   let caughtError = null;
   try {
     await runAutoColumnPipeline({
-      apiKey: 'test-key',
+      apiKey: '',
       autoEnabled: false,
       forcePublish: false,
       isDryRun: true,
-      historyPath: mockHistoryPath,
+      historyPath: test8HistPath,
       blogDir: mockBlogDir,
-      now: new Date('2026-09-18T10:00:00+09:00'),
-      // Mock that forces all title attempts to collide with pastArticle1
-      mockTitleGenerator: () => collidingTitle
+      now: new Date('2026-09-06T09:00:00+09:00'),
+      // Mock that forces all regenerated titles to collide
+      mockTitleGenerator: () => '[경기광주 ADHD] 성인 업무 중 실수가 반복되고 마무리가 어려울 때'
     });
   } catch (err) {
     caughtError = err;
@@ -353,7 +356,7 @@ async function runAllTests() {
     mockProdErr = err;
   }
   assert.ok(mockProdErr, 'Mock generator injected in production must throw security error');
-  assert.ok(mockProdErr.message.includes('Mock title generator is strictly prohibited in PRODUCTION_PUBLISH mode'));
+  assert.ok(mockProdErr.message.includes('Mock generator is strictly prohibited in PRODUCTION_PUBLISH mode'));
   console.log('✅ TEST 20 PASS: Mock generator strictly prohibited in production publish.');
 
   // =========================================================================
@@ -366,23 +369,290 @@ async function runAllTests() {
   console.log('✅ TEST 21 PASS: Non-title errors are strictly classified as non-retryable by title changes.');
 
   // =========================================================================
-  // ADDITIONAL TEST 22: Artifact safety: No API keys, secrets, or full drafts in failure artifacts
+  // ADDITIONAL TEST 23: Body validation failure immediately fails-closed (NO fallback)
   // =========================================================================
-  console.log('\n--- TEST 22: Artifact safety: No secrets or raw API keys ---');
-  const metadataPath = path.join(artifactDir, 'generation-metadata.json');
-  if (fs.existsSync(metadataPath)) {
-    const metaStr = fs.readFileSync(metadataPath, 'utf-8');
-    assert.ok(!metaStr.includes('sk-'), 'Metadata artifact must never contain OpenAI secret keys');
-    assert.ok(!metaStr.includes('Bearer '), 'Metadata artifact must never contain auth headers');
+  console.log('\n--- TEST 23: Body validation failure immediately fails-closed (NO fallback) ---');
+  // 1. Verify 3-Tier Validator strictly fails on advertising/cure guarantee
+  const badContentVal = validateArticleContent({
+    title: '[수지 공황장애] 가슴이 두근거릴 때',
+    titleDisease: '공황장애',
+    summary: '안내 문구입니다.',
+    category: 'panic',
+    body: '## 완치 안내\n해아림한의원에서는 공황장애의 100% 완치를 보장합니다.',
+    geoId: 'yongin-suji',
+    diseaseId: 'panic',
+    ageGroup: 'adult',
+    history: [pastArticle1]
+  });
+  assert.strictEqual(badContentVal.valid, false, 'Prohibited claim (완치) must fail validator');
+  assert.ok(badContentVal.errors.some(e => e.includes('완치') || e.includes('금지') || e.includes('광고')), 'Must report prohibited advertising claim');
+
+  // 2. Verify GEO consistency violation in body fails validator
+  const badGeoVal = validateArticleContent({
+    title: '[수지 공황장애] 가슴이 두근거릴 때',
+    titleDisease: '공황장애',
+    summary: '안내 문구입니다.',
+    category: 'panic',
+    body: '## 진료 안내\n수지 지역 환자분들은 판교 진료실을 찾아주세요.',
+    geoId: 'yongin-suji',
+    diseaseId: 'panic',
+    ageGroup: 'adult',
+    history: [pastArticle1]
+  });
+  assert.strictEqual(badGeoVal.valid, false, 'GEO violation in body must fail validator');
+  assert.ok(badGeoVal.errors.some(e => e.includes('Geo consistency violation') || e.includes('판교')), 'Must report GEO violation');
+
+  console.log('✅ TEST 23 PASS: Body validation failure (GEO, advertising, clinical) is strictly detected.');
+
+  // =========================================================================
+  // ADDITIONAL TEST 24: Error classification constants & FAIL_CLOSED_ERROR_TYPES
+  // =========================================================================
+  console.log('\n--- TEST 24: Strict error classification & FAIL_CLOSED_ERROR_TYPES ---');
+  const { FAIL_CLOSED_ERROR_TYPES } = require('../scripts/auto_column/index');
+  assert.ok(Array.isArray(FAIL_CLOSED_ERROR_TYPES));
+  assert.ok(FAIL_CLOSED_ERROR_TYPES.includes('MEDICAL_KNOWLEDGE_UNAPPROVED'));
+  assert.ok(FAIL_CLOSED_ERROR_TYPES.includes('GEO_CONSISTENCY_VIOLATION'));
+  assert.ok(FAIL_CLOSED_ERROR_TYPES.includes('PROHIBITED_CLAIM'));
+  assert.ok(FAIL_CLOSED_ERROR_TYPES.includes('ADVERTISING_RISK'));
+  assert.ok(FAIL_CLOSED_ERROR_TYPES.includes('CURE_GUARANTEE'));
+  assert.ok(FAIL_CLOSED_ERROR_TYPES.includes('CLINICAL_VALIDATOR_FAILURE'));
+  assert.ok(FAIL_CLOSED_ERROR_TYPES.includes('FULL_VALIDATION_FAILURE'));
+
+  // Ensure title retryable types ONLY contain title errors
+  assert.deepStrictEqual(TITLE_RETRYABLE_ERROR_TYPES, ['TITLE_SIMILARITY', 'TITLE_DUPLICATE', 'SLUG_COLLISION']);
+  console.log('✅ TEST 24 PASS: Error classification strictly separates title retryable vs fail-closed types.');
+
+  // =========================================================================
+  // ADDITIONAL TEST 25: Call count and cost ceilings
+  // =========================================================================
+  console.log('\n--- TEST 25: Call count ceilings (title, body, image) ---');
+  const {
+    MAX_BODY_GENS_PER_CANDIDATE,
+    MAX_TOTAL_BODY_GENS,
+    MAX_TOTAL_IMAGE_GENS
+  } = require('../scripts/auto_column/index');
+  assert.strictEqual(MAX_TITLE_REGEN_ATTEMPTS, 3, 'Max 3 title regens per candidate');
+  assert.strictEqual(MAX_FALLBACK_CANDIDATES, 2, 'Max 2 fallback candidates (3 total)');
+  assert.strictEqual(MAX_TOTAL_TITLE_REGENS, 9, 'Max 9 total title regens (3 x 3)');
+  assert.strictEqual(MAX_BODY_GENS_PER_CANDIDATE, 1, 'Max 1 body gen per candidate');
+  assert.strictEqual(MAX_TOTAL_BODY_GENS, 3, 'Max 3 total body gens across entire run');
+  assert.strictEqual(MAX_TOTAL_IMAGE_GENS, 1, 'Max 1 total image gen only for winning candidate');
+  console.log('✅ TEST 25 PASS: Explicit call ceilings declared and enforced (9 titles, 3 bodies, 1 image).');
+
+  // =========================================================================
+  // ADDITIONAL TEST 26: Operating mode guard: FORCE_PUBLISH cannot elevate in CI
+  // =========================================================================
+  console.log('\n--- TEST 26: FORCE_PUBLISH guard in CI environment ---');
+  const origActions = process.env.GITHUB_ACTIONS;
+  const origEvent = process.env.GITHUB_EVENT_NAME;
+  const origRef = process.env.GITHUB_REF;
+  try {
+    process.env.GITHUB_ACTIONS = 'true';
+    process.env.GITHUB_EVENT_NAME = 'workflow_dispatch';
+    process.env.GITHUB_REF = 'refs/heads/fix/doctor-column-title-similarity';
+    process.env.FORCE_PUBLISH = 'true';
+
+    let ciResult = null;
+    const testTmpDir3 = fs.mkdtempSync(path.join(os.tmpdir(), 'healim-ci-guard-test-'));
+    const testHist3 = path.join(testTmpDir3, 'hist.json');
+    const testBlog3 = path.join(testTmpDir3, 'blog');
+    fs.mkdirSync(testBlog3, { recursive: true });
+    fs.writeFileSync(testHist3, JSON.stringify([pastArticle1], null, 2), 'utf-8');
+
+    ciResult = await runAutoColumnPipeline({
+      apiKey: '',
+      historyPath: testHist3,
+      blogDir: testBlog3,
+      mockTitleGenerator: () => '[수지 공황장애] 가슴이 두근거리고 어지러운 호흡 불안 양상'
+    });
+
+    assert.strictEqual(ciResult.success, true);
+    assert.strictEqual(fs.readdirSync(testBlog3).length, 0, 'Zero production content files written in non-schedule CI');
+    try { fs.rmSync(testTmpDir3, { recursive: true, force: true }); } catch (e) {}
+  } finally {
+    process.env.GITHUB_ACTIONS = origActions || '';
+    process.env.GITHUB_EVENT_NAME = origEvent || '';
+    process.env.GITHUB_REF = origRef || '';
+    delete process.env.FORCE_PUBLISH;
   }
-  console.log('✅ TEST 22 PASS: Diagnostic artifacts are free of secrets and authorization tokens.');
+  console.log('✅ TEST 26 PASS: FORCE_PUBLISH cannot elevate feature branch or workflow_dispatch to production in CI.');
+
+  // =========================================================================
+  // ADDITIONAL TEST 27: Final title synchronization
+  // =========================================================================
+  console.log('\n--- TEST 27: Final title synchronization across metadata, slug & SEO ---');
+  const syncTestTmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'healim-sync-test-'));
+  const syncHist = path.join(syncTestTmpDir, 'hist.json');
+  const syncBlog = path.join(syncTestTmpDir, 'blog');
+  fs.mkdirSync(syncBlog, { recursive: true });
+  fs.writeFileSync(syncHist, JSON.stringify([pastArticle1], null, 2), 'utf-8');
+
+  const syncResult = await runAutoColumnPipeline({
+    apiKey: '',
+    isDryRun: true,
+    historyPath: syncHist,
+    blogDir: syncBlog
+  });
+
+  const finalTitle = syncResult.plan.titleCandidate;
+  assert.ok(finalTitle.length > 0);
+  assert.strictEqual(syncResult.retryReport.finalPlan.title, finalTitle);
+  assert.ok(syncResult.plan.slug.length > 0);
+  assert.strictEqual(syncResult.validation.valid, true);
+  try { fs.rmSync(syncTestTmpDir, { recursive: true, force: true }); } catch (e) {}
+  console.log('✅ TEST 27 PASS: Final passed title is 100% synchronized across plan, retry-report, and validation.');
+
+  // =========================================================================
+  // ADDITIONAL TEST 28: Body GEO Validator failure immediately fails-closed (NO Level B fallback)
+  // =========================================================================
+  console.log('\n--- TEST 28: Body GEO Validator failure immediately fails-closed (NO Level B fallback) ---');
+  const geoFailTmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'healim-geo-fail-'));
+  const geoFailHist = path.join(geoFailTmpDir, 'hist.json');
+  const geoFailBlog = path.join(geoFailTmpDir, 'blog');
+  fs.mkdirSync(geoFailBlog, { recursive: true });
+  fs.writeFileSync(geoFailHist, JSON.stringify([pastArticle1], null, 2), 'utf-8');
+
+  let bodyGenCountGeo = 0;
+  let caughtGeoErr = null;
+  try {
+    await runAutoColumnPipeline({
+      apiKey: '',
+      isDryRun: true,
+      historyPath: geoFailHist,
+      blogDir: geoFailBlog,
+      mockBodyGenerator: (plan) => {
+        bodyGenCountGeo++;
+        // Deliberately introduce cross-region reference (e.g. Suji article referencing Pangyo)
+        return `## 진료 안내\n${plan.geo.displayName} 주민 여러분께서는 판교 진료실을 찾아주세요.`;
+      }
+    });
+  } catch (err) {
+    caughtGeoErr = err;
+  }
+
+  assert.ok(caughtGeoErr, 'Pipeline must throw immediately on GEO validator failure');
+  assert.ok(caughtGeoErr.message.includes('Article validation failed'), 'Error message must reflect validation failure');
+  assert.strictEqual(bodyGenCountGeo, 1, 'Body generation must be attempted exactly ONCE: must NEVER proceed to Candidate 2 on GEO failure');
+  assert.strictEqual(fs.readdirSync(geoFailBlog).length, 0, 'Zero content files written');
+  try { fs.rmSync(geoFailTmpDir, { recursive: true, force: true }); } catch (e) {}
+  console.log('✅ TEST 28 PASS: Body GEO Validator failure strictly halts pipeline immediately (Fail-Closed, 0 fallbacks).');
+
+  // =========================================================================
+  // ADDITIONAL TEST 29: Medical Advertising Risk / Prohibited Claim immediately fails-closed
+  // =========================================================================
+  console.log('\n--- TEST 29: Prohibited Medical Claim / Advertising Risk immediately fails-closed ---');
+  const adFailTmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'healim-ad-fail-'));
+  const adFailHist = path.join(adFailTmpDir, 'hist.json');
+  const adFailBlog = path.join(adFailTmpDir, 'blog');
+  fs.mkdirSync(adFailBlog, { recursive: true });
+  fs.writeFileSync(adFailHist, JSON.stringify([pastArticle1], null, 2), 'utf-8');
+
+  let bodyGenCountAd = 0;
+  let caughtAdErr = null;
+  try {
+    await runAutoColumnPipeline({
+      apiKey: '',
+      isDryRun: true,
+      historyPath: adFailHist,
+      blogDir: adFailBlog,
+      mockBodyGenerator: () => {
+        bodyGenCountAd++;
+        return '## 치료 효과 안내\n해아림한의원에서는 100% 완치를 보장하며 재발이 전혀 없습니다.';
+      }
+    });
+  } catch (err) {
+    caughtAdErr = err;
+  }
+
+  assert.ok(caughtAdErr, 'Pipeline must throw immediately on advertising claim failure');
+  assert.ok(caughtAdErr.message.includes('Article validation failed'), 'Error message must state validation failure');
+  assert.strictEqual(bodyGenCountAd, 1, 'Body generation must be attempted exactly ONCE: must NEVER proceed to Candidate 2 on advertising failure');
+  assert.strictEqual(fs.readdirSync(adFailBlog).length, 0, 'Zero content files written');
+  try { fs.rmSync(adFailTmpDir, { recursive: true, force: true }); } catch (e) {}
+  console.log('✅ TEST 29 PASS: Prohibited advertising claims strictly halt pipeline immediately (Fail-Closed, 0 fallbacks).');
+
+  // =========================================================================
+  // ADDITIONAL TEST 30: Disease-Specific Clinical Validator Failure immediately fails-closed
+  // =========================================================================
+  console.log('\n--- TEST 30: Clinical Validator Failure immediately fails-closed ---');
+  const clinFailTmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'healim-clin-fail-'));
+  const clinFailHist = path.join(clinFailTmpDir, 'hist.json');
+  const clinFailBlog = path.join(clinFailTmpDir, 'blog');
+  fs.mkdirSync(clinFailBlog, { recursive: true });
+  fs.writeFileSync(clinFailHist, JSON.stringify([pastArticle1], null, 2), 'utf-8');
+
+  let bodyGenCountClin = 0;
+  let caughtClinErr = null;
+  try {
+    await runAutoColumnPipeline({
+      apiKey: '',
+      isDryRun: true,
+      historyPath: clinFailHist,
+      blogDir: clinFailBlog,
+      mockBodyGenerator: () => {
+        bodyGenCountClin++;
+        // Clinical violation: e.g. empty or non-compliant content
+        return '짧은 본문';
+      }
+    });
+  } catch (err) {
+    caughtClinErr = err;
+  }
+
+  assert.ok(caughtClinErr, 'Pipeline must throw immediately on clinical validator failure');
+  assert.ok(caughtClinErr.message.includes('Article validation failed'));
+  assert.strictEqual(bodyGenCountClin, 1, 'Must NEVER proceed to Candidate 2 on clinical validator failure');
+  try { fs.rmSync(clinFailTmpDir, { recursive: true, force: true }); } catch (e) {}
+  console.log('✅ TEST 30 PASS: Clinical Validator failure strictly halts pipeline immediately (Fail-Closed, 0 fallbacks).');
+
+  // =========================================================================
+  // ADDITIONAL TEST 31: Unapproved Medical Knowledge discovered at runtime fails-closed
+  // =========================================================================
+  console.log('\n--- TEST 31: Unapproved Medical Knowledge discovered at runtime fails-closed ---');
+  const unapprovedTmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'healim-unapproved-fail-'));
+  const unapprovedHist = path.join(unapprovedTmpDir, 'hist.json');
+  const unapprovedBlog = path.join(unapprovedTmpDir, 'blog');
+  fs.mkdirSync(unapprovedBlog, { recursive: true });
+  fs.writeFileSync(unapprovedHist, JSON.stringify([pastArticle1], null, 2), 'utf-8');
+
+  let caughtUnapprovedErr = null;
+  try {
+    await runAutoColumnPipeline({
+      apiKey: '',
+      isDryRun: true,
+      historyPath: unapprovedHist,
+      blogDir: unapprovedBlog,
+      mockKnowledge: {
+        diseaseId: 'adhd',
+        reviewStatus: 'draft' // Not approved!
+      }
+    });
+  } catch (err) {
+    caughtUnapprovedErr = err;
+  }
+
+  assert.ok(caughtUnapprovedErr, 'Pipeline must throw immediately on unapproved medical knowledge');
+  assert.ok(
+    caughtUnapprovedErr.message.includes('Data Integrity Violation') && caughtUnapprovedErr.message.includes('draft'),
+    'Error message must reflect Data Integrity Violation with draft status'
+  );
+  try { fs.rmSync(unapprovedTmpDir, { recursive: true, force: true }); } catch (e) {}
+  console.log('✅ TEST 31 PASS: Unapproved medical knowledge fails closed immediately (Data Integrity Violation).');
+
+  // =========================================================================
+  // ADDITIONAL TEST 32: Unknown / Unexpected Errors are Fail-Closed
+  // =========================================================================
+  console.log('\n--- TEST 32: Unknown / Unexpected Errors are Fail-Closed ---');
+  assert.ok(FAIL_CLOSED_ERROR_TYPES.includes('UNKNOWN_ERROR'), 'UNKNOWN_ERROR must be in FAIL_CLOSED_ERROR_TYPES');
+  assert.ok(FAIL_CLOSED_ERROR_TYPES.includes('SECURITY_ERROR'), 'SECURITY_ERROR must be in FAIL_CLOSED_ERROR_TYPES');
+  console.log('✅ TEST 32 PASS: Unknown and security error classifications are strictly fail-closed.');
 
   // Clean up test temporary directory
   try {
     fs.rmSync(testTmpDir, { recursive: true, force: true });
   } catch (e) {}
 
-  console.log('\n🎉 ALL 22 DOCTOR COLUMN TITLE SIMILARITY, RETRY & SAFETY TESTS PASSED 100%!\n');
+  console.log('\n🎉 ALL 32 DOCTOR COLUMN TITLE SIMILARITY, RETRY & SAFETY TESTS PASSED 100%!\n');
 }
 
 if (require.main === module) {

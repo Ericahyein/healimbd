@@ -87,7 +87,7 @@ jobs:
           OPENAI_PLANNER_MODEL: ${{ vars.OPENAI_PLANNER_MODEL || 'gpt-5.6-luna' }}
           OPENAI_WRITER_MODEL: ${{ vars.OPENAI_WRITER_MODEL || 'gpt-5.6-terra' }}
           OPENAI_IMAGE_MODEL: ${{ vars.OPENAI_IMAGE_MODEL || 'gpt-image-2' }}
-          FORCE_PUBLISH: ${{ (github.event_name == 'workflow_dispatch' && inputs.force_publish) && 'true' || 'false' }}
+          FORCE_PUBLISH: 'false'
           TEST_QA_TARGET: ${{ (github.event_name == 'workflow_dispatch' && inputs.test_qa_target) || 'auto' }}
         run: node scripts/auto_column/index.js
 
@@ -96,12 +96,16 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: column-pipeline-artifacts-${{ github.run_number }}
-          path: auto_column_artifacts/
+          path: |
+            auto_column_artifacts/validation-report.json
+            auto_column_artifacts/retry-report.json
+            auto_column_artifacts/generation-metadata.json
+            auto_column_artifacts/cost-report.json
           if-no-files-found: ignore
           retention-days: 7
 
       - name: Persist QA Results History (Dry-Run Mode Only)
-        if: always() && (env.AUTO_COLUMN_ENABLED != 'true' && (github.event_name != 'workflow_dispatch' || inputs.force_publish != true))
+        if: always() && (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && env.AUTO_COLUMN_ENABLED != 'true')
         run: |
           git config --global user.name "Healim QA Bot"
           git config --global user.email "bot@healim-bundang.com"
@@ -116,15 +120,15 @@ jobs:
           fi
 
       - name: Validate Hugo Static Build (Production Mode Only)
-        if: env.AUTO_COLUMN_ENABLED == 'true' || (github.event_name == 'workflow_dispatch' && inputs.force_publish == true)
+        if: github.event_name == 'schedule' && github.ref == 'refs/heads/main' && env.AUTO_COLUMN_ENABLED == 'true'
         run: hugo --minify -d public
 
       - name: Validate Column Image Assets and Rendered Output
-        if: env.AUTO_COLUMN_ENABLED == 'true' || (github.event_name == 'workflow_dispatch' && inputs.force_publish == true)
+        if: github.event_name == 'schedule' && github.ref == 'refs/heads/main' && env.AUTO_COLUMN_ENABLED == 'true'
         run: node scripts/auto_column/pre_publish_check.js
 
       - name: Commit and Push to Main (Production Mode Only)
-        if: env.AUTO_COLUMN_ENABLED == 'true' || (github.event_name == 'workflow_dispatch' && inputs.force_publish == true)
+        if: github.event_name == 'schedule' && github.ref == 'refs/heads/main' && env.AUTO_COLUMN_ENABLED == 'true'
         run: |
           git config --global user.name "Healim Column Publisher Bot"
           git config --global user.email "bot@healim-bundang.com"

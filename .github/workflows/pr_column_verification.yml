@@ -1,0 +1,146 @@
+name: PR Column Verification and Artifact Lifecycle Safeguards
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pr-column-verify-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify-code-and-safeguards:
+    name: Verify Code, Unit Tests & Static Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR Head SHA (Read-Only)
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Log Verification Target SHA
+        run: |
+          echo "===================================================="
+          echo "Verifying PR Head SHA: $(git rev-parse HEAD)"
+          echo "Event: ${{ github.event_name }}"
+          echo "Ref: ${{ github.ref }}"
+          echo "===================================================="
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Setup Hugo Extended
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: 'latest'
+          extended: true
+
+      - name: Install Dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Node.js Syntax Verification
+        run: |
+          echo "Checking JavaScript syntax..."
+          node -c scripts/auto_column/*.js tests/*.js
+
+      - name: Run Candidate Tie-Break & Cooldown Safety Tests
+        run: node tests/test_candidate_rotation.js
+
+      - name: Run Gyeonggi-Gwangju 91.4% Reproduction & Recovery Tests
+        run: node tests/test_gwangju_91_reproduction.js
+
+      - name: Run Pangyo 96.8% Reproduction & Recovery Tests
+        run: node tests/test_pangyo_96_reproduction.js
+
+      - name: Run Doctor Column Title Retry & Fail-Closed Suite
+        run: node tests/test_doctor_column_title_retry.js
+
+      - name: Run QA System Integrity Tests
+        run: node tests/test_qa_system.js
+
+      - name: Validate Hugo Static Site Build
+        run: hugo --minify -d public
+
+      - name: Verify Git Diff Cleanliness and Formatting
+        run: git diff --check
+
+      - name: Assert Zero Content Directory Pollution and Zero Git Staging
+        run: |
+          echo "Checking git status for production content directories..."
+          STATUS=$(git status --porcelain content/blog static/images/blog data/auto_column_history.json)
+          if [ -n "$STATUS" ]; then
+            echo "❌ VIOLATION: Production content directories were modified or polluted during PR check:"
+            echo "$STATUS"
+            exit 1
+          fi
+
+          echo "Verifying git staging area is 100% empty..."
+          git diff --cached --exit-code
+
+          echo "Verifying artifact directory is NOT staged..."
+          if git diff --cached --name-only | grep -E "^auto_column_artifacts/"; then
+            echo "❌ VIOLATION: auto_column_artifacts was staged in git index!"
+            exit 1
+          fi
+          echo "✅ Code, tests, static build & zero-pollution assertions passed 100%."
+
+  test-artifact-lifecycle:
+    name: Verify Artifact Lifecycle and Security Audits
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR Head SHA (Read-Only)
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Execute Intentional Failure Subprocess & Capture Exit Code
+        id: lifecycle_trigger
+        run: node tests/test_artifact_lifecycle_trigger.js
+
+      - name: Upload Diagnostic Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pr-diagnostic-artifacts-${{ github.run_id }}
+          path: |
+            auto_column_artifacts/validation-report.json
+            auto_column_artifacts/retry-report.json
+            auto_column_artifacts/generation-metadata.json
+            auto_column_artifacts/cost-report.json
+          retention-days: 7
+          if-no-files-found: error
+
+      - name: Download Uploaded Diagnostic Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: pr-diagnostic-artifacts-${{ github.run_id }}
+          path: downloaded_artifacts
+
+      - name: Verify Artifact Security, Schemas, and Exact File Count
+        run: node tests/test_artifact_security_verification.js downloaded_artifacts
+
+      - name: Assert Zero Content Directory Pollution and Zero Git Staging
+        run: |
+          echo "Verifying git staging area remains empty..."
+          git diff --cached --exit-code
+          echo "✅ Artifact lifecycle and security audit passed 100%."

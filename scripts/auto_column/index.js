@@ -29,10 +29,26 @@ const COST_RATES = {
 };
 
 // Retry Limits and Safety Constraints
-const MAX_TITLE_REGEN_ATTEMPTS = 3;   // Max 3 AI title regenerations per candidate
+const MAX_TITLE_REGEN_ATTEMPTS = 3;   // Max 3 AI title regenerations per candidate (Level A)
 const MAX_FALLBACK_CANDIDATES = 2;     // Max 2 alternative fallback candidates (Total: 1 initial + 2 fallbacks = 3)
 const MAX_TOTAL_TITLE_REGENS = 9;      // Absolute upper bound across entire execution: 3 candidates * 3 regens = 9
+const MAX_BODY_GENS_PER_CANDIDATE = 1; // Exactly 1 body generation per candidate
+const MAX_TOTAL_BODY_GENS = 3;         // Absolute upper bound: max 3 body generations across execution
+const MAX_TOTAL_IMAGE_GENS = 1;        // Absolute upper bound: max 1 image generation only after 100% validation pass
+
 const TITLE_RETRYABLE_ERROR_TYPES = ['TITLE_SIMILARITY', 'TITLE_DUPLICATE', 'SLUG_COLLISION'];
+const FAIL_CLOSED_ERROR_TYPES = [
+  'MEDICAL_KNOWLEDGE_UNAPPROVED',
+  'GEO_CONSISTENCY_VIOLATION',
+  'PROHIBITED_CLAIM',
+  'ADVERTISING_RISK',
+  'CURE_GUARANTEE',
+  'CLINICAL_VALIDATOR_FAILURE',
+  'INSUFFICIENT_EVIDENCE',
+  'FULL_VALIDATION_FAILURE',
+  'SECURITY_ERROR',
+  'UNKNOWN_ERROR'
+];
 
 async function runAutoColumnPipeline(options = {}) {
   console.log('====================================================');
@@ -42,14 +58,55 @@ async function runAutoColumnPipeline(options = {}) {
   const apiKey = (options.apiKey !== undefined) ? options.apiKey : (process.env.OPENAI_API_KEY || '');
   const autoEnabled = (options.autoEnabled !== undefined) ? options.autoEnabled : (process.env.AUTO_COLUMN_ENABLED === 'true');
   const forcePublish = (options.forcePublish !== undefined) ? options.forcePublish : (process.env.FORCE_PUBLISH === 'true');
-  const isDryRun = (options.isDryRun !== undefined) ? options.isDryRun : (!autoEnabled && !forcePublish);
+  const isDryRunOption = options.isDryRun;
   const testQATargetInput = (options.testQATarget !== undefined) ? options.testQATarget : (process.env.TEST_QA_TARGET || '');
   const historyPath = options.historyPath || path.join(__dirname, '../../data/auto_column_history.json');
   const blogDir = options.blogDir || path.join(__dirname, '../../content/blog');
   const now = options.now || new Date();
   const mockTitleGenerator = options.mockTitleGenerator || null;
+  const mockBodyGenerator = options.mockBodyGenerator || null;
+  const mockKnowledge = options.mockKnowledge || null;
+  const artifactDir = options.artifactDir || path.join(__dirname, '../../auto_column_artifacts');
 
-  const isProductionPublish = !isDryRun;
+  // Ensure artifact directory is clean of stale files from previous executions
+  if (fs.existsSync(artifactDir)) {
+    for (const f of fs.readdirSync(artifactDir)) {
+      try { fs.unlinkSync(path.join(artifactDir, f)); } catch (e) {}
+    }
+  } else {
+    fs.mkdirSync(artifactDir, { recursive: true });
+  }
+
+  const isCiEnv = (process.env.GITHUB_ACTIONS === 'true');
+  const ciEvent = process.env.GITHUB_EVENT_NAME || '';
+  const ciRef = process.env.GITHUB_REF || '';
+
+  // Strict operating mode guard:
+  // In GitHub Actions, PRODUCTION_PUBLISH is ONLY allowed if event is 'schedule' AND ref is 'refs/heads/main'
+  let isProductionPublish = false;
+  if (isCiEnv) {
+    if (ciEvent === 'schedule' && ciRef === 'refs/heads/main' && autoEnabled) {
+      isProductionPublish = true;
+    } else {
+      isProductionPublish = false;
+      if (forcePublish) {
+        console.warn(`🛡️ Security Guard: FORCE_PUBLISH cannot elevate '${ciEvent}' on '${ciRef}' to production publish. Forced to DRY_RUN.`);
+      }
+    }
+  } else {
+    // Local / test execution
+    if (options.isProductionPublish !== undefined) {
+      isProductionPublish = options.isProductionPublish;
+    } else if (process.env.RUN_MODE === 'PRODUCTION_PUBLISH') {
+      isProductionPublish = true;
+    } else if (isDryRunOption !== undefined) {
+      isProductionPublish = !isDryRunOption;
+    } else {
+      isProductionPublish = (!isDryRunOption && autoEnabled && !forcePublish);
+    }
+  }
+
+  const isDryRun = !isProductionPublish;
 
   console.log('⚙️ Configuration State:', {
     AUTO_COLUMN_ENABLED: autoEnabled,
@@ -65,9 +122,12 @@ async function runAutoColumnPipeline(options = {}) {
       console.error('💥 Fatal Security Error: OPENAI_API_KEY is missing in PRODUCTION_PUBLISH mode.');
       throw new Error('Fatal: OPENAI_API_KEY is missing in PRODUCTION_PUBLISH mode. Halting pipeline (Fail-Closed).');
     }
-    if (mockTitleGenerator) {
-      console.error('💥 Fatal Security Error: Mock title generator cannot be injected in PRODUCTION_PUBLISH mode.');
-      throw new Error('Fatal: Mock title generator is strictly prohibited in PRODUCTION_PUBLISH mode.');
+    if (mockTitleGenerator || mockBodyGenerator || mockKnowledge) {
+      console.error('💥 Fatal Security Error: Mock generators cannot be injected in PRODUCTION_PUBLISH mode.');
+      throw new Error('Fatal: Mock generator is strictly prohibited in PRODUCTION_PUBLISH mode.');
+    }
+    if (process.env.INTENTIONAL_VALIDATOR_FAILURE) {
+      throw new Error('Fatal Security Error: INTENTIONAL_VALIDATOR_FAILURE is strictly prohibited in PRODUCTION_PUBLISH mode.');
     }
   } else if (!apiKey && !mockTitleGenerator) {
     console.warn('⚠️ OPENAI_API_KEY is not set. Running in Offline Mock Test Mode.');
@@ -112,10 +172,13 @@ async function runAutoColumnPipeline(options = {}) {
     rejectedTitles: [],
     finalPlan: null,
     totalTitleRegens: 0,
+    totalBodyGens: 0,
     success: false
   };
 
   let totalTitleRegenCount = 0;
+  let totalBodyGenCount = 0;
+  let totalImageGenCount = 0;
   let winningPlan = null;
   let winningOutline = null;
   let winningArticleBody = null;
@@ -133,7 +196,6 @@ async function runAutoColumnPipeline(options = {}) {
 
     let currentPlan;
     if (isQAOverrideRequested) {
-      // Safety guard: If QA target is already approved by human, strictly skip execution
       const currentQAResults = loadQAResults();
       const existingRecord = currentQAResults.find(r => r.qaId === qaTarget.qaId);
       if (existingRecord && existingRecord.humanReviewStatus === 'approved') {
@@ -166,7 +228,8 @@ async function runAutoColumnPipeline(options = {}) {
     }
 
     const planKey = `${currentPlan.geo.id}:${currentPlan.disease.id}:${currentPlan.topicAngle.id}`;
-    if (rejectedPlanKeys.has(planKey)) {
+    const stablePlanKey = `${currentPlan.geo.id}|${currentPlan.disease.id}|${currentPlan.topicAngle.id}`;
+    if (rejectedPlanKeys.has(planKey) || rejectedPlanKeys.has(stablePlanKey)) {
       console.warn(`⚠️ Plan combination ${planKey} already rejected in this session. Skipping.`);
       continue;
     }
@@ -176,32 +239,19 @@ async function runAutoColumnPipeline(options = {}) {
     console.log(`🏷️ Initial Canonical Title: ${currentPlan.titleCandidate}`);
     console.log(`🔗 Slug: ${currentPlan.slug}`);
 
-    // Load and verify approved medical knowledge
+    // Load and verify approved medical knowledge: FAIL-CLOSED on missing or unapproved knowledge
     let knowledge;
     try {
-      knowledge = loadMedicalKnowledge(currentPlan.disease.id);
+      knowledge = mockKnowledge || loadMedicalKnowledge(currentPlan.disease.id);
     } catch (err) {
-      console.error(`❌ Medical knowledge loading error for '${currentPlan.disease.id}': ${err.message}`);
-      rejectedPlanKeys.add(planKey);
-      retryReport.attempts.push({
-        candidateIdx: candidateIdx + 1,
-        planKey,
-        errorType: 'MEDICAL_KNOWLEDGE_MISSING',
-        error: err.message
-      });
-      continue;
+      console.error(`💥 Fatal: Medical knowledge loading error for '${currentPlan.disease.id}': ${err.message}`);
+      throw new Error(`Data Integrity Error: Medical knowledge for '${currentPlan.disease.id}' could not be loaded: ${err.message}`);
     }
 
-    if (!isDryRun && knowledge.reviewStatus !== 'approved') {
-      console.error(`❌ Cannot publish to production: Medical knowledge for '${currentPlan.disease.id}' is '${knowledge.reviewStatus}'. Must be 'approved' by medical director.`);
-      rejectedPlanKeys.add(planKey);
-      retryReport.attempts.push({
-        candidateIdx: candidateIdx + 1,
-        planKey,
-        errorType: 'MEDICAL_KNOWLEDGE_UNAPPROVED',
-        error: `Medical knowledge status is '${knowledge.reviewStatus}'`
-      });
-      continue;
+    if (!knowledge || knowledge.reviewStatus !== 'approved') {
+      const status = knowledge ? knowledge.reviewStatus : 'missing';
+      console.error(`💥 Fatal: Medical knowledge for '${currentPlan.disease.id}' is '${status}'. Must be 'approved'. Halting pipeline immediately (Fail-Closed).`);
+      throw new Error(`Data Integrity Violation: Medical knowledge for '${currentPlan.disease.id}' has status '${status}' (must be 'approved'). Halting pipeline (Fail-Closed).`);
     }
 
     // Title Evaluation and Regeneration Loop (Initial Canonical 1 attempt + up to 3 AI regenerations = max 4 checks)
@@ -245,7 +295,7 @@ async function runAutoColumnPipeline(options = {}) {
         console.log(`  📝 AI Generated Title Candidate: "${candidateTitle}"`);
       }
 
-      // Check session duplicate
+      // Check session duplicate (TITLE_DUPLICATE)
       if (rejectedTitles.has(candidateTitle)) {
         console.warn(`  ⚠️ Candidate title "${candidateTitle}" was already rejected in this session.`);
         retryReport.attempts.push({
@@ -258,7 +308,7 @@ async function runAutoColumnPipeline(options = {}) {
         continue;
       }
 
-      // Check title similarity against history (strictly enforces 0.75 threshold)
+      // Check title similarity against history (TITLE_SIMILARITY, strictly enforces 0.75 threshold)
       const titleSimCheck = checkTitleSimilarity(candidateTitle, history, 0.75);
       if (!titleSimCheck.valid) {
         console.warn(`  ❌ ${titleSimCheck.error}`);
@@ -277,7 +327,7 @@ async function runAutoColumnPipeline(options = {}) {
         continue;
       }
 
-      // Check slug collision
+      // Check slug collision (SLUG_COLLISION)
       const slugCheck = checkSlugCollision(currentPlan.slug, blogDir, history);
       if (!slugCheck.valid) {
         console.warn(`  ❌ ${slugCheck.error}`);
@@ -301,8 +351,9 @@ async function runAutoColumnPipeline(options = {}) {
     }
 
     if (!candidateTitleValid) {
-      console.warn(`⚠️ Title attempts exhausted for candidate [${planKey}]. Moving to fallback candidate.`);
+      console.warn(`⚠️ Title attempts exhausted for candidate [${planKey}]. Moving to Level B fallback candidate.`);
       rejectedPlanKeys.add(planKey);
+      rejectedPlanKeys.add(stablePlanKey);
       continue;
     }
 
@@ -323,11 +374,28 @@ async function runAutoColumnPipeline(options = {}) {
       `${currentPlan.titleCandidate.replace(/^\[[^\]]+\]\s*/, '')}`
     ];
 
+    // Check body generation ceiling
+    if (totalBodyGenCount >= MAX_TOTAL_BODY_GENS) {
+      console.error(`🛑 Absolute total body generation ceiling reached (${MAX_TOTAL_BODY_GENS}). Halting.`);
+      throw new Error(`Fatal: Absolute total body generation ceiling exceeded (${MAX_TOTAL_BODY_GENS}). Halting pipeline (Fail-Closed).`);
+    }
+
     // Generate outline, article body, thumbnail copy
     console.log('\nGenerating content via OpenAI Models (Luna: Planner, Terra: Writer)...');
+    totalBodyGenCount++;
+    retryReport.totalBodyGens = totalBodyGenCount;
+
     const internalLinks = getRecommendedInternalLinks(currentPlan.disease.category, currentPlan.slug);
     const outline = await generateTopicOutline(currentPlan, knowledge, apiKey, telemetry);
-    const articleBody = await generateArticleBody(currentPlan, outline, knowledge, internalLinks, apiKey, telemetry);
+    let articleBody;
+    if (mockBodyGenerator) {
+      articleBody = typeof mockBodyGenerator === 'function' ? mockBodyGenerator(currentPlan, outline, knowledge) : mockBodyGenerator;
+    } else if (process.env.INTENTIONAL_VALIDATOR_FAILURE === 'true') {
+      articleBody = (await generateArticleBody(currentPlan, outline, knowledge, internalLinks, apiKey, telemetry)) +
+        '\n\n## 완치 안내\n해아림한의원에서는 해당 증상의 100% 완치를 보장합니다.';
+    } else {
+      articleBody = await generateArticleBody(currentPlan, outline, knowledge, internalLinks, apiKey, telemetry);
+    }
     const thumbnailCopy = await generateThumbnailCopy(currentPlan, articleBody, apiKey, telemetry);
 
     console.log('🎨 Thumbnail Copy generated:', thumbnailCopy);
@@ -356,9 +424,7 @@ async function runAutoColumnPipeline(options = {}) {
     });
 
     if (!validation.valid) {
-      console.warn('❌ Full validation failed with errors:', validation.errors);
-      rejectedTitles.add(currentPlan.titleCandidate);
-      rejectedPlanKeys.add(planKey);
+      console.error('❌ Full 3-Tier Validation failed with errors:', validation.errors);
       retryReport.attempts.push({
         candidateIdx: candidateIdx + 1,
         planKey,
@@ -366,8 +432,39 @@ async function runAutoColumnPipeline(options = {}) {
         errorType: 'FULL_VALIDATION_FAILURE',
         errors: validation.errors
       });
-      // Non-title or clinical errors must NEVER be bypassed by changing title; try fallback candidate!
-      continue;
+
+      // Save diagnostic artifacts before halting
+      const todayIso = getKstIsoString(now);
+
+      const costUSD = (
+        (telemetry.lunaInTokens * COST_RATES.lunaIn) +
+        (telemetry.lunaOutTokens * COST_RATES.lunaOut) +
+        (telemetry.terraInTokens * COST_RATES.terraIn) +
+        (telemetry.terraOutTokens * COST_RATES.terraOut) +
+        (telemetry.imageCount * COST_RATES.imageUnit)
+      );
+      const costReport = {
+        telemetry,
+        costRates: COST_RATES,
+        estimatedCostUSD: Number(costUSD.toFixed(5)),
+        estimatedCostKRW: Math.round(costUSD * 1350)
+      };
+
+      fs.writeFileSync(path.join(artifactDir, 'validation-report.json'), JSON.stringify(validation, null, 2), 'utf-8');
+      fs.writeFileSync(path.join(artifactDir, 'retry-report.json'), JSON.stringify(retryReport, null, 2), 'utf-8');
+      fs.writeFileSync(path.join(artifactDir, 'generation-metadata.json'), JSON.stringify({
+        mode: isProductionPublish ? 'PRODUCTION_FAILED_VALIDATION' : 'DRY_RUN_FAILED_VALIDATION',
+        retryReport,
+        totalTitleRegens: totalTitleRegenCount,
+        totalBodyGens: totalBodyGenCount,
+        telemetry,
+        generatedAt: todayIso
+      }, null, 2), 'utf-8');
+      fs.writeFileSync(path.join(artifactDir, 'cost-report.json'), JSON.stringify(costReport, null, 2), 'utf-8');
+
+      // STRICT FAIL-CLOSED: Body, GEO, Prohibited, Clinical or Evidence Validator failures
+      // MUST NEVER be bypassed by switching to alternative candidates!
+      throw new Error(`Article validation failed: ${validation.errors.join('; ')}. Halting pipeline immediately (Fail-Closed).`);
     }
 
     // Success! We found our winning candidate
@@ -390,9 +487,6 @@ async function runAutoColumnPipeline(options = {}) {
     };
     break;
   }
-
-  const artifactDir = path.join(__dirname, '../../auto_column_artifacts');
-  if (!fs.existsSync(artifactDir)) fs.mkdirSync(artifactDir, { recursive: true });
 
   const todayIso = getKstIsoString();
 
@@ -442,6 +536,10 @@ async function runAutoColumnPipeline(options = {}) {
 
   // 5. Generate Thumbnail & Composite (ONLY REACHED AFTER 100% VALIDATION PASS)
   console.log('\n[5/6] Validation passed. Generating background image & compositing 800x800 thumbnail...');
+  if (totalImageGenCount >= MAX_TOTAL_IMAGE_GENS) {
+    throw new Error(`Fatal: Image generation ceiling exceeded (${MAX_TOTAL_IMAGE_GENS}). Halting pipeline (Fail-Closed).`);
+  }
+  totalImageGenCount++;
   const bgImageBuffer = await generateBackgroundImage(
     winningPlan.disease.id,
     winningPlan.disease.name,
@@ -576,5 +674,9 @@ module.exports = {
   MAX_TITLE_REGEN_ATTEMPTS,
   MAX_FALLBACK_CANDIDATES,
   MAX_TOTAL_TITLE_REGENS,
-  TITLE_RETRYABLE_ERROR_TYPES
+  MAX_BODY_GENS_PER_CANDIDATE,
+  MAX_TOTAL_BODY_GENS,
+  MAX_TOTAL_IMAGE_GENS,
+  TITLE_RETRYABLE_ERROR_TYPES,
+  FAIL_CLOSED_ERROR_TYPES
 };

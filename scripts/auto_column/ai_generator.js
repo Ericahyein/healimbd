@@ -374,6 +374,18 @@ async function generateArticleBody(plan, outline, knowledge, internalLinks, apiK
     const targetDiseaseName = plan.titleDisease || plan.displayDisease || plan.disease.name;
     const topicAngleText = plan.topicAngle ? (plan.topicAngle.titleSuffix || plan.topicAngle.focus || '') : '';
 
+    let filteredFaqs = (knowledge.faqCandidates || []);
+    if (plan.ageGroup === 'child') {
+      filteredFaqs = filteredFaqs.filter(f => !f.q.includes('성인') && !f.a.includes('성인'));
+    } else if (plan.ageGroup === 'adult') {
+      filteredFaqs = filteredFaqs.filter(f => !f.q.includes('소아') && !f.a.includes('소아') && !f.q.includes('아이') && !f.a.includes('아이'));
+    }
+
+    let sanitizedEvaluationGuidance = knowledge.evaluationGuidance || '';
+    if (plan.ageGroup === 'child') {
+      sanitizedEvaluationGuidance = sanitizedEvaluationGuidance.replace(/특히 성인[^.]+\./g, '').trim();
+    }
+
     return `
 <div class="column-key-summary-box">
   <div class="summary-header">
@@ -413,7 +425,7 @@ ${knowledge.approvedDefinition}
 
 ## 4. 해아림한의원 분당점의 상태 평가 및 1:1 맞춤 관리 관점
 
-${knowledge.evaluationGuidance}
+${sanitizedEvaluationGuidance}
 해아림한의원 분당점에서는 ${knowledge.treatmentGuidance}를 통해 환자 개개인의 균형 있는 회복을 돕고 있습니다.
 
 ## 5. 일상생활에서 실천할 수 있는 적극적인 생활 조절 수칙
@@ -424,14 +436,14 @@ ${knowledge.evaluationGuidance}
 
 ## 6. 자주 묻는 질문 (FAQ)
 
-**Q1. ${knowledge.faqCandidates[0]?.q || '증상이 있을 때 어떻게 대처하나요?'}**  
-A. ${knowledge.faqCandidates[0]?.a || '무리하게 참으려 하기보다 편안한 환경에서 상태를 관찰하고 의료진 상담을 받는 것이 좋습니다.'}
+**Q1. ${filteredFaqs[0]?.q || '증상이 있을 때 어떻게 대처하나요?'}**
+A. ${filteredFaqs[0]?.a || '무리하게 참으려 하기보다 편안한 환경에서 상태를 관찰하고 의료진 상담을 받는 것이 좋습니다.'}
 
-**Q2. ${knowledge.faqCandidates[1]?.q || '생활 관리는 어떻게 시작해야 하나요?'}**  
-A. ${knowledge.faqCandidates[1]?.a || '개인 상황에 맞게 불필요한 과로와 긴장을 줄이고, 수면과 휴식의 질을 점검하는 것이 권장됩니다.'}
+**Q2. ${filteredFaqs[1]?.q || '생활 관리는 어떻게 시작해야 하나요?'}**
+A. ${filteredFaqs[1]?.a || '개인 상황에 맞게 불필요한 과로와 긴장을 줄이고, 수면과 휴식의 질을 점검하는 것이 권장됩니다.'}
 
-**Q3. ${knowledge.faqCandidates[2]?.q || '치료 상담은 어떻게 진행되나요?'}**  
-A. ${knowledge.faqCandidates[2]?.a || '증상의 경과와 전반적인 건강 상태를 종합적으로 평가한 후 1:1 맞춤 관리 계획을 세웁니다.'}
+**Q3. ${filteredFaqs[2]?.q || '치료 상담은 어떻게 진행되나요?'}**
+A. ${filteredFaqs[2]?.a || '증상의 경과와 전반적인 건강 상태를 종합적으로 평가한 후 1:1 맞춤 관리 계획을 세웁니다.'}
 
 ---
 
