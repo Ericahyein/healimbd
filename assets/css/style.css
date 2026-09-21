@@ -13553,7 +13553,7 @@ body.inquiry-page-body .inquiry-table tbody tr:hover {
 
 /* 1. Representative Director Introduction (Unboxed Editorial) */
 .home-director-section {
-  padding: clamp(60px, 7vw, 100px) 0 16px;
+  padding: clamp(70px, 8vw, 110px) 0;
   background-color: #FFFFFF;
 }
 
@@ -13578,14 +13578,10 @@ body.inquiry-page-body .inquiry-table tbody tr:hover {
 
 .director-unboxed-img {
   width: 100%;
-  max-width: 320px;
   height: auto;
   display: block;
-  margin: 0 auto;
-  object-fit: contain;
-  border-radius: 0;
-  box-shadow: none;
-  background: transparent;
+  object-fit: cover;
+  border-radius: 4px;
 }
 
 .director-unboxed-caption {
@@ -14530,15 +14526,11 @@ body.inquiry-page-body .inquiry-table tbody tr:hover {
 
   .director-unboxed-portrait {
     position: static;
-    max-width: 330px;
+    max-width: 360px;
     margin: 0 auto;
   }
 
-  .director-unboxed-img {
-    max-width: 260px;
-  }
-
-  .books-unboxed-spread {
+   .books-unboxed-spread {
     grid-template-columns: 1fr;
     gap: 48px;
   }
@@ -14580,7 +14572,7 @@ body.inquiry-page-body .inquiry-table tbody tr:hover {
   }
 
   .home-director-section {
-    padding: 50px 0 16px;
+    padding: 60px 0 40px;
   }
 
   .treatments-unboxed-grid {
