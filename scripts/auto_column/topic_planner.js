@@ -36,13 +36,62 @@ function isGeoDiseaseIn90DayCooldown(history, geoId, diseaseId, now = new Date()
 }
 
 /**
- * Converts a date to a KST (UTC+9) Date object representing midnight of that calendar day.
+ * Formats a date into KST calendar parts { year, month, day } using formatToParts.
+ * Strictly validates that dateInput is a valid Date. Throws error on invalid Date.
  */
-function getKstCalendarDate(dateInput) {
-  const d = new Date(dateInput);
-  const kstMs = d.getTime() + (9 * 60 * 60 * 1000);
-  const kst = new Date(kstMs);
-  return new Date(Date.UTC(kst.getUTCFullYear(), kst.getUTCMonth(), kst.getUTCDate()));
+function parseKstDateParts(dateInput = new Date()) {
+  const d = (dateInput instanceof Date) ? dateInput : new Date(dateInput);
+  if (isNaN(d.getTime())) {
+    throw new Error(`Invalid Date input provided to KST date calculator: ${dateInput}`);
+  }
+
+  const formatter = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'Asia/Seoul',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  });
+
+  const parts = formatter.formatToParts(d);
+  let year = 0, month = 0, day = 0;
+  for (const part of parts) {
+    if (part.type === 'year') year = parseInt(part.value, 10);
+    else if (part.type === 'month') month = parseInt(part.value, 10);
+    else if (part.type === 'day') day = parseInt(part.value, 10);
+  }
+
+  if (!year || !month || !day) {
+    throw new Error(`Failed to extract KST calendar parts from date: ${dateInput}`);
+  }
+
+  return { year, month, day };
+}
+
+/**
+ * Returns KST calendar date string: YYYY-MM-DD using formatToParts.
+ */
+function getKstDateString(dateInput = new Date()) {
+  const { year, month, day } = parseKstDateParts(dateInput);
+  const mm = String(month).padStart(2, '0');
+  const dd = String(day).padStart(2, '0');
+  return `${year}-${mm}-${dd}`;
+}
+
+/**
+ * Converts a date to a KST Date object representing UTC midnight of that KST calendar day.
+ */
+function getKstCalendarDate(dateInput = new Date()) {
+  const { year, month, day } = parseKstDateParts(dateInput);
+  return new Date(Date.UTC(year, month - 1, day));
+}
+
+/**
+ * Derives a deterministic integer day seed from the KST calendar date.
+ */
+function getKstDaySeed(dateInput = new Date()) {
+  const { year, month, day } = parseKstDateParts(dateInput);
+  const utcMs = Date.UTC(year, month - 1, day);
+  return Math.floor(utcMs / (24 * 60 * 60 * 1000));
 }
 
 /**
@@ -54,13 +103,6 @@ function getKstIsoString(dateInput = new Date()) {
   const kstMs = d.getTime() + (9 * 60 * 60 * 1000);
   const kst = new Date(kstMs);
   return kst.toISOString().replace('Z', '+09:00');
-}
-
-/**
- * Returns KST calendar date string: YYYY-MM-DD
- */
-function getKstDateString(dateInput = new Date()) {
-  return getKstCalendarDate(dateInput).toISOString().slice(0, 10);
 }
 
 /**
@@ -96,12 +138,67 @@ function isDiseaseIn3DayCooldown(history, diseaseId, now = new Date()) {
  * Checks if today already has a post and returns its parentRegion & disease (KST calendar day)
  */
 function getTodayPublishedItems(history, now = new Date()) {
-  const todayKst = getKstCalendarDate(now).toISOString().slice(0, 10);
+  const todayKst = getKstDateString(now);
   return history.filter(item => {
     if (!item.publishDate) return false;
-    const itemKst = getKstCalendarDate(item.publishDate).toISOString().slice(0, 10);
+    const itemKst = getKstDateString(item.publishDate);
     return itemKst === todayKst;
   });
+}
+
+/**
+ * Verifies if medical knowledge exists and is approved for a given disease.
+ */
+function isMedicalKnowledgeApproved(diseaseId) {
+  try {
+    const mkPath = path.join(__dirname, 'medical_knowledge', `${diseaseId}.json`);
+    if (!fs.existsSync(mkPath)) return false;
+    const raw = fs.readFileSync(mkPath, 'utf-8');
+    const mk = JSON.parse(raw);
+    return mk && mk.reviewStatus === 'approved';
+  } catch (e) {
+    return false;
+  }
+}
+
+const SCORE_EPSILON = 1e-6;
+
+/**
+ * Groups candidates primarily by score descending, sorts each tied group
+ * lexicographically by stableKey, and rotates tied candidates by daySeed % group.length.
+ */
+function sortAndRotateCandidates(candidates, daySeed) {
+  if (candidates.length <= 1) return candidates;
+
+  candidates.sort((a, b) => b.score - a.score);
+
+  const groups = [];
+  let currentGroup = [];
+  let currentScore = null;
+
+  for (const cand of candidates) {
+    if (currentScore === null || Math.abs(cand.score - currentScore) <= SCORE_EPSILON) {
+      currentGroup.push(cand);
+      if (currentScore === null) currentScore = cand.score;
+    } else {
+      groups.push(currentGroup);
+      currentGroup = [cand];
+      currentScore = cand.score;
+    }
+  }
+  if (currentGroup.length > 0) groups.push(currentGroup);
+
+  const result = [];
+  for (const group of groups) {
+    group.sort((a, b) => a.stableKey.localeCompare(b.stableKey));
+    if (group.length > 1) {
+      const offset = ((daySeed % group.length) + group.length) % group.length;
+      result.push(...group.slice(offset), ...group.slice(0, offset));
+    } else {
+      result.push(...group);
+    }
+  }
+  return result;
 }
 
 /**
@@ -110,6 +207,7 @@ function getTodayPublishedItems(history, now = new Date()) {
 function planNextColumn(options = {}) {
   const history = loadHistory(options.historyPath);
   const now = options.now || new Date();
+  const daySeed = getKstDaySeed(now);
 
   const activeRegions = geoHierarchy.regions.filter(r => 
     ['city', 'district', 'selected_local_area', 'special_area'].includes(r.regionType)
@@ -134,6 +232,9 @@ function planNextColumn(options = {}) {
 
   for (const region of activeRegions) {
     for (const disease of diseaseTaxonomy.diseases) {
+      // Rule 0: Medical knowledge must exist and be approved
+      if (!isMedicalKnowledgeApproved(disease.id)) continue;
+
       // Rule 1: No same disease in same day
       if (todayDiseases.has(disease.id)) continue;
 
@@ -156,11 +257,15 @@ function planNextColumn(options = {}) {
         score += 35; // Never used region bonus
       }
 
-      validCandidates.push({
-        region,
-        disease,
-        score
-      });
+      for (const angle of (disease.topicAngles || [])) {
+        validCandidates.push({
+          region,
+          disease,
+          angle,
+          score,
+          stableKey: `${region.id}|${disease.id}|${angle.id}`
+        });
+      }
     }
   }
 
@@ -168,28 +273,128 @@ function planNextColumn(options = {}) {
     throw new Error('All geo-disease combinations are currently in cooldown. Please review history.');
   }
 
-  // Sort candidates by score descending
-  validCandidates.sort((a, b) => b.score - a.score);
-  const best = validCandidates[0];
+  // Stable group sort & date-based rotation for tied candidates
+  const rotatedCandidates = sortAndRotateCandidates(validCandidates, daySeed);
 
-  // Select topic angle that was least recently used for this disease
-  const pastAnglesForDisease = history
-    .filter(h => h.disease === best.disease.id)
-    .map(h => h.topicAngle);
+  // Find best candidate that has an eligible topic angle not in excludedPlanKeys
+  const excludedPlanKeys = options.excludedPlanKeys || new Set();
 
-  const availableAngles = best.disease.topicAngles || [];
-  let chosenAngle = availableAngles[0];
+  for (const cand of rotatedCandidates) {
+    const keyColon = `${cand.region.id}:${cand.disease.id}:${cand.angle.id}`;
+    const keyPipe = `${cand.region.id}|${cand.disease.id}|${cand.angle.id}`;
+    if (excludedPlanKeys.has(keyColon) || excludedPlanKeys.has(keyPipe)) {
+      continue;
+    }
 
+    const plan = buildProductionTopicPlan(cand.region, cand.disease, cand.angle, now);
+    plan.score = cand.score;
+    return plan;
+  }
+
+  throw new Error('No available candidate topic plans remain after exclusions.');
+}
+
+/**
+ * Selects the optimal topic angle for a disease, prioritizing unused angles
+ * and then least-recently-used (LRU) angles, while excluding any rejected angle IDs.
+ */
+function selectTopicAngleForDisease(disease, history, excludedAngleIds = new Set()) {
+  const availableAngles = (disease.topicAngles || []).filter(a => !excludedAngleIds.has(a.id));
+  if (availableAngles.length === 0) return null;
+
+  // 1. Check for angles never used in history
+  const usedAngleIds = new Set(history.filter(h => h.disease === disease.id).map(h => h.topicAngle));
   for (const angle of availableAngles) {
-    if (!pastAnglesForDisease.includes(angle.id)) {
-      chosenAngle = angle;
-      break;
+    if (!usedAngleIds.has(angle.id)) {
+      return angle;
     }
   }
 
-  const plan = buildProductionTopicPlan(best.region, best.disease, chosenAngle, now);
-  plan.score = best.score;
-  return plan;
+  // 2. All available angles have been used in history -> select Least Recently Used (oldest publishDate)
+  let oldestAngle = availableAngles[0];
+  let oldestDate = Infinity;
+
+  for (const angle of availableAngles) {
+    const lastUse = history.slice().reverse().find(h => h.disease === disease.id && h.topicAngle === angle.id);
+    if (lastUse && lastUse.publishDate) {
+      const pubTime = new Date(lastUse.publishDate).getTime();
+      if (pubTime < oldestDate) {
+        oldestDate = pubTime;
+        oldestAngle = angle;
+      }
+    } else {
+      return angle;
+    }
+  }
+
+  return oldestAngle;
+}
+
+/**
+ * Returns ranked candidate plans sorted by score descending, respecting rotation policies.
+ * Excludes combinations listed in excludedPlanKeys.
+ */
+function getRankedCandidatePlans(options = {}, excludedPlanKeys = new Set()) {
+  const history = loadHistory(options.historyPath);
+  const now = options.now || new Date();
+  const daySeed = getKstDaySeed(now);
+
+  const activeRegions = geoHierarchy.regions.filter(r =>
+    ['city', 'district', 'selected_local_area', 'special_area'].includes(r.regionType)
+  );
+
+  const todayPosts = getTodayPublishedItems(history, now);
+
+  const todayDiseases = new Set(todayPosts.map(p => p.disease));
+  const todayParents = new Set(todayPosts.map(p => p.parentRegion));
+
+  // Build candidate combinations
+  const validCandidates = [];
+
+  for (const region of activeRegions) {
+    for (const disease of diseaseTaxonomy.diseases) {
+      if (!isMedicalKnowledgeApproved(disease.id)) continue;
+      if (todayDiseases.has(disease.id)) continue;
+      if (isGeoDiseaseIn90DayCooldown(history, region.id, disease.id, now)) continue;
+      if (isDiseaseIn3DayCooldown(history, disease.id, now)) continue;
+
+      let score = 100;
+      if (todayParents.has(region.parentRegion)) score -= 30;
+
+      const lastGeoUse = history.slice().reverse().find(h => h.geoId === region.id);
+      if (lastGeoUse) {
+        const daysAgo = (now.getTime() - new Date(lastGeoUse.publishDate).getTime()) / (24 * 3600 * 1000);
+        score += Math.min(daysAgo, 30);
+      } else {
+        score += 35;
+      }
+
+      for (const angle of (disease.topicAngles || [])) {
+        validCandidates.push({
+          region,
+          disease,
+          angle,
+          score,
+          stableKey: `${region.id}|${disease.id}|${angle.id}`
+        });
+      }
+    }
+  }
+
+  const rotatedCandidates = sortAndRotateCandidates(validCandidates, daySeed);
+  const candidatePlans = [];
+
+  for (const cand of rotatedCandidates) {
+    const keyColon = `${cand.region.id}:${cand.disease.id}:${cand.angle.id}`;
+    const keyPipe = `${cand.region.id}|${cand.disease.id}|${cand.angle.id}`;
+    if (excludedPlanKeys.has(keyColon) || excludedPlanKeys.has(keyPipe)) continue;
+
+    const plan = buildProductionTopicPlan(cand.region, cand.disease, cand.angle, now);
+    plan.score = cand.score;
+    candidatePlans.push(plan);
+  }
+
+  return candidatePlans;
 }
 
 /**
@@ -214,7 +419,8 @@ function buildProductionTopicPlan(region, disease, chosenAngle, now = new Date()
     topicAngle: chosenAngle,
     titleCandidate,
     slug,
-    timestamp: now.toISOString()
+    timestamp: now.toISOString(),
+    stableKey: `${region.id}|${disease.id}|${chosenAngle.id}`
   };
 }
 
@@ -223,10 +429,17 @@ module.exports = {
   isGeoDiseaseIn90DayCooldown,
   isDiseaseIn3DayCooldown,
   getTodayPublishedItems,
+  parseKstDateParts,
   getKstCalendarDate,
+  getKstDaySeed,
   getKstIsoString,
   getKstDateString,
   getKstCalendarDayDiff,
+  isMedicalKnowledgeApproved,
+  SCORE_EPSILON,
+  sortAndRotateCandidates,
   planNextColumn,
+  selectTopicAngleForDisease,
+  getRankedCandidatePlans,
   buildProductionTopicPlan
 };

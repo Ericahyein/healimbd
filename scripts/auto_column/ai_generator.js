@@ -374,6 +374,18 @@ async function generateArticleBody(plan, outline, knowledge, internalLinks, apiK
     const targetDiseaseName = plan.titleDisease || plan.displayDisease || plan.disease.name;
     const topicAngleText = plan.topicAngle ? (plan.topicAngle.titleSuffix || plan.topicAngle.focus || '') : '';
 
+    let filteredFaqs = (knowledge.faqCandidates || []);
+    if (plan.ageGroup === 'child') {
+      filteredFaqs = filteredFaqs.filter(f => !f.q.includes('성인') && !f.a.includes('성인'));
+    } else if (plan.ageGroup === 'adult') {
+      filteredFaqs = filteredFaqs.filter(f => !f.q.includes('소아') && !f.a.includes('소아') && !f.q.includes('아이') && !f.a.includes('아이'));
+    }
+
+    let sanitizedEvaluationGuidance = knowledge.evaluationGuidance || '';
+    if (plan.ageGroup === 'child') {
+      sanitizedEvaluationGuidance = sanitizedEvaluationGuidance.replace(/특히 성인[^.]+\./g, '').trim();
+    }
+
     return `
 <div class="column-key-summary-box">
   <div class="summary-header">
@@ -413,7 +425,7 @@ ${knowledge.approvedDefinition}
 
 ## 4. 해아림한의원 분당점의 상태 평가 및 1:1 맞춤 관리 관점
 
-${knowledge.evaluationGuidance}
+${sanitizedEvaluationGuidance}
 해아림한의원 분당점에서는 ${knowledge.treatmentGuidance}를 통해 환자 개개인의 균형 있는 회복을 돕고 있습니다.
 
 ## 5. 일상생활에서 실천할 수 있는 적극적인 생활 조절 수칙
@@ -424,14 +436,14 @@ ${knowledge.evaluationGuidance}
 
 ## 6. 자주 묻는 질문 (FAQ)
 
-**Q1. ${knowledge.faqCandidates[0]?.q || '증상이 있을 때 어떻게 대처하나요?'}**  
-A. ${knowledge.faqCandidates[0]?.a || '무리하게 참으려 하기보다 편안한 환경에서 상태를 관찰하고 의료진 상담을 받는 것이 좋습니다.'}
+**Q1. ${filteredFaqs[0]?.q || '증상이 있을 때 어떻게 대처하나요?'}**
+A. ${filteredFaqs[0]?.a || '무리하게 참으려 하기보다 편안한 환경에서 상태를 관찰하고 의료진 상담을 받는 것이 좋습니다.'}
 
-**Q2. ${knowledge.faqCandidates[1]?.q || '생활 관리는 어떻게 시작해야 하나요?'}**  
-A. ${knowledge.faqCandidates[1]?.a || '개인 상황에 맞게 불필요한 과로와 긴장을 줄이고, 수면과 휴식의 질을 점검하는 것이 권장됩니다.'}
+**Q2. ${filteredFaqs[1]?.q || '생활 관리는 어떻게 시작해야 하나요?'}**
+A. ${filteredFaqs[1]?.a || '개인 상황에 맞게 불필요한 과로와 긴장을 줄이고, 수면과 휴식의 질을 점검하는 것이 권장됩니다.'}
 
-**Q3. ${knowledge.faqCandidates[2]?.q || '치료 상담은 어떻게 진행되나요?'}**  
-A. ${knowledge.faqCandidates[2]?.a || '증상의 경과와 전반적인 건강 상태를 종합적으로 평가한 후 1:1 맞춤 관리 계획을 세웁니다.'}
+**Q3. ${filteredFaqs[2]?.q || '치료 상담은 어떻게 진행되나요?'}**
+A. ${filteredFaqs[2]?.a || '증상의 경과와 전반적인 건강 상태를 종합적으로 평가한 후 1:1 맞춤 관리 계획을 세웁니다.'}
 
 ---
 
@@ -985,6 +997,126 @@ async function generateBackgroundImage(diseaseId, diseaseName, topicAngleId, top
   throw new Error('Image generation exhausted maximum attempts.');
 }
 
+/**
+ * Test mock hook for title regeneration.
+ * Strictly isolated: can ONLY be used when NODE_ENV === 'test' and NEVER in PRODUCTION_PUBLISH mode.
+ */
+let testMockTitleGenerator = null;
+
+function setTestMockTitleGenerator(fn) {
+  testMockTitleGenerator = fn;
+}
+
+/**
+ * Regenerates an article title when the previous candidate collided with a past article.
+ *
+ * Strict Rules:
+ * - In PRODUCTION_PUBLISH mode, mock generators are strictly forbidden and missing API key fails immediately (fail-closed).
+ * - Only in test environments (NODE_ENV === 'test' or explicit options.mockGenerator) can a mock generator be used.
+ * - Passes conflicting title, similarity, and rejected titles to the prompt.
+ * - Restricts direct re-use of core phrases and syntactic structure.
+ * - Guarantees format: [${region.displayName} ${plan.titleDisease}] <topic>
+ */
+async function regenerateArticleTitle(plan, conflictingTitle, similarity, rejectedTitles = [], apiKey = '', telemetry = null, options = {}) {
+  const isProductionPublish = options.isProductionPublish || process.env.RUN_MODE === 'PRODUCTION_PUBLISH';
+
+  // 1. Fail-closed security guard: strictly forbid mock generators in production
+  if (isProductionPublish) {
+    if (options.mockGenerator || testMockTitleGenerator) {
+      throw new Error('Security Violation: Mock title generator is strictly prohibited in PRODUCTION_PUBLISH mode.');
+    }
+    if (!apiKey || typeof apiKey !== 'string' || apiKey.trim().length === 0) {
+      throw new Error('Fatal: OPENAI_API_KEY is missing. Cannot regenerate title in production mode (Fail-Closed).');
+    }
+  }
+
+  // 2. Dependency injection / Test mock handling (allowed ONLY in non-production / test)
+  if (!isProductionPublish) {
+    if (typeof options.mockGenerator === 'function') {
+      return options.mockGenerator(plan, conflictingTitle, similarity, rejectedTitles);
+    }
+    if (process.env.NODE_ENV === 'test' && typeof testMockTitleGenerator === 'function') {
+      return testMockTitleGenerator(plan, conflictingTitle, similarity, rejectedTitles);
+    }
+  }
+
+  // 3. If live API execution is attempted without API key, fail closed
+  if (!apiKey || typeof apiKey !== 'string' || apiKey.trim().length === 0) {
+    throw new Error('OPENAI_API_KEY is required for title regeneration.');
+  }
+
+  const regionName = plan.geo.displayName;
+  const titleDisease = plan.titleDisease || plan.disease.name;
+  const topicAngleSuffix = plan.topicAngle.titleSuffix;
+  const topicFocus = plan.topicAngle.focus || '';
+  const simPercent = (similarity * 100).toFixed(1);
+
+  const rejectedListStr = rejectedTitles && rejectedTitles.length > 0
+    ? rejectedTitles.map(t => `  - "${t}"`).join('\n')
+    : '  (없음)';
+
+  const systemPrompt = `당신은 한의원(해아림한의원 분당점) 원장 칼럼의 제목을 전문적으로 기획하는 시니어 메디컬 카피라이터입니다.
+기존에 생성된 칼럼 제목이 과거 기발행된 칼럼과 표현·구조가 너무 유사하여(유사도 ${simPercent}%) 시스템에서 거절되었습니다.
+
+[거절 사유 및 충돌 정보]
+- 과거 기발행 글 제목: "${conflictingTitle}"
+- 계산된 유사도: ${simPercent}% (기준: 75% 이하 필수)
+- 이번 실행에서 이미 거절된 후보들:
+${rejectedListStr}
+
+[필수 작성 규칙]
+1. 제목 형식은 반드시 아래 형식을 정확히 따라야 합니다:
+   [${regionName} ${titleDisease}] <새롭고 독창적인 임상 질문 또는 설명형 문장>
+2. 충돌한 과거 제목("${conflictingTitle}")의 문장 구조와 핵심 어절을 절대로 그대로 답습하지 마십시오.
+3. 단순 조사('~때' -> '~시') 변경이나 지역명 변경만으로 우회하는 것은 엄격히 금지됩니다.
+4. 환자가 일상에서 겪는 당혹스러운 구체적 상황, 증상에 대한 의학적 오해, 증상 발현 양상, 임상적 평가 기준 등 완전히 다른 관점과 참신한 어휘를 사용하여 작성하십시오.
+5. 대괄호 뒤 주제 부분은 5자 이상이어야 하며, 자극적인 광고성 표현(완치, 100%, 기적 등)을 절대 사용하지 마십시오.
+6. 응답은 오직 생성된 제목 1줄(문자열)만 출력하십시오. 추가 설명이나 따옴표는 붙이지 마십시오.`;
+
+  const userPrompt = `[질환 정보]
+- 질환명: ${plan.disease.name} (표시 명칭: ${titleDisease})
+- 주제 앵글: ${topicAngleSuffix}
+- 앵글 포커스: ${topicFocus}
+- 지역: ${regionName} (${plan.geo.fullName})
+
+위 규칙을 준수하여 과거 글("${conflictingTitle}")과 유사도 75% 이하로 완전히 차별화된 새로운 고유 제목 1개를 출력해 주십시오.`;
+
+  const requestBody = {
+    model: PLANNER_MODEL,
+    messages: [
+      { role: 'system', content: systemPrompt },
+      { role: 'user', content: userPrompt }
+    ],
+    temperature: 0.7,
+    max_tokens: 120
+  };
+
+  const response = await callOpenAiApi(apiKey, 'chat/completions', requestBody);
+
+  if (telemetry) {
+    telemetry.lunaInTokens += response.usage?.prompt_tokens || 0;
+    telemetry.lunaOutTokens += response.usage?.completion_tokens || 0;
+  }
+
+  let rawContent = response.choices?.[0]?.message?.content || '';
+  rawContent = rawContent.trim().replace(/^["']|["']$/g, '').trim();
+
+  // If output wrapped in markdown codeblock or JSON, unwrap it
+  if (rawContent.startsWith('```')) {
+    rawContent = rawContent.replace(/^```[a-z]*\s*/i, '').replace(/\s*```$/, '').trim();
+  }
+
+  // Ensure prefix [지역 질환] exists
+  const expectedPrefix = `[${regionName} ${titleDisease}]`;
+  if (!rawContent.startsWith(expectedPrefix)) {
+    // If output is just the topic phrase, attach prefix
+    const stripped = rawContent.replace(/^\[[^\]]+\]\s*/, '').trim();
+    rawContent = `${expectedPrefix} ${stripped}`;
+  }
+
+  return rawContent;
+}
+
 module.exports = {
   loadMedicalKnowledge,
   buildImagePrompt,
@@ -992,5 +1124,7 @@ module.exports = {
   generateTopicOutline,
   generateArticleBody,
   generateThumbnailCopy,
-  generateBackgroundImage
+  generateBackgroundImage,
+  regenerateArticleTitle,
+  setTestMockTitleGenerator
 };

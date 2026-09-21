@@ -44,8 +44,8 @@ const DISEASE_RELEVANCE_MAP = {
  */
 function sanitizeAnchorTitle(rawTitle, slug) {
   let clean = rawTitle || slug || '';
-  // 1. Remove [지역 질환] regional brackets
-  clean = clean.replace(/^\[[가-힣\s]+\]\s*/, '');
+  // 1. Remove [지역 질환] regional brackets (including alphanumeric like ADHD, OCD)
+  clean = clean.replace(/^\[[^\]]+\]\s*/, '');
   // 2. Sanitize legacy marketing phrases
   clean = clean.replace(/두뇌\s*밸런스\s*치료법?/g, '상태 평가 및 임상 가이드');
   clean = clean.replace(/근본\s*치료법?/g, '한방 관리 요령');
