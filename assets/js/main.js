@@ -1726,35 +1726,12 @@ async function handleSocialLogin(provider) {
     return;
   }
 
-  // 5. Resolve HTTPS start endpoint and redirect popup location
-  const currentOrigin = window.location.origin;
-  const baseEndpoint = provider === 'kakao'
-    ? (window.HEALIM_KAKAO_AUTH_START_URL || 'https://asia-northeast3-healimbd-b726f.cloudfunctions.net/kakaoAuthStart')
-    : (window.HEALIM_NAVER_AUTH_START_URL || 'https://asia-northeast3-healimbd-b726f.cloudfunctions.net/naverAuthStart');
-
-  // Securely pass origin query param (server strictly validates against ALLOWED_ORIGINS)
-  let targetUrl = baseEndpoint;
-  try {
-    const parsed = new URL(baseEndpoint, window.location.href);
-    parsed.searchParams.set('origin', currentOrigin);
-    targetUrl = parsed.toString();
-  } catch (e) {
-    targetUrl = `${baseEndpoint}?origin=${encodeURIComponent(currentOrigin)}`;
-  }
-
-  try {
-    popup.location.href = targetUrl;
-  } catch (e) {
-    popup.location = targetUrl;
-  }
-
-  showAuthToast(`${providerName} 로그인 창이 열렸습니다. 인증을 진행해 주세요.`);
-
-  // 6. Strict postMessage & lifecycle validation (Success, Explicit Failure, User Cancel, Timeout)
+  // 5. Strict postMessage & lifecycle validation (Success, Explicit Failure, User Cancel, Timeout)
   const expectedSuccessType = provider === 'kakao' ? 'KAKAO_AUTH_SUCCESS' : 'NAVER_AUTH_SUCCESS';
   const expectedErrorType = provider === 'kakao' ? 'KAKAO_AUTH_ERROR' : 'NAVER_AUTH_ERROR';
   let isMessageProcessed = false;
   let pollTimer = null;
+  let graceTimer = null;
   let timeoutTimer = null;
 
   const cleanup = (shouldClosePopup = true) => {
@@ -1762,6 +1739,10 @@ async function handleSocialLogin(provider) {
     if (pollTimer) {
       clearInterval(pollTimer);
       pollTimer = null;
+    }
+    if (graceTimer) {
+      clearTimeout(graceTimer);
+      graceTimer = null;
     }
     if (timeoutTimer) {
       clearTimeout(timeoutTimer);
@@ -1776,26 +1757,6 @@ async function handleSocialLogin(provider) {
     activeSocialAuthCleanup = null;
   };
   activeSocialAuthCleanup = cleanup;
-
-  // Poll for user manually closing the popup window
-  pollTimer = setInterval(() => {
-    if (popup.closed) {
-      if (!isMessageProcessed) {
-        cleanup(false);
-        showAuthToast(`💡 ${providerName} 로그인 창이 닫혔습니다.`);
-      } else {
-        cleanup(false);
-      }
-    }
-  }, 800);
-
-  // 5 minutes timeout guard
-  timeoutTimer = setTimeout(() => {
-    if (!isMessageProcessed) {
-      cleanup(true);
-      showAuthToast(`⏱️ ${providerName} 로그인 대기 시간이 초과되었습니다. 다시 시도해 주세요.`);
-    }
-  }, 5 * 60 * 1000);
 
   const onSocialAuthMessage = async (event) => {
     // Condition 1: Whitelist of allowed Cloud Functions / Cloud Run and local emulator origins
@@ -1816,6 +1777,7 @@ async function handleSocialLogin(provider) {
 
     // Condition 3A: Immediate error message handling from Cloud Functions
     if (event.data.type === expectedErrorType) {
+      if (isMessageProcessed) return;
       isMessageProcessed = true;
       cleanup(true);
       const errCode = event.data.error;
@@ -1835,13 +1797,14 @@ async function handleSocialLogin(provider) {
 
     // Condition 4: Server state verification status check
     if (event.data.stateVerified !== true || event.data.status !== 'success') {
+      if (isMessageProcessed) return;
       isMessageProcessed = true;
       cleanup(true);
       showAuthToast(`❌ ${providerName} 인증 상태 검증(CSRF)에 실패했습니다.`);
       return;
     }
 
-    // Condition 5: Single execution guarantee - immediately remove listener
+    // Condition 5: Single execution guarantee - atomic flag set & immediate cleanup
     if (isMessageProcessed) return;
     isMessageProcessed = true;
     cleanup(true);
@@ -1876,7 +1839,61 @@ async function handleSocialLogin(provider) {
     }
   };
 
+  // Register listener BEFORE redirecting popup location
   window.addEventListener('message', onSocialAuthMessage);
+
+  // Poll for user manually closing the popup window with a minimum 1,500ms grace period
+  pollTimer = setInterval(() => {
+    if (popup.closed) {
+      if (pollTimer) {
+        clearInterval(pollTimer);
+        pollTimer = null;
+      }
+      if (!isMessageProcessed && !graceTimer) {
+        graceTimer = setTimeout(() => {
+          graceTimer = null;
+          if (!isMessageProcessed) {
+            cleanup(false);
+            showAuthToast(`💡 ${providerName} 로그인 창이 닫혔습니다.`);
+          }
+        }, 1500);
+      }
+    }
+  }, 500);
+
+  // 5 minutes timeout guard
+  timeoutTimer = setTimeout(() => {
+    if (!isMessageProcessed) {
+      cleanup(true);
+      showAuthToast(`⏱️ ${providerName} 로그인 대기 시간이 초과되었습니다. 다시 시도해 주세요.`);
+    }
+  }, 5 * 60 * 1000);
+
+  // 6. Resolve HTTPS start endpoint and redirect popup location
+  const currentOrigin = window.location.origin;
+  const baseEndpoint = provider === 'kakao'
+    ? (window.HEALIM_KAKAO_AUTH_START_URL || 'https://asia-northeast3-healimbd-b726f.cloudfunctions.net/kakaoAuthStart')
+    : (window.HEALIM_NAVER_AUTH_START_URL || 'https://asia-northeast3-healimbd-b726f.cloudfunctions.net/naverAuthStart');
+
+  // Securely pass origin query param (server strictly validates against ALLOWED_ORIGINS)
+  let targetUrl = baseEndpoint;
+  try {
+    const parsed = new URL(baseEndpoint, window.location.href);
+    parsed.searchParams.set('origin', currentOrigin);
+    targetUrl = parsed.toString();
+  } catch (e) {
+    targetUrl = `${baseEndpoint}?origin=${encodeURIComponent(currentOrigin)}`;
+  }
+
+  try {
+    popup.location.href = targetUrl;
+  } catch (e) {
+    try {
+      popup.location = targetUrl;
+    } catch (_) {}
+  }
+
+  showAuthToast(`${providerName} 로그인 창이 열렸습니다. 인증을 진행해 주세요.`);
 }
 
 async function handleEmailLogin(e) {
