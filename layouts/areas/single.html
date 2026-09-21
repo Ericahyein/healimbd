@@ -1,7 +1,7 @@
 {{ define "main" }}
   {{ partial "page_hero.html" (dict
     "Tag" (printf "%s SERVICE AREA" (.Params.area_name | upper))
-    "Title" .Title
+    "Title" (.Params.hero_title | default .Title)
     "Subtitle" .Params.hero_subtitle
     "BgImage" "images/hero-location.png"
     "HeroClass" "location-hero"

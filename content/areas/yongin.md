@@ -5,6 +5,7 @@ summary: "용인 수지·죽전·보정·구성·기흥에서 정자역 3번 출
 type: "areas"
 layout: "single"
 area_name: "용인"
+hero_title: "<span class=\"hero-title-chunk\">용인에서</span> <span class=\"hero-title-chunk\">해아림한의원 분당점</span> <span class=\"hero-title-chunk\">오시는 길과 진료 안내</span>"
 hero_subtitle: "수지·죽전·보정·구성·기흥에서 정자역까지 이어지는 이동 경로와<br class=\"pc-br\">관련 진료 정보를 한눈에 확인하실 수 있습니다."
 intro: "해아림한의원 분당점은 용인에 별도 지점을 두고 있지 않으며, 성남시 분당구 정자역 3번 출구 인근에 위치합니다. 이 페이지는 용인에서 분당점 방문을 고려하는 분들이 위치와 관련 정보를 정확히 확인할 수 있도록 마련했습니다."
 districts:
