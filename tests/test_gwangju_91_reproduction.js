@@ -17,7 +17,9 @@ const {
   MAX_TOTAL_BODY_GENS,
   MAX_TOTAL_IMAGE_GENS
 } = require('../scripts/auto_column/index');
-const { loadHistory, planNextColumn } = require('../scripts/auto_column/topic_planner');
+const { loadHistory, planNextColumn, getRankedCandidatePlans } = require('../scripts/auto_column/topic_planner');
+const geoHierarchy = require('../scripts/auto_column/geo_hierarchy.json');
+const diseaseTaxonomy = require('../scripts/auto_column/disease_taxonomy.json');
 
 async function testGwangju91Reproduction() {
   console.log('🧪 Starting Gyeonggi-Gwangju ADHD 91.4% Collision & Recovery Test Suite...\n');
@@ -71,10 +73,51 @@ async function testGwangju91Reproduction() {
   const testHistoryPath = path.join(testTmpDir, 'history.json');
   const testBlogDir = path.join(testTmpDir, 'content_blog');
   fs.mkdirSync(testBlogDir, { recursive: true });
-  fs.writeFileSync(testHistoryPath, JSON.stringify(realHistory, null, 2), 'utf-8');
 
   // Verified reproduction date where Gyeonggi-Gwangju ADHD (adult-work-mistakes) is selected as candidate 1
   const reproductionDate = new Date('2026-08-07T09:00:00+09:00');
+
+  // Keep the pipeline fixture independent from newly published production history.
+  // Every non-Gwangju region was used five days earlier, while Gwangju was used
+  // much earlier. This deterministically gives Gwangju the highest regional score.
+  const activeRegions = geoHierarchy.regions.filter(r =>
+    ['city', 'district', 'selected_local_area', 'special_area'].includes(r.regionType)
+  );
+  const deterministicHistory = [
+    {
+      ...pastYonginArticle,
+      publishDate: '2026-01-01T09:00:00+09:00'
+    },
+    {
+      geoId: 'gyeonggi-gwangju',
+      geoName: '경기광주',
+      parentRegion: 'gyeonggi-gwangju',
+      disease: 'anxiety',
+      title: '[테스트 경기광주 불안장애] 결정론적 후보 점수 고정용 이력',
+      publishDate: '2026-01-02T09:00:00+09:00'
+    },
+    ...activeRegions
+      .filter(region => region.id !== 'gyeonggi-gwangju')
+      .map(region => ({
+        geoId: region.id,
+        geoName: region.displayName,
+        parentRegion: region.parentRegion,
+        disease: 'anxiety',
+        title: `[테스트 ${region.displayName} 불안장애] 후보 점수 고정용 이력`,
+        publishDate: '2026-08-02T09:00:00+09:00'
+      })),
+    ...diseaseTaxonomy.diseases
+      .filter(disease => disease.id !== 'adhd')
+      .map(disease => ({
+        geoId: `fixture-${disease.id}`,
+        geoName: '테스트 지역',
+        parentRegion: 'fixture',
+        disease: disease.id,
+        title: `[테스트 ${disease.displayName}] 질환 쿨다운 고정용 이력`,
+        publishDate: '2026-08-06T09:00:00+09:00'
+      }))
+  ];
+  fs.writeFileSync(testHistoryPath, JSON.stringify(deterministicHistory, null, 2), 'utf-8');
 
   let mockRegenCalls = 0;
   const pipelineResult = await runAutoColumnPipeline({
@@ -101,7 +144,7 @@ async function testGwangju91Reproduction() {
   // 6. Test Level A Exhaustion (3 attempts fail) -> Transitions to Level B Fallback Candidate
   console.log('\n4. Level A Exhaustion (3 failures) -> Level B Transition Verification:');
   const testHistoryPath2 = path.join(testTmpDir, 'history2.json');
-  fs.writeFileSync(testHistoryPath2, JSON.stringify(realHistory, null, 2), 'utf-8');
+  fs.writeFileSync(testHistoryPath2, JSON.stringify(deterministicHistory, null, 2), 'utf-8');
 
   let candidate1Attempts = 0;
   const candidate2UniqueTitle = '[경기광주 ADHD] 교실과 가정에서 주의 집중이 유지되기 어려운 신경학적 이유';
@@ -130,7 +173,23 @@ async function testGwangju91Reproduction() {
   // 7. Test Total Exhaustion (All Candidates Fail Title Retries) -> 0 files written, history untouched
   console.log('\n5. Total Failure Ceiling Verification (All 3 Candidates Fail Title Retries):');
   const testHistoryPath3 = path.join(testTmpDir, 'history3.json');
-  fs.writeFileSync(testHistoryPath3, JSON.stringify(realHistory, null, 2), 'utf-8');
+  fs.writeFileSync(testHistoryPath3, JSON.stringify(deterministicHistory, null, 2), 'utf-8');
+  const rankedForTotalFailure = getRankedCandidatePlans({
+    historyPath: testHistoryPath3,
+    now: reproductionDate
+  }).slice(0, MAX_FALLBACK_CANDIDATES + 1);
+  const totalFailureHistory = [
+    ...deterministicHistory,
+    ...rankedForTotalFailure.map((plan, index) => ({
+      geoId: `fixture-title-collision-${index}`,
+      geoName: '테스트 지역',
+      parentRegion: 'fixture',
+      disease: 'fixture',
+      title: plan.titleCandidate,
+      publishDate: '2026-01-03T09:00:00+09:00'
+    }))
+  ];
+  fs.writeFileSync(testHistoryPath3, JSON.stringify(totalFailureHistory, null, 2), 'utf-8');
   const initialFiles = fs.readdirSync(testBlogDir);
 
   let caughtTotalErr = null;
@@ -155,7 +214,7 @@ async function testGwangju91Reproduction() {
 
   // Verify history was NOT polluted with failed candidates
   const finalHistory = JSON.parse(fs.readFileSync(testHistoryPath3, 'utf-8'));
-  assert.strictEqual(finalHistory.length, realHistory.length, 'Failed candidates must NEVER be written to history');
+  assert.strictEqual(finalHistory.length, totalFailureHistory.length, 'Failed candidates must NEVER be written to history');
 
   // Clean up
   try {

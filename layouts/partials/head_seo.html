@@ -37,7 +37,14 @@
 {{ else if .Params.robots }}
 <meta name="robots" content="{{ .Params.robots }}">
 {{ end }}
-{{ if site.Params.keywords }}<meta name="keywords" content="{{ site.Params.keywords }}">{{ end }}
+{{ $keywords := .Params.keywords | default site.Params.keywords }}
+{{ if $keywords }}
+  {{ if reflect.IsSlice $keywords }}
+<meta name="keywords" content="{{ delimit $keywords ", " }}">
+  {{ else }}
+<meta name="keywords" content="{{ $keywords }}">
+  {{ end }}
+{{ end }}
 <link rel="canonical" href="{{ $canonical }}">
 
 <!-- Open Graph / Facebook -->
@@ -106,6 +113,11 @@
   "logo" ("images/healim-symbol-logo.png" | absURL)
   "telephone" "031-716-8575"
   "medicalSpecialty" (slice "Psychiatric" "Pediatric")
+  "areaServed" (slice
+    (dict "@type" "City" "name" "성남시")
+    (dict "@type" "City" "name" "용인시")
+    (dict "@type" "City" "name" "경기도 광주시")
+  )
   "address" (dict
     "@type" "PostalAddress"
     "streetAddress" "경기도 성남시 분당구 성남대로 331번길 3-3, 젤존타워 3차, 405호"

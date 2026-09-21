@@ -1,0 +1,274 @@
+/* =========================================
+   Service Area Guide
+   ========================================= */
+.area-guide-section,
+.area-detail-section {
+  padding: 96px 0;
+  background: #fff;
+}
+
+.area-guide-container,
+.area-detail-container {
+  max-width: 1120px;
+}
+
+.area-guide-intro,
+.area-section-heading {
+  max-width: 760px;
+  margin-bottom: 42px;
+}
+
+.area-guide-eyebrow {
+  display: block;
+  margin-bottom: 12px;
+  color: var(--primary-color, #1b8fd1);
+  font-family: "Outfit", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.area-guide-intro h2,
+.area-section-heading h2,
+.area-detail-lead h2,
+.area-final-cta h2 {
+  margin: 0 0 16px;
+  color: #10233f;
+  font-size: clamp(28px, 3vw, 42px);
+  line-height: 1.25;
+}
+
+.area-guide-intro p,
+.area-section-heading p,
+.area-detail-lead > p,
+.area-final-cta p {
+  margin: 0;
+  color: #526173;
+  font-size: 17px;
+  line-height: 1.85;
+}
+
+.area-guide-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.area-guide-card,
+.area-route-card {
+  padding: 38px;
+  border: 1px solid #e1e9f0;
+  border-radius: 20px;
+  background: #fff;
+}
+
+.area-guide-card-index,
+.area-route-number {
+  display: block;
+  margin-bottom: 28px;
+  color: #1b8fd1;
+  font-family: "Outfit", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.area-guide-card h3,
+.area-route-card h3 {
+  margin: 0 0 14px;
+  color: #10233f;
+  font-size: 24px;
+}
+
+.area-guide-card p,
+.area-route-card p {
+  margin: 0 0 26px;
+  color: #5a6878;
+  line-height: 1.75;
+}
+
+.area-guide-link,
+.area-guide-notice a {
+  color: #0c78bb;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.area-guide-notice {
+  margin-top: 28px;
+  padding: 28px 32px;
+  border-left: 4px solid #24b598;
+  background: #f3faf8;
+}
+
+.area-guide-notice strong,
+.area-guide-notice p {
+  display: block;
+  margin: 0 0 8px;
+}
+
+.area-guide-notice p {
+  color: #526173;
+  line-height: 1.7;
+}
+
+.area-breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 56px;
+  color: #718096;
+  font-size: 14px;
+}
+
+.area-breadcrumb a {
+  color: #526173;
+  text-decoration: none;
+}
+
+.area-detail-lead {
+  max-width: 880px;
+  margin-bottom: 72px;
+}
+
+.area-district-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.area-district-list span {
+  padding: 9px 15px;
+  border-radius: 999px;
+  background: #edf7fc;
+  color: #176b9c;
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.area-route-section,
+.area-related-section,
+.area-editorial-content {
+  margin-top: 88px;
+}
+
+.area-route-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.area-route-card p {
+  margin-bottom: 0;
+}
+
+.area-related-list {
+  border-top: 1px solid #dfe7ee;
+}
+
+.area-related-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 25px 4px;
+  border-bottom: 1px solid #dfe7ee;
+  color: #10233f;
+  text-decoration: none;
+}
+
+.area-related-item strong,
+.area-related-item small {
+  display: block;
+}
+
+.area-related-item strong {
+  margin-bottom: 7px;
+  font-size: 18px;
+}
+
+.area-related-item small {
+  color: #687789;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.area-related-arrow {
+  color: #1b8fd1;
+  font-size: 24px;
+}
+
+.area-editorial-content {
+  max-width: 840px;
+}
+
+.area-editorial-content h2 {
+  margin: 48px 0 16px;
+  color: #10233f;
+  font-size: 28px;
+}
+
+.area-editorial-content p {
+  color: #445468;
+  font-size: 17px;
+  line-height: 1.9;
+}
+
+.area-final-cta {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 40px;
+  margin-top: 88px;
+  padding: 42px;
+  border-radius: 20px;
+  background: #f2f8fc;
+}
+
+.area-final-cta > div:first-child {
+  max-width: 690px;
+}
+
+.area-final-actions {
+  display: flex;
+  flex-shrink: 0;
+  gap: 10px;
+}
+
+@media (max-width: 900px) {
+  .area-route-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .area-final-cta {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 680px) {
+  .area-guide-section,
+  .area-detail-section {
+    padding: 64px 0;
+  }
+
+  .area-guide-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .area-guide-card,
+  .area-route-card,
+  .area-final-cta {
+    padding: 26px 22px;
+  }
+
+  .area-final-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .area-final-actions .btn {
+    justify-content: center;
+    width: 100%;
+  }
+}
