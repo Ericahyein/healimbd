@@ -2,7 +2,7 @@
   {{ partial "page_hero.html" (dict
     "Tag" "SERVICE AREA GUIDE"
     "Title" "주요 진료권 안내"
-    "Subtitle" "해아림한의원 분당점은 정자역 3번 출구 인근에 위치합니다.<br class=\"pc-br\">용인과 경기광주에서 오시는 길과 관련 진료 정보를 안내합니다."
+    "Subtitle" "해아림한의원 분당점은 정자역 3번 출구 인근에 위치합니다.<br class=\"pc-br\">성남·판교·용인·수지·경기광주·위례에서 오시는 길과 관련 진료 정보를 안내합니다."
     "BgImage" "images/hero-location.png"
     "HeroClass" "location-hero"
   ) }}
@@ -18,22 +18,50 @@
       <div class="area-guide-grid">
         <article class="area-guide-card">
           <span class="area-guide-card-index">01</span>
-          <h3>용인·수지·기흥</h3>
+          <h3>성남·수정구·중원구</h3>
+          <p>수인분당선과 8호선 환승 경로를 비롯해 성남 틱장애·ADHD·공황장애 관련 칼럼을 확인할 수 있습니다.</p>
+          <a href="{{ "areas/seongnam/" | relURL }}" class="area-guide-link">성남 진료권 안내 보기 <span aria-hidden="true">→</span></a>
+        </article>
+
+        <article class="area-guide-card">
+          <span class="area-guide-card-index">02</span>
+          <h3>판교·백현·삼평</h3>
+          <p>신분당선 한 정거장 거리의 이동 방법과 판교 공황장애·틱장애·자율신경 관련 칼럼을 확인할 수 있습니다.</p>
+          <a href="{{ "areas/pangyo/" | relURL }}" class="area-guide-link">판교 진료권 안내 보기 <span aria-hidden="true">→</span></a>
+        </article>
+
+        <article class="area-guide-card">
+          <span class="area-guide-card-index">03</span>
+          <h3>용인·기흥·죽전</h3>
           <p>신분당선과 수인분당선을 이용해 정자역으로 이동하는 방법과 용인 자율신경실조증·틱장애·ADHD 관련 칼럼을 확인할 수 있습니다.</p>
           <a href="{{ "areas/yongin/" | relURL }}" class="area-guide-link">용인 진료권 안내 보기 <span aria-hidden="true">→</span></a>
         </article>
 
         <article class="area-guide-card">
-          <span class="area-guide-card-index">02</span>
+          <span class="area-guide-card-index">04</span>
+          <h3>수지·성복·상현·동천</h3>
+          <p>수지 생활권의 신분당선·수인분당선 이동 경로와 공황장애·사회공포증·틱장애 관련 칼럼을 확인할 수 있습니다.</p>
+          <a href="{{ "areas/suji/" | relURL }}" class="area-guide-link">수지 진료권 안내 보기 <span aria-hidden="true">→</span></a>
+        </article>
+
+        <article class="area-guide-card">
+          <span class="area-guide-card-index">05</span>
           <h3>경기광주·태전·오포</h3>
           <p>경강선과 도로 이동 정보를 비롯해 경기광주 틱장애·불안장애·수면 문제 관련 안내와 칼럼을 확인할 수 있습니다.</p>
           <a href="{{ "areas/gyeonggi-gwangju/" | relURL }}" class="area-guide-link">경기광주 진료권 안내 보기 <span aria-hidden="true">→</span></a>
+        </article>
+
+        <article class="area-guide-card">
+          <span class="area-guide-card-index">06</span>
+          <h3>위례·창곡·남위례</h3>
+          <p>8호선과 수인분당선 환승 경로를 비롯해 위례 자율신경실조증·만성피로·ADHD 관련 칼럼을 확인할 수 있습니다.</p>
+          <a href="{{ "areas/wirye/" | relURL }}" class="area-guide-link">위례 진료권 안내 보기 <span aria-hidden="true">→</span></a>
         </article>
       </div>
 
       <aside class="area-guide-notice" aria-label="분당점 위치 안내">
         <strong>지점 위치를 정확히 안내합니다.</strong>
-        <p>해아림한의원 분당점의 주소는 경기도 성남시 분당구 성남대로331번길 3-3, 젤존타워 3차 405호입니다. 용인과 경기광주에는 별도 지점이 없습니다.</p>
+        <p>해아림한의원 분당점의 주소는 경기도 성남시 분당구 성남대로331번길 3-3, 젤존타워 3차 405호입니다. 판교를 포함한 분당 외 성남 지역, 용인·수지·경기광주·위례에는 별도 지점이 없습니다.</p>
         <a href="{{ "location/" | relURL }}">분당점 오시는 길과 진료시간 확인</a>
       </aside>
     </div>
