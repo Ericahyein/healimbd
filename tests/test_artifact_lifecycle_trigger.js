@@ -19,7 +19,28 @@ function runIntentionalFailureTrigger() {
   }
 
   console.log('1. Executing auto-column pipeline subprocess with INTENTIONAL_VALIDATOR_FAILURE=true...');
-  const child = spawnSync('node', ['scripts/auto_column/index.js'], {
+  const fixtureDir = fs.mkdtempSync(path.join(require('os').tmpdir(), 'healim-artifact-fixture-'));
+  const fixtureHistoryPath = path.join(fixtureDir, 'history.json');
+  const fixtureBlogDir = path.join(fixtureDir, 'content_blog');
+  fs.writeFileSync(fixtureHistoryPath, '[]', 'utf-8');
+  fs.mkdirSync(fixtureBlogDir, { recursive: true });
+
+  const childScript = `
+    const { runAutoColumnPipeline } = require('./scripts/auto_column/index');
+    runAutoColumnPipeline({
+      apiKey: '',
+      isDryRun: true,
+      historyPath: ${JSON.stringify(fixtureHistoryPath)},
+      blogDir: ${JSON.stringify(fixtureBlogDir)},
+      artifactDir: ${JSON.stringify(artifactDir)},
+      now: new Date('2026-08-07T09:00:00+09:00')
+    }).then(() => process.exit(0)).catch(err => {
+      console.error('Pipeline Execution Ended:', err.message);
+      process.exit(1);
+    });
+  `;
+
+  const child = spawnSync('node', ['-e', childScript], {
     cwd: rootDir,
     env: {
       ...process.env,
@@ -37,6 +58,8 @@ function runIntentionalFailureTrigger() {
   const exitCode = child.status;
   const stdout = child.stdout || '';
   const stderr = child.stderr || '';
+
+  try { fs.rmSync(fixtureDir, { recursive: true, force: true }); } catch (e) {}
 
   console.log(`   Captured Subprocess Exit Code: ${exitCode}`);
   console.log(`   Captured stderr snippet: ${(stderr.slice(0, 300) || '(empty)').replace(/\n/g, ' ')}`);
