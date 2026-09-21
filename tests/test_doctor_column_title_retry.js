@@ -325,6 +325,13 @@ async function runAllTests() {
   // =========================================================================
   console.log('\n--- TEST 19: Missing API key in PRODUCTION_PUBLISH fails closed immediately ---');
   let missingKeyErr = null;
+  const prevCi = process.env.GITHUB_ACTIONS;
+  const prevEvent = process.env.GITHUB_EVENT_NAME;
+  const prevRef = process.env.GITHUB_REF;
+  process.env.GITHUB_ACTIONS = 'true';
+  process.env.GITHUB_EVENT_NAME = 'schedule';
+  process.env.GITHUB_REF = 'refs/heads/main';
+
   try {
     await runAutoColumnPipeline({
       apiKey: '',
@@ -356,6 +363,10 @@ async function runAllTests() {
     });
   } catch (err) {
     mockProdErr = err;
+  } finally {
+    if (prevCi !== undefined) process.env.GITHUB_ACTIONS = prevCi; else delete process.env.GITHUB_ACTIONS;
+    if (prevEvent !== undefined) process.env.GITHUB_EVENT_NAME = prevEvent; else delete process.env.GITHUB_EVENT_NAME;
+    if (prevRef !== undefined) process.env.GITHUB_REF = prevRef; else delete process.env.GITHUB_REF;
   }
   assert.ok(mockProdErr, 'Mock generator injected in production must throw security error');
   assert.ok(mockProdErr.message.includes('Mock generator is strictly prohibited in PRODUCTION_PUBLISH mode'));
@@ -454,21 +465,26 @@ async function runAllTests() {
     process.env.GITHUB_REF = 'refs/heads/fix/doctor-column-title-similarity';
     process.env.FORCE_PUBLISH = 'true';
 
-    let ciResult = null;
+    let caughtCiErr = null;
     const testTmpDir3 = fs.mkdtempSync(path.join(os.tmpdir(), 'healim-ci-guard-test-'));
     const testHist3 = path.join(testTmpDir3, 'hist.json');
     const testBlog3 = path.join(testTmpDir3, 'blog');
     fs.mkdirSync(testBlog3, { recursive: true });
     fs.writeFileSync(testHist3, JSON.stringify([pastArticle1], null, 2), 'utf-8');
 
-    ciResult = await runAutoColumnPipeline({
-      apiKey: '',
-      historyPath: testHist3,
-      blogDir: testBlog3,
-      mockTitleGenerator: () => '[수지 공황장애] 가슴이 두근거리고 어지러운 호흡 불안 양상'
-    });
+    try {
+      await runAutoColumnPipeline({
+        apiKey: '',
+        historyPath: testHist3,
+        blogDir: testBlog3,
+        mockTitleGenerator: () => '[수지 공황장애] 가슴이 두근거리고 어지러운 호흡 불안 양상'
+      });
+    } catch (err) {
+      caughtCiErr = err;
+    }
 
-    assert.strictEqual(ciResult.success, true);
+    assert.ok(caughtCiErr, 'FORCE_PUBLISH outside schedule+main must throw Fail-Closed error immediately');
+    assert.ok(caughtCiErr.message.includes('Security Guard Violation'));
     assert.strictEqual(fs.readdirSync(testBlog3).length, 0, 'Zero production content files written in non-schedule CI');
     try { fs.rmSync(testTmpDir3, { recursive: true, force: true }); } catch (e) {}
   } finally {
@@ -649,12 +665,200 @@ async function runAllTests() {
   assert.ok(FAIL_CLOSED_ERROR_TYPES.includes('SECURITY_ERROR'), 'SECURITY_ERROR must be in FAIL_CLOSED_ERROR_TYPES');
   console.log('✅ TEST 32 PASS: Unknown and security error classifications are strictly fail-closed.');
 
+  // =========================================================================
+  // PRODUCTION PUBLISH FAIL-CLOSED SECURITY GUARD TEST SUITE (TESTS 33-42)
+  // =========================================================================
+  const origEnv = { ...process.env };
+  const restoreEnv = () => {
+    for (const k of Object.keys(process.env)) {
+      if (!(k in origEnv)) delete process.env[k];
+    }
+    for (const [k, v] of Object.entries(origEnv)) {
+      process.env[k] = v;
+    }
+  };
+
+  try {
+    // TEST 33: Local execution without GITHUB_ACTIONS blocks PRODUCTION_PUBLISH
+    console.log('\n--- TEST 33: Local execution without GITHUB_ACTIONS blocks PRODUCTION_PUBLISH ---');
+    delete process.env.GITHUB_ACTIONS;
+    process.env.RUN_MODE = 'PRODUCTION_PUBLISH';
+    let caught33 = null;
+    try {
+      await runAutoColumnPipeline({ apiKey: 'dummy-key' });
+    } catch (err) {
+      caught33 = err;
+    }
+    assert.ok(caught33, 'Must throw error when running PRODUCTION_PUBLISH locally without GITHUB_ACTIONS');
+    assert.ok(caught33.message.includes('Security Guard Violation') && caught33.message.includes('outside of GitHub Actions'));
+    console.log('✅ TEST 33 PASS: Local execution without GITHUB_ACTIONS strictly blocked (Fail-Closed).');
+
+    // TEST 34: GITHUB_ACTIONS=false blocks PRODUCTION_PUBLISH
+    console.log('\n--- TEST 34: GITHUB_ACTIONS=false blocks PRODUCTION_PUBLISH ---');
+    process.env.GITHUB_ACTIONS = 'false';
+    process.env.RUN_MODE = 'PRODUCTION_PUBLISH';
+    let caught34 = null;
+    try {
+      await runAutoColumnPipeline({ apiKey: 'dummy-key' });
+    } catch (err) {
+      caught34 = err;
+    }
+    assert.ok(caught34, 'Must throw error when GITHUB_ACTIONS is false');
+    assert.ok(caught34.message.includes('Security Guard Violation') && caught34.message.includes('outside of GitHub Actions'));
+    console.log('✅ TEST 34 PASS: GITHUB_ACTIONS=false strictly blocked (Fail-Closed).');
+
+    // TEST 35: In CI, workflow_dispatch + main blocks PRODUCTION_PUBLISH
+    console.log('\n--- TEST 35: workflow_dispatch + main blocks PRODUCTION_PUBLISH ---');
+    process.env.GITHUB_ACTIONS = 'true';
+    process.env.GITHUB_EVENT_NAME = 'workflow_dispatch';
+    process.env.GITHUB_REF = 'refs/heads/main';
+    process.env.AUTO_COLUMN_ENABLED = 'true';
+    process.env.RUN_MODE = 'PRODUCTION_PUBLISH';
+    let caught35 = null;
+    try {
+      await runAutoColumnPipeline({ apiKey: 'dummy-key' });
+    } catch (err) {
+      caught35 = err;
+    }
+    assert.ok(caught35, 'Must throw error on workflow_dispatch on main');
+    assert.ok(caught35.message.includes('Security Guard Violation') && caught35.message.includes("Only 'schedule' is permitted"));
+    console.log('✅ TEST 35 PASS: workflow_dispatch on main strictly blocked (Fail-Closed).');
+
+    // TEST 36: In CI, workflow_dispatch + feature branch blocks PRODUCTION_PUBLISH
+    console.log('\n--- TEST 36: workflow_dispatch + feature branch blocks PRODUCTION_PUBLISH ---');
+    process.env.GITHUB_ACTIONS = 'true';
+    process.env.GITHUB_EVENT_NAME = 'workflow_dispatch';
+    process.env.GITHUB_REF = 'refs/heads/feat/test-branch';
+    process.env.AUTO_COLUMN_ENABLED = 'true';
+    process.env.RUN_MODE = 'PRODUCTION_PUBLISH';
+    let caught36 = null;
+    try {
+      await runAutoColumnPipeline({ apiKey: 'dummy-key' });
+    } catch (err) {
+      caught36 = err;
+    }
+    assert.ok(caught36, 'Must throw error on workflow_dispatch on feature branch');
+    assert.ok(caught36.message.includes('Security Guard Violation'));
+    console.log('✅ TEST 36 PASS: workflow_dispatch on feature branch strictly blocked (Fail-Closed).');
+
+    // TEST 37: In CI, pull_request blocks PRODUCTION_PUBLISH
+    console.log('\n--- TEST 37: pull_request blocks PRODUCTION_PUBLISH ---');
+    process.env.GITHUB_ACTIONS = 'true';
+    process.env.GITHUB_EVENT_NAME = 'pull_request';
+    process.env.GITHUB_REF = 'refs/pull/3/merge';
+    process.env.AUTO_COLUMN_ENABLED = 'true';
+    process.env.RUN_MODE = 'PRODUCTION_PUBLISH';
+    let caught37 = null;
+    try {
+      await runAutoColumnPipeline({ apiKey: 'dummy-key' });
+    } catch (err) {
+      caught37 = err;
+    }
+    assert.ok(caught37, 'Must throw error on pull_request event');
+    assert.ok(caught37.message.includes('Security Guard Violation') && caught37.message.includes("Only 'schedule' is permitted"));
+    console.log('✅ TEST 37 PASS: pull_request strictly blocked from production publishing (Fail-Closed).');
+
+    // TEST 38: In CI, push + feature branch blocks PRODUCTION_PUBLISH
+    console.log('\n--- TEST 38: push + feature branch blocks PRODUCTION_PUBLISH ---');
+    process.env.GITHUB_ACTIONS = 'true';
+    process.env.GITHUB_EVENT_NAME = 'push';
+    process.env.GITHUB_REF = 'refs/heads/fix/doctor-column';
+    process.env.AUTO_COLUMN_ENABLED = 'true';
+    process.env.RUN_MODE = 'PRODUCTION_PUBLISH';
+    let caught38 = null;
+    try {
+      await runAutoColumnPipeline({ apiKey: 'dummy-key' });
+    } catch (err) {
+      caught38 = err;
+    }
+    assert.ok(caught38, 'Must throw error on push to feature branch');
+    assert.ok(caught38.message.includes('Security Guard Violation'));
+    console.log('✅ TEST 38 PASS: push on feature branch strictly blocked from production publishing (Fail-Closed).');
+
+    // TEST 39: FORCE_PUBLISH=true cannot bypass security guard
+    console.log('\n--- TEST 39: FORCE_PUBLISH=true cannot bypass security guard ---');
+    process.env.GITHUB_ACTIONS = 'true';
+    process.env.GITHUB_EVENT_NAME = 'workflow_dispatch';
+    process.env.GITHUB_REF = 'refs/heads/main';
+    process.env.AUTO_COLUMN_ENABLED = 'true';
+    process.env.FORCE_PUBLISH = 'true';
+    delete process.env.RUN_MODE;
+    let caught39 = null;
+    try {
+      await runAutoColumnPipeline({ apiKey: 'dummy-key' });
+    } catch (err) {
+      caught39 = err;
+    }
+    assert.ok(caught39, 'Must throw error when FORCE_PUBLISH is used on workflow_dispatch');
+    assert.ok(caught39.message.includes('Security Guard Violation'));
+    console.log('✅ TEST 39 PASS: FORCE_PUBLISH cannot bypass Fail-Closed operating guard.');
+
+    // TEST 40: schedule on feature branch blocks PRODUCTION_PUBLISH
+    console.log('\n--- TEST 40: schedule on feature branch blocks PRODUCTION_PUBLISH ---');
+    process.env.GITHUB_ACTIONS = 'true';
+    process.env.GITHUB_EVENT_NAME = 'schedule';
+    process.env.GITHUB_REF = 'refs/heads/feature-branch';
+    process.env.AUTO_COLUMN_ENABLED = 'true';
+    delete process.env.FORCE_PUBLISH;
+    process.env.RUN_MODE = 'PRODUCTION_PUBLISH';
+    let caught40 = null;
+    try {
+      await runAutoColumnPipeline({ apiKey: 'dummy-key' });
+    } catch (err) {
+      caught40 = err;
+    }
+    assert.ok(caught40, 'Must throw error on schedule event for feature branch');
+    assert.ok(caught40.message.includes('Security Guard Violation') && caught40.message.includes("Only 'refs/heads/main' is permitted"));
+    console.log('✅ TEST 40 PASS: schedule on feature branch strictly blocked (Fail-Closed).');
+
+    // TEST 41: Only schedule + refs/heads/main + GITHUB_ACTIONS=true can enter PRODUCTION_PUBLISH
+    console.log('\n--- TEST 41: schedule + refs/heads/main + GITHUB_ACTIONS=true entry condition ---');
+    process.env.GITHUB_ACTIONS = 'true';
+    process.env.GITHUB_EVENT_NAME = 'schedule';
+    process.env.GITHUB_REF = 'refs/heads/main';
+    process.env.AUTO_COLUMN_ENABLED = 'true';
+    delete process.env.FORCE_PUBLISH;
+    delete process.env.RUN_MODE;
+    let caught41 = null;
+    try {
+      // Without API key, it passes environment guard but halts on missing secret
+      await runAutoColumnPipeline({ apiKey: '' });
+    } catch (err) {
+      caught41 = err;
+    }
+    assert.ok(caught41, 'Must throw when secret is missing');
+    assert.ok(caught41.message.includes('OPENAI_API_KEY is missing in PRODUCTION_PUBLISH mode'));
+    console.log('✅ TEST 41 PASS: Passed schedule + main + GITHUB_ACTIONS guard; halted on missing secret as required.');
+
+    // TEST 42: Normal DRY_RUN executes safely without secrets
+    console.log('\n--- TEST 42: Normal DRY_RUN executes safely without secrets ---');
+    restoreEnv();
+    const dryRunTmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'healim-dryrun-guard-'));
+    const dryRunHist = path.join(dryRunTmpDir, 'hist.json');
+    const dryRunBlog = path.join(dryRunTmpDir, 'blog');
+    fs.mkdirSync(dryRunBlog, { recursive: true });
+    fs.writeFileSync(dryRunHist, JSON.stringify([pastArticle1], null, 2), 'utf-8');
+
+    const dryRunRes = await runAutoColumnPipeline({
+      isDryRun: true,
+      apiKey: '',
+      historyPath: dryRunHist,
+      blogDir: dryRunBlog
+    });
+    assert.strictEqual(dryRunRes.success, true);
+    assert.strictEqual(dryRunRes.isDryRun, true);
+    try { fs.rmSync(dryRunTmpDir, { recursive: true, force: true }); } catch (e) {}
+    console.log('✅ TEST 42 PASS: Normal DRY_RUN operates safely with 0 secrets and 0 production impact.');
+  } finally {
+    restoreEnv();
+  }
+
   // Clean up test temporary directory
   try {
     fs.rmSync(testTmpDir, { recursive: true, force: true });
   } catch (e) {}
 
-  console.log('\n🎉 ALL 32 DOCTOR COLUMN TITLE SIMILARITY, RETRY & SAFETY TESTS PASSED 100%!\n');
+  console.log('\n🎉 ALL 42 DOCTOR COLUMN TITLE SIMILARITY, RETRY & SAFETY TESTS PASSED 100%!\n');
 }
 
 if (require.main === module) {

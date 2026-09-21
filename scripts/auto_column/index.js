@@ -82,30 +82,58 @@ async function runAutoColumnPipeline(options = {}) {
   const ciRef = process.env.GITHUB_REF || '';
 
   // Strict operating mode guard:
-  // In GitHub Actions, PRODUCTION_PUBLISH is ONLY allowed if event is 'schedule' AND ref is 'refs/heads/main'
-  let isProductionPublish = false;
-  if (options.isProductionPublish !== undefined) {
-    isProductionPublish = options.isProductionPublish;
-  } else if (isCiEnv) {
-    if (ciEvent === 'schedule' && ciRef === 'refs/heads/main' && autoEnabled) {
-      isProductionPublish = true;
-    } else {
-      isProductionPublish = false;
-      if (forcePublish) {
-        console.warn(`🛡️ Security Guard: FORCE_PUBLISH cannot elevate '${ciEvent}' on '${ciRef}' to production publish. Forced to DRY_RUN.`);
-      }
+  // Determine if production publish is requested:
+  // 1. Explicitly requested via options.isProductionPublish === true
+  // 2. Or via options.isDryRun === false
+  // 3. Or via env RUN_MODE === 'PRODUCTION_PUBLISH'
+  // 4. Or via FORCE_PUBLISH === 'true' (when not explicitly dry-run)
+  // 5. Or if running in CI with event 'schedule' on 'refs/heads/main' and AUTO_COLUMN_ENABLED === 'true'
+  let isProductionRequested = false;
+  if (options.isProductionPublish === true) {
+    isProductionRequested = true;
+  } else if (isDryRunOption === false) {
+    isProductionRequested = true;
+  } else if (process.env.RUN_MODE === 'PRODUCTION_PUBLISH') {
+    isProductionRequested = true;
+  } else if (forcePublish && isDryRunOption !== true && process.env.RUN_MODE !== 'DRY_RUN') {
+    isProductionRequested = true;
+  } else if (isCiEnv && ciEvent === 'schedule' && ciRef === 'refs/heads/main' && autoEnabled) {
+    isProductionRequested = true;
+  }
+
+  // Security Fail-Closed Guard:
+  // Production publish is ONLY allowed when ALL conditions are strictly met:
+  // 1. GITHUB_ACTIONS === 'true'
+  // 2. GITHUB_EVENT_NAME === 'schedule'
+  // 3. GITHUB_REF === 'refs/heads/main'
+  // 4. AUTO_COLUMN_ENABLED === 'true'
+  // 5. OPENAI_API_KEY is configured
+  // FORCE_PUBLISH cannot bypass these conditions. Mocks and intentional failures cannot be used.
+  if (isProductionRequested) {
+    if (!isCiEnv) {
+      throw new Error('Security Guard Violation: PRODUCTION_PUBLISH is strictly prohibited outside of GitHub Actions (GITHUB_ACTIONS !== "true"). Halting pipeline (Fail-Closed).');
     }
-  } else {
-    // Local / test execution
-    if (process.env.RUN_MODE === 'PRODUCTION_PUBLISH') {
-      isProductionPublish = true;
-    } else if (isDryRunOption !== undefined) {
-      isProductionPublish = !isDryRunOption;
-    } else {
-      isProductionPublish = (!isDryRunOption && autoEnabled && !forcePublish);
+    if (ciEvent !== 'schedule') {
+      throw new Error(`Security Guard Violation: PRODUCTION_PUBLISH is strictly prohibited on event '${ciEvent}'. Only 'schedule' is permitted. Halting pipeline (Fail-Closed).`);
+    }
+    if (ciRef !== 'refs/heads/main') {
+      throw new Error(`Security Guard Violation: PRODUCTION_PUBLISH is strictly prohibited on ref '${ciRef}'. Only 'refs/heads/main' is permitted. Halting pipeline (Fail-Closed).`);
+    }
+    if (!autoEnabled) {
+      throw new Error('Security Guard Violation: AUTO_COLUMN_ENABLED must be "true" for PRODUCTION_PUBLISH. Halting pipeline (Fail-Closed).');
+    }
+    if (!apiKey || typeof apiKey !== 'string' || apiKey.trim().length === 0) {
+      throw new Error('Security Guard Violation: OPENAI_API_KEY is missing in PRODUCTION_PUBLISH mode. Halting pipeline (Fail-Closed).');
+    }
+    if (mockTitleGenerator || mockBodyGenerator || mockKnowledge) {
+      throw new Error('Security Guard Violation: Mock generator is strictly prohibited in PRODUCTION_PUBLISH mode.');
+    }
+    if (process.env.INTENTIONAL_VALIDATOR_FAILURE) {
+      throw new Error('Security Guard Violation: INTENTIONAL_VALIDATOR_FAILURE is strictly prohibited in PRODUCTION_PUBLISH mode.');
     }
   }
 
+  const isProductionPublish = isProductionRequested;
   const isDryRun = !isProductionPublish;
 
   console.log('⚙️ Configuration State:', {
@@ -116,20 +144,7 @@ async function runAutoColumnPipeline(options = {}) {
     TEST_QA_TARGET: testQATargetInput || 'auto (rotation planner)'
   });
 
-  // Security Fail-Closed: Missing API key in production halts immediately
-  if (isProductionPublish) {
-    if (!apiKey || typeof apiKey !== 'string' || apiKey.trim().length === 0) {
-      console.error('💥 Fatal Security Error: OPENAI_API_KEY is missing in PRODUCTION_PUBLISH mode.');
-      throw new Error('Fatal: OPENAI_API_KEY is missing in PRODUCTION_PUBLISH mode. Halting pipeline (Fail-Closed).');
-    }
-    if (mockTitleGenerator || mockBodyGenerator || mockKnowledge) {
-      console.error('💥 Fatal Security Error: Mock generators cannot be injected in PRODUCTION_PUBLISH mode.');
-      throw new Error('Fatal: Mock generator is strictly prohibited in PRODUCTION_PUBLISH mode.');
-    }
-    if (process.env.INTENTIONAL_VALIDATOR_FAILURE) {
-      throw new Error('Fatal Security Error: INTENTIONAL_VALIDATOR_FAILURE is strictly prohibited in PRODUCTION_PUBLISH mode.');
-    }
-  } else if (!apiKey && !mockTitleGenerator) {
+  if (!isProductionPublish && !apiKey && !mockTitleGenerator) {
     console.warn('⚠️ OPENAI_API_KEY is not set. Running in Offline Mock Test Mode.');
   }
 
@@ -655,6 +670,7 @@ ${winningArticleBody}
 
   return {
     success: true,
+    isDryRun,
     plan: winningPlan,
     validation: winningValidation,
     costReport,

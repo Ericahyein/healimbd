@@ -36,25 +36,52 @@ function isGeoDiseaseIn90DayCooldown(history, geoId, diseaseId, now = new Date()
 }
 
 /**
- * Returns KST calendar date string: YYYY-MM-DD using Asia/Seoul timezone.
+ * Formats a date into KST calendar parts { year, month, day } using formatToParts.
+ * Strictly validates that dateInput is a valid Date. Throws error on invalid Date.
  */
-function getKstDateString(dateInput = new Date()) {
-  const d = new Date(dateInput);
-  const formatter = new Intl.DateTimeFormat('en-CA', {
+function parseKstDateParts(dateInput = new Date()) {
+  const d = (dateInput instanceof Date) ? dateInput : new Date(dateInput);
+  if (isNaN(d.getTime())) {
+    throw new Error(`Invalid Date input provided to KST date calculator: ${dateInput}`);
+  }
+
+  const formatter = new Intl.DateTimeFormat('en-US', {
     timeZone: 'Asia/Seoul',
     year: 'numeric',
     month: '2-digit',
     day: '2-digit'
   });
-  return formatter.format(d);
+
+  const parts = formatter.formatToParts(d);
+  let year = 0, month = 0, day = 0;
+  for (const part of parts) {
+    if (part.type === 'year') year = parseInt(part.value, 10);
+    else if (part.type === 'month') month = parseInt(part.value, 10);
+    else if (part.type === 'day') day = parseInt(part.value, 10);
+  }
+
+  if (!year || !month || !day) {
+    throw new Error(`Failed to extract KST calendar parts from date: ${dateInput}`);
+  }
+
+  return { year, month, day };
+}
+
+/**
+ * Returns KST calendar date string: YYYY-MM-DD using formatToParts.
+ */
+function getKstDateString(dateInput = new Date()) {
+  const { year, month, day } = parseKstDateParts(dateInput);
+  const mm = String(month).padStart(2, '0');
+  const dd = String(day).padStart(2, '0');
+  return `${year}-${mm}-${dd}`;
 }
 
 /**
  * Converts a date to a KST Date object representing UTC midnight of that KST calendar day.
  */
 function getKstCalendarDate(dateInput = new Date()) {
-  const dateStr = getKstDateString(dateInput);
-  const [year, month, day] = dateStr.split('-').map(Number);
+  const { year, month, day } = parseKstDateParts(dateInput);
   return new Date(Date.UTC(year, month - 1, day));
 }
 
@@ -62,8 +89,9 @@ function getKstCalendarDate(dateInput = new Date()) {
  * Derives a deterministic integer day seed from the KST calendar date.
  */
 function getKstDaySeed(dateInput = new Date()) {
-  const calDate = getKstCalendarDate(dateInput);
-  return Math.floor(calDate.getTime() / (24 * 60 * 60 * 1000));
+  const { year, month, day } = parseKstDateParts(dateInput);
+  const utcMs = Date.UTC(year, month - 1, day);
+  return Math.floor(utcMs / (24 * 60 * 60 * 1000));
 }
 
 /**
@@ -229,12 +257,15 @@ function planNextColumn(options = {}) {
         score += 35; // Never used region bonus
       }
 
-      validCandidates.push({
-        region,
-        disease,
-        score,
-        stableKey: `${region.id}|${disease.id}`
-      });
+      for (const angle of (disease.topicAngles || [])) {
+        validCandidates.push({
+          region,
+          disease,
+          angle,
+          score,
+          stableKey: `${region.id}|${disease.id}|${angle.id}`
+        });
+      }
     }
   }
 
@@ -249,21 +280,15 @@ function planNextColumn(options = {}) {
   const excludedPlanKeys = options.excludedPlanKeys || new Set();
 
   for (const cand of rotatedCandidates) {
-    const excludedAngleIdsForCand = new Set();
-    (cand.disease.topicAngles || []).forEach(a => {
-      const keyColon = `${cand.region.id}:${cand.disease.id}:${a.id}`;
-      const keyPipe = `${cand.region.id}|${cand.disease.id}|${a.id}`;
-      if (excludedPlanKeys.has(keyColon) || excludedPlanKeys.has(keyPipe)) {
-        excludedAngleIdsForCand.add(a.id);
-      }
-    });
-
-    const chosenAngle = selectTopicAngleForDisease(cand.disease, history, excludedAngleIdsForCand);
-    if (chosenAngle) {
-      const plan = buildProductionTopicPlan(cand.region, cand.disease, chosenAngle, now);
-      plan.score = cand.score;
-      return plan;
+    const keyColon = `${cand.region.id}:${cand.disease.id}:${cand.angle.id}`;
+    const keyPipe = `${cand.region.id}|${cand.disease.id}|${cand.angle.id}`;
+    if (excludedPlanKeys.has(keyColon) || excludedPlanKeys.has(keyPipe)) {
+      continue;
     }
+
+    const plan = buildProductionTopicPlan(cand.region, cand.disease, cand.angle, now);
+    plan.score = cand.score;
+    return plan;
   }
 
   throw new Error('No available candidate topic plans remain after exclusions.');
@@ -344,12 +369,15 @@ function getRankedCandidatePlans(options = {}, excludedPlanKeys = new Set()) {
         score += 35;
       }
 
-      validCandidates.push({
-        region,
-        disease,
-        score,
-        stableKey: `${region.id}|${disease.id}`
-      });
+      for (const angle of (disease.topicAngles || [])) {
+        validCandidates.push({
+          region,
+          disease,
+          angle,
+          score,
+          stableKey: `${region.id}|${disease.id}|${angle.id}`
+        });
+      }
     }
   }
 
@@ -357,16 +385,13 @@ function getRankedCandidatePlans(options = {}, excludedPlanKeys = new Set()) {
   const candidatePlans = [];
 
   for (const cand of rotatedCandidates) {
-    const availableAngles = cand.disease.topicAngles || [];
-    for (const angle of availableAngles) {
-      const keyColon = `${cand.region.id}:${cand.disease.id}:${angle.id}`;
-      const keyPipe = `${cand.region.id}|${cand.disease.id}|${angle.id}`;
-      if (excludedPlanKeys.has(keyColon) || excludedPlanKeys.has(keyPipe)) continue;
+    const keyColon = `${cand.region.id}:${cand.disease.id}:${cand.angle.id}`;
+    const keyPipe = `${cand.region.id}|${cand.disease.id}|${cand.angle.id}`;
+    if (excludedPlanKeys.has(keyColon) || excludedPlanKeys.has(keyPipe)) continue;
 
-      const plan = buildProductionTopicPlan(cand.region, cand.disease, angle, now);
-      plan.score = cand.score;
-      candidatePlans.push(plan);
-    }
+    const plan = buildProductionTopicPlan(cand.region, cand.disease, cand.angle, now);
+    plan.score = cand.score;
+    candidatePlans.push(plan);
   }
 
   return candidatePlans;
@@ -394,7 +419,8 @@ function buildProductionTopicPlan(region, disease, chosenAngle, now = new Date()
     topicAngle: chosenAngle,
     titleCandidate,
     slug,
-    timestamp: now.toISOString()
+    timestamp: now.toISOString(),
+    stableKey: `${region.id}|${disease.id}|${chosenAngle.id}`
   };
 }
 
@@ -403,6 +429,7 @@ module.exports = {
   isGeoDiseaseIn90DayCooldown,
   isDiseaseIn3DayCooldown,
   getTodayPublishedItems,
+  parseKstDateParts,
   getKstCalendarDate,
   getKstDaySeed,
   getKstIsoString,

@@ -73,8 +73,8 @@ async function testGwangju91Reproduction() {
   fs.mkdirSync(testBlogDir, { recursive: true });
   fs.writeFileSync(testHistoryPath, JSON.stringify(realHistory, null, 2), 'utf-8');
 
-  // Verified reproduction date where Gyeonggi-Gwangju ADHD is selected as candidate 1
-  const reproductionDate = new Date('2026-09-06T09:00:00+09:00');
+  // Verified reproduction date where Gyeonggi-Gwangju ADHD (adult-work-mistakes) is selected as candidate 1
+  const reproductionDate = new Date('2026-08-07T09:00:00+09:00');
 
   let mockRegenCalls = 0;
   const pipelineResult = await runAutoColumnPipeline({
