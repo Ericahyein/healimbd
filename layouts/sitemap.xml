@@ -1,5 +1,6 @@
 {{ printf "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>" | safeHTML }}
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 {{- range .Data.Pages -}}
   {{- $rel := .RelPermalink -}}
   {{- $exclude := or (in $rel "/admin/") (in $rel "/reservation/") (in $rel "/treatments/") (in $rel "/categories/") (in $rel "/tags/") (and (in $rel "/reviews/") (ne $rel "/reviews/")) (eq $rel "/404.html") (eq .Kind "404") (eq .Kind "taxonomy") (eq .Kind "term") -}}
@@ -9,6 +10,12 @@
     {{ if not .Lastmod.IsZero }}<lastmod>{{ .Lastmod.Format "2006-01-02T15:04:05+09:00" }}</lastmod>{{ end }}
     {{ with .Sitemap.ChangeFreq }}<changefreq>{{ . }}</changefreq>{{ end }}
     {{ if ge .Sitemap.Priority 0.0 }}<priority>{{ .Sitemap.Priority }}</priority>{{ end }}
+    {{ $image := .Params.image | default .Params.thumbnail }}
+    {{ with $image }}
+    <image:image>
+      <image:loc>{{ . | absURL }}</image:loc>
+    </image:image>
+    {{ end }}
   </url>
   {{- end -}}
 {{- end -}}
