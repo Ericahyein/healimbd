@@ -53,6 +53,9 @@ jobs:
           echo "Checking JavaScript syntax..."
           node -c scripts/auto_column/*.js tests/*.js
 
+      - name: Run Blog Featured Thumbnail Sync Regression Test
+        run: node tests/test_blog_featured_thumbnail_sync.js
+
       - name: Run Candidate Tie-Break & Cooldown Safety Tests
         run: node tests/test_candidate_rotation.js
 

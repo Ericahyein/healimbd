@@ -4579,6 +4579,38 @@ function getArticleThumbnail(item) {
   return item.thumbnail || item.image || '/images/philosophy/philosophy-consult.jpg';
 }
 
+// Keep the browser-selected <picture> source and its fallback image in sync.
+function getArticleWebpThumbnail(item) {
+  if (!item) return '';
+  return item.thumbnailWebp || '';
+}
+
+function syncFeaturedArticleThumbnail(imageEl, item) {
+  if (!imageEl || !item) return;
+
+  const imageUrl = getArticleThumbnail(item);
+  const webpUrl = getArticleWebpThumbnail(item);
+  const pictureEl = imageEl.closest('picture');
+
+  if (pictureEl) {
+    let sourceEl = pictureEl.querySelector('source[type="image/webp"]');
+
+    if (webpUrl) {
+      if (!sourceEl) {
+        sourceEl = imageEl.ownerDocument.createElement('source');
+        sourceEl.type = 'image/webp';
+        pictureEl.insertBefore(sourceEl, imageEl);
+      }
+      sourceEl.srcset = webpUrl;
+    } else if (sourceEl) {
+      sourceEl.remove();
+    }
+  }
+
+  imageEl.src = imageUrl;
+  imageEl.alt = item.title || '';
+}
+
 function getBlogArticlesData() {
   if (cachedBlogArticles) return cachedBlogArticles;
   const scriptEl = document.getElementById('blog-articles-data');
@@ -4688,8 +4720,7 @@ function renderBlogArchive() {
     }
     const featThumbImg = document.getElementById('featured-thumb-img');
     if (featThumbImg) {
-      featThumbImg.src = getArticleThumbnail(featuredArticle);
-      featThumbImg.alt = featuredArticle.title;
+      syncFeaturedArticleThumbnail(featThumbImg, featuredArticle);
     }
     const featCatBadge = document.getElementById('featured-cat-badge');
     if (featCatBadge) {
@@ -4742,12 +4773,19 @@ function renderBlogArchive() {
       let gridHtml = '';
       pageItems.forEach(item => {
         const itemImgSrc = getArticleThumbnail(item);
+        const itemWebpSrc = getArticleWebpThumbnail(item);
+        const itemPictureOpen = itemWebpSrc
+          ? `<picture><source srcset="${itemWebpSrc}" type="image/webp">`
+          : '';
+        const itemPictureClose = itemWebpSrc ? '</picture>' : '';
         gridHtml += `
           <article class="brand-archive-item static-column-card" 
                    data-category="${item.category}"
                    onclick="location.href='${item.url}'">
             <a href="${item.url}" class="brand-archive-thumb-wrap" aria-label="${item.title}">
+              ${itemPictureOpen}
               <img src="${itemImgSrc}" alt="${item.title}" class="brand-archive-thumb-img" loading="lazy">
+              ${itemPictureClose}
             </a>
             <div class="brand-archive-info">
               <h3 class="brand-archive-title">
