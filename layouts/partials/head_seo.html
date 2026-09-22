@@ -7,7 +7,7 @@
 {{ if $is404 }}
   {{ $title = printf "404 Page not found | %s" $siteTitle }}
 {{ else if $isHome }}
-  {{ $title = printf "%s | 분당 한방신경정신과·공황장애·불면증·틱장애·ADHD" $siteTitle }}
+  {{ $title = "분당 틱장애·ADHD·공황장애 | 해아림한의원 분당점" }}
 {{ else if eq .Section "reviews" }}
   {{ $title = printf "치료후기 안내 | %s" $siteTitle }}
 {{ else if $isTaxonomy }}
@@ -68,12 +68,13 @@
     {{ end }}
   {{ end }}
 {{ else }}
-  {{ if fileExists "static/images/og-image.png" }}
-    {{ $ogImage = "images/og-image.png" | absURL }}
+  {{ if fileExists "static/images/healim_open_hand_hero.png" }}
+    {{ $ogImage = "images/healim_open_hand_hero.png" | absURL }}
   {{ end }}
 {{ end }}
 {{ if $ogImage }}
 <meta property="og:image" content="{{ $ogImage }}">
+<meta property="og:image:alt" content="{{ $title }}">
 {{ end }}
 {{ if and (not $isHome) (eq .Section "blog") (not .IsSection) }}
 <meta property="article:author" content="손지웅 대표원장">
@@ -144,8 +145,8 @@
     "https://pf.kakao.com/_NEUHT"
   )
 }}
-{{ if fileExists "static/images/og-image.png" }}
-  {{ $clinic = merge $clinic (dict "image" ("images/og-image.png" | absURL)) }}
+{{ if fileExists "static/images/healim_open_hand_hero.png" }}
+  {{ $clinic = merge $clinic (dict "image" ("images/healim_open_hand_hero.png" | absURL)) }}
 {{ end }}
 
 {{ $website := dict

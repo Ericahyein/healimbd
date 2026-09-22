@@ -1,128 +1,168 @@
-<!-- Reusable NAVER Maps Component (Supports placement with verified coordinates and OSM fallback) -->
+<!-- Reusable NAVER Maps Component (loads near viewport; OSM only on failure) -->
 <div class="res-map-frame-box">
-  <div class="res-map-viewport-frame">
+  <div class="res-map-viewport-frame" id="clinic-map-viewport">
+    <div id="map-loading-placeholder"
+         role="status"
+         aria-live="polite"
+         style="width:100%;height:100%;min-height:380px;display:flex;align-items:center;justify-content:center;background:#f8fafc;color:#64748b;">
+      <span>위치 지도를 불러오는 중입니다.</span>
+    </div>
+
     <!-- 1순위: NAVER Maps JavaScript API v3 동적 지도 컨테이너 -->
     <div id="naver-map" class="naver-map-canvas" style="width:100%;height:100%;min-height:380px;display:none;"></div>
 
-    <!-- 2순위 Fallback: 검증된 젤존타워III 정밀 좌표(37.36533, 127.10770) 인터랙티브 지도 -->
-    <div id="map-fallback-wrap" style="width:100%;height:100%;min-height:380px;position:relative;">
-      <iframe 
-        src="https://www.openstreetmap.org/export/embed.html?bbox=127.1030%2C37.3620%2C127.1124%2C37.3686&amp;layer=mapnik&amp;marker=37.36533%2C127.10770" 
-        class="res-live-map-iframe" 
+    <!-- 2순위: NAVER 지도 실패 시에만 불러오는 OSM fallback -->
+    <div id="map-fallback-wrap" style="width:100%;height:100%;min-height:380px;position:relative;display:none;">
+      <iframe
+        data-src="https://www.openstreetmap.org/export/embed.html?bbox=127.1030%2C37.3620%2C127.1124%2C37.3686&amp;layer=mapnik&amp;marker=37.36533%2C127.10770"
+        class="res-live-map-iframe"
         style="width:100%;height:100%;min-height:380px;border:none;"
-        title="해아림한의원 분당점 젤존타워III 위치 지도" 
+        title="해아림한의원 분당점 젤존타워III 위치 지도"
         loading="lazy">
       </iframe>
-      <!-- Visual Floating Pin Card -->
       <div class="res-map-floating-pill">
         <i class="ph-fill ph-navigation-arrow"></i>
         <span><strong>해아림한의원 분당점</strong> | 젤존타워III 405호</span>
       </div>
     </div>
 
-    {{ if .Site.Params.clinic_info.naver_map_client_id }}
-    <!-- NAVER Maps JavaScript API v3 Loader with Fallback Protection -->
     <script>
-      window.navermap_authFailure = function() {
-        console.warn('[NAVER Maps] 인증 실패(Authentication Failed)가 감지되어 fallback 지도를 유지합니다.');
+      (function() {
+        var sdkRequested = false;
+        var mapInitialized = false;
+        var viewportEl = document.getElementById('clinic-map-viewport');
+        var loadingEl = document.getElementById('map-loading-placeholder');
         var naverEl = document.getElementById('naver-map');
         var fallbackEl = document.getElementById('map-fallback-wrap');
-        if (naverEl) naverEl.style.display = 'none';
-        if (fallbackEl) fallbackEl.style.display = 'block';
-      };
 
-      function runNaverMap() {
-        try {
-          if (typeof naver === 'undefined' || !naver.maps || !naver.maps.Map) {
-            console.warn('[NAVER Maps] SDK 객체를 찾을 수 없어 fallback 지도를 유지합니다.');
-            return;
+        function hideLoading() {
+          if (loadingEl) loadingEl.style.display = 'none';
+        }
+
+        function showMapFallback() {
+          var iframe = fallbackEl && fallbackEl.querySelector('iframe[data-src]');
+          if (iframe && !iframe.getAttribute('src')) {
+            iframe.setAttribute('src', iframe.getAttribute('data-src'));
           }
-          var clinicPos = new naver.maps.LatLng(37.36533, 127.10770);
-          var mapEl = document.getElementById('naver-map');
-          var fallbackEl = document.getElementById('map-fallback-wrap');
-
-          if (!mapEl) return;
-          mapEl.style.display = 'block';
-
-          var map = new naver.maps.Map('naver-map', {
-            center: clinicPos,
-            zoom: 17,
-            minZoom: 10,
-            maxZoom: 21,
-            draggable: true,
-            pinchZoom: true,
-            scrollWheel: true,
-            keyboardShortcuts: true,
-            zoomControl: true,
-            zoomControlOptions: {
-              position: naver.maps.Position.TOP_RIGHT
-            }
-          });
-
-          var marker = new naver.maps.Marker({
-            position: clinicPos,
-            map: map,
-            title: '해아림한의원 분당점'
-          });
-
-          var infoContent = [
-            '<div style="padding:12px 16px;min-width:210px;font-family:Pretendard,sans-serif;line-height:1.45;background:#ffffff;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.12);">',
-            '  <div style="margin:0 0 4px;font-size:14px;font-weight:800;color:#0F172A;">해아림한의원 분당점</div>',
-            '  <p style="margin:0;font-size:12px;color:#64748B;">젤존타워III 405호 (정자역 3번 출구)</p>',
-            '</div>'
-          ].join('');
-
-          var infoWindow = new naver.maps.InfoWindow({
-            content: infoContent,
-            borderWidth: 1,
-            borderColor: '#CBD5E1',
-            borderRadius: '8px',
-            disableAnchor: false
-          });
-
-          infoWindow.open(map, marker);
-
-          naver.maps.Event.addListener(marker, 'click', function() {
-            if (infoWindow.getMap()) {
-              infoWindow.close();
-            } else {
-              infoWindow.open(map, marker);
-            }
-          });
-
-          // NAVER Map 정상 초기화 성공 시 fallback 숨김
-          if (fallbackEl) {
-            fallbackEl.style.display = 'none';
-          }
-          console.log('[NAVER Maps] 정상 로드 및 초기화 완료 (37.36533, 127.10770)');
-        } catch (e) {
-          console.error('[NAVER Maps] 초기화 중 오류 발생:', e);
-          var naverEl = document.getElementById('naver-map');
-          var fallbackEl = document.getElementById('map-fallback-wrap');
           if (naverEl) naverEl.style.display = 'none';
           if (fallbackEl) fallbackEl.style.display = 'block';
+          hideLoading();
         }
-      }
 
-      function initNaverMap() {
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', runNaverMap);
+        window.navermap_authFailure = function() {
+          console.warn('[NAVER Maps] 인증 실패로 fallback 지도를 표시합니다.');
+          showMapFallback();
+        };
+
+        function runNaverMap() {
+          if (mapInitialized) return;
+          try {
+            if (typeof naver === 'undefined' || !naver.maps || !naver.maps.Map) {
+              showMapFallback();
+              return;
+            }
+
+            var clinicPos = new naver.maps.LatLng(37.36533, 127.10770);
+            if (!naverEl) {
+              showMapFallback();
+              return;
+            }
+
+            naverEl.style.display = 'block';
+            var map = new naver.maps.Map('naver-map', {
+              center: clinicPos,
+              zoom: 17,
+              minZoom: 10,
+              maxZoom: 21,
+              draggable: true,
+              pinchZoom: true,
+              scrollWheel: true,
+              keyboardShortcuts: true,
+              zoomControl: true,
+              zoomControlOptions: {
+                position: naver.maps.Position.TOP_RIGHT
+              }
+            });
+
+            var marker = new naver.maps.Marker({
+              position: clinicPos,
+              map: map,
+              title: '해아림한의원 분당점'
+            });
+
+            var infoContent = [
+              '<div style="padding:12px 16px;min-width:210px;font-family:Pretendard,sans-serif;line-height:1.45;background:#ffffff;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.12);">',
+              '  <div style="margin:0 0 4px;font-size:14px;font-weight:800;color:#0F172A;">해아림한의원 분당점</div>',
+              '  <p style="margin:0;font-size:12px;color:#64748B;">젤존타워III 405호 (정자역 3번 출구)</p>',
+              '</div>'
+            ].join('');
+
+            var infoWindow = new naver.maps.InfoWindow({
+              content: infoContent,
+              borderWidth: 1,
+              borderColor: '#CBD5E1',
+              borderRadius: '8px',
+              disableAnchor: false
+            });
+
+            infoWindow.open(map, marker);
+            naver.maps.Event.addListener(marker, 'click', function() {
+              if (infoWindow.getMap()) {
+                infoWindow.close();
+              } else {
+                infoWindow.open(map, marker);
+              }
+            });
+
+            mapInitialized = true;
+            if (fallbackEl) fallbackEl.style.display = 'none';
+            hideLoading();
+          } catch (error) {
+            console.error('[NAVER Maps] 초기화 오류:', error);
+            showMapFallback();
+          }
+        }
+
+        function requestMapSdk() {
+          if (sdkRequested) return;
+          sdkRequested = true;
+
+          {{ if .Site.Params.clinic_info.naver_map_client_id }}
+          if (window.naver && window.naver.maps) {
+            runNaverMap();
+            return;
+          }
+
+          var script = document.createElement('script');
+          script.src = 'https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId={{ .Site.Params.clinic_info.naver_map_client_id }}';
+          script.async = true;
+          script.defer = true;
+          script.onload = runNaverMap;
+          script.onerror = showMapFallback;
+          document.head.appendChild(script);
+          {{ else }}
+          showMapFallback();
+          {{ end }}
+        }
+
+        if ('IntersectionObserver' in window && viewportEl) {
+          var observer = new IntersectionObserver(function(entries) {
+            if (entries.some(function(entry) { return entry.isIntersecting; })) {
+              observer.disconnect();
+              requestMapSdk();
+            }
+          }, { rootMargin: '600px 0px' });
+          observer.observe(viewportEl);
         } else {
-          runNaverMap();
+          requestMapSdk();
         }
-      }
+      })();
+    </script>
 
-      if (window.naver && window.naver.maps) {
-        initNaverMap();
-      }
-    </script>
-    <script 
-      src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId={{ .Site.Params.clinic_info.naver_map_client_id }}"
-      onload="initNaverMap()"
-      onerror="window.navermap_authFailure()"
-      async
-      defer>
-    </script>
-    {{ end }}
+    <noscript>
+      <p style="padding:24px;text-align:center;">
+        <a href="https://map.naver.com/p/search/%ED%95%B4%EC%95%84%EB%A6%BC%ED%95%9C%EC%9D%98%EC%9B%90%20%EB%B6%84%EB%8B%B9%EC%A0%90">네이버 지도에서 위치 보기</a>
+      </p>
+    </noscript>
   </div>
 </div>
