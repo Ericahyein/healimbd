@@ -240,5 +240,16 @@
     "topicAngle": "night-terrors",
     "title": "[경기광주 소아 야경증] 자다가 갑자기 울고 소리치지만 다음 날 기억하지 못할 때",
     "slug": "gyeonggi-gwangju-night-terrors"
+  },
+  {
+    "publishDate": "2026-09-22T09:27:42.952+09:00",
+    "geoId": "gyeonggi-icheon",
+    "displayRegion": "이천",
+    "parentRegion": "이천",
+    "regionType": "city",
+    "disease": "headache",
+    "topicAngle": "chronic-dizziness",
+    "title": "[이천 어지럼증] 이비인후과 검사 후에도 지속되는 붕 뜨는 어지럼증",
+    "slug": "gyeonggi-icheon-dizziness-chronic-dizziness"
   }
 ]
