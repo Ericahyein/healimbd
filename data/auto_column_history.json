@@ -251,5 +251,16 @@
     "topicAngle": "chronic-dizziness",
     "title": "[이천 어지럼증] 이비인후과 검사 후에도 지속되는 붕 뜨는 어지럼증",
     "slug": "gyeonggi-icheon-dizziness-chronic-dizziness"
+  },
+  {
+    "publishDate": "2026-09-22T16:18:37.221+09:00",
+    "geoId": "seongnam-wirye",
+    "displayRegion": "위례",
+    "parentRegion": "위례",
+    "regionType": "special_area",
+    "disease": "hyperhidrosis",
+    "topicAngle": "compensatory-concern",
+    "title": "[위례 다한증] 수술 후 보상성 다한증 걱정 없이 조절하는 관점",
+    "slug": "seongnam-wirye-hyperhidrosis-compensatory-concern"
   }
 ]
