@@ -88,6 +88,7 @@
                    onclick="location.href='{{ $featured.RelPermalink }}'">
             <!-- Left Large Thumbnail (~55% width, clean 16:10 ratio, cover fit) -->
             <a href="{{ $featured.RelPermalink }}" class="featured-thumb-wrap" aria-label="{{ $featured.Title }}">
+              <picture id="featured-thumb-picture">
               {{ if not (hasPrefix $featuredThumb "http") }}
                 {{ $cleanThumb := strings.TrimPrefix "/" $featuredThumb }}
                 {{ $ext := path.Ext $cleanThumb }}
@@ -104,6 +105,7 @@
               {{ else }}
                 <img src="{{ $featuredThumb | relURL }}" alt="{{ $featured.Title }}" class="featured-thumb-img" id="featured-thumb-img" loading="eager" fetchpriority="high" decoding="async">
               {{ end }}
+              </picture>
             </a>
 
             <!-- Right Content (~45% width) -->
@@ -214,6 +216,16 @@
           {{ if $index }},{{ end }}
           {{ $pCat := $p.Params.category | default "general" }}
           {{ $thumbImg := $p.Params.thumbnail | default $p.Params.image | default "images/philosophy/philosophy-consult.jpg" }}
+          {{ $thumbWebp := "" }}
+          {{ if not (hasPrefix $thumbImg "http") }}
+            {{ $cleanThumbImg := strings.TrimPrefix "/" $thumbImg }}
+            {{ $thumbExt := path.Ext $cleanThumbImg }}
+            {{ $thumbBase := strings.TrimSuffix $thumbExt $cleanThumbImg }}
+            {{ $thumbWebpCandidate := printf "%s.webp" $thumbBase }}
+            {{ if fileExists (printf "static/%s" $thumbWebpCandidate) }}
+              {{ $thumbWebp = $thumbWebpCandidate | relURL }}
+            {{ end }}
+          {{ end }}
           {
             "id": {{ $p.File.BaseFileName }},
             "title": {{ $p.Title }},
@@ -224,6 +236,7 @@
             "author": {{ $p.Params.author | default "손지웅 대표원장" }},
             "summary": {{ $p.Params.summary }},
             "thumbnail": {{ $thumbImg | relURL }},
+            "thumbnailWebp": {{ $thumbWebp }},
             "image": {{ $thumbImg | relURL }}
           }
           {{ end }}
