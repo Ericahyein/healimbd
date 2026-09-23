@@ -12624,6 +12624,10 @@ body.reviews-page .cases-category-tabs {
   padding-bottom: 4px;
 }
 
+body.reviews-page #category-tabs-container {
+  justify-content: flex-start;
+}
+
 body.reviews-page .cases-category-tabs::-webkit-scrollbar {
   display: none;
 }
