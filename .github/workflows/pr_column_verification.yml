@@ -59,6 +59,9 @@ jobs:
       - name: Run Home SEO and Lazy Map Regression Test
         run: node tests/test_home_seo_performance_guards.js
 
+      - name: Run Image Performance Regression Test
+        run: node tests/test_image_performance_guards.js
+
       - name: Run Candidate Tie-Break & Cooldown Safety Tests
         run: node tests/test_candidate_rotation.js
 
