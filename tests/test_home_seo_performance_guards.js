@@ -4,6 +4,7 @@ const fs = require('fs');
 const home = fs.readFileSync('content/_index.md', 'utf8');
 const head = fs.readFileSync('layouts/partials/head_seo.html', 'utf8');
 const map = fs.readFileSync('layouts/partials/naver_map.html', 'utf8');
+const adminModal = fs.readFileSync('layouts/partials/admin_case_modal.html', 'utf8');
 
 assert(home.includes('심층 치료'), 'Home description must use the approved 심층 치료 wording');
 assert(!home.includes('근본 치료'), 'Stale 근본 치료 wording must not remain');
@@ -42,6 +43,15 @@ assert(
 assert(
   !map.includes('<script \n      src="https://oapi.map.naver.com'),
   'NAVER Maps SDK must not be loaded eagerly by static markup'
+);
+
+assert(
+  !/<h[1-6][^>]*id=["']preflight-card-title["']/.test(adminModal),
+  'Hidden admin preview title must not introduce a heading before the public home H1'
+);
+assert(
+  /<p[^>]*id=["']preflight-card-title["']/.test(adminModal),
+  'Admin preview title must preserve its styling hook as non-heading text'
 );
 
 console.log('✅ Home SEO metadata and lazy map safeguards passed');
