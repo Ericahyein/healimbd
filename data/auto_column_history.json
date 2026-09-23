@@ -262,5 +262,16 @@
     "topicAngle": "compensatory-concern",
     "title": "[위례 다한증] 수술 후 보상성 다한증 걱정 없이 조절하는 관점",
     "slug": "seongnam-wirye-hyperhidrosis-compensatory-concern"
+  },
+  {
+    "publishDate": "2026-09-23T15:11:23.813+09:00",
+    "geoId": "seongnam-main",
+    "displayRegion": "성남",
+    "parentRegion": "성남",
+    "regionType": "city",
+    "disease": "ibs",
+    "topicAngle": "morning-diarrhea",
+    "title": "[성남 과민성대장증후군] 출근길이나 긴장되는 순간마다 화장실을 찾게 되는 이유",
+    "slug": "seongnam-main-ibs-morning-diarrhea"
   }
 ]
