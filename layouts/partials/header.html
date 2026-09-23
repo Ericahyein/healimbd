@@ -3,10 +3,10 @@
     <div class="container header-main-inner">
       <a href="{{ "" | relURL }}" class="brand-logo" aria-label="해아림한의원 분당점 홈으로">
         <!-- White Logo (for Main Hero transparent state) -->
-        <img src="{{ "images/healim-logo-white.png" | relURL }}" alt="해아림한의원 분당점" class="brand-logo-white" width="186" height="30">
+        <img src="{{ "images/healim-logo-white.png" | relURL }}" alt="해아림한의원 분당점" class="brand-logo-white" width="186" height="30" loading="eager" decoding="async">
         <!-- Default Full Brand Logo (for solid/scrolled state & subpages) -->
         <div class="brand-logo-default">
-          <img src="{{ "images/logo.png" | relURL }}" alt="해아림 로고" class="brand-logo-img" width="44" height="44">
+          <img src="{{ "images/logo.png" | relURL }}" alt="해아림 로고" class="brand-logo-img" width="44" height="44" loading="eager" decoding="async">
           <div class="brand-text-group">
             <span class="brand-slogan-top">마음까지 헤아리는</span>
             <div class="brand-main-row">
@@ -34,7 +34,10 @@
         <!-- Member Login / Logged In State Container -->
         <div class="header-auth-container" id="header-auth-container">
           <button class="btn btn-header-profile" id="btn-header-login" onclick="openAuthModal('login')" aria-label="로그인" title="회원 로그인">
-            <img src="{{ "images/user-profile-icon.png" | relURL }}" alt="회원 로그인" class="header-profile-avatar" width="30" height="30">
+            <picture>
+              <source srcset="{{ "images/user-profile-icon.webp" | relURL }}" type="image/webp">
+              <img src="{{ "images/user-profile-icon.png" | relURL }}" alt="회원 로그인" class="header-profile-avatar" width="30" height="30" loading="eager" decoding="async">
+            </picture>
           </button>
           <div class="header-user-badge" id="header-user-badge" style="display: none;">
             <span class="user-greeting"><i class="ph-bold ph-user-circle-check"></i> <strong id="logged-user-name">회원</strong>님</span>
@@ -61,7 +64,7 @@
 <div class="mobile-drawer" id="mobile-drawer">
   <div class="drawer-header">
     <div class="drawer-logo-wrap">
-      <img src="{{ "images/logo.png" | relURL }}" alt="해아림 로고" class="drawer-logo-img" width="38" height="38">
+      <img src="{{ "images/logo.png" | relURL }}" alt="해아림 로고" class="drawer-logo-img" width="38" height="38" loading="lazy" decoding="async">
       <div class="brand-text-group">
         <span class="brand-slogan-top">마음까지 헤아리는</span>
         <div class="brand-main-row">
@@ -121,7 +124,7 @@
   <div class="modal-card">
     <div class="modal-header">
       <div class="modal-header-title-wrap">
-        <img src="{{ "images/logo.png" | relURL }}" alt="해아림 로고" class="modal-logo-img" width="32" height="32">
+        <img src="{{ "images/logo.png" | relURL }}" alt="해아림 로고" class="modal-logo-img" width="32" height="32" loading="lazy" decoding="async">
         <div id="modal-title" class="modal-title">해아림한의원 분당점 <strong>상담 및 예약</strong></div>
       </div>
       <button class="modal-close" id="modal-close" aria-label="닫기">
