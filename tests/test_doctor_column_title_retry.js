@@ -721,7 +721,7 @@ async function runAllTests() {
       caught35 = err;
     }
     assert.ok(caught35, 'Must throw error on workflow_dispatch on main');
-    assert.ok(caught35.message.includes('Security Guard Violation') && caught35.message.includes("Only 'schedule' is permitted"));
+    assert.ok(caught35.message.includes('Security Guard Violation') && caught35.message.includes('without an explicit FORCE_PUBLISH recovery request'));
     console.log('✅ TEST 35 PASS: workflow_dispatch on main strictly blocked (Fail-Closed).');
 
     // TEST 36: In CI, workflow_dispatch + feature branch blocks PRODUCTION_PUBLISH
@@ -755,7 +755,7 @@ async function runAllTests() {
       caught37 = err;
     }
     assert.ok(caught37, 'Must throw error on pull_request event');
-    assert.ok(caught37.message.includes('Security Guard Violation') && caught37.message.includes("Only 'schedule' is permitted"));
+    assert.ok(caught37.message.includes('Security Guard Violation') && caught37.message.includes('without an explicit FORCE_PUBLISH recovery request'));
     console.log('✅ TEST 37 PASS: pull_request strictly blocked from production publishing (Fail-Closed).');
 
     // TEST 38: In CI, push + feature branch blocks PRODUCTION_PUBLISH
@@ -775,8 +775,8 @@ async function runAllTests() {
     assert.ok(caught38.message.includes('Security Guard Violation'));
     console.log('✅ TEST 38 PASS: push on feature branch strictly blocked from production publishing (Fail-Closed).');
 
-    // TEST 39: FORCE_PUBLISH=true cannot bypass security guard
-    console.log('\n--- TEST 39: FORCE_PUBLISH=true cannot bypass security guard ---');
+    // TEST 39: Explicit workflow_dispatch recovery may enter production, but cannot bypass API-key guard
+    console.log('\n--- TEST 39: Explicit workflow_dispatch recovery remains fail-closed on missing API key ---');
     process.env.GITHUB_ACTIONS = 'true';
     process.env.GITHUB_EVENT_NAME = 'workflow_dispatch';
     process.env.GITHUB_REF = 'refs/heads/main';
@@ -785,13 +785,13 @@ async function runAllTests() {
     delete process.env.RUN_MODE;
     let caught39 = null;
     try {
-      await runAutoColumnPipeline({ apiKey: 'dummy-key' });
+      await runAutoColumnPipeline({ apiKey: '' });
     } catch (err) {
       caught39 = err;
     }
-    assert.ok(caught39, 'Must throw error when FORCE_PUBLISH is used on workflow_dispatch');
-    assert.ok(caught39.message.includes('Security Guard Violation'));
-    console.log('✅ TEST 39 PASS: FORCE_PUBLISH cannot bypass Fail-Closed operating guard.');
+    assert.ok(caught39, 'Must throw error when the required production API key is missing');
+    assert.ok(caught39.message.includes('OPENAI_API_KEY is missing in PRODUCTION_PUBLISH mode'));
+    console.log('✅ TEST 39 PASS: Manual recovery is allowed only through the explicit gate and still fails closed without the API key.');
 
     // TEST 40: schedule on feature branch blocks PRODUCTION_PUBLISH
     console.log('\n--- TEST 40: schedule on feature branch blocks PRODUCTION_PUBLISH ---');

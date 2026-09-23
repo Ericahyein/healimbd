@@ -104,17 +104,20 @@ async function runAutoColumnPipeline(options = {}) {
   // Security Fail-Closed Guard:
   // Production publish is ONLY allowed when ALL conditions are strictly met:
   // 1. GITHUB_ACTIONS === 'true'
-  // 2. GITHUB_EVENT_NAME === 'schedule'
+  // 2. GITHUB_EVENT_NAME === 'schedule', OR workflow_dispatch with FORCE_PUBLISH === 'true'
   // 3. GITHUB_REF === 'refs/heads/main'
   // 4. AUTO_COLUMN_ENABLED === 'true'
   // 5. OPENAI_API_KEY is configured
-  // FORCE_PUBLISH cannot bypass these conditions. Mocks and intentional failures cannot be used.
+  // FORCE_PUBLISH only opens the explicit workflow_dispatch recovery path; it cannot bypass
+  // GitHub Actions, main-branch, enablement, API-key, mock, or validator safeguards.
   if (isProductionRequested) {
     if (!isCiEnv) {
       throw new Error('Security Guard Violation: PRODUCTION_PUBLISH is strictly prohibited outside of GitHub Actions (GITHUB_ACTIONS !== "true"). Halting pipeline (Fail-Closed).');
     }
-    if (ciEvent !== 'schedule') {
-      throw new Error(`Security Guard Violation: PRODUCTION_PUBLISH is strictly prohibited on event '${ciEvent}'. Only 'schedule' is permitted. Halting pipeline (Fail-Closed).`);
+    const isScheduledPublish = ciEvent === 'schedule';
+    const isManualRecoveryPublish = ciEvent === 'workflow_dispatch' && forcePublish;
+    if (!isScheduledPublish && !isManualRecoveryPublish) {
+      throw new Error(`Security Guard Violation: PRODUCTION_PUBLISH is strictly prohibited on event '${ciEvent}' without an explicit FORCE_PUBLISH recovery request. Halting pipeline (Fail-Closed).`);
     }
     if (ciRef !== 'refs/heads/main') {
       throw new Error(`Security Guard Violation: PRODUCTION_PUBLISH is strictly prohibited on ref '${ciRef}'. Only 'refs/heads/main' is permitted. Halting pipeline (Fail-Closed).`);
