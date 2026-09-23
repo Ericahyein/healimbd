@@ -1,7 +1,10 @@
 const assert = require('assert');
 const fs = require('fs');
 
-const home = fs.readFileSync('layouts/home.html', 'utf8');
+const homeTemplates = [
+  'layouts/home.html',
+  'layouts/_default/home.html'
+];
 const header = fs.readFileSync('layouts/partials/header.html', 'utf8');
 
 const expectedImages = [
@@ -16,15 +19,19 @@ const expectedImages = [
   ['images/philosophy/philosophy-acupuncture.jpg', 1024, 768]
 ];
 
-for (const [path, width, height] of expectedImages) {
-  const escaped = path.replace(/[.*+?^$\{\}()|[\]\\]/g, '\\$&');
-  const matches = home.match(new RegExp('<img[^>]+src="\\{\\{ "' + escaped + '" \\| relURL \\}\\}"[^>]*>', 'g')) || [];
-  assert(matches.length > 0, path + ' must be rendered');
-  for (const tag of matches) {
-    assert(tag.includes('width="' + width + '"'), path + ' must declare its intrinsic width');
-    assert(tag.includes('height="' + height + '"'), path + ' must declare its intrinsic height');
-    assert(tag.includes('loading="lazy"'), path + ' must remain lazy-loaded');
-    assert(tag.includes('decoding="async"'), path + ' must decode asynchronously');
+for (const templatePath of homeTemplates) {
+  const home = fs.readFileSync(templatePath, 'utf8');
+
+  for (const [path, width, height] of expectedImages) {
+    const escaped = path.replace(/[.*+?^$\{\}()|[\]\\]/g, '\\$&');
+    const matches = home.match(new RegExp('<img[^>]+src="\\{\\{ "' + escaped + '" \\| relURL \\}\\}"[^>]*>', 'g')) || [];
+    assert(matches.length > 0, templatePath + ': ' + path + ' must be rendered');
+    for (const tag of matches) {
+      assert(tag.includes('width="' + width + '"'), templatePath + ': ' + path + ' must declare its intrinsic width');
+      assert(tag.includes('height="' + height + '"'), templatePath + ': ' + path + ' must declare its intrinsic height');
+      assert(tag.includes('loading="lazy"'), templatePath + ': ' + path + ' must remain lazy-loaded');
+      assert(tag.includes('decoding="async"'), templatePath + ': ' + path + ' must decode asynchronously');
+    }
   }
 }
 
