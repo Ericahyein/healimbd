@@ -17,6 +17,10 @@ assert.ok(
   'Manual recovery must require both workflow_dispatch and explicit forcePublish'
 );
 assert.ok(
+  pipelineSource.includes("ciEvent === 'push' && forcePublish && process.env.RECOVERY_PUBLISH === 'true'"),
+  'Push recovery must require the path-scoped recovery marker in addition to forcePublish'
+);
+assert.ok(
   pipelineSource.includes("ciRef !== 'refs/heads/main'"),
   'Manual recovery must retain the main-branch guard'
 );
@@ -26,11 +30,16 @@ assert.ok(
   'Afternoon schedule must be 08:07 UTC (17:07 KST)'
 );
 assert.ok(
-  workflowSource.includes("inputs.force_publish) && 'true' || 'false'"),
-  'Workflow must pass the explicit force_publish input to the pipeline'
+  workflowSource.includes("((github.event_name == 'workflow_dispatch' && inputs.force_publish) || github.event_name == 'push') && 'true' || 'false'"),
+  'Workflow must pass force publish only for an explicit dispatch or path-scoped recovery push'
 );
 
-const productionCondition = "(github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.force_publish)) && github.ref == 'refs/heads/main' && env.AUTO_COLUMN_ENABLED == 'true'";
+assert.ok(
+  workflowSource.includes("- '.github/auto-column-recovery-request'"),
+  'Push recovery must be scoped to the dedicated one-time request file'
+);
+
+const productionCondition = "(github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.force_publish) || (github.event_name == 'push' && env.RECOVERY_PUBLISH == 'true')) && github.ref == 'refs/heads/main' && env.AUTO_COLUMN_ENABLED == 'true'";
 assert.strictEqual(
   workflowSource.split(productionCondition).length - 1,
   3,

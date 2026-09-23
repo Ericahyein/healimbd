@@ -104,7 +104,8 @@ async function runAutoColumnPipeline(options = {}) {
   // Security Fail-Closed Guard:
   // Production publish is ONLY allowed when ALL conditions are strictly met:
   // 1. GITHUB_ACTIONS === 'true'
-  // 2. GITHUB_EVENT_NAME === 'schedule', OR workflow_dispatch with FORCE_PUBLISH === 'true'
+  // 2. GITHUB_EVENT_NAME === 'schedule', workflow_dispatch with FORCE_PUBLISH === 'true',
+  //    or a path-scoped push recovery with FORCE_PUBLISH and RECOVERY_PUBLISH both true
   // 3. GITHUB_REF === 'refs/heads/main'
   // 4. AUTO_COLUMN_ENABLED === 'true'
   // 5. OPENAI_API_KEY is configured
@@ -116,7 +117,8 @@ async function runAutoColumnPipeline(options = {}) {
     }
     const isScheduledPublish = ciEvent === 'schedule';
     const isManualRecoveryPublish = ciEvent === 'workflow_dispatch' && forcePublish;
-    if (!isScheduledPublish && !isManualRecoveryPublish) {
+    const isPathScopedRecoveryPublish = ciEvent === 'push' && forcePublish && process.env.RECOVERY_PUBLISH === 'true';
+    if (!isScheduledPublish && !isManualRecoveryPublish && !isPathScopedRecoveryPublish) {
       throw new Error(`Security Guard Violation: PRODUCTION_PUBLISH is strictly prohibited on event '${ciEvent}' without an explicit FORCE_PUBLISH recovery request. Halting pipeline (Fail-Closed).`);
     }
     if (ciRef !== 'refs/heads/main') {
