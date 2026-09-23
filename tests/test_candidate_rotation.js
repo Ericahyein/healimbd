@@ -53,11 +53,17 @@ async function testCandidateRotation() {
   // =========================================================================
   console.log('\n--- TEST 2: Determinism & Reproducibility on Same Date ---');
   const realHistory = loadHistory();
+  // Keep deterministic rotation checks independent from the continuously growing
+  // production history. Production cooldown behavior is covered separately below.
+  const isolatedHistoryDir = fs.mkdtempSync(path.join(os.tmpdir(), 'healim-rotation-'));
+  const isolatedHistoryPath = path.join(isolatedHistoryDir, 'history.json');
+  fs.writeFileSync(isolatedHistoryPath, '[]', 'utf8');
+
   const testNow1 = new Date('2026-09-20T09:00:00+09:00');
   const testNow2 = new Date('2026-09-20T16:00:00+09:00'); // Same KST calendar day, different hour
 
-  const plan1 = planNextColumn({ now: testNow1 });
-  const plan2 = planNextColumn({ now: testNow2 });
+  const plan1 = planNextColumn({ now: testNow1, historyPath: isolatedHistoryPath });
+  const plan2 = planNextColumn({ now: testNow2, historyPath: isolatedHistoryPath });
 
   assert.strictEqual(plan1.geo.id, plan2.geo.id, 'Same date must select same region');
   assert.strictEqual(plan1.disease.id, plan2.disease.id, 'Same date must select same disease');
@@ -73,9 +79,9 @@ async function testCandidateRotation() {
   const day2Date = new Date('2026-09-21T09:00:00+09:00');
   const day3Date = new Date('2026-09-22T09:00:00+09:00');
 
-  const day1Plan = planNextColumn({ now: day1Date });
-  const day2Plan = planNextColumn({ now: day2Date });
-  const day3Plan = planNextColumn({ now: day3Date });
+  const day1Plan = planNextColumn({ now: day1Date, historyPath: isolatedHistoryPath });
+  const day2Plan = planNextColumn({ now: day2Date, historyPath: isolatedHistoryPath });
+  const day3Plan = planNextColumn({ now: day3Date, historyPath: isolatedHistoryPath });
 
   console.log(`   Day 1 Candidate: [${day1Plan.geo.displayName}] ${day1Plan.disease.name} (${day1Plan.topicAngle.titleSuffix}) [Key: ${day1Plan.stableKey}]`);
   console.log(`   Day 2 Candidate: [${day2Plan.geo.displayName}] ${day2Plan.disease.name} (${day2Plan.topicAngle.titleSuffix}) [Key: ${day2Plan.stableKey}]`);
@@ -300,6 +306,7 @@ async function testCandidateRotation() {
   );
   console.log('✅ TEST 10 PASS: Invalid Date inputs strictly throw explicit Fail-Closed errors.');
 
+  fs.rmSync(isolatedHistoryDir, { recursive: true, force: true });
   console.log('\n🎉 ALL 10 CANDIDATE ROTATION, TIE-BREAK & COOLDOWN SAFETY TESTS PASSED 100%!\n');
 }
 
