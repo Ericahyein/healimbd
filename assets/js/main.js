@@ -509,25 +509,31 @@ function matchesHandwrittenCategory(item, filter) {
   const catName = (item.categoryName || '').toLowerCase();
   const title = (item.title || '').toLowerCase();
 
-  if (filter === 'panic') {
-    return cat === 'panic' || cat === 'anxiety' || cat === 'phobia' || catName.includes('공황') || catName.includes('불안') || title.includes('공황') || title.includes('불안');
-  }
-  if (filter === 'autonomic') {
-    return cat === 'autonomic' || catName.includes('자율신경') || title.includes('자율신경');
-  }
-  if (filter === 'tic-adhd') {
-    return cat === 'tic' || cat === 'adhd' || cat === 'tic-adhd' || catName.includes('틱') || catName.includes('adhd') || title.includes('틱') || title.includes('adhd');
-  }
-  if (filter === 'sleep') {
-    return cat === 'sleep' || cat === 'insomnia' || catName.includes('수면') || catName.includes('불면') || title.includes('수면') || title.includes('불면');
-  }
-  if (filter === 'mood') {
-    return cat === 'mood' || cat === 'depression' || catName.includes('우울') || catName.includes('기분') || title.includes('우울') || title.includes('기분');
-  }
-  if (filter === 'etc') {
-    return cat === 'etc' || cat === 'hyperhidrosis' || cat === 'ibs' || cat === 'hwabyung' || catName.includes('기타') || catName.includes('다한') || catName.includes('과민성') || catName.includes('화병') || title.includes('다한') || title.includes('답답');
-  }
-  return cat === filter;
+  // New reviews use the exact categories offered by the admin writer.
+  if (cat === filter) return true;
+
+  // Keep older reviews discoverable after splitting the former grouped tabs.
+  if (cat === 'tic-adhd') return filter === 'tic' || filter === 'adhd';
+  if (cat === 'insomnia') return filter === 'sleep';
+  if (cat === 'phobia') return filter === 'anxiety';
+  if (cat === 'mood' || cat === 'depression' || cat === 'hwabyung') return filter === 'etc';
+
+  // Very old local reviews may not have a normalized category value.
+  if (cat) return false;
+  const searchableText = `${catName} ${title}`;
+  const legacyKeywords = {
+    tic: ['틱', '뚜렛'],
+    adhd: ['adhd', '주의집중'],
+    panic: ['공황'],
+    anxiety: ['불안', '사회공포'],
+    sleep: ['수면', '불면'],
+    autonomic: ['자율신경'],
+    hyperhidrosis: ['다한'],
+    ibs: ['과민성대장'],
+    syncope: ['미주신경', '실신'],
+    etc: ['기타', '우울', '기분', '화병']
+  };
+  return (legacyKeywords[filter] || []).some(keyword => searchableText.includes(keyword));
 }
 
 function renderHandwrittenReviewsPage() {
