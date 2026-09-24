@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const sharp = require('sharp');
+const { THUMBNAIL_WIDTH, THUMBNAIL_HEIGHT } = require('./thumbnail_engine');
 
 async function runPrePublishCheck() {
   console.log('🔍 Starting Doctor Column Pre-Publish Validation...');
@@ -52,6 +53,9 @@ async function runPrePublishCheck() {
   if (!metadata.width || metadata.width <= 0 || !metadata.height || metadata.height <= 0) {
     throw new Error(`❌ Invalid image dimensions: width=${metadata.width}, height=${metadata.height}`);
   }
+  if (metadata.width !== THUMBNAIL_WIDTH || metadata.height !== THUMBNAIL_HEIGHT) {
+    throw new Error(`❌ Thumbnail must be exactly ${THUMBNAIL_WIDTH}x${THUMBNAIL_HEIGHT}, received ${metadata.width}x${metadata.height}.`);
+  }
   const allowedFormats = ['jpeg', 'jpg', 'png', 'webp'];
   if (!allowedFormats.includes(metadata.format)) {
     throw new Error(`❌ Disallowed image format: ${metadata.format} (allowed: ${allowedFormats.join(', ')})`);
@@ -61,7 +65,7 @@ async function runPrePublishCheck() {
   const staticWebpPath = staticImagePath.replace(/\.jpe?g$/i, '.webp');
   if (fs.existsSync(staticWebpPath)) {
     const webpMeta = await sharp(staticWebpPath).metadata();
-    if (webpMeta.format !== 'webp' || !webpMeta.width || webpMeta.width <= 0) {
+    if (webpMeta.format !== 'webp' || webpMeta.width !== THUMBNAIL_WIDTH || webpMeta.height !== THUMBNAIL_HEIGHT) {
       throw new Error(`❌ Invalid WebP counterpart: ${staticWebpPath}`);
     }
     console.log(`  ✅ WebP counterpart verified: format=webp, width=${webpMeta.width}, height=${webpMeta.height}`);
