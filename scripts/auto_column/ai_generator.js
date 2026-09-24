@@ -126,10 +126,10 @@ async function callOpenAiApi(apiKey, endpoint, body, maxRetries = 3) {
 }
 
 /**
- * Builds disease + topicAngle tailored primary photorealistic prompt (Safe & Non-symptom-simulating)
+ * Builds the disease + topicAngle tailored scene used by the illustration prompt.
  * Prioritizes ageGroup strictly to prevent child images for adult targets and vice versa.
  */
-function buildImagePrompt(diseaseId, diseaseName, topicAngleId = '', topicAngleFocus = '', ageGroup = 'mixed') {
+function buildImageScenePrompt(diseaseId, diseaseName, topicAngleId = '', topicAngleFocus = '', ageGroup = 'mixed') {
   const focusLower = `${topicAngleFocus} ${topicAngleId}`.toLowerCase();
 
   // If ageGroup not explicitly provided ('mixed'), infer from diseaseId/name/topicAngle
@@ -152,44 +152,44 @@ function buildImagePrompt(diseaseId, diseaseName, topicAngleId = '', topicAngleF
   if (effectiveAgeGroup === 'adult') {
     // ADHD Adult (e.g. qa-04-adhd-adult + adult-work-mistakes)
     if (diseaseId === 'adhd' || (diseaseName && diseaseName.includes('ADHD'))) {
-      return `A realistic single lifestyle photo of one Korean adult in a modern, calm professional office or clean home workspace, sitting naturally at a desk with a laptop and documents, showing a thoughtful and focused expression while managing daily work. Warm natural daylight, professional editorial lifestyle photography, authentic working-age adult. Strictly: ONE Korean ADULT only, clearly adult, approximately working-age (20s to 40s), professional office or adult home workspace context, NO child, NO teenager, NO school uniform, NO classroom, NO homework scene, no exaggerated pain or distress, no clutching head, no medical equipment, no text, no watermark.`;
+      return `A premium semi-flat medical editorial illustration of one Korean adult in a modern, calm professional office or clean home workspace, sitting naturally at a desk with a laptop and documents, showing a thoughtful and focused expression while managing daily work. Warm natural daylight, professional medical editorial illustration, authentic working-age adult. Strictly: ONE Korean ADULT only, clearly adult, approximately working-age (20s to 40s), professional office or adult home workspace context, NO child, NO teenager, NO school uniform, NO classroom, NO homework scene, no exaggerated pain or distress, no clutching head, no medical equipment, no text, no watermark.`;
     }
 
     // Social Phobia / Presentation Anxiety (e.g. qa-07-social-phobia)
     if (focusLower.includes('presentation') || focusLower.includes('social') || (diseaseName && diseaseName.includes('사회공포'))) {
-      return `A realistic single photo of one Korean adult standing or sitting in a modern, calm professional meeting room or quiet office environment, looking thoughtfully prepared for a discussion, neutral and composed posture, soft natural indoor lighting, professional wellness editorial photography. Strictly: ONE Korean ADULT only, clearly adult, approximately working-age (20s to 40s), professional workspace context, NO child, NO teenager, NO school uniform, NO classroom, no extreme panic, no trembling simulation, no distress, no text, no watermark.`;
+      return `A premium semi-flat medical editorial illustration of one Korean adult standing or sitting in a modern, calm professional meeting room or quiet office environment, looking thoughtfully prepared for a discussion, neutral and composed posture, soft natural indoor lighting, professional wellness editorial illustration. Strictly: ONE Korean ADULT only, clearly adult, approximately working-age (20s to 40s), professional workspace context, NO child, NO teenager, NO school uniform, NO classroom, no extreme panic, no trembling simulation, no distress, no text, no watermark.`;
     }
 
     // Panic
     if (diseaseId === 'panic' || (diseaseName && diseaseName.includes('공황'))) {
       if (focusLower.includes('subway') || focusLower.includes('교통') || focusLower.includes('밀폐') || focusLower.includes('터널') || focusLower.includes('운전')) {
-        return `A realistic single photo of one Korean adult in a transit or commute environment, looking thoughtfully toward a window or quiet area, calm natural posture, mental wellness editorial photography, strictly ONE adult only, NO child, NO teenager, NO school uniform, no distress, no pain, no clutching chest, no text.`;
+        return `A premium semi-flat medical editorial illustration of one Korean adult in a transit or commute environment, looking thoughtfully toward a window or quiet area, calm natural posture, mental wellness editorial illustration, strictly ONE adult only, NO child, NO teenager, NO school uniform, no distress, no pain, no clutching chest, no text.`;
       }
-      return `A realistic single lifestyle photo of one Korean adult sitting quietly by a bright window at home, resting thoughtfully in calm natural daylight, mental wellness editorial photography, strictly ONE adult only, NO child, NO teenager, NO school uniform, no distress, no pain, no clutching chest, no text.`;
+      return `A premium semi-flat medical editorial illustration of one Korean adult sitting quietly by a bright window at home, resting thoughtfully in calm natural daylight, mental wellness editorial illustration, strictly ONE adult only, NO child, NO teenager, NO school uniform, no distress, no pain, no clutching chest, no text.`;
     }
 
     // Anxiety (e.g. qa-06-anxiety)
     if (diseaseId === 'anxiety' || (diseaseName && diseaseName.includes('불안'))) {
-      return `A realistic single lifestyle photo of one Korean adult sitting calmly in a quiet living space, thoughtful expression, soft ambient lighting, wellness editorial photography, strictly ONE adult only, NO child, NO teenager, NO school uniform, no distress, no pain, no text.`;
+      return `A premium semi-flat medical editorial illustration of one Korean adult sitting calmly in a quiet living space, thoughtful expression, soft ambient lighting, wellness editorial illustration, strictly ONE adult only, NO child, NO teenager, NO school uniform, no distress, no pain, no text.`;
     }
 
     // Sleep (e.g. qa-08-sleep)
     if (diseaseId === 'sleep' || (diseaseName && (diseaseName.includes('수면') || diseaseName.includes('불면')))) {
-      return `A realistic single lifestyle photo of one Korean adult sitting calmly in a peaceful bedroom in soft ambient dawn light, resting thoughtfully, wellness editorial photography, strictly ONE adult only, NO child, NO teenager, NO school uniform, no distress, no illness, no text.`;
+      return `A premium semi-flat medical editorial illustration of one Korean adult sitting calmly in a peaceful bedroom in soft ambient dawn light, resting thoughtfully, wellness editorial illustration, strictly ONE adult only, NO child, NO teenager, NO school uniform, no distress, no illness, no text.`;
     }
 
     // Autonomic / Fatigue (qa-09, qa-20)
     if (diseaseId === 'autonomic' || (diseaseName && (diseaseName.includes('자율신경') || diseaseName.includes('피로')))) {
-      return `A realistic single lifestyle photo of one Korean adult sitting comfortably in a modern living space or clean workspace, resting peacefully in soft natural light, health editorial photography, strictly ONE adult only, NO child, NO teenager, NO school uniform, no distress, no clutching chest or stomach, no text.`;
+      return `A premium semi-flat medical editorial illustration of one Korean adult sitting comfortably in a modern living space or clean workspace, resting peacefully in soft natural light, health editorial illustration, strictly ONE adult only, NO child, NO teenager, NO school uniform, no distress, no clutching chest or stomach, no text.`;
     }
 
     // Syncope / Subway-dizziness (qa-12-syncope)
     if (diseaseId === 'syncope' || (diseaseName && diseaseName.includes('실신')) || focusLower.includes('subway') || topicAngleId.includes('subway')) {
-      return `A realistic single lifestyle photo of one Korean adult in a subway train, bus, or public transportation transit environment, naturally standing or seated during commute, calm and composed expression but slightly aware of physical condition, warm natural transit lighting, professional healthcare wellness editorial photography. Strictly: ONE Korean ADULT only, clearly adult, approximately working-age (20s to 40s), subway / bus / public transportation environment context, naturally standing or seated during transit, calm but slightly aware of physical condition, NO child, NO teenager, NO school uniform, NO classroom, NO collapse, NO unconsciousness, NO fainting, NO dramatic illness, NO clutching body, NO clutching head, NO clutching chest or stomach, no medical equipment, no text, no watermark.`;
+      return `A premium semi-flat medical editorial illustration of one Korean adult in a subway train, bus, or public transportation transit environment, naturally standing or seated during commute, calm and composed expression but slightly aware of physical condition, warm natural transit lighting, professional healthcare wellness editorial illustration. Strictly: ONE Korean ADULT only, clearly adult, approximately working-age (20s to 40s), subway / bus / public transportation environment context, naturally standing or seated during transit, calm but slightly aware of physical condition, NO child, NO teenager, NO school uniform, NO classroom, NO collapse, NO unconsciousness, NO fainting, NO dramatic illness, NO clutching body, NO clutching head, NO clutching chest or stomach, no medical equipment, no text, no watermark.`;
     }
 
     // General Adult Fallback
-    return `A realistic single lifestyle photo of one Korean adult in a calm, modern indoor setting, thoughtful natural expression, healthcare wellness editorial photography, strictly ONE Korean ADULT only, clearly working-age, NO child, NO teenager, NO school uniform, NO classroom, no distress, no illness, no text.`;
+    return `A premium semi-flat medical editorial illustration of one Korean adult in a calm, modern indoor setting, thoughtful natural expression, healthcare wellness editorial illustration, strictly ONE Korean ADULT only, clearly working-age, NO child, NO teenager, NO school uniform, NO classroom, no distress, no illness, no text.`;
   }
 
   // -------------------------------------------------------------
@@ -198,63 +198,95 @@ function buildImagePrompt(diseaseId, diseaseName, topicAngleId = '', topicAngleF
   if (effectiveAgeGroup === 'child') {
     // ADHD Child (qa-03-adhd-child)
     if (diseaseId === 'adhd' || (diseaseName && diseaseName.includes('ADHD'))) {
-      return `A realistic single lifestyle photo of one Korean school-age child sitting near a study desk at home with notebooks, natural posture, thoughtful expression, warm soft indoor light, child health editorial photography. Strictly: ONE child only, Korean school-age child or adolescent, NO adult as main subject, no distress, no visible illness, no text.`;
+      return `A premium semi-flat medical editorial illustration of one Korean school-age child sitting near a study desk at home with notebooks, natural posture, thoughtful expression, warm soft indoor light, child health editorial illustration. Strictly: ONE child only, Korean school-age child or adolescent, NO adult as main subject, no distress, no visible illness, no text.`;
     }
 
     // TIC / Tourette Child (qa-01-tic, qa-02-tourette)
     if (diseaseId === 'tic' || (diseaseName && (diseaseName.includes('틱') || diseaseName.includes('뚜렛')))) {
       if (focusLower.includes('media') || focusLower.includes('스마트폰') || focusLower.includes('영상') || focusLower.includes('게임')) {
-        return `A realistic single photo of one Korean school-age child sitting naturally in a calm living room or bedroom, with a turned-off tablet or smartphone resting quietly on a side table in the background. The child has a thoughtful or slightly distracted expression. Warm, realistic lifestyle photography, natural posture, soft indoor lighting, neutral and non-distressing scene. The image should visually fit a pediatric health / child development article, but should NOT depict or simulate a medical symptom. Strictly: ONE child only, Korean school-age child or adolescent, NO adult as main subject, no medical procedure, no visible illness, no pain, no distress, no clutching chest/stomach/neck, no forced blinking or facial tic simulation, no collage, no split screen, no multi-panel, no text, no letters, no logo, no watermark.`;
+        return `A premium semi-flat medical editorial illustration of one Korean school-age child sitting naturally in a calm living room or bedroom, with a turned-off tablet or smartphone resting quietly on a side table in the background. The child has a thoughtful or slightly distracted expression. Warm, premium semi-flat editorial illustration, natural posture, soft indoor lighting, neutral and non-distressing scene. The image should visually fit a pediatric health / child development article, but should NOT depict or simulate a medical symptom. Strictly: ONE child only, Korean school-age child or adolescent, NO adult as main subject, no medical procedure, no visible illness, no pain, no distress, no clutching chest/stomach/neck, no forced blinking or facial tic simulation, no collage, no split screen, no multi-panel, no text, no letters, no logo, no watermark.`;
       }
-      return `A realistic single photo of one Korean school-age child in a calm home environment, sitting naturally with a thoughtful expression. Warm realistic lifestyle photography, soft indoor light, child health editorial photography. Strictly: ONE child only, Korean school-age child or adolescent, NO adult as main subject, no distress, no medical symptoms, no text.`;
+      return `A premium semi-flat medical editorial illustration of one Korean school-age child in a calm home environment, sitting naturally with a thoughtful expression. Warm premium semi-flat editorial illustration, soft indoor light, child health editorial illustration. Strictly: ONE child only, Korean school-age child or adolescent, NO adult as main subject, no distress, no medical symptoms, no text.`;
     }
 
     // Night Terrors Child (qa-18-night-terrors)
     if (diseaseId === 'night-terrors' || (diseaseName && diseaseName.includes('야경')) || topicAngleId.includes('night-terror') || focusLower.includes('night-terror') || focusLower.includes('야경') || focusLower.includes('screaming-sleep')) {
-      return `A realistic single photo of one Korean school-age child in a calm nighttime bedroom or peaceful bedtime environment, resting quietly or preparing for sleep, soft dim indoor ambient light, safe and non-distressing scene. Strictly: ONE child only, Korean school-age child, calm nighttime bedroom / bedtime environment context, resting or preparing for sleep, soft dim indoor light, safe and non-distressing scene, NO screaming, NO crying, NO nightmare simulation, NO medical symptom simulation, NO parent required, NO adult as main subject, NO daytime scene, NO drawing scene, NO classroom, no text, no logo, no watermark.`;
+      return `A premium semi-flat medical editorial illustration of one Korean school-age child in a calm nighttime bedroom or peaceful bedtime environment, resting quietly or preparing for sleep, soft dim indoor ambient light, safe and non-distressing scene. Strictly: ONE child only, Korean school-age child, calm nighttime bedroom / bedtime environment context, resting or preparing for sleep, soft dim indoor light, safe and non-distressing scene, NO screaming, NO crying, NO nightmare simulation, NO medical symptom simulation, NO parent required, NO adult as main subject, NO daytime scene, NO drawing scene, NO classroom, no text, no logo, no watermark.`;
     }
 
     // Separation Anxiety Child (qa-17-separation-anxiety)
     if (diseaseId === 'separation-anxiety' || (diseaseName && diseaseName.includes('분리불안')) || topicAngleId.includes('separation') || focusLower.includes('separation') || focusLower.includes('분리불안') || focusLower.includes('school-reluctance')) {
-      return `A realistic single photo of one Korean school-age child standing or sitting calmly in a bright comfortable home living area or hallway, natural relaxed posture, soft warm daylight, child health editorial photography. Strictly: ONE child only, Korean school-age child, natural home environment, thoughtful calm expression, NO crying, NO screaming, NO clinginess, NO distress, NO adult as main subject, no text, no logo, no watermark.`;
+      return `A premium semi-flat medical editorial illustration of one Korean school-age child standing or sitting calmly in a bright comfortable home living area or hallway, natural relaxed posture, soft warm daylight, child health editorial illustration. Strictly: ONE child only, Korean school-age child, natural home environment, thoughtful calm expression, NO crying, NO screaming, NO clinginess, NO distress, NO adult as main subject, no text, no logo, no watermark.`;
     }
 
     // General Child
-    return `A realistic single lifestyle photo of one Korean child in a bright comfortable living room, natural relaxed posture, soft daylight, pediatric wellness photography. Strictly: ONE child only, Korean school-age child, NO adult as main subject, no distress, no visible illness, no text.`;
+    return `A premium semi-flat medical editorial illustration of one Korean child in a bright comfortable living room, natural relaxed posture, soft daylight, pediatric wellness illustration. Strictly: ONE child only, Korean school-age child, NO adult as main subject, no distress, no visible illness, no text.`;
   }
 
   // -------------------------------------------------------------
   // 3. MIXED TARGET (Topic-tailored)
   // -------------------------------------------------------------
   if (diseaseId === 'syncope' || (diseaseName && diseaseName.includes('실신')) || focusLower.includes('subway') || topicAngleId.includes('subway')) {
-    return `A realistic single lifestyle photo of one Korean adult in a subway train, bus, or public transportation transit environment, naturally standing or seated during commute, calm and composed expression but slightly aware of physical condition, warm natural transit lighting, professional healthcare wellness editorial photography. Strictly: ONE Korean ADULT only, clearly adult, approximately working-age (20s to 40s), subway / bus / public transportation environment context, naturally standing or seated during transit, calm but slightly aware of physical condition, NO child, NO teenager, NO school uniform, NO classroom, NO collapse, NO unconsciousness, NO fainting, NO dramatic illness, NO clutching body, NO clutching head, NO clutching chest or stomach, no medical equipment, no text, no watermark.`;
+    return `A premium semi-flat medical editorial illustration of one Korean adult in a subway train, bus, or public transportation transit environment, naturally standing or seated during commute, calm and composed expression but slightly aware of physical condition, warm natural transit lighting, professional healthcare wellness editorial illustration. Strictly: ONE Korean ADULT only, clearly adult, approximately working-age (20s to 40s), subway / bus / public transportation environment context, naturally standing or seated during transit, calm but slightly aware of physical condition, NO child, NO teenager, NO school uniform, NO classroom, NO collapse, NO unconsciousness, NO fainting, NO dramatic illness, NO clutching body, NO clutching head, NO clutching chest or stomach, no medical equipment, no text, no watermark.`;
   }
 
   if (diseaseId === 'hyperhidrosis' || (diseaseName && diseaseName.includes('다한증'))) {
-    return `A realistic single lifestyle photo of one Korean person sitting calmly indoors holding a clean dry handkerchief or looking thoughtfully at a table, peaceful natural daylight, wellness editorial photography, no distress, no exaggerated sweating simulation, no text.`;
+    return `A premium semi-flat medical editorial illustration of one Korean person sitting calmly indoors holding a clean dry handkerchief or looking thoughtfully at a table, peaceful natural daylight, wellness editorial illustration, no distress, no exaggerated sweating simulation, no text.`;
   }
 
-  return `A realistic single lifestyle photo of one Korean person in a calm, warm home setting, peaceful natural expression, healthcare wellness editorial photography, no distress, no illness, no text.`;
+  return `A premium semi-flat medical editorial illustration of one Korean person in a calm, warm home setting, peaceful natural expression, healthcare wellness editorial illustration, no distress, no illness, no text.`;
 }
 
 /**
- * Builds neutral fallback prompt if primary prompt encounters moderation
+ * Builds the neutral fallback scene used if the primary prompt encounters moderation.
  */
-function buildFallbackImagePrompt(diseaseId, diseaseName, topicAngleId = '', topicAngleFocus = '', ageGroup = 'mixed') {
+function buildFallbackImageScenePrompt(diseaseId, diseaseName, topicAngleId = '', topicAngleFocus = '', ageGroup = 'mixed') {
   const focusLower = `${topicAngleFocus} ${topicAngleId}`.toLowerCase();
   if (diseaseId === 'night-terrors' || (diseaseName && diseaseName.includes('야경')) || focusLower.includes('night-terror') || focusLower.includes('야경') || focusLower.includes('screaming-sleep')) {
-    return `A realistic photo of one Korean school-age child resting peacefully in a calm nighttime bedroom, soft dim lighting, safe and quiet bedtime context, child health editorial photography, strictly ONE child only, calm nighttime bedroom / bedtime environment, resting or preparing for sleep, NO screaming, NO crying, NO daytime, NO drawing, no distress, no symptoms, no text.`;
+    return `A premium semi-flat medical editorial illustration of one Korean school-age child resting peacefully in a calm nighttime bedroom, soft dim lighting, safe and quiet bedtime context, child health editorial illustration, strictly ONE child only, calm nighttime bedroom / bedtime environment, resting or preparing for sleep, NO screaming, NO crying, NO daytime, NO drawing, no distress, no symptoms, no text.`;
   }
   if (diseaseId === 'syncope' || (diseaseName && diseaseName.includes('실신')) || focusLower.includes('subway') || topicAngleId.includes('subway')) {
-    return `A realistic lifestyle photo of one Korean working-age adult in a subway or public transit environment, naturally seated or standing during commute, calm and composed, health editorial photography, strictly ONE adult only, NO collapse, NO fainting, NO clutching body, no distress, no symptoms, no text.`;
+    return `A premium semi-flat medical editorial illustration of one Korean working-age adult in a subway or public transit environment, naturally seated or standing during commute, calm and composed, health editorial illustration, strictly ONE adult only, NO collapse, NO fainting, NO clutching body, no distress, no symptoms, no text.`;
   }
   if (ageGroup === 'adult') {
-    return `A realistic lifestyle portrait of one Korean working-age adult resting peacefully in a calm, modern, naturally lit workspace or home environment, neutral clean background, health editorial photography, strictly ONE adult only, clearly working-age, NO child, NO teenager, NO school uniform, NO classroom, no distress, no symptoms, no text.`;
+    return `A premium semi-flat medical editorial illustration of one Korean working-age adult resting peacefully in a calm, modern, naturally lit workspace or home environment, neutral clean background, health editorial illustration, strictly ONE adult only, clearly working-age, NO child, NO teenager, NO school uniform, NO classroom, no distress, no symptoms, no text.`;
   }
   if (ageGroup === 'child' || diseaseId === 'child' || (diseaseName && (diseaseName.includes('틱') || diseaseName.includes('소아')))) {
-    return `A realistic lifestyle portrait of one Korean school-age child sitting calmly at home in a clean room, thoughtful expression, natural posture, soft indoor light, clean neutral background, child health editorial photography, strictly ONE child only, NO adult as main subject, no distress, no medical symptoms, no text.`;
+    return `A premium semi-flat medical editorial illustration of one Korean school-age child sitting calmly at home in a clean room, thoughtful expression, natural posture, soft indoor light, clean neutral background, child health editorial illustration, strictly ONE child only, NO adult as main subject, no distress, no medical symptoms, no text.`;
   }
-  return `A realistic lifestyle portrait of one Korean adult resting peacefully in a calm, naturally lit home environment, neutral clean background, health editorial photography, no distress, no symptoms, no text.`;
+  return `A premium semi-flat medical editorial illustration of one Korean adult resting peacefully in a calm, naturally lit home environment, neutral clean background, health editorial illustration, no distress, no symptoms, no text.`;
+}
+
+function getMedicalIllustrationMotif(diseaseId, diseaseName = '', topicAngleId = '', topicAngleFocus = '') {
+  const context = `${diseaseId} ${diseaseName} ${topicAngleId} ${topicAngleFocus}`.toLowerCase();
+
+  if (context.includes('과민성대장') || context.includes('ibs')) return 'a subtle brain-to-intestine neural connection with calm abdominal signal waves';
+  if (context.includes('공황') || context.includes('panic')) return 'a restrained heartbeat line and breathing rings moving from irregular to calm';
+  if (context.includes('틱') || context.includes('tourette')) return 'subtle neural signal paths from the brain toward the neck and shoulders, without depicting a tic movement';
+  if (context.includes('adhd')) return 'multiple attention cues gradually converging toward one clear focal point';
+  if (context.includes('불면') || context.includes('수면') || context.includes('sleep') || context.includes('야경')) return 'a calm sleep-cycle wave with a small moon and clock motif';
+  if (context.includes('자율신경') || context.includes('autonomic')) return 'balanced neural pathways linking the brain, heart, and digestive system';
+  if (context.includes('다한') || context.includes('hyperhidrosis')) return 'a simplified hand and sweat-gland neural response motif, non-graphic and restrained';
+  if (context.includes('실신') || context.includes('syncope')) return 'a simplified heart-to-brain blood-flow pathway with a gentle balance indicator';
+  if (context.includes('불안') || context.includes('anxiety') || context.includes('사회공포')) return 'soft thought waves and breathing lines settling into an orderly rhythm';
+  if (context.includes('강박') || context.includes('ocd')) return 'a repeating circular thought path opening into a calmer, incomplete loop';
+  if (context.includes('우울') || context.includes('depression') || context.includes('피로')) return 'a muted thought cloud with a restrained warm focal light, without before-and-after symbolism';
+  if (context.includes('어지럼') || context.includes('dizziness') || context.includes('두통')) return 'subtle balance lines and restrained neural waves around the head, without pain exaggeration';
+  if (context.includes('야뇨') || context.includes('enuresis')) return 'a calm nighttime sleep-cycle and bladder-signal motif, abstract and child-safe';
+  if (context.includes('분리불안') || context.includes('separation')) return 'a gentle home-to-school transition path with soft calming connection lines';
+  return 'a subtle abstract neural-balance motif related to the article topic';
+}
+
+function buildImagePrompt(diseaseId, diseaseName, topicAngleId = '', topicAngleFocus = '', ageGroup = 'mixed') {
+  const scenePrompt = buildImageScenePrompt(diseaseId, diseaseName, topicAngleId, topicAngleFocus, ageGroup);
+  const motif = getMedicalIllustrationMotif(diseaseId, diseaseName, topicAngleId, topicAngleFocus);
+  return `${scenePrompt} Topic-specific medical motif: ${motif}. Article focus: ${topicAngleFocus || topicAngleId || diseaseName}. Unified visual system: sophisticated non-photorealistic semi-flat illustration with subtle depth, deep navy and clinic teal palette, muted aqua, restrained warm gold highlights, calm and trustworthy Korean medical editorial tone. Do not imitate a real patient, real person, specific artist, copyrighted character, or brand. No treatment result, no before-and-after, no cure implication, no graphic anatomy, no photorealism, no text, no letters, no logo, no watermark.`;
+}
+
+function buildFallbackImagePrompt(diseaseId, diseaseName, topicAngleId = '', topicAngleFocus = '', ageGroup = 'mixed') {
+  const scenePrompt = buildFallbackImageScenePrompt(diseaseId, diseaseName, topicAngleId, topicAngleFocus, ageGroup);
+  const motif = getMedicalIllustrationMotif(diseaseId, diseaseName, topicAngleId, topicAngleFocus);
+  return `${scenePrompt} Topic-specific medical motif: ${motif}. Unified visual system: non-photorealistic semi-flat medical editorial illustration, subtle depth, deep navy and clinic teal, muted aqua and restrained warm gold. Calm, neutral, non-distressing, no real patient, no treatment result, no graphic anatomy, no photorealism, no text, no letters, no logo, no watermark.`;
 }
 
 /**
@@ -826,7 +858,7 @@ async function generateThumbnailCopy(plan, articleBody, apiKey, telemetry, retry
   }
 
   const prompt = `
-당신은 해아림한의원 800x800 좌측정렬 썸네일 카피라이터입니다.
+당신은 해아림한의원 16:10 좌측정렬 썸네일 카피라이터입니다.
 칼럼 본문을 바탕으로 썸네일 좌측에 배치될 3줄 한글 카피를 JSON으로 추출하세요.
 
 [좌측정렬 썸네일 디자인 원칙]
@@ -907,7 +939,7 @@ async function generateThumbnailCopy(plan, articleBody, apiKey, telemetry, retry
 }
 
 /**
- * 4. Generate Single Photo Background Image with Optimized Moderation Transition & Error Classification
+ * 4. Generate a topic-specific medical illustration with safe fallback handling.
  */
 async function generateBackgroundImage(diseaseId, diseaseName, topicAngleId, topicAngleFocus, apiKey, telemetry, ageGroup = 'mixed') {
   if (!apiKey) {
@@ -939,7 +971,7 @@ async function generateBackgroundImage(diseaseId, diseaseName, topicAngleId, top
         model: IMAGE_MODEL,
         prompt: currentPrompt,
         n: 1,
-        size: '1024x1024'
+        size: '1536x1024'
       });
 
       telemetry.imageCount = (telemetry.imageCount || 0) + 1;
