@@ -56,6 +56,9 @@ jobs:
       - name: Run Blog Featured Thumbnail Sync Regression Test
         run: node tests/test_blog_featured_thumbnail_sync.js
 
+      - name: Run Illustrated Column Thumbnail Regression Test
+        run: node tests/test_illustrated_column_thumbnails.js
+
       - name: Run Home SEO and Lazy Map Regression Test
         run: node tests/test_home_seo_performance_guards.js
 

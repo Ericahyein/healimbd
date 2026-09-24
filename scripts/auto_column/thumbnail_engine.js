@@ -4,6 +4,10 @@ const { execSync } = require('child_process');
 const sharp = require('sharp');
 
 const LOGO_DEFAULT_PATH = path.join(__dirname, '../../static/images/healim-logo-white-text.png');
+// Matches the live doctor-column list (600x375 featured, 400x250 archive) at 2x density.
+const THUMBNAIL_WIDTH = 1200;
+const THUMBNAIL_HEIGHT = 750;
+const DISEASE_ACCENT_COLOR = '#FFE600';
 
 /**
  * Checks if Korean fonts are available in the system
@@ -53,7 +57,7 @@ function getTargetFontSize(text, baseSize, maxTargetWidthPx = 730, minSize = 56)
 /**
  * Generates an SVG overlay with left-aligned editorial typography, top-left category badge, and left-to-right scrim
  */
-function generateSvgOverlay(yellowText, whiteText, greenText, width = 800, height = 800, options = {}) {
+function generateSvgOverlay(yellowText, whiteText, greenText, width = THUMBNAIL_WIDTH, height = THUMBNAIL_HEIGHT, options = {}) {
   const categoryName = options.categoryName || '의학 칼럼';
   const safeCategory = escapeXml(categoryName);
   const safeLine1 = escapeXml(yellowText);
@@ -65,10 +69,11 @@ function generateSvgOverlay(yellowText, whiteText, greenText, width = 800, heigh
   const badgeWidth = Math.max(96, Math.round(badgeTextLen * 19 + 34));
   const badgeHeight = 36;
 
-  // Font size calculation for left-aligned text within 55~65% max canvas width (max ~480px)
-  const line1Size = getTargetFontSize(yellowText, 52, 470, 36);
-  const line2Size = getTargetFontSize(whiteText, 54, 480, 38);
-  const line3Size = getTargetFontSize(greenText, 70, 480, 48);
+  // Font size calculation for the left 50~55% safe area of the 16:10 card.
+  const maxTextWidth = Math.round(width * 0.48);
+  const line1Size = getTargetFontSize(yellowText, 58, maxTextWidth, 38);
+  const line2Size = getTargetFontSize(whiteText, 62, maxTextWidth, 40);
+  const line3Size = getTargetFontSize(greenText, 76, maxTextWidth, 50);
 
   const stroke1 = Math.max(10, Math.min(14, Math.round(line1Size * 0.22)));
   const stroke2 = Math.max(10, Math.min(14, Math.round(line2Size * 0.22)));
@@ -121,7 +126,7 @@ function generateSvgOverlay(yellowText, whiteText, greenText, width = 800, heigh
           }
           .line-accent {
             font-size: ${line3Size}px;
-            fill: #FFE600;
+            fill: ${DISEASE_ACCENT_COLOR};
             stroke: #050B14;
             stroke-width: ${stroke3}px;
             filter: url(#editorial-text-shadow);
@@ -133,6 +138,14 @@ function generateSvgOverlay(yellowText, whiteText, greenText, width = 800, heigh
             fill: #38BDF8;
             letter-spacing: -0.3px;
           }
+          .ai-label {
+            font-family: 'Noto Sans CJK KR', 'Noto Sans KR', 'Pretendard', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            fill: #FFFFFF;
+            fill-opacity: 0.72;
+            letter-spacing: -0.2px;
+          }
         </style>
       </defs>
 
@@ -140,26 +153,29 @@ function generateSvgOverlay(yellowText, whiteText, greenText, width = 800, heigh
       <rect x="0" y="0" width="${width}" height="${height}" fill="url(#left-scrim)" />
 
       <!-- 2. [Top Left] Category Badge Label (Safe Area ~64px margin, rx=6) -->
-      <g transform="translate(64, 66)" filter="url(#badge-shadow)">
+      <g transform="translate(72, 58)" filter="url(#badge-shadow)">
         <rect x="0" y="0" width="${badgeWidth}" height="${badgeHeight}" rx="6" ry="6" fill="#0F172A" fill-opacity="0.9" stroke="#38BDF8" stroke-width="1.8" />
         <text x="${badgeWidth / 2}" y="24" text-anchor="middle" class="badge-label">${safeCategory}</text>
       </g>
 
       <!-- 3. [Left Center] Main Headline (Left Aligned, 2~3 Lines) -->
       <!-- Line 1: Hook (Y ~ 275) -->
-      <text x="64" y="275" class="thumb-text line-hook">${safeLine1}</text>
+      <text x="72" y="255" class="thumb-text line-hook">${safeLine1}</text>
 
       <!-- Line 2: Symptom / Question (Y ~ 365) -->
-      <text x="64" y="365" class="thumb-text line-symptom">${safeLine2}</text>
+      <text x="72" y="350" class="thumb-text line-symptom">${safeLine2}</text>
 
       <!-- Line 3: Accent Highlight Disease Name (Y ~ 475) -->
-      <text x="64" y="475" class="thumb-text line-accent">${safeLine3}</text>
+      <text x="72" y="455" class="thumb-text line-accent">${safeLine3}</text>
+
+      <!-- 4. [Bottom Right] Small AI transparency label -->
+      <text x="${width - 28}" y="${height - 24}" text-anchor="end" class="ai-label">AI 활용</text>
     </svg>
   `;
 }
 
 /**
- * Composites single photo background, SVG text overlay, and Healim logo into 800x800 JPEG
+ * Composites an illustration background, fixed SVG text overlay, and Healim logo into 16:10 outputs.
  */
 async function compositeThumbnail(options = {}) {
   const {
@@ -172,8 +188,8 @@ async function compositeThumbnail(options = {}) {
     categoryName,
     category,
     logoPath = LOGO_DEFAULT_PATH,
-    width = 800,
-    height = 800
+    width = THUMBNAIL_WIDTH,
+    height = THUMBNAIL_HEIGHT
   } = options;
 
   if (!yellowText || !whiteText || !greenText) {
@@ -222,7 +238,7 @@ async function compositeThumbnail(options = {}) {
     compositeLayers.push({
       input: resizedLogoBuffer,
       top: height - logoHeight - 54,
-      left: 64
+      left: 72
     });
   }
 
@@ -242,6 +258,9 @@ async function compositeThumbnail(options = {}) {
 }
 
 module.exports = {
+  THUMBNAIL_WIDTH,
+  THUMBNAIL_HEIGHT,
+  DISEASE_ACCENT_COLOR,
   verifyKoreanFontAvailable,
   generateSvgOverlay,
   compositeThumbnail
