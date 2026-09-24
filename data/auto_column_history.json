@@ -273,5 +273,16 @@
     "topicAngle": "morning-diarrhea",
     "title": "[성남 과민성대장증후군] 출근길이나 긴장되는 순간마다 화장실을 찾게 되는 이유",
     "slug": "seongnam-main-ibs-morning-diarrhea"
+  },
+  {
+    "publishDate": "2026-09-25T00:34:07.203+09:00",
+    "geoId": "yongin-main",
+    "displayRegion": "용인",
+    "parentRegion": "용인",
+    "regionType": "city",
+    "disease": "depression",
+    "topicAngle": "burnout-lethargy",
+    "title": "[용인 우울증] 쉬어도 충전되지 않고 모든 일에 의욕이 사라질 때",
+    "slug": "yongin-main-depression-burnout-lethargy"
   }
 ]
