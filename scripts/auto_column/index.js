@@ -555,7 +555,7 @@ async function runAutoColumnPipeline(options = {}) {
   }
 
   // 5. Generate Thumbnail & Composite (ONLY REACHED AFTER 100% VALIDATION PASS)
-  console.log('\n[5/6] Validation passed. Generating background image & compositing 800x800 thumbnail...');
+  console.log('\n[5/6] Validation passed. Generating background image & compositing 16:10 column-list thumbnail...');
   if (totalImageGenCount >= MAX_TOTAL_IMAGE_GENS) {
     throw new Error(`Fatal: Image generation ceiling exceeded (${MAX_TOTAL_IMAGE_GENS}). Halting pipeline (Fail-Closed).`);
   }
