@@ -1,7 +1,7 @@
 ---
 title: "[경기광주 소아 야경증] 자다가 갑자기 울고 소리치지만 다음 날 기억하지 못할 때"
 date: 2026-09-21T16:19:59.716+09:00
-category: "child"
+category: "sleep"
 category_name: "소아신경"
 author: "손지웅 대표원장"
 image: "images/blog/gyeonggi-gwangju-night-terrors.jpg"
