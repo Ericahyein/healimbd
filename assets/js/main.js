@@ -5316,6 +5316,12 @@ function renderInquiryList() {
 
   const allItems = getStoredInquiries();
 
+  // Keep the server-rendered, crawlable links visible until Firestore has
+  // delivered the authoritative browser-side snapshot.
+  if (allItems.length === 0 && tbody.querySelector('[data-ssr-inquiry="true"]')) {
+    return;
+  }
+
   // Filter by Category
   let filtered = allItems;
   if (currentInquiryFilter !== 'all') {
