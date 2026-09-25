@@ -172,6 +172,7 @@ export async function onRequestGet(context) {
 
   const inquiryId = rawId;
   let inquiry = null;
+  let relatedInquiries = [];
 
   // 2. Fetch live data purely from Firestore REST API (Sample baseline purged)
   const projectId = (env && env.FIREBASE_PROJECT_ID) || 'healimbd-b726f';
@@ -222,9 +223,43 @@ export async function onRequestGet(context) {
       content: fields.content?.stringValue || '',
       status: fields.status?.stringValue || 'pending',
       answer: fields.answer?.stringValue || '',
+      createdAt: fields.createdAt?.timestampValue || '',
+      answeredAt: fields.answeredAt?.timestampValue || '',
       date: dateStr,
       answerDate: answerDateStr
     };
+
+    if (inquiry.status === 'answered' && inquiry.answer) {
+      try {
+        const listUrl = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/online_inquiries?pageSize=300`;
+        const listResponse = await fetch(listUrl, {
+          headers: { 'Authorization': `Bearer ${accessToken}` }
+        });
+        if (listResponse.ok) {
+          const listData = await listResponse.json();
+          relatedInquiries = (listData.documents || []).map(document => {
+            const relatedFields = document.fields || {};
+            return {
+              id: String(document.name || '').split('/').pop(),
+              category: relatedFields.category?.stringValue || 'etc',
+              title: relatedFields.title?.stringValue || '',
+              status: relatedFields.status?.stringValue || 'pending',
+              hasAnswer: Boolean(relatedFields.answer?.stringValue),
+              createdAt: relatedFields.createdAt?.timestampValue || document.createTime || ''
+            };
+          }).filter(item =>
+            item.id !== inquiryId &&
+            /^inq_[0-9A-Za-z_-]{1,64}$/.test(item.id) &&
+            item.category === inquiry.category &&
+            item.status === 'answered' &&
+            item.hasAnswer &&
+            item.title
+          ).sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt))).slice(0, 3);
+        }
+      } catch (relatedError) {
+        console.warn('[RELATED INQUIRY FETCH NOTICE]', relatedError.message);
+      }
+    }
   } catch (err) {
     console.error('[INQUIRY SSR EXCEPTION]', err);
     return renderNotFoundResponse('상담글 정보를 확인할 수 없습니다.');
@@ -265,6 +300,55 @@ export async function onRequestGet(context) {
   const cleanSnippet = escapeHtml(makeDescription(inquiry.content));
   const canonicalUrl = `https://healimbd.com/inquiry/${inquiryId}/`;
   const robotsMeta = (inquiry.status === 'answered') ? 'index,follow' : 'noindex,follow';
+  const relatedLinksHtml = relatedInquiries.length ? `
+            <section aria-labelledby="related-inquiries-title" style="margin-top:28px;padding:22px 24px;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:12px;">
+              <h2 id="related-inquiries-title" style="font-size:1.05rem;font-weight:800;color:#0F172A;margin:0 0 14px;">같은 질환의 다른 상담</h2>
+              <ul style="margin:0;padding-left:20px;display:grid;gap:10px;">
+                ${relatedInquiries.map(item => `<li><a href="/inquiry/${escapeHtml(item.id)}/" style="color:#0369A1;font-weight:600;text-decoration:none;">${escapeHtml(item.title)}</a></li>`).join('')}
+              </ul>
+              <p style="margin:16px 0 0;"><a href="/blog/" style="color:#475569;font-size:.9rem;font-weight:600;">${cleanDisease} 관련 원장칼럼 함께 보기 →</a></p>
+            </section>` : '';
+
+  const structuredData = isAnswered ? JSON.stringify({
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'QAPage',
+        '@id': `${canonicalUrl}#qapage`,
+        url: canonicalUrl,
+        inLanguage: 'ko-KR',
+        mainEntity: {
+          '@type': 'Question',
+          name: inquiry.title,
+          text: inquiry.content,
+          answerCount: 1,
+          datePublished: inquiry.createdAt || undefined,
+          author: { '@type': 'Person', name: '익명 상담자' },
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: inquiry.answer,
+            datePublished: inquiry.answeredAt || inquiry.createdAt || undefined,
+            url: `${canonicalUrl}#doctor-answer`,
+            author: {
+              '@type': 'Person',
+              name: '손지웅 대표원장',
+              jobTitle: '한의사',
+              worksFor: { '@type': 'MedicalClinic', name: '해아림한의원 분당점', url: 'https://healimbd.com/' }
+            }
+          }
+        }
+      },
+      {
+        '@type': 'BreadcrumbList',
+        '@id': `${canonicalUrl}#breadcrumb`,
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: '홈', item: 'https://healimbd.com/' },
+          { '@type': 'ListItem', position: 2, name: '온라인 상담', item: 'https://healimbd.com/inquiry/' },
+          { '@type': 'ListItem', position: 3, name: inquiry.title, item: canonicalUrl }
+        ]
+      }
+    ]
+  }).replace(/</g, '\\u003c') : '';
 
   // 5. Complete Server-Side Rendered (SSR) HTML
   const html = `<!DOCTYPE html>
@@ -284,6 +368,7 @@ export async function onRequestGet(context) {
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="해아림한의원 분당점">
   <meta property="og:locale" content="ko_KR">
+  ${structuredData ? `<script type="application/ld+json">${structuredData}</script>` : ''}
 
   <!-- Fonts (Pretendard & Outfit) -->
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
@@ -415,7 +500,7 @@ export async function onRequestGet(context) {
 
             <!-- 2. Doctor Consultation Answer Box -->
             ${isAnswered ? `
-            <div class="inq-doctor-answer-box" id="view-doctor-answer-wrapper" style="margin-top: 24px;">
+            <div class="inq-doctor-answer-box" id="doctor-answer" style="margin-top: 24px;">
               <div class="doctor-answer-header">
                 <div class="doc-badge-group">
                   <span class="doc-badge">해아림 대표원장</span>
@@ -435,6 +520,7 @@ export async function onRequestGet(context) {
               <p>빠른 시일 내에 성심성의껏 전문 답변을 등록해 드리겠습니다.</p>
             </div>
             `}
+            ${relatedLinksHtml}
           </div>
 
           <!-- Footer Action Buttons -->
@@ -480,8 +566,8 @@ export async function onRequestGet(context) {
           <p class="footer-slogan">마음까지 헤아리는 두뇌·신경정신 질환 특화 진료</p>
           <div class="clinic-details">
             <p><strong>대표원장:</strong> 손지웅 | <strong>사업자등록번호:</strong> 127-22-85133</p>
-            <p><strong>주소:</strong> 경기도 성남시 분당구 성남대로 389 (정자동 17-6) 폴라리스빌딩 4층</p>
-            <p><strong>대표전화:</strong> 031-718-7575</p>
+            <p><strong>주소:</strong> 경기도 성남시 분당구 성남대로331번길 3-3, 젤존타워 3차 405호</p>
+            <p><strong>대표전화:</strong> 031-716-8575</p>
           </div>
         </div>
       </div>

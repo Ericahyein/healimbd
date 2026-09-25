@@ -62,6 +62,9 @@ jobs:
       - name: Run Home SEO and Lazy Map Regression Test
         run: node tests/test_home_seo_performance_guards.js
 
+      - name: Run Inquiry SSR Discovery and Structured Data Regression Test
+        run: node tests/test_inquiry_ssr.js
+
       - name: Run Image Performance Regression Test
         run: node tests/test_image_performance_guards.js
 
