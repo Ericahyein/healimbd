@@ -1,7 +1,7 @@
 ---
 title: "[이천 어지럼증] 이비인후과 검사 후에도 지속되는 붕 뜨는 어지럼증"
 date: 2026-09-22T09:27:42.952+09:00
-category: "headache"
+category: "general"
 category_name: "두통·어지럼"
 author: "손지웅 대표원장"
 image: "images/blog/gyeonggi-icheon-dizziness-chronic-dizziness.jpg"
