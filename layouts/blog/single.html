@@ -40,7 +40,7 @@
               <span>(해아림한의원 분당점)</span>
             </div>
             <div class="meta-item-right">
-              <span class="meta-date"><i class="ph-bold ph-calendar-blank"></i> {{ .Date.Format "2006.01.02" }}</span>
+              <time class="meta-date" datetime="{{ .Date.Format "2006-01-02" }}"><i class="ph-bold ph-calendar-blank"></i> 게시 {{ .Date.Format "2006.01.02" }}</time>
             </div>
           </div>
         </div>
@@ -72,6 +72,23 @@
         <div class="case-typed-body blog-content-body">
           {{ .Content }}
         </div>
+
+        <!-- Author identity and medical-information context -->
+        <aside class="blog-author-trust-box" aria-label="칼럼 작성자 및 콘텐츠 안내">
+          <div class="blog-author-trust-icon" aria-hidden="true"><i class="ph-bold ph-stethoscope"></i></div>
+          <div class="blog-author-trust-content">
+            <p class="blog-author-trust-label">칼럼 작성자</p>
+            <h2>{{ .Params.author | default "손지웅 대표원장" }}</h2>
+            <p class="blog-author-trust-role">한의사 · 해아림한의원 분당점 대표원장</p>
+            <p class="blog-author-trust-desc">대한한방신경정신과학회 정회원으로서 공황·불안·불면·자율신경 증상과 소아 틱·ADHD를 진료합니다.</p>
+            <a href="{{ "/philosophy/" | relURL }}" class="blog-author-profile-link">대표원장 진료철학 및 이력 보기 <i class="ph-bold ph-arrow-right"></i></a>
+          </div>
+        </aside>
+
+        <p class="blog-medical-notice">
+          <i class="ph-bold ph-info"></i>
+          이 글은 일반적인 건강정보 제공을 위한 칼럼이며, 개인의 진단이나 치료를 대신하지 않습니다. 증상이 지속되거나 일상생활에 영향을 준다면 의료진과 상담하시기 바랍니다.
+        </p>
 
         <!-- Hashtags -->
         {{ if .Params.hashtags }}
