@@ -1,7 +1,7 @@
 ---
 title: "[분당 소아 분리불안] 유치원이나 학교 갈 때마다 배가 아프다고 우는 아이"
 date: 2026-09-25T13:48:30.335+09:00
-category: "child"
+category: "anxiety"
 category_name: "소아신경"
 author: "손지웅 대표원장"
 image: "images/blog/seongnam-bundang-separation-anxiety.jpg"
