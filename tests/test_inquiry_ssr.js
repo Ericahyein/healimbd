@@ -2,6 +2,7 @@
 import assert from 'assert';
 import crypto from 'crypto';
 import { onRequestGet as handleInquirySSR, buildSeoTitle, getRepresentativeDisease } from '../functions/inquiry/[id].js';
+import { onRequestGet as handleInquiryListSSR } from '../functions/inquiry/index.js';
 import { onRequestGet as handleSitemapXML } from '../functions/sitemap-inquiry.xml.js';
 
 console.log('🧪 Starting Inquiry SSR & Dynamic Sitemap Test Suite...\n');
@@ -153,6 +154,20 @@ async function runTests() {
       const prevFetch = globalThis.fetch;
       globalThis.fetch = async (url, options) => {
         const u = typeof url === 'string' ? url : (url && url.url) || '';
+        if (u.includes('online_inquiries?pageSize=300')) {
+          return new Response(JSON.stringify({
+            documents: [{
+              name: 'projects/healimbd-b726f/databases/(default)/documents/online_inquiries/inq_related_tic_1',
+              fields: {
+                category: { stringValue: '틱장애·뚜렛' },
+                title: { stringValue: '틱 증상을 지적하면 더 심해질까요?' },
+                status: { stringValue: 'answered' },
+                answer: { stringValue: '관련 답변입니다.' },
+                createdAt: { timestampValue: '2026-09-05T10:00:00Z' }
+              }
+            }]
+          }), { status: 200, headers: { 'Content-Type': 'application/json' } });
+        }
         if (u.includes(`/online_inquiries/${testInquiryId}`)) {
           return new Response(JSON.stringify({
             fields: {
@@ -193,6 +208,10 @@ async function runTests() {
 
         // Check doctor answer
         assert.ok(html.includes('손지웅 대표원장입니다'), 'Doctor answer must be in raw HTML');
+        assert.ok(html.includes('"@type":"QAPage"'), 'Answered inquiry must include QAPage structured data');
+        assert.ok(html.includes('"@type":"BreadcrumbList"'), 'Answered inquiry must include breadcrumb structured data');
+        assert.ok(html.includes('/inquiry/inq_related_tic_1/'), 'Same-disease answered inquiry must be linked in raw HTML');
+        assert.ok(html.includes('031-716-8575'), 'SSR detail must use the current canonical clinic phone number');
 
         console.log('✅ PASS: Answered inquiry SSR verified with SEO title, raw on-screen H1, and index,follow.');
         passed++;
@@ -301,6 +320,54 @@ async function runTests() {
         assert.ok(!xml.includes('inq_pending_test_200'), 'Pending inquiry must NOT be in sitemap');
 
         console.log('✅ PASS: Sitemap has 0 sample posts, includes live answered, and excludes pending.');
+        passed++;
+      } finally {
+        globalThis.fetch = prevFetch;
+      }
+    }
+
+    // --- Test 7: Inquiry List SSR Discovery & Pagination ---
+    console.log('\n--- 7. Inquiry List SSR Discovery & Pagination Test ---');
+    {
+      const prevFetch = globalThis.fetch;
+      globalThis.fetch = async (url, options) => {
+        const u = typeof url === 'string' ? url : (url && url.url) || '';
+        if (u.includes('online_inquiries?pageSize=300')) {
+          const documents = Array.from({ length: 12 }, (_, index) => ({
+            name: `projects/healimbd-b726f/databases/(default)/documents/online_inquiries/inq_ssr_${index + 1}`,
+            fields: {
+              region: { stringValue: index % 2 === 0 ? '용인' : '분당' },
+              ageText: { stringValue: '초등학생' },
+              gender: { stringValue: 'male' },
+              category: { stringValue: 'tic' },
+              title: { stringValue: `공개 틱장애 상담 ${index + 1}` },
+              status: { stringValue: index === 0 ? 'pending' : 'answered' },
+              answer: { stringValue: index === 0 ? '' : '원장 답변' },
+              createdAt: { timestampValue: `2026-09-${String(index + 1).padStart(2, '0')}T10:00:00Z` }
+            }
+          }));
+          return new Response(JSON.stringify({ documents }), { status: 200, headers: { 'Content-Type': 'application/json' } });
+        }
+        return prevFetch(url, options);
+      };
+
+      try {
+        // Hugo minifies production attributes without quotes, so the injector must support that exact shape.
+        const assetHtml = '<!doctype html><html><head><link rel=canonical href=https://healimbd.com/inquiry/><meta property=og:url content=https://healimbd.com/inquiry/></head><body><table><tbody id=inquiry-list-tbody></tbody></table><nav class=inquiry-pagination-nav id=inquiry-pagination-nav></nav></body></html>';
+        const response = await handleInquiryListSSR({
+          request: new Request('https://healimbd.com/inquiry/?page=2'),
+          env: {
+            ...mockEnv,
+            ASSETS: { fetch: async () => new Response(assetHtml, { status: 200 }) }
+          }
+        });
+        assert.strictEqual(response.status, 200);
+        const html = await response.text();
+        assert.ok(html.includes('data-ssr-inquiry="true"'), 'List HTML must contain server-rendered inquiry rows');
+        assert.ok(html.includes('href="/inquiry/inq_ssr_2/"'), 'Older inquiry must remain crawlable on page 2');
+        assert.ok(html.includes('href="/inquiry/?page=1"'), 'Pagination must use crawlable href links');
+        assert.ok(html.includes('canonical" href="https://healimbd.com/inquiry/?page=2"'), 'Paginated page must self-canonicalize');
+        console.log('✅ PASS: Existing inquiries are crawlable through SSR rows and real pagination links.');
         passed++;
       } finally {
         globalThis.fetch = prevFetch;
