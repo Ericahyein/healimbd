@@ -3784,7 +3784,10 @@ async function openCustomCaseReader(caseId) {
 
   // 1. Check user authentication status - Real non-anonymous Firebase user required
   try {
-    await ensureAuthReady();
+    await Promise.race([
+      ensureAuthReady(),
+      new Promise(resolve => setTimeout(resolve, 8000))
+    ]);
   } catch (e) {}
 
   const currentUser = auth ? auth.currentUser : null;
@@ -3811,7 +3814,10 @@ async function openCustomCaseReader(caseId) {
     try {
       const firestoreDb = await ensureFirestore();
       if (firestoreDb) {
-        const docSnap = await firestoreDb.collection('treatment_reviews').doc(caseId).get();
+        const docSnap = await Promise.race([
+          firestoreDb.collection('treatment_reviews').doc(caseId).get(),
+          new Promise((_, reject) => setTimeout(() => reject(new Error('review_detail_timeout')), 15000))
+        ]);
         if (docSnap.exists) {
           found = docSnap.data();
           found.id = docSnap.id;
@@ -3852,6 +3858,30 @@ async function openCustomCaseReader(caseId) {
   if (titleEl) titleEl.textContent = found.title;
   if (durationEl) durationEl.textContent = `치료기간: ${found.duration || '치료 완료'}`;
 
+  // Show the readable review immediately. Original image loading must never block the page.
+  if (bodyEl) bodyEl.innerHTML = renderCustomCaseBody(found);
+
+  const tagList = Array.isArray(found.hashtags) ? found.hashtags.filter(Boolean) : [];
+  const hashtagsBox = document.getElementById('custom-reader-hashtags');
+  const hashtagsList = document.getElementById('custom-reader-hashtags-list');
+  if (tagList.length > 0) {
+    if (hashtagsList) {
+      hashtagsList.innerHTML = tagList.map(tag => {
+        const clean = escapeHtml(String(tag).replace(/^#/, '').trim());
+        return `<span class="reader-tag-chip">#${clean}</span>`;
+      }).join('');
+    }
+    if (hashtagsBox) hashtagsBox.style.display = 'flex';
+  } else if (hashtagsBox) {
+    hashtagsBox.style.display = 'none';
+  }
+
+  const loadingState = document.getElementById('review-detail-loading');
+  const lockedState = document.getElementById('review-detail-locked');
+  if (loadingState) loadingState.style.display = 'none';
+  if (lockedState) lockedState.style.display = 'none';
+  pageRoot.style.display = 'block';
+
   // Image resolution for authenticated user
   const photoBox = document.getElementById('custom-reader-photo-box');
   const photoStatus = document.getElementById('review-photo-status');
@@ -3870,7 +3900,10 @@ async function openCustomCaseReader(caseId) {
     photoStatus.style.display = 'flex';
   }
 
-  const resolvedUrl = await resolveReviewImageUrl(found);
+  const resolvedUrl = await Promise.race([
+    resolveReviewImageUrl(found),
+    new Promise(resolve => setTimeout(() => resolve(''), 15000))
+  ]);
   if (resolvedUrl && photoEl) {
     photoEl.onload = function() {
       if (this.naturalWidth > 0 && this.naturalHeight > 0) {
@@ -3897,32 +3930,10 @@ async function openCustomCaseReader(caseId) {
     photoStatus.innerHTML = '<i class="ph-bold ph-warning-circle"></i><span>원본 후기 이미지를 불러오지 못했습니다.<br>로그인 상태를 확인한 뒤 새로고침해주세요.</span>';
   }
 
-  if (bodyEl) bodyEl.innerHTML = renderCustomCaseBody(found);
-
-  // Bottom footer hashtags list
-  const hashtagsBox = document.getElementById('custom-reader-hashtags');
-  const hashtagsList = document.getElementById('custom-reader-hashtags-list');
-  if (tagList.length > 0) {
-    if (hashtagsList) {
-      hashtagsList.innerHTML = tagList.map(tag => {
-        const clean = escapeHtml(String(tag).replace(/^#/, '').trim());
-        return `<span class="reader-tag-chip">#${clean}</span>`;
-      }).join('');
-    }
-    if (hashtagsBox) hashtagsBox.style.display = 'flex';
-  } else if (hashtagsBox) {
-    hashtagsBox.style.display = 'none';
-  }
-
   if (modal) {
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
   }
-  const loadingState = document.getElementById('review-detail-loading');
-  const lockedState = document.getElementById('review-detail-locked');
-  if (loadingState) loadingState.style.display = 'none';
-  if (lockedState) lockedState.style.display = 'none';
-  pageRoot.style.display = 'block';
 }
 
 function closeCustomCaseReader() {
