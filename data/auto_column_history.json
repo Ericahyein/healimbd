@@ -284,5 +284,16 @@
     "topicAngle": "burnout-lethargy",
     "title": "[용인 우울증] 쉬어도 충전되지 않고 모든 일에 의욕이 사라질 때",
     "slug": "yongin-main-depression-burnout-lethargy"
+  },
+  {
+    "publishDate": "2026-09-25T13:48:30.335+09:00",
+    "geoId": "seongnam-bundang",
+    "displayRegion": "분당",
+    "parentRegion": "성남",
+    "regionType": "district",
+    "disease": "child",
+    "topicAngle": "separation-anxiety",
+    "title": "[분당 소아 분리불안] 유치원이나 학교 갈 때마다 배가 아프다고 우는 아이",
+    "slug": "seongnam-bundang-separation-anxiety"
   }
 ]
