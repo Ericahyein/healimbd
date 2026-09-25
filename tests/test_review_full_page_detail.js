@@ -1,0 +1,18 @@
+const fs = require('fs');
+const path = require('path');
+const assert = require('assert');
+const root = path.join(__dirname, '..');
+const read = file => fs.readFileSync(path.join(root, file), 'utf8');
+const main = read('assets/js/main.js');
+const template = read('layouts/review-view/list.html');
+const content = read('content/review-view/_index.md');
+const partial = read('layouts/partials/admin_case_modal.html');
+assert(main.includes("window.location.href = \`/reviews/view/?id=\${encodeURIComponent(caseId)}\`"));
+assert(main.includes('function initReviewDetailPage()'));
+assert(main.includes("firebase.appCheck().getToken(true)"));
+assert(template.includes('id="review-detail-page-root"'));
+assert(template.includes('id="custom-reader-photo"'));
+assert(template.includes('id="review-photo-status"'));
+assert(content.includes('url: "/reviews/view/"'));
+assert(partial.includes('{{ if not .Params.review_detail_page }}'));
+console.log('Review full-page detail checks passed.');
