@@ -1,55 +1,90 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   {{ partial "head_seo.html" . }}
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
-  {{ $style := resources.Get "css/style.css" | resources.Minify | resources.Fingerprint }}<link rel="stylesheet" href="{{ $style.RelPermalink }}">
-  {{ $detailStyle := resources.Get "css/review-detail.css" | resources.Minify | resources.Fingerprint }}<link rel="stylesheet" href="{{ $detailStyle.RelPermalink }}">
+  {{ $style := resources.Get "css/style.css" | resources.Minify | resources.Fingerprint }}
+  <link rel="stylesheet" href="{{ $style.RelPermalink }}">
+  {{ $detailStyle := resources.Get "css/review-detail.css" | resources.Minify | resources.Fingerprint }}
+  <link rel="stylesheet" href="{{ $detailStyle.RelPermalink }}">
 </head>
 <body class="review-detail-page">
   {{ partial "header.html" . }}
-  <main id="main-content"><section class="review-detail-shell"><div class="container review-detail-container">
-    <a href="{{ "/reviews/" | relURL }}" class="review-detail-back"><i class="ph-bold ph-arrow-left"></i> 치료후기 목록으로</a>
-    <div id="review-detail-loading" class="review-detail-state"><i class="ph-bold ph-spinner-gap review-loading-icon"></i><strong>치료후기를 불러오고 있습니다.</strong></div>
-    <div id="review-detail-locked" class="review-detail-state" style="display:none;">
-      <i class="ph-bold ph-lock-key"></i><h1>로그인 후 치료후기를 확인하실 수 있습니다</h1>
-      <p>의료법 준수와 환자 개인정보 보호를 위해 상세 치료 경과와 자필 원본은 회원 인증 후 제공합니다.</p>
-      <button type="button" class="btn btn-primary-sm" onclick="openAuthModal('login')">로그인 / 회원가입</button>
-    </div>
-    <article id="review-detail-page-root" class="review-detail-article" style="display:none;">
-      <header class="review-detail-header">
-        <span class="case-tag-pill" id="custom-reader-category">치료후기</span>
-        <h1 id="custom-case-reader-title">임상 치료후기</h1>
-        <div class="case-reader-meta-bar">
-          <span id="custom-reader-duration-wrap"><i class="ph-bold ph-calendar-blank"></i> <span id="custom-reader-duration"></span></span>
-          <span id="custom-reader-author-divider">|</span><span id="custom-reader-author-wrap"><i class="ph-bold ph-user"></i> 작성자: <span id="custom-reader-author"></span></span>
-          <span id="custom-reader-date-divider">|</span><span id="custom-reader-date-wrap"><i class="ph-bold ph-calendar"></i> 작성일: <span id="custom-reader-date"></span></span>
+
+  <main id="main-content">
+    <section class="review-detail-shell">
+      <div class="container review-detail-container">
+        <a href="{{ "/reviews/" | relURL }}" class="review-detail-back"><i class="ph-bold ph-arrow-left"></i> 치료후기 목록으로</a>
+
+        <div id="review-detail-loading" class="review-detail-state">
+          <i class="ph-bold ph-spinner-gap review-loading-icon"></i>
+          <strong>치료후기를 불러오고 있습니다.</strong>
         </div>
-      </header>
-      <div class="review-detail-summary-bar" id="custom-reader-summary-bar" style="display:none;">
-        <div class="summary-col-effect" id="custom-reader-summary-effect-col" style="display:none;"><div class="summary-icon-badge plant"><i class="ph-bold ph-plant"></i></div><div><span class="summary-label">이런 변화가 있었어요</span><p class="summary-desc" id="custom-reader-summary-desc"></p></div></div>
-        <div class="summary-col-keywords" id="custom-reader-summary-keywords-col" style="display:none;"><div class="summary-icon-badge tag"><i class="ph-bold ph-tag"></i></div><div><span class="summary-label">주요 키워드</span><div class="summary-tags-wrap" id="custom-reader-summary-chips"></div></div></div>
+
+        <div id="review-detail-locked" class="review-detail-state" style="display:none;">
+          <i class="ph-bold ph-lock-key"></i>
+          <h1>로그인 후 치료후기를 확인하실 수 있습니다</h1>
+          <p>의료법 준수와 환자 개인정보 보호를 위해 상세 치료 경과와 자필 원본은 회원 인증 후 제공합니다.</p>
+          <button type="button" class="btn btn-primary-sm" onclick="openAuthModal('login')">로그인 / 회원가입</button>
+        </div>
+
+        <article id="review-detail-page-root" class="review-detail-article" style="display:none;">
+          <header class="review-detail-header">
+            <span class="case-tag-pill" id="custom-reader-category">치료후기</span>
+            <h1 id="custom-case-reader-title">임상 치료후기</h1>
+            <div class="case-reader-meta-bar">
+              <span id="custom-reader-duration-wrap"><i class="ph-bold ph-calendar-blank"></i> <span id="custom-reader-duration"></span></span>
+            </div>
+          </header>
+
+          <div class="review-detail-grid">
+            <div class="review-detail-copy">
+              <div class="case-typed-body" id="custom-reader-body"></div>
+            </div>
+            <aside class="review-detail-original">
+              <div class="case-single-photo-box" id="custom-reader-photo-box">
+                <div class="photo-box-header">
+                  <div class="photo-header-title"><i class="ph-bold ph-clipboard-text"></i><span>원본 후기</span></div>
+                  <button type="button" class="btn-photo-zoom" onclick="openReviewPhotoLightbox()"><i class="ph-bold ph-arrows-out-simple"></i> 크게 보기</button>
+                </div>
+                <div class="photo-box-frame" onclick="openReviewPhotoLightbox()">
+                  <img id="custom-reader-photo" src="" alt="치료후기 원본 자필 사진" class="case-full-photo-img">
+                  <div id="review-photo-status" class="review-photo-status"><i class="ph-bold ph-spinner-gap review-loading-icon"></i> 원본 이미지를 불러오는 중입니다.</div>
+                </div>
+                <div class="photo-box-notice"><i class="ph-bold ph-info"></i><span>환자분이 직접 작성해주신 실제 후기입니다. 개인정보 보호를 위해 일부 내용이 가려질 수 있습니다.</span></div>
+              </div>
+            </aside>
+          </div>
+
+          <footer class="review-detail-footer">
+            <div class="reader-hashtags-box" id="custom-reader-hashtags" style="display:none;">
+              <span class="hashtags-label"><i class="ph-bold ph-tag"></i> 관련 키워드</span>
+              <div class="hashtags-list" id="custom-reader-hashtags-list"></div>
+            </div>
+            <div class="reader-admin-btns">
+              <button type="button" class="btn btn-warning-small admin-only-btn" id="btn-edit-custom-case" onclick="openAdminCaseEditor(currentOpenedCustomCaseId)">이 후기 수정</button>
+              <button type="button" class="btn btn-danger-small admin-only-btn" id="btn-delete-custom-case" onclick="deleteCurrentCustomCase()">이 글 삭제</button>
+            </div>
+          </footer>
+        </article>
       </div>
-      <div class="review-detail-grid">
-        <div class="review-detail-copy"><div class="case-typed-body" id="custom-reader-body"></div></div>
-        <aside class="review-detail-original"><div class="case-single-photo-box" id="custom-reader-photo-box">
-          <div class="photo-box-header"><div class="photo-header-title"><i class="ph-bold ph-clipboard-text"></i><span>원본 후기</span></div><button type="button" class="btn-photo-zoom" onclick="openReviewPhotoLightbox()"><i class="ph-bold ph-arrows-out-simple"></i> 크게 보기</button></div>
-          <div class="photo-box-frame" onclick="openReviewPhotoLightbox()"><img id="custom-reader-photo" src="" alt="치료후기 원본 자필 사진" class="case-full-photo-img"><div id="review-photo-status" class="review-photo-status"><i class="ph-bold ph-spinner-gap review-loading-icon"></i> 원본 이미지를 불러오는 중입니다.</div></div>
-          <div class="photo-box-notice"><i class="ph-bold ph-info"></i><span>환자분이 직접 작성해주신 실제 후기입니다. 개인정보 보호를 위해 일부 내용이 가려질 수 있습니다.</span></div>
-        </div></aside>
-      </div>
-      <footer class="review-detail-footer">
-        <div class="reader-hashtags-box" id="custom-reader-hashtags" style="display:none;"><span class="hashtags-label"><i class="ph-bold ph-tag"></i> 관련 키워드</span><div class="hashtags-list" id="custom-reader-hashtags-list"></div></div>
-        <div class="reader-admin-btns"><button type="button" class="btn btn-warning-small admin-only-btn" id="btn-edit-custom-case" onclick="openAdminCaseEditor(currentOpenedCustomCaseId)">이 후기 수정</button><button type="button" class="btn btn-danger-small admin-only-btn" id="btn-delete-custom-case" onclick="deleteCurrentCustomCase()">이 글 삭제</button></div>
-      </footer>
-    </article>
-  </div></section></main>
-  <div class="review-lightbox-modal" id="review-photo-lightbox-modal" role="dialog" aria-modal="true" aria-label="치료후기 원본 크게 보기" style="display:none;"><div class="lightbox-card"><button type="button" class="modal-close-circle lightbox-close" onclick="closeReviewPhotoLightbox()"><i class="ph-bold ph-x"></i></button><div class="lightbox-img-wrap"><img id="review-lightbox-img" src="" alt="치료후기 원본 자필 사진 크게 보기"></div></div><div class="lightbox-overlay" onclick="closeReviewPhotoLightbox()"></div></div>
-  {{ partial "footer.html" . }}{{ partial "floating_bar.html" . }}
-  {{ $script := resources.Get "js/main.js" | resources.Minify | resources.Fingerprint }}<script src="{{ $script.RelPermalink }}"></script>
+    </section>
+  </main>
+
+  <div class="review-lightbox-modal" id="review-photo-lightbox-modal" role="dialog" aria-modal="true" aria-label="치료후기 원본 크게 보기" style="display:none;">
+    <div class="lightbox-card"><button type="button" class="modal-close-circle lightbox-close" onclick="closeReviewPhotoLightbox()"><i class="ph-bold ph-x"></i></button><div class="lightbox-img-wrap"><img id="review-lightbox-img" src="" alt="치료후기 원본 자필 사진 크게 보기"></div></div>
+    <div class="lightbox-overlay" onclick="closeReviewPhotoLightbox()"></div>
+  </div>
+
+  {{ partial "footer.html" . }}
+  {{ partial "floating_bar.html" . }}
+  {{ $script := resources.Get "js/main.js" | resources.Minify | resources.Fingerprint }}
+  <script src="{{ $script.RelPermalink }}"></script>
 </body>
 </html>

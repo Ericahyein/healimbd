@@ -3852,68 +3852,6 @@ async function openCustomCaseReader(caseId) {
   if (titleEl) titleEl.textContent = found.title;
   if (durationEl) durationEl.textContent = `치료기간: ${found.duration || '치료 완료'}`;
 
-  // Author and Date metadata bar binding
-  const authorEl = document.getElementById('custom-reader-author');
-  const authorWrap = document.getElementById('custom-reader-author-wrap');
-  const authorDivider = document.getElementById('custom-reader-author-divider');
-  if (found.author) {
-    if (authorEl) authorEl.textContent = found.author;
-    if (authorWrap) authorWrap.style.display = 'inline-flex';
-    if (authorDivider) authorDivider.style.display = 'inline';
-  } else {
-    if (authorWrap) authorWrap.style.display = 'none';
-    if (authorDivider) authorDivider.style.display = 'none';
-  }
-
-  const dateEl = document.getElementById('custom-reader-date');
-  const dateWrap = document.getElementById('custom-reader-date-wrap');
-  const dateDivider = document.getElementById('custom-reader-date-divider');
-  const dateVal = found.date || (found.createdAt ? formatDate(found.createdAt) : '');
-  if (dateVal) {
-    if (dateEl) dateEl.textContent = dateVal;
-    if (dateWrap) dateWrap.style.display = 'inline-flex';
-    if (dateDivider) dateDivider.style.display = 'inline';
-  } else {
-    if (dateWrap) dateWrap.style.display = 'none';
-    if (dateDivider) dateDivider.style.display = 'none';
-  }
-
-  // Summary Banner Area (이런 변화가 있었어요 / 주요 키워드)
-  const summaryBar = document.getElementById('custom-reader-summary-bar');
-  const effectCol = document.getElementById('custom-reader-summary-effect-col');
-  const effectDesc = document.getElementById('custom-reader-summary-desc');
-  const keywordsCol = document.getElementById('custom-reader-summary-keywords-col');
-  const chipsWrap = document.getElementById('custom-reader-summary-chips');
-
-  let hasEffect = false;
-  const summaryText = found.publicSummary || found.summary || '';
-  if (summaryText.trim()) {
-    if (effectDesc) effectDesc.textContent = summaryText.trim();
-    if (effectCol) effectCol.style.display = 'flex';
-    hasEffect = true;
-  } else if (effectCol) {
-    effectCol.style.display = 'none';
-  }
-
-  let hasKeywords = false;
-  const tagList = Array.isArray(found.hashtags) ? found.hashtags.filter(Boolean) : [];
-  if (tagList.length > 0) {
-    if (chipsWrap) {
-      chipsWrap.innerHTML = tagList.map(tag => {
-        const clean = escapeHtml(String(tag).replace(/^#/, '').trim());
-        return `<span class="summary-tag-pill">#${clean}</span>`;
-      }).join('');
-    }
-    if (keywordsCol) keywordsCol.style.display = 'flex';
-    hasKeywords = true;
-  } else if (keywordsCol) {
-    keywordsCol.style.display = 'none';
-  }
-
-  if (summaryBar) {
-    summaryBar.style.display = (hasEffect || hasKeywords) ? 'grid' : 'none';
-  }
-
   // Image resolution for authenticated user
   const photoBox = document.getElementById('custom-reader-photo-box');
   const photoStatus = document.getElementById('review-photo-status');
@@ -6825,4 +6763,3 @@ document.addEventListener('DOMContentLoaded', () => {
   initAdminDashboard();
   initBlogArchiveEngine();
 });
-
