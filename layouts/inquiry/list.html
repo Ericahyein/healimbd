@@ -283,31 +283,35 @@
 
 
   <!-- ==========================================================================
-       MODAL 3: Consultation Detail & Doctor Reply View Modal
+       MODAL 3: Consultation Detail & Doctor Reply View Modal (Reference Design 1)
        ========================================================================== -->
   <div class="inquiry-detail-modal" id="inquiry-detail-modal" role="dialog" aria-modal="true" aria-labelledby="view-inq-title">
     <div class="inquiry-detail-card">
       <div class="inquiry-detail-header">
         <div class="detail-top-row">
           <div class="detail-badge-row">
-            <span class="detail-disease-tag" id="view-inq-disease">틱장애</span>
+            <span class="detail-disease-tag" id="view-inq-disease">두통·어지럼</span>
             <span class="detail-status-tag" id="view-inq-status">답변완료</span>
           </div>
-          <button type="button" class="modal-close-btn-sky" onclick="closeInquiryDetailModal()" aria-label="닫기">
-            <i class="ph-bold ph-x"></i> <span>닫기</span>
+          <button type="button" class="modal-close-circle" onclick="closeInquiryDetailModal()" aria-label="닫기">
+            <i class="ph-bold ph-x"></i>
           </button>
         </div>
-        <div class="detail-main-title" id="view-inq-title">상담 제목이 들어갑니다</div>
+        <h2 class="detail-main-title" id="view-inq-title">상담 제목이 들어갑니다</h2>
         <div class="detail-meta-info">
-          <span><i class="ph-bold ph-user"></i> 작성자: <span id="view-inq-author">분당 · 30대 · 여</span><span id="view-inq-nickname" style="display:none;"></span></span>
-          <span><i class="ph-bold ph-calendar"></i> 작성일: <span id="view-inq-date">2026.08.31</span></span>
+          <span class="meta-item"><i class="ph-bold ph-user"></i> 작성자 <span id="view-inq-author">경기광주 · 40대 · 여</span><span id="view-inq-nickname" style="display:none;"></span></span>
+          <span class="meta-divider">|</span>
+          <span class="meta-item"><i class="ph-bold ph-calendar-blank"></i> 작성일 <span id="view-inq-date">2026.09.09</span></span>
         </div>
       </div>
 
       <div class="inquiry-detail-body">
-        <!-- 1. Patient Question Box -->
+        <!-- 1. Patient Question Card -->
         <div class="inq-question-box">
-          <div class="box-label"><i class="ph-bold ph-question"></i> 상담 문의 내용</div>
+          <div class="box-label">
+            <div class="box-label-icon"><i class="ph-bold ph-chat-circle-dots"></i></div>
+            <span>상담 문의 내용</span>
+          </div>
           <div class="question-content" id="view-inq-content">
             문의 내용이 표시됩니다.
           </div>
@@ -316,15 +320,18 @@
         <!-- 2. Doctor Consultation Answer Box -->
         <div class="inq-doctor-answer-box" id="view-doctor-answer-wrapper">
           <div class="doctor-answer-header">
-            <div class="doc-badge-group">
-              <span class="doc-badge">해아림 대표원장</span>
-              <span class="doc-name">손지웅 원장의 <strong>전문 1:1 상담 답변</strong></span>
+            <div class="doc-header-profile">
+              <img src="/images/doctor-son-profile.png" alt="해아림한의원 분당점 손지웅 대표원장 진료 프로필" class="doc-profile-avatar" width="54" height="54">
+              <div class="doc-header-info">
+                <span class="doc-badge-pill">해아림 대표원장</span>
+                <span class="doc-name-main">손지웅 원장의 <strong>전문 1:1 상담 답변</strong></span>
+              </div>
             </div>
-            <span class="answer-date" id="view-answer-date">답변일: 2026.08.29</span>
+            <span class="answer-date" id="view-answer-date">답변일 2026.09.09</span>
           </div>
 
           <div class="doctor-answer-content" id="view-doctor-answer-content">
-            <!-- Answer text -->
+            <!-- Answer text rendered with paragraphs or subheading pills -->
           </div>
 
           <div class="doctor-answer-footer">
@@ -350,11 +357,18 @@
         </div>
       </div>
 
-      <div class="inquiry-detail-footer" style="display: flex; justify-content: space-between; align-items: center;">
-        <button type="button" class="btn btn-author-delete-trigger" id="btn-author-delete-trigger" onclick="openAuthorDeleteModal()" style="background: none; border: 1px solid #E2E8F0; color: #64748B; padding: 8px 14px; border-radius: 6px; font-size: 0.84rem; cursor: pointer;">
-          <i class="ph-bold ph-trash"></i> <span>작성자 본인 글 삭제</span>
-        </button>
-        <button type="button" class="btn btn-close-detail" onclick="closeInquiryDetailModal()">목록으로 돌아가기</button>
+      <div class="inquiry-detail-footer">
+        <div class="footer-left-actions">
+          <button type="button" class="btn btn-author-delete-trigger" id="btn-author-delete-trigger" onclick="openAuthorDeleteModal()">
+            <i class="ph-bold ph-trash"></i> <span>작성자 본인 글 삭제</span>
+          </button>
+        </div>
+        <div class="footer-right-actions">
+          <button type="button" class="btn btn-inq-back-list" onclick="closeInquiryDetailModal()">
+            <span>목록으로 돌아가기</span>
+            <i class="ph-bold ph-arrow-right"></i>
+          </button>
+        </div>
       </div>
     </div>
     <div class="inquiry-modal-overlay" onclick="closeInquiryDetailModal()"></div>

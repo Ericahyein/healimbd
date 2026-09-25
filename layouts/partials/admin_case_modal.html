@@ -155,45 +155,107 @@
   <div class="modal-overlay" onclick="closeAdminWriterModal()"></div>
 </div>
 
-<!-- Dynamic Custom Case Reader Modal (직접 등록한 글 실시간 열람 모달) -->
+<!-- Dynamic Custom Case Reader Modal (Reference Design 2: 2-Column Responsive Layout) -->
 <div class="admin-modal" id="custom-case-reader-modal" role="dialog" aria-modal="true" aria-labelledby="custom-case-reader-title">
   <div class="modal-card case-reader-card">
     <div class="modal-header">
       <div class="modal-header-title-wrap">
         <span class="case-tag-pill" id="custom-reader-category">소아 틱장애</span>
-        <div id="custom-case-reader-title" class="modal-title">임상 치료후기</div>
+        <h2 id="custom-case-reader-title" class="modal-title case-reader-modal-title">임상 치료후기</h2>
+        <div class="case-reader-meta-bar">
+          <span class="reader-meta-item" id="custom-reader-duration-wrap"><i class="ph-bold ph-calendar-blank"></i> <span id="custom-reader-duration">치료기간: 2026.04.10 ~ 2026.07.25</span></span>
+          <span class="reader-meta-divider" id="custom-reader-author-divider">|</span>
+          <span class="reader-meta-item" id="custom-reader-author-wrap"><i class="ph-bold ph-user"></i> 작성자: <span id="custom-reader-author">내원 환자</span></span>
+          <span class="reader-meta-divider" id="custom-reader-date-divider">|</span>
+          <span class="reader-meta-item" id="custom-reader-date-wrap"><i class="ph-bold ph-calendar"></i> 작성일: <span id="custom-reader-date">2026.08.31</span></span>
+        </div>
       </div>
-      <button class="modal-close" onclick="closeCustomCaseReader()" aria-label="닫기">
-        <i class="ph ph-x"></i>
+      <button type="button" class="modal-close-circle" onclick="closeCustomCaseReader()" aria-label="닫기">
+        <i class="ph-bold ph-x"></i>
       </button>
     </div>
-    
-    <div class="case-reader-meta-bar">
-      <span class="reader-duration"><i class="ph-bold ph-calendar-blank"></i> <span id="custom-reader-duration">치료기간: 2026.04.10 ~ 2026.07.25</span></span>
-    </div>
 
-    <!-- 1. 업로드한 사진 -->
-    <div class="case-single-photo-box" id="custom-reader-photo-box">
-      <div class="photo-box-frame">
-        <img id="custom-reader-photo" src="" alt="치료후기 원본 사진" class="case-full-photo-img">
+    <!-- Summary Banner Area (이런 변화가 있었어요 / 주요 키워드) -->
+    <div class="review-detail-summary-bar" id="custom-reader-summary-bar" style="display: none;">
+      <div class="summary-col-effect" id="custom-reader-summary-effect-col" style="display: none;">
+        <div class="summary-icon-badge plant"><i class="ph-bold ph-plant"></i></div>
+        <div class="summary-col-body">
+          <span class="summary-label">이런 변화가 있었어요</span>
+          <p class="summary-desc" id="custom-reader-summary-desc"></p>
+        </div>
+      </div>
+      <div class="summary-col-keywords" id="custom-reader-summary-keywords-col" style="display: none;">
+        <div class="summary-icon-badge tag"><i class="ph-bold ph-tag"></i></div>
+        <div class="summary-col-body">
+          <span class="summary-label">주요 키워드</span>
+          <div class="summary-tags-wrap" id="custom-reader-summary-chips"></div>
+        </div>
       </div>
     </div>
 
-    <!-- 2. 직접 타이핑한 본문 -->
-    <div class="case-typed-body" id="custom-reader-body">
-      본문 내용이 출력됩니다.
+    <!-- 2-Column Content Layout (PC 2-Column, Mobile 1-Column) -->
+    <div class="case-reader-two-column">
+      <!-- Left Column: Structured Questions & Answers (01, 02, 03) -->
+      <div class="case-reader-main-col">
+        <div class="case-typed-body" id="custom-reader-body">
+          본문 내용이 출력됩니다.
+        </div>
+      </div>
+
+      <!-- Right Column: Original Handwritten Review Photo Card -->
+      <div class="case-reader-side-col">
+        <div class="case-single-photo-box" id="custom-reader-photo-box">
+          <div class="photo-box-header">
+            <div class="photo-header-title">
+              <i class="ph-bold ph-clipboard-text"></i>
+              <span>원본 후기</span>
+            </div>
+            <button type="button" class="btn-photo-zoom" onclick="openReviewPhotoLightbox()" aria-label="원본 후기 크게 보기">
+              <i class="ph-bold ph-arrows-out-simple"></i>
+              <span>크게 보기</span>
+            </button>
+          </div>
+          <div class="photo-box-frame" onclick="openReviewPhotoLightbox()" title="클릭하여 크게 보기">
+            <img id="custom-reader-photo" src="" alt="치료후기 원본 자필 사진" class="case-full-photo-img" loading="lazy">
+          </div>
+          <div class="photo-box-notice">
+            <i class="ph-bold ph-info"></i>
+            <span>환자분이 직접 작성해주신 실제 후기입니다.<br>개인정보 보호를 위해 일부 내용이 가려질 수 있습니다.</span>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- 3. 해시태그 영역 -->
-    <div class="reader-hashtags-box" id="custom-reader-hashtags" style="display: none;"></div>
-
+    <!-- Bottom Footer Bar: Keywords, Admin Controls, and Back to List Button -->
     <div class="modal-actions reader-actions">
-      <button type="button" class="btn btn-warning-small admin-only-btn" id="btn-edit-custom-case" onclick="openAdminCaseEditor(currentOpenedCustomCaseId)"><i class="ph-bold ph-pencil-simple"></i> 이 후기 수정</button>
-      <button type="button" class="btn btn-danger-small admin-only-btn" id="btn-delete-custom-case" onclick="deleteCurrentCustomCase()"><i class="ph-bold ph-trash"></i> 이 글 삭제</button>
-      <button type="button" class="btn btn-secondary" onclick="closeCustomCaseReader()">닫기</button>
+      <div class="reader-hashtags-box" id="custom-reader-hashtags" style="display: none;">
+        <span class="hashtags-label"><i class="ph-bold ph-tag"></i> 관련 키워드</span>
+        <div class="hashtags-list" id="custom-reader-hashtags-list"></div>
+      </div>
+      <div class="reader-admin-btns">
+        <button type="button" class="btn btn-warning-small admin-only-btn" id="btn-edit-custom-case" onclick="openAdminCaseEditor(currentOpenedCustomCaseId)"><i class="ph-bold ph-pencil-simple"></i> 이 후기 수정</button>
+        <button type="button" class="btn btn-danger-small admin-only-btn" id="btn-delete-custom-case" onclick="deleteCurrentCustomCase()"><i class="ph-bold ph-trash"></i> 이 글 삭제</button>
+      </div>
+      <button type="button" class="btn btn-back-to-list" onclick="closeCustomCaseReader()">
+        <span>목록으로 돌아가기</span>
+        <i class="ph-bold ph-caret-right"></i>
+      </button>
     </div>
   </div>
   <div class="modal-overlay" onclick="closeCustomCaseReader()"></div>
+</div>
+
+<!-- Treatment Review Original Photo Lightbox Modal -->
+<div class="review-lightbox-modal" id="review-photo-lightbox-modal" role="dialog" aria-modal="true" aria-label="치료후기 원본 크게 보기" style="display: none;">
+  <div class="lightbox-card">
+    <button type="button" class="modal-close-circle lightbox-close" onclick="closeReviewPhotoLightbox()" aria-label="닫기">
+      <i class="ph-bold ph-x"></i>
+    </button>
+    <div class="lightbox-img-wrap">
+      <img id="review-lightbox-img" src="" alt="치료후기 원본 자필 사진 크게 보기">
+    </div>
+  </div>
+  <div class="lightbox-overlay" onclick="closeReviewPhotoLightbox()"></div>
 </div>
 
 <!-- Admin Case Preflight Inspection Modal (신규 후기 등록 전 공개 미리보기 & 발췌문 최종 검수 모달) -->

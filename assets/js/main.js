@@ -2380,6 +2380,14 @@ function getCaseSummaryPreview(item) {
   return parts.descRole || '';
 }
 
+function getQuestionIcon(numOrId) {
+  const s = String(numOrId || '').toLowerCase();
+  if (s.includes('1') || s.includes('q1')) return '<i class="ph-bold ph-clipboard-text"></i>';
+  if (s.includes('2') || s.includes('q2')) return '<i class="ph-bold ph-brain"></i>';
+  if (s.includes('3') || s.includes('q3')) return '<i class="ph-bold ph-chat-circle-dots"></i>';
+  return '<i class="ph-bold ph-check-circle"></i>';
+}
+
 function renderCustomCaseBody(item) {
   if (!item) return '';
 
@@ -2393,11 +2401,16 @@ function renderCustomCaseBody(item) {
             question: sec.question || `질문 ${idx + 1}`
           };
           const answer = sec.answer || '';
+          const icon = getQuestionIcon(tpl.num || sec.id || idx + 1);
           return `
             <div class="case-display-section" data-section-id="${sec.id || idx}">
               <div class="case-section-head">
-                <span class="section-num-badge">${tpl.num}</span>
-                <h4 class="section-question-title">${escapeHtml(tpl.question)}</h4>
+                <div class="section-badge-group">
+                  <span class="section-num-badge">${tpl.num}</span>
+                  <span class="section-head-icon">${icon}</span>
+                  <h4 class="section-question-title">${escapeHtml(tpl.question)}</h4>
+                </div>
+                <i class="ph-bold ph-quotes case-quote-icon"></i>
               </div>
               <div class="case-section-body">
                 <div class="case-section-answer">${escapeHtml(answer)}</div>
@@ -2417,8 +2430,12 @@ function renderCustomCaseBody(item) {
         <div class="case-structured-container">
           <div class="case-display-section" data-section-id="q1">
             <div class="case-section-head">
-              <span class="section-num-badge">01</span>
-              <h4 class="section-question-title">${escapeHtml(QUESTION_TEMPLATE[0].question)}</h4>
+              <div class="section-badge-group">
+                <span class="section-num-badge">01</span>
+                <span class="section-head-icon"><i class="ph-bold ph-clipboard-text"></i></span>
+                <h4 class="section-question-title">${escapeHtml(QUESTION_TEMPLATE[0].question)}</h4>
+              </div>
+              <i class="ph-bold ph-quotes case-quote-icon"></i>
             </div>
             <div class="case-section-body">
               <div class="case-section-answer">${escapeHtml(parsed.q1)}</div>
@@ -2426,8 +2443,12 @@ function renderCustomCaseBody(item) {
           </div>
           <div class="case-display-section" data-section-id="q2">
             <div class="case-section-head">
-              <span class="section-num-badge">02</span>
-              <h4 class="section-question-title">${escapeHtml(QUESTION_TEMPLATE[1].question)}</h4>
+              <div class="section-badge-group">
+                <span class="section-num-badge">02</span>
+                <span class="section-head-icon"><i class="ph-bold ph-brain"></i></span>
+                <h4 class="section-question-title">${escapeHtml(QUESTION_TEMPLATE[1].question)}</h4>
+              </div>
+              <i class="ph-bold ph-quotes case-quote-icon"></i>
             </div>
             <div class="case-section-body">
               <div class="case-section-answer">${escapeHtml(parsed.q2)}</div>
@@ -2435,8 +2456,12 @@ function renderCustomCaseBody(item) {
           </div>
           <div class="case-display-section" data-section-id="q3">
             <div class="case-section-head">
-              <span class="section-num-badge">03</span>
-              <h4 class="section-question-title">${escapeHtml(QUESTION_TEMPLATE[2].question)}</h4>
+              <div class="section-badge-group">
+                <span class="section-num-badge">03</span>
+                <span class="section-head-icon"><i class="ph-bold ph-chat-circle-dots"></i></span>
+                <h4 class="section-question-title">${escapeHtml(QUESTION_TEMPLATE[2].question)}</h4>
+              </div>
+              <i class="ph-bold ph-quotes case-quote-icon"></i>
             </div>
             <div class="case-section-body">
               <div class="case-section-answer">${escapeHtml(parsed.q3)}</div>
@@ -3809,7 +3834,6 @@ async function openCustomCaseReader(caseId) {
   const durationEl = document.getElementById('custom-reader-duration');
   const photoEl = document.getElementById('custom-reader-photo');
   const bodyEl = document.getElementById('custom-reader-body');
-  const hashtagsEl = document.getElementById('custom-reader-hashtags');
 
   if (catEl) {
     catEl.textContent = found.categoryName;
@@ -3817,6 +3841,68 @@ async function openCustomCaseReader(caseId) {
   }
   if (titleEl) titleEl.textContent = found.title;
   if (durationEl) durationEl.textContent = `치료기간: ${found.duration || '치료 완료'}`;
+
+  // Author and Date metadata bar binding
+  const authorEl = document.getElementById('custom-reader-author');
+  const authorWrap = document.getElementById('custom-reader-author-wrap');
+  const authorDivider = document.getElementById('custom-reader-author-divider');
+  if (found.author) {
+    if (authorEl) authorEl.textContent = found.author;
+    if (authorWrap) authorWrap.style.display = 'inline-flex';
+    if (authorDivider) authorDivider.style.display = 'inline';
+  } else {
+    if (authorWrap) authorWrap.style.display = 'none';
+    if (authorDivider) authorDivider.style.display = 'none';
+  }
+
+  const dateEl = document.getElementById('custom-reader-date');
+  const dateWrap = document.getElementById('custom-reader-date-wrap');
+  const dateDivider = document.getElementById('custom-reader-date-divider');
+  const dateVal = found.date || (found.createdAt ? formatDate(found.createdAt) : '');
+  if (dateVal) {
+    if (dateEl) dateEl.textContent = dateVal;
+    if (dateWrap) dateWrap.style.display = 'inline-flex';
+    if (dateDivider) dateDivider.style.display = 'inline';
+  } else {
+    if (dateWrap) dateWrap.style.display = 'none';
+    if (dateDivider) dateDivider.style.display = 'none';
+  }
+
+  // Summary Banner Area (이런 변화가 있었어요 / 주요 키워드)
+  const summaryBar = document.getElementById('custom-reader-summary-bar');
+  const effectCol = document.getElementById('custom-reader-summary-effect-col');
+  const effectDesc = document.getElementById('custom-reader-summary-desc');
+  const keywordsCol = document.getElementById('custom-reader-summary-keywords-col');
+  const chipsWrap = document.getElementById('custom-reader-summary-chips');
+
+  let hasEffect = false;
+  const summaryText = found.publicSummary || found.summary || '';
+  if (summaryText.trim()) {
+    if (effectDesc) effectDesc.textContent = summaryText.trim();
+    if (effectCol) effectCol.style.display = 'flex';
+    hasEffect = true;
+  } else if (effectCol) {
+    effectCol.style.display = 'none';
+  }
+
+  let hasKeywords = false;
+  const tagList = Array.isArray(found.hashtags) ? found.hashtags.filter(Boolean) : [];
+  if (tagList.length > 0) {
+    if (chipsWrap) {
+      chipsWrap.innerHTML = tagList.map(tag => {
+        const clean = escapeHtml(String(tag).replace(/^#/, '').trim());
+        return `<span class="summary-tag-pill">#${clean}</span>`;
+      }).join('');
+    }
+    if (keywordsCol) keywordsCol.style.display = 'flex';
+    hasKeywords = true;
+  } else if (keywordsCol) {
+    keywordsCol.style.display = 'none';
+  }
+
+  if (summaryBar) {
+    summaryBar.style.display = (hasEffect || hasKeywords) ? 'grid' : 'none';
+  }
 
   // Image resolution for authenticated user
   const photoBox = document.getElementById('custom-reader-photo-box');
@@ -3851,15 +3937,19 @@ async function openCustomCaseReader(caseId) {
 
   if (bodyEl) bodyEl.innerHTML = renderCustomCaseBody(found);
 
-  if (hashtagsEl) {
-    const list = found.hashtags || [];
-    if (list.length) {
-      hashtagsEl.innerHTML = renderHashtagPills(list);
-      hashtagsEl.style.display = 'block';
-    } else {
-      hashtagsEl.innerHTML = '';
-      hashtagsEl.style.display = 'none';
+  // Bottom footer hashtags list
+  const hashtagsBox = document.getElementById('custom-reader-hashtags');
+  const hashtagsList = document.getElementById('custom-reader-hashtags-list');
+  if (tagList.length > 0) {
+    if (hashtagsList) {
+      hashtagsList.innerHTML = tagList.map(tag => {
+        const clean = escapeHtml(String(tag).replace(/^#/, '').trim());
+        return `<span class="reader-tag-chip">#${clean}</span>`;
+      }).join('');
     }
+    if (hashtagsBox) hashtagsBox.style.display = 'flex';
+  } else if (hashtagsBox) {
+    hashtagsBox.style.display = 'none';
   }
 
   if (modal) {
@@ -3872,6 +3962,7 @@ function closeCustomCaseReader() {
   const modal = document.getElementById('custom-case-reader-modal');
   currentOpenedCustomCaseId = null;
   revokeActiveReviewBlobUrl();
+  closeReviewPhotoLightbox();
   const photoEl = document.getElementById('custom-reader-photo');
   if (photoEl) {
     photoEl.onload = null;
@@ -3888,6 +3979,27 @@ function closeCustomCaseReader() {
     document.body.style.overflow = '';
   }
 }
+
+function openReviewPhotoLightbox() {
+  const photoEl = document.getElementById('custom-reader-photo');
+  const lightboxModal = document.getElementById('review-photo-lightbox-modal');
+  const lightboxImg = document.getElementById('review-lightbox-img');
+  if (!photoEl || !photoEl.src || photoEl.style.display === 'none') return;
+  if (lightboxImg) lightboxImg.src = photoEl.src;
+  if (lightboxModal) {
+    lightboxModal.style.display = 'flex';
+    lightboxModal.classList.add('active');
+  }
+}
+
+function closeReviewPhotoLightbox() {
+  const lightboxModal = document.getElementById('review-photo-lightbox-modal');
+  if (lightboxModal) {
+    lightboxModal.classList.remove('active');
+    lightboxModal.style.display = 'none';
+  }
+}
+
 
 // Synchronized helper for creating or editing treatment reviews
 async function saveOrUpdateTreatmentReview(reviewId, detailDocData, previewDocData) {
@@ -5977,6 +6089,55 @@ function handleInquiryPwdSubmit(e) {
   }
 }
 
+function renderDoctorAnswer(rawAnswer) {
+  if (!rawAnswer) return '';
+  const lines = String(rawAnswer).split(/\r?\n/);
+  const htmlParts = [];
+  let currentParaLines = [];
+
+  function flushPara() {
+    if (currentParaLines.length > 0) {
+      const text = currentParaLines.join('<br>');
+      if (text.trim()) {
+        htmlParts.push(`<p class="doc-paragraph">${text}</p>`);
+      }
+      currentParaLines = [];
+    }
+  }
+
+  for (let i = 0; i < lines.length; i++) {
+    const rawLine = lines[i];
+    const trimmed = rawLine.trim();
+
+    if (!trimmed) {
+      flushPara();
+      continue;
+    }
+
+    const isBracketHeader = /^\[[^\]]+\]$/.test(trimmed);
+    const isMarkdownHeader = /^#{2,4}\s+[^\n]+$/.test(trimmed);
+    const isNumberedHeader = /^[0-9]{1,2}\.\s+[^\n]{2,35}$/.test(trimmed) && !trimmed.endsWith('.');
+    const isBulletHeader = /^[■◆▶●]\s*[^\n]{2,35}$/.test(trimmed);
+    const isKeySectionHeader = (trimmed.length <= 30 && /^(증상|원인|검사|치료|소견|관리|생활|특징|한방|진단|예후)/.test(trimmed) && !trimmed.endsWith('.'));
+    const isQuestionHeading = (trimmed.length <= 32 && trimmed.endsWith('?') && !trimmed.includes('안녕하세요') && !trimmed.includes('감사합니다'));
+
+    if (isBracketHeader || isMarkdownHeader || isNumberedHeader || isBulletHeader || isKeySectionHeader || isQuestionHeading) {
+      flushPara();
+      let headingText = trimmed
+        .replace(/^\[/, '').replace(/\]$/, '')
+        .replace(/^#{2,4}\s*/, '')
+        .replace(/^[■◆▶●]\s*/, '')
+        .trim();
+      htmlParts.push(`<div class="doc-subheading-pill">${escapeHtml(headingText)}</div>`);
+    } else {
+      currentParaLines.push(escapeHtml(rawLine));
+    }
+  }
+  flushPara();
+
+  return htmlParts.join('\n');
+}
+
 function openInquiryDetailModal(id) {
   const items = getStoredInquiries();
   const found = items.find(item => item.id === id);
@@ -6000,8 +6161,9 @@ function openInquiryDetailModal(id) {
   const answerDateEl = document.getElementById('view-answer-date');
   const unansweredBox = document.getElementById('view-unanswered-box');
   const replyBtnText = document.getElementById('admin-reply-btn-text');
+  const adminControls = document.getElementById('inquiry-admin-controls');
 
-  if (diseaseTag) diseaseTag.textContent = found.disease;
+  if (diseaseTag) diseaseTag.textContent = found.disease || getCategoryTitle(found.category || 'etc');
   if (statusTag) {
     statusTag.textContent = found.status === 'answered' ? '답변완료' : '답변대기';
     statusTag.className = 'detail-status-tag ' + (found.status === 'answered' ? 'answered' : 'pending');
@@ -6017,13 +6179,18 @@ function openInquiryDetailModal(id) {
   if (found.status === 'answered' && found.answer) {
     if (answerWrapper) answerWrapper.style.display = 'block';
     if (unansweredBox) unansweredBox.style.display = 'none';
-    if (answerContentEl) answerContentEl.textContent = found.answer;
-    if (answerDateEl) answerDateEl.textContent = `답변일: ${found.answerDate || found.date}`;
+    if (answerContentEl) answerContentEl.innerHTML = renderDoctorAnswer(found.answer);
+    if (answerDateEl) answerDateEl.textContent = `답변일 ${found.answerDate || found.date}`;
     if (replyBtnText) replyBtnText.textContent = '원장님 답변 수정하기';
   } else {
     if (answerWrapper) answerWrapper.style.display = 'none';
     if (unansweredBox) unansweredBox.style.display = 'block';
     if (replyBtnText) replyBtnText.textContent = '원장님 답변 작성하기';
+  }
+
+  // Admin controls visibility
+  if (adminControls) {
+    adminControls.style.display = checkIsAdminUser() ? 'flex' : 'none';
   }
 
   const authorDeleteTrigger = document.getElementById('btn-author-delete-trigger');
@@ -6045,6 +6212,11 @@ function closeInquiryDetailModal() {
     modal.classList.remove('active');
     document.body.style.overflow = '';
   }
+  try {
+    if (window.location.pathname.match(/\/inquiry\/inq_[^/]+\/?$/)) {
+      history.pushState({}, '', '/inquiry/');
+    }
+  } catch (e) {}
 }
 
 // Doctor Answer Composer Modal
@@ -6593,8 +6765,30 @@ async function handleAdminDeleteInquiryFromTable(id) {
   }
 }
 
+// Global ESC Key Listener for Accessibility Modal Close
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' || e.key === 'Esc') {
+    const lightbox = document.getElementById('review-photo-lightbox-modal');
+    if (lightbox && lightbox.style.display !== 'none' && lightbox.classList.contains('active')) {
+      closeReviewPhotoLightbox();
+      return;
+    }
+    const caseModal = document.getElementById('custom-case-reader-modal');
+    if (caseModal && caseModal.classList.contains('active')) {
+      closeCustomCaseReader();
+      return;
+    }
+    const inqModal = document.getElementById('inquiry-detail-modal');
+    if (inqModal && inqModal.classList.contains('active')) {
+      closeInquiryDetailModal();
+      return;
+    }
+  }
+});
+
 // Attach inits to DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
   initAdminDashboard();
   initBlogArchiveEngine();
 });
+
