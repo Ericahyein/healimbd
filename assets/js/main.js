@@ -36,7 +36,21 @@ document.addEventListener('DOMContentLoaded', () => {
   initAdminCaseWriter();
   initAdminColumnBoard();
   initOnlineInquiry();
+  initReviewDetailPage();
 });
+
+function initReviewDetailPage() {
+  const pageRoot = document.getElementById('review-detail-page-root');
+  if (!pageRoot) return;
+  const params = new URLSearchParams(window.location.search);
+  const reviewId = (params.get('id') || '').trim();
+  if (!reviewId || !/^(tr_\d+_[a-zA-Z0-9_-]+|legacy_custom-\d+)$/.test(reviewId)) {
+    const loadingState = document.getElementById('review-detail-loading');
+    if (loadingState) loadingState.innerHTML = '<i class="ph-bold ph-warning-circle"></i><strong>올바른 치료후기 주소가 아닙니다.</strong><a href="/reviews/" class="btn btn-outline-sm">목록으로 돌아가기</a>';
+    return;
+  }
+  openCustomCaseReader(reviewId);
+}
 
 // 1. Mobile Menu Drawer
 function initMobileMenu() {
@@ -578,7 +592,7 @@ function renderHandwrittenReviewsPage() {
     card.setAttribute('data-review-type', 'direct');
 
     const { titleRole, descRole } = parsePublicSummaryParts(item);
-    const clickHandler = item.isStatic ? `openStaticCaseReader('${item.id}', '${item.permalink || `/reviews/${item.id}/`}')` : `openCustomCaseReader('${item.id}')`;
+    const clickHandler = `openProtectedCaseReader('${item.id}', '${item.permalink || ''}')`;
     const imgSrc = getReviewImageUrl(item);
 
     const thumbHtml = imgSrc
@@ -663,29 +677,12 @@ function goToHandwrittenPage(page) {
 }
 
 async function openProtectedCaseReader(caseId, permalink) {
-  try {
-    await ensureAuthReady();
-  } catch (e) {}
-
-  const currentUser = auth ? auth.currentUser : null;
-  const isNonAnonymousMember = !!(currentUser && !currentUser.isAnonymous);
-
-  if (!isNonAnonymousMember) {
-    sessionStorage.setItem('pendingReviewTarget', caseId);
-    if (typeof showAuthToast === 'function') {
-      showAuthToast('🔒 의료법 규정에 따라 치료후기 전문 및 원본 자필 이미지는 로그인 후 열람하실 수 있습니다.');
-    }
-    if (typeof openAuthModal === 'function') {
-      openAuthModal('login');
-    }
-    return;
+  if (!caseId) return;
+  if (document.getElementById('review-detail-page-root')) {
+    return openCustomCaseReader(caseId);
   }
-
-  if (typeof openCustomCaseReader === 'function') {
-    openCustomCaseReader(caseId);
-  } else if (permalink) {
-    window.location.href = permalink;
-  }
+  sessionStorage.setItem('pendingReviewTarget', caseId);
+  window.location.href = `/reviews/view/?id=${encodeURIComponent(caseId)}`;
 }
 
 async function openStaticCaseReader(id, permalink) {
@@ -2837,7 +2834,7 @@ async function resolveReviewImageUrl(item) {
     let appCheckToken = '';
     if (typeof firebase !== 'undefined' && typeof firebase.appCheck === 'function') {
       try {
-        const tokenObj = await firebase.appCheck().getToken();
+        const tokenObj = await firebase.appCheck().getToken(true);
         if (tokenObj && tokenObj.token) {
           appCheckToken = tokenObj.token;
         }
@@ -3737,7 +3734,7 @@ function renderCustomCasesToList() {
 
       const hashtagsHtml = renderHashtagPills(item.hashtags);
       const { titleRole, descRole } = parsePublicSummaryParts(item);
-      const clickHandler = item.isStatic ? `openStaticCaseReader('${item.id}', '${item.permalink || `/reviews/${item.id}/`}')` : `openCustomCaseReader('${item.id}')`;
+      const clickHandler = `openProtectedCaseReader('${item.id}', '${item.permalink || ''}')`;
       const imgSrc = getReviewImageUrl(item);
 
       const thumbHtml = imgSrc
@@ -3779,6 +3776,12 @@ function renderCustomCasesToList() {
 }
 
 async function openCustomCaseReader(caseId) {
+  const pageRoot = document.getElementById('review-detail-page-root');
+  if (!pageRoot) {
+    if (caseId) window.location.href = `/reviews/view/?id=${encodeURIComponent(caseId)}`;
+    return;
+  }
+
   // 1. Check user authentication status - Real non-anonymous Firebase user required
   try {
     await ensureAuthReady();
@@ -3789,6 +3792,10 @@ async function openCustomCaseReader(caseId) {
 
   if (!isNonAnonymousMember) {
     sessionStorage.setItem('pendingReviewTarget', caseId);
+    const loadingState = document.getElementById('review-detail-loading');
+    const lockedState = document.getElementById('review-detail-locked');
+    if (loadingState) loadingState.style.display = 'none';
+    if (lockedState) lockedState.style.display = 'flex';
     if (typeof showAuthToast === 'function') {
       showAuthToast('🔒 치료후기 상세 내용은 의료법 및 원내 규정에 따라 회원 로그인 후 열람 가능합니다.');
     }
@@ -3823,7 +3830,10 @@ async function openCustomCaseReader(caseId) {
   }
 
   if (!found) {
-    alert('치료사례 상세 정보를 불러올 수 없습니다.');
+    const loadingState = document.getElementById('review-detail-loading');
+    if (loadingState) {
+      loadingState.innerHTML = '<i class="ph-bold ph-warning-circle"></i><strong>치료후기 상세 정보를 불러오지 못했습니다.</strong><a href="/reviews/" class="btn btn-outline-sm">목록으로 돌아가기</a>';
+    }
     return;
   }
 
@@ -3906,6 +3916,7 @@ async function openCustomCaseReader(caseId) {
 
   // Image resolution for authenticated user
   const photoBox = document.getElementById('custom-reader-photo-box');
+  const photoStatus = document.getElementById('review-photo-status');
   if (photoEl) {
     photoEl.onload = null;
     photoEl.onerror = null;
@@ -3913,7 +3924,12 @@ async function openCustomCaseReader(caseId) {
     photoEl.style.display = 'none';
   }
   if (photoBox) {
-    photoBox.style.display = 'none';
+    photoBox.style.display = 'block';
+  }
+  if (photoStatus) {
+    photoStatus.className = 'review-photo-status';
+    photoStatus.innerHTML = '<i class="ph-bold ph-spinner-gap review-loading-icon"></i> 원본 이미지를 불러오는 중입니다.';
+    photoStatus.style.display = 'flex';
   }
 
   const resolvedUrl = await resolveReviewImageUrl(found);
@@ -3921,6 +3937,7 @@ async function openCustomCaseReader(caseId) {
     photoEl.onload = function() {
       if (this.naturalWidth > 0 && this.naturalHeight > 0) {
         this.style.display = 'block';
+        if (photoStatus) photoStatus.style.display = 'none';
         if (photoBox) photoBox.style.display = 'block';
       } else {
         this.style.display = 'none';
@@ -3929,10 +3946,17 @@ async function openCustomCaseReader(caseId) {
     };
     photoEl.onerror = function() {
       this.style.display = 'none';
-      if (photoBox) photoBox.style.display = 'none';
+      if (photoStatus) {
+        photoStatus.className = 'review-photo-status is-error';
+        photoStatus.innerHTML = '<i class="ph-bold ph-warning-circle"></i><span>원본 후기 이미지를 불러오지 못했습니다.<br>페이지를 새로고침한 뒤 다시 확인해주세요.</span>';
+        photoStatus.style.display = 'flex';
+      }
       console.warn('[REVIEW PHOTO LOAD NOTICE] Could not render handwritten review photo');
     };
     photoEl.src = resolvedUrl;
+  } else if (photoStatus) {
+    photoStatus.className = 'review-photo-status is-error';
+    photoStatus.innerHTML = '<i class="ph-bold ph-warning-circle"></i><span>원본 후기 이미지를 불러오지 못했습니다.<br>로그인 상태를 확인한 뒤 새로고침해주세요.</span>';
   }
 
   if (bodyEl) bodyEl.innerHTML = renderCustomCaseBody(found);
@@ -3956,9 +3980,19 @@ async function openCustomCaseReader(caseId) {
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
   }
+  const loadingState = document.getElementById('review-detail-loading');
+  const lockedState = document.getElementById('review-detail-locked');
+  if (loadingState) loadingState.style.display = 'none';
+  if (lockedState) lockedState.style.display = 'none';
+  pageRoot.style.display = 'block';
 }
 
 function closeCustomCaseReader() {
+  if (document.getElementById('review-detail-page-root')) {
+    revokeActiveReviewBlobUrl();
+    window.location.href = '/reviews/';
+    return;
+  }
   const modal = document.getElementById('custom-case-reader-modal');
   currentOpenedCustomCaseId = null;
   revokeActiveReviewBlobUrl();

@@ -155,7 +155,8 @@
   <div class="modal-overlay" onclick="closeAdminWriterModal()"></div>
 </div>
 
-<!-- Dynamic Custom Case Reader Modal (Reference Design 2: 2-Column Responsive Layout) -->
+{{ if not .Params.review_detail_page }}
+<!-- Dynamic Custom Case Reader Modal (legacy fallback; detail page uses a full-page reader) -->
 <div class="admin-modal" id="custom-case-reader-modal" role="dialog" aria-modal="true" aria-labelledby="custom-case-reader-title">
   <div class="modal-card case-reader-card">
     <div class="modal-header">
@@ -257,6 +258,8 @@
   </div>
   <div class="lightbox-overlay" onclick="closeReviewPhotoLightbox()"></div>
 </div>
+
+{{ end }}
 
 <!-- Admin Case Preflight Inspection Modal (신규 후기 등록 전 공개 미리보기 & 발췌문 최종 검수 모달) -->
 <div class="admin-modal" id="admin-case-preflight-modal" role="dialog" aria-modal="true" aria-labelledby="admin-preflight-title">
