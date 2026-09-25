@@ -17,6 +17,7 @@ const {
   checkSlugCollision
 } = require('./content_validator');
 const { compositeThumbnail } = require('./thumbnail_engine');
+const { resolveBlogCategory } = require('./blog_category');
 const { getRecommendedInternalLinks } = require('./internal_linker');
 
 // Telemetry & Cost Estimation Constants
@@ -588,13 +589,14 @@ async function runAutoColumnPipeline(options = {}) {
   console.log(`🖼️ Thumbnail successfully created at: ${localThumbPath}`);
 
   // 6. Build Final Front Matter & Markdown Document
+  const blogCategory = resolveBlogCategory(winningPlan.disease.id, winningPlan.topicAngle.id, winningPlan.disease.category);
   const hashtagsYaml = winningHashtags.map(h => `  - "${h}"`).join('\n');
   const keywordsYaml = winningKeywords.map(k => `  - "${k}"`).join('\n');
 
   const finalMarkdown = `---
 title: "${winningPlan.titleCandidate.replace(/"/g, '\\"')}"
 date: ${todayIso}
-category: "${winningPlan.disease.category}"
+category: "${blogCategory}"
 category_name: "${winningPlan.disease.categoryName}"
 author: "손지웅 대표원장"
 image: "${thumbRelativePath}"
