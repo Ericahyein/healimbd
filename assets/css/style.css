@@ -2500,6 +2500,20 @@ ul {
   color: #334155;
 }
 
+.blog-author-trust-box { display: flex; gap: 18px; margin-top: 46px; padding: 24px; border: 1px solid #DCE8EF; border-radius: 14px; background: #F8FBFD; }
+.blog-author-trust-icon { width: 46px; height: 46px; flex: 0 0 46px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: #E0F2FE; color: #0369A1; font-size: 1.35rem; }
+.blog-author-trust-label { margin: 0 0 3px; color: #64748B; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.03em; }
+.blog-author-trust-content h2 { margin: 0; color: #0F172A; font-size: 1.18rem; line-height: 1.4; }
+.blog-author-trust-role { margin: 3px 0 10px; color: #0369A1; font-size: 0.9rem; font-weight: 700; }
+.blog-author-trust-desc { margin: 0 0 10px; color: #475569; font-size: 0.92rem; line-height: 1.65; }
+.blog-author-profile-link { display: inline-flex; align-items: center; gap: 4px; color: #075985; font-size: 0.88rem; font-weight: 700; text-decoration: none; }
+.blog-medical-notice { display: flex; gap: 8px; margin: 14px 0 0; padding: 14px 16px; border-radius: 9px; background: #F8FAFC; color: #64748B; font-size: 0.82rem; line-height: 1.65; }
+.blog-medical-notice i { flex: 0 0 auto; margin-top: 3px; }
+@media (max-width: 640px) {
+  .blog-author-trust-box { gap: 12px; padding: 19px 17px; }
+  .blog-author-trust-icon { width: 38px; height: 38px; flex-basis: 38px; font-size: 1.1rem; }
+}
+
 .blog-hashtags-footer {
   display: flex;
   align-items: center;
