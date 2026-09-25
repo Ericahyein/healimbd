@@ -1,0 +1,324 @@
+/* ========================================================================== 
+   Modal visual polish overrides
+   Keeps the existing modal data / auth / SEO logic intact while correcting
+   legacy cascade conflicts and tightening the final desktop/mobile layout.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Shared scroll affordance
+   -------------------------------------------------------------------------- */
+#inquiry-detail-modal .inquiry-detail-body,
+#custom-case-reader-modal .case-reader-two-column {
+  min-height: 0;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: #CBD5E1 transparent;
+}
+
+#inquiry-detail-modal .inquiry-detail-body::-webkit-scrollbar,
+#custom-case-reader-modal .case-reader-two-column::-webkit-scrollbar {
+  width: 9px;
+}
+
+#inquiry-detail-modal .inquiry-detail-body::-webkit-scrollbar-track,
+#custom-case-reader-modal .case-reader-two-column::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#inquiry-detail-modal .inquiry-detail-body::-webkit-scrollbar-thumb,
+#custom-case-reader-modal .case-reader-two-column::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  border-radius: 999px;
+}
+
+#inquiry-detail-modal .inquiry-detail-body::-webkit-scrollbar-thumb:hover,
+#custom-case-reader-modal .case-reader-two-column::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+  background-clip: padding-box;
+}
+
+/* --------------------------------------------------------------------------
+   Online inquiry modal - slightly calmer hierarchy, closer to reference
+   -------------------------------------------------------------------------- */
+#inquiry-detail-modal .inquiry-detail-card {
+  max-width: 900px;
+}
+
+#inquiry-detail-modal .inquiry-detail-header {
+  padding: 26px 32px 17px;
+}
+
+#inquiry-detail-modal .detail-main-title {
+  font-size: 1.55rem;
+  font-weight: 700;
+  line-height: 1.42;
+  letter-spacing: -0.45px;
+  margin-bottom: 11px;
+}
+
+#inquiry-detail-modal .detail-meta-info {
+  font-size: 0.88rem;
+}
+
+#inquiry-detail-modal .inquiry-detail-body {
+  padding: 22px 32px 26px;
+  gap: 18px;
+}
+
+#inquiry-detail-modal .inq-question-box {
+  padding: 20px 22px;
+}
+
+#inquiry-detail-modal .question-content,
+#inquiry-detail-modal .doctor-answer-content {
+  font-size: 0.99rem;
+  line-height: 1.82;
+}
+
+#inquiry-detail-modal .inq-doctor-answer-box {
+  padding: 24px 26px;
+}
+
+#inquiry-detail-modal .doc-badge-pill {
+  border-radius: 999px;
+  padding: 3px 9px;
+}
+
+#inquiry-detail-modal .doc-name-main {
+  font-size: 1rem;
+}
+
+/* --------------------------------------------------------------------------
+   Treatment review modal - fix legacy 680px !important collision
+   -------------------------------------------------------------------------- */
+#custom-case-reader-modal .case-reader-card {
+  /* Legacy stylesheet still contains max-width: 680px !important. */
+  max-width: 1120px !important;
+  width: min(1120px, calc(100vw - 56px));
+  max-height: 90vh;
+  overflow: hidden !important;
+  padding: 0 !important;
+  border-radius: 22px;
+}
+
+#custom-case-reader-modal .case-reader-card .modal-header {
+  padding: 24px 30px 16px;
+  align-items: flex-start;
+  gap: 18px;
+}
+
+#custom-case-reader-modal .modal-header-title-wrap {
+  display: block;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+#custom-case-reader-modal .case-tag-pill {
+  display: inline-flex;
+  margin-bottom: 8px;
+}
+
+#custom-case-reader-modal .case-reader-modal-title {
+  margin: 0 0 9px;
+  max-width: 100%;
+  font-size: clamp(1.36rem, 1.55vw, 1.52rem);
+  font-weight: 700;
+  line-height: 1.36;
+  letter-spacing: -0.45px;
+  word-break: keep-all;
+}
+
+#custom-case-reader-modal .case-reader-meta-bar {
+  gap: 8px 13px;
+  font-size: 0.87rem;
+  line-height: 1.5;
+}
+
+#custom-case-reader-modal .modal-close-circle {
+  flex: 0 0 auto;
+}
+
+/* Compact summary so it reads as a summary, not a second body section. */
+#custom-case-reader-modal .review-detail-summary-bar {
+  margin: 14px 30px 12px;
+  padding: 14px 18px;
+  grid-template-columns: minmax(0, 1.35fr) minmax(250px, 0.65fr);
+  gap: 18px;
+  align-items: start;
+}
+
+#custom-case-reader-modal .summary-col-effect,
+#custom-case-reader-modal .summary-col-keywords {
+  gap: 12px;
+}
+
+#custom-case-reader-modal .summary-icon-badge {
+  width: 34px;
+  height: 34px;
+}
+
+#custom-case-reader-modal .summary-label {
+  font-size: 0.8rem;
+  margin-bottom: 3px;
+}
+
+#custom-case-reader-modal .summary-desc {
+  font-size: 0.92rem;
+  font-weight: 500;
+  line-height: 1.58;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+/* Main reader area owns scrolling; header / summary / footer stay stable. */
+#custom-case-reader-modal .case-reader-two-column {
+  grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.85fr);
+  gap: 20px;
+  padding: 4px 30px 20px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  flex: 1 1 auto;
+  min-height: 0;
+  align-items: start;
+}
+
+#custom-case-reader-modal .case-structured-container {
+  gap: 14px;
+}
+
+#custom-case-reader-modal .case-display-section {
+  padding: 18px 20px;
+  border-radius: 14px;
+}
+
+#custom-case-reader-modal .case-section-head {
+  margin-bottom: 10px;
+}
+
+#custom-case-reader-modal .section-question-title {
+  font-size: 0.98rem;
+  line-height: 1.45;
+}
+
+#custom-case-reader-modal .case-section-answer {
+  font-size: 0.95rem;
+  line-height: 1.75;
+}
+
+#custom-case-reader-modal .case-single-photo-box {
+  padding: 18px;
+  border-radius: 14px;
+  top: 0;
+  margin-bottom: 0;
+}
+
+#custom-case-reader-modal .photo-box-frame,
+#custom-case-reader-modal .case-full-photo-img {
+  max-height: 450px;
+}
+
+#custom-case-reader-modal .modal-actions.reader-actions {
+  padding: 14px 30px 18px;
+  gap: 12px;
+}
+
+/* Desktop: keep footer controls on one calm row when space allows. */
+@media (min-width: 992px) {
+  #custom-case-reader-modal .modal-actions.reader-actions {
+    flex-wrap: nowrap;
+  }
+
+  #custom-case-reader-modal .reader-hashtags-box {
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+
+  #custom-case-reader-modal .reader-admin-btns {
+    flex: 0 0 auto;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Tablet / mobile
+   -------------------------------------------------------------------------- */
+@media (max-width: 991px) {
+  #custom-case-reader-modal .case-reader-card {
+    width: calc(100vw - 20px);
+    max-width: 760px !important;
+    max-height: 92vh;
+    border-radius: 18px;
+  }
+
+  #custom-case-reader-modal .case-reader-card .modal-header {
+    padding: 19px 18px 13px;
+  }
+
+  #custom-case-reader-modal .case-reader-modal-title {
+    font-size: 1.22rem;
+    margin-bottom: 8px;
+  }
+
+  #custom-case-reader-modal .case-reader-meta-bar {
+    font-size: 0.82rem;
+  }
+
+  #custom-case-reader-modal .review-detail-summary-bar {
+    margin: 10px 18px 8px;
+    padding: 13px 14px;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  #custom-case-reader-modal .summary-desc {
+    -webkit-line-clamp: 4;
+  }
+
+  #custom-case-reader-modal .case-reader-two-column {
+    grid-template-columns: 1fr;
+    padding: 6px 18px 16px;
+    gap: 16px;
+    scrollbar-gutter: auto;
+  }
+
+  #custom-case-reader-modal .case-single-photo-box {
+    position: static;
+  }
+
+  #custom-case-reader-modal .modal-actions.reader-actions {
+    padding: 12px 18px 16px;
+  }
+
+  #inquiry-detail-modal .inquiry-detail-card {
+    max-width: none;
+  }
+
+  #inquiry-detail-modal .detail-main-title {
+    font-size: 1.24rem;
+  }
+}
+
+@media (max-width: 520px) {
+  #custom-case-reader-modal .case-reader-modal-title {
+    font-size: 1.14rem;
+  }
+
+  #custom-case-reader-modal .reader-meta-divider {
+    display: none;
+  }
+
+  #custom-case-reader-modal .case-reader-meta-bar {
+    gap: 5px 10px;
+  }
+
+  #custom-case-reader-modal .case-display-section {
+    padding: 15px 14px;
+  }
+
+  #custom-case-reader-modal .case-section-answer {
+    font-size: 0.92rem;
+  }
+}
