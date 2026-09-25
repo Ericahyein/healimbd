@@ -77,6 +77,9 @@ jobs:
       - name: Run Pangyo 96.8% Reproduction & Recovery Tests
         run: node tests/test_pangyo_96_reproduction.js
 
+      - name: Run Doctor Column Category Filter Regression Test
+        run: node tests/test_blog_category_filters.js
+
       - name: Run Doctor Column Title Retry & Fail-Closed Suite
         run: node tests/test_doctor_column_title_retry.js
 
