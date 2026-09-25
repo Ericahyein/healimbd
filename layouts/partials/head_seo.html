@@ -163,7 +163,13 @@
   "@id" $doctorId
   "name" "손지웅 대표원장"
   "jobTitle" "대표원장"
+  "honorificSuffix" "한의사"
   "worksFor" (dict "@id" $clinicId)
+  "hasCredential" (dict
+    "@type" "EducationalOccupationalCredential"
+    "credentialCategory" "전문면허"
+    "name" "한의사 면허"
+  )
   "knowsAbout" (slice "한방신경정신과" "공황장애" "불면증" "자율신경실조증" "틱장애" "ADHD")
 }}
 
@@ -205,6 +211,7 @@
 {{ if and (not $isHome) (eq .Section "blog") (not .IsSection) }}
   {{/* Article Entity & Link from WebPage */}}
   {{ $articleId := printf "%s#article" $canonical }}
+  {{ $webpage = merge $webpage (dict "@type" (slice "WebPage" "MedicalWebPage")) }}
   {{ $webpage = merge $webpage (dict "mainEntity" (dict "@id" $articleId)) }}
   {{ $articleDict = dict
     "@type" "Article"
@@ -215,8 +222,15 @@
     "mainEntityOfPage" (dict "@id" $webpageId)
     "author" (dict "@id" $doctorId)
     "publisher" (dict "@id" $clinicId)
+    "isAccessibleForFree" true
     "inLanguage" "ko-KR"
   }}
+  {{ with .Params.category_name }}
+    {{ $articleDict = merge $articleDict (dict "about" .) }}
+  {{ end }}
+  {{ with .Params.keywords }}
+    {{ $articleDict = merge $articleDict (dict "keywords" (delimit . ", ")) }}
+  {{ end }}
   {{ if not .Date.IsZero }}
     {{ $articleDict = merge $articleDict (dict "datePublished" (.Date.Format "2006-01-02T15:04:05Z07:00")) }}
   {{ end }}
