@@ -1,0 +1,17 @@
+const fs = require('fs');
+const path = require('path');
+const assert = require('assert');
+const root = path.join(__dirname, '..');
+const read = (file) => fs.readFileSync(path.join(root, file), 'utf8');
+const header = read('layouts/partials/header.html');
+const single = read('layouts/blog/single.html');
+const seo = read('layouts/partials/head_seo.html');
+assert(header.includes('$isBlogSingle := and (eq .Section "blog") (not .IsSection)'));
+assert(header.includes('{{ if not $isBlogSingle }}'));
+assert(single.includes('blog-author-trust-box'));
+assert(single.includes('이 글은 일반적인 건강정보 제공을 위한 칼럼'));
+assert(single.includes('<time class="meta-date"'));
+assert(seo.includes('"EducationalOccupationalCredential"'));
+assert(seo.includes('(slice "WebPage" "MedicalWebPage")'));
+assert(seo.includes('"isAccessibleForFree" true'));
+console.log('Blog SEO trust checks passed.');
