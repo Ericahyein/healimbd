@@ -113,11 +113,15 @@
 <!-- Member Auth Modal (Outside header) -->
 {{ partial "auth_modal.html" . }}
 
-<!-- Admin Case Writer & Reader Modals -->
-{{ partial "admin_case_modal.html" . }}
+{{/* Keep admin editor forms out of individual column HTML for cleaner crawling. */}}
+{{ $isBlogSingle := and (eq .Section "blog") (not .IsSection) }}
+{{ if not $isBlogSingle }}
+  <!-- Admin Case Writer & Reader Modals -->
+  {{ partial "admin_case_modal.html" . }}
 
-<!-- Admin Column Writer & Reader Modals -->
-{{ partial "admin_column_modal.html" . }}
+  <!-- Admin Column Writer & Reader Modals -->
+  {{ partial "admin_column_modal.html" . }}
+{{ end }}
 
 <!-- Inquiry Modal (문의하기 팝업 모달 - Outside header) -->
 <div class="inquiry-modal" id="inquiry-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
