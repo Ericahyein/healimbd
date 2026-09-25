@@ -1,7 +1,7 @@
 ---
 title: "[용인 우울증] 쉬어도 충전되지 않고 모든 일에 의욕이 사라질 때"
 date: 2026-09-25T00:34:07.203+09:00
-category: "depression"
+category: "anxiety"
 category_name: "우울·강박"
 author: "손지웅 대표원장"
 image: "images/blog/yongin-main-depression-burnout-lethargy.jpg"
