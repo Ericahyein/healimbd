@@ -17,6 +17,11 @@
   <!-- Main Stylesheet (Cache-Busting Fingerprinted) -->
   {{ $style := resources.Get "css/style.css" | resources.Minify | resources.Fingerprint }}
   <link rel="stylesheet" href="{{ $style.RelPermalink }}">
+
+  <!-- Modal detail polish overrides (loaded after main stylesheet) -->
+  {{ $modalPolish := resources.Get "css/modal-polish.css" | resources.Minify | resources.Fingerprint }}
+  <link rel="stylesheet" href="{{ $modalPolish.RelPermalink }}">
+
   {{ if eq .Section "areas" }}
     {{ $areaStyle := resources.Get "css/area-guide.css" | resources.Minify | resources.Fingerprint }}
     <link rel="stylesheet" href="{{ $areaStyle.RelPermalink }}">
