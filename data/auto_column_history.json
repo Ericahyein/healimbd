@@ -295,5 +295,16 @@
     "topicAngle": "separation-anxiety",
     "title": "[분당 소아 분리불안] 유치원이나 학교 갈 때마다 배가 아프다고 우는 아이",
     "slug": "seongnam-bundang-separation-anxiety"
+  },
+  {
+    "publishDate": "2026-09-26T13:49:25.926+09:00",
+    "geoId": "yongin-suji",
+    "displayRegion": "수지",
+    "parentRegion": "용인",
+    "regionType": "district",
+    "disease": "tic",
+    "topicAngle": "school-stress",
+    "title": "[수지 틱장애] 교실에서는 참다가 집에서 몰아치는 움직임, 의지와 무관한 신호를 살피는 법",
+    "slug": "yongin-suji-tic-school-stress"
   }
 ]
