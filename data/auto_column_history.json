@@ -306,5 +306,16 @@
     "topicAngle": "school-stress",
     "title": "[수지 틱장애] 교실에서는 참다가 집에서 몰아치는 움직임, 의지와 무관한 신호를 살피는 법",
     "slug": "yongin-suji-tic-school-stress"
+  },
+  {
+    "publishDate": "2026-09-26T22:00:03.424+09:00",
+    "geoId": "seongnam-sujeong",
+    "displayRegion": "수정구",
+    "parentRegion": "성남",
+    "regionType": "district",
+    "disease": "ibs",
+    "topicAngle": "morning-diarrhea",
+    "title": "[수정구 과민성대장증후군] 회의실 문 앞에서 급해지는 복통, 장과 뇌의 신호가 예민해진 까닭",
+    "slug": "seongnam-sujeong-ibs-morning-diarrhea"
   }
 ]
