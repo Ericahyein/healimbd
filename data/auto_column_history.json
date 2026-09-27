@@ -328,5 +328,16 @@
     "topicAngle": "adult-work-mistakes",
     "title": "[기흥구 ADHD] 할 일은 많은데 무엇부터 손대야 할지 막막한 성인, 실행기능을 살펴야 하는 이유",
     "slug": "yongin-giheung-adhd-adult-work-mistakes"
+  },
+  {
+    "publishDate": "2026-09-27T22:51:38.816+09:00",
+    "geoId": "seongnam-jungwon",
+    "displayRegion": "중원구",
+    "parentRegion": "성남",
+    "regionType": "district",
+    "disease": "panic",
+    "topicAngle": "sudden-palpitation",
+    "title": "[중원구 공황장애] 응급실 검사에서 이상이 없는데 몸이 위기처럼 반응하는 이유",
+    "slug": "seongnam-jungwon-panic-sudden-palpitation"
   }
 ]
