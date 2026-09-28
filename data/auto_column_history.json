@@ -339,5 +339,16 @@
     "topicAngle": "sudden-palpitation",
     "title": "[중원구 공황장애] 응급실 검사에서 이상이 없는데 몸이 위기처럼 반응하는 이유",
     "slug": "seongnam-jungwon-panic-sudden-palpitation"
+  },
+  {
+    "publishDate": "2026-09-28T14:15:01.577+09:00",
+    "geoId": "yongin-cheoin",
+    "displayRegion": "처인구",
+    "parentRegion": "용인",
+    "regionType": "district",
+    "disease": "autonomic",
+    "topicAngle": "digestive-dizziness",
+    "title": "[처인구 자율신경실조증] 식사만 하면 핑 도는 증상, 미주신경과 교감신경의 균형을 살펴야 하는 이유",
+    "slug": "yongin-cheoin-autonomic-digestive-dizziness"
   }
 ]
