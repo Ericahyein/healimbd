@@ -17,6 +17,10 @@ keywords:
 image: "images/clinics/clinic-panic.webp"
 image_alt: "공황장애 증상과 진료 과정을 설명하는 성인 진료 이미지"
 hero_kicker: "PANIC DISORDER · ANTICIPATORY ANXIETY"
+hero_title_lines:
+  - "공황장애,"
+  - "갑작스러운 두근거림과"
+  - "숨막힘이 반복된다면"
 hero_summary: "갑자기 심장이 빨라지고 숨이 막히며 쓰러질 것 같은 공포가 반복된다면, 공황발작의 양상뿐 아니라 신체 질환의 가능성과 발작 이후의 예기불안·회피를 함께 살펴야 합니다."
 answer_title: "공황발작 한 번이 곧 공황장애를 뜻하지는 않습니다"
 answer_summary: "공황발작은 갑작스러운 강한 공포와 신체 반응이 치솟는 경험입니다. 공황장애는 예기치 못한 발작이 반복되고, 이후 재발 걱정이나 회피 행동이 지속되는지를 포함해 평가합니다."

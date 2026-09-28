@@ -17,6 +17,10 @@ keywords:
 image: "images/clinics/clinic-tic.webp"
 image_alt: "틱장애 증상과 진료 과정을 설명하는 소아청소년 진료 이미지"
 hero_kicker: "TIC DISORDER · TOURETTE SYNDROME"
+hero_title_lines:
+  - "틱장애, 반복되는"
+  - "움직임과 소리를"
+  - "어떻게 살펴야 할까요?"
 hero_summary: "눈 깜빡임이나 얼굴 움직임, 킁킁거림과 헛기침이 반복된다면 아이의 의지나 버릇으로 단정하기보다 증상의 종류와 경과, 일상에 미치는 영향을 함께 살펴야 합니다."
 answer_title: "틱은 일부러 하는 행동이 아닙니다"
 answer_summary: "틱은 갑작스럽고 반복적인 움직임 또는 소리로 나타납니다. 잠시 참을 수 있어도 불편한 충동이 쌓일 수 있으며, 지적하거나 억지로 멈추게 하면 아이의 긴장과 부담이 커질 수 있습니다."
