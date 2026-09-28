@@ -19,6 +19,10 @@ for (const [name, content] of [['틱장애', tic], ['공황장애', panic]]) {
   assert((content.match(/question:/g) || []).length >= 6, `${name}: at least 6 visible FAQs required`);
   assert((content.match(/url: "\/blog\//g) || []).length >= 3, `${name}: at least 3 internal column links required`);
   assert(!/HRV/i.test(content), `${name}: clinic does not perform HRV`);
+  for (const area of ['분당', '판교', '성남', '용인', '수지', '경기광주']) {
+    assert(content.includes(area), `${name}: missing nearby service area ${area}`);
+  }
+  assert(content.includes('## 분당·판교·용인 수지·경기광주에서'), `${name}: visible local-intent section required`);
 }
 
 for (const assessment of ['뇌인지검사', '뇌기능검사', '정서심리검사', '문진·설진·복진·진맥']) {
@@ -36,6 +40,9 @@ assert(layout.includes('손지웅 대표원장 의학 정보 검토'), 'visible 
 assert(seo.includes('"MedicalWebPage"'), 'MedicalWebPage schema required');
 assert(seo.includes('"reviewedBy"'), 'reviewedBy schema required');
 assert(seo.includes('"FAQPage"'), 'FAQPage schema required');
+for (const area of ['성남시 분당구', '판교', '용인시 수지구', '경기도 광주시']) {
+  assert(seo.includes(area), `schema: missing nearby service area ${area}`);
+}
 assert(seo.includes('.Params.description | default .Params.summary'), 'explicit meta description must take priority');
 assert(guide.includes('/conditions/tic/'), 'guide must link to tic page');
 assert(guide.includes('/conditions/panic/'), 'guide must link to panic page');
