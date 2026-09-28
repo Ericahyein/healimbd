@@ -38,6 +38,7 @@
 .condition-answer-box strong { display: block; margin-bottom: 8px; color: #18344a; font-size: 19px; line-height: 1.45; word-break: keep-all; }
 .condition-answer-box p { margin: 0; color: #486074; font-size: 16px; line-height: 1.76; word-break: keep-all; }
 .condition-content { counter-reset: condition-section; font-size: 16.5px; line-height: 1.9; color: #3d5063; }
+.condition-content p,.condition-content li,.condition-content th,.condition-content td,.condition-faq summary,.condition-faq p,.condition-related-card { word-break: keep-all; overflow-wrap: break-word; }
 .condition-content h2,.condition-faq h2,.condition-related h2 { color: #15243d; font-size: clamp(27px,2.65vw,34px); line-height: 1.34; letter-spacing: -.038em; word-break: keep-all; scroll-margin-top: 110px; }
 .condition-content h2 { counter-increment: condition-section; margin: 68px 0 23px; padding-top: 62px; border-top: 1px solid #e2eaf0; }
 .condition-content h2:first-child { margin-top: 0; border-top: 0; }
