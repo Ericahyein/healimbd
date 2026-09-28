@@ -15872,6 +15872,16 @@ body.inquiry-page-body .inquiry-table tbody tr:hover {
   box-shadow: 0 14px 32px rgba(0, 0, 0, 0.18);
 }
 
+.treatment-photo-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.treatment-photo-link:focus-visible {
+  outline: 3px solid #24b598;
+  outline-offset: 4px;
+}
+
 .treatment-photo-overlay {
   position: absolute;
   inset: 0;

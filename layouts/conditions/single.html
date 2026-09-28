@@ -1,0 +1,95 @@
+{{ define "main" }}
+<article class="condition-page">
+  <nav class="condition-breadcrumb" aria-label="현재 위치">
+    <div class="container">
+      <a href="{{ "/" | relURL }}">홈</a><span aria-hidden="true">›</span>
+      <a href="{{ "/guide/" | relURL }}">진료과목</a><span aria-hidden="true">›</span>
+      <span aria-current="page">{{ .Params.condition_name | default .Title }}</span>
+    </div>
+  </nav>
+
+  <header class="condition-hero">
+    <div class="container condition-hero-grid">
+      <div class="condition-hero-copy">
+        <p class="condition-eyebrow">{{ .Params.hero_kicker | default "CLINICAL GUIDE" }}</p>
+        <h1>{{ .Title }}</h1>
+        <p class="condition-lead">{{ .Params.hero_summary }}</p>
+        <div class="condition-meta" aria-label="의료 정보 검토 정보">
+          <span><i class="ph-bold ph-stethoscope"></i> 손지웅 대표원장 의학 정보 검토</span>
+          {{ if not .Lastmod.IsZero }}<span><i class="ph-bold ph-calendar-check"></i> 최종 검토 {{ .Lastmod.Format "2006.01.02" }}</span>{{ end }}
+        </div>
+        <div class="condition-hero-actions">
+          <a class="condition-btn primary" href="{{ "/inquiry/" | relURL }}">온라인 문의</a>
+          <a class="condition-btn secondary" href="https://naver.me/xbARooIc" target="_blank" rel="noopener noreferrer">네이버 예약</a>
+        </div>
+      </div>
+      <figure class="condition-hero-media">
+        <img src="{{ .Params.image | relURL }}" alt="{{ .Params.image_alt }}" width="1024" height="768" fetchpriority="high">
+      </figure>
+    </div>
+  </header>
+
+  <div class="container condition-layout">
+    <aside class="condition-toc" aria-label="페이지 목차">
+      <p>이 페이지에서</p>
+      {{ .TableOfContents }}
+      <a href="#faq">자주 묻는 질문</a>
+    </aside>
+
+    <div class="condition-main-column">
+      <div class="condition-answer-box">
+        <strong>{{ .Params.answer_title }}</strong>
+        <p>{{ .Params.answer_summary }}</p>
+      </div>
+
+      <div class="condition-content">
+        {{ .Content }}
+      </div>
+
+      {{ with .Params.faq }}
+      <section class="condition-faq" id="faq" aria-labelledby="faq-title">
+        <p class="condition-section-kicker">FAQ</p>
+        <h2 id="faq-title">자주 묻는 질문</h2>
+        <div class="condition-faq-list">
+          {{ range . }}
+          <details>
+            <summary>{{ .question }}</summary>
+            <p>{{ .answer }}</p>
+          </details>
+          {{ end }}
+        </div>
+      </section>
+      {{ end }}
+
+      {{ with .Params.related_posts }}
+      <section class="condition-related" aria-labelledby="related-title">
+        <p class="condition-section-kicker">DOCTOR'S COLUMN</p>
+        <h2 id="related-title">함께 읽으면 좋은 원장 칼럼</h2>
+        <div class="condition-related-grid">
+          {{ range . }}
+          <a href="{{ .url | relURL }}" class="condition-related-card">
+            <span>{{ .label }}</span>
+            <strong>{{ .title }}</strong>
+            <i class="ph-bold ph-arrow-right" aria-hidden="true"></i>
+          </a>
+          {{ end }}
+        </div>
+      </section>
+      {{ end }}
+    </div>
+  </div>
+
+  <section class="condition-cta" aria-label="예약 및 문의">
+    <div class="container condition-cta-inner">
+      <div>
+        <p>증상과 경과는 사람마다 다릅니다.</p>
+        <h2>현재 상태에 맞는 진료 방향을 상담해 보세요.</h2>
+      </div>
+      <div class="condition-cta-actions">
+        <a href="tel:031-716-8575"><i class="ph-bold ph-phone"></i> 031-716-8575</a>
+        <a href="{{ "/inquiry/" | relURL }}"><i class="ph-bold ph-chat-circle-dots"></i> 온라인 문의</a>
+      </div>
+    </div>
+  </section>
+</article>
+{{ end }}
