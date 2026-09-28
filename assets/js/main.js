@@ -3066,8 +3066,7 @@ function isPiiSafeText(text) {
     /차트\s*번호/i,
     /관리\s*번호/i,
     /진료\s*번호/i,
-    /초등학교|중학교|고등학교|대학교/,
-    /원장님|선생님|간호사|실장님/
+    /초등학교|중학교|고등학교|대학교/
   ];
   return !piiPatterns.some(pat => pat.test(text));
 }
@@ -3252,6 +3251,8 @@ function updatePreflightSummaryPreview() {
   if (valEl) {
     if (!val) {
       valEl.innerHTML = '<span style="color:#D97706;">⚠️ publicSummary가 비어 있습니다. 저장 시 설명글이 생략됩니다.</span>';
+    } else if (!isPiiSafeText(val)) {
+      valEl.innerHTML = '<span style="color:#DC2626;">❌ 개인정보(연락처, 주민번호, 이메일, 차트번호, 학교 등) 의심 패턴이 감지되어 저장이 차단됩니다.</span>';
     } else {
       valEl.innerHTML = '<span style="color:#16A34A;">✓ 첫 문장(제목) / 나머지 문장(설명) 분리 완료 | ✓ 개인정보 자동 검사 통과</span>';
     }
