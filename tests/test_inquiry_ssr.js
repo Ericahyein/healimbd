@@ -208,7 +208,11 @@ async function runTests() {
 
         // Check doctor answer
         assert.ok(html.includes('손지웅 대표원장입니다'), 'Doctor answer must be in raw HTML');
-        assert.ok(html.includes('"@type":"QAPage"'), 'Answered inquiry must include QAPage structured data');
+        assert.ok(html.includes('"@type":["WebPage","MedicalWebPage"]'), 'Answered inquiry must use MedicalWebPage structured data');
+        assert.ok(!html.includes('"@type":"QAPage"'), 'Single-doctor inquiry must not claim community QAPage eligibility');
+        assert.ok(!html.includes('"upvoteCount"'), 'Inquiry schema must not invent voting data');
+        assert.ok(html.includes('"reviewedBy"'), 'MedicalWebPage must identify the reviewing doctor');
+        assert.ok(html.includes('https://healimbd.com/philosophy/'), 'Reviewing doctor must link to the real profile page');
         assert.ok(html.includes('"@type":"BreadcrumbList"'), 'Answered inquiry must include breadcrumb structured data');
         assert.ok(html.includes('/inquiry/inq_related_tic_1/'), 'Same-disease answered inquiry must be linked in raw HTML');
         assert.ok(html.includes('031-716-8575'), 'SSR detail must use the current canonical clinic phone number');
