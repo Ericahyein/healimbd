@@ -219,7 +219,11 @@ async function runAllTests() {
     assert.strictEqual(isPiiSafeText('주민등록번호 ' + '900101' + '-1234567 기재'), false, 'Resident ID detected');
     assert.strictEqual(isPiiSafeText('차트 번호 12053 환자분'), false, 'Chart number detected');
     assert.strictEqual(isPiiSafeText('환자 이메일 dummy' + '@' + 'example.com'), false, 'Email detected');
+    assert.strictEqual(isPiiSafeText('담임선생님께 학교생활에 관한 연락을 받았습니다.'), true, 'Generic teacher title is not PII');
+    assert.strictEqual(isPiiSafeText('원장님과 간호사에게 감사드립니다.'), true, 'Generic clinic staff titles are not PII');
+    assert.strictEqual(isPiiSafeText('한빛초등학교에서 연락을 받았습니다.'), false, 'School information remains blocked');
     assert.ok(mainJs.includes('!isPiiSafeText(approvedSummary)'), 'executeApprovedCaseSubmit enforces PII safety gate');
+    assert.ok(mainJs.includes("else if (!isPiiSafeText(val))"), 'Preflight preview uses the same PII safety gate');
   });
 
   // Req 11. 관리자만 publicSummary 수정 가능
