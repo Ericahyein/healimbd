@@ -313,30 +313,38 @@ export async function onRequestGet(context) {
     '@context': 'https://schema.org',
     '@graph': [
       {
-        '@type': 'QAPage',
-        '@id': `${canonicalUrl}#qapage`,
+        '@type': ['WebPage', 'MedicalWebPage'],
+        '@id': `${canonicalUrl}#webpage`,
         url: canonicalUrl,
+        name: seoTitle,
+        description: makeDescription(inquiry.content),
         inLanguage: 'ko-KR',
-        mainEntity: {
-          '@type': 'Question',
-          name: inquiry.title,
-          text: inquiry.content,
-          answerCount: 1,
-          datePublished: inquiry.createdAt || undefined,
-          author: { '@type': 'Person', name: '익명 상담자' },
-          acceptedAnswer: {
-            '@type': 'Answer',
-            text: inquiry.answer,
-            datePublished: inquiry.answeredAt || inquiry.createdAt || undefined,
-            url: `${canonicalUrl}#doctor-answer`,
-            author: {
-              '@type': 'Person',
-              name: '손지웅 대표원장',
-              jobTitle: '한의사',
-              worksFor: { '@type': 'MedicalClinic', name: '해아림한의원 분당점', url: 'https://healimbd.com/' }
-            }
+        datePublished: inquiry.createdAt || undefined,
+        dateModified: inquiry.answeredAt || inquiry.createdAt || undefined,
+        isPartOf: {
+          '@type': 'WebSite',
+          '@id': 'https://healimbd.com/#website',
+          url: 'https://healimbd.com/',
+          name: '해아림한의원 분당점'
+        },
+        about: {
+          '@type': 'MedicalCondition',
+          name: getRepresentativeDisease(inquiry.category, inquiry.disease) || CATEGORY_MAP[inquiry.category] || '신경정신과 질환'
+        },
+        reviewedBy: {
+          '@type': 'Person',
+          '@id': 'https://healimbd.com/#doctor-jiwoong-son',
+          name: '손지웅 대표원장',
+          url: 'https://healimbd.com/philosophy/',
+          jobTitle: '한의사',
+          worksFor: {
+            '@type': 'MedicalClinic',
+            '@id': 'https://healimbd.com/#clinic',
+            name: '해아림한의원 분당점',
+            url: 'https://healimbd.com/'
           }
-        }
+        },
+        publisher: { '@id': 'https://healimbd.com/#clinic' }
       },
       {
         '@type': 'BreadcrumbList',
