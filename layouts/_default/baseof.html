@@ -27,6 +27,11 @@
     <link rel="stylesheet" href="{{ $areaStyle.RelPermalink }}">
   {{ end }}
 
+  {{ if eq .Section "conditions" }}
+    {{ $conditionStyle := resources.Get "css/condition-page.css" | resources.Minify | resources.Fingerprint }}
+    <link rel="stylesheet" href="{{ $conditionStyle.RelPermalink }}">
+  {{ end }}
+
 </head>
 <body>
   {{ partial "header.html" . }}
