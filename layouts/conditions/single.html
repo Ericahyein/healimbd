@@ -1,5 +1,5 @@
 {{ define "main" }}
-<article class="condition-page">
+<article class="condition-page condition-page-{{ .File.ContentBaseName }}">
   <nav class="condition-breadcrumb" aria-label="현재 위치">
     <div class="container">
       <a href="{{ "/" | relURL }}">홈</a><span aria-hidden="true">›</span>

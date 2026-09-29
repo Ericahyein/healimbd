@@ -56,6 +56,11 @@
 .condition-content th,.condition-content td { padding: 15px 17px; border-bottom: 1px solid #e6edf2; text-align: left; vertical-align: top; }
 .condition-content th { background: #edf7f9; color: #18334a; font-size: 14px; }
 .condition-content tr:last-child td { border-bottom: 0; }
+.condition-page-hyperhidrosis .condition-content table { table-layout: fixed; }
+.condition-page-hyperhidrosis .condition-content th { text-align: center; vertical-align: middle; }
+.condition-page-hyperhidrosis .condition-content td { text-align: left; }
+.condition-page-hyperhidrosis .condition-content th:first-child,
+.condition-page-hyperhidrosis .condition-content td:first-child { width: 138px; white-space: nowrap; }
 .condition-content blockquote { margin: 28px 0; padding: 23px 25px 23px 54px; position: relative; border: 1px solid #f0dfb8; border-radius: 16px; background: #fff9ed; color: #594a31; }
 .condition-content blockquote::before { content: '!'; position: absolute; left: 22px; top: 22px; width: 22px; height: 22px; display: grid; place-items: center; border-radius: 50%; background: #e9a922; color: #fff; font-weight: 900; }
 .condition-content blockquote p:last-child { margin-bottom: 0; }
