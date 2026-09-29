@@ -33,6 +33,10 @@ const {
 async function runAllTests() {
   console.log('🧪 Starting Doctor Column Title Similarity & Auto-Retry Test Suite...\n');
 
+  // Calendar rotation is production behavior, not the subject of this suite.
+  // Freeze planner input so title/body assertions do not change by run date.
+  const stablePipelineNow = new Date('2026-09-20T00:00:00+09:00');
+
   const testTmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'healim-title-retry-test-'));
   const mockHistoryPath = path.join(testTmpDir, 'auto_column_history.json');
   const mockBlogDir = path.join(testTmpDir, 'content_blog');
@@ -509,7 +513,9 @@ async function runAllTests() {
     apiKey: '',
     isDryRun: true,
     historyPath: syncHist,
-    blogDir: syncBlog
+    blogDir: syncBlog,
+    // Keep this regression test independent from the calendar-based topic rotation.
+    now: stablePipelineNow
   });
 
   const finalTitle = syncResult.plan.titleCandidate;
@@ -538,6 +544,7 @@ async function runAllTests() {
       isDryRun: true,
       historyPath: geoFailHist,
       blogDir: geoFailBlog,
+      now: stablePipelineNow,
       mockBodyGenerator: (plan) => {
         bodyGenCountGeo++;
         // Deliberately introduce cross-region reference (e.g. Suji article referencing Pangyo)
@@ -573,6 +580,7 @@ async function runAllTests() {
       isDryRun: true,
       historyPath: adFailHist,
       blogDir: adFailBlog,
+      now: stablePipelineNow,
       mockBodyGenerator: () => {
         bodyGenCountAd++;
         return '## 치료 효과 안내\n해아림한의원에서는 100% 완치를 보장하며 재발이 전혀 없습니다.';
@@ -607,6 +615,7 @@ async function runAllTests() {
       isDryRun: true,
       historyPath: clinFailHist,
       blogDir: clinFailBlog,
+      now: stablePipelineNow,
       mockBodyGenerator: () => {
         bodyGenCountClin++;
         // Clinical violation: e.g. empty or non-compliant content
@@ -640,6 +649,7 @@ async function runAllTests() {
       isDryRun: true,
       historyPath: unapprovedHist,
       blogDir: unapprovedBlog,
+      now: stablePipelineNow,
       mockKnowledge: {
         diseaseId: 'adhd',
         reviewStatus: 'draft' // Not approved!
@@ -843,7 +853,8 @@ async function runAllTests() {
       isDryRun: true,
       apiKey: '',
       historyPath: dryRunHist,
-      blogDir: dryRunBlog
+      blogDir: dryRunBlog,
+      now: stablePipelineNow
     });
     assert.strictEqual(dryRunRes.success, true);
     assert.strictEqual(dryRunRes.isDryRun, true);
