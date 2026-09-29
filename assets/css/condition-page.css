@@ -49,8 +49,8 @@
 .condition-content ul { margin: 24px 0 30px; padding: 22px 24px 22px 44px; border: 1px solid #e0e9ef; border-radius: 16px; background: #f9fbfc; }
 .condition-content ul li::marker { color: #12a6aa; }
 .condition-content li + li { margin-top: 10px; }
-.condition-content ol { margin: 26px 0 32px; padding: 0; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; list-style: none; counter-reset: assessment; }
-.condition-content ol li { counter-increment: assessment; min-height: 126px; padding: 21px 21px 20px; border: 1px solid #dfe9ef; border-radius: 16px; background: #fff; box-shadow: 0 8px 22px rgba(32,66,91,.045); }
+.condition-content ol { margin: 26px 0 32px; padding: 0; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); grid-auto-rows: 1fr; gap: 12px; list-style: none; counter-reset: assessment; }
+.condition-content ol li { counter-increment: assessment; min-height: 142px; height: 100%; box-sizing: border-box; padding: 21px 21px 20px; border: 1px solid #dfe9ef; border-radius: 16px; background: #fff; box-shadow: 0 8px 22px rgba(32,66,91,.045); }
 .condition-content ol li::before { content: counter(assessment,decimal-leading-zero); display: block; margin-bottom: 11px; color: #0e9fab; font: 750 13px/1 'Outfit',sans-serif; letter-spacing: .08em; }
 .condition-content table { width: 100%; margin: 26px 0 32px; border-collapse: separate; border-spacing: 0; overflow: hidden; border: 1px solid #dce6ee; border-radius: 16px; background: #fff; box-shadow: 0 8px 24px rgba(32,66,91,.04); }
 .condition-content th,.condition-content td { padding: 15px 17px; border-bottom: 1px solid #e6edf2; text-align: left; vertical-align: top; }
@@ -110,7 +110,7 @@
   .condition-content h2 { margin-top: 52px; padding-top: 48px; }
   .condition-content h2,.condition-faq h2,.condition-related h2 { font-size: 28px; }
   .condition-content h2 + p { font-size: 16.5px; }
-  .condition-content ol { grid-template-columns: 1fr; }
+  .condition-content ol { grid-template-columns: 1fr; grid-auto-rows: auto; }
   .condition-content ol li { min-height: 0; }
   .condition-content ul { padding: 20px 20px 20px 39px; }
   .condition-content table { display: block; overflow-x: auto; white-space: nowrap; }
