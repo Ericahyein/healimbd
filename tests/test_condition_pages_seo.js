@@ -5,13 +5,24 @@ const path = require('path');
 const root = path.resolve(__dirname, '..');
 const read = (file) => fs.readFileSync(path.join(root, file), 'utf8');
 
-const tic = read('content/conditions/tic.md');
-const panic = read('content/conditions/panic.md');
+const conditions = {
+  '틱장애': read('content/conditions/tic.md'),
+  'ADHD': read('content/conditions/adhd.md'),
+  '공황장애': read('content/conditions/panic.md'),
+  '불안장애': read('content/conditions/anxiety.md'),
+  '불면증': read('content/conditions/insomnia.md'),
+  '자율신경실조증': read('content/conditions/autonomic.md'),
+  '다한증': read('content/conditions/hyperhidrosis.md'),
+  '과민성대장증후군': read('content/conditions/ibs.md'),
+  '미주신경성 실신': read('content/conditions/syncope.md'),
+};
+const tic = conditions['틱장애'];
+const panic = conditions['공황장애'];
 const layout = read('layouts/conditions/single.html');
 const seo = read('layouts/partials/head_seo.html');
 const guide = read('layouts/guide/list.html');
 
-for (const [name, content] of [['틱장애', tic], ['공황장애', panic]]) {
+for (const [name, content] of Object.entries(conditions)) {
   assert(content.includes('seo_title:'), `${name}: unique SEO title required`);
   assert(content.includes('description:'), `${name}: meta description required`);
   assert(content.includes('lastmod:'), `${name}: medical review date required`);
@@ -26,14 +37,23 @@ for (const [name, content] of [['틱장애', tic], ['공황장애', panic]]) {
 }
 
 for (const assessment of ['뇌인지검사', '뇌기능검사', '정서심리검사', '문진·설진·복진·진맥']) {
-  assert(tic.includes(assessment), `tic: missing actual assessment ${assessment}`);
-  assert(panic.includes(assessment), `panic: missing actual assessment ${assessment}`);
+  for (const [name, content] of Object.entries(conditions)) {
+    assert(content.includes(assessment), `${name}: missing actual assessment ${assessment}`);
+  }
 }
 
 for (const training of ['뉴로피드백', '밸런싱', 'IM']) {
   assert(tic.includes(training), `tic: missing conditional training ${training}`);
 }
 assert(panic.includes('훈련치료를 적용하지 않습니다'), 'panic: training exclusion must be explicit');
+for (const name of ['불안장애', '불면증', '자율신경실조증', '다한증', '과민성대장증후군', '미주신경성 실신']) {
+  assert(!conditions[name].includes('뉴로피드백'), `${name}: neurofeedback is limited to tic and ADHD`);
+  assert(!conditions[name].includes('밸런싱'), `${name}: balancing is limited to tic and ADHD`);
+  assert(!/(^|[^A-Za-z])IM([^A-Za-z]|$)/m.test(conditions[name]), `${name}: IM is limited to tic and ADHD`);
+}
+for (const training of ['뉴로피드백', '밸런싱', 'IM']) {
+  assert(conditions['ADHD'].includes(training), `ADHD: missing conditional training ${training}`);
+}
 
 assert(layout.includes('{{ .Content }}'), 'condition content must be server-rendered');
 assert(layout.includes('손지웅 대표원장 의학 정보 검토'), 'visible medical reviewer required');
@@ -44,7 +64,8 @@ for (const area of ['성남시 분당구', '판교', '용인시 수지구', '경
   assert(seo.includes(area), `schema: missing nearby service area ${area}`);
 }
 assert(seo.includes('.Params.description | default .Params.summary'), 'explicit meta description must take priority');
-assert(guide.includes('/conditions/tic/'), 'guide must link to tic page');
-assert(guide.includes('/conditions/panic/'), 'guide must link to panic page');
+for (const slug of ['tic', 'adhd', 'panic', 'anxiety', 'insomnia', 'autonomic', 'hyperhidrosis', 'ibs', 'syncope']) {
+  assert(guide.includes(`/conditions/${slug}/`), `guide must link to ${slug} page`);
+}
 
 console.log('✅ Condition detail SEO/content checks passed.');
