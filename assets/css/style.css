@@ -16090,9 +16090,20 @@ body.inquiry-page-body .inquiry-table tbody tr:hover {
 }
 
 .guide-treatments-head .editorial-section-desc {
-  text-align: center !important;
-  margin-left: auto;
-  margin-right: auto;
+  text-align: left !important;
+  margin-left: 0;
+  margin-right: 0;
+  max-width: 760px;
+}
+
+.guide-treatment-instruction {
+  display: block;
+  margin-top: 7px;
+}
+
+.guide-treatment-instruction strong {
+  color: #0780B6;
+  font-weight: 750;
 }
 
 .guide-section-title-reduced,
