@@ -1,22 +1,29 @@
 ---
 title: "[수지 공황장애] 증상이 다시 나타날까 두려운 예기불안의 악순환 끊기"
 date: 2026-09-14T16:20:44.763+09:00
+lastmod: 2026-09-30T09:00:00+09:00
+search_intent: "long_tail_column"
+condition_pillar: "/conditions/panic/"
+article_review_status: "medical_standard_based"
 category: "panic"
 category_name: "공황장애"
-author: "손지웅 대표원장"
+author: "해아림한의원 의료 콘텐츠팀"
+content_author: "해아림한의원 의료 콘텐츠팀"
+medical_information_reviewer: "손지웅 대표원장"
+review_scope: "사전 승인 질환별 의료정보 기준"
 image: "images/blog/yongin-suji-panic-anticipatory-anxiety.jpg"
 summary: "공황장애의 예기불안이 외출 위축과 회피로 이어지는 과정을 살펴보고, 증상에 맞는 점진적 대처와 생활 관리 방향을 안내합니다."
 hashtags:
-  - "수지공황장애"
-  - "수지한의원"
-  - "공황장애치료"
-  - "공황장애관리"
-  - "해아림한의원"
+  - "수지"
+  - "공황장애정보"
+  - "공황장애관찰"
+  - "증상관찰"
+  - "해아림의학칼럼"
 keywords:
-  - "수지 공황장애"
-  - "용인시 수지구 공황장애"
-  - "공황장애 한방치료"
   - "증상이 다시 나타날까 두려운 예기불안의 악순환 끊기"
+  - "공황장애 증상이 다시 나타날까 두려운 예기불안의 악순환 끊기"
+  - "수지 증상이 다시 나타날까 두려운 예기불안의 악순환 끊기"
+  - "공황장애 증상 관찰"
 ---
 
 <div class="column-key-summary-box">
@@ -128,3 +135,14 @@ keywords:
 공황장애의 예기불안은 “증상이 다시 생길까 봐” 시작되지만, 시간이 지나면 외출과 이동, 사회생활의 선택지를 줄이는 방향으로 이어질 수 있습니다. 그렇다고 불안을 의지로 눌러 버리거나 무리하게 견딜 필요는 없습니다.
 
 안전 확인이 필요한 신체 증상은 적절히 평가하고, 반복되는 불안의 흐름은 차분하게 관찰하며, 수면·과로·카페인·알코올 같은 변동 요인을 조절하는 것이 중요합니다. 불안이 있어도 조금씩 일상을 선택하는 경험이 쌓일 때, 예기불안의 악순환을 끊어 가는 기반이 마련될 수 있습니다.
+
+### 참고한 공식 의학 자료
+
+- [Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition (DSM-5) - Panic Disorder](https://doi.org/10.1176/appi.books.9780890425596)
+- [2021 AHA/ACC/ASE/CHEST/SAEM/SCCT/SCMR Guideline for the Evaluation and Diagnosis of Chest Pain](https://doi.org/10.1161/CIR.0000000000001029)
+
+---
+
+### 관련 질환 자세히 보기
+
+- [공황장애 증상·검사·치료 안내](/conditions/panic/)

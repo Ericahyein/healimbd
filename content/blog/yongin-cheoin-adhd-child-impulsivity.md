@@ -1,22 +1,29 @@
 ---
 title: "[처인구 ADHD] 산만함과 충동성이 훈육만으로 조절되지 않을 때"
 date: 2026-09-10T16:21:15.864+09:00
+lastmod: 2026-09-30T09:00:00+09:00
+search_intent: "long_tail_column"
+condition_pillar: "/conditions/adhd/"
+article_review_status: "medical_standard_based"
 category: "adhd"
 category_name: "ADHD·집중력"
-author: "손지웅 대표원장"
+author: "해아림한의원 의료 콘텐츠팀"
+content_author: "해아림한의원 의료 콘텐츠팀"
+medical_information_reviewer: "손지웅 대표원장"
+review_scope: "사전 승인 질환별 의료정보 기준"
 image: "images/blog/yongin-cheoin-adhd-child-impulsivity.jpg"
 summary: "ADHD의 산만함과 충동성이 훈육만으로 조절되지 않는 이유를 살펴보고, 정서적 지지와 환경 구조화 등 상태에 맞는 관리 방향을 안내합니다."
 hashtags:
-  - "처인구ADHD"
-  - "처인구한의원"
-  - "ADHD치료"
-  - "ADHD관리"
-  - "해아림한의원"
+  - "처인구"
+  - "ADHD정보"
+  - "ADHD관찰"
+  - "증상관찰"
+  - "해아림의학칼럼"
 keywords:
-  - "처인구 ADHD"
-  - "용인시 처인구 ADHD"
-  - "ADHD 한방치료"
   - "산만함과 충동성이 훈육만으로 조절되지 않을 때"
+  - "ADHD 산만함과 충동성이 훈육만으로 조절되지 않을 때"
+  - "처인구 산만함과 충동성이 훈육만으로 조절되지 않을 때"
+  - "ADHD 증상 관찰"
 ---
 
 <div class="column-key-summary-box">
@@ -117,3 +124,14 @@ ADHD의 발생 배경과 일상에서 증상이 심해지는 요인은 구분해
 현재 복용 중인 약물은 임의로 중단하지 않아야 합니다. 한약이나 침구 치료를 함께 고려하는 경우에는 복용 중인 약의 종류와 상태를 의료진에게 알리고, 처방 의료진과 상의하면서 안전하게 관리 방향을 정하는 것이 원칙입니다.
 
 산만함과 충동성은 아이의 성격 문제나 보호자의 양육 실패로 단순화할 수 있는 문제가 아닙니다. 아이가 어려움을 겪는 순간을 세심하게 관찰하고, 일상을 예측 가능하게 구조화하며, 실수 뒤에도 다시 시도할 수 있도록 지지해 주는 과정이 중요합니다.
+
+### 참고한 공식 의학 자료
+
+- [Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition (DSM-5) - Attention-Deficit/Hyperactivity Disorder](https://doi.org/10.1176/appi.books.9780890425596)
+- [NICE Guideline NG87 Attention deficit hyperactivity disorder: diagnosis and management](https://www.nice.org.uk/guidance/ng87)
+
+---
+
+### 관련 질환 자세히 보기
+
+- [ADHD 증상·검사·치료 안내](/conditions/adhd/)

@@ -2,22 +2,28 @@
 title: "[경기광주 틱장애] 감기약을 먹어도 계속되는 헛기침, 음성틱일까요?"
 date: 2026-09-29T14:37:13.513+09:00
 lastmod: 2026-09-30T12:35:00+09:00
+search_intent: "long_tail_column"
+condition_pillar: "/conditions/tic/"
+article_review_status: "medical_standard_based"
 category: "tic"
 category_name: "틱장애·뚜렛"
-author: "손지웅 대표원장"
+author: "해아림한의원 의료 콘텐츠팀"
+content_author: "해아림한의원 의료 콘텐츠팀"
+medical_information_reviewer: "손지웅 대표원장"
+review_scope: "사전 승인 질환별 의료정보 기준"
 image: "images/blog/gyeonggi-gwangju-tic-cough-distinction.jpg"
 summary: "잦은 헛기침이 감기나 비염 때문인지 틱장애의 음성틱인지 구별하는 관찰 포인트와 신중한 관리 방향을 살펴봅니다."
 hashtags:
-  - "경기광주틱장애"
-  - "경기광주한의원"
-  - "틱장애치료"
-  - "틱장애관리"
-  - "해아림한의원"
+  - "경기광주"
+  - "틱장애정보"
+  - "틱장애관찰"
+  - "증상관찰"
+  - "해아림의학칼럼"
 keywords:
-  - "경기광주 틱장애"
-  - "경기도 광주시 틱장애"
-  - "틱장애 한방치료"
   - "감기약을 먹어도 계속되는 헛기침, 음성틱일까요?"
+  - "틱장애 감기약을 먹어도 계속되는 헛기침, 음성틱일까요?"
+  - "경기광주 감기약을 먹어도 계속되는 헛기침, 음성틱일까요?"
+  - "틱장애 증상 관찰"
 ---
 
 <div class="column-key-summary-box">
@@ -130,3 +136,14 @@ keywords:
 헛기침과 킁킁거림은 흔히 볼 수 있는 증상이지만, 반복되는 양상에 운동틱이 더해지거나 일상생활의 부담이 커진다면 보다 세심한 관찰이 필요합니다.
 
 아이의 소리 자체를 문제 삼기보다, 피로와 긴장을 줄이고 안정적인 생활 리듬을 지지하면서 변화의 흐름을 차분히 살펴보는 것이 중요합니다.
+
+### 참고한 공식 의학 자료
+
+- [Prolonged screen time is associated with increased severity of tic symptoms in children with tic disorders](https://doi.org/10.1186/s13052-025-01851-w)
+- [The Pathophysiology of Tics: An Anatomic Review](https://doi.org/10.1016/j.psc.2024.08.003)
+
+---
+
+### 관련 질환 자세히 보기
+
+- [틱장애 증상·검사·치료 안내](/conditions/tic/)

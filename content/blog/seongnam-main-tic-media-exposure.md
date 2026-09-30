@@ -1,22 +1,29 @@
 ---
 title: "[성남 틱장애] 미디어 및 스마트폰 사용이 증상에 미치는 영향"
 date: 2026-09-07T01:28:18.893+09:00
+lastmod: 2026-09-30T09:00:00+09:00
+search_intent: "long_tail_column"
+condition_pillar: "/conditions/tic/"
+article_review_status: "medical_standard_based"
 category: "tic"
 category_name: "틱장애·뚜렛"
-author: "손지웅 대표원장"
+author: "해아림한의원 의료 콘텐츠팀"
+content_author: "해아림한의원 의료 콘텐츠팀"
+medical_information_reviewer: "손지웅 대표원장"
+review_scope: "사전 승인 질환별 의료정보 기준"
 image: "images/blog/seongnam-main-tic-media-exposure.jpg"
 summary: "틱장애는 미디어 자극과 긴장, 수면 리듬에 따라 증상이 달라질 수 있어 사용 환경과 생활 상태를 함께 살펴야 합니다."
 hashtags:
-  - "성남틱장애"
-  - "성남한의원"
-  - "틱장애치료"
-  - "틱장애관리"
-  - "해아림한의원"
+  - "성남"
+  - "틱장애정보"
+  - "틱장애관찰"
+  - "증상관찰"
+  - "해아림의학칼럼"
 keywords:
-  - "성남 틱장애"
-  - "성남시 틱장애"
-  - "틱장애 한방치료"
   - "미디어 및 스마트폰 사용이 증상에 미치는 영향"
+  - "틱장애 미디어 및 스마트폰 사용이 증상에 미치는 영향"
+  - "성남 미디어 및 스마트폰 사용이 증상에 미치는 영향"
+  - "틱장애 증상 관찰"
 ---
 
 <div class="column-key-summary-box">
@@ -107,3 +114,14 @@ keywords:
 함께 보인다는 사실만으로 확정할 수는 없습니다. 증상이 이어진 경과, 시작 시기, 틱의 종류와 변화 양상 등을 종합적으로 평가하여 일과성 틱이나 지속성 틱 등과 구분해야 합니다.
 
 틱장애 관리에서 중요한 것은 아이의 행동을 통제하는 것이 아니라, 아이가 과도한 자극과 피로, 긴장 속에 놓이지 않도록 생활 환경을 조정하는 것입니다. 미디어 사용을 차분히 점검하고, 안정적인 수면 리듬과 충분한 휴식을 지지하며, 틱 자체를 지나치게 문제 삼지 않는 태도가 아이의 일상을 지켜가는 데 도움이 됩니다.
+
+### 참고한 공식 의학 자료
+
+- [Prolonged screen time is associated with increased severity of tic symptoms in children with tic disorders](https://doi.org/10.1186/s13052-025-01851-w)
+- [The Pathophysiology of Tics: An Anatomic Review](https://doi.org/10.1016/j.psc.2024.08.003)
+
+---
+
+### 관련 질환 자세히 보기
+
+- [틱장애 증상·검사·치료 안내](/conditions/tic/)

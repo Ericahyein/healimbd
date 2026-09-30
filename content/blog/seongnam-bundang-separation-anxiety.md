@@ -1,22 +1,29 @@
 ---
 title: "[분당 소아 분리불안] 유치원이나 학교 갈 때마다 배가 아프다고 우는 아이"
 date: 2026-09-25T13:48:30.335+09:00
+lastmod: 2026-09-30T09:00:00+09:00
+search_intent: "long_tail_column"
+condition_pillar: ""
+article_review_status: "medical_standard_based"
 category: "anxiety"
 category_name: "소아신경"
-author: "손지웅 대표원장"
+author: "해아림한의원 의료 콘텐츠팀"
+content_author: "해아림한의원 의료 콘텐츠팀"
+medical_information_reviewer: "손지웅 대표원장"
+review_scope: "사전 승인 질환별 의료정보 기준"
 image: "images/blog/seongnam-bundang-separation-anxiety.jpg"
 summary: "소아 분리불안으로 등교 전 복통을 호소하는 아이의 신체화 증상과 생활 관리, 부모의 따뜻한 지지 방법을 살펴봅니다."
 hashtags:
-  - "분당소아분리불안"
-  - "분당한의원"
-  - "소아분리불안치료"
-  - "소아분리불안관리"
-  - "해아림한의원"
+  - "분당"
+  - "소아분리불안정보"
+  - "소아분리불안관찰"
+  - "증상관찰"
+  - "해아림의학칼럼"
 keywords:
-  - "분당 소아 분리불안"
-  - "성남시 분당구 소아 분리불안"
-  - "소아 분리불안 한방치료"
   - "유치원이나 학교 갈 때마다 배가 아프다고 우는 아이"
+  - "소아 분리불안 유치원이나 학교 갈 때마다 배가 아프다고 우는 아이"
+  - "분당 유치원이나 학교 갈 때마다 배가 아프다고 우는 아이"
+  - "소아 분리불안 증상 관찰"
 ---
 
 <div class="column-key-summary-box">
@@ -114,3 +121,8 @@ keywords:
 분리 상황에서의 불안과 울음이 매우 강하고 반복되거나, 등원·등교·수면·가족생활에 뚜렷한 어려움을 주는 경우 평가가 필요합니다. 복통과 두통이 계속되거나, 식사·배변·활력 변화가 동반되는 경우에는 신체 질환 감별도 함께 받아야 합니다.
 
 아이의 불안은 의지가 약해서 생기는 문제가 아니며, 부모의 잘못만으로 설명할 수도 없습니다. 아이가 낯선 환경을 견디고 적응하는 과정에서 보내는 신호일 수 있습니다. 아이의 몸과 마음의 표현을 차분히 받아들이고, 안정적인 일상과 따뜻한 지지를 꾸준히 제공하는 것이 회복을 돕는 출발점입니다.
+
+### 참고한 공식 의학 자료
+
+- [Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition (DSM-5) - Separation Anxiety Disorder](https://doi.org/10.1176/appi.books.9780890425596)
+- [Sleep Terrors: An Updated Review](https://doi.org/10.2174/1573396315666191014152136)

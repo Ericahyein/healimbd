@@ -1,24 +1,31 @@
 ---
 title: "[수정구 불면증] 잠은 드는데 새벽마다 깨서 다시 잠들지 못하는 이유"
 date: 2026-09-09T09:32:52.401+09:00
+lastmod: 2026-09-30T09:00:00+09:00
+search_intent: "long_tail_column"
+condition_pillar: "/conditions/insomnia/"
+article_review_status: "medical_standard_based"
 category: "sleep"
 category_name: "수면·불면증"
-author: "손지웅 대표원장"
+author: "해아림한의원 의료 콘텐츠팀"
+content_author: "해아림한의원 의료 콘텐츠팀"
+medical_information_reviewer: "손지웅 대표원장"
+review_scope: "사전 승인 질환별 의료정보 기준"
 thumbnail: "images/blog/seongnam-sujeong-sleep-early-awakening.jpg"
 editorialImage: "images/blog/seongnam-sujeong-sleep-early-awakening-editorial.jpg"
 image: "images/blog/seongnam-sujeong-sleep-early-awakening.jpg"
 summary: "불면증 중 수면 유지 장애와 조기각성의 양상을 살펴보고, 수면 리듬과 긴장도에 맞춘 관리 방향을 안내합니다."
 hashtags:
-  - "수정구불면증"
-  - "수정구한의원"
-  - "불면증치료"
-  - "불면증관리"
-  - "해아림한의원"
+  - "수정구"
+  - "불면증정보"
+  - "불면증관찰"
+  - "증상관찰"
+  - "해아림의학칼럼"
 keywords:
-  - "수정구 불면증"
-  - "성남시 수정구 불면증"
-  - "불면증 한방치료"
   - "잠은 드는데 새벽마다 깨서 다시 잠들지 못하는 이유"
+  - "불면증 잠은 드는데 새벽마다 깨서 다시 잠들지 못하는 이유"
+  - "수정구 잠은 드는데 새벽마다 깨서 다시 잠들지 못하는 이유"
+  - "불면증 증상 관찰"
 ---
 
 <div class="column-key-summary-box">
@@ -111,3 +118,14 @@ keywords:
 임의로 즉시 중단해서는 안 됩니다. 복용 중인 약물의 종류와 기간, 현재 증상을 고려해야 하므로 처방 의료진과 상의하여 조절 여부를 판단해야 합니다.
 
 새벽 각성은 단순한 수면 시간의 문제가 아니라 생활 리듬, 남아 있는 긴장, 수면에 대한 불안이 함께 얽혀 나타날 수 있습니다. 일정한 기상 시간과 차분한 수면 환경을 유지하면서, 낮 시간의 피로와 일상 기능 변화를 함께 관찰하는 것이 관리의 출발점입니다.
+
+### 참고한 공식 의학 자료
+
+- [International Classification of Sleep Disorders, Third Edition (ICSD-3) - Chronic Insomnia Disorder](https://aasm.org/clinical-resources/international-classification-sleep-disorders/)
+- [Deprescribing benzodiazepine receptor agonists: Evidence-based clinical practice guideline](https://pubmed.ncbi.nlm.nih.gov/29760253/)
+
+---
+
+### 관련 질환 자세히 보기
+
+- [불면증 증상·검사·치료 안내](/conditions/insomnia/)

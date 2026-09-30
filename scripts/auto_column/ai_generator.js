@@ -389,6 +389,64 @@ async function generateTopicOutline(plan, knowledge, apiKey, telemetry) {
 /**
  * 2. Generate Full Medical Article Body using Writer Model (gpt-5.6-terra)
  */
+function normalizeLinkUrl(url) {
+  return String(url || '').split('#')[0].split('?')[0].replace(/\/$/, '');
+}
+
+function getVerifiedEvidenceSources(knowledge) {
+  const seen = new Set();
+  return (knowledge?.evidenceNotes || [])
+    .filter(note => note.sourceVerified === true && note.productionUsable === true)
+    .map(note => ({
+      title: note.sourceTitle || note.source?.name || '공식 의학 자료',
+      url: note.sourceUrl || note.source?.url || ''
+    }))
+    .filter(source => {
+      const normalized = normalizeLinkUrl(source.url);
+      if (!normalized || seen.has(normalized)) return false;
+      seen.add(normalized);
+      return true;
+    });
+}
+
+function finalizeArticleTrustSignals(content, internalLinks, knowledge) {
+  let finalized = String(content || '').trim();
+  const existingInternalLinks = extractInternalLinks(finalized);
+  const existingInternalUrls = new Set(existingInternalLinks.map(link => normalizeLinkUrl(link.url)));
+  const conditionPage = (internalLinks || []).find(link => String(link?.url || '').startsWith('/conditions/'));
+
+  if (conditionPage && !existingInternalUrls.has(normalizeLinkUrl(conditionPage.url))) {
+    const rawAnchor = conditionPage.cleanAnchor || conditionPage.title || '관련 질환 상세 안내';
+    const cleanAnchor = sanitizeAnchorTitle(rawAnchor);
+    finalized += `\n\n---\n\n### 🔗 관련 질환 자세히 보기\n- [${cleanAnchor}](${conditionPage.url})\n`;
+    console.log(`ℹ️ [AI Writer Guard] Appended mandatory condition pillar: [${cleanAnchor}](${conditionPage.url})`);
+  }
+
+  const sources = getVerifiedEvidenceSources(knowledge);
+  const linkedUrls = new Set(
+    Array.from(finalized.matchAll(/\[[^\]]+\]\((https?:\/\/[^)]+)\)/g))
+      .map(match => normalizeLinkUrl(match[1]))
+  );
+  const minimumSources = Math.min(2, sources.length);
+  const usedVerifiedCount = sources.filter(source => linkedUrls.has(normalizeLinkUrl(source.url))).length;
+
+  if (usedVerifiedCount < minimumSources) {
+    const missingSources = sources
+      .filter(source => !linkedUrls.has(normalizeLinkUrl(source.url)))
+      .slice(0, minimumSources - usedVerifiedCount);
+    if (missingSources.length > 0) {
+      const sourceLines = missingSources.map(source => {
+        const safeTitle = String(source.title).replace(/[\[\]]/g, '').trim();
+        return `- [${safeTitle}](${source.url})`;
+      });
+      finalized += `\n\n### 참고한 공식 의학 자료\n${sourceLines.join('\n')}\n`;
+      console.log(`ℹ️ [AI Writer Guard] Appended ${missingSources.length} verified medical source link(s).`);
+    }
+  }
+
+  return finalized;
+}
+
 async function generateArticleBody(plan, outline, knowledge, internalLinks, apiKey, telemetry) {
   const linksListMd = (Array.isArray(internalLinks) && internalLinks.length > 0)
     ? internalLinks.map(l => {
@@ -419,7 +477,7 @@ async function generateArticleBody(plan, outline, knowledge, internalLinks, apiK
       sanitizedEvaluationGuidance = sanitizedEvaluationGuidance.replace(/특히 성인[^.]+\./g, '').trim();
     }
 
-    return `
+    const offlineContent = `
 <div class="column-key-summary-box">
   <div class="summary-header">
     <i class="ph-fill ph-lightbulb"></i> 핵심 요약
@@ -483,6 +541,7 @@ A. ${filteredFaqs[2]?.a || '증상의 경과와 전반적인 건강 상태를 �
 ### 🔗 함께 읽어보면 좋은 연관 안내
 ${sanitizedLinksListMd}
 `;
+    return finalizeArticleTrustSignals(offlineContent, internalLinks, knowledge);
   }
 
   const isTic = plan.disease.id === 'tic' || (plan.disease.name && plan.disease.name.includes('틱'));
@@ -810,13 +869,18 @@ ${linksListMd || '내부링크 없음'}
    - "매우 잦게 반복되거나", "일정 기간 동안", "규칙적으로", "꾸준히", "차분하게" 등으로 표현하십시오.
 10. [의료 표현 제약]
     - 완치, 근본 치료, 기저핵/자율신경/뇌기능 정상화, 신경전달물질 완벽 조절, 약물 임의 중단 유도 금지.
-11. [내부링크 필수 포함 및 URL 중복 엄격 금지 (GLOBAL MEDICAL POLICY)]
+11. [질환 상세페이지 내부링크 필수 및 URL 중복 엄격 금지 (GLOBAL MEDICAL POLICY)]
+    - 후보 중 /conditions/ 로 시작하는 해당 질환 상세페이지는 이 칼럼의 핵심 안내 페이지입니다. 다른 칼럼 링크가 있더라도 반드시 1회 포함하십시오.
     - 위 제공된 [사용 가능한 검증된 내부링크 후보] 목록 중 최소 1개(권장 1~2개)의 실존 내부링크를 마크다운 링크 형식([앵커텍스트](URL))으로 본문에 반드시 포함해야 합니다. (내부링크 0개 시 품질 검증 실패로 자동 발행이 차단됩니다)
     - 본문 설명 흐름 중간에 자연스럽게 링크를 녹여 삽입하거나, 글 하단(FAQ 아래)에 '### 🔗 함께 읽어보면 좋은 연관 안내' 항목을 두고 후보 중 가장 연관된 링크를 배치하십시오.
     - [품질 > 개수 원칙] 관련성이 높은 링크가 1개뿐이라면 본문에 1개만 삽입해도 충분합니다.
     - 2~4개 개수를 채우기 위해 다른 질환을 갑자기 언급하거나, 별도 소제목/문단을 만들거나, 억지 연결 문장을 생성하는 행위를 엄격히 금지합니다.
     - [동일 URL 중복 절대 금지] 하나의 URL은 아티클 전체에서 최대 1회만 사용할 수 있습니다. 동일한 URL을 서로 다른 앵커 텍스트로 중복 삽입하는 것을 엄격히 금지합니다.
     - [정직한 앵커 텍스트 원칙] 실제 연결되는 글의 제목과 내용을 정직하게 반영해야 하며, 별도의 아티클이 존재하는 것처럼 앵커 텍스트를 허위로 날조하지 마십시오.
+12. [검증된 출처 2개 이상 표시]
+    - 위 [근거 수준 참고] 중 sourceVerified=true이고 productionUsable=true인 자료를 최소 2개 사용하십시오.
+    - 주요 의학 설명과 가까운 문단에 마크다운 링크를 연결하고, 글 하단에는 실제 사용한 자료만 '참고한 공식 의학 자료'로 정리하십시오.
+    - 제공되지 않은 제목, 기관, 연도, DOI, URL은 절대 만들지 마십시오.
 ${mediaGuideline}
 ${adhdAdultGuideline}
 ${ibsGuideline}
@@ -848,16 +912,7 @@ ${fatigueBurnoutGuideline}
   // Strip duplicate leading H1 if generated
   cleanedContent = cleanedContent.replace(/^#\s+[^\r\n]+(\r?\n)+/, '');
 
-  // Programmatic Guarantee: Ensure at least 1 verified internal link is present
-  const existingLinks = extractInternalLinks(cleanedContent);
-  if (existingLinks.length === 0 && Array.isArray(internalLinks) && internalLinks.length > 0) {
-    const topLink = internalLinks[0];
-    const rawAnchor = topLink.cleanAnchor || topLink.title || '관련 질환 안내';
-    const cleanAnchor = sanitizeAnchorTitle(rawAnchor);
-    cleanedContent += `\n\n---\n\n### 🔗 함께 읽어보면 좋은 연관 안내\n- [${cleanAnchor}](${topLink.url})\n`;
-    console.log(`ℹ️ [AI Writer Guard] Programmatically appended verified internal link: [${cleanAnchor}](${topLink.url})`);
-  }
-  return cleanedContent;
+  return finalizeArticleTrustSignals(cleanedContent, internalLinks, knowledge);
 }
 
 /**

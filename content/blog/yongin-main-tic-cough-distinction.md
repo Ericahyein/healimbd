@@ -1,22 +1,29 @@
 ---
 title: "[용인 틱장애] 잦은 헛기침과 비염 증상과의 구별 포인트"
 date: 2026-09-13T16:17:28.170+09:00
+lastmod: 2026-09-30T09:00:00+09:00
+search_intent: "long_tail_column"
+condition_pillar: "/conditions/tic/"
+article_review_status: "medical_standard_based"
 category: "tic"
 category_name: "틱장애·뚜렛"
-author: "손지웅 대표원장"
+author: "해아림한의원 의료 콘텐츠팀"
+content_author: "해아림한의원 의료 콘텐츠팀"
+medical_information_reviewer: "손지웅 대표원장"
+review_scope: "사전 승인 질환별 의료정보 기준"
 image: "images/blog/yongin-main-tic-cough-distinction.jpg"
 summary: "잦은 헛기침이 비염이나 감기 때문인지 음성틱인지 구별하는 관찰 포인트를 살펴봅니다. 용인 지역에서 틱장애 증상을 평가하고 관리할 때 참고할 내용을 안내합니다."
 hashtags:
-  - "용인틱장애"
-  - "용인한의원"
-  - "틱장애치료"
-  - "틱장애관리"
-  - "해아림한의원"
+  - "용인"
+  - "틱장애정보"
+  - "틱장애관찰"
+  - "증상관찰"
+  - "해아림의학칼럼"
 keywords:
-  - "용인 틱장애"
-  - "용인시 틱장애"
-  - "틱장애 한방치료"
   - "잦은 헛기침과 비염 증상과의 구별 포인트"
+  - "틱장애 잦은 헛기침과 비염 증상과의 구별 포인트"
+  - "용인 잦은 헛기침과 비염 증상과의 구별 포인트"
+  - "틱장애 증상 관찰"
 ---
 
 <div class="column-key-summary-box">
@@ -114,3 +121,14 @@ keywords:
 미디어 노출을 줄인다고 모든 아이의 틱 증상이 동일하게 변화한다고 단정할 수는 없습니다. 다만 장시간 스크린 사용과 틱 중증도 사이의 연관성이 보고된 바 있으므로, 불필요하고 과도한 노출을 줄이고 수면과 휴식 리듬을 함께 정돈하면서 증상 변화를 관찰해볼 수 있습니다.
 
 헛기침이 오래 이어질 때는 비염이나 감기만을 생각하기보다, 소리의 반복 양상과 동반 증상, 아이의 긴장·피로 상태를 함께 살펴보는 것이 중요합니다. 아이가 증상 때문에 부담을 느끼지 않도록 편안한 분위기를 유지하고, 충분한 휴식과 안정적인 수면 리듬을 지지해 주는 것이 관리의 기본입니다.
+
+### 참고한 공식 의학 자료
+
+- [Prolonged screen time is associated with increased severity of tic symptoms in children with tic disorders](https://doi.org/10.1186/s13052-025-01851-w)
+- [The Pathophysiology of Tics: An Anatomic Review](https://doi.org/10.1016/j.psc.2024.08.003)
+
+---
+
+### 관련 질환 자세히 보기
+
+- [틱장애 증상·검사·치료 안내](/conditions/tic/)

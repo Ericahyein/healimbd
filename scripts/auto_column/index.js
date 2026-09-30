@@ -19,7 +19,7 @@ const {
 } = require('./content_validator');
 const { compositeThumbnail } = require('./thumbnail_engine');
 const { resolveBlogCategory } = require('./blog_category');
-const { getRecommendedInternalLinks } = require('./internal_linker');
+const { getConditionPageForCategory, getRecommendedInternalLinks } = require('./internal_linker');
 
 // Telemetry & Cost Estimation Constants
 const COST_RATES = {
@@ -384,18 +384,22 @@ async function runAutoColumnPipeline(options = {}) {
     // Synchronize SEO disease and hashtags/keywords with the final passed title
     const seoDisease = currentPlan.seoDiseaseLabel || currentPlan.titleDisease || currentPlan.disease.name;
     const cleanSeoDisease = seoDisease.replace(/[^가-힣a-zA-Z0-9]/g, '');
+    const cleanTopicKeyword = currentPlan.topicAngle.titleSuffix
+      .replace(/[^가-힣a-zA-Z0-9\s]/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
     const hashtags = [
-      `${currentPlan.geo.displayName}${cleanSeoDisease}`,
-      `${currentPlan.geo.displayName}한의원`,
-      `${cleanSeoDisease}치료`,
-      `${cleanSeoDisease}관리`,
-      `해아림한의원`
+      currentPlan.geo.displayName,
+      `${cleanSeoDisease}정보`,
+      `${cleanSeoDisease}관찰`,
+      `증상관찰`,
+      `해아림의학칼럼`
     ];
     const keywords = [
-      `${currentPlan.geo.displayName} ${seoDisease}`,
-      `${currentPlan.geo.fullName} ${seoDisease}`,
-      `${seoDisease} 한방치료`,
-      `${currentPlan.titleCandidate.replace(/^\[[^\]]+\]\s*/, '')}`
+      cleanTopicKeyword,
+      `${seoDisease} ${cleanTopicKeyword}`,
+      `${currentPlan.geo.displayName} ${cleanTopicKeyword}`,
+      `${seoDisease} 증상 관찰`
     ];
 
     // Check body generation ceiling
@@ -472,6 +476,8 @@ async function runAutoColumnPipeline(options = {}) {
       qaTarget: currentPlan.qaTarget,
       thumbnailCopy,
       knowledge,
+      requireConditionPillar: true,
+      requireVerifiedSources: true,
       history
     });
 
@@ -629,7 +635,14 @@ title: "${winningPlan.titleCandidate.replace(/"/g, '\\"')}"
 date: ${todayIso}
 category: "${blogCategory}"
 category_name: "${winningPlan.disease.categoryName}"
-author: "손지웅 대표원장"
+author: "해아림한의원 의료 콘텐츠팀"
+content_author: "해아림한의원 의료 콘텐츠팀"
+medical_information_reviewer: "손지웅 대표원장"
+review_scope: "사전 승인 질환별 의료정보 기준"
+lastmod: ${todayIso}
+search_intent: "long_tail_column"
+condition_pillar: "${(getConditionPageForCategory(winningPlan.disease.category) || {}).url || ''}"
+article_review_status: "medical_standard_based"
 image: "${thumbRelativePath}"
 summary: "${(winningOutline.summary || '').replace(/"/g, '\\"')}"
 hashtags:
@@ -643,7 +656,8 @@ ${winningArticleBody}
 
   const metadataReport = {
     mode: isProductionPublish ? 'PRODUCTION_PUBLISH' : 'DRY_RUN',
-    reviewStatusNotice: winningKnowledge.reviewStatus !== 'approved' ? 'DRY RUN - MEDICAL KNOWLEDGE NOT YET HUMAN APPROVED' : 'HUMAN APPROVED',
+    reviewStatusNotice: winningKnowledge.reviewStatus !== 'approved' ? 'DRY RUN - MEDICAL KNOWLEDGE NOT YET APPROVED' : 'APPROVED_MEDICAL_KNOWLEDGE_BASIS',
+    individualArticleHumanReview: false,
     plan: winningPlan,
     thumbnailCopy: winningThumbnailCopy,
     internalLinks: winningValidation.internalLinks,

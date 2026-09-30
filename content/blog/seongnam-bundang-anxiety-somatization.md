@@ -1,22 +1,29 @@
 ---
 title: "[분당 불안장애] 불안이 신체 통증이나 어지럼증으로 나타나는 과정"
 date: 2026-09-14T09:29:48.205+09:00
+lastmod: 2026-09-30T09:00:00+09:00
+search_intent: "long_tail_column"
+condition_pillar: "/conditions/anxiety/"
+article_review_status: "medical_standard_based"
 category: "anxiety"
 category_name: "불안·사회공포"
-author: "손지웅 대표원장"
+author: "해아림한의원 의료 콘텐츠팀"
+content_author: "해아림한의원 의료 콘텐츠팀"
+medical_information_reviewer: "손지웅 대표원장"
+review_scope: "사전 승인 질환별 의료정보 기준"
 image: "images/blog/seongnam-bundang-anxiety-somatization.jpg"
 summary: "불안장애는 걱정과 긴장이 근육 통증, 두통, 소화불편, 어지럼증 등으로 나타날 수 있습니다. 증상의 양상과 다양한 원인을 살펴 상태에 맞는 관리 방향을 안내합니다."
 hashtags:
-  - "분당불안장애"
-  - "분당한의원"
-  - "불안장애치료"
-  - "불안장애관리"
-  - "해아림한의원"
+  - "분당"
+  - "불안장애정보"
+  - "불안장애관찰"
+  - "증상관찰"
+  - "해아림의학칼럼"
 keywords:
-  - "분당 불안장애"
-  - "성남시 분당구 불안장애"
-  - "불안장애 한방치료"
   - "불안이 신체 통증이나 어지럼증으로 나타나는 과정"
+  - "불안장애 불안이 신체 통증이나 어지럼증으로 나타나는 과정"
+  - "분당 불안이 신체 통증이나 어지럼증으로 나타나는 과정"
+  - "불안장애 증상 관찰"
 ---
 
 <div class="column-key-summary-box">
@@ -98,3 +105,14 @@ keywords:
 
 **Q4. 불안을 완전히 없애야 신체 증상도 좋아질까요?**  
 불안을 완전히 제거해야 한다고 목표를 세우면 오히려 자신의 상태를 더 엄격하게 감시하게 될 수 있습니다. 불안과 신체 긴장의 연결을 이해하고, 증상이 흔들릴 때 생활 리듬과 대처 방식을 조절하며 일상 기능을 회복해 가는 방향이 현실적입니다.
+
+### 참고한 공식 의학 자료
+
+- [Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition (DSM-5) - Social Anxiety Disorder](https://doi.org/10.1176/appi.books.9780890425596)
+- [NICE Guideline CG159 Social anxiety disorder: recognition, assessment and treatment](https://www.nice.org.uk/guidance/cg159)
+
+---
+
+### 관련 질환 자세히 보기
+
+- [불안장애 증상·검사·치료 안내](/conditions/anxiety/)

@@ -1,22 +1,29 @@
 ---
 title: "[위례 다한증] 수술 후 보상성 다한증 걱정 없이 조절하는 관점"
 date: 2026-09-22T16:18:37.221+09:00
+lastmod: 2026-09-30T09:00:00+09:00
+search_intent: "long_tail_column"
+condition_pillar: "/conditions/hyperhidrosis/"
+article_review_status: "medical_standard_based"
 category: "hyperhidrosis"
 category_name: "다한증"
-author: "손지웅 대표원장"
+author: "해아림한의원 의료 콘텐츠팀"
+content_author: "해아림한의원 의료 콘텐츠팀"
+medical_information_reviewer: "손지웅 대표원장"
+review_scope: "사전 승인 질환별 의료정보 기준"
 image: "images/blog/seongnam-wirye-hyperhidrosis-compensatory-concern.jpg"
 summary: "다한증의 증상과 악화 요인을 살피고, 수술 외에도 신경계 긴장과 전신 상태를 고려한 보수적 관리 방향을 안내합니다."
 hashtags:
-  - "위례다한증"
-  - "위례한의원"
-  - "다한증치료"
-  - "다한증관리"
-  - "해아림한의원"
+  - "위례"
+  - "다한증정보"
+  - "다한증관찰"
+  - "증상관찰"
+  - "해아림의학칼럼"
 keywords:
-  - "위례 다한증"
-  - "위례신도시 다한증"
-  - "다한증 한방치료"
   - "수술 후 보상성 다한증 걱정 없이 조절하는 관점"
+  - "다한증 수술 후 보상성 다한증 걱정 없이 조절하는 관점"
+  - "위례 수술 후 보상성 다한증 걱정 없이 조절하는 관점"
+  - "다한증 증상 관찰"
 ---
 
 <div class="column-key-summary-box">
@@ -109,3 +116,14 @@ keywords:
 카페인은 일부 사람에게 발한을 악화시키는 요인이 될 수 있지만, 섭취 조절만으로 모든 증상이 사라진다고 보기는 어렵습니다. 카페인 섭취 뒤 증상 변화가 있는지 살피고, 다른 악화 요인과 전반적인 발한 양상을 함께 관리하는 것이 바람직합니다.
 
 다한증은 땀의 양만으로 판단하기보다, 어느 부위에 언제 나타나는지와 일상에 주는 불편을 함께 살펴야 합니다. 수술 후 변화에 대한 걱정이 있다면 성급히 결론내리기보다, 국소 발한의 양상과 전신 상태를 구분하고 생활 속 악화 요인을 차분히 조절해 나가는 관점이 필요합니다.
+
+### 참고한 공식 의학 자료
+
+- [A comprehensive approach to the recognition, diagnosis, and severity-based treatment of focal hyperhidrosis: recommendations of the Canadian Hyperhidrosis Advisory Committee](https://doi.org/10.1111/j.1524-4725.2007.33192.x)
+- [Clinical differentiation of primary from secondary hyperhidrosis](https://doi.org/10.1016/j.jaad.2010.03.013)
+
+---
+
+### 관련 질환 자세히 보기
+
+- [다한증 증상·검사·치료 안내](/conditions/hyperhidrosis/)

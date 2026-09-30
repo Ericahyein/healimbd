@@ -1,23 +1,29 @@
 ---
 title: "[용인·기흥 자율신경실조증] 원인 모를 어지럼증과 소화불량이 함께 나타날 때"
 date: 2026-09-09T16:20:14.995+09:00
+lastmod: 2026-09-30T09:00:00+09:00
+search_intent: "long_tail_column"
+condition_pillar: "/conditions/autonomic/"
+article_review_status: "medical_standard_based"
 category: "autonomic"
 category_name: "자율신경"
-author: "손지웅 대표원장"
+author: "해아림한의원 의료 콘텐츠팀"
+content_author: "해아림한의원 의료 콘텐츠팀"
+medical_information_reviewer: "손지웅 대표원장"
+review_scope: "사전 승인 질환별 의료정보 기준"
 image: "images/blog/yongin-giheung-autonomic-digestive-dizziness.jpg"
 summary: "용인·기흥에서 자율신경실조증 정보를 찾는 분들을 위해 어지럼증과 소화불량이 함께 나타나는 양상, 감별이 필요한 원인과 관리 방향을 안내합니다."
 hashtags:
-  - "기흥구자율신경실조증"
-  - "기흥구한의원"
-  - "자율신경실조증치료"
-  - "자율신경실조증관리"
-  - "해아림한의원"
+  - "기흥구"
+  - "자율신경실조증정보"
+  - "자율신경실조증관찰"
+  - "증상관찰"
+  - "해아림의학칼럼"
 keywords:
-  - "기흥구 자율신경실조증"
-  - "용인 자율신경실조증"
-  - "용인시 기흥구 자율신경실조증"
-  - "자율신경실조증 한방치료"
-  - "원인 모를 어지럼증과 소화불량이 동시에 나타날 때"
+  - "원인 모를 어지럼증과 소화불량이 함께 나타날 때"
+  - "자율신경실조증 원인 모를 어지럼증과 소화불량이 함께 나타날 때"
+  - "기흥구 원인 모를 어지럼증과 소화불량이 함께 나타날 때"
+  - "자율신경실조증 증상 관찰"
 ---
 
 <div class="column-key-summary-box">
@@ -106,3 +112,14 @@ keywords:
 심한 어지럼증이 있을 때 안전한 자세로 쉬는 것은 필요할 수 있습니다. 다만 반복되는 증상을 휴식만으로 넘기기보다, 어떤 상황에서 증상이 나타나는지 확인하고 필요한 검사를 통해 원인을 감별하는 과정이 중요합니다. 평소에는 급격한 자세 변화를 피하고 규칙적인 식사와 충분한 수분 섭취를 유지하는 것이 도움이 될 수 있습니다.
 
 어지럼증과 소화불량은 몸이 보내는 비특이적인 신호일 수 있습니다. 한 가지 원인으로 단정하지 않고 위험 신호를 먼저 확인하며, 생활 리듬과 증상 변화를 차분히 관찰하는 것이 건강 관리의 기본입니다.
+
+### 참고한 공식 의학 자료
+
+- [WHO ICD-11 for Mortality and Morbidity Statistics - QD85 Burn-out](https://icd.who.int/browse11/l-m/en#/http://id.who.int/icd/entity/129180281)
+- [Canadian Cardiovascular Society Position Statement on Postural Orthostatic Tachycardia Syndrome (POTS) and Related Disorders of Chronic Orthostatic Intolerance](https://doi.org/10.1016/j.cjca.2019.12.024)
+
+---
+
+### 관련 질환 자세히 보기
+
+- [자율신경실조증 증상·검사·치료 안내](/conditions/autonomic/)

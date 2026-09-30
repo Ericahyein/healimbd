@@ -222,6 +222,10 @@
   {{ $articleId := printf "%s#article" $canonical }}
   {{ $webpage = merge $webpage (dict "@type" (slice "WebPage" "MedicalWebPage")) }}
   {{ $webpage = merge $webpage (dict "mainEntity" (dict "@id" $articleId)) }}
+  {{ $articleAuthor := dict "@id" $doctorId }}
+  {{ if .Params.content_author }}
+    {{ $articleAuthor = dict "@type" "Organization" "name" .Params.content_author "url" ("blog/" | absURL) }}
+  {{ end }}
   {{ $articleDict = dict
     "@type" "Article"
     "@id" $articleId
@@ -229,11 +233,14 @@
     "description" $desc
     "url" $canonical
     "mainEntityOfPage" (dict "@id" $webpageId)
-    "author" (dict "@id" $doctorId)
+    "author" $articleAuthor
     "publisher" (dict "@id" $clinicId)
     "isAccessibleForFree" true
     "inLanguage" "ko-KR"
   }}
+  {{ if .Params.medical_information_reviewer }}
+    {{ $articleDict = merge $articleDict (dict "contributor" (dict "@id" $doctorId)) }}
+  {{ end }}
   {{ with .Params.category_name }}
     {{ $articleDict = merge $articleDict (dict "about" .) }}
   {{ end }}

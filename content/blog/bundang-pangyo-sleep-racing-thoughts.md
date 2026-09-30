@@ -1,22 +1,29 @@
 ---
 title: "[판교 불면증] 잠들기 직전 생각이 꼬리를 무는 이유, 뇌 과각성과 자극 관리의 기준"
 date: 2026-09-29T01:43:48.983+09:00
+lastmod: 2026-09-30T09:00:00+09:00
+search_intent: "long_tail_column"
+condition_pillar: "/conditions/insomnia/"
+article_review_status: "medical_standard_based"
 category: "sleep"
 category_name: "수면·불면증"
-author: "손지웅 대표원장"
+author: "해아림한의원 의료 콘텐츠팀"
+content_author: "해아림한의원 의료 콘텐츠팀"
+medical_information_reviewer: "손지웅 대표원장"
+review_scope: "사전 승인 질환별 의료정보 기준"
 image: "images/blog/bundang-pangyo-sleep-racing-thoughts.jpg"
 summary: "불면증에서 잠들기 직전 생각이 많아지는 양상과 뇌 과각성, 자극 관리 및 점검 방향을 살펴봅니다."
 hashtags:
-  - "판교불면증"
-  - "판교한의원"
-  - "불면증치료"
-  - "불면증관리"
-  - "해아림한의원"
+  - "판교"
+  - "불면증정보"
+  - "불면증관찰"
+  - "증상관찰"
+  - "해아림의학칼럼"
 keywords:
-  - "판교 불면증"
-  - "성남시 분당구 판교 불면증"
-  - "불면증 한방치료"
   - "잠들기 직전 생각이 꼬리를 무는 이유, 뇌 과각성과 자극 관리의 기준"
+  - "불면증 잠들기 직전 생각이 꼬리를 무는 이유, 뇌 과각성과 자극 관리의 기준"
+  - "판교 잠들기 직전 생각이 꼬리를 무는 이유, 뇌 과각성과 자극 관리의 기준"
+  - "불면증 증상 관찰"
 ---
 
 <div class="column-key-summary-box">
@@ -112,3 +119,14 @@ keywords:
 복용 중인 약물은 임의로 즉시 중단하지 않는 것이 원칙입니다. 약물 종류와 복용 기간, 현재 수면 상태에 따라 조절 방법이 달라질 수 있으므로 처방한 의료진과 상의해야 합니다.
 
 잠들기 전 떠오르는 생각은 억지로 밀어내야 할 대상이라기보다, 현재 몸과 마음이 충분히 휴식 모드로 전환되지 못하고 있다는 신호일 수 있습니다. 자극을 줄이고 일정한 기상 시간을 지키며, 수면에 대한 압박보다 생활 리듬의 안정에 초점을 맞추는 것이 차분한 변화의 출발점이 됩니다.
+
+### 참고한 공식 의학 자료
+
+- [International Classification of Sleep Disorders, Third Edition (ICSD-3) - Chronic Insomnia Disorder](https://aasm.org/clinical-resources/international-classification-sleep-disorders/)
+- [Deprescribing benzodiazepine receptor agonists: Evidence-based clinical practice guideline](https://pubmed.ncbi.nlm.nih.gov/29760253/)
+
+---
+
+### 관련 질환 자세히 보기
+
+- [불면증 증상·검사·치료 안내](/conditions/insomnia/)

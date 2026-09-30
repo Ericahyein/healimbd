@@ -152,6 +152,10 @@ function deduplicateLinksByUrl(links) {
   return unique;
 }
 
+function getConditionPageForCategory(diseaseCategory) {
+  return CONDITION_PAGES[diseaseCategory] || null;
+}
+
 /**
  * Returns strictly relevant, non-duplicate internal link suggestions for the target disease
  * - Prioritizes same-category articles
@@ -217,5 +221,6 @@ module.exports = {
   getExistingBlogPosts,
   isInternalUrlValid,
   deduplicateLinksByUrl,
+  getConditionPageForCategory,
   getRecommendedInternalLinks
 };

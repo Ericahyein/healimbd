@@ -1,22 +1,29 @@
 ---
 title: "[중원구 공황장애] 응급실 검사에서 이상이 없는데 몸이 위기처럼 반응하는 이유"
 date: 2026-09-27T22:51:38.816+09:00
+lastmod: 2026-09-30T09:00:00+09:00
+search_intent: "long_tail_column"
+condition_pillar: "/conditions/panic/"
+article_review_status: "medical_standard_based"
 category: "panic"
 category_name: "공황장애"
-author: "손지웅 대표원장"
+author: "해아림한의원 의료 콘텐츠팀"
+content_author: "해아림한의원 의료 콘텐츠팀"
+medical_information_reviewer: "손지웅 대표원장"
+review_scope: "사전 승인 질환별 의료정보 기준"
 image: "images/blog/seongnam-jungwon-panic-sudden-palpitation.jpg"
 summary: "공황장애는 응급실 검사에서 이상이 없어도 갑작스러운 불안과 신체 증상이 나타날 수 있습니다. 증상 양상과 악화 요인을 살펴보고 상태에 맞는 관리 방향을 안내합니다."
 hashtags:
-  - "중원구공황장애"
-  - "중원구한의원"
-  - "공황장애치료"
-  - "공황장애관리"
-  - "해아림한의원"
+  - "중원구"
+  - "공황장애정보"
+  - "공황장애관찰"
+  - "증상관찰"
+  - "해아림의학칼럼"
 keywords:
-  - "중원구 공황장애"
-  - "성남시 중원구 공황장애"
-  - "공황장애 한방치료"
   - "응급실 검사에서 이상이 없는데 몸이 위기처럼 반응하는 이유"
+  - "공황장애 응급실 검사에서 이상이 없는데 몸이 위기처럼 반응하는 이유"
+  - "중원구 응급실 검사에서 이상이 없는데 몸이 위기처럼 반응하는 이유"
+  - "공황장애 증상 관찰"
 ---
 
 <div class="column-key-summary-box">
@@ -110,3 +117,14 @@ keywords:
 기존에 처방받은 약물은 임의로 중단하거나 용량을 바꾸지 않아야 합니다. 병행 관리를 고려한다면 현재 복용 약물과 검사 결과를 의료진에게 알리고, 처방 내용과 개인 상태를 함께 검토하는 과정이 필요합니다.
 
 갑작스러운 숨참과 두근거림은 매우 위협적으로 느껴질 수 있습니다. 그러나 응급 위험을 먼저 확인한 뒤에는, 몸의 경보 반응과 신체 감각에 대한 해석, 수면·과로·자극 물질·스트레스의 영향을 함께 살펴보는 것이 중요합니다. 불안을 없애야 한다는 압박보다 현재 몸에서 일어나는 변화를 차분히 이해하고 일상 리듬을 조절해가는 과정이 관리의 기반이 됩니다.
+
+### 참고한 공식 의학 자료
+
+- [Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition (DSM-5) - Panic Disorder](https://doi.org/10.1176/appi.books.9780890425596)
+- [2021 AHA/ACC/ASE/CHEST/SAEM/SCCT/SCMR Guideline for the Evaluation and Diagnosis of Chest Pain](https://doi.org/10.1161/CIR.0000000000001029)
+
+---
+
+### 관련 질환 자세히 보기
+
+- [공황장애 증상·검사·치료 안내](/conditions/panic/)

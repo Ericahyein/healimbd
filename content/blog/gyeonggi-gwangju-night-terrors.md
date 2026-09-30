@@ -1,22 +1,29 @@
 ---
 title: "[경기광주 소아 야경증] 자다가 갑자기 울고 소리치지만 다음 날 기억하지 못할 때"
 date: 2026-09-21T16:19:59.716+09:00
+lastmod: 2026-09-30T09:00:00+09:00
+search_intent: "long_tail_column"
+condition_pillar: ""
+article_review_status: "medical_standard_based"
 category: "sleep"
 category_name: "소아신경"
-author: "손지웅 대표원장"
+author: "해아림한의원 의료 콘텐츠팀"
+content_author: "해아림한의원 의료 콘텐츠팀"
+medical_information_reviewer: "손지웅 대표원장"
+review_scope: "사전 승인 질환별 의료정보 기준"
 image: "images/blog/gyeonggi-gwangju-night-terrors.jpg"
 summary: "소아 야경증의 특징과 악몽과의 차이를 살펴보고, 아이에게 맞는 수면 환경과 정서적 지지 방법을 안내합니다."
 hashtags:
-  - "경기광주소아야경증"
-  - "경기광주한의원"
-  - "소아야경증치료"
-  - "소아야경증관리"
-  - "해아림한의원"
+  - "경기광주"
+  - "소아야경증정보"
+  - "소아야경증관찰"
+  - "증상관찰"
+  - "해아림의학칼럼"
 keywords:
-  - "경기광주 소아 야경증"
-  - "경기도 광주시 소아 야경증"
-  - "소아 야경증 한방치료"
   - "자다가 갑자기 울고 소리치지만 다음 날 기억하지 못할 때"
+  - "소아 야경증 자다가 갑자기 울고 소리치지만 다음 날 기억하지 못할 때"
+  - "경기광주 자다가 갑자기 울고 소리치지만 다음 날 기억하지 못할 때"
+  - "소아 야경증 증상 관찰"
 ---
 
 <div class="column-key-summary-box">
@@ -121,3 +128,8 @@ keywords:
 야경증 자체만으로 낮 기능 문제가 반드시 생기는 것은 아닙니다. 다만 심한 주간 졸림, 피로, 집중의 어려움이 이어지거나 코골이와 호흡 이상이 동반된다면 다른 수면 문제 여부를 확인하는 평가가 필요할 수 있습니다.
 
 아이의 밤중 울음과 비명은 보호자에게 큰 걱정을 안길 수 있습니다. 그러나 다음 날 기억이 없고 완전히 깨지 않은 듯한 양상이라면, 먼저 야경증의 가능성을 이해하고 안전한 환경과 규칙적인 수면 리듬을 마련해 주는 것이 중요합니다. 아이를 탓하기보다 차분히 관찰하고, 필요한 경우 적절한 전문 평가를 통해 수면 상태를 함께 확인해 나가시기 바랍니다.
+
+### 참고한 공식 의학 자료
+
+- [Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition (DSM-5) - Separation Anxiety Disorder](https://doi.org/10.1176/appi.books.9780890425596)
+- [Sleep Terrors: An Updated Review](https://doi.org/10.2174/1573396315666191014152136)

@@ -1,24 +1,31 @@
 ---
 title: "[수지 사회공포증] 발표나 미팅 때 목소리가 떨리고 시선이 두려울 때"
 date: 2026-09-08T20:33:12.068+09:00
+lastmod: 2026-09-30T09:00:00+09:00
+search_intent: "long_tail_column"
+condition_pillar: "/conditions/anxiety/"
+article_review_status: "medical_standard_based"
 category: "anxiety"
 category_name: "불안·사회공포"
-author: "손지웅 대표원장"
+author: "해아림한의원 의료 콘텐츠팀"
+content_author: "해아림한의원 의료 콘텐츠팀"
+medical_information_reviewer: "손지웅 대표원장"
+review_scope: "사전 승인 질환별 의료정보 기준"
 thumbnail: "images/blog/yongin-suji-social-phobia-presentation-anxiety.jpg"
 editorialImage: "images/blog/yongin-suji-social-phobia-presentation-anxiety-editorial.jpg"
 image: "images/blog/yongin-suji-social-phobia-presentation-anxiety.jpg"
 summary: "사회공포증으로 발표와 미팅에서 나타나는 불안·신체 긴장의 양상을 살펴보고, 상태에 맞는 평가와 관리 방향을 안내합니다."
 hashtags:
-  - "수지사회공포증"
-  - "수지한의원"
-  - "사회공포증치료"
-  - "사회공포증관리"
-  - "해아림한의원"
+  - "수지"
+  - "사회공포증정보"
+  - "사회공포증관찰"
+  - "증상관찰"
+  - "해아림의학칼럼"
 keywords:
-  - "수지 사회공포증"
-  - "용인시 수지구 사회공포증"
-  - "사회공포증 한방치료"
   - "발표나 미팅 때 목소리가 떨리고 시선이 두려울 때"
+  - "사회공포증 발표나 미팅 때 목소리가 떨리고 시선이 두려울 때"
+  - "수지 발표나 미팅 때 목소리가 떨리고 시선이 두려울 때"
+  - "사회공포증 증상 관찰"
 ---
 
 <div class="column-key-summary-box">
@@ -108,3 +115,14 @@ keywords:
 증상의 강도와 일상 기능 저하 정도에 따라 접근은 달라집니다. 인지행동치료나 필요 시 약물치료는 사회불안장애 관리에서 검토되는 근거 기반 치료 선택지입니다. 한의학적 관리는 개인의 전반적 상태와 동반 증상을 함께 살피는 관점에서 논의될 수 있으며, 필요한 경우 다른 의료적 평가와 병행하는 것이 안전합니다.
 
 발표와 미팅에서 느끼는 긴장은 무조건 없애야 할 결함이 아니라, 현재 몸과 마음이 부담을 크게 느끼고 있다는 신호일 수 있습니다. 불안을 성격 탓으로 몰아붙이기보다 증상의 양상과 생활 리듬을 살피고, 회피를 줄이며 일상 기능을 회복해 가는 방향으로 차분히 접근하는 것이 중요합니다.
+
+### 참고한 공식 의학 자료
+
+- [Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition (DSM-5) - Social Anxiety Disorder](https://doi.org/10.1176/appi.books.9780890425596)
+- [NICE Guideline CG159 Social anxiety disorder: recognition, assessment and treatment](https://www.nice.org.uk/guidance/cg159)
+
+---
+
+### 관련 질환 자세히 보기
+
+- [불안장애 증상·검사·치료 안내](/conditions/anxiety/)

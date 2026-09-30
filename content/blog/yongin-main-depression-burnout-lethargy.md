@@ -1,22 +1,29 @@
 ---
 title: "[용인 우울증] 쉬어도 충전되지 않고 모든 일에 의욕이 사라질 때"
 date: 2026-09-25T00:34:07.203+09:00
+lastmod: 2026-09-30T09:00:00+09:00
+search_intent: "long_tail_column"
+condition_pillar: ""
+article_review_status: "medical_standard_based"
 category: "anxiety"
 category_name: "우울·강박"
-author: "손지웅 대표원장"
+author: "해아림한의원 의료 콘텐츠팀"
+content_author: "해아림한의원 의료 콘텐츠팀"
+medical_information_reviewer: "손지웅 대표원장"
+review_scope: "사전 승인 질환별 의료정보 기준"
 image: "images/blog/yongin-main-depression-burnout-lethargy.jpg"
 summary: "쉬어도 회복되지 않는 피로와 의욕 저하는 우울증의 신호일 수 있습니다. 번아웃과 신체 질환을 함께 살피며 점진적인 회복 방향을 안내합니다."
 hashtags:
-  - "용인우울증"
-  - "용인한의원"
-  - "우울증치료"
-  - "우울증관리"
-  - "해아림한의원"
+  - "용인"
+  - "우울증정보"
+  - "우울증관찰"
+  - "증상관찰"
+  - "해아림의학칼럼"
 keywords:
-  - "용인 우울증"
-  - "용인시 우울증"
-  - "우울증 한방치료"
   - "쉬어도 충전되지 않고 모든 일에 의욕이 사라질 때"
+  - "우울증 쉬어도 충전되지 않고 모든 일에 의욕이 사라질 때"
+  - "용인 쉬어도 충전되지 않고 모든 일에 의욕이 사라질 때"
+  - "우울증 증상 관찰"
 ---
 
 <div class="column-key-summary-box">
@@ -112,3 +119,8 @@ keywords:
 임의 중단은 권하지 않습니다. 증상 변화나 불편감이 있다면 처방 의료진에게 현재 상태를 알리고, 약물과 생활 상태를 함께 검토받는 것이 안전합니다.
 
 쉬어도 채워지지 않는 피로와 의욕 저하는 자신을 다그쳐 해결할 문제가 아닐 수 있습니다. 현재의 소진이 어디에서 시작되었는지, 우울 증상이나 신체적 원인이 함께 있는지 살피고, 감당 가능한 작은 일상부터 다시 연결해 가는 과정이 필요합니다.
+
+### 참고한 공식 의학 자료
+
+- [WHO ICD-11 for Mortality and Morbidity Statistics - QD85 Burn-out](https://icd.who.int/browse11/l-m/en#/http://id.who.int/icd/entity/129180281)
+- [Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition (DSM-5) - Major Depressive Disorder](https://doi.org/10.1176/appi.books.9780890425596)

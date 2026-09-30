@@ -1,22 +1,29 @@
 ---
 title: "[처인구 자율신경실조증] 식사만 하면 핑 도는 증상, 미주신경과 교감신경의 균형을 살펴야 하는 이유"
 date: 2026-09-28T14:15:01.577+09:00
+lastmod: 2026-09-30T09:00:00+09:00
+search_intent: "long_tail_column"
+condition_pillar: "/conditions/autonomic/"
+article_review_status: "medical_standard_based"
 category: "autonomic"
 category_name: "자율신경"
-author: "손지웅 대표원장"
+author: "해아림한의원 의료 콘텐츠팀"
+content_author: "해아림한의원 의료 콘텐츠팀"
+medical_information_reviewer: "손지웅 대표원장"
+review_scope: "사전 승인 질환별 의료정보 기준"
 image: "images/blog/yongin-cheoin-autonomic-digestive-dizziness.jpg"
 summary: "어지럼증과 소화불량이 함께 나타날 때 자율신경실조증의 가능성과 다양한 원인을 살피고 상태에 맞는 관리 방향을 안내합니다."
 hashtags:
-  - "처인구자율신경실조증"
-  - "처인구한의원"
-  - "자율신경실조증치료"
-  - "자율신경실조증관리"
-  - "해아림한의원"
+  - "처인구"
+  - "자율신경실조증정보"
+  - "자율신경실조증관찰"
+  - "증상관찰"
+  - "해아림의학칼럼"
 keywords:
-  - "처인구 자율신경실조증"
-  - "용인시 처인구 자율신경실조증"
-  - "자율신경실조증 한방치료"
   - "식사만 하면 핑 도는 증상, 미주신경과 교감신경의 균형을 살펴야 하는 이유"
+  - "자율신경실조증 식사만 하면 핑 도는 증상, 미주신경과 교감신경의 균형을 살펴야 하는 이유"
+  - "처인구 식사만 하면 핑 도는 증상, 미주신경과 교감신경의 균형을 살펴야 하는 이유"
+  - "자율신경실조증 증상 관찰"
 ---
 
 <div class="column-key-summary-box">
@@ -104,3 +111,14 @@ keywords:
 급하게 일어나지 않고 자세를 천천히 바꾸는 습관이 중요합니다. 수분 섭취와 규칙적인 식사도 기본이 됩니다. 다만 실신, 흉통, 신경학적 이상, 심한 구토처럼 위험 신호가 동반된다면 생활 관리만으로 지켜보기보다 의료기관 평가가 우선입니다.
 
 식사 후 반복되는 어지럼증과 소화불량은 불편하지만, 증상의 양상과 동반 신호를 차분히 구분하면 필요한 검사와 관리 방향을 더 안전하게 정할 수 있습니다. 한 가지 원인으로 서둘러 단정하기보다 생활 리듬을 정돈하고, 필요한 경우 적절한 진료를 통해 원인을 확인하는 것이 중요합니다.
+
+### 참고한 공식 의학 자료
+
+- [WHO ICD-11 for Mortality and Morbidity Statistics - QD85 Burn-out](https://icd.who.int/browse11/l-m/en#/http://id.who.int/icd/entity/129180281)
+- [Canadian Cardiovascular Society Position Statement on Postural Orthostatic Tachycardia Syndrome (POTS) and Related Disorders of Chronic Orthostatic Intolerance](https://doi.org/10.1016/j.cjca.2019.12.024)
+
+---
+
+### 관련 질환 자세히 보기
+
+- [자율신경실조증 증상·검사·치료 안내](/conditions/autonomic/)

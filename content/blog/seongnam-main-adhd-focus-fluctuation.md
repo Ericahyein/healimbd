@@ -1,22 +1,29 @@
 ---
 title: "[성남 ADHD] 좋아하는 일에는 과몰입하고 일상 과제는 미루는 이유"
 date: 2026-09-13T09:29:15.458+09:00
+lastmod: 2026-09-30T09:00:00+09:00
+search_intent: "long_tail_column"
+condition_pillar: "/conditions/adhd/"
+article_review_status: "medical_standard_based"
 category: "adhd"
 category_name: "ADHD·집중력"
-author: "손지웅 대표원장"
+author: "해아림한의원 의료 콘텐츠팀"
+content_author: "해아림한의원 의료 콘텐츠팀"
+medical_information_reviewer: "손지웅 대표원장"
+review_scope: "사전 승인 질환별 의료정보 기준"
 image: "images/blog/seongnam-main-adhd-focus-fluctuation.jpg"
 summary: "ADHD에서 흥미와 보상에 따라 집중이 달라지는 양상을 살펴보고, 일상 과제 수행을 돕는 평가와 관리 방향을 안내합니다."
 hashtags:
-  - "성남ADHD"
-  - "성남한의원"
-  - "ADHD치료"
-  - "ADHD관리"
-  - "해아림한의원"
+  - "성남"
+  - "ADHD정보"
+  - "ADHD관찰"
+  - "증상관찰"
+  - "해아림의학칼럼"
 keywords:
-  - "성남 ADHD"
-  - "성남시 ADHD"
-  - "ADHD 한방치료"
   - "좋아하는 일에는 과몰입하고 일상 과제는 미루는 이유"
+  - "ADHD 좋아하는 일에는 과몰입하고 일상 과제는 미루는 이유"
+  - "성남 좋아하는 일에는 과몰입하고 일상 과제는 미루는 이유"
+  - "ADHD 증상 관찰"
 ---
 
 <div class="column-key-summary-box">
@@ -125,3 +132,14 @@ ADHD 평가는 단순히 “산만하다”거나 “숙제를 미룬다”는 �
 처방받아 복용 중인 약물은 임의로 중단해서는 안 됩니다. 복용 조절이나 병행 여부는 기존 처방 의료진과 상담하여 안전하게 결정해야 합니다.
 
 좋아하는 일에 몰입하는 모습과 일상 과제를 미루는 모습 사이에는 아이가 조절하기 어려운 주의집중 및 실행기능의 특성이 놓여 있을 수 있습니다. 아이를 의지의 문제로 평가하기보다 생활 속 어려움을 구체적으로 관찰하고, 작은 성공 경험을 쌓을 수 있는 구조를 마련하는 것이 중요합니다.
+
+### 참고한 공식 의학 자료
+
+- [Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition (DSM-5) - Attention-Deficit/Hyperactivity Disorder](https://doi.org/10.1176/appi.books.9780890425596)
+- [NICE Guideline NG87 Attention deficit hyperactivity disorder: diagnosis and management](https://www.nice.org.uk/guidance/ng87)
+
+---
+
+### 관련 질환 자세히 보기
+
+- [ADHD 증상·검사·치료 안내](/conditions/adhd/)

@@ -1,22 +1,29 @@
 ---
 title: "[중원구 ADHD] 틱장애나 불안감이 함께 나타날 때 살펴볼 점"
 date: 2026-09-16T09:27:36.266+09:00
+lastmod: 2026-09-30T09:00:00+09:00
+search_intent: "long_tail_column"
+condition_pillar: "/conditions/adhd/"
+article_review_status: "medical_standard_based"
 category: "adhd"
 category_name: "ADHD·집중력"
-author: "손지웅 대표원장"
+author: "해아림한의원 의료 콘텐츠팀"
+content_author: "해아림한의원 의료 콘텐츠팀"
+medical_information_reviewer: "손지웅 대표원장"
+review_scope: "사전 승인 질환별 의료정보 기준"
 image: "images/blog/seongnam-jungwon-adhd-tic-comorbidity.jpg"
 summary: "ADHD에 틱장애나 불안감이 함께 나타날 때 신경학적 동반 증상과 생활 전반을 함께 살펴보고, 상태에 맞는 평가와 관리 방향을 안내합니다."
 hashtags:
-  - "중원구ADHD"
-  - "중원구한의원"
-  - "ADHD치료"
-  - "ADHD관리"
-  - "해아림한의원"
+  - "중원구"
+  - "ADHD정보"
+  - "ADHD관찰"
+  - "증상관찰"
+  - "해아림의학칼럼"
 keywords:
-  - "중원구 ADHD"
-  - "성남시 중원구 ADHD"
-  - "ADHD 한방치료"
   - "틱장애나 불안감이 함께 나타날 때 살펴볼 점"
+  - "ADHD 틱장애나 불안감이 함께 나타날 때 살펴볼 점"
+  - "중원구 틱장애나 불안감이 함께 나타날 때 살펴볼 점"
+  - "ADHD 증상 관찰"
 ---
 
 <div class="column-key-summary-box">
@@ -107,3 +114,14 @@ ADHD가 있는 아이는 해야 할 일을 정리하고 순서대로 수행하�
 임의로 중단해서는 안 됩니다. 증상 변화가 느껴진다면 처방 의료진에게 현재의 틱 양상, 불안감, 수면 변화, 일상생활의 어려움을 알리고 상담해야 합니다. 복용 여부나 조정은 의료진의 평가를 바탕으로 결정하는 것이 원칙입니다.
 
 ADHD와 틱, 불안감은 각각의 증상만 분리해 보기보다 아이의 생활 리듬, 학습 환경, 정서적 부담, 수면 상태를 함께 살필 때 더 정확히 이해할 수 있습니다. 보호자의 차분한 관찰과 정돈된 일상 환경은 아이가 자신의 어려움을 설명하고 필요한 도움을 받는 데 중요한 출발점이 됩니다.
+
+### 참고한 공식 의학 자료
+
+- [Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition (DSM-5) - Attention-Deficit/Hyperactivity Disorder](https://doi.org/10.1176/appi.books.9780890425596)
+- [NICE Guideline NG87 Attention deficit hyperactivity disorder: diagnosis and management](https://www.nice.org.uk/guidance/ng87)
+
+---
+
+### 관련 질환 자세히 보기
+
+- [ADHD 증상·검사·치료 안내](/conditions/adhd/)
