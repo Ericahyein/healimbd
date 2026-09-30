@@ -1,0 +1,35 @@
+name: Requested 38-column HTML adaptation
+on:
+  pull_request:
+    types: [opened, synchronize]
+    paths: ['scripts/auto_column/requested_batch_adaptation.js']
+permissions:
+  contents: read
+jobs:
+  adapt:
+    if: github.head_ref == 'task/adapt-38-columns-20260930'
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Adapt and review existing columns
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_WRITER_MODEL: ${{ vars.OPENAI_WRITER_MODEL || 'gpt-5.6-terra' }}
+          OPENAI_TELEGRAM_MODEL: ${{ vars.OPENAI_TELEGRAM_MODEL }}
+          SHARD: ${{ matrix.shard }}
+        run: node scripts/auto_column/requested_batch_adaptation.js
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: adapted-columns-${{ matrix.shard }}
+          path: adapted-batch/
+          retention-days: 7
