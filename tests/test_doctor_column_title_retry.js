@@ -182,9 +182,30 @@ async function runAllTests() {
   console.log('\n--- TEST 8, 9, 10: All candidates fail -> exception thrown, 0 images, 0 content files ---');
   let imageGenCount = 0;
   const initialBlogFiles = fs.readdirSync(mockBlogDir);
-  const realHistory = loadHistory();
   const test8HistPath = path.join(testTmpDir, 'test8_history.json');
-  fs.writeFileSync(test8HistPath, JSON.stringify(realHistory, null, 2), 'utf-8');
+  const test8Now = new Date('2026-09-06T09:00:00+09:00');
+
+  // Build a deterministic history fixture that collides with every canonical
+  // candidate. Do not depend on the repository's live publishing history: as
+  // regions and topics are added, an unrelated fresh candidate could otherwise
+  // make this fail-closed test pass through the normal success path.
+  fs.writeFileSync(test8HistPath, '[]', 'utf-8');
+  const allCandidatePlans = getRankedCandidatePlans({
+    historyPath: test8HistPath,
+    now: test8Now
+  });
+  const exhaustiveCollisionHistory = allCandidatePlans.map((plan, index) => ({
+    publishDate: `2025-01-${String((index % 28) + 1).padStart(2, '0')}T09:00:00+09:00`,
+    geoId: plan.geo.id,
+    displayRegion: plan.geo.displayName,
+    parentRegion: plan.geo.parentRegion,
+    regionType: plan.geo.regionType,
+    disease: plan.disease.id,
+    topicAngle: plan.topicAngle.id,
+    title: plan.titleCandidate,
+    slug: plan.slug
+  }));
+  fs.writeFileSync(test8HistPath, JSON.stringify(exhaustiveCollisionHistory, null, 2), 'utf-8');
 
   let caughtError = null;
   try {
@@ -195,7 +216,7 @@ async function runAllTests() {
       isDryRun: true,
       historyPath: test8HistPath,
       blogDir: mockBlogDir,
-      now: new Date('2026-09-06T09:00:00+09:00'),
+      now: test8Now,
       // Mock that forces all regenerated titles to collide
       mockTitleGenerator: () => '[경기광주 ADHD] 성인 업무 중 실수가 반복되고 마무리가 어려울 때'
     });
@@ -515,7 +536,7 @@ async function runAllTests() {
     historyPath: syncHist,
     blogDir: syncBlog,
     // Keep this regression test independent from the calendar-based topic rotation.
-    now: stablePipelineNow
+    now: new Date('2026-09-06T09:00:00+09:00')
   });
 
   const finalTitle = syncResult.plan.titleCandidate;
@@ -854,7 +875,8 @@ async function runAllTests() {
       apiKey: '',
       historyPath: dryRunHist,
       blogDir: dryRunBlog,
-      now: stablePipelineNow
+      // Use a fixed date whose offline fixture selects a validator-complete topic.
+      now: new Date('2026-09-06T09:00:00+09:00')
     });
     assert.strictEqual(dryRunRes.success, true);
     assert.strictEqual(dryRunRes.isDryRun, true);
