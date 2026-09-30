@@ -18,7 +18,10 @@ test('reject unchanged title, missing structure and extreme shortening', () => {
 test('HTML escapes all model text and is self-contained and responsive', () => {
   const html = renderHtml({...draft,title:'<script>alert(1)</script>',intro:'<img src=x onerror=alert(1)>'}, source);
   assert.ok(!html.includes('<script>'));
-  assert.ok(!html.includes('<img '));
+  assert.ok(!html.includes('<img src=x'));
+  assert.match(html, /class="homepage-banner" href="https:\/\/healimbd.com\/"/);
+  assert.match(html, /<img src="data:image\/png;base64,[A-Za-z0-9+/=]+"/);
+  assert.ok(html.includes('img-src data:'));
   assert.ok(html.includes('&lt;script&gt;'));
   assert.ok(html.includes('lang="ko"'));
   assert.ok(html.includes('name="viewport"'));
