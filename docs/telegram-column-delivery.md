@@ -40,3 +40,8 @@ HTML은 모델이 준 코드가 아니라 검증된 텍스트를 이스케이프
 중복 수신을 줄이기 위해 모호한 네트워크 실패는 자동 재시도하지 않습니다.
 전송 보장 및 영구 중복 방지 큐는 없으며, 실패 시 위 수동 실행으로 복구합니다.
 로컬 검증: `node --test tests/test_telegram_delivery.js` (API 호출·발송·비용 없음).
+
+## 공통 디자인
+
+홈페이지와 HTML은 `assets/css/column-editorial.css`를 공통으로 사용합니다. 목차·주제 번호·문단 간격과 상담 버튼을 표시합니다. 링크는 `data/column_contact.json`에서 함께 관리합니다. 배너 원본은 `assets/images/clinic-homepage-banner.png`입니다.
+명시적인 테스트 요청은 `.github/telegram-column-test-request` 변경이 main에 반영될 때 기존 최신 글 한 편을 전송합니다. 이 파일을 바꾸지 않는 일반 배포는 수동 전송 워크플로를 실행하지 않습니다.

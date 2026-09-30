@@ -59,3 +59,14 @@ test('missing secrets and invalid recipient fail before API calls', async()=>{
 test('Telegram rejects are failures, not success', async()=>{
   await assert.rejects(sendDocument('html',source,draft.title,env,async()=>({ok:true,json:async()=>({ok:false})})),/전송 확인 실패/);
 });
+test('shared editorial layout includes working section anchors and three distinct contact links',()=>{
+  const html=renderHtml(draft,source);
+  const contacts=require('../data/column_contact.json');
+  for(const url of [contacts.phone_url,contacts.kakao_url,contacts.naver_url]) assert.ok(html.includes(`href="${url}"`));
+  assert.ok(html.includes('class="column-reading"'));
+  assert.ok(html.includes('class="column-toc"'));
+  for(let i=1;i<=draft.sections.length;i++){
+    assert.ok(html.includes(`href="#topic-${i}"`));
+    assert.ok(html.includes(`id="topic-${i}"`));
+  }
+});

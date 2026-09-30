@@ -1,6 +1,9 @@
 name: Telegram Column HTML — Test or Resend
 
 on:
+  push:
+    branches: [main]
+    paths: ['.github/telegram-column-test-request']
   workflow_dispatch:
     inputs:
       column_slug:
