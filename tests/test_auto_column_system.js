@@ -7,7 +7,13 @@ console.log('🧪 Starting Full Auto Column System Test Suite...\n');
 // 1. GEO Hierarchy Validation
 console.log('--- 1. GEO Hierarchy & Canonical Policy ---');
 const geoHierarchy = require('../scripts/auto_column/geo_hierarchy.json');
-assert.strictEqual(geoHierarchy.regions.length, 12, 'Must have exactly 12 active regions');
+assert.strictEqual(geoHierarchy.regions.length, 12, 'Must preserve all 12 known regions for validation and legacy content');
+const productionRegions = geoHierarchy.regions.filter(r => r.productionActive === true);
+assert.deepStrictEqual(
+  productionRegions.map(r => r.displayName),
+  ['성남', '분당', '판교', '용인', '경기광주'],
+  'Production must target only the five approved service areas'
+);
 
 const pangyo = geoHierarchy.regions.find(r => r.id === 'bundang-pangyo');
 assert(pangyo, 'Pangyo must be defined');
@@ -18,11 +24,11 @@ const bundang = geoHierarchy.regions.find(r => r.id === 'seongnam-bundang');
 assert.strictEqual(bundang.canonicalTitle, '[분당 {disease}]', 'Bundang title must be [분당 {disease}]');
 
 const suji = geoHierarchy.regions.find(r => r.id === 'yongin-suji');
-assert.strictEqual(suji.canonicalTitle, '[수지 {disease}]', 'Suji title must be [수지 {disease}]');
+assert.strictEqual(suji.productionActive, false, 'Suji must remain known but inactive for production');
 
 const wirye = geoHierarchy.regions.find(r => r.id === 'seongnam-wirye');
 assert.strictEqual(wirye.regionType, 'special_area', 'Wirye must be special_area');
-console.log('✅ PASS: 12 GEOs and canonical policies strictly verified.');
+console.log('✅ PASS: Five production GEOs and legacy validation regions strictly verified.');
 
 // 2. Disease Taxonomy Validation
 console.log('\n--- 2. Disease Taxonomy (12 Categories) ---');
@@ -90,10 +96,15 @@ const mockHistory = [
   }
 ];
 
-// 90-day cooldown test
-assert.strictEqual(isGeoDiseaseIn90DayCooldown(mockHistory, 'seongnam-bundang', 'tic'), true, 'Should be in 90-day cooldown');
+// Production GEO+disease cooldown test
+assert.strictEqual(isGeoDiseaseIn90DayCooldown(mockHistory, 'seongnam-bundang', 'tic'), true, 'Should be in production cooldown');
 assert.strictEqual(isGeoDiseaseIn90DayCooldown(mockHistory, 'yongin-giheung', 'tic'), false, 'Different geo should not be in cooldown');
 assert.strictEqual(isGeoDiseaseIn90DayCooldown(mockHistory, 'seongnam-bundang', 'panic'), false, 'Different disease should not be in cooldown');
+const cooldownNow = new Date('2026-09-30T00:00:00Z');
+const fortyFourDaysAgo = new Date(cooldownNow.getTime() - 44 * 24 * 60 * 60 * 1000).toISOString();
+const fortyFiveDaysAgo = new Date(cooldownNow.getTime() - 45 * 24 * 60 * 60 * 1000).toISOString();
+assert.strictEqual(isGeoDiseaseIn90DayCooldown([{ geoId: 'seongnam-main', disease: 'tic', publishDate: fortyFourDaysAgo }], 'seongnam-main', 'tic', cooldownNow), true, '44-day-old combination must remain blocked');
+assert.strictEqual(isGeoDiseaseIn90DayCooldown([{ geoId: 'seongnam-main', disease: 'tic', publishDate: fortyFiveDaysAgo }], 'seongnam-main', 'tic', cooldownNow), false, '45-day-old combination must become eligible');
 
 // 4-A. KST Calendar Day Calculation Tests
 const kstBase = '2026-09-07T00:07:00.000Z'; // 09:07 KST on 2026-09-07
@@ -184,13 +195,21 @@ console.log(`✅ PASS: Topic Planner selected target -> [${plan.geo.displayName}
 // 5. Medical Safety & Content Validator Tests
 console.log('\n--- 5. 3-Tier Content, GEO Consistency & Medical Safety Validator ---');
 const { validateArticleContent } = require('../scripts/auto_column/content_validator');
-const { sanitizeAnchorTitle } = require('../scripts/auto_column/internal_linker');
+const { sanitizeAnchorTitle, getRecommendedInternalLinks, isInternalUrlValid } = require('../scripts/auto_column/internal_linker');
 
 // Test Anchor Sanitization
 const sanitized = sanitizeAnchorTitle('[판교 틱장애] 눈 깜빡임·음음 소리, 억지로 참게 하면 안 되는 이유와 두뇌 밸런스 치료법');
 assert(!sanitized.includes('판교'), 'Anchor must not include regional prefix');
 assert(!sanitized.includes('두뇌 밸런스 치료법'), 'Anchor must not include legacy marketing phrase');
 console.log(`✅ PASS: Anchor text sanitized to -> "${sanitized}"`);
+
+const ticLinks = getRecommendedInternalLinks('tic', 'non-existent-current-slug');
+assert.strictEqual(ticLinks[0].url, '/conditions/tic/', 'Tic pillar page must be the first recommended internal link');
+assert.strictEqual(isInternalUrlValid('/conditions/tic/'), true, 'Condition detail URLs must pass validation');
+assert.strictEqual(isInternalUrlValid('/guide/'), true, 'Canonical guide URL must pass validation');
+assert.strictEqual(isInternalUrlValid('/treatments/'), true, 'Legacy redirect URL must remain valid for existing articles');
+assert.ok(!ticLinks.some(link => link.url === '/treatments/'), 'New recommendations must not use the retired treatments route');
+console.log('✅ PASS: Disease pillar links are prioritized and retired routes are rejected.');
 
 // A. Valid Compliant Article
 const validArticle = {
