@@ -179,12 +179,12 @@ async function testCandidateRotation() {
   console.log('✅ TEST 5 PASS: Topic angle included in stableKey; 100% shuffle-independent and deterministically rotating.');
 
   // =========================================================================
-  // TEST 6: Cooldown Invariance (90-Day GEO & 3-Day Disease Never Bypassed)
+  // TEST 6: Cooldown Invariance (Production GEO cooldown & 3-Day Disease Never Bypassed)
   // =========================================================================
   console.log('\n--- TEST 6: Cooldown Invariance Under Date Rotation ---');
   const now = new Date('2026-09-20T09:00:00+09:00');
 
-  // In history, Suji anxiety was published on 2026-09-14 (within 90 days)
+  // In history, Suji anxiety was published on 2026-09-14 (within production cooldown)
   const isSujiAnxietyCooldown = isGeoDiseaseIn90DayCooldown(realHistory, 'yongin-suji', 'anxiety', now);
   assert.strictEqual(isSujiAnxietyCooldown, true, 'Suji anxiety must be in 90-day cooldown');
 
@@ -205,7 +205,7 @@ async function testCandidateRotation() {
       }
     }
   }
-  console.log('✅ TEST 6 PASS: Cooldowns (90-day GEO+disease and 3-day disease) are 100% strictly enforced across all dates.');
+  console.log('✅ TEST 6 PASS: Production GEO+disease and 3-day disease cooldowns are strictly enforced across all dates.');
 
   // =========================================================================
   // TEST 7: Unapproved Medical Knowledge Excluded From Candidate List
