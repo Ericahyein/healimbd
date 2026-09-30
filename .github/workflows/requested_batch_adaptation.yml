@@ -12,9 +12,9 @@ jobs:
     timeout-minutes: 35
     strategy:
       fail-fast: false
-      max-parallel: 4
+      max-parallel: 2
       matrix:
-        shard: [0, 1, 2, 3, 4, 5]
+        shard: [0, 1]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -30,6 +30,6 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: adapted-columns-${{ matrix.shard }}
+          name: corrected-columns-${{ matrix.shard }}
           path: adapted-batch/
           retention-days: 7
