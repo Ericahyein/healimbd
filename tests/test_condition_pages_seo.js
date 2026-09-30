@@ -20,7 +20,7 @@ const tic = conditions['틱장애'];
 const panic = conditions['공황장애'];
 const layout = read('layouts/conditions/single.html');
 const seo = read('layouts/partials/head_seo.html');
-const guide = read('layouts/guide/list.html');
+const guide = read('layouts/guide/list.html') + read('layouts/partials/condition_photo_cards.html');
 
 for (const [name, content] of Object.entries(conditions)) {
   assert(content.includes('seo_title:'), `${name}: unique SEO title required`);
