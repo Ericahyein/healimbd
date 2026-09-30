@@ -265,11 +265,11 @@ const dummyKnowledge = loadMedicalKnowledge('adhd');
   console.log('✅ TEST 9 PASS: 401, invalid_request, and insufficient_quota fail immediately on attempt 1 without retry.');
 
   // =========================================================================
-  // TEST 10 & 11: Daily limit (1 post max) and Cooldown rules
+  // TEST 10 & 11: Daily limit (2 posts max) and Cooldown rules
   // =========================================================================
   console.log('\n--- TEST 10 & 11: Daily Limit & Cooldown Protection ---');
   const { planNextColumn } = require('../scripts/auto_column/topic_planner');
-  const tempHistoryPath = path.join(__dirname, '../scratch/test_daily_limit_1_history.json');
+  const tempHistoryPath = path.join(__dirname, '../scratch/test_daily_limit_2_history.json');
   fs.mkdirSync(path.dirname(tempHistoryPath), { recursive: true });
   fs.writeFileSync(tempHistoryPath, JSON.stringify([{
     publishDate: new Date().toISOString(),
@@ -280,10 +280,22 @@ const dummyKnowledge = loadMedicalKnowledge('adhd');
   }], null, 2));
 
   try {
-    // A second post on the same day must be blocked by the quality-first daily limit.
+    // A second post is allowed but must use a different disease.
     const plan2 = planNextColumn({ historyPath: tempHistoryPath });
-    assert.strictEqual(plan2.status, 'daily_limit_reached', 'Second post of the day MUST be blocked by daily limit');
-    console.log('✅ TEST 10 PASS: Daily limit strictly enforced at 1 post maximum.');
+    assert.strictEqual(plan2.status, 'ready', 'Second post of the day MUST remain eligible');
+    assert.notStrictEqual(plan2.disease.id, 'tic', 'Second post must use a different disease');
+    const history = JSON.parse(fs.readFileSync(tempHistoryPath, 'utf8'));
+    history.push({
+      publishDate: new Date().toISOString(),
+      geoId: plan2.geo.id,
+      parentRegion: plan2.geo.parentRegion,
+      disease: plan2.disease.id,
+      topicAngle: plan2.topicAngle.id
+    });
+    fs.writeFileSync(tempHistoryPath, JSON.stringify(history, null, 2));
+    const plan3 = planNextColumn({ historyPath: tempHistoryPath });
+    assert.strictEqual(plan3.status, 'daily_limit_reached', 'Third post of the day MUST be blocked');
+    console.log('✅ TEST 10 PASS: Daily limit strictly enforced at 2 posts with different diseases.');
   } finally {
     if (fs.existsSync(tempHistoryPath)) fs.unlinkSync(tempHistoryPath);
   }
