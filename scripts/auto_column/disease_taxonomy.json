@@ -102,7 +102,7 @@
       "id": "syncope",
       "name": "미주신경성 실신",
       "category": "syncope",
-      "categoryName": "실신",
+      "categoryName": "미주신경성 실신",
       "defaultKeywords": ["미주신경성 실신", "기립성 어지럼", "혈관미주신경반사", "어지럼증", "전조증상"],
       "topicAngles": [
         {"id": "subway-dizziness", "titleSuffix": "지하철이나 만원 버스에서 눈앞이 캄캄해지고 식은땀이 날 때", "focus": "미주신경 반사, 기립 상태 혈압 조절 저하, 전조증상 대처"},
