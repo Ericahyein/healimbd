@@ -14,6 +14,7 @@ const {
 const {
   validateArticleContent,
   checkTitleSimilarity,
+  checkArticleSimilarity,
   checkSlugCollision
 } = require('./content_validator');
 const { compositeThumbnail } = require('./thumbnail_engine');
@@ -188,6 +189,7 @@ async function runAutoColumnPipeline(options = {}) {
   const history = loadHistory(historyPath);
   const rejectedTitles = new Set();
   const rejectedPlanKeys = new Set();
+  const rejectedTopicKeys = new Set();
   const retryReport = {
     attempts: [],
     rejectedTitles: [],
@@ -234,6 +236,7 @@ async function runAutoColumnPipeline(options = {}) {
         currentPlan = planNextColumn({
           force: forcePublish,
           excludedPlanKeys: rejectedPlanKeys,
+          excludedTopicKeys: rejectedTopicKeys,
           historyPath,
           now
         });
@@ -417,6 +420,34 @@ async function runAutoColumnPipeline(options = {}) {
     } else {
       articleBody = await generateArticleBody(currentPlan, outline, knowledge, internalLinks, apiKey, telemetry);
     }
+    if (!isQAOverrideRequested) {
+      const similarityCheck = checkArticleSimilarity(
+        articleBody,
+        history,
+        blogDir,
+        currentPlan.disease.id,
+        { lookbackDays: 120, now }
+      );
+      if (!similarityCheck.valid) {
+        console.warn(`  ❌ ${similarityCheck.error}`);
+        rejectedPlanKeys.add(planKey);
+        rejectedPlanKeys.add(stablePlanKey);
+        rejectedTopicKeys.add(`${currentPlan.disease.id}|${currentPlan.topicAngle.id}`);
+        retryReport.attempts.push({
+          candidateIdx: candidateIdx + 1,
+          planKey,
+          title: currentPlan.titleCandidate,
+          errorType: 'ARTICLE_SIMILARITY',
+          conflictingTitle: similarityCheck.conflictingTitle,
+          bodySimilarity: Number((similarityCheck.maxBodySimilarity * 100).toFixed(1)),
+          faqSimilarity: Number((similarityCheck.maxFaqSimilarity * 100).toFixed(1)),
+          error: similarityCheck.error
+        });
+        continue;
+      }
+      console.log(`  ✅ 120-day similarity gate passed (body ${(similarityCheck.maxBodySimilarity * 100).toFixed(1)}%, FAQ ${(similarityCheck.maxFaqSimilarity * 100).toFixed(1)}%).`);
+    }
+
     const thumbnailCopy = await generateThumbnailCopy(currentPlan, articleBody, apiKey, telemetry);
 
     console.log('🎨 Thumbnail Copy generated:', thumbnailCopy);

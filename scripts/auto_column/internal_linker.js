@@ -4,7 +4,7 @@ const path = require('path');
 const CORE_PAGES = [
   {
     title: '해아림한의원 주요 진료과목 안내',
-    url: '/treatments/',
+    url: '/guide/',
     category: 'general'
   },
   {
@@ -23,6 +23,22 @@ const CORE_PAGES = [
     category: 'general'
   }
 ];
+
+const CONDITION_PAGES = {
+  tic: { title: '틱장애 증상·검사·치료 안내', url: '/conditions/tic/', category: 'tic' },
+  adhd: { title: 'ADHD 증상·검사·치료 안내', url: '/conditions/adhd/', category: 'adhd' },
+  panic: { title: '공황장애 증상·검사·치료 안내', url: '/conditions/panic/', category: 'panic' },
+  anxiety: { title: '불안장애 증상·검사·치료 안내', url: '/conditions/anxiety/', category: 'anxiety' },
+  sleep: { title: '불면증 증상·검사·치료 안내', url: '/conditions/insomnia/', category: 'sleep' },
+  autonomic: { title: '자율신경실조증 증상·검사·치료 안내', url: '/conditions/autonomic/', category: 'autonomic' },
+  hyperhidrosis: { title: '다한증 증상·검사·치료 안내', url: '/conditions/hyperhidrosis/', category: 'hyperhidrosis' },
+  ibs: { title: '과민성대장증후군 증상·검사·치료 안내', url: '/conditions/ibs/', category: 'ibs' },
+  syncope: { title: '미주신경성 실신 증상·검사·치료 안내', url: '/conditions/syncope/', category: 'syncope' }
+};
+
+// Existing articles may still contain this redirecting route. Keep it valid for
+// historical validation, but never recommend it for newly generated columns.
+const LEGACY_REDIRECT_PAGES = ['/treatments/'];
 
 const DISEASE_RELEVANCE_MAP = {
   tic: ['tic', 'adhd', 'child', 'sleep'],
@@ -99,6 +115,14 @@ function isInternalUrlValid(url, baseDir) {
     return true;
   }
 
+  if (Object.values(CONDITION_PAGES).some(p => p.url.replace(/\/$/, '') === cleanUrl)) {
+    return true;
+  }
+
+  if (LEGACY_REDIRECT_PAGES.some(url => url.replace(/\/$/, '') === cleanUrl)) {
+    return true;
+  }
+
   // 2. Blog post check
   const blogMatch = cleanUrl.match(/^\/blog\/([a-zA-Z0-9_-]+)$/);
   if (blogMatch) {
@@ -110,8 +134,6 @@ function isInternalUrlValid(url, baseDir) {
   return false;
 }
 
-/**
- * Returns 2~4 strictly relevant internal link suggestions for the target disease
 /**
  * Deduplicates internal links strictly by normalized URL
  */
@@ -163,6 +185,9 @@ function getRecommendedInternalLinks(diseaseCategory, currentSlug, blogDir) {
     }
   }
 
+  // The disease pillar is the strongest semantic destination and is always first.
+  addLink(CONDITION_PAGES[diseaseCategory]);
+
   for (const post of sameCat.slice(0, 2)) {
     addLink(post);
   }
@@ -185,6 +210,8 @@ function getRecommendedInternalLinks(diseaseCategory, currentSlug, blogDir) {
 
 module.exports = {
   CORE_PAGES,
+  CONDITION_PAGES,
+  LEGACY_REDIRECT_PAGES,
   DISEASE_RELEVANCE_MAP,
   sanitizeAnchorTitle,
   getExistingBlogPosts,

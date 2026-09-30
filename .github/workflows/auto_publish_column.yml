@@ -7,9 +7,8 @@ on:
     paths:
       - '.github/auto-column-recovery-request'
   schedule:
-    # 00:07 UTC = 09:07 KST (오전 1회차)
+    # 00:07 UTC = 09:07 KST / 08:07 UTC = 17:07 KST
     - cron: '7 0 * * *'
-    # 08:07 UTC = 17:07 KST (오후 2회차)
     - cron: '7 8 * * *'
   workflow_dispatch:
     inputs:
