@@ -1,22 +1,29 @@
 ---
 title: "[성남 미주신경성 실신] 지하철이나 만원 버스에서 눈앞이 캄캄해지고 식은땀이 날 때"
 date: 2026-09-30T14:25:20.132+09:00
+lastmod: 2026-09-30T16:15:00+09:00
+search_intent: "long_tail_column"
+condition_pillar: "/conditions/syncope/"
+article_review_status: "medical_standard_based"
 category: "syncope"
 category_name: "미주신경성 실신"
-author: "손지웅 대표원장"
+author: "해아림한의원 의료 콘텐츠팀"
+content_author: "해아림한의원 의료 콘텐츠팀"
+medical_information_reviewer: "손지웅 대표원장"
+review_scope: "사전 승인 질환별 의료정보 기준"
 image: "images/blog/seongnam-main-syncope-subway-dizziness.jpg"
 summary: "미주신경성 실신의 전조증상과 악화 요인을 살펴보고, 증상이 나타날 때의 대처와 진료 시 확인할 기준을 안내합니다."
 hashtags:
-  - "성남미주신경성실신"
-  - "성남한의원"
-  - "미주신경성실신치료"
-  - "미주신경성실신관리"
-  - "해아림한의원"
+  - "성남"
+  - "미주신경성실신정보"
+  - "미주신경성실신관찰"
+  - "증상관찰"
+  - "해아림의학칼럼"
 keywords:
-  - "성남 미주신경성 실신"
-  - "성남시 미주신경성 실신"
-  - "미주신경성 실신 한방치료"
   - "지하철이나 만원 버스에서 눈앞이 캄캄해지고 식은땀이 날 때"
+  - "미주신경성 실신 지하철이나 만원 버스에서 눈앞이 캄캄해지고 식은땀이 날 때"
+  - "성남 지하철이나 만원 버스에서 눈앞이 캄캄해지고 식은땀이 날 때"
+  - "미주신경성 실신 증상 관찰"
 ---
 
 <div class="column-key-summary-box">

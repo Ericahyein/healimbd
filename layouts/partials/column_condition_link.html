@@ -1,0 +1,21 @@
+{{/* Legacy columns can lack a pillar link. Resolve their condition from page categories. */}}
+{{ $column := . }}
+{{ $condition := false }}
+{{ with .Params.condition_pillar }}
+  {{ with $column.Site.GetPage . }}{{ $condition = . }}{{ end }}
+{{ end }}
+{{ if not $condition }}
+  {{ range where .Site.RegularPages "Section" "conditions" }}
+    {{ if in (.Params.column_categories | default (slice)) ($column.Params.category | default "") }}
+      {{ $condition = . }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+{{ with $condition }}
+  {{ if not (in $column.RawContent .RelPermalink) }}
+  <p class="blog-medical-notice">
+    <i class="ph-bold ph-book-open" aria-hidden="true"></i>
+    <span>{{ .Params.condition_name }}의 증상과 분당점 진료 과정을 더 알아보려면 <a href="{{ .RelPermalink }}">{{ .Params.condition_name }} 상세 안내</a>를 확인해 주세요.</span>
+  </p>
+  {{ end }}
+{{ end }}
