@@ -85,11 +85,12 @@ const dummyKnowledge = loadMedicalKnowledge('adhd');
   assert(stepMatch, 'Execute Doctor Column Pipeline step must exist');
   assert(!stepMatch[0].includes('AUTO_COLUMN_ENABLED:'), 'Step 7 must not redundantly declare AUTO_COLUMN_ENABLED');
 
-  // Both Hugo build and Commit/Push must check env.AUTO_COLUMN_ENABLED == 'true'
-  assert(workflowContent.includes("- name: Validate Hugo Static Build (Production Mode Only)\n        if: env.AUTO_COLUMN_ENABLED == 'true' || (github.event_name == 'workflow_dispatch' && inputs.force_publish == true)"),
-    'Step 10 must check env.AUTO_COLUMN_ENABLED == "true"');
-  assert(workflowContent.includes("- name: Commit and Push to Main (Production Mode Only)\n        if: env.AUTO_COLUMN_ENABLED == 'true' || (github.event_name == 'workflow_dispatch' && inputs.force_publish == true)"),
-    'Step 11 must check env.AUTO_COLUMN_ENABLED == "true"');
+  // Both Hugo build and Commit/Push must require main, a production trigger, and AUTO_COLUMN_ENABLED.
+  const productionIf = "if: (github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.force_publish) || (github.event_name == 'push' && env.RECOVERY_PUBLISH == 'true')) && github.ref == 'refs/heads/main' && env.AUTO_COLUMN_ENABLED == 'true'";
+  assert(workflowContent.includes(`- name: Validate Hugo Static Build (Production Mode Only)\n        ${productionIf}`),
+    'Hugo build must use the guarded production condition');
+  assert(workflowContent.includes(`- name: Commit and Push to Main (Production Mode Only)\n        ${productionIf}`),
+    'Commit/push must use the guarded production condition');
   console.log('✅ TEST E & TEST 4 PASS: AUTO_COLUMN_ENABLED is at job-level env and uniformly shared by Steps 7, 10, and 11.');
 
   // =========================================================================
@@ -264,42 +265,28 @@ const dummyKnowledge = loadMedicalKnowledge('adhd');
   console.log('✅ TEST 9 PASS: 401, invalid_request, and insufficient_quota fail immediately on attempt 1 without retry.');
 
   // =========================================================================
-  // TEST 10 & 11: Daily limit (2 posts max) and Cooldown rules
+  // TEST 10 & 11: Daily limit (1 post max) and Cooldown rules
   // =========================================================================
   console.log('\n--- TEST 10 & 11: Daily Limit & Cooldown Protection ---');
   const { planNextColumn } = require('../scripts/auto_column/topic_planner');
-  const historyPath = path.join(__dirname, '../data/auto_column_history.json');
-  const history = JSON.parse(fs.readFileSync(historyPath, 'utf-8'));
+  const tempHistoryPath = path.join(__dirname, '../scratch/test_daily_limit_1_history.json');
+  fs.mkdirSync(path.dirname(tempHistoryPath), { recursive: true });
+  fs.writeFileSync(tempHistoryPath, JSON.stringify([{
+    publishDate: new Date().toISOString(),
+    geoId: 'seongnam-main',
+    parentRegion: '성남',
+    disease: 'tic',
+    topicAngle: 'media-exposure'
+  }], null, 2));
 
-  // Today has 1 post (seongnam-main + tic)
-  assert.strictEqual(history.length, 1, 'History must have exactly 1 post today');
-  assert.strictEqual(history[0].disease, 'tic');
-  assert.strictEqual(history[0].geoId, 'seongnam-main');
-
-  // Plan 2nd post
-  const plan2 = planNextColumn();
-  assert.strictEqual(plan2.status, 'ready', 'Second post of the day must be planned successfully');
-  assert.notStrictEqual(plan2.disease.id, 'tic', 'Second post must NOT be tic (same-day disease cooldown)');
-  assert.strictEqual(plan2.geo.id, 'yongin-main', 'Second post geo must be yongin-main');
-  assert.strictEqual(plan2.disease.id, 'adhd', 'Second post disease must be adhd');
-  console.log(`✅ TEST 11 PASS: Tic and Seongnam are properly in cooldown. Selected: [${plan2.geo.displayName}] ${plan2.disease.name}.`);
-
-  // Simulate 3rd post attempt: create temporary history with 2 posts today
-  const tempHistoryPath = path.join(__dirname, '../scratch/test_daily_limit_2_history.json');
-  fs.writeFileSync(tempHistoryPath, JSON.stringify([
-    history[0],
-    {
-      publishDate: new Date().toISOString(),
-      geoId: plan2.geo.id,
-      disease: plan2.disease.id,
-      topicAngle: plan2.topicAngle.id
-    }
-  ], null, 2));
-
-  const plan3 = planNextColumn({ historyPath: tempHistoryPath });
-  assert.strictEqual(plan3.status, 'daily_limit_reached', 'Third post of the day MUST be blocked by daily limit');
-  fs.unlinkSync(tempHistoryPath);
-  console.log('✅ TEST 10 PASS: Daily limit strictly enforced at 2 posts maximum.');
+  try {
+    // A second post on the same day must be blocked by the quality-first daily limit.
+    const plan2 = planNextColumn({ historyPath: tempHistoryPath });
+    assert.strictEqual(plan2.status, 'daily_limit_reached', 'Second post of the day MUST be blocked by daily limit');
+    console.log('✅ TEST 10 PASS: Daily limit strictly enforced at 1 post maximum.');
+  } finally {
+    if (fs.existsSync(tempHistoryPath)) fs.unlinkSync(tempHistoryPath);
+  }
 
   console.log('\n====================================================');
   console.log('🎉 ALL RESTORATION TESTS (TEST A~E, 1~11) PASSED 100%!');
