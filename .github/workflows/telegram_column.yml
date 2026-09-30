@@ -1,0 +1,39 @@
+name: Telegram Column HTML — Test or Resend
+
+on:
+  workflow_dispatch:
+    inputs:
+      column_slug:
+        description: '기존 발행글 slug (빈칸: 최신 발행글). 홈페이지에 새 글을 발행하지 않습니다.'
+        required: false
+        default: ''
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: telegram-column-manual
+  cancel-in-progress: false
+
+jobs:
+  deliver:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Validate Telegram Delivery Code
+        run: node --test tests/test_telegram_delivery.js
+      - name: Adapt and Send Existing Column
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_WRITER_MODEL: ${{ vars.OPENAI_WRITER_MODEL || 'gpt-5.6-terra' }}
+          OPENAI_TELEGRAM_MODEL: ${{ vars.OPENAI_TELEGRAM_MODEL }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          COLUMN_SLUG: ${{ inputs.column_slug }}
+        run: node scripts/auto_column/telegram_delivery.js
