@@ -88,7 +88,7 @@ test('malformed draft is revised before review or delivery',async()=>{
  assert.equal(calls,3);
 });
 
-test('final HTML shares website styling and ends with the centered half-width homepage link', () => {
+test('final HTML shares website styling and places the centered half-width homepage link above contact', () => {
   const html=renderHtml(draft,source);
   assert.ok(html.includes('counter(article-topic,decimal-leading-zero)'));
   assert.equal((html.match(/<section class="column-topic">/g)||[]).length,draft.sections.length);
@@ -97,5 +97,14 @@ test('final HTML shares website styling and ends with the centered half-width ho
   assert.ok(!html.includes('/images/philosophy-closing.webp'));
   assert.ok(!html.includes('{{'));
   assert.match(html, /\.homepage-banner\{display:block;width:50%;margin:0 auto\}/);
-  assert.match(html, /<div class="homepage-banner-wrap">[\s\S]*?<\/a><\/div><\/main><\/body><\/html>$/);
+  assert.ok(html.indexOf('<div class="homepage-banner-wrap">') < html.indexOf('<aside'));
+  assert.ok(html.includes('font-src data:'));
+  assert.ok(html.includes('data:font/woff2;base64,'));
+});
+
+test('rich paragraph formatting preserves lists and emphasis without allowing HTML', () => {
+ const {renderBlocks} = require('../scripts/auto_column/telegram_delivery');
+ assert.equal(renderBlocks('- 하나\n- **둘**'), '<ul><li>하나</li><li><strong>둘</strong></li></ul>');
+ assert.equal(renderBlocks('<script>alert(1)</script>'), '<p>&lt;script&gt;alert(1)&lt;/script&gt;</p>');
+ assert.ok(renderBlocks('| 항목 | 설명 |\n| --- | --- |\n| 가 | 나 |').includes('<th scope="col">항목</th>'));
 });
