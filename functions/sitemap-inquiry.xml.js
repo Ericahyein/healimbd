@@ -48,9 +48,10 @@ export async function onRequestGet(context) {
         if (!id || !/^inq_[0-9A-Za-z_-]{1,64}$/.test(id)) return;
 
         const fields = doc.fields || {};
-        // Safety: only public documents with title and answered status
+        // Safety: only fully answered public documents belong in the indexable sitemap.
         if (!fields.title || !fields.title.stringValue) return;
         if (fields.status?.stringValue !== 'answered') return;
+        if (!fields.answer?.stringValue || !fields.answer.stringValue.trim()) return;
 
         const dateIso = fields.answeredAt?.timestampValue || 
                         fields.createdAt?.timestampValue || 
