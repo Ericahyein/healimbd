@@ -14,7 +14,7 @@ Repository Actions secrets: `OPENAI_API_KEY`, `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CH
 원문을 바탕으로 제목·도입·구성을 각색하고, 두 번째 AI 호출로 의학적 의미와 주의사항을 대조합니다.
 검수를 통과하지 못하면 전송하지 않습니다. 이 자동 검수는 의료 전문가의 검토를 대신하지 않습니다.
 HTML은 모델이 준 코드가 아니라 검증된 텍스트를 이스케이프하여 렌더링합니다.
-외부 스크립트, 이미지, 웹폰트 없이 파일 하나로 열립니다.
+외부 스크립트·웹폰트 없이 파일 하나로 열립니다. 하단 홈페이지 배너는 제공된 PNG를 HTML 안에 포함하므로 이미지 파일을 따로 내려받을 필요가 없습니다. 배너를 클릭하면 https://healimbd.com/ 로 연결됩니다.
 각색본은 홈페이지나 공개 저장소에 커밋하지 않습니다.
 
 ## 첫 수신 테스트 / 재전송
@@ -40,3 +40,8 @@ HTML은 모델이 준 코드가 아니라 검증된 텍스트를 이스케이프
 중복 수신을 줄이기 위해 모호한 네트워크 실패는 자동 재시도하지 않습니다.
 전송 보장 및 영구 중복 방지 큐는 없으며, 실패 시 위 수동 실행으로 복구합니다.
 로컬 검증: `node --test tests/test_telegram_delivery.js` (API 호출·발송·비용 없음).
+
+## 공통 디자인
+
+홈페이지와 HTML은 `assets/css/column-editorial.css`를 공통으로 사용합니다. 목차·주제 번호·문단 간격과 상담 버튼을 표시합니다. 링크는 `data/column_contact.json`에서 함께 관리합니다. 배너 원본은 `assets/images/clinic-homepage-banner.png`입니다.
+명시적인 테스트 요청은 `.github/telegram-column-test-request` 변경이 main에 반영될 때 기존 최신 글 한 편을 전송합니다. 이 파일을 바꾸지 않는 일반 배포는 수동 전송 워크플로를 실행하지 않습니다.

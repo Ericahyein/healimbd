@@ -18,7 +18,10 @@ test('reject unchanged title, missing structure and extreme shortening', () => {
 test('HTML escapes all model text and is self-contained and responsive', () => {
   const html = renderHtml({...draft,title:'<script>alert(1)</script>',intro:'<img src=x onerror=alert(1)>'}, source);
   assert.ok(!html.includes('<script>'));
-  assert.ok(!html.includes('<img '));
+  assert.ok(!html.includes('<img src=x'));
+  assert.match(html, /class="homepage-banner" href="https:\/\/healimbd.com\/"/);
+  assert.match(html, /<img src="data:image\/png;base64,[A-Za-z0-9+/=]+"/);
+  assert.ok(html.includes('img-src data:'));
   assert.ok(html.includes('&lt;script&gt;'));
   assert.ok(html.includes('lang="ko"'));
   assert.ok(html.includes('name="viewport"'));
@@ -55,4 +58,15 @@ test('missing secrets and invalid recipient fail before API calls', async()=>{
 });
 test('Telegram rejects are failures, not success', async()=>{
   await assert.rejects(sendDocument('html',source,draft.title,env,async()=>({ok:true,json:async()=>({ok:false})})),/전송 확인 실패/);
+});
+test('shared editorial layout includes working section anchors and three distinct contact links',()=>{
+  const html=renderHtml(draft,source);
+  const contacts=require('../data/column_contact.json');
+  for(const url of [contacts.phone_url,contacts.kakao_url,contacts.naver_url]) assert.ok(html.includes(`href="${url}"`));
+  assert.ok(html.includes('class="column-reading"'));
+  assert.ok(html.includes('class="column-toc"'));
+  for(let i=1;i<=draft.sections.length;i++){
+    assert.ok(html.includes(`href="#topic-${i}"`));
+    assert.ok(html.includes(`id="topic-${i}"`));
+  }
 });
