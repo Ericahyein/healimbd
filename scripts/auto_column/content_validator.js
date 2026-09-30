@@ -74,7 +74,6 @@ function getAllowedDiseaseNames(diseaseId, extraLabel) {
       allowed.add('야뇨증');
     } else if (disease.id === 'syncope') {
       allowed.add('미주신경성 실신');
-      allowed.add('실신');
     }
   }
 
@@ -96,6 +95,8 @@ function getAllowedDiseaseNames(diseaseId, extraLabel) {
     allowed.add(extraLabel.trim());
   }
 
+  // The column disease label must stay specific, including caller-supplied aliases.
+  if (diseaseId === 'syncope') allowed.delete('실신');
   return allowed;
 }
 

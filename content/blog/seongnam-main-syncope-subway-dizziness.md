@@ -2,7 +2,7 @@
 title: "[성남 미주신경성 실신] 지하철이나 만원 버스에서 눈앞이 캄캄해지고 식은땀이 날 때"
 date: 2026-09-30T14:25:20.132+09:00
 category: "syncope"
-category_name: "실신"
+category_name: "미주신경성 실신"
 author: "손지웅 대표원장"
 image: "images/blog/seongnam-main-syncope-subway-dizziness.jpg"
 summary: "미주신경성 실신의 전조증상과 악화 요인을 살펴보고, 증상이 나타날 때의 대처와 진료 시 확인할 기준을 안내합니다."
