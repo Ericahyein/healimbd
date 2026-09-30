@@ -83,6 +83,12 @@ jobs:
       - name: Run Doctor Column Category Filter Regression Test
         run: node tests/test_blog_category_filters.js
 
+      - name: Run Condition SEO and Column Link Regression Tests
+        run: |
+          node tests/test_condition_pages_seo.js
+          node tests/test_column_trust_pillar.js
+          node tests/test_condition_column_links.js
+
       - name: Run Doctor Column Title Retry & Fail-Closed Suite
         run: node tests/test_doctor_column_title_retry.js
 
