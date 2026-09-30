@@ -30,8 +30,8 @@ test('HTML escapes all model text and is self-contained and responsive', () => {
 });
 test('medical comparison failure blocks adaptation', async () => {
   let calls=0;
-  await assert.rejects(adapt(source,env,async()=>completion(calls++ ? {approved:false}:draft)), /검수 미통과/);
-  assert.equal(calls,2);
+  await assert.rejects(adapt(source,env,async()=>completion(calls++ % 2 ? {approved:false,issues:['복약 주의사항을 보존하세요']}:draft)), /검수 미통과/);
+  assert.equal(calls,4);
 });
 test('medical comparison success returns draft', async () => {
   let calls=0;
@@ -69,4 +69,15 @@ test('shared editorial layout includes working section anchors and three distinc
     assert.ok(html.includes(`href="#topic-${i}"`));
     assert.ok(html.includes(`id="topic-${i}"`));
   }
+});
+
+test('failed comparison feeds corrections into one revision and still requires approval', async()=>{
+  let calls=0;
+  const responses=[draft,{approved:false,issues:['복약 주의사항을 보존하세요']},draft,{approved:true,issues:[]}];
+  const result=await adapt(source,env,async(url,options)=>{
+    if(calls===2) assert.ok(options.body.includes('복약 주의사항을 보존하세요'));
+    return completion(responses[calls++]);
+  });
+  assert.deepEqual(result,draft);
+  assert.equal(calls,4);
 });
