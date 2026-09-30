@@ -16,6 +16,17 @@ const CATEGORY_MAP = {
   etc: '기타 질환'
 };
 
+const CONDITION_PATH_MAP = {
+  '틱장애': '/conditions/tic/',
+  'ADHD': '/conditions/adhd/',
+  '공황장애': '/conditions/panic/',
+  '불안장애': '/conditions/anxiety/',
+  '불면증': '/conditions/insomnia/',
+  '자율신경실조증': '/conditions/autonomic/',
+  '다한증': '/conditions/hyperhidrosis/',
+  '과민성대장증후군': '/conditions/ibs/'
+};
+
 const REPRESENTATIVE_DISEASE_MAP = {
   tic: '틱장애',
   adhd: 'ADHD',
@@ -299,7 +310,12 @@ export async function onRequestGet(context) {
   const cleanAnswerDate = escapeHtml(inquiry.answerDate || cleanDate);
   const cleanSnippet = escapeHtml(makeDescription(inquiry.content));
   const canonicalUrl = `https://healimbd.com/inquiry/${inquiryId}/`;
-  const robotsMeta = (inquiry.status === 'answered') ? 'index,follow' : 'noindex,follow';
+  const robotsMeta = isAnswered ? 'index,follow' : 'noindex,follow';
+  const conditionPath = CONDITION_PATH_MAP[getRepresentativeDisease(inquiry.category, inquiry.disease)] || '';
+  const conditionLinkHtml = conditionPath ? `
+            <p style="margin:20px 0 0;padding:16px 18px;background:#F0F9FF;border:1px solid #BAE6FD;border-radius:10px;">
+              <a href="${conditionPath}" style="color:#0369A1;font-weight:700;text-decoration:none;">${cleanDisease} 증상·검사·치료 안내 자세히 보기 →</a>
+            </p>` : '';
   const relatedLinksHtml = relatedInquiries.length ? `
             <section aria-labelledby="related-inquiries-title" style="margin-top:28px;padding:22px 24px;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:12px;">
               <h2 id="related-inquiries-title" style="font-size:1.05rem;font-weight:800;color:#0F172A;margin:0 0 14px;">같은 질환의 다른 상담</h2>
@@ -368,6 +384,10 @@ export async function onRequestGet(context) {
   <meta name="robots" content="${robotsMeta}">
   <meta name="description" content="${cleanSnippet}">
   <link rel="canonical" href="${canonicalUrl}">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 
   <!-- Open Graph -->
   <meta property="og:title" content="${escapeHtml(seoTitle)}">
@@ -376,6 +396,8 @@ export async function onRequestGet(context) {
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="해아림한의원 분당점">
   <meta property="og:locale" content="ko_KR">
+  <meta property="og:image" content="https://healimbd.com/images/hero-blog.png">
+  <meta name="twitter:card" content="summary_large_image">
   ${structuredData ? `<script type="application/ld+json">${structuredData}</script>` : ''}
 
   <!-- Fonts (Pretendard & Outfit) -->
@@ -407,11 +429,11 @@ export async function onRequestGet(context) {
         <nav class="desktop-nav" aria-label="주요 메뉴">
           <ul class="nav-list">
             <li><a href="/philosophy/" class="nav-link">진료철학</a></li>
-            <li><a href="/treatments/" class="nav-link">진료과목</a></li>
+            <li><a href="/guide/" class="nav-link">진료과목</a></li>
             <li><a href="/reviews/" class="nav-link">치료후기</a></li>
             <li><a href="/blog/" class="nav-link">원장 칼럼</a></li>
             <li><a href="/inquiry/" class="nav-link active">온라인문의</a></li>
-            <li><a href="/reservation/" class="nav-link">상담예약</a></li>
+            <li><a href="/location/" class="nav-link">오시는 길</a></li>
           </ul>
         </nav>
 
@@ -457,11 +479,11 @@ export async function onRequestGet(context) {
     </div>
     <ul class="mobile-nav-list">
       <li><a href="/philosophy/" class="mobile-nav-link"><i class="ph ph-heart"></i> 진료철학</a></li>
-      <li><a href="/treatments/" class="mobile-nav-link"><i class="ph ph-first-aid"></i> 진료과목</a></li>
+      <li><a href="/guide/" class="mobile-nav-link"><i class="ph ph-first-aid"></i> 진료과목</a></li>
       <li><a href="/reviews/" class="mobile-nav-link"><i class="ph ph-star"></i> 치료후기</a></li>
       <li><a href="/blog/" class="mobile-nav-link"><i class="ph ph-article"></i> 원장 칼럼</a></li>
       <li><a href="/inquiry/" class="mobile-nav-link"><i class="ph ph-chat-centered-text"></i> 온라인문의</a></li>
-      <li><a href="/reservation/" class="mobile-nav-link"><i class="ph ph-calendar-check"></i> 상담예약</a></li>
+      <li><a href="/location/" class="mobile-nav-link"><i class="ph ph-map-pin"></i> 오시는 길</a></li>
     </ul>
   </div>
   <div class="mobile-drawer-overlay" id="drawer-overlay"></div>
@@ -518,7 +540,7 @@ export async function onRequestGet(context) {
               </div>
               <div class="doctor-answer-content">${cleanAnswer}</div>
               <div class="doctor-answer-footer">
-                <p class="answer-notice">※ 본 답변은 환자분의 기재 내용을 토대로 작성된 한의학적 소견이며, 정확한 진단과 처방을 위해서는 원내 내원 정밀 진단(자율신경계·뇌파·체질 검사)을 권장합니다.</p>
+                <p class="answer-notice">※ 본 답변은 작성해 주신 내용을 바탕으로 한 일반적인 안내입니다. 내원 시 문진·설진·복진·진맥을 기본으로 하며, 필요에 따라 뇌인지검사·뇌기능검사·정서심리검사를 종합해 진료합니다.</p>
               </div>
             </div>
             ` : `
@@ -528,6 +550,7 @@ export async function onRequestGet(context) {
               <p>빠른 시일 내에 성심성의껏 전문 답변을 등록해 드리겠습니다.</p>
             </div>
             `}
+            ${conditionLinkHtml}
             ${relatedLinksHtml}
           </div>
 
@@ -536,7 +559,7 @@ export async function onRequestGet(context) {
             <a href="/inquiry/" class="btn btn-outline-cases" style="text-decoration: none; display: inline-flex; align-items: center; gap: 6px; padding: 10px 18px; border-radius: 8px; font-weight: 600;">
               <i class="ph-bold ph-arrow-left"></i> <span>온라인 상담 목록으로 돌아가기</span>
             </a>
-            <a href="/reservation/" class="btn btn-primary" style="text-decoration: none; display: inline-flex; align-items: center; gap: 6px; padding: 10px 20px; border-radius: 8px; font-weight: 700; background: #0369A1; color: white;">
+            <a href="https://map.naver.com/p/entry/place/1272285133" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="text-decoration: none; display: inline-flex; align-items: center; gap: 6px; padding: 10px 20px; border-radius: 8px; font-weight: 700; background: #0369A1; color: white;">
               <i class="ph-bold ph-calendar-check"></i> <span>원장님 진료 예약하기</span>
             </a>
           </div>
@@ -599,8 +622,18 @@ export async function onRequestGet(context) {
     headers: {
       'Content-Type': 'text/html; charset=utf-8',
       'Cache-Control': 'public, max-age=60, s-maxage=300',
+      'X-Robots-Tag': robotsMeta.replace(',', ', '),
       'X-Content-Type-Options': 'nosniff'
     }
+  });
+}
+
+export async function onRequestHead(context) {
+  const response = await onRequestGet(context);
+  return new Response(null, {
+    status: response.status,
+    statusText: response.statusText,
+    headers: response.headers
   });
 }
 
