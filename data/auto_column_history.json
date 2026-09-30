@@ -372,5 +372,16 @@
     "topicAngle": "cough-distinction",
     "title": "[경기광주 틱장애] 감기약을 먹어도 반복되는 목소리, 음성틱은 어떻게 관찰할까",
     "slug": "gyeonggi-gwangju-tic-cough-distinction"
+  },
+  {
+    "publishDate": "2026-09-30T14:25:20.132+09:00",
+    "geoId": "seongnam-main",
+    "displayRegion": "성남",
+    "parentRegion": "성남",
+    "regionType": "city",
+    "disease": "syncope",
+    "topicAngle": "subway-dizziness",
+    "title": "[성남 미주신경성 실신] 지하철이나 만원 버스에서 눈앞이 캄캄해지고 식은땀이 날 때",
+    "slug": "seongnam-main-syncope-subway-dizziness"
   }
 ]
