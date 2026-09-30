@@ -1,22 +1,29 @@
 ---
 title: "[수정구 과민성대장증후군] 회의실 문 앞에서 급해지는 복통, 장과 뇌의 신호가 예민해진 까닭"
 date: 2026-09-26T22:00:03.424+09:00
+lastmod: 2026-09-30T09:00:00+09:00
+search_intent: "long_tail_column"
+condition_pillar: "/conditions/ibs/"
+article_review_status: "medical_standard_based"
 category: "ibs"
 category_name: "과민성대장"
-author: "손지웅 대표원장"
+author: "해아림한의원 의료 콘텐츠팀"
+content_author: "해아림한의원 의료 콘텐츠팀"
+medical_information_reviewer: "손지웅 대표원장"
+review_scope: "사전 승인 질환별 의료정보 기준"
 image: "images/blog/seongnam-sujeong-ibs-morning-diarrhea.jpg"
 summary: "과민성대장증후군은 장과 뇌의 상호작용으로 긴장할 때 증상이 두드러질 수 있어, 증상 양상과 생활 요인을 살펴 관리 방향을 안내합니다."
 hashtags:
-  - "수정구과민성대장증후군"
-  - "수정구한의원"
-  - "과민성대장증후군치료"
-  - "과민성대장증후군관리"
-  - "해아림한의원"
+  - "수정구"
+  - "과민성대장증후군정보"
+  - "과민성대장증후군관찰"
+  - "증상관찰"
+  - "해아림의학칼럼"
 keywords:
-  - "수정구 과민성대장증후군"
-  - "성남시 수정구 과민성대장증후군"
-  - "과민성대장증후군 한방치료"
   - "회의실 문 앞에서 급해지는 복통, 장과 뇌의 신호가 예민해진 까닭"
+  - "과민성대장증후군 회의실 문 앞에서 급해지는 복통, 장과 뇌의 신호가 예민해진 까닭"
+  - "수정구 회의실 문 앞에서 급해지는 복통, 장과 뇌의 신호가 예민해진 까닭"
+  - "과민성대장증후군 증상 관찰"
 ---
 
 <div class="column-key-summary-box">
@@ -107,3 +114,14 @@ keywords:
 우선 증상이 생기는 시간대와 상황, 복통 및 대변 형태 변화를 기록해 패턴을 확인하는 것이 좋습니다. 외출 자체를 계속 피하기보다 일정과 식사 리듬을 점검하고, 증상에 대한 의학적 평가를 통해 관리 방향을 세우는 과정이 필요합니다.
 
 장과 뇌는 서로 떨어져 작동하지 않습니다. 출근길이나 중요한 순간에 장이 먼저 반응한다고 해서 그것이 단순한 마음의 문제가 되는 것은 아닙니다. 반복되는 복통과 배변 변화의 양상을 정확히 살피고, 생활 속 변동 요인을 기록하며, 경고 증상은 놓치지 않는 태도가 안전하고 현실적인 관리의 출발점입니다.
+
+### 참고한 공식 의학 자료
+
+- [Bowel Disorders (Rome IV Diagnostic Criteria for Functional Bowel Disorders)](https://doi.org/10.1053/j.gastro.2016.02.031)
+- [ACG Clinical Guideline: Management of Irritable Bowel Syndrome](https://doi.org/10.14309/ajg.0000000000001036)
+
+---
+
+### 관련 질환 자세히 보기
+
+- [과민성대장증후군 증상·검사·치료 안내](/conditions/ibs/)

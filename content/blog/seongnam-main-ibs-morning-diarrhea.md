@@ -1,22 +1,29 @@
 ---
 title: "[성남 과민성대장증후군] 출근길이나 긴장되는 순간마다 화장실을 찾게 되는 이유"
 date: 2026-09-23T15:11:23.813+09:00
+lastmod: 2026-09-30T09:00:00+09:00
+search_intent: "long_tail_column"
+condition_pillar: "/conditions/ibs/"
+article_review_status: "medical_standard_based"
 category: "ibs"
 category_name: "과민성대장"
-author: "손지웅 대표원장"
+author: "해아림한의원 의료 콘텐츠팀"
+content_author: "해아림한의원 의료 콘텐츠팀"
+medical_information_reviewer: "손지웅 대표원장"
+review_scope: "사전 승인 질환별 의료정보 기준"
 image: "images/blog/seongnam-main-ibs-morning-diarrhea.jpg"
 summary: "과민성대장증후군에서 출근길과 긴장 상황에 증상이 두드러질 수 있는 이유, 장-뇌 축과 생활 관리 방법을 살펴봅니다."
 hashtags:
-  - "성남과민성대장증후군"
-  - "성남한의원"
-  - "과민성대장증후군치료"
-  - "과민성대장증후군관리"
-  - "해아림한의원"
+  - "성남"
+  - "과민성대장증후군정보"
+  - "과민성대장증후군관찰"
+  - "증상관찰"
+  - "해아림의학칼럼"
 keywords:
-  - "성남 과민성대장증후군"
-  - "성남시 과민성대장증후군"
-  - "과민성대장증후군 한방치료"
   - "출근길이나 긴장되는 순간마다 화장실을 찾게 되는 이유"
+  - "과민성대장증후군 출근길이나 긴장되는 순간마다 화장실을 찾게 되는 이유"
+  - "성남 출근길이나 긴장되는 순간마다 화장실을 찾게 되는 이유"
+  - "과민성대장증후군 증상 관찰"
 ---
 
 <div class="column-key-summary-box">
@@ -117,3 +124,14 @@ keywords:
 긴장은 증상을 악화시키는 요인 중 하나일 수 있지만, 증상의 모든 원인을 스트레스로만 볼 수는 없습니다. 식사와 수면의 규칙성, 개인별 음식 반응, 장의 민감도, 배변 습관 등을 함께 살피는 것이 필요합니다.
 
 출근길의 급한 배변 욕구와 복통은 단순히 참아야 하는 불편이 아니라, 몸이 보내는 반복적인 신호일 수 있습니다. 증상의 양상과 배변 변화를 기록하고, 경고 증상은 놓치지 않으며, 일상 리듬을 차분히 조정해 나가는 과정이 장 건강을 이해하는 출발점이 됩니다.
+
+### 참고한 공식 의학 자료
+
+- [Bowel Disorders (Rome IV Diagnostic Criteria for Functional Bowel Disorders)](https://doi.org/10.1053/j.gastro.2016.02.031)
+- [ACG Clinical Guideline: Management of Irritable Bowel Syndrome](https://doi.org/10.14309/ajg.0000000000001036)
+
+---
+
+### 관련 질환 자세히 보기
+
+- [과민성대장증후군 증상·검사·치료 안내](/conditions/ibs/)

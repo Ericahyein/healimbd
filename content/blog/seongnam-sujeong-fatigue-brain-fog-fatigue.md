@@ -1,22 +1,29 @@
 ---
 title: "[수정구 만성피로] 머리에 안개가 낀 듯 멍하고 피로가 가시지 않을 때"
 date: 2026-09-15T09:30:15.703+09:00
+lastmod: 2026-09-30T09:00:00+09:00
+search_intent: "long_tail_column"
+condition_pillar: "/conditions/autonomic/"
+article_review_status: "medical_standard_based"
 category: "autonomic"
 category_name: "자율신경"
-author: "손지웅 대표원장"
+author: "해아림한의원 의료 콘텐츠팀"
+content_author: "해아림한의원 의료 콘텐츠팀"
+medical_information_reviewer: "손지웅 대표원장"
+review_scope: "사전 승인 질환별 의료정보 기준"
 image: "images/blog/seongnam-sujeong-fatigue-brain-fog-fatigue.jpg"
 summary: "만성피로와 번아웃을 구분하고, 어지럼·두근거림·소화불편 등 동반 증상과 다양한 원인을 살펴 상태에 맞는 관리 방향을 안내합니다."
 hashtags:
-  - "수정구만성피로"
-  - "수정구한의원"
-  - "만성피로치료"
-  - "만성피로관리"
-  - "해아림한의원"
+  - "수정구"
+  - "만성피로정보"
+  - "만성피로관찰"
+  - "증상관찰"
+  - "해아림의학칼럼"
 keywords:
-  - "수정구 만성피로"
-  - "성남시 수정구 만성피로"
-  - "만성피로 한방치료"
   - "머리에 안개가 낀 듯 멍하고 피로가 가시지 않을 때"
+  - "만성피로 머리에 안개가 낀 듯 멍하고 피로가 가시지 않을 때"
+  - "수정구 머리에 안개가 낀 듯 멍하고 피로가 가시지 않을 때"
+  - "만성피로 증상 관찰"
 ---
 
 <div class="column-key-summary-box">
@@ -113,3 +120,14 @@ keywords:
 브레인포그는 집중이 어렵고 생각이 흐릿하게 느껴지는 주관적 증상 표현입니다. 수면 부족이나 과로에서도 나타날 수 있지만, 신경학적 증상이나 갑작스러운 인지 변화가 동반된다면 의료기관에서 평가받는 것이 안전합니다.
 
 머리가 멍하고 피로가 오래 남는 상태는 한 가지 이름으로 서둘러 규정하기보다, 업무와 휴식의 균형, 수면과 식사 리듬, 정서적 부담, 동반 신체 증상을 함께 살펴보는 것이 중요합니다. 몸이 보내는 신호를 무시한 채 버티기보다, 필요한 감별과 생활 조정을 차분히 이어가는 것이 회복을 위한 현실적인 출발점이 될 수 있습니다.
+
+### 참고한 공식 의학 자료
+
+- [WHO ICD-11 for Mortality and Morbidity Statistics - QD85 Burn-out](https://icd.who.int/browse11/l-m/en#/http://id.who.int/icd/entity/129180281)
+- [Canadian Cardiovascular Society Position Statement on Postural Orthostatic Tachycardia Syndrome (POTS) and Related Disorders of Chronic Orthostatic Intolerance](https://doi.org/10.1016/j.cjca.2019.12.024)
+
+---
+
+### 관련 질환 자세히 보기
+
+- [자율신경실조증 증상·검사·치료 안내](/conditions/autonomic/)

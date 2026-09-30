@@ -1,22 +1,29 @@
 ---
 title: "[기흥구 ADHD] 할 일은 많은데 무엇부터 손대야 할지 막막한 성인, 실행기능을 살펴야 하는 이유"
 date: 2026-09-27T14:12:11.199+09:00
+lastmod: 2026-09-30T09:00:00+09:00
+search_intent: "long_tail_column"
+condition_pillar: "/conditions/adhd/"
+article_review_status: "medical_standard_based"
 category: "adhd"
 category_name: "ADHD·집중력"
-author: "손지웅 대표원장"
+author: "해아림한의원 의료 콘텐츠팀"
+content_author: "해아림한의원 의료 콘텐츠팀"
+medical_information_reviewer: "손지웅 대표원장"
+review_scope: "사전 승인 질환별 의료정보 기준"
 image: "images/blog/yongin-giheung-adhd-adult-work-mistakes.jpg"
 summary: "성인 ADHD에서 반복되는 업무 실수와 마무리의 어려움을 실행기능 관점에서 살펴보고, 평가와 일상 관리 방향을 안내합니다."
 hashtags:
-  - "기흥구성인ADHD"
-  - "기흥구한의원"
-  - "성인ADHD치료"
-  - "성인ADHD관리"
-  - "해아림한의원"
+  - "기흥구"
+  - "ADHD정보"
+  - "ADHD관찰"
+  - "증상관찰"
+  - "해아림의학칼럼"
 keywords:
-  - "기흥구 성인 ADHD"
-  - "용인시 기흥구 성인 ADHD"
-  - "성인 ADHD 한방치료"
   - "할 일은 많은데 무엇부터 손대야 할지 막막한 성인, 실행기능을 살펴야 하는 이유"
+  - "ADHD 할 일은 많은데 무엇부터 손대야 할지 막막한 성인, 실행기능을 살펴야 하는 이유"
+  - "기흥구 할 일은 많은데 무엇부터 손대야 할지 막막한 성인, 실행기능을 살펴야 하는 이유"
+  - "ADHD 증상 관찰"
 ---
 
 <div class="column-key-summary-box">
@@ -116,3 +123,14 @@ ADHD는 신경발달학적·신경생물학적 특성이 관여할 수 있는 �
 그렇지 않습니다. 처방받은 약물은 임의로 중단하지 않는 것이 원칙입니다. 복용 중인 약과 현재 증상, 병행 치료 계획은 처방 의료진에게 알리고 상담하면서 조정해야 합니다.
 
 업무의 반복 실수와 마무리 어려움은 자신을 탓하기보다, 어떤 단계에서 실행기능의 부담이 커지는지 살펴보는 것에서 출발할 수 있습니다. 해야 할 일을 구조화하고 생활 리듬을 정돈하며, 필요한 경우 다각적인 평가를 통해 자신의 어려움을 이해하는 과정이 일상 관리의 기반이 됩니다.
+
+### 참고한 공식 의학 자료
+
+- [Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition (DSM-5) - Attention-Deficit/Hyperactivity Disorder](https://doi.org/10.1176/appi.books.9780890425596)
+- [NICE Guideline NG87 Attention deficit hyperactivity disorder: diagnosis and management](https://www.nice.org.uk/guidance/ng87)
+
+---
+
+### 관련 질환 자세히 보기
+
+- [ADHD 증상·검사·치료 안내](/conditions/adhd/)

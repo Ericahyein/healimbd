@@ -1,22 +1,29 @@
 ---
 title: "[경기광주 불안장애] 사소한 일에도 걱정이 꼬리를 물고 가슴이 답답할 때"
 date: 2026-09-11T16:19:22.169+09:00
+lastmod: 2026-09-30T09:00:00+09:00
+search_intent: "long_tail_column"
+condition_pillar: "/conditions/anxiety/"
+article_review_status: "medical_standard_based"
 category: "anxiety"
 category_name: "불안·사회공포"
-author: "손지웅 대표원장"
+author: "해아림한의원 의료 콘텐츠팀"
+content_author: "해아림한의원 의료 콘텐츠팀"
+medical_information_reviewer: "손지웅 대표원장"
+review_scope: "사전 승인 질환별 의료정보 기준"
 image: "images/blog/gyeonggi-gwangju-anxiety-chronic-worry.jpg"
 summary: "사소한 걱정이 반복되고 가슴 답답함과 신체 긴장이 지속된다면 불안장애의 증상과 악화 요인을 살펴보고 상태에 맞는 관리 방향을 안내합니다."
 hashtags:
-  - "경기광주불안장애"
-  - "경기광주한의원"
-  - "불안장애치료"
-  - "불안장애관리"
-  - "해아림한의원"
+  - "경기광주"
+  - "불안장애정보"
+  - "불안장애관찰"
+  - "증상관찰"
+  - "해아림의학칼럼"
 keywords:
-  - "경기광주 불안장애"
-  - "경기도 광주시 불안장애"
-  - "불안장애 한방치료"
   - "사소한 일에도 걱정이 꼬리를 물고 가슴이 답답할 때"
+  - "불안장애 사소한 일에도 걱정이 꼬리를 물고 가슴이 답답할 때"
+  - "경기광주 사소한 일에도 걱정이 꼬리를 물고 가슴이 답답할 때"
+  - "불안장애 증상 관찰"
 ---
 
 <div class="column-key-summary-box">
@@ -93,3 +100,14 @@ keywords:
 불규칙한 수면과 충분하지 않은 휴식은 예민함과 신체 긴장을 높여 불안 증상을 더 두드러지게 할 수 있습니다. 수면 자체의 어려움이 반복된다면 생활 리듬과 함께 수면 문제를 별도로 살펴보는 것이 좋습니다.
 
 사소한 걱정이 꼬리를 물 때는 자신을 탓하기보다, 걱정의 흐름과 몸의 긴장이 어떤 상황에서 강해지는지 관찰하는 것부터 시작할 수 있습니다. 무리한 일정과 누적된 스트레스를 조절하고, 휴식과 이완의 자리를 일상 안에 마련하는 과정이 안정적인 생활 리듬을 되찾는 기반이 됩니다.
+
+### 참고한 공식 의학 자료
+
+- [Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition (DSM-5) - Social Anxiety Disorder](https://doi.org/10.1176/appi.books.9780890425596)
+- [NICE Guideline CG159 Social anxiety disorder: recognition, assessment and treatment](https://www.nice.org.uk/guidance/cg159)
+
+---
+
+### 관련 질환 자세히 보기
+
+- [불안장애 증상·검사·치료 안내](/conditions/anxiety/)

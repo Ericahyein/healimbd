@@ -1,22 +1,29 @@
 ---
 title: "[분당 공황장애] 갑자기 숨이 차고 심장이 빨라질 때 먼저 살펴볼 부분"
 date: 2026-09-08T09:32:59.606+09:00
+lastmod: 2026-09-30T09:00:00+09:00
+search_intent: "long_tail_column"
+condition_pillar: "/conditions/panic/"
+article_review_status: "medical_standard_based"
 category: "panic"
 category_name: "공황장애"
-author: "손지웅 대표원장"
+author: "해아림한의원 의료 콘텐츠팀"
+content_author: "해아림한의원 의료 콘텐츠팀"
+medical_information_reviewer: "손지웅 대표원장"
+review_scope: "사전 승인 질환별 의료정보 기준"
 image: "images/blog/seongnam-bundang-panic-sudden-palpitation.jpg"
 summary: "공황장애에서 나타나는 갑작스러운 호흡곤란과 두근거림의 특징을 살펴보고, 응급 평가 후 상태에 맞는 관리 방향을 안내합니다."
 hashtags:
-  - "분당공황장애"
-  - "분당한의원"
-  - "공황장애치료"
-  - "공황장애관리"
-  - "해아림한의원"
+  - "분당"
+  - "공황장애정보"
+  - "공황장애관찰"
+  - "증상관찰"
+  - "해아림의학칼럼"
 keywords:
-  - "분당 공황장애"
-  - "성남시 분당구 공황장애"
-  - "공황장애 한방치료"
   - "갑자기 숨이 차고 심장이 빨라질 때 먼저 살펴볼 부분"
+  - "공황장애 갑자기 숨이 차고 심장이 빨라질 때 먼저 살펴볼 부분"
+  - "분당 갑자기 숨이 차고 심장이 빨라질 때 먼저 살펴볼 부분"
+  - "공황장애 증상 관찰"
 ---
 
 <div class="column-key-summary-box">
@@ -110,3 +117,14 @@ keywords:
 고카페인 음료와 알코올은 심장 박동, 수면, 불안 반응의 변동에 영향을 줄 수 있습니다. 특히 이미 두근거림에 민감한 상태라면 작은 신체 변화도 크게 느껴질 수 있으므로, 섭취 후 증상 변화를 살피며 조절하는 것이 바람직합니다.
 
 갑작스러운 숨참과 심장 두근거림은 충분히 두렵고 지치는 경험입니다. 그러나 응급 위험 신호를 우선 확인하고, 공황발작과 공황장애를 구분해 평가하며, 수면·과로·카페인·알코올·스트레스와 신체 감각에 대한 해석을 함께 점검한다면 보다 차분한 관리 방향을 세울 수 있습니다.
+
+### 참고한 공식 의학 자료
+
+- [Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition (DSM-5) - Panic Disorder](https://doi.org/10.1176/appi.books.9780890425596)
+- [2021 AHA/ACC/ASE/CHEST/SAEM/SCCT/SCMR Guideline for the Evaluation and Diagnosis of Chest Pain](https://doi.org/10.1161/CIR.0000000000001029)
+
+---
+
+### 관련 질환 자세히 보기
+
+- [공황장애 증상·검사·치료 안내](/conditions/panic/)

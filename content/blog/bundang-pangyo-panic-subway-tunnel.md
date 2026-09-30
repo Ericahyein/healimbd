@@ -1,22 +1,29 @@
 ---
 title: "[판교 공황장애] 출퇴근 대중교통이나 터널에서 답답함이 심해질 때"
 date: 2026-09-11T09:29:21.634+09:00
+lastmod: 2026-09-30T09:00:00+09:00
+search_intent: "long_tail_column"
+condition_pillar: "/conditions/panic/"
+article_review_status: "medical_standard_based"
 category: "panic"
 category_name: "공황장애"
-author: "손지웅 대표원장"
+author: "해아림한의원 의료 콘텐츠팀"
+content_author: "해아림한의원 의료 콘텐츠팀"
+medical_information_reviewer: "손지웅 대표원장"
+review_scope: "사전 승인 질환별 의료정보 기준"
 image: "images/blog/bundang-pangyo-panic-subway-tunnel.jpg"
 summary: "공황장애에서 밀폐 공간의 답답함과 신체 감각 과민이 나타나는 양상을 살펴보고, 호흡법과 생활 관리 및 평가 방향을 안내합니다."
 hashtags:
-  - "판교공황장애"
-  - "판교한의원"
-  - "공황장애치료"
-  - "공황장애관리"
-  - "해아림한의원"
+  - "판교"
+  - "공황장애정보"
+  - "공황장애관찰"
+  - "증상관찰"
+  - "해아림의학칼럼"
 keywords:
-  - "판교 공황장애"
-  - "성남시 분당구 판교 공황장애"
-  - "공황장애 한방치료"
   - "출퇴근 대중교통이나 터널에서 답답함이 심해질 때"
+  - "공황장애 출퇴근 대중교통이나 터널에서 답답함이 심해질 때"
+  - "판교 출퇴근 대중교통이나 터널에서 답답함이 심해질 때"
+  - "공황장애 증상 관찰"
 ---
 
 <div class="column-key-summary-box">
@@ -105,3 +112,14 @@ keywords:
 당장의 불편을 줄이기 위해 피하게 될 수는 있지만, 회피가 지속되면 이동 가능한 범위가 줄고 예기불안이 커질 수 있습니다. 안전 문제를 먼저 확인한 뒤, 현재의 증상 수준과 생활 여건을 고려해 무리하지 않는 범위에서 관리 방향을 세우는 것이 필요합니다.
 
 대중교통과 터널에서 느껴지는 답답함은 몸이 보내는 감각과 불안한 해석이 겹치며 더 크게 체감될 수 있습니다. 수면, 과로, 카페인과 알코올, 지속된 긴장을 함께 점검하고, 증상을 위험으로 단정하기보다 차분히 관찰하는 태도가 일상 회복의 출발점이 될 수 있습니다.
+
+### 참고한 공식 의학 자료
+
+- [Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition (DSM-5) - Panic Disorder](https://doi.org/10.1176/appi.books.9780890425596)
+- [2021 AHA/ACC/ASE/CHEST/SAEM/SCCT/SCMR Guideline for the Evaluation and Diagnosis of Chest Pain](https://doi.org/10.1161/CIR.0000000000001029)
+
+---
+
+### 관련 질환 자세히 보기
+
+- [공황장애 증상·검사·치료 안내](/conditions/panic/)

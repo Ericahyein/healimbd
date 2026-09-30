@@ -1,22 +1,29 @@
 ---
 title: "[이천 불면증] 베개에 누우면 잡생각이 멈추지 않고 뇌가 깨어있을 때"
 date: 2026-09-12T09:28:06.391+09:00
+lastmod: 2026-09-30T09:00:00+09:00
+search_intent: "long_tail_column"
+condition_pillar: "/conditions/insomnia/"
+article_review_status: "medical_standard_based"
 category: "sleep"
 category_name: "수면·불면증"
-author: "손지웅 대표원장"
+author: "해아림한의원 의료 콘텐츠팀"
+content_author: "해아림한의원 의료 콘텐츠팀"
+medical_information_reviewer: "손지웅 대표원장"
+review_scope: "사전 승인 질환별 의료정보 기준"
 image: "images/blog/gyeonggi-icheon-sleep-racing-thoughts.jpg"
 summary: "베개에 누워도 생각이 많고 뇌가 깨어 있는 불면증의 양상을 살펴보고, 수면 전 루틴과 자극 제한 등 상태에 맞는 관리 방향을 안내합니다."
 hashtags:
-  - "이천불면증"
-  - "이천한의원"
-  - "불면증치료"
-  - "불면증관리"
-  - "해아림한의원"
+  - "이천"
+  - "불면증정보"
+  - "불면증관찰"
+  - "증상관찰"
+  - "해아림의학칼럼"
 keywords:
-  - "이천 불면증"
-  - "이천시 불면증"
-  - "불면증 한방치료"
   - "베개에 누우면 잡생각이 멈추지 않고 뇌가 깨어있을 때"
+  - "불면증 베개에 누우면 잡생각이 멈추지 않고 뇌가 깨어있을 때"
+  - "이천 베개에 누우면 잡생각이 멈추지 않고 뇌가 깨어있을 때"
+  - "불면증 증상 관찰"
 ---
 
 <div class="column-key-summary-box">
@@ -98,3 +105,14 @@ keywords:
 음주는 잠드는 느낌을 줄 수 있어도 수면의 질과 수면 흐름에 영향을 줄 수 있습니다. 특히 늦은 시간의 음주는 불면 증상을 흔들 수 있는 요인이므로 수면 문제를 관리하는 과정에서는 섭취 시간과 빈도를 점검할 필요가 있습니다.
 
 베개에 누웠을 때 떠오르는 생각을 모두 없애려 애쓰기보다, 잠자리 전 자극을 줄이고 일정한 생활 리듬을 유지하며 현재의 수면 양상을 차분히 관찰하는 것이 중요합니다. 수면은 억지로 만들어 내는 성과가 아니라, 반복되는 생활 환경과 몸의 리듬 속에서 조금씩 회복해 가는 과정입니다.
+
+### 참고한 공식 의학 자료
+
+- [International Classification of Sleep Disorders, Third Edition (ICSD-3) - Chronic Insomnia Disorder](https://aasm.org/clinical-resources/international-classification-sleep-disorders/)
+- [Deprescribing benzodiazepine receptor agonists: Evidence-based clinical practice guideline](https://pubmed.ncbi.nlm.nih.gov/29760253/)
+
+---
+
+### 관련 질환 자세히 보기
+
+- [불면증 증상·검사·치료 안내](/conditions/insomnia/)

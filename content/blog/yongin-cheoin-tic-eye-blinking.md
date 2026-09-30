@@ -1,22 +1,29 @@
 ---
 title: "[처인구 틱장애] 눈 깜빡임이 잦아질 때 억지로 참게 하면 안 되는 이유"
 date: 2026-09-16T16:20:13.647+09:00
+lastmod: 2026-09-30T09:00:00+09:00
+search_intent: "long_tail_column"
+condition_pillar: "/conditions/tic/"
+article_review_status: "medical_standard_based"
 category: "tic"
 category_name: "틱장애·뚜렛"
-author: "손지웅 대표원장"
+author: "해아림한의원 의료 콘텐츠팀"
+content_author: "해아림한의원 의료 콘텐츠팀"
+medical_information_reviewer: "손지웅 대표원장"
+review_scope: "사전 승인 질환별 의료정보 기준"
 image: "images/blog/yongin-cheoin-tic-eye-blinking.jpg"
 summary: "눈 깜빡임은 초기 틱장애의 운동틱으로 나타날 수 있습니다. 억지로 참게 하기보다 경과를 관찰하고 편안한 환경과 적절한 평가를 돕는 것이 중요합니다."
 hashtags:
-  - "처인구틱장애"
-  - "처인구한의원"
-  - "틱장애치료"
-  - "틱장애관리"
-  - "해아림한의원"
+  - "처인구"
+  - "틱장애정보"
+  - "틱장애관찰"
+  - "증상관찰"
+  - "해아림의학칼럼"
 keywords:
-  - "처인구 틱장애"
-  - "용인시 처인구 틱장애"
-  - "틱장애 한방치료"
   - "눈 깜빡임이 잦아질 때 억지로 참게 하면 안 되는 이유"
+  - "틱장애 눈 깜빡임이 잦아질 때 억지로 참게 하면 안 되는 이유"
+  - "처인구 눈 깜빡임이 잦아질 때 억지로 참게 하면 안 되는 이유"
+  - "틱장애 증상 관찰"
 ---
 
 <div class="column-key-summary-box">
@@ -119,3 +126,14 @@ keywords:
 운동틱과 음성틱이 함께 보인다는 사실만으로 진단을 확정할 수는 없습니다. 증상이 시작된 시기, 지속 경과, 종류와 변화 양상, 아이의 일상생활 영향 등을 종합적으로 평가해야 합니다.
 
 눈 깜빡임이 잦아졌을 때 아이에게 가장 필요한 것은 “참아야 한다”는 압박보다, 자신의 몸에서 나타나는 낯선 반응을 안전하게 받아들일 수 있는 환경입니다. 보호자가 증상을 과도하게 확대해석하지 않으면서도 변화는 차분히 살피는 태도가 아이의 일상과 정서적 부담을 지지하는 출발점이 될 수 있습니다.
+
+### 참고한 공식 의학 자료
+
+- [Prolonged screen time is associated with increased severity of tic symptoms in children with tic disorders](https://doi.org/10.1186/s13052-025-01851-w)
+- [The Pathophysiology of Tics: An Anatomic Review](https://doi.org/10.1016/j.psc.2024.08.003)
+
+---
+
+### 관련 질환 자세히 보기
+
+- [틱장애 증상·검사·치료 안내](/conditions/tic/)

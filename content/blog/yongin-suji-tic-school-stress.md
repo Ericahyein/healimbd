@@ -1,22 +1,29 @@
 ---
 title: "[수지 틱장애] 교실에서는 참다가 집에서 몰아치는 움직임, 의지와 무관한 신호를 살피는 법"
 date: 2026-09-26T13:49:25.926+09:00
+lastmod: 2026-09-30T09:00:00+09:00
+search_intent: "long_tail_column"
+condition_pillar: "/conditions/tic/"
+article_review_status: "medical_standard_based"
 category: "tic"
 category_name: "틱장애·뚜렛"
-author: "손지웅 대표원장"
+author: "해아림한의원 의료 콘텐츠팀"
+content_author: "해아림한의원 의료 콘텐츠팀"
+medical_information_reviewer: "손지웅 대표원장"
+review_scope: "사전 승인 질환별 의료정보 기준"
 image: "images/blog/yongin-suji-tic-school-stress.jpg"
 summary: "새 학기 긴장으로 두드러지는 틱장애의 증상과 경과를 살피고, 가정과 학교에서의 관찰 및 관리 방향을 안내합니다."
 hashtags:
-  - "수지틱장애"
-  - "수지한의원"
-  - "틱장애치료"
-  - "틱장애관리"
-  - "해아림한의원"
+  - "수지"
+  - "틱장애정보"
+  - "틱장애관찰"
+  - "증상관찰"
+  - "해아림의학칼럼"
 keywords:
-  - "수지 틱장애"
-  - "용인시 수지구 틱장애"
-  - "틱장애 한방치료"
   - "교실에서는 참다가 집에서 몰아치는 움직임, 의지와 무관한 신호를 살피는 법"
+  - "틱장애 교실에서는 참다가 집에서 몰아치는 움직임, 의지와 무관한 신호를 살피는 법"
+  - "수지 교실에서는 참다가 집에서 몰아치는 움직임, 의지와 무관한 신호를 살피는 법"
+  - "틱장애 증상 관찰"
 ---
 
 <div class="column-key-summary-box">
@@ -112,3 +119,14 @@ keywords:
 그렇게 단정할 수는 없습니다. 장시간 스크린 사용과 틱 중증도 사이의 연관성을 보고한 연구는 있으나, 미디어가 틱의 단일 원인이라는 의미는 아닙니다. 다만 전체 노출량을 조절하면서 아이의 수면, 피로, 증상 변화 양상을 함께 관찰하는 것은 의미 있는 생활 관리가 될 수 있습니다.
 
 새 학기에는 아이의 적응을 돕는 과정 자체가 중요합니다. 틱을 없애야 할 행동으로만 바라보기보다, 아이가 학교와 가정에서 지나친 부담 없이 생활하고 있는지 살피는 태도가 필요합니다. 차분한 관찰, 충분한 휴식, 안정적인 생활 리듬, 그리고 아이를 탓하지 않는 주변의 반응이 함께 마련되어야 합니다.
+
+### 참고한 공식 의학 자료
+
+- [Prolonged screen time is associated with increased severity of tic symptoms in children with tic disorders](https://doi.org/10.1186/s13052-025-01851-w)
+- [The Pathophysiology of Tics: An Anatomic Review](https://doi.org/10.1016/j.psc.2024.08.003)
+
+---
+
+### 관련 질환 자세히 보기
+
+- [틱장애 증상·검사·치료 안내](/conditions/tic/)

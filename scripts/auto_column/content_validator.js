@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const geoHierarchy = require('./geo_hierarchy.json');
 const diseaseTaxonomy = require('./disease_taxonomy.json');
-const { isInternalUrlValid } = require('./internal_linker');
+const { isInternalUrlValid, getConditionPageForCategory } = require('./internal_linker');
 
 let qaTargets = [];
 try {
@@ -1219,6 +1219,8 @@ function validateArticleContent(articleData, options = {}) {
     qaTarget = articleData.qaTarget,
     thumbnailCopy,
     knowledge,
+    requireConditionPillar = false,
+    requireVerifiedSources = false,
     history = [],
     blogDir
   } = articleData;
@@ -1415,6 +1417,36 @@ function validateArticleContent(articleData, options = {}) {
     errors.push(`Article must contain at least 1 real internal link. Found: ${links.length}`);
   } else if (links.length > 4) {
     warnings.push(`Article contains ${links.length} internal links (recommended: 1~3).`);
+  }
+
+  if (requireConditionPillar) {
+    const conditionPage = getConditionPageForCategory(category || diseaseId);
+    if (conditionPage) {
+      const requiredUrl = conditionPage.url.replace(/\/$/, '');
+      const hasRequiredPillar = links.some(link => link.url.split('#')[0].split('?')[0].replace(/\/$/, '') === requiredUrl);
+      if (!hasRequiredPillar) {
+        errors.push(`Condition pillar link is required for '${category || diseaseId}': ${conditionPage.url}`);
+      }
+    }
+  }
+
+  if (requireVerifiedSources) {
+    const allowedSourceUrls = new Set(
+      (knowledge?.evidenceNotes || [])
+        .filter(note => note.sourceVerified === true && note.productionUsable === true)
+        .map(note => note.sourceUrl || note.source?.url || '')
+        .filter(Boolean)
+        .map(url => url.split('#')[0].split('?')[0].replace(/\/$/, ''))
+    );
+    const citedVerifiedUrls = new Set(
+      Array.from(body.matchAll(/\[[^\]]+\]\((https?:\/\/[^)]+)\)/g))
+        .map(match => match[1].split('#')[0].split('?')[0].replace(/\/$/, ''))
+        .filter(url => allowedSourceUrls.has(url))
+    );
+    const minimumVerifiedSources = Math.min(2, allowedSourceUrls.size);
+    if (citedVerifiedUrls.size < minimumVerifiedSources) {
+      errors.push(`Article must cite at least ${minimumVerifiedSources} verified medical sources from the approved knowledge set. Found: ${citedVerifiedUrls.size}`);
+    }
   }
 
   // 7. Thumbnail Copy Validation

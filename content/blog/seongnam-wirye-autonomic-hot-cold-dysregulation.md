@@ -1,22 +1,29 @@
 ---
 title: "[위례 자율신경실조증] 얼굴은 화끈거리는데 손발은 차가운 상열하한 현상"
 date: 2026-09-12T16:15:46.210+09:00
+lastmod: 2026-09-30T09:00:00+09:00
+search_intent: "long_tail_column"
+condition_pillar: "/conditions/autonomic/"
+article_review_status: "medical_standard_based"
 category: "autonomic"
 category_name: "자율신경"
-author: "손지웅 대표원장"
+author: "해아림한의원 의료 콘텐츠팀"
+content_author: "해아림한의원 의료 콘텐츠팀"
+medical_information_reviewer: "손지웅 대표원장"
+review_scope: "사전 승인 질환별 의료정보 기준"
 image: "images/blog/seongnam-wirye-autonomic-hot-cold-dysregulation.jpg"
 summary: "자율신경실조증에서 나타날 수 있는 상열감과 수족냉증의 양상을 살펴보고, 체온 조절과 혈액순환의 관계 및 상태에 맞는 관리 방향을 안내합니다."
 hashtags:
-  - "위례자율신경실조증"
-  - "위례한의원"
-  - "자율신경실조증치료"
-  - "자율신경실조증관리"
-  - "해아림한의원"
+  - "위례"
+  - "자율신경실조증정보"
+  - "자율신경실조증관찰"
+  - "증상관찰"
+  - "해아림의학칼럼"
 keywords:
-  - "위례 자율신경실조증"
-  - "위례신도시 자율신경실조증"
-  - "자율신경실조증 한방치료"
   - "얼굴은 화끈거리는데 손발은 차가운 상열하한 현상"
+  - "자율신경실조증 얼굴은 화끈거리는데 손발은 차가운 상열하한 현상"
+  - "위례 얼굴은 화끈거리는데 손발은 차가운 상열하한 현상"
+  - "자율신경실조증 증상 관찰"
 ---
 
 <div class="column-key-summary-box">
@@ -115,3 +122,14 @@ keywords:
 피로감과 브레인포그만으로 번아웃을 단정할 수는 없습니다. 번아웃은 만성 직장 스트레스와 관련해 소진감, 일에 대한 냉소 또는 거리감, 직업적 효능감 저하가 함께 나타나는 직업적 현상입니다. 피로의 원인은 폭넓게 확인해야 하며, 필요하다면 수면·정신건강·내과적 평가도 고려해야 합니다.
 
 얼굴의 열감과 손발 냉감은 불편하지만, 몸이 보내는 신호를 하나의 병명으로 서둘러 결론내릴 필요는 없습니다. 증상의 변화와 동반 양상을 살피고, 생활 리듬을 정돈하며, 필요한 감별 평가를 함께 받는 것이 안전한 관리의 출발점입니다.
+
+### 참고한 공식 의학 자료
+
+- [WHO ICD-11 for Mortality and Morbidity Statistics - QD85 Burn-out](https://icd.who.int/browse11/l-m/en#/http://id.who.int/icd/entity/129180281)
+- [Canadian Cardiovascular Society Position Statement on Postural Orthostatic Tachycardia Syndrome (POTS) and Related Disorders of Chronic Orthostatic Intolerance](https://doi.org/10.1016/j.cjca.2019.12.024)
+
+---
+
+### 관련 질환 자세히 보기
+
+- [자율신경실조증 증상·검사·치료 안내](/conditions/autonomic/)

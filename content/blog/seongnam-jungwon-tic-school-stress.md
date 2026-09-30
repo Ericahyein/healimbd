@@ -1,22 +1,29 @@
 ---
 title: "[중원구 틱장애] 새 학기 환경 변화와 긴장으로 증상이 두드러질 때"
 date: 2026-09-10T09:27:53.056+09:00
+lastmod: 2026-09-30T09:00:00+09:00
+search_intent: "long_tail_column"
+condition_pillar: "/conditions/tic/"
+article_review_status: "medical_standard_based"
 category: "tic"
 category_name: "틱장애·뚜렛"
-author: "손지웅 대표원장"
+author: "해아림한의원 의료 콘텐츠팀"
+content_author: "해아림한의원 의료 콘텐츠팀"
+medical_information_reviewer: "손지웅 대표원장"
+review_scope: "사전 승인 질환별 의료정보 기준"
 image: "images/blog/seongnam-jungwon-tic-school-stress.jpg"
 summary: "새 학기 긴장과 생활 변화로 두드러질 수 있는 틱장애의 관찰 방법과 가정·학교에서의 관리 방향을 살펴봅니다."
 hashtags:
-  - "중원구틱장애"
-  - "중원구한의원"
-  - "틱장애치료"
-  - "틱장애관리"
-  - "해아림한의원"
+  - "중원구"
+  - "틱장애정보"
+  - "틱장애관찰"
+  - "증상관찰"
+  - "해아림의학칼럼"
 keywords:
-  - "중원구 틱장애"
-  - "성남시 중원구 틱장애"
-  - "틱장애 한방치료"
   - "새 학기 환경 변화와 긴장으로 증상이 두드러질 때"
+  - "틱장애 새 학기 환경 변화와 긴장으로 증상이 두드러질 때"
+  - "중원구 새 학기 환경 변화와 긴장으로 증상이 두드러질 때"
+  - "틱장애 증상 관찰"
 ---
 
 <div class="column-key-summary-box">
@@ -122,3 +129,14 @@ keywords:
 미디어 노출이 틱의 직접적인 원인이라고 볼 수는 없습니다. 다만 장시간 스크린 사용과 높은 틱 중증도 사이의 연관성이 보고된 만큼, 자극적인 영상과 게임에 과도하게 몰입하는 생활 패턴은 점검할 필요가 있습니다. 무조건 금지하기보다 아이의 상황을 고려해 전체 사용량을 줄이고, 이후 수면·피로·틱 양상의 변화를 함께 관찰하는 방법이 현실적입니다.
 
 새 학기의 틱 변화는 아이가 새로운 환경에 적응하는 과정에서 보내는 신호일 수 있습니다. 증상을 과도하게 확대해 해석하거나 반대로 가볍게 넘기기보다, 아이가 느끼는 긴장과 피로를 살피고 편안한 생활 리듬을 지지해 주는 것이 중요합니다. 보호자의 차분한 관찰과 학교의 이해가 아이에게 큰 부담을 덜어줄 수 있습니다.
+
+### 참고한 공식 의학 자료
+
+- [Prolonged screen time is associated with increased severity of tic symptoms in children with tic disorders](https://doi.org/10.1186/s13052-025-01851-w)
+- [The Pathophysiology of Tics: An Anatomic Review](https://doi.org/10.1016/j.psc.2024.08.003)
+
+---
+
+### 관련 질환 자세히 보기
+
+- [틱장애 증상·검사·치료 안내](/conditions/tic/)

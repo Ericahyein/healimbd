@@ -1,22 +1,29 @@
 ---
 title: "[용인 ADHD] 성인 업무 중 실수가 반복되고 마무리가 어려울 때"
 date: 2026-09-07T20:17:02.887+09:00
+lastmod: 2026-09-30T09:00:00+09:00
+search_intent: "long_tail_column"
+condition_pillar: "/conditions/adhd/"
+article_review_status: "medical_standard_based"
 category: "adhd"
 category_name: "ADHD·집중력"
-author: "손지웅 대표원장"
+author: "해아림한의원 의료 콘텐츠팀"
+content_author: "해아림한의원 의료 콘텐츠팀"
+medical_information_reviewer: "손지웅 대표원장"
+review_scope: "사전 승인 질환별 의료정보 기준"
 image: "images/blog/yongin-main-adhd-adult-work-mistakes.jpg"
 summary: "성인 ADHD에서 업무 실수와 마무리 어려움이 나타나는 양상을 살펴보고, 평가와 생활 관리 방향을 안내합니다."
 hashtags:
-  - "용인성인ADHD"
-  - "용인한의원"
-  - "성인ADHD치료"
-  - "성인ADHD관리"
-  - "해아림한의원"
+  - "용인"
+  - "ADHD정보"
+  - "ADHD관찰"
+  - "증상관찰"
+  - "해아림의학칼럼"
 keywords:
-  - "용인 성인 ADHD"
-  - "용인시 성인 ADHD"
-  - "성인 ADHD 한방치료"
   - "성인 업무 중 실수가 반복되고 마무리가 어려울 때"
+  - "ADHD 성인 업무 중 실수가 반복되고 마무리가 어려울 때"
+  - "용인 성인 업무 중 실수가 반복되고 마무리가 어려울 때"
+  - "ADHD 증상 관찰"
 ---
 
 <div class="column-key-summary-box">
@@ -129,3 +136,13 @@ ADHD의 신경발달학적·신경생물학적 특성과 별개로, 일상 환�
 복용 중인 약물의 종류와 현재 증상, 수면 상태, 전반적인 건강 상태를 고려해야 합니다. 처방받은 ADHD 약물은 임의로 중단하지 말고, 치료를 담당하는 의료진과 상담하면서 병행 가능 여부와 관리 방향을 정하는 것이 안전합니다.
 
 반복되는 업무 실수와 마무리의 어려움은 자신을 탓하는 문제로 남겨두기보다, 어떤 상황에서 집중의 흐름이 끊기고 어떤 방식의 지원이 필요한지 차분히 살펴볼 필요가 있습니다. 일상을 구조화하는 작은 장치와 규칙적인 생활 리듬은 업무 부담을 줄이는 현실적인 출발점이 될 수 있습니다.
+
+### 참고한 공식 의학 자료
+
+- [NICE Guideline NG87 Attention deficit hyperactivity disorder: diagnosis and management](https://www.nice.org.uk/guidance/ng87)
+
+---
+
+### 관련 질환 자세히 보기
+
+- [ADHD 증상·검사·치료 안내](/conditions/adhd/)

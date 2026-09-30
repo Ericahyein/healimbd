@@ -37,12 +37,20 @@
 
           <div class="case-single-meta-bar">
             <div class="meta-item-left">
+              {{ if .Params.content_author }}
+              <span class="doctor-badge-mini"><i class="ph-bold ph-note-pencil"></i> 의료 콘텐츠 칼럼</span>
+              <strong>{{ .Params.content_author }}</strong>
+              {{ else }}
               <span class="doctor-badge-mini"><i class="ph-bold ph-stethoscope"></i> 대표원장 칼럼</span>
               <strong>{{ .Params.author }}</strong>
+              {{ end }}
               <span>(해아림한의원 분당점)</span>
             </div>
             <div class="meta-item-right">
               <time class="meta-date" datetime="{{ .Date.Format "2006-01-02" }}"><i class="ph-bold ph-calendar-blank"></i> 게시 {{ .Date.Format "2006.01.02" }}</time>
+              {{ if and .Params.content_author (not .Lastmod.IsZero) }}
+              <time class="meta-date" datetime="{{ .Lastmod.Format "2006-01-02" }}"><i class="ph-bold ph-check-circle"></i> 최종 수정 {{ .Lastmod.Format "2006.01.02" }}</time>
+              {{ end }}
             </div>
           </div>
         </div>
@@ -78,12 +86,19 @@
 
         <!-- Author identity and medical-information context -->
         <aside class="blog-author-trust-box" aria-label="칼럼 작성자 및 콘텐츠 안내">
-          <div class="blog-author-trust-icon" aria-hidden="true"><i class="ph-bold ph-stethoscope"></i></div>
+          <div class="blog-author-trust-icon" aria-hidden="true"><i class="ph-bold {{ if .Params.content_author }}ph-note-pencil{{ else }}ph-stethoscope{{ end }}"></i></div>
           <div class="blog-author-trust-content">
+            {{ if .Params.content_author }}
+            <p class="blog-author-trust-label">콘텐츠 작성</p>
+            <h2>{{ .Params.content_author }}</h2>
+            <p class="blog-author-trust-role">의료정보 기준 감수 · {{ .Params.medical_information_reviewer | default "손지웅 대표원장" }}</p>
+            <p class="blog-author-trust-desc">이 글은 {{ .Params.review_scope | default "사전 승인된 질환별 의료정보 기준" }}과 검증된 출처 범위에 따라 작성되었습니다. 개별 환자의 진단이나 진료 기록을 의미하지 않습니다.</p>
+            {{ else }}
             <p class="blog-author-trust-label">칼럼 작성자</p>
             <h2>{{ .Params.author | default "손지웅 대표원장" }}</h2>
             <p class="blog-author-trust-role">한의사 · 해아림한의원 분당점 대표원장</p>
             <p class="blog-author-trust-desc">대한한방신경정신과학회 정회원으로서 공황·불안·불면·자율신경 증상과 소아 틱·ADHD를 진료합니다.</p>
+            {{ end }}
             <a href="{{ "/philosophy/" | relURL }}" class="blog-author-profile-link">대표원장 진료철학 및 이력 보기 <i class="ph-bold ph-arrow-right"></i></a>
           </div>
         </aside>

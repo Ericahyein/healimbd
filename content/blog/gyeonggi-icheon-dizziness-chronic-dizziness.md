@@ -1,22 +1,29 @@
 ---
 title: "[이천 어지럼증] 이비인후과 검사 후에도 지속되는 붕 뜨는 어지럼증"
 date: 2026-09-22T09:27:42.952+09:00
+lastmod: 2026-09-30T09:00:00+09:00
+search_intent: "long_tail_column"
+condition_pillar: ""
+article_review_status: "medical_standard_based"
 category: "general"
 category_name: "두통·어지럼"
-author: "손지웅 대표원장"
+author: "해아림한의원 의료 콘텐츠팀"
+content_author: "해아림한의원 의료 콘텐츠팀"
+medical_information_reviewer: "손지웅 대표원장"
+review_scope: "사전 승인 질환별 의료정보 기준"
 image: "images/blog/gyeonggi-icheon-dizziness-chronic-dizziness.jpg"
 summary: "지속되는 비회전성 어지럼증에서 동반 증상과 다양한 원인을 구분하고, 개인 상태에 맞는 관리 방향을 살펴봅니다."
 hashtags:
-  - "이천어지럼증"
-  - "이천한의원"
-  - "어지럼증치료"
-  - "어지럼증관리"
-  - "해아림한의원"
+  - "이천"
+  - "어지럼증정보"
+  - "어지럼증관찰"
+  - "증상관찰"
+  - "해아림의학칼럼"
 keywords:
-  - "이천 어지럼증"
-  - "이천시 어지럼증"
-  - "어지럼증 한방치료"
   - "이비인후과 검사 후에도 지속되는 붕 뜨는 어지럼증"
+  - "어지럼증 이비인후과 검사 후에도 지속되는 붕 뜨는 어지럼증"
+  - "이천 이비인후과 검사 후에도 지속되는 붕 뜨는 어지럼증"
+  - "어지럼증 증상 관찰"
 ---
 
 <div class="column-key-summary-box">
@@ -114,3 +121,8 @@ keywords:
 모든 두통에 뇌영상 검사가 필요한 것은 아닙니다. 다만 갑작스러운 벼락 두통, 편마비, 언어 장애, 보행 실조, 발열 동반 두통처럼 위험 신호가 있다면 뇌영상 평가를 우선적으로 고려해야 합니다. 기존과 다른 양상의 두통이 새로 나타났거나 점차 악화되는 경우에도 의료진과 상담하는 것이 좋습니다.
 
 지속되는 붕 뜨는 어지럼증은 “검사에 이상이 없으니 괜찮다”거나 “목 때문일 것”이라고 단순화하기보다, 증상의 경과와 동반 증상을 바탕으로 여러 가능성을 구분해 보는 것이 중요합니다. 충분한 휴식과 규칙적인 생활 리듬을 유지하면서, 변화하는 증상을 차분히 관찰하고 필요한 평가를 이어가는 것이 안전한 관리의 출발점입니다.
+
+### 참고한 공식 의학 자료
+
+- [Diagnostic criteria for persistent postural-perceptual dizziness (PPPD): Consensus document of the committee for the International Classification of Vestibular Disorders](https://doi.org/10.3233/VES-170622)
+- [Red and orange flags for secondary headaches in clinical practice: SNNOOP10 list](https://doi.org/10.1212/WNL.0000000000006697)

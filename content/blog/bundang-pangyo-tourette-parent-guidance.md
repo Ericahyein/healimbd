@@ -1,22 +1,29 @@
 ---
 title: "[판교 뚜렛증후군] 가정에서 부모가 지켜주어야 할 대처 원칙과 소통법"
 date: 2026-09-19T09:27:48.957+09:00
+lastmod: 2026-09-30T09:00:00+09:00
+search_intent: "long_tail_column"
+condition_pillar: "/conditions/tic/"
+article_review_status: "medical_standard_based"
 category: "tic"
 category_name: "틱장애·뚜렛"
-author: "손지웅 대표원장"
+author: "해아림한의원 의료 콘텐츠팀"
+content_author: "해아림한의원 의료 콘텐츠팀"
+medical_information_reviewer: "손지웅 대표원장"
+review_scope: "사전 승인 질환별 의료정보 기준"
 image: "images/blog/bundang-pangyo-tourette-parent-guidance.jpg"
 summary: "뚜렛증후군의 증상 특성을 이해하고, 가정에서 불안을 줄이며 일상을 지지하는 부모의 대처 원칙과 소통법을 살펴봅니다."
 hashtags:
-  - "판교뚜렛증후군"
-  - "판교한의원"
-  - "뚜렛증후군치료"
-  - "뚜렛증후군관리"
-  - "해아림한의원"
+  - "판교"
+  - "뚜렛증후군정보"
+  - "뚜렛증후군관찰"
+  - "증상관찰"
+  - "해아림의학칼럼"
 keywords:
-  - "판교 뚜렛증후군"
-  - "성남시 분당구 판교 뚜렛증후군"
-  - "뚜렛증후군 한방치료"
   - "가정에서 부모가 지켜주어야 할 대처 원칙과 소통법"
+  - "뚜렛증후군 가정에서 부모가 지켜주어야 할 대처 원칙과 소통법"
+  - "판교 가정에서 부모가 지켜주어야 할 대처 원칙과 소통법"
+  - "뚜렛증후군 증상 관찰"
 ---
 
 <div class="column-key-summary-box">
@@ -115,3 +122,14 @@ keywords:
 
 **Q4. 영상과 게임을 줄이면 틱이 반드시 줄어드나요?**  
 반드시 그렇다고 단정할 수는 없습니다. 다만 장시간 스크린 사용과 높은 틱 중증도 사이의 연관성이 보고된 연구가 있어, 과도한 영상·게임 노출은 생활 관리 차원에서 점검할 필요가 있습니다. 사용량을 조절하면서 수면, 피로, 정서 상태와 함께 틱의 변화 양상을 차분히 관찰하는 것이 좋습니다.
+
+### 참고한 공식 의학 자료
+
+- [Prolonged screen time is associated with increased severity of tic symptoms in children with tic disorders](https://doi.org/10.1186/s13052-025-01851-w)
+- [The Pathophysiology of Tics: An Anatomic Review](https://doi.org/10.1016/j.psc.2024.08.003)
+
+---
+
+### 관련 질환 자세히 보기
+
+- [틱장애 증상·검사·치료 안내](/conditions/tic/)
