@@ -11,7 +11,7 @@ const SYSTEM = `당신은 한국어 의료 칼럼 편집자입니다. 제공된 
 근거 없는 완치·보장 표현, 처방·복용 지시를 추가하지 마세요.
 HTML/Markdown 대신 순수 텍스트를 JSON 문자열로 반환하세요.
 JSON 구조: {"title":"새 제목","intro":"도입 문단","sections":[{"heading":"소제목","paragraphs":["본문 문단"]}],"closing":"마무리"}.
-소제목은 3~10개, 각 문단은 짧게 나누세요. 원문의 링크 목록과 검색 키워드 반복은 제외해도 됩니다.`;
+소제목은 3~10개로, 가능하면 핵심 내용을 설명하는 문장으로 쓰세요. 각 절의 첫 문장에 요지를 담고 이유와 주의사항을 이어 설명하세요. 한 문단에는 하나의 핵심만 담아 1~3문장으로 나누고, paragraphs 배열의 별도 항목으로 구분하세요. 원문의 링크 목록과 검색 키워드 반복은 제외해도 됩니다.`;
 
 function loadSource(slug = '') {
   const history = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/auto_column_history.json'), 'utf8'));

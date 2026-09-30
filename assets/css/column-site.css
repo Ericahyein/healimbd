@@ -1,0 +1,6 @@
+/* Keep the original website design; standalone HTML owns its editorial theme. */
+.blog-content-body p { margin-bottom: 1.35em; }
+.blog-content-body h2, .blog-content-body h3 { line-height: 1.55; scroll-margin-top: 110px; }
+.blog-cta-banner { flex-wrap: wrap; }
+.blog-cta-banner .cta-banner-buttons { flex-wrap: wrap; }
+.blog-cta-banner .cta-kakao { background: #fee500; color: #292515; }
