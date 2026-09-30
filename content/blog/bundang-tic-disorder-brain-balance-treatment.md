@@ -3,6 +3,7 @@ title: "[판교 틱장애] 눈 깜빡임·음음 소리, 억지로 참게 하면
 date: 2026-08-31
 category: "tic-adhd"
 category_name: "틱장애·소아신경"
+condition_pillar: "/conditions/tic/"
 author: "손지웅 대표원장"
 image: "images/blog/column-03-tic-pangyo.jpg"
 summary: "아이의 틱 증상(눈 깜빡임, 헛기침, 음음 소리), 혼내거나 지적하면 왜 더 악화될까요? 두뇌 기저핵의 미성숙과 신경계 과흥분을 다스리는 판교 인근 해아림한의원의 맞춤 한방 치료 원리를 소개합니다."

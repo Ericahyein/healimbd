@@ -1,0 +1,24 @@
+{{/* Prefer current same-condition columns; retain curated supporting links when needed. */}}
+{{ $condition := . }}
+{{ $categories := .Params.column_categories | default (slice) }}
+{{ $items := slice }}
+{{ $seen := slice }}
+{{ range (where .Site.RegularPages "Section" "blog").ByDate.Reverse }}
+  {{ $samePillar := eq (.Params.condition_pillar | default "") $condition.RelPermalink }}
+  {{ $sameCategory := in $categories (.Params.category | default "") }}
+  {{ if and (not .Draft) (or $samePillar $sameCategory) (lt (len $items) 3) }}
+    {{ $title := replaceRE `^\[[^]]+\]\s*` "" .Title }}
+    {{ $items = $items | append (dict "url" .RelPermalink "title" $title "label" (printf "%s · 관련 칼럼" $condition.Params.condition_name)) }}
+    {{ $seen = $seen | append .RelPermalink }}
+  {{ end }}
+{{ end }}
+{{ range .Params.related_posts }}
+  {{ $curated := . }}
+  {{ with $condition.Site.GetPage .url }}
+    {{ if and (not .Draft) (not (in $seen .RelPermalink)) (lt (len $items) 3) }}
+      {{ $items = $items | append (dict "url" .RelPermalink "title" $curated.title "label" $curated.label) }}
+      {{ $seen = $seen | append .RelPermalink }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+{{ return $items }}

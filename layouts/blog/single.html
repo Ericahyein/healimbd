@@ -84,6 +84,8 @@
           <section class="column-preface">{{ replace .Content "<h2" "</section><section class=\"column-topic\"><h2" | safeHTML }}</section>
         </div>
 
+        {{ partial "column_condition_link.html" . }}
+
         <!-- Author identity and medical-information context -->
         <aside class="blog-author-trust-box" aria-label="칼럼 작성자 및 콘텐츠 안내">
           <div class="blog-author-trust-icon" aria-hidden="true"><i class="ph-bold {{ if .Params.content_author }}ph-note-pencil{{ else }}ph-stethoscope{{ end }}"></i></div>
