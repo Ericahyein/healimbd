@@ -6,6 +6,8 @@ const diseaseTaxonomy = require('./disease_taxonomy.json');
 const { resolveContentIdentity, buildArticleSlug } = require('./identity_resolver');
 
 const HISTORY_PATH = path.join(__dirname, '../../data/auto_column_history.json');
+const GEO_DISEASE_COOLDOWN_DAYS = 45;
+const DAILY_PUBLISH_LIMIT = 1;
 
 function loadHistory(customPath) {
   const target = customPath || HISTORY_PATH;
@@ -20,16 +22,18 @@ function loadHistory(customPath) {
 }
 
 /**
- * Checks if a specific geoId + disease was published within last 90 days
+ * Checks if a specific geoId + disease was published within the production cooldown.
+ * Forty-five days keeps the five approved service areas rotating without exhausting
+ * the candidate pool while avoiding near-term repetition.
  */
 function isGeoDiseaseIn90DayCooldown(history, geoId, diseaseId, now = new Date()) {
-  const ninetyDaysMs = 90 * 24 * 60 * 60 * 1000;
-  const cutoff = new Date(now.getTime() - ninetyDaysMs);
+  const cooldownMs = GEO_DISEASE_COOLDOWN_DAYS * 24 * 60 * 60 * 1000;
+  const cutoff = new Date(now.getTime() - cooldownMs);
 
   return history.some(item => {
     if (item.geoId === geoId && item.disease === diseaseId) {
       const pubDate = new Date(item.publishDate);
-      return pubDate >= cutoff;
+      return pubDate > cutoff;
     }
     return false;
   });
@@ -209,17 +213,18 @@ function planNextColumn(options = {}) {
   const now = options.now || new Date();
   const daySeed = getKstDaySeed(now);
 
-  const activeRegions = geoHierarchy.regions.filter(r => 
+  const activeRegions = geoHierarchy.regions.filter(r =>
+    r.productionActive === true &&
     ['city', 'district', 'selected_local_area', 'special_area'].includes(r.regionType)
   );
 
   const todayPosts = getTodayPublishedItems(history, now);
 
-  // If already 2 posts published today (and not force), signal limit
-  if (todayPosts.length >= 2 && !options.force) {
+  // Quality-first publishing: no more than one production column per KST day.
+  if (todayPosts.length >= DAILY_PUBLISH_LIMIT && !options.force) {
     return {
       status: 'daily_limit_reached',
-      message: 'Already published 2 columns today. Maximum daily limit reached.',
+      message: 'Already published 1 column today. Maximum daily limit reached.',
       todayCount: todayPosts.length
     };
   }
@@ -238,7 +243,7 @@ function planNextColumn(options = {}) {
       // Rule 1: No same disease in same day
       if (todayDiseases.has(disease.id)) continue;
 
-      // Rule 2: 90-day cooldown for same geo + disease
+      // Rule 2: production cooldown for the same geo + disease
       if (isGeoDiseaseIn90DayCooldown(history, region.id, disease.id, now)) continue;
 
       // Rule 3: HARD BLOCK 3-day cooldown for same disease (minimum 3 calendar days interval)
@@ -340,6 +345,7 @@ function getRankedCandidatePlans(options = {}, excludedPlanKeys = new Set()) {
   const daySeed = getKstDaySeed(now);
 
   const activeRegions = geoHierarchy.regions.filter(r =>
+    r.productionActive === true &&
     ['city', 'district', 'selected_local_area', 'special_area'].includes(r.regionType)
   );
 
@@ -441,5 +447,7 @@ module.exports = {
   planNextColumn,
   selectTopicAngleForDisease,
   getRankedCandidatePlans,
-  buildProductionTopicPlan
+  buildProductionTopicPlan,
+  GEO_DISEASE_COOLDOWN_DAYS,
+  DAILY_PUBLISH_LIMIT
 };
