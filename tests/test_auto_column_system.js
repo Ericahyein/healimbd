@@ -96,15 +96,10 @@ const mockHistory = [
   }
 ];
 
-// Production GEO+disease cooldown test
-assert.strictEqual(isGeoDiseaseIn90DayCooldown(mockHistory, 'seongnam-bundang', 'tic'), true, 'Should be in production cooldown');
-assert.strictEqual(isGeoDiseaseIn90DayCooldown(mockHistory, 'yongin-giheung', 'tic'), false, 'Different geo should not be in cooldown');
-assert.strictEqual(isGeoDiseaseIn90DayCooldown(mockHistory, 'seongnam-bundang', 'panic'), false, 'Different disease should not be in cooldown');
-const cooldownNow = new Date('2026-09-30T00:00:00Z');
-const fortyFourDaysAgo = new Date(cooldownNow.getTime() - 44 * 24 * 60 * 60 * 1000).toISOString();
-const fortyFiveDaysAgo = new Date(cooldownNow.getTime() - 45 * 24 * 60 * 60 * 1000).toISOString();
-assert.strictEqual(isGeoDiseaseIn90DayCooldown([{ geoId: 'seongnam-main', disease: 'tic', publishDate: fortyFourDaysAgo }], 'seongnam-main', 'tic', cooldownNow), true, '44-day-old combination must remain blocked');
-assert.strictEqual(isGeoDiseaseIn90DayCooldown([{ geoId: 'seongnam-main', disease: 'tic', publishDate: fortyFiveDaysAgo }], 'seongnam-main', 'tic', cooldownNow), false, '45-day-old combination must become eligible');
+// Geo+disease uses least-recently-used scoring instead of an arbitrary hard cooldown.
+assert.strictEqual(isGeoDiseaseIn90DayCooldown(mockHistory, 'seongnam-bundang', 'tic'), false, 'Same geo+disease must remain eligible for soft rotation');
+assert.strictEqual(isGeoDiseaseIn90DayCooldown(mockHistory, 'yongin-giheung', 'tic'), false, 'Different geo must remain eligible');
+assert.strictEqual(isGeoDiseaseIn90DayCooldown(mockHistory, 'seongnam-bundang', 'panic'), false, 'Different disease must remain eligible');
 
 // 4-A. KST Calendar Day Calculation Tests
 const kstBase = '2026-09-07T00:07:00.000Z'; // 09:07 KST on 2026-09-07
