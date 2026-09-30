@@ -6,8 +6,9 @@ const diseaseTaxonomy = require('./disease_taxonomy.json');
 const { resolveContentIdentity, buildArticleSlug } = require('./identity_resolver');
 
 const HISTORY_PATH = path.join(__dirname, '../../data/auto_column_history.json');
-const GEO_DISEASE_COOLDOWN_DAYS = 45;
-const DAILY_PUBLISH_LIMIT = 1;
+// Same geo+disease is balanced by recency scoring instead of an arbitrary hard block.
+const GEO_DISEASE_COOLDOWN_DAYS = 0;
+const DAILY_PUBLISH_LIMIT = 2;
 
 function loadHistory(customPath) {
   const target = customPath || HISTORY_PATH;
@@ -22,21 +23,22 @@ function loadHistory(customPath) {
 }
 
 /**
- * Checks if a specific geoId + disease was published within the production cooldown.
- * Forty-five days keeps the five approved service areas rotating without exhausting
- * the candidate pool while avoiding near-term repetition.
+ * Legacy compatibility helper. Geo+disease repetition is no longer hard-blocked;
+ * least-recently-used scoring keeps the five approved service areas balanced.
  */
-function isGeoDiseaseIn90DayCooldown(history, geoId, diseaseId, now = new Date()) {
-  const cooldownMs = GEO_DISEASE_COOLDOWN_DAYS * 24 * 60 * 60 * 1000;
-  const cutoff = new Date(now.getTime() - cooldownMs);
+function isGeoDiseaseIn90DayCooldown() {
+  return false;
+}
 
-  return history.some(item => {
-    if (item.geoId === geoId && item.disease === diseaseId) {
-      const pubDate = new Date(item.publishDate);
-      return pubDate > cutoff;
-    }
-    return false;
-  });
+function daysSinceLastUse(history, predicate, now) {
+  let latest = null;
+  for (const item of history) {
+    if (!item.publishDate || !predicate(item)) continue;
+    const timestamp = new Date(item.publishDate).getTime();
+    if (Number.isFinite(timestamp) && (latest === null || timestamp > latest)) latest = timestamp;
+  }
+  if (latest === null) return null;
+  return Math.max(0, (now.getTime() - latest) / (24 * 60 * 60 * 1000));
 }
 
 /**
@@ -220,11 +222,11 @@ function planNextColumn(options = {}) {
 
   const todayPosts = getTodayPublishedItems(history, now);
 
-  // Quality-first publishing: no more than one production column per KST day.
+  // Two production columns per KST day; the second must use a different disease.
   if (todayPosts.length >= DAILY_PUBLISH_LIMIT && !options.force) {
     return {
       status: 'daily_limit_reached',
-      message: 'Already published 1 column today. Maximum daily limit reached.',
+      message: `Already published ${DAILY_PUBLISH_LIMIT} columns today. Maximum daily limit reached.`,
       todayCount: todayPosts.length
     };
   }
@@ -243,31 +245,29 @@ function planNextColumn(options = {}) {
       // Rule 1: No same disease in same day
       if (todayDiseases.has(disease.id)) continue;
 
-      // Rule 2: production cooldown for the same geo + disease
-      if (isGeoDiseaseIn90DayCooldown(history, region.id, disease.id, now)) continue;
-
-      // Rule 3: HARD BLOCK 3-day cooldown for same disease (minimum 3 calendar days interval)
+      // Rule 2: HARD BLOCK 3-day cooldown for same disease (minimum 3 calendar days interval)
       if (isDiseaseIn3DayCooldown(history, disease.id, now)) continue;
 
       // Score candidate (higher score = better fit)
       let score = 100;
       if (todayParents.has(region.parentRegion)) score -= 30; // Encourage diverse parent region for day's 2nd post
 
-      // Last published time penalty for region and disease
-      const lastGeoUse = history.slice().reverse().find(h => h.geoId === region.id);
-      if (lastGeoUse) {
-        const daysAgo = (now.getTime() - new Date(lastGeoUse.publishDate).getTime()) / (24 * 3600 * 1000);
-        score += Math.min(daysAgo, 30); // Bonus for older unused regions
-      } else {
-        score += 35; // Never used region bonus
-      }
+      const geoDays = daysSinceLastUse(history, h => h.geoId === region.id, now);
+      const comboDays = daysSinceLastUse(history, h => h.geoId === region.id && h.disease === disease.id, now);
+      score += geoDays === null ? 35 : Math.min(geoDays, 30);
+      score += comboDays === null ? 45 : Math.min(comboDays, 45);
 
       for (const angle of (disease.topicAngles || [])) {
+        const angleDays = daysSinceLastUse(
+          history,
+          h => h.disease === disease.id && h.topicAngle === angle.id,
+          now
+        );
         validCandidates.push({
           region,
           disease,
           angle,
-          score,
+          score: score + (angleDays === null ? 60 : Math.min(angleDays, 60)),
           stableKey: `${region.id}|${disease.id}|${angle.id}`
         });
       }
@@ -283,6 +283,7 @@ function planNextColumn(options = {}) {
 
   // Find best candidate that has an eligible topic angle not in excludedPlanKeys
   const excludedPlanKeys = options.excludedPlanKeys || new Set();
+  const excludedTopicKeys = options.excludedTopicKeys || new Set();
 
   for (const cand of rotatedCandidates) {
     const keyColon = `${cand.region.id}:${cand.disease.id}:${cand.angle.id}`;
@@ -290,6 +291,7 @@ function planNextColumn(options = {}) {
     if (excludedPlanKeys.has(keyColon) || excludedPlanKeys.has(keyPipe)) {
       continue;
     }
+    if (excludedTopicKeys.has(`${cand.disease.id}|${cand.angle.id}`)) continue;
 
     const plan = buildProductionTopicPlan(cand.region, cand.disease, cand.angle, now);
     plan.score = cand.score;
@@ -361,26 +363,27 @@ function getRankedCandidatePlans(options = {}, excludedPlanKeys = new Set()) {
     for (const disease of diseaseTaxonomy.diseases) {
       if (!isMedicalKnowledgeApproved(disease.id)) continue;
       if (todayDiseases.has(disease.id)) continue;
-      if (isGeoDiseaseIn90DayCooldown(history, region.id, disease.id, now)) continue;
       if (isDiseaseIn3DayCooldown(history, disease.id, now)) continue;
 
       let score = 100;
       if (todayParents.has(region.parentRegion)) score -= 30;
 
-      const lastGeoUse = history.slice().reverse().find(h => h.geoId === region.id);
-      if (lastGeoUse) {
-        const daysAgo = (now.getTime() - new Date(lastGeoUse.publishDate).getTime()) / (24 * 3600 * 1000);
-        score += Math.min(daysAgo, 30);
-      } else {
-        score += 35;
-      }
+      const geoDays = daysSinceLastUse(history, h => h.geoId === region.id, now);
+      const comboDays = daysSinceLastUse(history, h => h.geoId === region.id && h.disease === disease.id, now);
+      score += geoDays === null ? 35 : Math.min(geoDays, 30);
+      score += comboDays === null ? 45 : Math.min(comboDays, 45);
 
       for (const angle of (disease.topicAngles || [])) {
+        const angleDays = daysSinceLastUse(
+          history,
+          h => h.disease === disease.id && h.topicAngle === angle.id,
+          now
+        );
         validCandidates.push({
           region,
           disease,
           angle,
-          score,
+          score: score + (angleDays === null ? 60 : Math.min(angleDays, 60)),
           stableKey: `${region.id}|${disease.id}|${angle.id}`
         });
       }
