@@ -1,15 +1,12 @@
 {{ $contact := site.Data.column_contact }}
-<aside class="column-contact" aria-label="상담 및 예약 안내">
-  <p class="column-contact-label">상담 · 예약 안내</p>
-  <h2>궁금한 점을 편하게 문의해주세요</h2>
-  <p>{{ $contact.name }}에서 상담 및 진료 예약을 안내해 드립니다.</p>
-  <div class="column-contact-actions">
-    <a class="column-contact-phone" href="{{ $contact.phone_url | safeURL }}">전화상담 <small>{{ $contact.phone }}</small></a>
-    <a class="column-contact-kakao" href="{{ $contact.kakao_url }}" target="_blank" rel="noopener noreferrer">카카오상담 <small>카카오채널 연결</small></a>
-    <a class="column-contact-naver" href="{{ $contact.naver_url }}" target="_blank" rel="noopener noreferrer">네이버예약 <small>진료 예약하기</small></a>
+<aside class="case-cta-banner blog-cta-banner" aria-label="상담 및 예약 안내">
+  <div class="cta-banner-text">
+    <h3>궁금한 점을 편하게 문의해주세요</h3>
+    <p>{{ $contact.name }}에서 상담 및 진료 예약을 안내해 드립니다.</p>
+  </div>
+  <div class="cta-banner-buttons">
+    <a class="btn btn-inquiry-header" href="{{ $contact.phone_url | safeURL }}">전화상담 · {{ $contact.phone }}</a>
+    <a class="btn cta-kakao" href="{{ $contact.kakao_url }}" target="_blank" rel="noopener noreferrer">카카오상담</a>
+    <a class="btn btn-hero-naver-dark" href="{{ $contact.naver_url }}" target="_blank" rel="noopener noreferrer">네이버예약</a>
   </div>
 </aside>
-{{ $banner := resources.Get "images/clinic-homepage-banner.png" }}
-<a class="homepage-banner" href="{{ $contact.homepage_url }}" aria-label="해아림한의원 분당점 공식 홈페이지 바로가기">
-  <img src="{{ $banner.RelPermalink }}" width="1040" height="720" loading="lazy" alt="해아림한의원 분당용인점 공식 홈페이지 바로가기">
-</a>
