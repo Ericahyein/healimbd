@@ -1,5 +1,5 @@
 {
-  "requestId": "2026-09-24-title-parameter-recovery",
+  "requestId": "2026-09-30-evening-schedule-recovery",
   "requestedTarget": "auto",
-  "reason": "Verify the title regeneration API parameter fix and recover a failed scheduled publication."
+  "reason": "Recover the 17:07 KST scheduled publication absent from GitHub Actions run history."
 }
