@@ -123,19 +123,6 @@
       </div>
     </section>
 
-    <!-- 주요 진료과목: 진료과목 페이지와 같은 사진 카드 및 질환 상세 링크 -->
-    <section class="section guide-treatments-section home-treatments-section" id="home-treatments" aria-labelledby="home-treatments-title">
-      <div class="container">
-        <div class="section-header-unboxed guide-treatments-head">
-          <span class="editorial-section-tag">TREATMENTS</span>
-          <h2 class="editorial-section-title guide-section-title-reduced" id="home-treatments-title"><strong>9대 주요 진료과목</strong></h2>
-          <p class="editorial-section-desc">궁금한 질환을 선택하면 증상과 검사·진료 과정을 자세히 확인하실 수 있습니다.</p>
-        </div>
-
-        {{ partial "condition_photo_cards.html" . }}
-      </div>
-    </section>
-
     <!-- 3. 원내/진료환경 이미지 슬라이드 (설명문 없이 사진 중심 seamless 무한 자동 슬라이드) -->
     <section class="section clinic-gallery-section clinic-gallery-seamless" id="clinic-photos">
       <div class="container-fluid clinic-slider-container">
@@ -240,6 +227,19 @@
             </picture>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- 주요 진료과목: 진료과목 페이지와 같은 사진 카드 및 질환 상세 링크 -->
+    <section class="section guide-treatments-section home-treatments-section" id="home-treatments" aria-labelledby="home-treatments-title">
+      <div class="container">
+        <div class="section-header-unboxed guide-treatments-head">
+          <span class="editorial-section-tag">TREATMENTS</span>
+          <h2 class="editorial-section-title guide-section-title-reduced" id="home-treatments-title"><strong>9대 주요 진료과목</strong></h2>
+          <p class="editorial-section-desc">궁금한 질환을 선택하면 증상과 검사·진료 과정을 자세히 확인하실 수 있습니다.</p>
+        </div>
+
+        {{ partial "condition_photo_cards.html" . }}
       </div>
     </section>
 
