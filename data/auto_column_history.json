@@ -383,5 +383,16 @@
     "topicAngle": "subway-dizziness",
     "title": "[성남 미주신경성 실신] 지하철이나 만원 버스에서 눈앞이 캄캄해지고 식은땀이 날 때",
     "slug": "seongnam-main-syncope-subway-dizziness"
+  },
+  {
+    "publishDate": "2026-09-30T18:20:09.520+09:00",
+    "geoId": "yongin-main",
+    "displayRegion": "용인",
+    "parentRegion": "용인",
+    "regionType": "city",
+    "disease": "headache",
+    "topicAngle": "tension-headache",
+    "title": "[용인 두통] 오후만 되면 뒷목이 뻣뻣하고 머리를 조이는 듯 아플 때",
+    "slug": "yongin-main-headache-tension-headache"
   }
 ]
