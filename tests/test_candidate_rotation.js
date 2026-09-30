@@ -179,33 +179,30 @@ async function testCandidateRotation() {
   console.log('✅ TEST 5 PASS: Topic angle included in stableKey; 100% shuffle-independent and deterministically rotating.');
 
   // =========================================================================
-  // TEST 6: Cooldown Invariance (Production GEO cooldown & 3-Day Disease Never Bypassed)
+  // TEST 6: Soft GEO rotation & hard 3-Day Disease cooldown
   // =========================================================================
   console.log('\n--- TEST 6: Cooldown Invariance Under Date Rotation ---');
   const now = new Date('2026-09-20T09:00:00+09:00');
 
-  // In history, Suji anxiety was published on 2026-09-14 (within production cooldown)
+  // Geo+disease repetition is balanced by scoring rather than hard-blocked.
   const isSujiAnxietyCooldown = isGeoDiseaseIn90DayCooldown(realHistory, 'yongin-suji', 'anxiety', now);
-  assert.strictEqual(isSujiAnxietyCooldown, true, 'Suji anxiety must be in 90-day cooldown');
+  assert.strictEqual(isSujiAnxietyCooldown, false, 'Geo+disease must not have an arbitrary hard cooldown');
 
   // Tic was published on 2026-09-19 (within 3 calendar days in KST of 2026-09-20)
   const isTic3DayCooldown = isDiseaseIn3DayCooldown(realHistory, 'tic', now);
   assert.strictEqual(isTic3DayCooldown, true, 'Tic must be in 3-day cooldown on 2026-09-20');
 
-  // Verify that neither Suji anxiety nor Tic is ever selected across any daySeed rotation
+  // Verify that the hard disease cooldown is never bypassed by date rotation.
   for (let d = 0; d < 14; d++) {
     const simDate = new Date(now.getTime() + d * 24 * 3600 * 1000);
     const plans = getRankedCandidatePlans({ now: simDate });
     for (const p of plans) {
-      if (isGeoDiseaseIn90DayCooldown(realHistory, p.geo.id, p.disease.id, simDate)) {
-        assert.fail(`Cooldown violation: Candidate [${p.geo.id} ${p.disease.id}] selected while in 90-day cooldown!`);
-      }
       if (isDiseaseIn3DayCooldown(realHistory, p.disease.id, simDate)) {
         assert.fail(`Cooldown violation: Candidate [${p.geo.id} ${p.disease.id}] selected while in 3-day cooldown!`);
       }
     }
   }
-  console.log('✅ TEST 6 PASS: Production GEO+disease and 3-day disease cooldowns are strictly enforced across all dates.');
+  console.log('✅ TEST 6 PASS: GEO+disease uses soft rotation while the 3-day disease cooldown remains enforced.');
 
   // =========================================================================
   // TEST 7: Unapproved Medical Knowledge Excluded From Candidate List
