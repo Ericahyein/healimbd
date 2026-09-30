@@ -15,7 +15,7 @@
   <!-- Main Stylesheet (Cache-Busting Fingerprinted) -->
   {{ $style := resources.Get "css/style.css" | resources.Minify | resources.Fingerprint }}
   <link rel="stylesheet" href="{{ $style.RelPermalink }}">
-  {{ $columnStyle := resources.Get "css/column-editorial.css" | resources.Minify | resources.Fingerprint }}
+  {{ $columnStyle := resources.Get "css/column-site.css" | resources.Minify | resources.Fingerprint }}
   <link rel="stylesheet" href="{{ $columnStyle.RelPermalink }}">
 </head>
 <body>
@@ -70,15 +70,8 @@
         </div>
         {{ end }}
 
-        {{ if .Fragments.Headings }}
-        <aside class="column-toc" aria-label="칼럼 목차">
-          <span class="column-toc-title">이 글에서 다루는 내용</span>
-          {{ .TableOfContents }}
-        </aside>
-        {{ end }}
-
         <!-- Article Body Markdown Content -->
-        <div class="case-typed-body blog-content-body column-reading">
+        <div class="case-typed-body blog-content-body">
           {{ .Content }}
         </div>
 
