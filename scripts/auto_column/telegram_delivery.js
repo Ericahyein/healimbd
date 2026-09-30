@@ -9,7 +9,7 @@ const SYSTEM = `당신은 한국어 의료 칼럼 편집자입니다. 제공된 
 단순 요약이나 단어 치환은 피하고 원문 분량의 70~120%를 목표로 하세요.
 새로운 진단, 수치, 치료효과, 환자 사례, 원장 경험, 지역 진료 경험을 만들지 마세요.
 근거 없는 완치·보장 표현, 처방·복용 지시를 추가하지 마세요.
-HTML/Markdown 대신 순수 텍스트를 JSON 문자열로 반환하세요.
+HTML 태그 없이 JSON 문자열로 반환하세요. paragraphs의 각 항목에는 일반 문단 또는 목록을 넣을 수 있습니다. 원문의 핵심 강조는 **강조**, 나열 항목은 줄바꿈으로 구분한 - 목록, 질문은 ### 질문 형식으로 보존하세요. 표는 필요할 때 Markdown 표로 보존하세요. 강조와 목록은 원문의 의미를 바꾸지 마세요.
 JSON 구조: {"title":"새 제목","intro":"도입 문단","sections":[{"heading":"소제목","paragraphs":["본문 문단"]}],"closing":"마무리"}.
 소제목은 3~10개로, 가능하면 핵심 내용을 설명하는 문장으로 쓰세요. 각 절의 첫 문장에 요지를 담고 이유와 주의사항을 이어 설명하세요. 한 문단에는 하나의 핵심만 담아 1~3문장으로 나누고, paragraphs 배열의 별도 항목으로 구분하세요. 원문의 링크 목록과 검색 키워드 반복은 제외해도 됩니다.`;
 
@@ -38,24 +38,53 @@ function validateDraft(draft, source) {
 function escapeHtml(value) {
   return String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 }
+// Escape first; support only text formatting, never model-provided HTML or URLs.
+function renderBlocks(text) {
+  const inline = value => escapeHtml(value).replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+  return text.split(/\n\s*\n/).map(block => {
+    const lines = block.trim().split(/\r?\n/);
+    if (lines.every(line => /^\s*[-•]\s+/.test(line))) return '<ul>' + lines.map(line => '<li>' + inline(line.replace(/^\s*[-•]\s+/, '')) + '</li>').join('') + '</ul>';
+    if (lines.length > 2 && /^\|/.test(lines[0]) && /^\|[\s:|\-]+\|$/.test(lines[1])) {
+      const cells = line => line.split('|').slice(1, -1).map(cell => inline(cell.trim()));
+      return '<table><thead><tr>' + cells(lines[0]).map(c => '<th scope="col">'+c+'</th>').join('') + '</tr></thead><tbody>' + lines.slice(2).map(line => '<tr>'+cells(line).map(c=>'<td>'+c+'</td>').join('')+'</tr>').join('') + '</tbody></table>';
+    }
+    if (/^###\s+/.test(lines[0])) return '<h3>'+inline(lines.shift().replace(/^###\s+/, ''))+'</h3>'+(lines.length ? '<p>'+inline(lines.join(' '))+'</p>' : '');
+    return '<p>' + inline(block) + '</p>';
+  }).join('\n');
+}
 function renderHtml(draft, source) {
   const e = escapeHtml;
+  const fontCss = ['Regular', 'Bold'].map((weight, i) => `@font-face{font-family:Pretendard;src:url(data:font/woff2;base64,${fs.readFileSync(path.join(ROOT, 'assets/fonts', `Pretendard-${weight}.woff2.b64`), 'utf8').trim()}) format('woff2');font-weight:${i ? '600 900' : '100 500'};font-style:normal;font-display:swap}`).join('');
+  const fontLicense = fs.readFileSync(path.join(ROOT, 'assets/fonts/OFL.txt'), 'utf8');
   const contact = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/column_contact.json'), 'utf8'));
-  const editorialCss = fs.readFileSync(path.join(ROOT, 'assets/css/column-editorial.css'), 'utf8');
+  const photo = fs.readFileSync(path.join(ROOT, 'static/images/philosophy-closing.webp')).toString('base64');
+  const siteCss = fs.readFileSync(path.join(ROOT, 'assets/css/column-site.css'), 'utf8')
+    .replaceAll('/images/philosophy-closing.webp', `data:image/webp;base64,${photo}`);
   const banner = fs.readFileSync(path.join(ROOT, 'assets/images/clinic-homepage-banner.png')).toString('base64');
+  const contactHtml = fs.readFileSync(path.join(ROOT, 'layouts/partials/column_contact.html'), 'utf8')
+    .replace(/^.*\r?\n/, '')
+    .replace(/{{\s*\$contact\.(\w+)(?:\s*\|\s*safeURL)?\s*}}/g, (_, key) => e(contact[key]));
+  const imagePath = /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(source.slug || '')
+    ? path.join(ROOT, 'static/images/blog', `${source.slug}.webp`) : '';
+  const thumbnail = imagePath && fs.existsSync(imagePath)
+    ? `<div class="blog-featured-media-box"><img class="blog-featured-img" src="data:image/webp;base64,${fs.readFileSync(imagePath).toString('base64')}" alt="${e(source.title)}"></div>` : '';
   return `<!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data:; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data:; font-src data:; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
+<!-- ${fontLicense} -->
 <title>${e(draft.title)}</title><style>
-*{box-sizing:border-box}body{margin:0;background:#f5f5ef;color:#243731;font-family:'Malgun Gothic','Apple SD Gothic Neo',sans-serif;line-height:1.9;word-break:keep-all;overflow-wrap:anywhere}main{max-width:800px;margin:36px auto;padding:48px;background:white;border-top:5px solid #416d5e}h1{font-size:30px;line-height:1.45;letter-spacing:-.04em}h2{font-size:21px;margin-top:36px;color:#315c4d}p{margin:18px 0}.label,footer{font-size:13px;color:#68756e}.intro{font-size:18px;border-left:3px solid #9dbca9;padding-left:20px}footer{border-top:1px solid #dde4dc;margin-top:36px;padding-top:20px}a{color:#315c4d}.homepage-banner{display:block;margin-top:28px;border-radius:16px;overflow:hidden}.homepage-banner img{display:block;width:100%;height:auto}.homepage-banner:focus-visible{outline:3px solid #315c4d;outline-offset:4px}@media(max-width:600px){main{margin:0;padding:26px 20px}h1{font-size:25px}}
-${editorialCss}
-</style></head><body><main><div class="label">해아림한의원 분당점 · 칼럼 각색본</div>
-<h1>${e(draft.title)}</h1><p class="column-intro">${e(draft.intro)}</p>
-<nav class="column-toc" aria-label="칼럼 목차"><span class="column-toc-title">이 글에서 다루는 내용</span><ol>${draft.sections.map((s,i) => `<li><a href="#topic-${i+1}">${e(s.heading)}</a></li>`).join('')}</ol></nav><div class="column-reading">
-${draft.sections.map((s,i) => `<section><h2 id="topic-${i+1}">${e(s.heading)}</h2>${s.paragraphs.map(p => `<p>${e(p)}</p>`).join('\n')}</section>`).join('\n')}
-<p>${e(draft.closing)}</p></div><footer><p>홈페이지 칼럼을 바탕으로 AI가 각색한 글입니다. 외부 게시 전 내용을 확인해주세요.</p><p>일반적인 건강정보이며 개인의 진단·치료를 대신하지 않습니다.</p><a href="${e(source.url)}">홈페이지 원문: ${e(source.title)}</a></footer>
-<aside class="column-contact" aria-label="상담 및 예약 안내"><p class="column-contact-label">상담 · 예약 안내</p><h2>궁금한 점을 편하게 문의해주세요</h2><p>${e(contact.name)}에서 상담 및 진료 예약을 안내해 드립니다.</p><div class="column-contact-actions"><a class="column-contact-phone" href="${e(contact.phone_url)}">전화상담 <small>${e(contact.phone)}</small></a><a class="column-contact-kakao" href="${e(contact.kakao_url)}" target="_blank" rel="noopener noreferrer">카카오상담 <small>카카오채널 연결</small></a><a class="column-contact-naver" href="${e(contact.naver_url)}" target="_blank" rel="noopener noreferrer">네이버예약 <small>진료 예약하기</small></a></div></aside>
-<a class="homepage-banner" href="https://healimbd.com/" target="_blank" rel="noopener noreferrer" aria-label="해아림한의원 분당점 공식 홈페이지 바로가기"><img src="data:image/png;base64,${banner}" width="1040" height="720" alt="해아림한의원 분당용인점 공식 홈페이지 바로가기"></a></main></body></html>`;
+${fontCss}
+*{box-sizing:border-box}body{margin:0;background:#fff;color:#334155;font-family:Pretendard,-apple-system,BlinkMacSystemFont,system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.9;word-break:keep-all;overflow-wrap:anywhere}.blog-single-container{margin:0 auto}h1{font-size:32px;line-height:1.45;letter-spacing:-.035em;color:#0f172a}a{color:#0d9488}.label,footer{font-size:13px;color:#64748b}footer{border-top:1px solid #e2e8f0;margin-top:30px;padding-top:20px}.column-toc{padding:20px 24px;margin:28px 0;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px}.column-toc-title{font-weight:750}.column-toc ol{padding-left:22px}.column-toc a{text-decoration:none}.column-intro{font-size:18px;margin:24px 0 32px}.btn{text-decoration:none}.homepage-banner-wrap{max-width:900px;margin:0 auto;padding:36px 40px 48px}.homepage-banner{display:block;width:50%;margin:0 auto}.homepage-banner img{display:block;width:100%;height:auto}.homepage-banner:focus-visible{outline:3px solid #0d9488;outline-offset:4px}
+${siteCss}
+.blog-content-body table{width:100%;border-collapse:collapse;margin:24px 0;font-size:15px;line-height:1.75}.blog-content-body th,.blog-content-body td{padding:14px 16px;border:1px solid #e2e8f0;text-align:left;min-width:140px}.column-toc li{margin:8px 0}.blog-content-body .column-topic > h2::before{font-family:Pretendard,sans-serif}
+@media(max-width:600px){h1{font-size:26px}.homepage-banner-wrap{padding:28px 20px 36px}}
+</style></head><body><main id="main-content"><article class="blog-single-article"><div class="blog-single-container"><div class="label">해아림한의원 분당점 · 칼럼 각색본</div>
+<h1>${e(draft.title)}</h1>${thumbnail}<p class="column-intro">${e(draft.intro)}</p>
+<nav class="column-toc" aria-label="칼럼 목차"><span class="column-toc-title">이 글에서 다루는 내용</span><ol>${draft.sections.map((s,i) => `<li><a href="#topic-${i+1}">${e(s.heading)}</a></li>`).join('')}</ol></nav><div class="blog-content-body"><div class="column-reading">
+${draft.sections.map((s,i) => `<section class="column-topic"><h2 id="topic-${i+1}">${e(s.heading)}</h2>${s.paragraphs.map(renderBlocks).join('\n')}</section>`).join('\n')}
+<p>${e(draft.closing)}</p></div></div><footer><p>홈페이지 칼럼을 바탕으로 AI가 각색한 글입니다. 외부 게시 전 내용을 확인해주세요.</p><p>일반적인 건강정보이며 개인의 진단·치료를 대신하지 않습니다.</p><a href="${e(source.url)}">홈페이지 원문: ${e(source.title)}</a></footer></div></article>
+<div class="homepage-banner-wrap"><a class="homepage-banner" href="https://healimbd.com/" target="_blank" rel="noopener noreferrer" aria-label="해아림한의원 분당점 공식 홈페이지 바로가기"><img src="data:image/png;base64,${banner}" width="1040" height="720" alt="해아림한의원 분당점 공식 홈페이지 바로가기"></a></div>
+${contactHtml}</main></body></html>`;
 }
 async function requestJson(url, options, service, fetcher = fetch) {
   // Never print raw errors/responses: Telegram URLs contain the bot credential.
@@ -128,4 +157,4 @@ async function main(env = process.env) {
   if (env.GITHUB_STEP_SUMMARY) fs.appendFileSync(env.GITHUB_STEP_SUMMARY, '\n### Telegram\n각색 HTML 문서 전송 완료.\n');
 }
 if (require.main === module) main().catch(error => { console.error(error.message); process.exitCode = 1; });
-module.exports = { loadSource, validateDraft, escapeHtml, renderHtml, requestJson, adapt, sendDocument, main };
+module.exports = { loadSource, validateDraft, escapeHtml, renderBlocks, renderHtml, requestJson, adapt, sendDocument, main };
