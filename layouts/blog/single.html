@@ -72,7 +72,8 @@
 
         <!-- Article Body Markdown Content -->
         <div class="case-typed-body blog-content-body">
-          {{ .Content }}
+          {{/* Keep all article text intact; group each H2 and its following content. */}}
+          <section class="column-preface">{{ replace .Content "<h2" "</section><section class=\"column-topic\"><h2" | safeHTML }}</section>
         </div>
 
         <!-- Author identity and medical-information context -->
@@ -104,8 +105,6 @@
         </div>
         {{ end }}
 
-        {{ partial "column_contact.html" . }}
-
         <!-- Bottom Navigation Button -->
         <div class="case-bottom-nav">
           <a href="{{ "/blog/" | relURL }}" class="btn btn-outline-cases">
@@ -114,6 +113,7 @@
         </div>
       </div>
     </article>
+    {{ partial "column_contact.html" . }}
   </main>
 
   {{ partial "footer.html" . }}
