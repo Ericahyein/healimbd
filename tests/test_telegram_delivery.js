@@ -31,7 +31,7 @@ test('HTML escapes all model text and is self-contained and responsive', () => {
 test('medical comparison failure blocks adaptation', async () => {
   let calls=0;
   await assert.rejects(adapt(source,env,async()=>completion(calls++ % 2 ? {approved:false,issues:['복약 주의사항을 보존하세요']}:draft)), /검수 미통과/);
-  assert.equal(calls,4);
+  assert.equal(calls,6);
 });
 test('medical comparison success returns draft', async () => {
   let calls=0;
@@ -80,4 +80,10 @@ test('failed comparison feeds corrections into one revision and still requires a
   });
   assert.deepEqual(result,draft);
   assert.equal(calls,4);
+});
+
+test('malformed draft is revised before review or delivery',async()=>{
+ const responses=[{title:'잘못된 구조'},draft,{approved:true,issues:[]}];let calls=0;
+ assert.deepEqual(await adapt(source,env,async()=>completion(responses[calls++])),draft);
+ assert.equal(calls,3);
 });
