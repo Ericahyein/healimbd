@@ -87,3 +87,15 @@ test('malformed draft is revised before review or delivery',async()=>{
  assert.deepEqual(await adapt(source,env,async()=>completion(responses[calls++])),draft);
  assert.equal(calls,3);
 });
+
+test('final HTML shares website styling and ends with the centered half-width homepage link', () => {
+  const html=renderHtml(draft,source);
+  assert.ok(html.includes('counter(article-topic,decimal-leading-zero)'));
+  assert.equal((html.match(/<section class="column-topic">/g)||[]).length,draft.sections.length);
+  assert.ok(html.includes('카카오 1:1 상담'));
+  assert.ok(html.includes('data:image/webp;base64,'));
+  assert.ok(!html.includes('/images/philosophy-closing.webp'));
+  assert.ok(!html.includes('{{'));
+  assert.match(html, /\.homepage-banner\{display:block;width:50%;margin:0 auto\}/);
+  assert.match(html, /<div class="homepage-banner-wrap">[\s\S]*?<\/a><\/div><\/main><\/body><\/html>$/);
+});

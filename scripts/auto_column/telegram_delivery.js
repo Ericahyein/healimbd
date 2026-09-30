@@ -41,21 +41,31 @@ function escapeHtml(value) {
 function renderHtml(draft, source) {
   const e = escapeHtml;
   const contact = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/column_contact.json'), 'utf8'));
-  const editorialCss = fs.readFileSync(path.join(ROOT, 'assets/css/column-editorial.css'), 'utf8');
+  const photo = fs.readFileSync(path.join(ROOT, 'static/images/philosophy-closing.webp')).toString('base64');
+  const siteCss = fs.readFileSync(path.join(ROOT, 'assets/css/column-site.css'), 'utf8')
+    .replaceAll('/images/philosophy-closing.webp', `data:image/webp;base64,${photo}`);
   const banner = fs.readFileSync(path.join(ROOT, 'assets/images/clinic-homepage-banner.png')).toString('base64');
+  const contactHtml = fs.readFileSync(path.join(ROOT, 'layouts/partials/column_contact.html'), 'utf8')
+    .replace(/^.*\r?\n/, '')
+    .replace(/{{\s*\$contact\.(\w+)(?:\s*\|\s*safeURL)?\s*}}/g, (_, key) => e(contact[key]));
+  const imagePath = /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(source.slug || '')
+    ? path.join(ROOT, 'static/images/blog', `${source.slug}.webp`) : '';
+  const thumbnail = imagePath && fs.existsSync(imagePath)
+    ? `<div class="blog-featured-media-box"><img class="blog-featured-img" src="data:image/webp;base64,${fs.readFileSync(imagePath).toString('base64')}" alt="${e(source.title)}"></div>` : '';
   return `<!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data:; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
 <title>${e(draft.title)}</title><style>
-*{box-sizing:border-box}body{margin:0;background:#f5f5ef;color:#243731;font-family:'Malgun Gothic','Apple SD Gothic Neo',sans-serif;line-height:1.9;word-break:keep-all;overflow-wrap:anywhere}main{max-width:800px;margin:36px auto;padding:48px;background:white;border-top:5px solid #416d5e}h1{font-size:30px;line-height:1.45;letter-spacing:-.04em}h2{font-size:21px;margin-top:36px;color:#315c4d}p{margin:18px 0}.label,footer{font-size:13px;color:#68756e}.intro{font-size:18px;border-left:3px solid #9dbca9;padding-left:20px}footer{border-top:1px solid #dde4dc;margin-top:36px;padding-top:20px}a{color:#315c4d}.homepage-banner{display:block;margin-top:28px;border-radius:16px;overflow:hidden}.homepage-banner img{display:block;width:100%;height:auto}.homepage-banner:focus-visible{outline:3px solid #315c4d;outline-offset:4px}@media(max-width:600px){main{margin:0;padding:26px 20px}h1{font-size:25px}}
-${editorialCss}
-</style></head><body><main><div class="label">해아림한의원 분당점 · 칼럼 각색본</div>
-<h1>${e(draft.title)}</h1><p class="column-intro">${e(draft.intro)}</p>
-<nav class="column-toc" aria-label="칼럼 목차"><span class="column-toc-title">이 글에서 다루는 내용</span><ol>${draft.sections.map((s,i) => `<li><a href="#topic-${i+1}">${e(s.heading)}</a></li>`).join('')}</ol></nav><div class="column-reading">
-${draft.sections.map((s,i) => `<section><h2 id="topic-${i+1}">${e(s.heading)}</h2>${s.paragraphs.map(p => `<p>${e(p)}</p>`).join('\n')}</section>`).join('\n')}
-<p>${e(draft.closing)}</p></div><footer><p>홈페이지 칼럼을 바탕으로 AI가 각색한 글입니다. 외부 게시 전 내용을 확인해주세요.</p><p>일반적인 건강정보이며 개인의 진단·치료를 대신하지 않습니다.</p><a href="${e(source.url)}">홈페이지 원문: ${e(source.title)}</a></footer>
-<aside class="column-contact" aria-label="상담 및 예약 안내"><p class="column-contact-label">상담 · 예약 안내</p><h2>궁금한 점을 편하게 문의해주세요</h2><p>${e(contact.name)}에서 상담 및 진료 예약을 안내해 드립니다.</p><div class="column-contact-actions"><a class="column-contact-phone" href="${e(contact.phone_url)}">전화상담 <small>${e(contact.phone)}</small></a><a class="column-contact-kakao" href="${e(contact.kakao_url)}" target="_blank" rel="noopener noreferrer">카카오상담 <small>카카오채널 연결</small></a><a class="column-contact-naver" href="${e(contact.naver_url)}" target="_blank" rel="noopener noreferrer">네이버예약 <small>진료 예약하기</small></a></div></aside>
-<a class="homepage-banner" href="https://healimbd.com/" target="_blank" rel="noopener noreferrer" aria-label="해아림한의원 분당점 공식 홈페이지 바로가기"><img src="data:image/png;base64,${banner}" width="1040" height="720" alt="해아림한의원 분당용인점 공식 홈페이지 바로가기"></a></main></body></html>`;
+*{box-sizing:border-box}body{margin:0;background:#fff;color:#334155;font-family:'Malgun Gothic','Apple SD Gothic Neo',sans-serif;line-height:1.9;word-break:keep-all;overflow-wrap:anywhere}.blog-single-container{margin:0 auto}h1{font-size:32px;line-height:1.45;letter-spacing:-.035em;color:#0f172a}a{color:#0d9488}.label,footer{font-size:13px;color:#64748b}footer{border-top:1px solid #e2e8f0;margin-top:30px;padding-top:20px}.column-toc{padding:20px 24px;margin:28px 0;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px}.column-toc-title{font-weight:750}.column-toc ol{padding-left:22px}.column-toc a{text-decoration:none}.column-intro{font-size:18px;margin:24px 0 32px}.btn{text-decoration:none}.homepage-banner-wrap{max-width:900px;margin:0 auto;padding:36px 40px 48px}.homepage-banner{display:block;width:50%;margin:0 auto}.homepage-banner img{display:block;width:100%;height:auto}.homepage-banner:focus-visible{outline:3px solid #0d9488;outline-offset:4px}
+${siteCss}
+@media(max-width:600px){h1{font-size:26px}.homepage-banner-wrap{padding:28px 20px 36px}}
+</style></head><body><main id="main-content"><article class="blog-single-article"><div class="blog-single-container"><div class="label">해아림한의원 분당점 · 칼럼 각색본</div>
+<h1>${e(draft.title)}</h1>${thumbnail}<p class="column-intro">${e(draft.intro)}</p>
+<nav class="column-toc" aria-label="칼럼 목차"><span class="column-toc-title">이 글에서 다루는 내용</span><ol>${draft.sections.map((s,i) => `<li><a href="#topic-${i+1}">${e(s.heading)}</a></li>`).join('')}</ol></nav><div class="blog-content-body"><div class="column-reading">
+${draft.sections.map((s,i) => `<section class="column-topic"><h2 id="topic-${i+1}">${e(s.heading)}</h2>${s.paragraphs.map(p => `<p>${e(p)}</p>`).join('\n')}</section>`).join('\n')}
+<p>${e(draft.closing)}</p></div></div><footer><p>홈페이지 칼럼을 바탕으로 AI가 각색한 글입니다. 외부 게시 전 내용을 확인해주세요.</p><p>일반적인 건강정보이며 개인의 진단·치료를 대신하지 않습니다.</p><a href="${e(source.url)}">홈페이지 원문: ${e(source.title)}</a></footer></div></article>
+${contactHtml}
+<div class="homepage-banner-wrap"><a class="homepage-banner" href="https://healimbd.com/" target="_blank" rel="noopener noreferrer" aria-label="해아림한의원 분당점 공식 홈페이지 바로가기"><img src="data:image/png;base64,${banner}" width="1040" height="720" alt="해아림한의원 분당점 공식 홈페이지 바로가기"></a></div></main></body></html>`;
 }
 async function requestJson(url, options, service, fetcher = fetch) {
   // Never print raw errors/responses: Telegram URLs contain the bot credential.
