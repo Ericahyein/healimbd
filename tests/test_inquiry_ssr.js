@@ -1,7 +1,7 @@
 // Comprehensive Test Suite for Inquiry SSR Edge Function & Dynamic Sitemap Indexing
 import assert from 'assert';
 import crypto from 'crypto';
-import { onRequestGet as handleInquirySSR, buildSeoTitle, getRepresentativeDisease } from '../functions/inquiry/[id].js';
+import { onRequestGet as handleInquirySSR, onRequestHead as handleInquiryHead, buildSeoTitle, getRepresentativeDisease } from '../functions/inquiry/[id].js';
 import { onRequestGet as handleInquiryListSSR } from '../functions/inquiry/index.js';
 import { onRequestGet as handleSitemapXML } from '../functions/sitemap-inquiry.xml.js';
 
@@ -205,6 +205,7 @@ async function runTests() {
 
         // Check robots meta
         assert.ok(html.includes('<meta name="robots" content="index,follow">'), 'Answered inquiry must be index,follow');
+        assert.strictEqual(response.headers.get('x-robots-tag'), 'index, follow', 'Answered inquiry response header must also be index, follow');
 
         // Check doctor answer
         assert.ok(html.includes('손지웅 대표원장입니다'), 'Doctor answer must be in raw HTML');
@@ -215,7 +216,19 @@ async function runTests() {
         assert.ok(html.includes('https://healimbd.com/philosophy/'), 'Reviewing doctor must link to the real profile page');
         assert.ok(html.includes('"@type":"BreadcrumbList"'), 'Answered inquiry must include breadcrumb structured data');
         assert.ok(html.includes('/inquiry/inq_related_tic_1/'), 'Same-disease answered inquiry must be linked in raw HTML');
+        assert.ok(html.includes('href="/conditions/tic/"'), 'Inquiry must link to its disease pillar page');
+        assert.ok(html.includes('href="/favicon.ico"'), 'Standalone inquiry HTML must declare the site favicon');
+        assert.ok(html.includes('href="/guide/"'), 'Inquiry navigation must point to the canonical guide page');
+        assert.ok(!html.includes('href="/treatments/"'), 'Inquiry navigation must not point to the retired treatments route');
+        assert.ok(html.includes('뇌인지검사·뇌기능검사·정서심리검사'), 'Clinical notice must describe the actual clinic examination set');
         assert.ok(html.includes('031-716-8575'), 'SSR detail must use the current canonical clinic phone number');
+
+        const headResponse = await handleInquiryHead({
+          ...context,
+          request: new Request(`https://healimbd.com/inquiry/${testInquiryId}/`, { method: 'HEAD' })
+        });
+        assert.strictEqual(headResponse.status, 200, 'HEAD must match the live answered page status');
+        assert.strictEqual(await headResponse.text(), '', 'HEAD must not return an HTML body');
 
         console.log('✅ PASS: Answered inquiry SSR verified with SEO title, raw on-screen H1, and index,follow.');
         passed++;
@@ -259,6 +272,7 @@ async function runTests() {
         const html = await response.text();
 
         assert.ok(html.includes('<meta name="robots" content="noindex,follow">'), 'Pending inquiry must be noindex,follow');
+        assert.strictEqual(response.headers.get('x-robots-tag'), 'noindex, follow', 'Pending inquiry response header must also be noindex, follow');
         assert.ok(html.includes('답변대기'), 'Status badge must show 답변대기');
 
         console.log('✅ PASS: Pending inquiry SSR verified with noindex,follow.');
@@ -283,10 +297,21 @@ async function runTests() {
                 fields: {
                   title: { stringValue: '실제 운영 답변완료 글' },
                   status: { stringValue: 'answered' },
+                  answer: { stringValue: '원장 답변이 등록되었습니다.' },
                   answeredAt: { timestampValue: '2026-09-06T10:00:00Z' }
                 }
               },
-              // 2. Live Pending inquiry (MUST be EXCLUDED)
+              // 2. Status says answered but no answer body (MUST be EXCLUDED)
+              {
+                name: 'projects/healimbd-b726f/databases/(default)/documents/online_inquiries/inq_empty_answer_test_201',
+                fields: {
+                  title: { stringValue: '답변 본문이 비어 있는 글' },
+                  status: { stringValue: 'answered' },
+                  answer: { stringValue: '' },
+                  createdAt: { timestampValue: '2026-09-07T00:00:00Z' }
+                }
+              },
+              // 3. Live Pending inquiry (MUST be EXCLUDED)
               {
                 name: 'projects/healimbd-b726f/databases/(default)/documents/online_inquiries/inq_pending_test_200',
                 fields: {
@@ -322,6 +347,7 @@ async function runTests() {
 
         // Check live pending inquiry is OUT
         assert.ok(!xml.includes('inq_pending_test_200'), 'Pending inquiry must NOT be in sitemap');
+        assert.ok(!xml.includes('inq_empty_answer_test_201'), 'Inquiry without an answer body must NOT be in sitemap');
 
         console.log('✅ PASS: Sitemap has 0 sample posts, includes live answered, and excludes pending.');
         passed++;
