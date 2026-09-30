@@ -349,6 +349,97 @@ function checkTitleSimilarity(title, history = [], threshold = 0.75) {
   };
 }
 
+function normalizeSimilarityText(value = '') {
+  return String(value)
+    .replace(/^---[\s\S]*?---/m, ' ')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, ' ')
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+    .replace(/(?:성남|분당|판교|용인|경기광주|수지|수정구|중원구|기흥구|처인구|이천|광주)/g, ' ')
+    .replace(/해아림한의원\s*분당점/g, ' ')
+    .replace(/[#>*_`~|\-]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase();
+}
+
+function cosineFromCharacterNgrams(left, right, size = 3) {
+  const grams = text => {
+    const compact = normalizeSimilarityText(text).replace(/\s+/g, '');
+    const counts = new Map();
+    if (compact.length < size) return counts;
+    for (let i = 0; i <= compact.length - size; i++) {
+      const gram = compact.slice(i, i + size);
+      counts.set(gram, (counts.get(gram) || 0) + 1);
+    }
+    return counts;
+  };
+  const a = grams(left);
+  const b = grams(right);
+  if (a.size === 0 || b.size === 0) return 0;
+  let dot = 0;
+  let normA = 0;
+  let normB = 0;
+  for (const count of a.values()) normA += count * count;
+  for (const count of b.values()) normB += count * count;
+  for (const [gram, count] of a.entries()) dot += count * (b.get(gram) || 0);
+  return dot / (Math.sqrt(normA) * Math.sqrt(normB));
+}
+
+function extractFaqText(body = '') {
+  const questions = String(body).match(/\*\*Q\d*\.?[^*]+\*\*[\s\S]*?(?=\*\*Q\d*\.?|\n##\s|$)/gi);
+  return questions ? questions.join('\n') : '';
+}
+
+/**
+ * Compares a generated draft with same-disease columns published during the
+ * lookback window. This gate is region-agnostic: changing only the locality
+ * cannot make a substantially duplicated medical article publishable.
+ */
+function checkArticleSimilarity(body, history = [], blogDir = '', diseaseId = '', options = {}) {
+  const bodyThreshold = options.bodyThreshold ?? 0.78;
+  const faqThreshold = options.faqThreshold ?? 0.82;
+  const lookbackDays = options.lookbackDays ?? 120;
+  const now = options.now ? new Date(options.now) : new Date();
+  const cutoff = now.getTime() - lookbackDays * 24 * 60 * 60 * 1000;
+  let maxBodySimilarity = 0;
+  let maxFaqSimilarity = 0;
+  let conflictingTitle = null;
+  const candidateFaq = extractFaqText(body);
+
+  if (!blogDir || !fs.existsSync(blogDir)) {
+    return { valid: true, maxBodySimilarity, maxFaqSimilarity, conflictingTitle };
+  }
+
+  for (const past of history) {
+    if (!past || past.disease !== diseaseId || !past.slug || !past.publishDate) continue;
+    const publishedAt = new Date(past.publishDate).getTime();
+    if (!Number.isFinite(publishedAt) || publishedAt < cutoff || publishedAt > now.getTime()) continue;
+    const articlePath = path.join(blogDir, `${past.slug}.md`);
+    if (!fs.existsSync(articlePath)) continue;
+    const pastBody = fs.readFileSync(articlePath, 'utf8');
+    const bodySimilarity = cosineFromCharacterNgrams(body, pastBody);
+    const pastFaq = extractFaqText(pastBody);
+    const faqSimilarity = candidateFaq && pastFaq
+      ? cosineFromCharacterNgrams(candidateFaq, pastFaq)
+      : 0;
+    if (bodySimilarity > maxBodySimilarity || faqSimilarity > maxFaqSimilarity) {
+      conflictingTitle = past.title || past.slug;
+    }
+    maxBodySimilarity = Math.max(maxBodySimilarity, bodySimilarity);
+    maxFaqSimilarity = Math.max(maxFaqSimilarity, faqSimilarity);
+  }
+
+  const valid = maxBodySimilarity < bodyThreshold && maxFaqSimilarity < faqThreshold;
+  return {
+    valid,
+    maxBodySimilarity,
+    maxFaqSimilarity,
+    conflictingTitle,
+    error: valid ? null : `Draft is too similar to a recent same-disease article: '${conflictingTitle}' (body ${(maxBodySimilarity * 100).toFixed(1)}%, FAQ ${(maxFaqSimilarity * 100).toFixed(1)}%)`
+  };
+}
+
 /**
  * Checks if a candidate slug collides with existing content files or past history entries.
  *
@@ -1749,6 +1840,10 @@ module.exports = {
   GLOBAL_BANNED_MEDICAL_PATTERNS,
   jaroWinkler,
   checkTitleSimilarity,
+  normalizeSimilarityText,
+  cosineFromCharacterNgrams,
+  extractFaqText,
+  checkArticleSimilarity,
   checkSlugCollision,
   extractInternalLinks,
   validateArticleContent,
@@ -1766,4 +1861,3 @@ module.exports = {
   checkFatigueBurnoutAndAutonomicFraming,
   checkClinicBranchName
 };
-
