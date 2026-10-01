@@ -83,7 +83,7 @@
 <meta property="og:image:alt" content="{{ $title }}">
 {{ end }}
 {{ if and (not $isHome) (or (eq .Section "blog") (eq .Section "conditions")) (not .IsSection) }}
-<meta property="article:author" content="손지웅 대표원장">
+<meta property="article:author" content="{{ .Params.content_author | default .Params.author | default "손지웅 대표원장" }}">
 {{ if not .Date.IsZero }}<meta property="article:published_time" content="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">{{ end }}
 {{ if not .Lastmod.IsZero }}<meta property="article:modified_time" content="{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}">{{ end }}
 {{ end }}

@@ -98,6 +98,9 @@ jobs:
       - name: Validate Hugo Static Site Build
         run: hugo --minify -d public
 
+      - name: Verify Refreshed Column Authorship and References
+        run: node tests/test_column_refresh_render.js public
+
       - name: Verify Public Review Guide and Protected Review Indexing
         run: node tests/test_public_review_guide.js public
 
