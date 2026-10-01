@@ -10,7 +10,7 @@ assert(home.includes('심층 치료'), 'Home description must use the approved �
 assert(!home.includes('근본 치료'), 'Stale 근본 치료 wording must not remain');
 
 assert(
-  head.includes('분당 틱장애·ADHD·공황장애 | 해아림한의원 분당점'),
+  head.includes('분당 틱장애·ADHD·공황장애·자율신경실조증 | 해아림한의원 분당점'),
   'Home title must remain concise and locally relevant'
 );
 assert(
