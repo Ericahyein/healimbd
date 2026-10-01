@@ -14,7 +14,9 @@
 <body class="review-guide-page">
   {{ partial "header.html" . }}
   <main id="main-content">
-    <header class="review-guide-hero">
+    <header class="page-hero-banner reviews-hero review-guide-hero" id="page-hero">
+      <div class="page-hero-bg" aria-hidden="true" style="background-image: url('{{ "images/hero-reviews.jpg" | relURL }}'); background-image: url('{{ "images/hero-reviews.webp" | relURL }}');"></div>
+      <div class="page-hero-overlay" aria-hidden="true"></div>
       <div class="container">
         <nav class="review-guide-breadcrumb" aria-label="현재 위치">
           <a href="{{ "/" | relURL }}">홈</a><span aria-hidden="true">›</span>
