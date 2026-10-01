@@ -394,5 +394,16 @@
     "topicAngle": "tension-headache",
     "title": "[용인 두통] 오후만 되면 뒷목이 뻣뻣하고 머리를 조이는 듯 아플 때",
     "slug": "yongin-main-headache-tension-headache"
+  },
+  {
+    "publishDate": "2026-10-01T14:42:39.247+09:00",
+    "geoId": "seongnam-bundang",
+    "displayRegion": "분당",
+    "parentRegion": "성남",
+    "regionType": "district",
+    "disease": "depression",
+    "topicAngle": "intrusive-thoughts",
+    "title": "[분당 강박증/OCD] 원치 않는 불안한 생각이 반복적으로 떠오를 때",
+    "slug": "seongnam-bundang-ocd-intrusive-thoughts"
   }
 ]
