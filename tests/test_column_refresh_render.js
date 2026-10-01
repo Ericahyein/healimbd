@@ -18,9 +18,12 @@ const schemaArticle = text => {
 
 for (const [slug, pillar] of [
   ['bundang-autonomic-nervous-system-recovery', 'autonomic'],
-  ['bundang-insomnia-sleep-disorder-cure', 'insomnia']
+  ['bundang-insomnia-sleep-disorder-cure', 'insomnia'],
+  ['bundang-tic-disorder-brain-balance-treatment', 'tic'],
+  ['bundang-panic-disorder-treatment-guide', 'panic']
 ]) {
   const text = html(slug);
+  assert(!text.includes('**'), `${slug}: emphasis markup must render without visible delimiters`);
   const tables = [...text.matchAll(/<table\b[^>]*>[\s\S]*?<\/table>/g)];
   assert.strictEqual(tables.length, 1, `${slug}: observation table must remain intact`);
   const wrapped = [...text.matchAll(/(<div\b[^>]*>)\s*(<table\b[^>]*>[\s\S]*?<\/table>)\s*<\/div>/g)]
@@ -46,15 +49,19 @@ for (const [slug, pillar] of [
   assert(tags(text, 'a').some(tag => tag.href === `/conditions/${pillar}/`), `${slug}: direct condition link required`);
   assert(!tags(text, 'meta').some(tag => tag.name === 'robots' && /noindex/.test(tag.content)), `${slug}: refreshed article must remain indexable`);
   assert(!text.includes('수지'), `${slug}: displayed article text must use the agreed regions`);
-  const sources = new Set(tags(text, 'a').map(tag => tag.href).filter(href => /^https:\/\/(?:www\.)?(?:nhlbi\.nih\.gov|niddk\.nih\.gov|nhs\.uk)\//.test(href)));
+  const sources = new Set(tags(text, 'a').map(tag => tag.href).filter(href => /^https:\/\/(?:www\.)?(?:nhlbi\.nih\.gov|niddk\.nih\.gov|nimh\.nih\.gov|cdc\.gov|nhs\.uk)\//.test(href)));
   assert(sources.size >= 3, `${slug}: three relevant external references required`);
+  if (pillar === 'tic' || pillar === 'panic') {
+    for (const claim of ['기저핵 기능 미성숙', '반동 현상으로 증상이 배가', '4-7-8', '재발 없는', '감각통합훈련', 'HRV']) {
+      assert(!text.includes(claim), `${slug}: unsupported claim or unprovided service must not reappear (${claim})`);
+    }
+    if (pillar === 'tic') assert(text.includes('뉴로피드백·밸런싱·IM') && text.includes('평가 후 선택적으로 활용'));
+    if (pillar === 'panic') assert(!text.includes('뉴로피드백') && !text.includes('밸런싱') && !text.includes('IM 훈련'));
+  }
 }
 
-// Existing medical-standard review remains explicit; ordinary doctor columns retain their author.
+// Existing medical-standard review remains explicit on articles with a named reviewer.
 const standard = html('seongnam-main-tic-media-exposure');
 assert(standard.includes('의료정보 기준 감수 · 손지웅 대표원장'));
 assert.strictEqual(schemaArticle(standard).author.name, team);
-const doctor = html('bundang-panic-disorder-treatment-guide');
-assert(tags(doctor, 'meta').some(tag => tag.property === 'article:author' && tag.content === '손지웅 대표원장'));
-assert(schemaArticle(doctor).author['@id'].endsWith('#doctor-jiwoong-son'));
 console.log('✅ Rendered column authorship, review scope, references, dates, canonical URLs, pillar links and accessible tables passed.');
