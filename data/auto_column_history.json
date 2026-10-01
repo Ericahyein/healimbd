@@ -405,5 +405,16 @@
     "topicAngle": "intrusive-thoughts",
     "title": "[분당 강박증/OCD] 원치 않는 불안한 생각이 반복적으로 떠오를 때",
     "slug": "seongnam-bundang-ocd-intrusive-thoughts"
+  },
+  {
+    "publishDate": "2026-10-02T00:24:09.147+09:00",
+    "geoId": "bundang-pangyo",
+    "displayRegion": "판교",
+    "parentRegion": "성남",
+    "regionType": "selected_local_area",
+    "disease": "anxiety",
+    "topicAngle": "physical-tension",
+    "title": "[판교 불안장애] 걱정이 이어지면서 몸에 힘이 들어갈 때 기록할 점",
+    "slug": "bundang-pangyo-anxiety-physical-tension"
   }
 ]
