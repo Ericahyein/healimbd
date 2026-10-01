@@ -44,8 +44,8 @@
       "a": "알코올은 입면을 돕는 것처럼 보이나 수면의 후반부를 조각내어 깊은 잠을 방해합니다."
     },
     {
-      "q": "수면제 없이 치료가 가능한가요?",
-      "a": "신경계의 과도한 각성 상태와 신체 긴장을 조절하는 한방 요법을 통해 단계적인 회복을 돕습니다."
+      "q": "복용 중인 수면제는 어떻게 상담해야 하나요?",
+      "a": "약 이름과 용량, 복용 기간 및 불편감을 알려 주고 변경·병행 여부는 처방 의료진과 상의합니다. 임의로 중단하거나 감량하지 않습니다."
     }
   ],
   "internalLinkCandidates": [
@@ -102,6 +102,18 @@
         "url": "https://pubmed.ncbi.nlm.nih.gov/29760253/"
       },
       "rationale": "불면증 치료 목적의 BZRA 계열 약물 deprescribing 가이드라인(PMID 29760253)에 근거하여 임의 급단 위험을 방지하고 점진적 조절 원칙을 확립하며, 다른 수면제나 정신과 약 전체로 일반화하지 않음."
+    },
+    {
+      "claim": "수면 일지와 생활 패턴을 확인하고 불면이 지속되면 원인을 평가하며 인지행동치료 등 치료 선택지를 의료진과 상의한다. 수면호흡장애 등 다른 수면 문제가 원인일 수 있다.",
+      "evidenceLevel": "patient-information",
+      "sourceType": "official-health-information",
+      "claimStrength": "cautionary",
+      "sourceVerified": true,
+      "verified": true,
+      "productionUsable": true,
+      "sourceTitle": "NHS — Insomnia",
+      "sourceUrl": "https://www.nhs.uk/conditions/insomnia/",
+      "sourceCheckedAt": "2026-10-01"
     }
   ]
 }

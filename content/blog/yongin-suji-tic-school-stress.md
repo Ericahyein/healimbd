@@ -1,16 +1,14 @@
 ---
 title: "[수지 틱장애] 교실에서는 참다가 집에서 몰아치는 움직임, 의지와 무관한 신호를 살피는 법"
 date: 2026-09-26T13:49:25.926+09:00
-lastmod: 2026-09-30T09:00:00+09:00
+lastmod: 2026-10-01T20:44:00+09:00
 search_intent: "long_tail_column"
 condition_pillar: "/conditions/tic/"
-article_review_status: "medical_standard_based"
+article_review_status: "source_based"
 category: "tic"
 category_name: "틱장애·뚜렛"
 author: "해아림한의원 의료 콘텐츠팀"
 content_author: "해아림한의원 의료 콘텐츠팀"
-medical_information_reviewer: "손지웅 대표원장"
-review_scope: "사전 승인 질환별 의료정보 기준"
 image: "images/blog/yongin-suji-tic-school-stress.jpg"
 summary: "새 학기 긴장으로 두드러지는 틱장애의 증상과 경과를 살피고, 가정과 학교에서의 관찰 및 관리 방향을 안내합니다."
 hashtags:
@@ -37,7 +35,7 @@ keywords:
 
 ## 새 학기, 교실에서는 참다가 집에서 틱이 두드러지는 이유
 
-수지 지역에서 틱장애를 상담하다 보면 “학교에서는 괜찮은 것 같은데 집에만 오면 눈을 심하게 깜빡이고 고개를 젖혀요”, “수업 시간에는 참는다고 하는데 저녁이 되면 음음 소리나 헛기침이 몰아서 나옵니다”라는 보호자분들의 말씀을 자주 듣습니다.
+학교에서는 덜 보이던 눈 깜빡임이나 소리가 집에서 두드러지면 보호자는 원인이 궁금할 수 있습니다. 한 장소에서 덜 보였다는 사실만으로 증상이 없었다거나 집에서 일부러 하는 행동이라고 판단하지 않고, 하루의 환경과 피로를 함께 살펴봅니다.
 
 틱은 자신의 의지와 상관없이 갑작스럽고 빠르게 반복되는 움직임 또는 소리를 말합니다. 눈 깜빡임, 얼굴 찡그림, 고개 젖히기, 어깨 들썩이기처럼 움직임으로 나타나는 운동틱이 있고, 음음 소리, 킁킁거리기, 헛기침, 단어 반복처럼 소리로 나타나는 음성틱도 있습니다.
 

@@ -10,15 +10,20 @@ const HISTORY_PATH = path.join(__dirname, '../../data/auto_column_history.json')
 const GEO_DISEASE_COOLDOWN_DAYS = 0;
 const DAILY_PUBLISH_LIMIT = 2;
 
+function wasTopicPublished(history, diseaseId, angleId) {
+  return history.some(item => item.disease === diseaseId && item.topicAngle === angleId);
+}
+
 function loadHistory(customPath) {
   const target = customPath || HISTORY_PATH;
   if (!fs.existsSync(target)) return [];
   try {
     const raw = fs.readFileSync(target, 'utf-8');
-    return JSON.parse(raw);
+    const history = JSON.parse(raw);
+    if (!Array.isArray(history)) throw new Error('History must be an array.');
+    return history;
   } catch (err) {
-    console.warn('Failed to parse history JSON, defaulting to empty:', err.message);
-    return [];
+    throw new Error(`Publishing history cannot be read safely; refusing topic selection: ${err.message}`);
   }
 }
 
@@ -258,6 +263,7 @@ function planNextColumn(options = {}) {
       score += comboDays === null ? 45 : Math.min(comboDays, 45);
 
       for (const angle of (disease.topicAngles || [])) {
+        if (wasTopicPublished(history, disease.id, angle.id)) continue;
         const angleDays = daysSinceLastUse(
           history,
           h => h.disease === disease.id && h.topicAngle === angle.id,
@@ -275,7 +281,7 @@ function planNextColumn(options = {}) {
   }
 
   if (validCandidates.length === 0) {
-    throw new Error('All geo-disease combinations are currently in cooldown. Please review history.');
+    throw new Error('No unpublished topic is currently eligible. Check disease cooldowns or expand the topic library; do not recycle an existing topic under another region.');
   }
 
   // Stable group sort & date-based rotation for tied candidates
@@ -302,39 +308,15 @@ function planNextColumn(options = {}) {
 }
 
 /**
- * Selects the optimal topic angle for a disease, prioritizing unused angles
- * and then least-recently-used (LRU) angles, while excluding any rejected angle IDs.
+ * Selects an unpublished topic angle, regardless of its previous region.
  */
 function selectTopicAngleForDisease(disease, history, excludedAngleIds = new Set()) {
-  const availableAngles = (disease.topicAngles || []).filter(a => !excludedAngleIds.has(a.id));
+  const availableAngles = (disease.topicAngles || []).filter(a =>
+    !excludedAngleIds.has(a.id) && !wasTopicPublished(history, disease.id, a.id)
+  );
   if (availableAngles.length === 0) return null;
 
-  // 1. Check for angles never used in history
-  const usedAngleIds = new Set(history.filter(h => h.disease === disease.id).map(h => h.topicAngle));
-  for (const angle of availableAngles) {
-    if (!usedAngleIds.has(angle.id)) {
-      return angle;
-    }
-  }
-
-  // 2. All available angles have been used in history -> select Least Recently Used (oldest publishDate)
-  let oldestAngle = availableAngles[0];
-  let oldestDate = Infinity;
-
-  for (const angle of availableAngles) {
-    const lastUse = history.slice().reverse().find(h => h.disease === disease.id && h.topicAngle === angle.id);
-    if (lastUse && lastUse.publishDate) {
-      const pubTime = new Date(lastUse.publishDate).getTime();
-      if (pubTime < oldestDate) {
-        oldestDate = pubTime;
-        oldestAngle = angle;
-      }
-    } else {
-      return angle;
-    }
-  }
-
-  return oldestAngle;
+  return availableAngles[0];
 }
 
 /**
@@ -374,6 +356,7 @@ function getRankedCandidatePlans(options = {}, excludedPlanKeys = new Set()) {
       score += comboDays === null ? 45 : Math.min(comboDays, 45);
 
       for (const angle of (disease.topicAngles || [])) {
+        if (wasTopicPublished(history, disease.id, angle.id)) continue;
         const angleDays = daysSinceLastUse(
           history,
           h => h.disease === disease.id && h.topicAngle === angle.id,
@@ -410,7 +393,7 @@ function getRankedCandidatePlans(options = {}, excludedPlanKeys = new Set()) {
  * Builds a planned topic object for a specific region, disease, and chosen angle using resolveContentIdentity.
  */
 function buildProductionTopicPlan(region, disease, chosenAngle, now = new Date()) {
-  const identity = resolveContentIdentity(disease.id, chosenAngle.id);
+  const identity = resolveContentIdentity(disease.id, chosenAngle.id, chosenAngle.identity || {});
 
   // Build canonical title and slug using resolved identity and canonical slug builder
   const titlePrefix = region.canonicalTitle.replace('{disease}', identity.titleDisease);
@@ -434,6 +417,7 @@ function buildProductionTopicPlan(region, disease, chosenAngle, now = new Date()
 }
 
 module.exports = {
+  wasTopicPublished,
   loadHistory,
   isGeoDiseaseIn90DayCooldown,
   isDiseaseIn3DayCooldown,

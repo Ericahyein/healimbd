@@ -1,16 +1,14 @@
 ---
 title: "[용인 우울증] 쉬어도 충전되지 않고 모든 일에 의욕이 사라질 때"
 date: 2026-09-25T00:34:07.203+09:00
-lastmod: 2026-09-30T09:00:00+09:00
+lastmod: 2026-10-01T20:44:00+09:00
 search_intent: "long_tail_column"
 condition_pillar: ""
-article_review_status: "medical_standard_based"
+article_review_status: "source_based"
 category: "anxiety"
 category_name: "우울·강박"
 author: "해아림한의원 의료 콘텐츠팀"
 content_author: "해아림한의원 의료 콘텐츠팀"
-medical_information_reviewer: "손지웅 대표원장"
-review_scope: "사전 승인 질환별 의료정보 기준"
 image: "images/blog/yongin-main-depression-burnout-lethargy.jpg"
 summary: "쉬어도 회복되지 않는 피로와 의욕 저하는 우울증의 신호일 수 있습니다. 번아웃과 신체 질환을 함께 살피며 점진적인 회복 방향을 안내합니다."
 hashtags:
@@ -37,7 +35,7 @@ keywords:
 
 ## 쉬어도 충전되지 않는 피로, 왜 살펴봐야 할까요?
 
-용인에서 우울감과 무기력을 상담하다 보면 “주말에 쉬었는데도 출근할 생각만 하면 기운이 빠집니다”, “잠을 자도 개운하지 않고, 예전에는 좋아하던 일도 아무 감흥이 없습니다”라고 말씀하는 분들을 자주 만납니다.
+주말에 쉬어도 출근할 생각만 하면 기운이 없고, 예전에 좋아하던 일에도 관심이 줄었다면 무엇을 살펴야 할까요? 용인에서 우울감과 무기력 정보를 찾는 분들을 위해 일과 관련된 소진과 전반적인 기분·생활 변화를 구분합니다.
 
 누적된 과로 뒤에 피곤함을 느끼는 것은 자연스러운 반응일 수 있습니다. 그러나 휴식 뒤에도 피로감이 이어지고, 일상 전반에 대한 흥미와 의욕이 줄어들며, 해야 할 일을 시작하는 것조차 버겁게 느껴진다면 우울 증상을 함께 살펴볼 필요가 있습니다.
 

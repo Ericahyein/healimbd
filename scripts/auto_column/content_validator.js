@@ -3,6 +3,7 @@ const path = require('path');
 const geoHierarchy = require('./geo_hierarchy.json');
 const diseaseTaxonomy = require('./disease_taxonomy.json');
 const { isInternalUrlValid, getConditionPageForCategory } = require('./internal_linker');
+const { selectEvidenceNotes, checkClinicFacts } = require('./medical_policy');
 
 let qaTargets = [];
 try {
@@ -243,7 +244,7 @@ const GLOBAL_BANNED_MEDICAL_PATTERNS = [
   // Unapproved TCM pathology / organ-heat concepts
   { pattern: /(심포\s*열|심포열|간화|심화|간양상항|신음허|담음|수승화강)/i, reason: '치료법 임의 생성 금지: 승인되지 않은 구체적 한의학 병리명/장부열 개념 사용' },
   // Unapproved new treatment names
-  { pattern: /(인지\s*이완\s*훈련|인지\s*행동\s*훈련|두뇌\s*이완\s*훈련|두뇌\s*훈련|뉴로\s*피드백|바이오\s*피드백)/i, reason: '치료법 임의 생성 금지: 승인되지 않은 새 치료명 사용' },
+  { pattern: /(인지\s*이완\s*훈련|인지\s*행동\s*훈련|두뇌\s*이완\s*훈련|두뇌\s*훈련|바이오\s*피드백)/i, reason: '치료법 임의 생성 금지: 승인되지 않은 새 치료명 사용' },
   // Fabricated mechanism/efficacy assertion modifiers attached to treatments
   { pattern: /(뇌의\s*과각성을\s*(진정|완화|가라앉|조절)|수면(의)?\s*흐름을\s*돕는|심포열을\s*다스리는|안정을\s*돕는|심신\s*안정을\s*돕는|자율신경\s*긴장을\s*완화하는)\s*(맞춤\s*)?(한약|처방|침구|치료)/i, reason: '치료법 임의 생성 금지: 치료 효과 단정 및 임의 기전 수식어 사용' },
   // Promotional closing CTA patterns
@@ -1279,6 +1280,7 @@ function validateArticleContent(articleData, options = {}) {
 
   // 4. Global Banned Medical Patterns
   const fullText = `${title}\n${summary}\n${body}\n${hashtags.join(' ')}\n${keywords.join(' ')}`;
+  errors.push(...checkClinicFacts(fullText, diseaseId).errors);
   for (const { pattern, reason } of GLOBAL_BANNED_MEDICAL_PATTERNS) {
     if (pattern.test(fullText)) {
       errors.push(`Medical safety violation: ${reason} (Matched: ${pattern})`);
@@ -1433,8 +1435,7 @@ function validateArticleContent(articleData, options = {}) {
 
   if (requireVerifiedSources) {
     const allowedSourceUrls = new Set(
-      (knowledge?.evidenceNotes || [])
-        .filter(note => note.sourceVerified === true && note.productionUsable === true)
+      selectEvidenceNotes(knowledge, topicAngle)
         .map(note => note.sourceUrl || note.source?.url || '')
         .filter(Boolean)
         .map(url => url.split('#')[0].split('?')[0].replace(/\/$/, ''))
@@ -1444,9 +1445,19 @@ function validateArticleContent(articleData, options = {}) {
         .map(match => match[1].split('#')[0].split('?')[0].replace(/\/$/, ''))
         .filter(url => allowedSourceUrls.has(url))
     );
-    const minimumVerifiedSources = Math.min(2, allowedSourceUrls.size);
+    const minimumVerifiedSources = 2;
+    if (allowedSourceUrls.size < minimumVerifiedSources) {
+      errors.push(`Topic evidence is insufficient: at least 2 verified sources are required for '${topicAngle?.id || diseaseId}'.`);
+    }
     if (citedVerifiedUrls.size < minimumVerifiedSources) {
       errors.push(`Article must cite at least ${minimumVerifiedSources} verified medical sources from the approved knowledge set. Found: ${citedVerifiedUrls.size}`);
+    }
+    const explanation = body.split(/^#{2,3}\s+(?:참고|출처|References)/mi)[0];
+    const explanationCitations = Array.from(explanation.matchAll(/\[[^\]]+\]\((https?:\/\/[^)]+)\)/g))
+      .map(match => match[1].split('#')[0].split('?')[0].replace(/\/$/, ''))
+      .filter(url => allowedSourceUrls.has(url));
+    if (new Set(explanationCitations).size < minimumVerifiedSources) {
+      errors.push('At least 2 verified medical sources must support an explanation in the body, not only appear in a trailing reference list.');
     }
   }
 

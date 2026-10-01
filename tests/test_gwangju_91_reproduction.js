@@ -86,6 +86,9 @@ async function testGwangju91Reproduction() {
   const deterministicHistory = [
     {
       ...pastYonginArticle,
+      // Isolate title-collision recovery from the separate published-topic guard.
+      // A historic title without the same topic ID must still trigger title checks.
+      topicAngle: 'historical-title-fixture',
       publishDate: '2026-01-01T09:00:00+09:00'
     },
     {

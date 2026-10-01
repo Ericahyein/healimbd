@@ -29,8 +29,7 @@
   "specificRules": [
     "다양한 신체 증상을 모두 자율신경실조증 하나로 귀결하여 단정하지 마십시오.",
     "기질적 질환의 감별이 필요한 경우 내과/신경과 진료의 필요성을 배제하지 마십시오.",
-    "'자율신경 정상화' 또는 '100% 균형 회복' 같은 단정적 표현을 금지합니다.",
-    "만성피로·번아웃(brain-fog-fatigue): 만성피로와 번아웃을 본문에서 반드시 구별하여 설명하십시오. 만성피로는 충분한 휴식 후에도 지속되는 피로라는 증상 표현(symptom)이며 원인은 다양할 수 있습니다. 번아웃(Burnout)은 성공적으로 관리되지 않은 만성 직장 스트레스로 인한 직업적 현상(occupational phenomenon, ICD-11)이며 단순 피로나 모든 삶의 영역의 스트레스가 아니며 독립된 의학적 질환명과 동일하지 않습니다. 번아웃의 3대 핵심 특징(에너지 고갈/소진, 일에 대한 냉소/거리감, 직업적 효능감 저하)을 명확히 설명하십시오. 스트레스/수면불규칙을 자율기능 조절 흔들림 및 만성피로/브레인포그로 너무 직접적으로 연결하거나 자율신경 문제로 자동 귀결하지 마십시오. 자율신경 증상은 동반된 일부 경우 함께 평가할 수 있는 요소 중 하나로만 다루십시오. 수면 부족/수면장애, 우울/불안, 빈혈/철결핍, 갑상선 등 내분비·대사 문제, 약물/물질 영향, 감염 또는 기타 내과적 질환, 신경학적 원인 등 다양한 원인에 대한 폭넓은 감별 및 의료기관 평가 필요성을 안내하십시오. 증상 표현으로서의 만성피로와 ME/CFS(근통성 뇌척수염/만성피로증후군)를 동일시하지 말고 ME/CFS는 별도 진단/평가가 필요한 상태임을 필요한 범위에서 짧게 구분하십시오. '급격한 기온 변화와 환절기' 등 검증되지 않은 계절 요인을 핵심 악화 요인으로 단정하지 말고 과로, 수면 부족, 식사 불규칙, 지속적인 직장 스트레스 등 검증된 생활 맥락에 집중하십시오."
+    "'자율신경 정상화' 또는 '100% 균형 회복' 같은 단정적 표현을 금지합니다."
   ],
   "bannedPhrases": [
     "완치",
@@ -75,7 +74,10 @@
         "identifier": "https://icd.who.int/browse11/l-m/en#/http://id.who.int/icd/entity/129180281",
         "url": "https://icd.who.int/browse11/l-m/en#/http://id.who.int/icd/entity/129180281"
       },
-      "rationale": "만성피로와 번아웃(직장 스트레스 3대 특징)을 본문에서 명확히 구별하여 설명하도록 함."
+      "rationale": "만성피로와 번아웃(직장 스트레스 3대 특징)을 본문에서 명확히 구별하여 설명하도록 함.",
+      "topicAngles": [
+        "brain-fog-fatigue"
+      ]
     },
     {
       "claim": "기립 시 어지럼증 및 두근거림 등 만성 기립 불내성(orthostatic intolerance) 및 기립성 빈맥 증상 평가 시, 빈혈(CBC), 갑상선 기능 이상(TSH), 전해질 불균형, 심장 질환 등 2차적·가역적 유발 원인을 감별·배제한 후 자율신경계 이상(POTS 등)을 평가해야 한다.",
@@ -98,7 +100,106 @@
         "pmid": "32145864",
         "url": "https://doi.org/10.1016/j.cjca.2019.12.024"
       },
-      "rationale": "CCS 체위성 기립 빈맥 증후군(POTS) 가이드라인에 근거하여 기립 불내성 및 기립성 빈맥의 감별 검사 원칙을 정립하고, 비특이적 자율신경 증상 전체로의 과도한 일반화를 방지함. (기초 정의: Freeman et al. Clin Auton Res 2011; DOI: 10.1007/s10286-011-0119-5)"
+      "rationale": "CCS 체위성 기립 빈맥 증후군(POTS) 가이드라인에 근거하여 기립 불내성 및 기립성 빈맥의 감별 검사 원칙을 정립하고, 비특이적 자율신경 증상 전체로의 과도한 일반화를 방지함. (기초 정의: Freeman et al. Clin Auton Res 2011; DOI: 10.1007/s10286-011-0119-5)",
+      "topicAngles": [
+        "posture-change",
+        "symptom-time-log",
+        "brain-fog-fatigue"
+      ]
+    },
+    {
+      "claim": "자율신경은 혈압과 심장 박동 등 불수의적 기능에 관여하며, 관련 장애는 여러 질환과 동반되거나 별도로 나타날 수 있다. 증상 하나만으로 특정 원인을 확정하지 않는다.",
+      "evidenceLevel": "patient-information",
+      "sourceType": "official-health-information",
+      "claimStrength": "cautionary",
+      "sourceVerified": true,
+      "verified": true,
+      "productionUsable": true,
+      "sourceTitle": "MedlinePlus — Autonomic Nervous System Disorders",
+      "sourceUrl": "https://medlineplus.gov/autonomicnervoussystemdisorders.html",
+      "sourceCheckedAt": "2026-10-01"
+    },
+    {
+      "claim": "어지럼증은 귀 질환, 빈혈, 탈수, 약물 및 기립성 혈압 변화 등 다양한 원인과 관련될 수 있으며 재발하거나 동반 증상이 있으면 평가가 필요하다.",
+      "evidenceLevel": "patient-information",
+      "sourceType": "official-health-information",
+      "claimStrength": "cautionary",
+      "sourceVerified": true,
+      "verified": true,
+      "productionUsable": true,
+      "sourceTitle": "NHS — Dizziness",
+      "sourceUrl": "https://www.nhs.uk/symptoms/dizziness/",
+      "sourceCheckedAt": "2026-10-01"
+    },
+    {
+      "claim": "반복되는 어지럼·실신감과 자세 변화의 관계를 확인하며, 저혈압의 원인과 복용 약을 의료진과 검토한다.",
+      "evidenceLevel": "patient-information",
+      "sourceType": "official-health-information",
+      "claimStrength": "cautionary",
+      "sourceVerified": true,
+      "verified": true,
+      "productionUsable": true,
+      "sourceTitle": "NHS — Low blood pressure (hypotension)",
+      "sourceUrl": "https://www.nhs.uk/conditions/low-blood-pressure-hypotension/",
+      "sourceCheckedAt": "2026-10-01",
+      "topicAngles": [
+        "digestive-dizziness",
+        "posture-change",
+        "medication-onset"
+      ]
+    },
+    {
+      "claim": "식사 중 조기 포만감, 식후 더부룩함·메스꺼움은 소화불량에서 나타날 수 있다. 다양한 원인과 약물 영향을 평가하며 반복 구토·검은 변·체중 감소 등은 진료가 필요하다.",
+      "evidenceLevel": "patient-information",
+      "sourceType": "official-health-information",
+      "claimStrength": "cautionary",
+      "sourceVerified": true,
+      "verified": true,
+      "productionUsable": true,
+      "sourceTitle": "NIDDK — Symptoms & Causes of Indigestion",
+      "sourceUrl": "https://www.niddk.nih.gov/health-information/digestive-diseases/indigestion-dyspepsia/symptoms-causes",
+      "sourceCheckedAt": "2026-10-01",
+      "topicAngles": [
+        "digestive-dizziness"
+      ]
+    },
+    {
+      "claim": "식후 저혈압은 식사 뒤 혈압이 떨어지며 어지럼을 유발할 수 있다. 의료기관의 식전·식후 혈압과 맥박 평가로 확인하는 별도 상태로, 증상만으로 단정하거나 분당점에서 해당 전문 검사를 시행한다고 쓰지 않는다.",
+      "evidenceLevel": "patient-information",
+      "sourceType": "official-health-information",
+      "claimStrength": "cautionary",
+      "sourceVerified": true,
+      "verified": true,
+      "productionUsable": true,
+      "sourceTitle": "UCLH — Liquid meal test with head-up tilt (Autonomic Unit)",
+      "sourceUrl": "https://www.uclh.nhs.uk/patients-and-visitors/patient-information-pages/liquid-meal-test-head-tilt-autonomic-unit",
+      "sourceCheckedAt": "2026-10-01",
+      "topicAngles": [
+        "digestive-dizziness"
+      ]
     }
-  ]
+  ],
+  "topicOverrides": {
+    "brain-fog-fatigue": {
+      "specificRules": [
+        "다양한 신체 증상을 모두 자율신경실조증 하나로 귀결하여 단정하지 마십시오.",
+        "기질적 질환의 감별이 필요한 경우 내과/신경과 진료의 필요성을 배제하지 마십시오.",
+        "'자율신경 정상화' 또는 '100% 균형 회복' 같은 단정적 표현을 금지합니다.",
+        "만성피로·번아웃(brain-fog-fatigue): 만성피로와 번아웃을 본문에서 반드시 구별하여 설명하십시오. 만성피로는 충분한 휴식 후에도 지속되는 피로라는 증상 표현(symptom)이며 원인은 다양할 수 있습니다. 번아웃(Burnout)은 성공적으로 관리되지 않은 만성 직장 스트레스로 인한 직업적 현상(occupational phenomenon, ICD-11)이며 단순 피로나 모든 삶의 영역의 스트레스가 아니며 독립된 의학적 질환명과 동일하지 않습니다. 번아웃의 3대 핵심 특징(에너지 고갈/소진, 일에 대한 냉소/거리감, 직업적 효능감 저하)을 명확히 설명하십시오. 스트레스/수면불규칙을 자율기능 조절 흔들림 및 만성피로/브레인포그로 너무 직접적으로 연결하거나 자율신경 문제로 자동 귀결하지 마십시오. 자율신경 증상은 동반된 일부 경우 함께 평가할 수 있는 요소 중 하나로만 다루십시오. 수면 부족/수면장애, 우울/불안, 빈혈/철결핍, 갑상선 등 내분비·대사 문제, 약물/물질 영향, 감염 또는 기타 내과적 질환, 신경학적 원인 등 다양한 원인에 대한 폭넓은 감별 및 의료기관 평가 필요성을 안내하십시오. 증상 표현으로서의 만성피로와 ME/CFS(근통성 뇌척수염/만성피로증후군)를 동일시하지 말고 ME/CFS는 별도 진단/평가가 필요한 상태임을 필요한 범위에서 짧게 구분하십시오. '급격한 기온 변화와 환절기' 등 검증되지 않은 계절 요인을 핵심 악화 요인으로 단정하지 말고 과로, 수면 부족, 식사 불규칙, 지속적인 직장 스트레스 등 검증된 생활 맥락에 집중하십시오."
+      ]
+    },
+    "digestive-dizziness": {
+      "approvedDefinition": "어지럼증과 소화불량의 동반은 하나의 진단명이 아니며 식사 시점, 자세, 혈압 변화, 소화기 질환 및 약물 등 여러 가능성을 구분하여 평가해야 하는 증상 조합",
+      "commonSymptoms": [
+        "식후 또는 자세 변화와 관련된 어지럼",
+        "더부룩함·메스꺼움·조기 포만감"
+      ],
+      "specificRules": [
+        "다양한 신체 증상을 모두 자율신경실조증 하나로 귀결하여 단정하지 마십시오.",
+        "기질적 질환의 감별이 필요한 경우 내과/신경과 진료의 필요성을 배제하지 마십시오.",
+        "'자율신경 정상화' 또는 '100% 균형 회복' 같은 단정적 표현을 금지합니다.",
+        "식후 어지럼과 소화불량에 직접 답하고, 번아웃·만성피로·ME/CFS 설명으로 주제를 확장하지 마십시오. 식후 저혈압을 확정하거나 미주신경의 이상으로 단정하지 마십시오. 전문 의료기관의 혈압·소화기 검사는 본원 제공 검사와 구분하십시오."
+      ]
+    }
+  }
 }

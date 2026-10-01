@@ -71,6 +71,9 @@ jobs:
       - name: Run Treatment Review Category Filter Parity Test
         run: node tests/test_review_category_filter_parity.js
 
+      - name: Run Topic and Medical Evidence Quality Policy Tests
+        run: node tests/test_auto_column_quality_policy.js
+
       - name: Run Candidate Tie-Break & Cooldown Safety Tests
         run: node tests/test_candidate_rotation.js
 

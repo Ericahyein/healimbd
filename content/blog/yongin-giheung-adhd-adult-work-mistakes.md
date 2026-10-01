@@ -1,16 +1,14 @@
 ---
 title: "[기흥구 ADHD] 할 일은 많은데 무엇부터 손대야 할지 막막한 성인, 실행기능을 살펴야 하는 이유"
 date: 2026-09-27T14:12:11.199+09:00
-lastmod: 2026-09-30T09:00:00+09:00
+lastmod: 2026-10-01T20:44:00+09:00
 search_intent: "long_tail_column"
 condition_pillar: "/conditions/adhd/"
-article_review_status: "medical_standard_based"
+article_review_status: "source_based"
 category: "adhd"
 category_name: "ADHD·집중력"
 author: "해아림한의원 의료 콘텐츠팀"
 content_author: "해아림한의원 의료 콘텐츠팀"
-medical_information_reviewer: "손지웅 대표원장"
-review_scope: "사전 승인 질환별 의료정보 기준"
 image: "images/blog/yongin-giheung-adhd-adult-work-mistakes.jpg"
 summary: "성인 ADHD에서 반복되는 업무 실수와 마무리의 어려움을 실행기능 관점에서 살펴보고, 평가와 일상 관리 방향을 안내합니다."
 hashtags:
@@ -35,7 +33,7 @@ keywords:
 
 </div>
 
-기흥구에서 성인 ADHD 상담을 하다 보면 “할 일은 계속 쌓이는데 무엇부터 시작해야 할지 모르겠다”, “중요한 업무를 앞에 두고도 메일이나 사소한 일부터 보게 된다”, “마무리 직전에 누락을 발견해 다시 손본다”는 이야기를 자주 듣습니다.
+할 일은 쌓이는데 무엇부터 시작할지 정하기 어렵고 마무리 단계에서 빠뜨린 일을 발견한다면, 현재 업무량과 이전부터 이어진 어려움을 함께 살펴야 합니다. 용인에서 성인 ADHD 정보를 찾는 분들을 위해 작업 순서와 실행기능의 평가 관점을 안내합니다.
 
 이러한 어려움은 업무 역량이나 성실성만으로 판단하기 어렵습니다. 일을 시작하고, 우선순위를 정하고, 진행 상황을 확인하며, 끝까지 마무리하는 과정에는 여러 실행기능이 관여하기 때문입니다. 다만 업무 실수나 산만함만으로 ADHD를 단정할 수는 없으므로, 증상의 양상과 지속성, 생활 전반에 미치는 영향을 차분히 확인해야 합니다.
 

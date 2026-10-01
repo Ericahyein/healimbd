@@ -11,6 +11,10 @@ const expected = {
   'depression:burnout-lethargy': 'anxiety',
   'depression:intrusive-thoughts': 'anxiety',
   'headache:tension-headache': 'general',
+  'headache:headache-diary': 'general',
+  'headache:painkiller-frequency': 'general',
+  'headache:pressing-throbbing': 'general',
+  'headache:new-headache-pattern': 'general',
   'headache:chronic-dizziness': 'general'
 };
 

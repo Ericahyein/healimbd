@@ -20,6 +20,7 @@ const {
 const { compositeThumbnail } = require('./thumbnail_engine');
 const { resolveBlogCategory } = require('./blog_category');
 const { getConditionPageForCategory, getRecommendedInternalLinks } = require('./internal_linker');
+const { prepareArticleKnowledge } = require('./medical_policy');
 
 // Telemetry & Cost Estimation Constants
 const COST_RATES = {
@@ -277,6 +278,7 @@ async function runAutoColumnPipeline(options = {}) {
       console.error(`💥 Fatal: Medical knowledge for '${currentPlan.disease.id}' is '${status}'. Must be 'approved'. Halting pipeline immediately (Fail-Closed).`);
       throw new Error(`Data Integrity Violation: Medical knowledge for '${currentPlan.disease.id}' has status '${status}' (must be 'approved'). Halting pipeline (Fail-Closed).`);
     }
+    knowledge = prepareArticleKnowledge(knowledge, currentPlan);
 
     // Title Evaluation and Regeneration Loop (Initial Canonical 1 attempt + up to 3 AI regenerations = max 4 checks)
     let candidateTitleValid = false;
@@ -637,12 +639,10 @@ category: "${blogCategory}"
 category_name: "${winningPlan.disease.categoryName}"
 author: "해아림한의원 의료 콘텐츠팀"
 content_author: "해아림한의원 의료 콘텐츠팀"
-medical_information_reviewer: "손지웅 대표원장"
-review_scope: "사전 승인 질환별 의료정보 기준"
 lastmod: ${todayIso}
 search_intent: "long_tail_column"
 condition_pillar: "${(getConditionPageForCategory(winningPlan.disease.category) || {}).url || ''}"
-article_review_status: "medical_standard_based"
+article_review_status: "source_based"
 image: "${thumbRelativePath}"
 summary: "${(winningOutline.summary || '').replace(/"/g, '\\"')}"
 hashtags:
