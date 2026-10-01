@@ -113,9 +113,10 @@
 <!-- Member Auth Modal (Outside header) -->
 {{ partial "auth_modal.html" . }}
 
-{{/* Keep admin editor forms out of individual column HTML for cleaner crawling. */}}
+{{/* Public reading guides and individual columns do not need review/editor modals. */}}
 {{ $isBlogSingle := and (eq .Section "blog") (not .IsSection) }}
-{{ if not $isBlogSingle }}
+{{ $isPublicReviewGuide := and .Params.public_review_guide (eq .RelPermalink "/reviews/guide/") (eq .Type "review-guide") (eq .Kind "page") }}
+{{ if not (or $isBlogSingle $isPublicReviewGuide) }}
   <!-- Admin Case Writer & Reader Modals -->
   {{ partial "admin_case_modal.html" . }}
 
