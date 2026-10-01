@@ -91,9 +91,8 @@ function findNamedDisease(value, allowedNames) {
 
 function normalizeDiseaseMetadata(value) {
   const text = String(value || '').trim();
-  return REPRESENTATIVE_DISEASE_MAP[text] ||
-    REPRESENTATIVE_DISEASE_MAP[text.toLowerCase()] ||
-    findNamedDisease(text);
+  const mapped = REPRESENTATIVE_DISEASE_MAP[text] || REPRESENTATIVE_DISEASE_MAP[text.toLowerCase()];
+  return typeof mapped === 'string' ? mapped : findNamedDisease(text);
 }
 
 export function getRepresentativeDisease(category, disease, title = '') {
