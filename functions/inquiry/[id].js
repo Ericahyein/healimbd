@@ -24,7 +24,8 @@ const CONDITION_PATH_MAP = {
   '불면증': '/conditions/insomnia/',
   '자율신경실조증': '/conditions/autonomic/',
   '다한증': '/conditions/hyperhidrosis/',
-  '과민성대장증후군': '/conditions/ibs/'
+  '과민성대장증후군': '/conditions/ibs/',
+  '미주신경성 실신': '/conditions/syncope/'
 };
 
 const REPRESENTATIVE_DISEASE_MAP = {
@@ -37,7 +38,8 @@ const REPRESENTATIVE_DISEASE_MAP = {
   hyperhidrosis: '다한증',
   ibs: '과민성대장증후군',
   headache: '두통·어지럼증',
-  depression: '우울증',
+  depression: '우울·강박',
+  syncope: '미주신경성 실신',
   child: '소아신경정신',
   fatigue: '만성피로',
   '틱장애·뚜렛': '틱장애',
@@ -54,35 +56,60 @@ const REPRESENTATIVE_DISEASE_MAP = {
   '자율신경실조증': '자율신경실조증',
   '과민성대장': '과민성대장증후군',
   '두통·어지럼': '두통·어지럼증',
-  '우울·강박': '우울증',
+  '우울·강박': '우울·강박',
+  '우울·강박증': '우울·강박',
+  '우울증': '우울증',
+  '우울장애': '우울증',
+  '강박증': '강박증',
+  '강박장애': '강박증',
+  '미주신경성 실신': '미주신경성 실신',
+  '미주신경성실신': '미주신경성 실신',
   '소아 성장·야뇨': '소아신경정신',
   '만성피로·번아웃': '만성피로'
 };
 
-export function getRepresentativeDisease(category, disease) {
-  if (disease && REPRESENTATIVE_DISEASE_MAP[disease.trim()]) {
-    return REPRESENTATIVE_DISEASE_MAP[disease.trim()];
+const DISEASE_MENTIONS = [
+  [/틱장애|뚜렛/i, '틱장애'],
+  [/\bADHD\b/i, 'ADHD'],
+  [/공황장애/i, '공황장애'],
+  [/불안장애|사회불안|사회공포|공포증/i, '불안장애'],
+  [/불면증/i, '불면증'],
+  [/자율신경실조증/i, '자율신경실조증'],
+  [/다한증/i, '다한증'],
+  [/과민성\s*대장(?:증후군)?/i, '과민성대장증후군'],
+  [/미주신경성\s*실신/i, '미주신경성 실신'],
+  [/우울증|우울장애/i, '우울증'],
+  [/강박증|강박장애/i, '강박증']
+];
+
+function findNamedDisease(value, allowedNames) {
+  const matches = DISEASE_MENTIONS.filter(([pattern, name]) =>
+    (!allowedNames || allowedNames.includes(name)) && pattern.test(value)
+  );
+  return matches.length === 1 ? matches[0][1] : '';
+}
+
+function normalizeDiseaseMetadata(value) {
+  const text = String(value || '').trim();
+  const mapped = REPRESENTATIVE_DISEASE_MAP[text] || REPRESENTATIVE_DISEASE_MAP[text.toLowerCase()];
+  return typeof mapped === 'string' ? mapped : findNamedDisease(text);
+}
+
+export function getRepresentativeDisease(category, disease, title = '') {
+  const selected = normalizeDiseaseMetadata(disease) || normalizeDiseaseMetadata(category);
+  // Old generated prefixes must not override the patient's actual question topic.
+  const questionTitle = String(title || '').replace(/^(?:\[[^\]]+\]\s*)+/, '').trim();
+
+  if (selected === '우울·강박') {
+    return findNamedDisease(questionTitle, ['우울증', '강박증']) || selected;
   }
-  if (category && REPRESENTATIVE_DISEASE_MAP[category.trim().toLowerCase()]) {
-    return REPRESENTATIVE_DISEASE_MAP[category.trim().toLowerCase()];
+  if (selected === '두통·어지럼증') {
+    // Dizziness alone is not evidence that the question concerns vasovagal syncope.
+    return findNamedDisease(questionTitle, ['미주신경성 실신']) || selected;
   }
-  if (category && REPRESENTATIVE_DISEASE_MAP[category.trim()]) {
-    return REPRESENTATIVE_DISEASE_MAP[category.trim()];
-  }
-  const target = `${category || ''} ${disease || ''}`;
-  if (/틱|뚜렛/i.test(target)) return '틱장애';
-  if (/adhd/i.test(target)) return 'ADHD';
-  if (/공황/i.test(target)) return '공황장애';
-  if (/불안|공포/i.test(target)) return '불안장애';
-  if (/수면|불면/i.test(target)) return '불면증';
-  if (/자율신경/i.test(target)) return '자율신경실조증';
-  if (/다한증|땀/i.test(target)) return '다한증';
-  if (/과민성/i.test(target)) return '과민성대장증후군';
-  if (/두통|어지럼/i.test(target)) return '두통·어지럼증';
-  if (/우울|강박/i.test(target)) return '우울증';
-  if (/소아|야뇨/i.test(target)) return '소아신경정신';
-  if (/피로|번아웃/i.test(target)) return '만성피로';
-  return '';
+  // Respect a specific registered condition. Otherwise use only an explicit,
+  // unambiguous condition name in the title, never infer one from symptoms.
+  return selected || findNamedDisease(questionTitle);
 }
 
 export function buildSeoTitle(inquiry) {
@@ -92,7 +119,7 @@ export function buildSeoTitle(inquiry) {
   }
 
   const region = (inquiry && inquiry.region) ? String(inquiry.region).trim() : '';
-  const disease = getRepresentativeDisease(inquiry?.category, inquiry?.disease);
+  const disease = getRepresentativeDisease(inquiry?.category, inquiry?.disease, inquiry?.title);
 
   // If both region and disease are missing, safe fallback to rawTitle
   if (!region && !disease) {
@@ -230,6 +257,7 @@ export async function onRequestGet(context) {
       gender: fields.gender?.stringValue || '',
       nickname: fields.nickname?.stringValue || '',
       category: fields.category?.stringValue || 'etc',
+      disease: fields.disease?.stringValue || '',
       title: fields.title?.stringValue || '',
       content: fields.content?.stringValue || '',
       status: fields.status?.stringValue || 'pending',
@@ -241,6 +269,7 @@ export async function onRequestGet(context) {
     };
 
     if (inquiry.status === 'answered' && inquiry.answer) {
+      const currentDisease = getRepresentativeDisease(inquiry.category, inquiry.disease, inquiry.title);
       try {
         const listUrl = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/online_inquiries?pageSize=300`;
         const listResponse = await fetch(listUrl, {
@@ -253,6 +282,7 @@ export async function onRequestGet(context) {
             return {
               id: String(document.name || '').split('/').pop(),
               category: relatedFields.category?.stringValue || 'etc',
+              disease: relatedFields.disease?.stringValue || '',
               title: relatedFields.title?.stringValue || '',
               status: relatedFields.status?.stringValue || 'pending',
               hasAnswer: Boolean(relatedFields.answer?.stringValue),
@@ -261,7 +291,8 @@ export async function onRequestGet(context) {
           }).filter(item =>
             item.id !== inquiryId &&
             /^inq_[0-9A-Za-z_-]{1,64}$/.test(item.id) &&
-            item.category === inquiry.category &&
+            currentDisease &&
+            getRepresentativeDisease(item.category, item.disease, item.title) === currentDisease &&
             item.status === 'answered' &&
             item.hasAnswer &&
             item.title
@@ -300,7 +331,8 @@ export async function onRequestGet(context) {
   const seoTitle = buildSeoTitle(inquiry);
   const cleanContent = escapeHtml(inquiry.content);
   const cleanCategory = escapeHtml(inquiry.category || 'etc');
-  const cleanDisease = escapeHtml(inquiry.disease || CATEGORY_MAP[inquiry.category] || '기타 질환');
+  const representativeDisease = getRepresentativeDisease(inquiry.category, inquiry.disease, inquiry.title);
+  const cleanDisease = escapeHtml(representativeDisease || inquiry.disease || CATEGORY_MAP[inquiry.category] || '기타 질환');
   const isAnswered = inquiry.status === 'answered' && Boolean(inquiry.answer);
   const cleanStatusText = isAnswered ? '답변완료' : '답변대기';
   const cleanStatusClass = isAnswered ? 'answered' : 'pending';
@@ -311,14 +343,18 @@ export async function onRequestGet(context) {
   const cleanSnippet = escapeHtml(makeDescription(inquiry.content));
   const canonicalUrl = `https://healimbd.com/inquiry/${inquiryId}/`;
   const robotsMeta = isAnswered ? 'index,follow' : 'noindex,follow';
-  const conditionPath = CONDITION_PATH_MAP[getRepresentativeDisease(inquiry.category, inquiry.disease)] || '';
-  const conditionLinkHtml = conditionPath ? `
+  const conditionPath = CONDITION_PATH_MAP[representativeDisease] || '';
+  const guidancePath = conditionPath || '/guide/';
+  const guidanceLabel = conditionPath
+    ? `${cleanDisease} 증상·검사·치료 안내 자세히 보기 →`
+    : '분당점 진료과목·예약 안내 자세히 보기 →';
+  const conditionLinkHtml = `
             <p style="margin:20px 0 0;padding:16px 18px;background:#F0F9FF;border:1px solid #BAE6FD;border-radius:10px;">
-              <a href="${conditionPath}" style="color:#0369A1;font-weight:700;text-decoration:none;">${cleanDisease} 증상·검사·치료 안내 자세히 보기 →</a>
-            </p>` : '';
+              <a href="${guidancePath}" style="color:#0369A1;font-weight:700;text-decoration:none;">${guidanceLabel}</a>
+            </p>`;
   const relatedLinksHtml = relatedInquiries.length ? `
             <section aria-labelledby="related-inquiries-title" style="margin-top:28px;padding:22px 24px;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:12px;">
-              <h2 id="related-inquiries-title" style="font-size:1.05rem;font-weight:800;color:#0F172A;margin:0 0 14px;">같은 질환의 다른 상담</h2>
+              <h2 id="related-inquiries-title" style="font-size:1.05rem;font-weight:800;color:#0F172A;margin:0 0 14px;">같은 주제의 다른 상담</h2>
               <ul style="margin:0;padding-left:20px;display:grid;gap:10px;">
                 ${relatedInquiries.map(item => `<li><a href="/inquiry/${escapeHtml(item.id)}/" style="color:#0369A1;font-weight:600;text-decoration:none;">${escapeHtml(item.title)}</a></li>`).join('')}
               </ul>
@@ -345,7 +381,7 @@ export async function onRequestGet(context) {
         },
         about: {
           '@type': 'MedicalCondition',
-          name: getRepresentativeDisease(inquiry.category, inquiry.disease) || CATEGORY_MAP[inquiry.category] || '신경정신과 질환'
+          name: representativeDisease || CATEGORY_MAP[inquiry.category] || '신경정신과 질환'
         },
         reviewedBy: {
           '@type': 'Person',
