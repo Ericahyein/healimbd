@@ -81,7 +81,10 @@
         <!-- Article Body Markdown Content -->
         <div class="case-typed-body blog-content-body">
           {{/* Keep all article text intact; group each H2 and its following content. */}}
-          <section class="column-preface">{{ replace .Content "<h2" "</section><section class=\"column-topic\"><h2" | safeHTML }}</section>
+          {{/* Preserve native table layout and confine horizontal scrolling to each table. */}}
+          {{ $columnContent := replace .Content "<table" "<div class=\"column-table-scroll\" role=\"region\" aria-label=\"칼럼 표\" tabindex=\"0\"><table" }}
+          {{ $columnContent = replace $columnContent "</table>" "</table></div>" }}
+          <section class="column-preface">{{ replace $columnContent "<h2" "</section><section class=\"column-topic\"><h2" | safeHTML }}</section>
         </div>
 
         {{ partial "column_condition_link.html" . }}

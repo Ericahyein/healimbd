@@ -21,6 +21,14 @@ for (const [slug, pillar] of [
   ['bundang-insomnia-sleep-disorder-cure', 'insomnia']
 ]) {
   const text = html(slug);
+  const tables = [...text.matchAll(/<table\b[^>]*>[\s\S]*?<\/table>/g)];
+  assert.strictEqual(tables.length, 1, `${slug}: observation table must remain intact`);
+  const wrapped = [...text.matchAll(/(<div\b[^>]*>)\s*(<table\b[^>]*>[\s\S]*?<\/table>)\s*<\/div>/g)]
+    .filter(match => attributes(match[1]).class === 'column-table-scroll');
+  assert.strictEqual(wrapped.length, tables.length, `${slug}: each table needs its own scroll container`);
+  assert.strictEqual(attributes(wrapped[0][1]).tabindex, '0', `${slug}: overflow must be keyboard accessible`);
+  assert.strictEqual(tags(wrapped[0][2], 'th').length, 2, `${slug}: both column headers must remain`);
+  assert.strictEqual(tags(wrapped[0][2], 'td').length, 10, `${slug}: all five two-column records must remain`);
   const trust = [...text.matchAll(/(<aside\b[^>]*>)[\s\S]*?<\/aside>/g)]
     .find(match => attributes(match[1]).class === 'blog-author-trust-box')?.[0];
   assert(trust && trust.includes(team), `${slug}: content-team identity must be visible`);
@@ -49,4 +57,4 @@ assert.strictEqual(schemaArticle(standard).author.name, team);
 const doctor = html('bundang-panic-disorder-treatment-guide');
 assert(tags(doctor, 'meta').some(tag => tag.property === 'article:author' && tag.content === '손지웅 대표원장'));
 assert(schemaArticle(doctor).author['@id'].endsWith('#doctor-jiwoong-son'));
-console.log('✅ Rendered column authorship, review scope, references, dates, canonical URLs and pillar links passed.');
+console.log('✅ Rendered column authorship, review scope, references, dates, canonical URLs, pillar links and accessible tables passed.');
