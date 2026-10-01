@@ -64,6 +64,16 @@
   ],
   "evidenceNotes": [
     {
+      "claim": "ADHD 평가는 한 가지 검사로 확정하지 않으며, 가정과 학교 등 여러 환경에서의 행동과 수면 문제·불안 등 비슷한 증상을 일으킬 수 있는 상태를 함께 확인합니다.",
+      "evidenceLevel": "public-health-guidance",
+      "sourceVerified": true,
+      "verified": true,
+      "productionUsable": true,
+      "sourceTitle": "CDC — Diagnosing ADHD",
+      "sourceUrl": "https://www.cdc.gov/adhd/diagnosis/index.html",
+      "sourceCheckedAt": "2026-10-01"
+    },
+    {
       "claim": "성인 ADHD는 직장 업무 실수뿐 아니라 학업·대인관계·가정 등 생애 전반의 다중 영역에서 주의집중 및 실행기능 저하의 지속성을 종합 평가해야 한다.",
       "evidenceLevel": "classification-standard",
       "sourceType": "diagnostic-manual",
@@ -81,7 +91,10 @@
         "doi": "10.1176/appi.books.9780890425596",
         "url": "https://doi.org/10.1176/appi.books.9780890425596"
       },
-      "rationale": "성인기 주의집중 어려움 평가 시 일시적인 직무 스트레스나 단순 실수가 아닌, 발달적 지속성과 다중 영역 기능 저하를 종합 확인하도록 안내함."
+      "rationale": "성인기 주의집중 어려움 평가 시 일시적인 직무 스트레스나 단순 실수가 아닌, 발달적 지속성과 다중 영역 기능 저하를 종합 확인하도록 안내함.",
+      "topicAngles": [
+        "adult-work-mistakes"
+      ]
     },
     {
       "claim": "기존에 처방받아 복용 중인 ADHD 신경정신과 약물은 전문의 지도 없이 환자가 임의로 중단해서는 안 된다.",

@@ -56,7 +56,10 @@
         "identifier": "https://icd.who.int/browse11/l-m/en#/http://id.who.int/icd/entity/129180281",
         "url": "https://icd.who.int/browse11/l-m/en#/http://id.who.int/icd/entity/129180281"
       },
-      "rationale": "번아웃과 임상적 우울증의 개념적 구분을 명확히 하여 환자 상태에 맞는 대처를 돕도록 함."
+      "rationale": "번아웃과 임상적 우울증의 개념적 구분을 명확히 하여 환자 상태에 맞는 대처를 돕도록 함.",
+      "topicAngles": [
+        "burnout-lethargy"
+      ]
     },
     {
       "claim": "주요우울장애 평가 시 내과적 신체 질환 및 약물 유발성 요인을 감별하는 것이 필수적이다.",
@@ -76,7 +79,36 @@
         "doi": "10.1176/appi.books.9780890425596",
         "url": "https://doi.org/10.1176/appi.books.9780890425596"
       },
-      "rationale": "신체적 원인(갑상선 등)에 의한 무기력과 우울증을 감별하도록 권고함."
+      "rationale": "신체적 원인(갑상선 등)에 의한 무기력과 우울증을 감별하도록 권고함.",
+      "topicAngles": [
+        "burnout-lethargy"
+      ]
+    },
+    {
+      "claim": "강박증은 원하지 않는 반복 사고와 강박 행동이 일상에 미치는 영향을 평가하며, 다른 상태와 구분하기 위한 의료진 평가가 필요합니다.",
+      "evidenceLevel": "public-health-guidance",
+      "sourceVerified": true,
+      "verified": true,
+      "productionUsable": true,
+      "sourceTitle": "NIMH — Obsessive-Compulsive Disorder",
+      "sourceUrl": "https://www.nimh.nih.gov/health/publications/obsessive-compulsive-disorder-when-unwanted-thoughts-or-repetitive-behaviors-take-over",
+      "sourceCheckedAt": "2026-10-01",
+      "topicAngles": [
+        "intrusive-thoughts"
+      ]
+    },
+    {
+      "claim": "강박증의 치료 선택지에는 노출 및 반응방지를 포함한 인지행동치료와 약물치료가 있으며, 치료 방식은 상태를 평가한 의료진과 결정합니다.",
+      "evidenceLevel": "public-health-guidance",
+      "sourceVerified": true,
+      "verified": true,
+      "productionUsable": true,
+      "sourceTitle": "NHS — Treatment for OCD",
+      "sourceUrl": "https://www.nhs.uk/mental-health/conditions/obsessive-compulsive-disorder-ocd/treatment/",
+      "sourceCheckedAt": "2026-10-01",
+      "topicAngles": [
+        "intrusive-thoughts"
+      ]
     }
   ],
   "faqCandidates": [
@@ -98,5 +130,30 @@
       "title": "온라인 상담 및 예약 안내",
       "url": "/inquiry/"
     }
-  ]
+  ],
+  "topicOverrides": {
+    "intrusive-thoughts": {
+      "approvedDefinition": "본인이 원하지 않는 반복 사고나 충동과 이를 다루기 위한 강박 행동이 고통과 일상 기능의 어려움을 일으키는 상태",
+      "commonSymptoms": [
+        "원하지 않는 생각이나 의심이 반복돼 불안하고 괴로움",
+        "확인·회피·반복 행동으로 일상이 지연됨"
+      ],
+      "possibleAggravatingFactors": [
+        "정서적 긴장과 스트레스",
+        "수면과 일상 리듬의 변화"
+      ],
+      "specificRules": [
+        "현재 주제는 강박증의 침투적 사고입니다. 우울증·번아웃을 중심 질환이나 독립 설명 섹션으로 바꾸지 마십시오.",
+        "침투적 사고의 내용만으로 실제 의도나 위험을 판단하지 않습니다. 실제 자해 의도나 안전 문제가 있다면 별도 긴급 평가를 안내합니다.",
+        "정신건강의학과 평가와 ERP·CBT·약물치료는 일반 치료 정보이며 분당점 제공 치료라고 단정하지 마십시오.",
+        "출처 기반 설명과 분당점 진료 사실을 구분하고 복용 약을 임의로 중단하도록 권하지 마십시오."
+      ],
+      "faqCandidates": [
+        {
+          "q": "원치 않는 생각이 모두 강박증인가요?",
+          "a": "한 번 떠오른 생각만으로 진단하지 않으며, 반복되는 사고와 대응 행동의 고통 및 일상 영향을 평가합니다."
+        }
+      ]
+    }
+  }
 }

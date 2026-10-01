@@ -1,16 +1,14 @@
 ---
 title: "[성남 미주신경성 실신] 지하철이나 만원 버스에서 눈앞이 캄캄해지고 식은땀이 날 때"
 date: 2026-09-30T14:25:20.132+09:00
-lastmod: 2026-09-30T16:15:00+09:00
+lastmod: 2026-10-01T20:44:00+09:00
 search_intent: "long_tail_column"
 condition_pillar: "/conditions/syncope/"
-article_review_status: "medical_standard_based"
+article_review_status: "source_based"
 category: "syncope"
 category_name: "미주신경성 실신"
 author: "해아림한의원 의료 콘텐츠팀"
 content_author: "해아림한의원 의료 콘텐츠팀"
-medical_information_reviewer: "손지웅 대표원장"
-review_scope: "사전 승인 질환별 의료정보 기준"
 image: "images/blog/seongnam-main-syncope-subway-dizziness.jpg"
 summary: "미주신경성 실신의 전조증상과 악화 요인을 살펴보고, 증상이 나타날 때의 대처와 진료 시 확인할 기준을 안내합니다."
 hashtags:
@@ -76,6 +74,8 @@ keywords:
 5. 평소에는 충분한 수분 섭취와 규칙적인 식사 습관을 유지합니다.  
 
 실신 후 의식이 돌아왔다고 해서 바로 일어서서 이동하면 다시 어지러울 수 있습니다. 충분히 안정된 뒤 주변의 도움을 받아 움직이고, 다친 곳은 없는지 확인해야 합니다. 머리를 부딪혔거나 지속적인 통증이 있다면 의료기관 평가가 필요합니다.
+
+안전하게 앉거나 눕는 초기 대처와 실제 실신 뒤 원인 평가의 필요성은 [NHS 실신 안내](https://www.nhs.uk/symptoms/fainting/)에서도 확인할 수 있습니다.
 
 ## 모든 실신을 미주신경성 실신으로 단정해서는 안 됩니다
 

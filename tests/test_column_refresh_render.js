@@ -64,4 +64,24 @@ for (const [slug, pillar] of [
 const standard = html('seongnam-main-tic-media-exposure');
 assert(standard.includes('의료정보 기준 감수 · 손지웅 대표원장'));
 assert.strictEqual(schemaArticle(standard).author.name, team);
+
+for (const [slug, published, pillar] of [
+  ['yongin-cheoin-autonomic-digestive-dizziness', '2026-09-28', '/conditions/autonomic/'],
+  ['yongin-main-headache-tension-headache', '2026-09-30', '/guide/']
+]) {
+  const text = html(slug);
+  const article = schemaArticle(text);
+  assert(article && article.author.name === team);
+  assert(!article.contributor && !article.reviewedBy, `${slug}: rewritten article must not claim unverified physician review`);
+  assert(article.datePublished.startsWith(published));
+  assert(article.dateModified.startsWith('2026-10-01'));
+  assert(tags(text, 'link').some(tag => tag.rel === 'canonical' && tag.href === `https://healimbd.com/blog/${slug}/`));
+  assert(tags(text, 'a').some(tag => tag.href === pillar));
+  const tables = [...text.matchAll(/<table\b[^>]*>[\s\S]*?<\/table>/g)];
+  assert.strictEqual(tables.length, 1);
+  assert.strictEqual(tags(tables[0][0], 'th').length, 2);
+  assert.strictEqual(tags(tables[0][0], 'td').length, 10);
+  assert(text.includes('column-table-scroll'));
+  assert(!text.includes('WHO') && !text.includes('PPPD') && !text.includes('자율신경 반응도'));
+}
 console.log('✅ Rendered column authorship, review scope, references, dates, canonical URLs, pillar links and accessible tables passed.');

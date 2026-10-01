@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { sanitizeAnchorTitle } = require('./internal_linker');
 const { extractInternalLinks } = require('./content_validator');
+const { prepareArticleKnowledge } = require('./medical_policy');
 
 const PLANNER_MODEL = process.env.OPENAI_PLANNER_MODEL || 'gpt-5.6-luna';
 const WRITER_MODEL = process.env.OPENAI_WRITER_MODEL || 'gpt-5.6-terra';
@@ -293,6 +294,7 @@ function buildFallbackImagePrompt(diseaseId, diseaseName, topicAngleId = '', top
  * 1. Generate Topic Outline & Mandatory Summary using Planner Model (gpt-5.6-luna)
  */
 async function generateTopicOutline(plan, knowledge, apiKey, telemetry) {
+  knowledge = prepareArticleKnowledge(knowledge, plan);
   const targetDisease = plan.titleDisease || plan.displayDisease || plan.disease.name;
   let fallbackSummary = `${plan.geo.displayName} 지역 주민들을 위한 [${targetDisease}] ${plan.topicAngle.titleSuffix}에 대한 임상적 관점과 생활 관리 가이드입니다.`;
   if (plan.topicAngle && plan.topicAngle.id === 'chronic-dizziness') {
@@ -304,11 +306,11 @@ async function generateTopicOutline(plan, knowledge, apiKey, telemetry) {
       title: plan.titleCandidate,
       summary: fallbackSummary,
       outline: [
-        '1. 진료실에서 자주 마주하는 환자분들의 고민',
-        '2. 신경생물학적 특성과 자극적 환경이 증상에 미치는 영향',
+        `1. ${plan.topicAngle.titleSuffix}`,
+        '2. 해당 증상을 설명할 때 구분해야 할 점',
         '3. 비슷한 다른 상태와 감별하여 살펴볼 점',
         '4. 해아림한의원의 상태 평가 및 1:1 맞춤 관리 관점',
-        '5. 일상생활에서 실천할 수 있는 적극적인 미디어 조절 수칙',
+        '5. 이 주제와 관련된 관찰 및 생활 관리',
         '6. 자주 묻는 질문 (FAQ)'
       ]
     };
@@ -376,11 +378,11 @@ async function generateTopicOutline(plan, knowledge, apiKey, telemetry) {
     title: result.title || plan.titleCandidate,
     summary: finalSummary,
     outline: Array.isArray(result.outline) && result.outline.length >= 4 ? result.outline : [
-      '1. 진료실에서 자주 마주하는 고민',
-      '2. 신경생물학적 특성과 자극적 환경이 증상에 미치는 영향',
+      `1. ${plan.topicAngle.titleSuffix}`,
+      '2. 해당 증상을 설명할 때 구분해야 할 점',
       '3. 비슷한 다른 상태와 감별하여 살펴볼 점',
       '4. 해아림한의원의 상태 평가 및 1:1 맞춤 관리 관점',
-      '5. 일상생활에서 실천할 수 있는 적극적인 미디어 조절 수칙',
+      '5. 이 주제와 관련된 관찰 및 생활 관리',
       '6. 자주 묻는 질문 (FAQ)'
     ]
   };
@@ -409,7 +411,7 @@ function getVerifiedEvidenceSources(knowledge) {
     });
 }
 
-function finalizeArticleTrustSignals(content, internalLinks, knowledge) {
+function finalizeArticleTrustSignals(content, internalLinks, knowledge, appendSources = false) {
   let finalized = String(content || '').trim();
   const existingInternalLinks = extractInternalLinks(finalized);
   const existingInternalUrls = new Set(existingInternalLinks.map(link => normalizeLinkUrl(link.url)));
@@ -430,7 +432,7 @@ function finalizeArticleTrustSignals(content, internalLinks, knowledge) {
   const minimumSources = Math.min(2, sources.length);
   const usedVerifiedCount = sources.filter(source => linkedUrls.has(normalizeLinkUrl(source.url))).length;
 
-  if (usedVerifiedCount < minimumSources) {
+  if (appendSources && usedVerifiedCount < minimumSources) {
     const missingSources = sources
       .filter(source => !linkedUrls.has(normalizeLinkUrl(source.url)))
       .slice(0, minimumSources - usedVerifiedCount);
@@ -448,6 +450,7 @@ function finalizeArticleTrustSignals(content, internalLinks, knowledge) {
 }
 
 async function generateArticleBody(plan, outline, knowledge, internalLinks, apiKey, telemetry) {
+  knowledge = prepareArticleKnowledge(knowledge, plan);
   const linksListMd = (Array.isArray(internalLinks) && internalLinks.length > 0)
     ? internalLinks.map(l => {
         const rawAnchor = l.cleanAnchor || l.title || '관련 질환 안내';
@@ -498,13 +501,15 @@ ${plan.geo.displayName}에서 ${targetDiseaseName} 증상(${topicAngleText})에 
 ## 2. 신경생물학적 특성과 생활 환경이 증상에 미치는 영향
 
 ${knowledge.approvedDefinition}
-임상 연구에서는 ${targetDiseaseName}와 관련하여 다음과 같은 점들을 명확히 구분하여 살펴보고 있습니다:
+${targetDiseaseName} 관련 정보를 읽을 때에는 질환 설명과 개인의 상태 평가를 구분해야 합니다:
 
 - **질환의 발생 및 신경학적 배경**: 신경전달 체계와 조절 회로의 특성이 주요 신경생물학적 배경으로 연구되고 있습니다.
 - **증상의 악화 및 변동 요인**: 질환의 기저 특성과 별개로, 이미 나타나는 증상의 정도는 피로, 수면 상태, 정서적 긴장 및 ${knowledge.possibleAggravatingFactors.join(', ')} 등에 따라 변동될 수 있습니다.
 - **일상 긴장과 신체 반응**: 지속적인 긴장과 피로는 신체 조절 시스템의 부담을 높여 증상이 더 자주 감지되게 만들 수 있습니다.
 
 자세한 진료 과목 안내는 의료진과의 1:1 상담을 통해 확인하실 수 있습니다.
+
+${(knowledge.evidenceNotes || []).slice(0, 2).map(note => `${note.claim} [${String(note.sourceTitle || "공식 의학 자료").replace(/[\[\]]/g, "")}](${note.sourceUrl || note.source?.url})`).join('\n\n')}
 
 ## 3. 비슷한 다른 상태와 감별하여 살펴볼 점
 
@@ -541,7 +546,7 @@ A. ${filteredFaqs[2]?.a || '증상의 경과와 전반적인 건강 상태를 �
 ### 🔗 함께 읽어보면 좋은 연관 안내
 ${sanitizedLinksListMd}
 `;
-    return finalizeArticleTrustSignals(offlineContent, internalLinks, knowledge);
+    return finalizeArticleTrustSignals(offlineContent, internalLinks, knowledge, true);
   }
 
   const isTic = plan.disease.id === 'tic' || (plan.disease.name && plan.disease.name.includes('틱'));
@@ -770,7 +775,7 @@ ${sanitizedLinksListMd}
   }
 
   const prompt = `
-당신은 해아림한의원 대표원장의 관점에서 의학 칼럼 본문을 작성하는 전문 의료 작가입니다.
+당신은 해아림한의원 의료 콘텐츠팀의 일반 건강정보 칼럼을 작성하는 전문 의료 작가입니다. 실제 원장 작성·개별 검수·환자 사례가 확인된 것으로 표현하지 마십시오.
 
 [칼럼 기본 정보]
 - 지역: ${plan.geo.displayName} (${plan.geo.fullName})
@@ -878,10 +883,11 @@ ${linksListMd || '내부링크 없음'}
     - 2~4개 개수를 채우기 위해 다른 질환을 갑자기 언급하거나, 별도 소제목/문단을 만들거나, 억지 연결 문장을 생성하는 행위를 엄격히 금지합니다.
     - [동일 URL 중복 절대 금지] 하나의 URL은 아티클 전체에서 최대 1회만 사용할 수 있습니다. 동일한 URL을 서로 다른 앵커 텍스트로 중복 삽입하는 것을 엄격히 금지합니다.
     - [정직한 앵커 텍스트 원칙] 실제 연결되는 글의 제목과 내용을 정직하게 반영해야 하며, 별도의 아티클이 존재하는 것처럼 앵커 텍스트를 허위로 날조하지 마십시오.
-12. [검증된 출처 2개 이상 표시]
+12. [현재 주제와 직접 관련된 검증된 출처 2개 이상 표시]
     - 위 [근거 수준 참고] 중 sourceVerified=true이고 productionUsable=true인 자료를 최소 2개 사용하십시오.
     - 주요 의학 설명과 가까운 문단에 마크다운 링크를 연결하고, 글 하단에는 실제 사용한 자료만 '참고한 공식 의학 자료'로 정리하십시오.
     - 제공되지 않은 제목, 기관, 연도, DOI, URL은 절대 만들지 마십시오.
+    - 출처 2개가 부족하거나 주제와 맞지 않으면 임의로 다른 질환 설명을 넣지 마십시오. 출처 누락은 발행 검사에서 차단됩니다. 본문 작성 단계에서 주제에 맞는 설명과 출처를 함께 작성하십시오. 링크만 자동으로 덧붙여 검증을 통과시키지 않습니다.
 ${mediaGuideline}
 ${adhdAdultGuideline}
 ${ibsGuideline}

@@ -61,6 +61,16 @@
       "rationale": "실신(완전 의식 소실)과 전실신(의식 유지)의 의학적 정의를 명확히 구별하여 기술함."
     },
     {
+      "claim": "실신할 듯하면 안전하게 앉거나 누워 낙상을 피합니다. 실제 의식소실 뒤에는 원인을 평가하며, 흉통·회복 지연이나 운동 중 실신 등은 응급 평가가 필요할 수 있습니다.",
+      "evidenceLevel": "public-health-guidance",
+      "sourceVerified": true,
+      "verified": true,
+      "productionUsable": true,
+      "sourceTitle": "NHS — Fainting",
+      "sourceUrl": "https://www.nhs.uk/symptoms/fainting/",
+      "sourceCheckedAt": "2026-10-01"
+    },
+    {
       "claim": "실신 환자에서 운동 중 실신, 선행 흉통/심계항진, 급사 또는 유전성 심장 질환 가족력은 심장성 실신 위험을 시사하는 경고 징후이다.",
       "evidenceLevel": "clinical-guideline",
       "sourceType": "practice-guideline",

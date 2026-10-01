@@ -56,7 +56,12 @@ const ROOT = path.join(__dirname, '..');
     const filePath = path.join(ROOT, 'content/blog', `${item.slug}.md`);
     const markdown = fs.readFileSync(filePath, 'utf8');
     assert(markdown.includes('author: "해아림한의원 의료 콘텐츠팀"'), `${item.slug}: content-team author required`);
-    assert(markdown.includes('medical_information_reviewer: "손지웅 대표원장"'), `${item.slug}: medical-standard reviewer required`);
+    if (markdown.includes('article_review_status: "source_based"')) {
+      assert(!markdown.includes('medical_information_reviewer:'), `${item.slug}: source-based edit must not claim physician review`);
+    } else {
+      assert(markdown.includes('medical_information_reviewer: "손지웅 대표원장"'), `${item.slug}: medical-standard reviewer required`);
+      assert(markdown.includes('review_scope:'), `${item.slug}: medical-standard review scope required`);
+    }
     assert(markdown.includes('lastmod:'), `${item.slug}: lastmod required`);
     const frontMatterEnd = markdown.indexOf('\n---', 4);
     const frontMatter = frontMatterEnd >= 0 ? markdown.slice(0, frontMatterEnd) : markdown;
