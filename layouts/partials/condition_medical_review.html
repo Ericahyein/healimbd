@@ -1,0 +1,15 @@
+{{/* Medical review is an explicit editorial record, independent of lastmod.
+     The site's Person entity belongs to 손지웅 대표원장, so only that reviewer
+     may reference it. Missing, invalid or future review dates fail closed. */}}
+{{ $review := dict "confirmed" false }}
+{{ $reviewer := .Params.medical_reviewer | default "" }}
+{{ $reviewedAt := printf "%v" (.Params.medical_reviewed_at | default "") }}
+{{ if and (eq .Params.medical_review_status "reviewed") (eq $reviewer "손지웅 대표원장") (findRE `^\d{4}-\d{2}-\d{2}$` $reviewedAt) }}
+  {{ $parsed := try (time.AsTime $reviewedAt) }}
+  {{ if not $parsed.Err }}
+    {{ if le ($parsed.Value.Format "2006-01-02") (now.Format "2006-01-02") }}
+      {{ $review = dict "confirmed" true "reviewer" $reviewer "date" ($parsed.Value.Format "2006-01-02") "display_date" ($parsed.Value.Format "2006.01.02") }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+{{ return $review }}

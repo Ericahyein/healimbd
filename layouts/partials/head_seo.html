@@ -266,12 +266,16 @@
 {{ end }}
 
 {{ if and (not $isHome) (eq .Section "conditions") (not .IsSection) }}
+  {{ $conditionAuthor := dict "@type" "Organization" "name" (.Params.content_author | default .Params.author) "url" ("/" | absURL) }}
+  {{ $medicalReview := partial "condition_medical_review.html" . }}
   {{ $webpage = merge $webpage (dict
     "@type" (slice "WebPage" "MedicalWebPage")
-    "author" (dict "@id" $doctorId)
-    "reviewedBy" (dict "@id" $doctorId)
+    "author" $conditionAuthor
     "publisher" (dict "@id" $clinicId)
   ) }}
+  {{ if $medicalReview.confirmed }}
+    {{ $webpage = merge $webpage (dict "reviewedBy" (dict "@id" $doctorId) "lastReviewed" $medicalReview.date) }}
+  {{ end }}
   {{ with .Params.condition_name }}
     {{ $webpage = merge $webpage (dict "about" (dict "@type" "MedicalCondition" "name" .)) }}
   {{ end }}
@@ -279,7 +283,7 @@
     {{ $webpage = merge $webpage (dict "datePublished" (.Date.Format "2006-01-02")) }}
   {{ end }}
   {{ if not .Lastmod.IsZero }}
-    {{ $webpage = merge $webpage (dict "dateModified" (.Lastmod.Format "2006-01-02") "lastReviewed" (.Lastmod.Format "2006-01-02")) }}
+    {{ $webpage = merge $webpage (dict "dateModified" (.Lastmod.Format "2006-01-02")) }}
   {{ end }}
   {{ if $ogImage }}
     {{ $webpage = merge $webpage (dict "primaryImageOfPage" (dict "@type" "ImageObject" "url" $ogImage)) }}
