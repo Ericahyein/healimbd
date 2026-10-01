@@ -12,7 +12,7 @@
 .review-guide-button:hover{background:#1579b2;transform:translateY(-2px)}
 .review-guide-page a:focus-visible,.review-guide-page summary:focus-visible{outline:3px solid #24b598;outline-offset:4px}
 .review-guide-section{padding:62px 0}
-.review-guide-soft{background:#f7f3ec;border-top:1px solid #eae1d5;border-bottom:1px solid #eae1d5}
+.review-guide-soft{background:#f8fafc;border-top:1px solid #edf2f7;border-bottom:1px solid #edf2f7}
 .review-guide-section-heading{margin-bottom:28px;text-align:left}
 .review-guide-section-heading h2{font-size:clamp(1.35rem,2.5vw,1.75rem);letter-spacing:-.5px;margin:0 0 14px;line-height:1.45}
 .review-guide-section-heading>p:last-child:not(.review-guide-kicker){color:#64748b;line-height:1.85;max-width:840px}
