@@ -3,7 +3,7 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 const { CLINIC_EVALUATION, selectEvidenceNotes, prepareArticleKnowledge, checkClinicFacts } = require('../scripts/auto_column/medical_policy');
-const { planNextColumn, getRankedCandidatePlans, wasTopicPublished, selectTopicAngleForDisease } = require('../scripts/auto_column/topic_planner');
+const { planNextColumn, getRankedCandidatePlans, wasTopicPublished, selectTopicAngleForDisease, getKstCalendarDate } = require('../scripts/auto_column/topic_planner');
 const { generateArticleBody, loadMedicalKnowledge } = require('../scripts/auto_column/ai_generator');
 const { validateArticleContent } = require('../scripts/auto_column/content_validator');
 const taxonomy = require('../scripts/auto_column/disease_taxonomy.json');
@@ -25,6 +25,29 @@ const ROOT = path.join(__dirname, '..');
   assert(!selectEvidenceNotes(tic, 'pain-interference').includes(screen));
   assert(selectEvidenceNotes(tic, 'media-exposure').includes(screen));
   assert(!urls(loadMedicalKnowledge('depression'), 'intrusive-thoughts').some(url => /who\.int/.test(url)));
+  const anxiety = loadMedicalKnowledge('anxiety');
+  const generalAnxietyAngles = ['chronic-worry', 'somatization', 'worry-sleep', 'avoidance-daily-life', 'physical-tension'];
+  for (const angle of generalAnxietyAngles) {
+    const selected = urls(anxiety, angle);
+    assert(selected.includes('https://www.nimh.nih.gov/health/publications/generalized-anxiety-disorder-gad'), angle + ': must retain worry/muscle-tension evidence');
+    assert(selected.includes('https://www.nhs.uk/mental-health/conditions/generalised-anxiety-disorder-gad/'), angle + ': must retain symptom/lifestyle evidence');
+    assert(!selected.some(url => /cg159|social-anxiety|9780890425596/.test(url)), angle + ': social evidence must not be forced into general worry topics');
+    const preparedAnxiety = prepareArticleKnowledge(anxiety, { topicAngle: { id: angle } });
+    assert(!preparedAnxiety.commonSymptoms.some(symptom => /시선|발표/.test(symptom)));
+    assert(!preparedAnxiety.faqCandidates.some(faq => /소심|내향/.test(faq.q)));
+  }
+  assert(urls(anxiety, 'presentation-anxiety').includes('https://www.nimh.nih.gov/health/publications/social-anxiety-disorder-more-than-just-shyness'));
+  assert(urls(anxiety, 'presentation-anxiety').some(url => /cg159/.test(url)));
+  assert(!urls(anxiety, 'presentation-anxiety').includes('https://www.nimh.nih.gov/health/publications/generalized-anxiety-disorder-gad'));
+  assert(urls(anxiety, 'reassurance-loop').includes('https://www.nhs.uk/mental-health/conditions/health-anxiety/'));
+  const anxietyMarkdown = fs.readFileSync(path.join(ROOT, 'content/blog/bundang-pangyo-anxiety-physical-tension.md'), 'utf8');
+  const anxietyBody = anxietyMarkdown.replace(/^---[\s\S]*?---\s*/, '');
+  const anxietyInput = { title: '[판교 불안장애] 걱정이 이어지면서 몸에 힘이 들어갈 때 기록할 점', summary: '걱정과 신체 긴장의 경과를 기록하고 의료진 평가를 준비합니다.', category: 'anxiety', body: anxietyBody, diseaseId: 'anxiety', geoId: 'bundang-pangyo', titleDisease: '불안장애', ageGroup: 'adult', topicAngle: { id: 'physical-tension' }, knowledge: anxiety, requireVerifiedSources: true };
+  const anxietySourceErrors = input => validateArticleContent(input).errors.filter(error => /verified medical sources|Topic evidence|explanation/.test(error));
+  assert.deepStrictEqual(anxietySourceErrors(anxietyInput), []);
+  assert(!anxietyBody.includes('cg159') && !anxietyBody.includes('9780890425596'));
+  const socialOnlyBody = anxietyBody.replaceAll('https://www.nimh.nih.gov/health/publications/generalized-anxiety-disorder-gad', 'https://www.nimh.nih.gov/health/publications/social-anxiety-disorder-more-than-just-shyness').replaceAll('https://www.nhs.uk/mental-health/conditions/generalised-anxiety-disorder-gad/', 'https://www.nice.org.uk/guidance/cg159');
+  assert(anxietySourceErrors({ ...anxietyInput, body: socialOnlyBody }).some(error => /verified medical sources/.test(error)), 'two social-only links cannot satisfy a physical-tension topic');
   const snapshot = JSON.stringify(autonomic);
   const prepared = prepareArticleKnowledge(autonomic, { topicAngle: { id: 'digestive-dizziness' } });
   assert.strictEqual(prepared.evaluationGuidance, CLINIC_EVALUATION);
@@ -80,13 +103,17 @@ const ROOT = path.join(__dirname, '..');
     const simulated = JSON.parse(JSON.stringify(history));
     const published = new Set(simulated.map(item => `${item.disease}|${item.topicAngle}`));
     fs.writeFileSync(historyPath, JSON.stringify(simulated));
-    const candidates = getRankedCandidatePlans({ historyPath, now: new Date('2026-10-01T09:07:00+09:00') });
+    // Start after the real history so a newly published entry cannot consume
+    // one of the two simulated slots on a hard-coded calendar day.
+    const latestDay = Math.max(...simulated.map(item => getKstCalendarDate(item.publishDate).getTime()));
+    const simulationDate = (day, hour) => new Date(latestDay + day * 86400000 + (hour - 9) * 3600000 + 7 * 60000);
+    const candidates = getRankedCandidatePlans({ historyPath, now: simulationDate(1, 9) });
     assert(candidates.length > 0);
     for (const candidate of candidates) assert(!published.has(`${candidate.disease.id}|${candidate.topicAngle.id}`), 'region changes cannot recycle a published topic');
-    for (let day = 2; day <= 15; day++) {
+    for (let day = 1; day <= 14; day++) {
       const dayDiseases = new Set();
       for (const hour of ['09', '17']) {
-        const now = new Date(`2026-10-${String(day).padStart(2, '0')}T${hour}:07:00+09:00`);
+        const now = simulationDate(day, Number(hour));
         const candidate = planNextColumn({ historyPath, now });
         assert(candidate.disease && candidate.topicAngle, `must find a fresh candidate on day ${day}`);
         const key = `${candidate.disease.id}|${candidate.topicAngle.id}`;
@@ -97,7 +124,7 @@ const ROOT = path.join(__dirname, '..');
         simulated.push({ disease: candidate.disease.id, topicAngle: candidate.topicAngle.id, geoId: candidate.geo.id, parentRegion: candidate.geo.parentRegion, publishDate: now.toISOString(), title: candidate.titleCandidate, slug: candidate.slug });
         fs.writeFileSync(historyPath, JSON.stringify(simulated));
       }
-      assert.strictEqual(planNextColumn({ historyPath, now: new Date(`2026-10-${String(day).padStart(2, '0')}T20:00:00+09:00`) }).status, 'daily_limit_reached');
+      assert.strictEqual(planNextColumn({ historyPath, now: simulationDate(day, 20) }).status, 'daily_limit_reached');
     }
     fs.writeFileSync(historyPath, '{broken-json');
     assert.throws(() => planNextColumn({ historyPath }), /history cannot be read safely/i);
