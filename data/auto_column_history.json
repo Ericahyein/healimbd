@@ -416,5 +416,16 @@
     "topicAngle": "physical-tension",
     "title": "[판교 불안장애] 걱정이 이어지면서 몸에 힘이 들어갈 때 기록할 점",
     "slug": "bundang-pangyo-anxiety-physical-tension"
+  },
+  {
+    "publishDate": "2026-10-02T14:27:01.639+09:00",
+    "geoId": "gyeonggi-gwangju",
+    "displayRegion": "경기광주",
+    "parentRegion": "경기광주",
+    "regionType": "city",
+    "disease": "hyperhidrosis",
+    "topicAngle": "sudden-sweat-change",
+    "title": "[경기광주 다한증] 갑자기 땀이 늘었다면 스트레스 외에 무엇을 확인할까요",
+    "slug": "gyeonggi-gwangju-hyperhidrosis-sudden-sweat-change"
   }
 ]
