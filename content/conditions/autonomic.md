@@ -27,10 +27,7 @@ faq:
   - {question: "분당점 방문 전 무엇을 준비하면 좋나요?", answer: "증상이 생기는 자세와 시간, 식사·수면·카페인과의 관계를 기록하고 기존 심전도·혈액검사 결과와 복용 약 목록을 준비해 주세요."}
   - question: "여러 증상이 번갈아 나타나면 무엇부터 적나요?"
     answer: "생활에서 가장 불편한 증상부터 시작해 각각의 시간, 당시 자세·활동과 지속 시간을 나누어 적어 주세요. 동시에 나타난 증상은 함께 표시하고, 같은 시점이 아니었다면 구분합니다. 원인을 자율신경 문제라고 먼저 정할 필요는 없습니다."
-related_posts:
-  - {label: "자율신경 · 회복", title: "어지럼·가슴 답답함·소화불량이 함께 반복될 때", url: "/blog/bundang-autonomic-nervous-system-recovery/"}
-  - {label: "자율신경 · 소화", title: "원인 모를 어지럼증과 소화불량이 함께 나타날 때", url: "/blog/yongin-giheung-autonomic-digestive-dizziness/"}
-  - {label: "자율신경 · 체온", title: "얼굴은 화끈거리는데 손발은 차가울 때", url: "/blog/seongnam-wirye-autonomic-hot-cold-dysregulation/"}
+featured_column: "/blog/bundang-autonomic-nervous-system-recovery/"
 ---
 
 ## 자율신경계는 어떤 일을 하나요?

@@ -27,10 +27,7 @@ faq:
   - {question: "분당점 방문 전 무엇을 준비하면 좋나요?", answer: "실신 전후의 자세와 활동, 전조증상, 의식 회복 과정과 목격 내용을 기록하고 심전도·혈액검사 결과와 복용 약 목록을 준비해 주세요."}
   - question: "쓰러진 순간을 기억하지 못하면 어떻게 설명하나요?"
     answer: "기억이 끊긴 부분은 모른다고 표시하고, 쓰러지기 전의 자세·활동과 전조증상, 회복 뒤의 상태를 적어 주세요. 목격자가 있다면 관찰한 움직임과 회복 과정을 따로 전달받되 직접 기억하는 내용과 구분합니다. 의식 소실 시간을 추측해 정확한 수치처럼 쓰지 않습니다."
-related_posts:
-  - {label: "미주신경성 실신 · 전조증상", title: "지하철이나 만원 버스에서 눈앞이 캄캄해지고 식은땀이 날 때", url: "/blog/seongnam-main-syncope-subway-dizziness/"}
-  - {label: "자율신경 · 기립 증상", title: "식사 후 핑 도는 증상과 자율신경 조절", url: "/blog/yongin-cheoin-autonomic-digestive-dizziness/"}
-  - {label: "자율신경 · 회복", title: "어지럼과 가슴 답답함이 함께 반복될 때", url: "/blog/bundang-autonomic-nervous-system-recovery/"}
+featured_column: "/blog/seongnam-main-syncope-subway-dizziness/"
 ---
 
 ## 미주신경성 실신이란 무엇인가요?

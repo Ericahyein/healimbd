@@ -28,7 +28,10 @@ for (const [name, content] of Object.entries(conditions)) {
   assert(content.includes('lastmod:'), `${name}: content modification date required`);
   assert(content.includes('## 참고한 의료 정보'), `${name}: source section required`);
   assert((content.match(/question:/g) || []).length >= 6, `${name}: at least 6 visible FAQs required`);
-  assert((content.match(/url: "\/blog\//g) || []).length >= 3, `${name}: at least 3 internal column links required`);
+  const chosen = content.match(/^featured_column: "\/blog\/([^/]+)\/"$/m)?.[1];
+  assert(chosen, `${name}: one explicitly chosen column required`);
+  const column = read(`content/blog/${chosen}.md`);
+  assert(!/^draft:\s*true$/m.test(column), `${name}: chosen column must be published`);
   assert(!/HRV/i.test(content), `${name}: clinic does not perform HRV`);
   for (const area of ['분당', '판교', '성남', '용인', '경기광주']) {
     assert(content.includes(area), `${name}: missing nearby service area ${area}`);

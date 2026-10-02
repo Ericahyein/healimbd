@@ -47,16 +47,7 @@ faq:
     answer: "틱이 처음 나타난 시점과 학교·가정에서의 차이를 기록하고, 가능하다면 증상 영상과 기존 검사 결과, 복용 약 목록을 준비해 주세요."
   - question: "진료실에서 틱이 보이지 않으면 어떻게 설명하나요?"
     answer: "집이나 학교에서 관찰한 움직임·소리, 처음 나타난 시점과 생활에서의 불편을 설명해 주세요. 자연스럽게 촬영한 영상이 있다면 참고자료로 준비할 수 있습니다. 진료실에서 보이게 하려고 아이에게 증상을 재현하도록 요구할 필요는 없습니다."
-related_posts:
-  - label: "틱장애 · 가정 관리"
-    title: "교실에서는 참다가 집에서 몰아치는 움직임을 살피는 법"
-    url: "/blog/yongin-suji-tic-school-stress/"
-  - label: "틱장애 · 생활 습관"
-    title: "미디어 및 스마트폰 사용이 증상에 미치는 영향"
-    url: "/blog/seongnam-main-tic-media-exposure/"
-  - label: "틱장애 · 증상 구분"
-    title: "잦은 헛기침과 비염 증상의 구별 포인트"
-    url: "/blog/yongin-main-tic-cough-distinction/"
+featured_column: "/blog/bundang-tic-disorder-brain-balance-treatment/"
 ---
 
 ## 틱장애란 무엇인가요?

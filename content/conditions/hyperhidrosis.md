@@ -27,10 +27,7 @@ faq:
   - {question: "분당점 방문 전 무엇을 준비하면 좋나요?", answer: "땀이 나는 부위와 시간, 수면 중 발한 여부, 유발 상황을 기록하고 복용 약 목록과 기존 검사 결과를 준비해 주세요."}
   - question: "땀의 양을 정확히 재야 하나요?"
     answer: "땀의 양을 정확한 숫자로 표현하기 어렵다면 필기·키보드 사용을 멈춘 일, 옷을 갈아입은 횟수처럼 실제 불편을 적어 주세요. 발생 부위와 시간, 수면 중 발한 여부도 관찰한 범위에서 함께 설명하면 됩니다."
-related_posts:
-  - {label: "다한증 · 보상성 발한", title: "수술 후 보상성 다한증이 걱정될 때 살펴볼 점", url: "/blog/seongnam-wirye-hyperhidrosis-compensatory-concern/"}
-  - {label: "자율신경 · 체온", title: "얼굴은 화끈거리는데 손발은 차가울 때", url: "/blog/seongnam-wirye-autonomic-hot-cold-dysregulation/"}
-  - {label: "불안 · 신체 반응", title: "불안이 신체 증상으로 나타나는 과정", url: "/blog/seongnam-bundang-anxiety-somatization/"}
+featured_column: "/blog/seongnam-wirye-hyperhidrosis-compensatory-concern/"
 ---
 
 ## 다한증이란 무엇인가요?

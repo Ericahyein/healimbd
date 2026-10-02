@@ -27,10 +27,7 @@ faq:
   - {question: "분당점 방문 전 무엇을 준비하면 좋나요?", answer: "불안이 심해지는 상황, 신체 반응과 피하게 된 활동을 기록하고 기존 검사 결과와 복용 약 목록을 준비해 주세요."}
   - question: "불안한 생각을 모두 자세히 적어야 하나요?"
     answer: "긴 글을 완성할 필요는 없습니다. 불안했던 상황, 당시의 신체 반응과 피하거나 중단한 활동을 몇 줄로 정리해도 됩니다. 말하기 어려운 내용이나 정확히 기억나지 않는 부분은 진료 때 그 사실부터 알려 주세요."
-related_posts:
-  - {label: "불안장애 · 만성 걱정", title: "사소한 일에도 걱정이 꼬리를 물고 가슴이 답답할 때", url: "/blog/gyeonggi-gwangju-anxiety-chronic-worry/"}
-  - {label: "사회불안 · 발표", title: "발표나 미팅 때 목소리가 떨리고 시선이 두려울 때", url: "/blog/yongin-suji-social-phobia-presentation-anxiety/"}
-  - {label: "불안장애 · 신체 증상", title: "불안이 통증이나 어지럼으로 나타나는 과정", url: "/blog/seongnam-bundang-anxiety-somatization/"}
+featured_column: "/blog/bundang-pangyo-anxiety-physical-tension/"
 ---
 
 ## 불안장애와 공포증은 무엇인가요?
