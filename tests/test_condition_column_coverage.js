@@ -101,7 +101,7 @@ try {
   assert(markdown.includes('article_review_status: "source_based"'));
   assert(!markdown.includes('medical_information_reviewer:'));
   assert(markdown.includes('date: 2026-09-22T16:18:37.221+09:00'));
-  assert(markdown.includes('column-table-scroll'));
+  assert(markdown.includes('| 확인 항목 | 기록할 내용 |'));
   assert(checkClinicFacts(markdown, 'hyperhidrosis').valid);
   assert(markdown.includes('본원의 한약·침구 치료가 수술 후 보상성 발한을 예방하거나 제거한다는 근거로 제시하는 것은 아닙니다'));
   for (const host of ['www.aad.org', 'www.bad.org.uk']) assert(markdown.split('### 참고한 공식 의학 자료')[0].includes(host), 'sources must explain claims in the body');
@@ -118,6 +118,7 @@ try {
     assert(html.includes(title) && page.includes(title), 'article and condition card must display the current title');
     assert(!html.includes('걱정 없이') && !page.includes('걱정 없이'));
     assert(html.includes('column-table-scroll') && html.includes('<table'), 'record table must render with its scroll wrapper');
+    assert.strictEqual((html.match(/class=(?:"|')?column-table-scroll(?:"|')?(?:\s|>)/g) || []).length, 1, 'Hugo table render hook must provide one scroll wrapper without nested focus regions');
     assert(html.includes('공개 의료정보 출처를 바탕으로 정리'));
     assert(!html.includes('의료정보 기준 감수'));
     const nodes = [...html.matchAll(/<script\b[^>]*type=(?:"|')?application\/ld\+json(?:"|')?[^>]*>([\s\S]*?)<\/script>/g)]
