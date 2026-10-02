@@ -44,7 +44,7 @@ try {
     page('blog/conflicting', 'title: "Conflicting pillar"\ndate: 2020-01-10\ncategory: "tic"\ncondition_pillar: "/conditions/another/"');
     page('blog/draft', 'title: "Draft"\ndate: 2020-01-09\ndraft: true\ncategory: "tic"');
     page('blog/future', 'title: "Future"\ndate: 2099-01-01\ncategory: "tic"');
-    page('blog/latest', 'title: "[분당 틱장애] Latest"\ndate: 2020-01-08\ncategory: "tic"');
+    page('blog/latest', 'title: "[분당 틱장애] Latest"\ndate: 2020-01-08\ncategory: "tic"\ncondition_pillar: "/conditions/tic/"');
     page('blog/existing', 'title: "Existing"\ndate: 2020-01-07\ncategory: "tic"', '[Existing link](/conditions/tic/)');
     page('blog/pillar', 'title: "Explicit pillar"\ndate: 2020-01-06\ncategory: "legacy"\ncondition_pillar: "/conditions/tic/"');
     page('blog/older', 'title: "Older"\ndate: 2020-01-05\ncategory: "tourette"');
@@ -58,7 +58,7 @@ try {
   if (!mode) build();
   if (mode !== '--prepare') {
     const tic = links('tic');
-    assert.deepStrictEqual(tic.map(item => item.url), ['/blog/older/', '/blog/latest/', '/blog/existing/'], 'chosen older article stays first; the two newest other articles follow');
+    assert.deepStrictEqual(tic.map(item => item.url), ['/blog/older/', '/blog/latest/', '/blog/pillar/'], 'chosen older article stays first; newest direct condition links take precedence over a shared legacy category');
     assert.strictEqual(tic[0].label, '틱장애 · 대표 칼럼');
     assert.strictEqual(tic[1].label, '틱장애 · 최신 관련 칼럼');
     assert.strictEqual(tic[1].title, 'Latest', 'regional prefix is removed from the current article title');
@@ -95,6 +95,10 @@ try {
         assert.strictEqual(items[0].url, selected, slug + ': chosen article is first');
         assert.strictEqual(new Set(items.map(item => item.url)).size, items.length, slug + ': no duplicate cards');
         assert.strictEqual(items.filter(item => item.label.includes('대표')).length, 1, slug + ': exactly one featured article');
+        for (const item of items) {
+          const column = fs.readFileSync(path.join(root, 'content', item.url.replace(/\/$/, '') + '.md'), 'utf8');
+          assert(column.includes(`condition_pillar: "/conditions/${slug}/"`), slug + ': direct matching columns must precede legacy umbrella categories');
+        }
       }
     }
     console.log('✅ Featured/current column ordering, sparse conditions, invalid choices and reverse links passed.');

@@ -5,15 +5,22 @@
 {{ $categories := .Params.column_categories | default (slice) }}
 {{ $items := slice }}
 {{ $seen := slice }}
-{{ $matching := slice }}
+{{ $linked := slice }}
+{{ $legacy := slice }}
 {{ range (where .Site.RegularPages "Section" "blog").ByDate.Reverse }}
   {{ $pillar := .Params.condition_pillar | default "" }}
   {{ $samePillar := eq $pillar $condition.RelPermalink }}
   {{ $legacyCategory := and (not $pillar) (in $categories (.Params.category | default "")) }}
-  {{ if and (not .Draft) (le .Date now) (or $samePillar $legacyCategory) }}
-    {{ $matching = $matching | append . }}
+  {{ if and (not .Draft) (le .Date now) }}
+    {{ if $samePillar }}
+      {{ $linked = $linked | append . }}
+    {{ else if $legacyCategory }}
+      {{ $legacy = $legacy | append . }}
+    {{ end }}
   {{ end }}
 {{ end }}
+{{ $matching := $linked }}
+{{ range $legacy }}{{ $matching = $matching | append . }}{{ end }}
 {{ with .Params.featured_column }}
   {{ $chosen := $condition.Site.GetPage . }}
   {{ range $matching }}
