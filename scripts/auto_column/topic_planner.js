@@ -4,6 +4,7 @@ const path = require('path');
 const geoHierarchy = require('./geo_hierarchy.json');
 const diseaseTaxonomy = require('./disease_taxonomy.json');
 const { resolveContentIdentity, buildArticleSlug } = require('./identity_resolver');
+const { countPublishedConditionColumns, getCoveragePriority } = require('./column_coverage');
 
 const HISTORY_PATH = path.join(__dirname, '../../data/auto_column_history.json');
 // Same geo+disease is balanced by recency scoring instead of an arbitrary hard block.
@@ -238,6 +239,7 @@ function planNextColumn(options = {}) {
 
   const todayDiseases = new Set(todayPosts.map(p => p.disease));
   const todayParents = new Set(todayPosts.map(p => p.parentRegion));
+  const coverageCounts = countPublishedConditionColumns(options.blogDir, now);
 
   // Build candidate combinations
   const validCandidates = [];
@@ -255,6 +257,8 @@ function planNextColumn(options = {}) {
 
       // Score candidate (higher score = better fit)
       let score = 100;
+      const coverage = getCoveragePriority(disease, coverageCounts);
+      score += coverage.bonus;
       if (todayParents.has(region.parentRegion)) score -= 30; // Encourage diverse parent region for day's 2nd post
 
       const geoDays = daysSinceLastUse(history, h => h.geoId === region.id, now);
@@ -273,6 +277,7 @@ function planNextColumn(options = {}) {
           region,
           disease,
           angle,
+          coverage,
           score: score + (angleDays === null ? 60 : Math.min(angleDays, 60)),
           stableKey: `${region.id}|${disease.id}|${angle.id}`
         });
@@ -301,6 +306,7 @@ function planNextColumn(options = {}) {
 
     const plan = buildProductionTopicPlan(cand.region, cand.disease, cand.angle, now);
     plan.score = cand.score;
+    plan.coverage = cand.coverage;
     return plan;
   }
 
@@ -335,8 +341,11 @@ function getRankedCandidatePlans(options = {}, excludedPlanKeys = new Set()) {
 
   const todayPosts = getTodayPublishedItems(history, now);
 
+  if (todayPosts.length >= DAILY_PUBLISH_LIMIT && !options.force) return [];
+
   const todayDiseases = new Set(todayPosts.map(p => p.disease));
   const todayParents = new Set(todayPosts.map(p => p.parentRegion));
+  const coverageCounts = countPublishedConditionColumns(options.blogDir, now);
 
   // Build candidate combinations
   const validCandidates = [];
@@ -348,6 +357,8 @@ function getRankedCandidatePlans(options = {}, excludedPlanKeys = new Set()) {
       if (isDiseaseIn3DayCooldown(history, disease.id, now)) continue;
 
       let score = 100;
+      const coverage = getCoveragePriority(disease, coverageCounts);
+      score += coverage.bonus;
       if (todayParents.has(region.parentRegion)) score -= 30;
 
       const geoDays = daysSinceLastUse(history, h => h.geoId === region.id, now);
@@ -366,6 +377,7 @@ function getRankedCandidatePlans(options = {}, excludedPlanKeys = new Set()) {
           region,
           disease,
           angle,
+          coverage,
           score: score + (angleDays === null ? 60 : Math.min(angleDays, 60)),
           stableKey: `${region.id}|${disease.id}|${angle.id}`
         });
@@ -383,6 +395,7 @@ function getRankedCandidatePlans(options = {}, excludedPlanKeys = new Set()) {
 
     const plan = buildProductionTopicPlan(cand.region, cand.disease, cand.angle, now);
     plan.score = cand.score;
+    plan.coverage = cand.coverage;
     candidatePlans.push(plan);
   }
 
