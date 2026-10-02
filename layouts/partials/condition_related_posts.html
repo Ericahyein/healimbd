@@ -1,24 +1,34 @@
-{{/* Prefer current same-condition columns; retain curated supporting links when needed. */}}
+{{/* Keep one chosen column first, then at most two other recent columns.
+     Explicit condition links take precedence over legacy category matching.
+     Never fill an empty slot with a different condition's article. */}}
 {{ $condition := . }}
 {{ $categories := .Params.column_categories | default (slice) }}
 {{ $items := slice }}
 {{ $seen := slice }}
+{{ $matching := slice }}
 {{ range (where .Site.RegularPages "Section" "blog").ByDate.Reverse }}
-  {{ $samePillar := eq (.Params.condition_pillar | default "") $condition.RelPermalink }}
-  {{ $sameCategory := in $categories (.Params.category | default "") }}
-  {{ if and (not .Draft) (or $samePillar $sameCategory) (lt (len $items) 3) }}
-    {{ $title := replaceRE `^\[[^]]+\]\s*` "" .Title }}
-    {{ $items = $items | append (dict "url" .RelPermalink "title" $title "label" (printf "%s · 관련 칼럼" $condition.Params.condition_name)) }}
-    {{ $seen = $seen | append .RelPermalink }}
+  {{ $pillar := .Params.condition_pillar | default "" }}
+  {{ $samePillar := eq $pillar $condition.RelPermalink }}
+  {{ $legacyCategory := and (not $pillar) (in $categories (.Params.category | default "")) }}
+  {{ if and (not .Draft) (le .Date now) (or $samePillar $legacyCategory) }}
+    {{ $matching = $matching | append . }}
   {{ end }}
 {{ end }}
-{{ range .Params.related_posts }}
-  {{ $curated := . }}
-  {{ with $condition.Site.GetPage .url }}
-    {{ if and (not .Draft) (not (in $seen .RelPermalink)) (lt (len $items) 3) }}
-      {{ $items = $items | append (dict "url" .RelPermalink "title" $curated.title "label" $curated.label) }}
+{{ with .Params.featured_column }}
+  {{ $chosen := $condition.Site.GetPage . }}
+  {{ range $matching }}
+    {{ if eq . $chosen }}
+      {{ $title := replaceRE `^\[[^]]+\]\s*` "" .Title }}
+      {{ $items = $items | append (dict "url" .RelPermalink "title" $title "label" (printf "%s · 대표 칼럼" $condition.Params.condition_name)) }}
       {{ $seen = $seen | append .RelPermalink }}
     {{ end }}
+  {{ end }}
+{{ end }}
+{{ range $matching }}
+  {{ if and (not (in $seen .RelPermalink)) (lt (len $items) 3) }}
+    {{ $title := replaceRE `^\[[^]]+\]\s*` "" .Title }}
+    {{ $items = $items | append (dict "url" .RelPermalink "title" $title "label" (printf "%s · 최신 관련 칼럼" $condition.Params.condition_name)) }}
+    {{ $seen = $seen | append .RelPermalink }}
   {{ end }}
 {{ end }}
 {{ return $items }}

@@ -81,7 +81,7 @@
       <section class="condition-related" aria-labelledby="related-title">
         <p class="condition-section-kicker">DOCTOR'S COLUMN</p>
         <h2 id="related-title">함께 읽으면 좋은 원장 칼럼</h2>
-        <div class="condition-related-grid">
+        <div class="condition-related-grid" data-count="{{ len . }}">
           {{ range . }}
           <a href="{{ .url | relURL }}" class="condition-related-card">
             <span>{{ .label }}</span>

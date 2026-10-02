@@ -47,16 +47,7 @@ faq:
     answer: "발작이 발생한 시간과 장소, 지속 시간, 당시의 신체 증상과 이후 피하게 된 상황을 기록하고 기존 검사 결과와 복용 약 목록을 준비해 주세요."
   - question: "특별한 계기가 없었던 증상도 기록해야 하나요?"
     answer: "기억나는 계기가 없어도 당시 시간·장소, 신체 증상과 이후의 걱정이나 회피를 적을 수 있습니다. 원인을 추측해 채우기보다 확인하지 못한 항목은 모른다고 표시해 주세요. 기존 검사 결과와 함께 진료에서 설명하면 됩니다."
-related_posts:
-  - label: "공황장애 · 증상 구분"
-    title: "갑자기 숨이 차고 심장이 빨라질 때 먼저 살펴볼 부분"
-    url: "/blog/seongnam-bundang-panic-sudden-palpitation/"
-  - label: "공황장애 · 예기불안"
-    title: "증상이 다시 나타날까 두려운 예기불안의 악순환"
-    url: "/blog/yongin-suji-panic-anticipatory-anxiety/"
-  - label: "공황장애 · 생활 환경"
-    title: "대중교통이나 터널에서 답답함이 심해질 때"
-    url: "/blog/bundang-pangyo-panic-subway-tunnel/"
+featured_column: "/blog/bundang-panic-disorder-treatment-guide/"
 ---
 
 ## 공황발작과 공황장애는 어떻게 다른가요?

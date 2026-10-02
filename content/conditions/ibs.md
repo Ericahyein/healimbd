@@ -27,10 +27,7 @@ faq:
   - {question: "분당점 방문 전 무엇을 준비하면 좋나요?", answer: "1~2주간 음식, 복통 강도, 변의 형태와 횟수를 기록하고 기존 내시경·혈액검사 결과와 복용 약 목록을 준비해 주세요."}
   - question: "음식을 먹고 불편했다면 그 음식을 원인으로 적어도 되나요?"
     answer: "먹은 음식과 증상이 생긴 시점을 함께 적되 원인으로 확정하지는 마세요. 같은 음식 뒤에 비슷한 불편이 반복됐는지, 배변 전후에 어떻게 달라졌는지를 관찰한 내용으로 기록합니다. 음식 제한 여부는 진료에서 상의해 주세요."
-related_posts:
-  - {label: "과민성대장 · 아침 설사", title: "출근길이나 긴장되는 순간마다 화장실을 찾게 될 때", url: "/blog/seongnam-main-ibs-morning-diarrhea/"}
-  - {label: "과민성대장 · 복통", title: "회의실 문 앞에서 급해지는 복통과 장-뇌 신호", url: "/blog/seongnam-sujeong-ibs-morning-diarrhea/"}
-  - {label: "자율신경 · 소화", title: "어지럼증과 소화불량이 함께 나타날 때", url: "/blog/yongin-giheung-autonomic-digestive-dizziness/"}
+featured_column: "/blog/seongnam-sujeong-ibs-morning-diarrhea/"
 ---
 
 ## 과민성대장증후군이란 무엇인가요?

@@ -34,10 +34,7 @@ faq:
     answer: "가정·학교·직장에서 반복되는 어려움을 기록하고, 교사 의견이나 기존 검사 결과, 복용 약 목록을 준비하면 여러 환경의 차이를 파악하는 데 도움이 됩니다."
   - question: "보호자와 교사의 관찰 내용이 다르면 어떻게 적나요?"
     answer: "어느 쪽이 맞는지 먼저 결론 내리기보다 가정과 학교의 상황, 과제의 종류와 관찰한 시점을 구분해 적어 주세요. 교사 의견은 전달받은 내용이라고 표시하고 직접 관찰한 사실과 나누어 설명하면 됩니다."
-related_posts:
-  - {label: "ADHD · 집중력", title: "좋아하는 일에는 과몰입하고 일상 과제는 미루는 이유", url: "/blog/seongnam-main-adhd-focus-fluctuation/"}
-  - {label: "ADHD · 성인", title: "업무 중 실수가 반복되고 마무리가 어려울 때", url: "/blog/yongin-main-adhd-adult-work-mistakes/"}
-  - {label: "ADHD · 동반 증상", title: "틱장애나 불안감이 함께 나타날 때 살펴볼 점", url: "/blog/seongnam-jungwon-adhd-tic-comorbidity/"}
+featured_column: "/blog/yongin-giheung-adhd-adult-work-mistakes/"
 ---
 
 ## ADHD란 무엇인가요?

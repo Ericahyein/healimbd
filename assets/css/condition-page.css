@@ -76,6 +76,8 @@
 .condition-faq details[open] summary::after { content: '−'; }
 .condition-faq details p { margin: 0; padding: 0 22px 22px; color: #4e6073; font-size: 16px; line-height: 1.75; }
 .condition-related-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 13px; }
+.condition-related-grid[data-count="1"] { grid-template-columns: minmax(0,1fr); }
+.condition-related-grid[data-count="2"] { grid-template-columns: repeat(2,minmax(0,1fr)); }
 .condition-related-card { min-height: 150px; padding: 23px; display: flex; flex-direction: column; border: 1px solid #dce6ee; border-radius: 16px; background: #fff; color: #17233c; text-decoration: none; transition: transform .2s,box-shadow .2s; }
 .condition-related-card:hover { transform: translateY(-3px); box-shadow: 0 14px 28px rgba(28,59,85,.09); }
 .condition-related-card span { color: #0780b6; font-size: 13px; font-weight: 750; }
@@ -93,7 +95,7 @@
   .condition-hero-media { min-height: 340px; }
   .condition-layout { grid-template-columns: 1fr; gap: 30px; }
   .condition-toc { position: static; }
-  .condition-related-grid { grid-template-columns: 1fr; }
+  .condition-related-grid,.condition-related-grid[data-count] { grid-template-columns: 1fr; }
   .condition-cta-inner { align-items: flex-start; flex-direction: column; }
 }
 @media (max-width: 600px) {

@@ -27,10 +27,7 @@ faq:
   - {question: "분당점 방문 전 무엇을 준비하면 좋나요?", answer: "1~2주간 취침·기상 시간과 야간 각성, 낮잠을 적은 수면일지와 복용 중인 수면제·건강기능식품 목록을 준비해 주세요."}
   - question: "정확히 몇 시에 잠들었는지 모르면 어떻게 적나요?"
     answer: "기억나는 범위에서 약 30분, 한 시간 정도처럼 대략적으로 적고 추정이라고 표시해 주세요. 취침·기상 시간과 다음 날의 졸림·피로도 함께 기록하면 됩니다. 모르는 시간을 임의로 정확한 수치처럼 채울 필요는 없습니다."
-related_posts:
-  - {label: "불면증 · 조기각성", title: "잠은 드는데 새벽마다 깨서 다시 잠들지 못할 때", url: "/blog/seongnam-sujeong-sleep-early-awakening/"}
-  - {label: "불면증 · 과각성", title: "베개에 누우면 잡생각이 멈추지 않을 때", url: "/blog/gyeonggi-icheon-sleep-racing-thoughts/"}
-  - {label: "불면증 · 약물", title: "수면유도제 없이 수면 리듬을 회복하고 싶을 때", url: "/blog/yongin-giheung-sleep-sleeping-pill-concern/"}
+featured_column: "/blog/bundang-insomnia-sleep-disorder-cure/"
 ---
 
 ## 불면증은 어떤 상태인가요?
