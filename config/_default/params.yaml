@@ -27,6 +27,26 @@ clinic_info:
   kakao_chat_url: 'https://pf.kakao.com/_NEUHT'
   blog_url: 'https://blog.naver.com/peaceful_one'
   naver_map_client_id: 'g5wzgrvi9k' # NAVER Cloud Platform Maps Web Dynamic Map Client ID (ncpKeyId)
+  naver_place_url: 'https://map.naver.com/p/entry/place/1272285133'
+  hours:
+    - label: '월/수'
+      days: ['Monday', 'Wednesday']
+      opens: '10:00'
+      closes: '20:00'
+      note: '야간진료'
+    - label: '화/금'
+      days: ['Tuesday', 'Friday']
+      opens: '10:00'
+      closes: '19:00'
+    - label: '토/공휴일'
+      days: ['Saturday', 'PublicHolidays']
+      opens: '09:00'
+      closes: '15:00'
+      note: '점심시간 없음'
+      no_lunch: true
+  lunch_opens: '13:00'
+  lunch_closes: '14:00'
+  closed_days: '매주 목요일 / 일요일 휴진'
 
 theme:
   colors:

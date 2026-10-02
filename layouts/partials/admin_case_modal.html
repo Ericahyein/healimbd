@@ -1,5 +1,5 @@
 <!-- Admin Auth Modal (비밀번호 확인 모달) -->
-<div class="admin-modal" id="admin-auth-modal" role="dialog" aria-modal="true" aria-labelledby="admin-auth-title">
+<div class="admin-modal" id="admin-auth-modal" role="dialog" aria-modal="true" aria-labelledby="admin-auth-title" data-nosnippet>
   <div class="modal-card admin-auth-card">
     <div class="modal-header">
       <div class="modal-header-title-wrap">
@@ -33,7 +33,7 @@
 </div>
 
 <!-- Admin Case Writer Modal (원내 치료후기 직접 등록 에디터) -->
-<div class="admin-modal" id="admin-case-writer-modal" role="dialog" aria-modal="true" aria-labelledby="admin-writer-title">
+<div class="admin-modal" id="admin-case-writer-modal" role="dialog" aria-modal="true" aria-labelledby="admin-writer-title" data-nosnippet>
   <div class="modal-card admin-writer-card">
     <div class="modal-header">
       <div class="modal-header-title-wrap">
@@ -157,7 +157,7 @@
 
 {{ if not .Params.review_detail_page }}
 <!-- Dynamic Custom Case Reader Modal (legacy fallback; detail page uses a full-page reader) -->
-<div class="admin-modal" id="custom-case-reader-modal" role="dialog" aria-modal="true" aria-labelledby="custom-case-reader-title">
+<div class="admin-modal" id="custom-case-reader-modal" role="dialog" aria-modal="true" aria-labelledby="custom-case-reader-title" data-nosnippet>
   <div class="modal-card case-reader-card">
     <div class="modal-header">
       <div class="modal-header-title-wrap">
@@ -247,7 +247,7 @@
 </div>
 
 <!-- Treatment Review Original Photo Lightbox Modal -->
-<div class="review-lightbox-modal" id="review-photo-lightbox-modal" role="dialog" aria-modal="true" aria-label="치료후기 원본 크게 보기" style="display: none;">
+<div class="review-lightbox-modal" id="review-photo-lightbox-modal" role="dialog" aria-modal="true" aria-label="치료후기 원본 크게 보기" style="display: none;" data-nosnippet>
   <div class="lightbox-card">
     <button type="button" class="modal-close-circle lightbox-close" onclick="closeReviewPhotoLightbox()" aria-label="닫기">
       <i class="ph-bold ph-x"></i>
@@ -262,7 +262,7 @@
 {{ end }}
 
 <!-- Admin Case Preflight Inspection Modal (신규 후기 등록 전 공개 미리보기 & 발췌문 최종 검수 모달) -->
-<div class="admin-modal" id="admin-case-preflight-modal" role="dialog" aria-modal="true" aria-labelledby="admin-preflight-title">
+<div class="admin-modal" id="admin-case-preflight-modal" role="dialog" aria-modal="true" aria-labelledby="admin-preflight-title" data-nosnippet>
   <div class="modal-card admin-writer-card" style="max-width: 820px;">
     <div class="modal-header">
       <div class="modal-header-title-wrap">
@@ -326,7 +326,7 @@
 </div>
 
 <!-- Admin Case Editor Modal (기존 자필후기 관리자 수정 모달) -->
-<div class="admin-modal" id="admin-case-editor-modal" role="dialog" aria-modal="true" aria-labelledby="admin-editor-title">
+<div class="admin-modal" id="admin-case-editor-modal" role="dialog" aria-modal="true" aria-labelledby="admin-editor-title" data-nosnippet>
   <div class="modal-card admin-writer-card" style="max-width: 860px;">
     <div class="modal-header">
       <div class="modal-header-title-wrap">
