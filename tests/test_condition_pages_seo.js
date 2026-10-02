@@ -25,7 +25,7 @@ const guide = read('layouts/guide/list.html') + read('layouts/partials/condition
 for (const [name, content] of Object.entries(conditions)) {
   assert(content.includes('seo_title:'), `${name}: unique SEO title required`);
   assert(content.includes('description:'), `${name}: meta description required`);
-  assert(content.includes('lastmod:'), `${name}: medical review date required`);
+  assert(content.includes('lastmod:'), `${name}: content modification date required`);
   assert(content.includes('## 참고한 의료 정보'), `${name}: source section required`);
   assert((content.match(/question:/g) || []).length >= 6, `${name}: at least 6 visible FAQs required`);
   assert((content.match(/url: "\/blog\//g) || []).length >= 3, `${name}: at least 3 internal column links required`);
@@ -57,7 +57,9 @@ for (const training of ['뉴로피드백', '밸런싱', 'IM']) {
 }
 
 assert(layout.includes('{{ .Content }}'), 'condition content must be server-rendered');
-assert(layout.includes('손지웅 대표원장 의학 정보 검토'), 'visible medical reviewer required');
+assert(layout.includes('condition_medical_review.html'), 'visible review uses explicit editorial record');
+assert(layout.includes('최종 수정:'), 'content modification date must be labelled separately');
+assert(layout.includes('$medicalReview.confirmed'), 'unconfirmed review must not be displayed');
 assert(seo.includes('"MedicalWebPage"'), 'MedicalWebPage schema required');
 assert(seo.includes('"reviewedBy"'), 'reviewedBy schema required');
 assert(seo.includes('"FAQPage"'), 'FAQPage schema required');

@@ -89,6 +89,7 @@ jobs:
       - name: Run Condition SEO and Column Link Regression Tests
         run: |
           node tests/test_condition_pages_seo.js
+          node tests/test_condition_patient_guidance.js
           node tests/test_column_trust_pillar.js
           node tests/test_condition_column_links.js
 

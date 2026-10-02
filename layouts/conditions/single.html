@@ -20,9 +20,14 @@
           {{ end }}
         </h1>
         <p class="condition-lead">{{ .Params.hero_summary }}</p>
-        <div class="condition-meta" aria-label="의료 정보 검토 정보">
-          <span><i class="ph-bold ph-stethoscope"></i> 손지웅 대표원장 의학 정보 검토</span>
-          {{ if not .Lastmod.IsZero }}<span><i class="ph-bold ph-calendar-check"></i> 최종 검토 {{ .Lastmod.Format "2006.01.02" }}</span>{{ end }}
+        {{ $medicalReview := partial "condition_medical_review.html" . }}
+        <div class="condition-meta" aria-label="작성 및 수정·검토 정보">
+          <span><i class="ph-bold ph-pencil-simple"></i> 작성: {{ .Params.content_author | default .Params.author }}</span>
+          {{ if not .Lastmod.IsZero }}<span><i class="ph-bold ph-calendar-check"></i> 최종 수정: <time datetime="{{ .Lastmod.Format "2006-01-02" }}">{{ .Lastmod.Format "2006.01.02" }}</time></span>{{ end }}
+          {{ if $medicalReview.confirmed }}
+          <span><i class="ph-bold ph-stethoscope"></i> 의학적 검토: {{ $medicalReview.reviewer }}</span>
+          <span><i class="ph-bold ph-calendar-check"></i> 검토일: <time datetime="{{ $medicalReview.date }}">{{ $medicalReview.display_date }}</time></span>
+          {{ end }}
         </div>
         <div class="condition-hero-actions">
           <a class="condition-btn primary" href="{{ "/inquiry/" | relURL }}">온라인 문의</a>
