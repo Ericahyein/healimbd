@@ -3,17 +3,16 @@
   "category": "anxiety",
   "categoryName": "불안·사회공포",
   "reviewStatus": "approved",
-  "approvedDefinition": "일상의 다양한 상황이나 대인관계, 발표 등에서 과도한 걱정과 신체적 긴장감이 지속되어 불편을 겪는 상태",
+  "approvedDefinition": "걱정과 긴장이 이어질 때는 지속 양상과 일상 기능을 살펴 불안 문제를 평가합니다. 여러 일에 대한 통제하기 어려운 걱정과 신체 긴장은 범불안장애에서 나타날 수 있지만, 증상 하나로 진단하지 않습니다.",
   "commonSymptoms": [
-    "시선 공포, 발표 시 목소리와 손 떨림",
-    "사소한 일에 대한 통제하기 힘든 지속적 걱정",
-    "근육 긴장, 만성 피로, 소화불량 및 두통",
-    "안절부절못함과 초조감"
+    "조절하기 어려운 지속적 걱정",
+    "근육 긴장과 피로",
+    "수면의 어려움과 집중 저하",
+    "위장 불편 등 동반 신체 증상"
   ],
   "possibleAggravatingFactors": [
-    "평가받는 상황에 대한 과도한 부담감",
-    "카페인 과다 섭취 및 불규칙한 수면",
-    "완벽주의적 성향과 스트레스 누적"
+    "지속적인 스트레스와 생활 부담",
+    "카페인 과다 섭취 및 불규칙한 수면"
   ],
   "redFlags": [
     "극심한 우울감 및 일상 기능의 전면적 마비"
@@ -28,7 +27,11 @@
   "specificRules": [
     "단순 성격적 내향성을 질환으로 과장하여 단정하지 마십시오.",
     "불안의 원인을 단일 사건이나 특정 요인 하나로 축소하지 마십시오.",
-    "자연스러운 회복 과정을 돕는 관점으로 서술하고 불안 100% 제거를 장담하지 마십시오."
+    "자연스러운 회복 과정을 돕는 관점으로 서술하고 불안 100% 제거를 장담하지 마십시오.",
+    "사회불안장애·발표불안·내향성 설명은 presentation-anxiety 주제에 한정하십시오. 다른 주제의 근거를 채우기 위해 해당 설명이나 FAQ를 추가하지 마십시오.",
+    "현재 주제의 걱정·수면·신체 긴장과 직접 관련된 근거를 해당 설명 문단에 연결하십시오.",
+    "범불안장애 자료의 증상 설명을 모든 불안장애의 정의로 일반화하거나 증상만으로 범불안장애를 진단하지 마십시오.",
+    "불안과 신체 불편의 동반 가능성을 설명하되, 통증·어지럼증의 원인을 불안으로 확정하거나 검증되지 않은 신경 기전을 생성하지 마십시오."
   ],
   "bannedPhrases": [
     "완치",
@@ -38,8 +41,8 @@
   ],
   "faqCandidates": [
     {
-      "q": "단순히 성격이 소심한 것과 어떻게 다른가요?",
-      "a": "사회생활이나 일상에 명확한 지장을 줄 정도로 불안과 신체 반응이 심하다면 관리가 필요합니다."
+      "q": "몸이 긴장되는 것만으로 불안장애라고 볼 수 있나요?",
+      "a": "긴장만으로 단정하지 않고 걱정의 경과, 수면 변화와 일상 기능을 함께 살핍니다. 새로운 신체 증상은 별도 평가가 필요할 수 있습니다."
     }
   ],
   "internalLinkCandidates": [
@@ -58,24 +61,77 @@
   ],
   "evidenceNotes": [
     {
-      "claim": "사회공포증(사회불안장애)은 단순한 성격적 내향성이 아니라, 타인의 시선이나 평가를 받는 상황에 대한 현저하고 지속적인 두려움으로 일상 및 직업 기능이 저하되는 임상적 상태이다.",
-      "evidenceLevel": "classification-standard",
-      "sourceType": "diagnostic-manual",
-      "claimStrength": "established",
+      "claim": "범불안장애에서는 조절하기 어려운 지속적인 걱정과 함께 근육 긴장, 피로, 수면의 어려움 등이 나타날 수 있습니다. 증상 경과와 일상 영향을 살피며, 비슷한 증상을 만드는 신체적 원인도 의료진이 확인합니다. 긴장만으로 범불안장애를 확정하지 않습니다.",
+      "evidenceLevel": "public-health-guidance",
+      "sourceType": "patient-information",
+      "claimStrength": "cautionary",
       "sourceVerified": true,
       "verified": true,
       "productionUsable": true,
-      "sourceTitle": "Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition (DSM-5) - Social Anxiety Disorder",
-      "year": 2013,
-      "doi": "10.1176/appi.books.9780890425596",
-      "sourceUrl": "https://doi.org/10.1176/appi.books.9780890425596",
-      "source": {
-        "name": "American Psychiatric Association DSM-5",
-        "identifier": "DOI: 10.1176/appi.books.9780890425596",
-        "doi": "10.1176/appi.books.9780890425596",
-        "url": "https://doi.org/10.1176/appi.books.9780890425596"
-      },
-      "rationale": "단순 내향성을 질환으로 과장하지 않으면서 실제 임상적 불안 장애를 겪는 환자에게 바른 가이드를 제공함."
+      "sourceTitle": "NIMH — Generalized Anxiety Disorder: What You Need to Know",
+      "year": 2025,
+      "sourceUrl": "https://www.nimh.nih.gov/health/publications/generalized-anxiety-disorder-gad",
+      "sourceCheckedAt": "2026-10-02",
+      "topicAngles": [
+        "chronic-worry",
+        "somatization",
+        "worry-sleep",
+        "avoidance-daily-life",
+        "physical-tension",
+        "reassurance-loop"
+      ]
+    },
+    {
+      "claim": "범불안장애에서는 걱정·긴장과 수면·피로·위장 불편을 함께 평가합니다. 충분한 수면, 이완, 신체활동과 카페인 과다 섭취 조절은 생활 관리 선택지이며 진단과 필요한 치료를 대신하지 않습니다.",
+      "evidenceLevel": "public-health-guidance",
+      "sourceType": "patient-information",
+      "claimStrength": "cautionary",
+      "sourceVerified": true,
+      "verified": true,
+      "productionUsable": true,
+      "sourceTitle": "NHS — Generalised anxiety disorder (GAD)",
+      "year": 2024,
+      "sourceUrl": "https://www.nhs.uk/mental-health/conditions/generalised-anxiety-disorder-gad/",
+      "sourceCheckedAt": "2026-10-02",
+      "topicAngles": [
+        "chronic-worry",
+        "somatization",
+        "worry-sleep",
+        "avoidance-daily-life",
+        "physical-tension"
+      ]
+    },
+    {
+      "claim": "건강에 대한 불안이 중심인 경우 몸을 확인하거나 안심을 구하는 행동과 생활 영향을 기록할 수 있습니다. 반복 확인만으로 건강불안이나 강박증을 확정하지 않으며, 새롭거나 달라진 신체 증상의 진료를 피하도록 안내하지 않습니다.",
+      "evidenceLevel": "public-health-guidance",
+      "sourceType": "patient-information",
+      "claimStrength": "cautionary",
+      "sourceVerified": true,
+      "verified": true,
+      "productionUsable": true,
+      "sourceTitle": "NHS — Health anxiety",
+      "year": 2023,
+      "sourceUrl": "https://www.nhs.uk/mental-health/conditions/health-anxiety/",
+      "sourceCheckedAt": "2026-10-02",
+      "topicAngles": [
+        "reassurance-loop"
+      ]
+    },
+    {
+      "claim": "사회불안장애는 타인의 평가가 예상되는 상황의 두려움·회피와 일상 기능의 영향을 살펴 평가합니다. 단순한 수줍음이나 성격적 내향성만으로 질환을 단정하지 않습니다.",
+      "evidenceLevel": "public-health-guidance",
+      "sourceType": "patient-information",
+      "claimStrength": "cautionary",
+      "sourceVerified": true,
+      "verified": true,
+      "productionUsable": true,
+      "sourceTitle": "NIMH — Social Anxiety Disorder: What You Need to Know",
+      "year": 2025,
+      "sourceUrl": "https://www.nimh.nih.gov/health/publications/social-anxiety-disorder-more-than-just-shyness",
+      "sourceCheckedAt": "2026-10-02",
+      "topicAngles": [
+        "presentation-anxiety"
+      ]
     },
     {
       "claim": "사회불안장애 관리는 인지행동치료(CBT)나 필요 시 약물치료 등 근거 기반 치료 옵션을 통해 불안 반응과 회피 행동을 완화하고 일상 기능을 회복하는 과정이며, 일률적인 영구 완치를 장담할 수 없다.",
@@ -93,7 +149,71 @@
         "identifier": "https://www.nice.org.uk/guidance/cg159",
         "url": "https://www.nice.org.uk/guidance/cg159"
       },
-      "rationale": "NICE 가이드라인의 근거 기반 치료 권고(CBT 및 약물치료)를 제시하며, 비현실적인 완치 보장을 차단하고 단계적 기능 회복 목표를 설정함."
+      "rationale": "NICE 가이드라인의 근거 기반 치료 권고(CBT 및 약물치료)를 제시하며, 비현실적인 완치 보장을 차단하고 단계적 기능 회복 목표를 설정함.",
+      "topicAngles": [
+        "presentation-anxiety"
+      ]
+    },
+    {
+      "claim": "사회공포증(사회불안장애)은 단순한 성격적 내향성이 아니라, 타인의 시선이나 평가를 받는 상황에 대한 현저하고 지속적인 두려움으로 일상 및 직업 기능이 저하되는 임상적 상태이다.",
+      "evidenceLevel": "classification-standard",
+      "sourceType": "diagnostic-manual",
+      "claimStrength": "established",
+      "sourceVerified": true,
+      "verified": true,
+      "productionUsable": true,
+      "sourceTitle": "Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition (DSM-5) - Social Anxiety Disorder",
+      "year": 2013,
+      "doi": "10.1176/appi.books.9780890425596",
+      "sourceUrl": "https://doi.org/10.1176/appi.books.9780890425596",
+      "source": {
+        "name": "American Psychiatric Association DSM-5",
+        "identifier": "DOI: 10.1176/appi.books.9780890425596",
+        "doi": "10.1176/appi.books.9780890425596",
+        "url": "https://doi.org/10.1176/appi.books.9780890425596"
+      },
+      "rationale": "단순 내향성을 질환으로 과장하지 않으면서 실제 임상적 불안 장애를 겪는 환자에게 바른 가이드를 제공함.",
+      "topicAngles": [
+        "presentation-anxiety"
+      ]
     }
-  ]
+  ],
+  "topicOverrides": {
+    "presentation-anxiety": {
+      "approvedDefinition": "타인의 평가나 시선이 예상되는 사회적 상황에서 두려움·회피가 지속되고 일상 기능을 방해하는 상태를 평가합니다. 단순 내향성이나 일시적 발표 긴장만으로 사회불안장애를 진단하지 않습니다.",
+      "commonSymptoms": [
+        "발표·대화 등 평가 상황에서의 두려움",
+        "사회적 상황을 피하거나 큰 불편을 겪음",
+        "떨림·몸의 경직과 일상 기능 저하"
+      ],
+      "possibleAggravatingFactors": [
+        "타인의 평가가 예상되는 사회적 상황",
+        "큰 스트레스나 환경 변화"
+      ],
+      "faqCandidates": [
+        {
+          "q": "단순히 성격이 소심한 것과 어떻게 다른가요?",
+          "a": "사회생활이나 일상에 명확한 지장을 줄 정도로 불안과 신체 반응이 심하다면 관리가 필요합니다."
+        }
+      ],
+      "specificRules": [
+        "단순 성격적 내향성을 질환으로 과장하여 단정하지 마십시오.",
+        "불안의 원인을 단일 사건이나 특정 요인 하나로 축소하지 마십시오.",
+        "자연스러운 회복 과정을 돕는 관점으로 서술하고 불안 100% 제거를 장담하지 마십시오.",
+        "발표·사회적 평가 상황과 회피가 생활에 미치는 영향에 집중하십시오. 공개된 NIMH와 NICE 자료를 우선 사용하고, 본원에서 정식 CBT를 제공한다고 추정하지 마십시오."
+      ]
+    },
+    "reassurance-loop": {
+      "specificRules": [
+        "단순 성격적 내향성을 질환으로 과장하여 단정하지 마십시오.",
+        "불안의 원인을 단일 사건이나 특정 요인 하나로 축소하지 마십시오.",
+        "자연스러운 회복 과정을 돕는 관점으로 서술하고 불안 100% 제거를 장담하지 마십시오.",
+        "사회불안장애·발표불안·내향성 설명은 presentation-anxiety 주제에 한정하십시오. 다른 주제의 근거를 채우기 위해 해당 설명이나 FAQ를 추가하지 마십시오.",
+        "현재 주제의 걱정·수면·신체 긴장과 직접 관련된 근거를 해당 설명 문단에 연결하십시오.",
+        "범불안장애 자료의 증상 설명을 모든 불안장애의 정의로 일반화하거나 증상만으로 범불안장애를 진단하지 마십시오.",
+        "불안과 신체 불편의 동반 가능성을 설명하되, 통증·어지럼증의 원인을 불안으로 확정하거나 검증되지 않은 신경 기전을 생성하지 마십시오.",
+        "NHS 건강불안 자료는 건강을 걱정하며 몸을 확인하거나 안심을 구하는 경우에 한정해 설명하십시오. 모든 반복 확인을 건강불안·강박증으로 진단하지 마십시오. 확인 대상과 생활 영향을 살피며 새롭거나 달라진 신체 증상의 평가를 미루게 하지 마십시오."
+      ]
+    }
+  }
 }
