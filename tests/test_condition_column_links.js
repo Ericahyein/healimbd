@@ -3,6 +3,7 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 const { spawnSync } = require('child_process');
+const { countPublishedConditionColumns } = require('../scripts/auto_column/column_coverage');
 
 // Exercise the real Hugo partial, including sparse and invalid selections.
 const root = path.resolve(__dirname, '..');
@@ -86,12 +87,14 @@ try {
         }
       }
       build();
-      const expectedCounts = {tic: 3, adhd: 3, panic: 3, anxiety: 3, insomnia: 3, autonomic: 3, hyperhidrosis: 1, ibs: 2, syncope: 1};
-      for (const [slug, count] of Object.entries(expectedCounts)) {
+      // Real content grows through automatic publication. Keep exact sparse
+      // expectations in the fixtures above, and check the live inventory here.
+      const publishedCounts = countPublishedConditionColumns(path.join(root, 'content/blog'), new Date());
+      for (const slug of ['tic', 'adhd', 'panic', 'anxiety', 'insomnia', 'autonomic', 'hyperhidrosis', 'ibs', 'syncope']) {
         const source = fs.readFileSync(path.join(root, 'content/conditions', slug + '.md'), 'utf8');
         const selected = source.match(/^featured_column: "([^"]+)"$/m)?.[1];
         const items = links(slug);
-        assert.strictEqual(items.length, count, slug + ': matches available article count');
+        assert.strictEqual(items.length, Math.min(3, publishedCounts[slug]), slug + ': matches available article count, capped at three');
         assert.strictEqual(items[0].url, selected, slug + ': chosen article is first');
         assert.strictEqual(new Set(items.map(item => item.url)).size, items.length, slug + ': no duplicate cards');
         assert.strictEqual(items.filter(item => item.label.includes('대표')).length, 1, slug + ': exactly one featured article');
