@@ -22,7 +22,8 @@ const metaBlock = text => text.match(/<div\b[^>]*class=(?:"condition-meta"|condi
 
 try {
   write('hugo.toml', 'baseURL = "https://healimbd.com/"\ntitle = "해아림한의원 분당점"\n[markup.goldmark.renderer]\nunsafe = true\n');
-  for (const name of ['condition_medical_review.html', 'condition_related_posts.html', 'head_seo.html']) {
+  write('config/_default/params.yaml', fs.readFileSync(path.join(root, 'config/_default/params.yaml'), 'utf8'));
+  for (const name of ['condition_medical_review.html', 'condition_related_posts.html', 'head_seo.html', 'clinic_visit_summary.html']) {
     write('layouts/partials/' + name, fs.readFileSync(path.join(root, 'layouts/partials', name), 'utf8'));
   }
   write('layouts/conditions/single.html', fs.readFileSync(path.join(root, 'layouts/conditions/single.html'), 'utf8'));
@@ -50,6 +51,14 @@ try {
   for (const slug of slugs) {
     const text = html(slug);
     const page = schemaPage(text);
+    const clinic = schemas(text).find(node => node['@type'] === 'MedicalClinic');
+    assert.strictEqual(clinic.telephone, '031-716-8575');
+    assert(text.includes(clinic.address.streetAddress), slug + ': schema address must also be visible');
+    assert(text.includes('정자역 3번 출구 도보 2분'), slug + ': visit summary contains transit information');
+    assert.strictEqual(clinic.openingHoursSpecification.length, 5, slug + ': weekday lunch breaks remain separate');
+    assert(clinic.openingHoursSpecification.some(row => row.closes === '20:00' && row.dayOfWeek.includes('Wednesday')));
+    assert(clinic.sameAs.includes('https://map.naver.com/p/entry/place/1272285133'));
+    assert(text.includes('clinic-visit-summary') && text.includes('clinic-visit-links'), slug + ': public visit summary and booking links required');
     const meta = metaBlock(text);
     assert(meta && meta.includes('최종 수정:') && meta.includes('2026.10.01'), slug + ': modification date must be visible');
     assert(meta.includes('의료 콘텐츠팀'), slug + ': visible author must match actual editing scope');

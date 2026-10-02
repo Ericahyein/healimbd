@@ -111,14 +111,24 @@
 {{ $doctorId := "https://healimbd.com/#doctor-jiwoong-son" }}
 {{ $webpageId := printf "%s#webpage" $canonical }}
 {{ $breadcrumbId := printf "%s#breadcrumb" $canonical }}
+{{ $info := site.Params.clinic_info }}
+{{ $openingHours := slice }}
+{{ range $info.hours }}
+  {{ if .no_lunch }}
+    {{ $openingHours = $openingHours | append (dict "@type" "OpeningHoursSpecification" "dayOfWeek" .days "opens" .opens "closes" .closes) }}
+  {{ else }}
+    {{ $openingHours = $openingHours | append (dict "@type" "OpeningHoursSpecification" "dayOfWeek" .days "opens" .opens "closes" $info.lunch_opens) }}
+    {{ $openingHours = $openingHours | append (dict "@type" "OpeningHoursSpecification" "dayOfWeek" .days "opens" $info.lunch_closes "closes" .closes) }}
+  {{ end }}
+{{ end }}
 
 {{ $clinic := dict
   "@type" "MedicalClinic"
   "@id" $clinicId
-  "name" "해아림한의원 분당점"
+  "name" site.Params.name
   "url" "https://healimbd.com/"
   "logo" ("images/healim-symbol-logo.png" | absURL)
-  "telephone" "031-716-8575"
+  "telephone" $info.phone
   "medicalSpecialty" (slice "Psychiatric" "Pediatric")
   "areaServed" (slice
     (dict "@type" "City" "name" "성남시")
@@ -130,7 +140,7 @@
   )
   "address" (dict
     "@type" "PostalAddress"
-    "streetAddress" "경기도 성남시 분당구 성남대로 331번길 3-3, 젤존타워 3차, 405호"
+    "streetAddress" $info.address
     "addressLocality" "성남시 분당구"
     "addressRegion" "경기도"
     "postalCode" "13558"
@@ -141,17 +151,12 @@
     "latitude" 37.36533
     "longitude" 127.10770
   )
-  "openingHoursSpecification" (slice
-    (dict "@type" "OpeningHoursSpecification" "dayOfWeek" (slice "Monday" "Wednesday") "opens" "10:00" "closes" "13:00")
-    (dict "@type" "OpeningHoursSpecification" "dayOfWeek" (slice "Monday" "Wednesday") "opens" "14:00" "closes" "20:00")
-    (dict "@type" "OpeningHoursSpecification" "dayOfWeek" (slice "Tuesday" "Friday") "opens" "10:00" "closes" "13:00")
-    (dict "@type" "OpeningHoursSpecification" "dayOfWeek" (slice "Tuesday" "Friday") "opens" "14:00" "closes" "19:00")
-    (dict "@type" "OpeningHoursSpecification" "dayOfWeek" (slice "Saturday" "PublicHolidays") "opens" "09:00" "closes" "15:00")
-  )
+  "openingHoursSpecification" $openingHours
   "sameAs" (slice
-    "https://naver.me/xbARooIc"
-    "https://blog.naver.com/peaceful_one"
-    "https://pf.kakao.com/_NEUHT"
+    $info.naver_place_url
+    $info.naver_booking_url
+    $info.blog_url
+    $info.kakao_chat_url
   )
 }}
 {{ if fileExists "static/images/healim_open_hand_hero.png" }}

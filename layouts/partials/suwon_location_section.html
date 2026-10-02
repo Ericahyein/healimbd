@@ -1,4 +1,5 @@
 <!-- Suwon-Style Unified Location & Timetable Section (Reusable across Home, Guide, Location) -->
+{{ $info := site.Params.clinic_info }}
 <section class="suwon-location-section" id="location">
   <div class="container">
     <!-- Header Row -->
@@ -10,7 +11,7 @@
 
       <!-- Route Finding CTA: Naver Map & Kakao Map Action Buttons -->
       <div class="suwon-location-header-actions">
-        <a href="https://map.naver.com/p/entry/place/1272285133" target="_blank" rel="noopener noreferrer" class="btn-location-action btn-naver-map" aria-label="네이버 지도 길찾기">
+        <a href="{{ $info.naver_place_url }}" target="_blank" rel="noopener noreferrer" class="btn-location-action btn-naver-map" aria-label="네이버 지도 길찾기">
           <span class="location-btn-icon icon-naver">N</span>
           <span class="location-btn-text">네이버 지도 길찾기</span>
         </a>
@@ -37,9 +38,9 @@
         <div class="suwon-address-block">
           <div class="suwon-addr-header">
             <i class="ph-fill ph-map-pin suwon-icon-pin"></i>
-            <h3 class="suwon-addr-title">경기 성남시 분당구 성남대로 331번길 3-3, 젤존타워 3차 405호</h3>
+            <h3 class="suwon-addr-title">{{ $info.address }}</h3>
           </div>
-          <p class="suwon-addr-sub">수인지하철·신분당선 정자역 3번 출구에서 150m (도보 2분)</p>
+          <p class="suwon-addr-sub">{{ $info.subway }}</p>
         </div>
 
         <div class="suwon-transit-card">
@@ -74,7 +75,7 @@
               <span class="transit-type-label">자차</span>
             </div>
             <div class="suwon-transit-routes">
-              <p>지하 3층까지 주차장이 마련되어 있습니다.(주차비 지원)</p>
+              <p>{{ $info.parking }}</p>
             </div>
           </div>
         </div>
@@ -85,7 +86,7 @@
         <!-- Direct Phone Link -->
         <div class="suwon-phone-card">
           <i class="ph-fill ph-phone-call suwon-phone-icon"></i>
-          <a href="tel:031-716-8575" class="suwon-phone-number" aria-label="해아림한의원 분당점 전화걸기">031-716-8575</a>
+          <a href="tel:{{ $info.phone }}" class="suwon-phone-number" aria-label="해아림한의원 분당점 전화걸기">{{ $info.phone }}</a>
         </div>
 
         <!-- Hours Header -->
@@ -97,30 +98,19 @@
         <!-- Timetable Table (Merged Tue/Fri, Day on Left, Label + Time on Right) -->
         <table class="suwon-hours-table" aria-label="진료시간 안내표">
           <tbody>
+            {{ range $info.hours }}
             <tr>
-              <th scope="row" class="hours-day-col">월/수</th>
+              <th scope="row" class="hours-day-col">{{ .label }}</th>
               <td class="hours-time-col">
-                <span class="suwon-badge-night">[야간진료]</span>
-                <span class="hours-time font-bold">10:00 - 20:00</span>
+                {{ if .note }}<span class="{{ if .no_lunch }}suwon-badge-nolunch{{ else }}suwon-badge-night{{ end }}">[{{ .note }}]</span>{{ end }}
+                <span class="hours-time{{ if .note }} font-bold{{ end }}">{{ .opens }} - {{ .closes }}</span>
               </td>
             </tr>
-            <tr>
-              <th scope="row" class="hours-day-col">화/금</th>
-              <td class="hours-time-col">
-                <span class="hours-time">10:00 - 19:00</span>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row" class="hours-day-col">토/공휴일</th>
-              <td class="hours-time-col">
-                <span class="suwon-badge-nolunch">[점심시간 없음]</span>
-                <span class="hours-time font-bold">09:00 - 15:00</span>
-              </td>
-            </tr>
+            {{ end }}
             <tr class="suwon-lunch-row">
               <th scope="row" class="hours-day-col">점심시간</th>
               <td class="hours-time-col">
-                <span class="hours-lunch">13:00 - 14:00</span>
+                <span class="hours-lunch">{{ $info.lunch_opens }} - {{ $info.lunch_closes }}</span>
               </td>
             </tr>
           </tbody>
@@ -128,7 +118,7 @@
 
         <!-- Notice Points -->
         <div class="suwon-hours-notices">
-          <p class="suwon-notice-point text-teal">* 매주 목요일 / 일요일은 휴진입니다.</p>
+          <p class="suwon-notice-point text-teal">* {{ $info.closed_days }}입니다.</p>
           <p class="suwon-notice-point">* 원활하고 정밀한 검사를 위해 사전 예약 후 내원해 주시기 바랍니다.</p>
         </div>
       </div>
