@@ -111,6 +111,9 @@ jobs:
       - name: Verify Hyperhidrosis Article and Condition Card Rendering
         run: node tests/test_condition_column_coverage.js public
 
+      - name: Verify Syncope Emergency Guidance and Record Tables
+        run: node tests/test_syncope_column_guidance.js public
+
       - name: Verify Public Review Guide and Protected Review Indexing
         run: node tests/test_public_review_guide.js public
 
