@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="750" viewBox="0 0 1200 750">
+  <defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#15283d"/><stop offset="1" stop-color="#286273"/></linearGradient></defs>
+  <rect width="1200" height="750" fill="url(#bg)"/>
+  <circle cx="980" cy="335" r="270" fill="#88cec6" opacity=".13"/>
+  <circle cx="1110" cy="645" r="190" fill="#8fbdce" opacity=".13"/>
+  <rect x="680" y="115" width="395" height="500" rx="38" fill="#13283c" opacity=".4"/>
+  <rect x="660" y="95" width="395" height="500" rx="38" fill="#f4eee1"/>
+  <rect x="660" y="95" width="395" height="88" rx="38" fill="#6bc7bb"/>
+  <path d="M680 170H1035" stroke="#6bc7bb" stroke-width="26"/>
+  <path d="M745 80V127M970 80V127" stroke="#183d50" stroke-width="22" stroke-linecap="round"/>
+  <g fill="#bad7d4"><rect x="704" y="220" width="90" height="63" rx="12"/><rect x="813" y="220" width="90" height="63" rx="12"/><rect x="922" y="220" width="90" height="63" rx="12"/></g>
+  <path d="M765 510V368Q765 334 803 334H950Q985 334 985 368V505Q985 537 950 537H931V470H877V424H930V382H821V425H850V470H815V510" fill="none" stroke="#226473" stroke-width="25" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M796 366H949M796 400H948" stroke="#f4eee1" stroke-width="9" opacity=".5"/>
+  <circle cx="1050" cy="540" r="70" fill="#deb671"/>
+  <path d="M1030 517H1073L1060 505M1073 517L1060 529M1070 562H1027L1040 550M1027 562L1040 574" fill="none" stroke="#183d50" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
