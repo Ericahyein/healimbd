@@ -9,7 +9,7 @@ category: "ibs"
 category_name: "과민성대장"
 author: "해아림한의원 의료 콘텐츠팀"
 content_author: "해아림한의원 의료 콘텐츠팀"
-image: "images/blog/seongnam-main-ibs-morning-diarrhea.jpg"
+image: "images/blog/seongnam-main-ibs-bowel-pattern.jpg"
 summary: "설사와 변비가 번갈아 나타날 때 복통과 배변의 관계, 변 형태와 복용 약 변화를 어떻게 확인하는지, 혼합형 과민성대장증후군의 평가와 위험 신호를 안내합니다."
 hashtags:
   - "성남"
