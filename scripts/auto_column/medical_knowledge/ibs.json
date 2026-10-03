@@ -3,7 +3,7 @@
   "category": "ibs",
   "categoryName": "과민성대장",
   "reviewStatus": "approved",
-  "approvedDefinition": "내시경 등 기질적 이상이 없음에도 반복되는 복통과 함께 배변과의 관계(배변 후 통증 호전 또는 악화)나 배변 빈도 및 대변 형태(설사 또는 변비) 변화가 연관되어 나타나는 만성 기능성 장 질환",
+  "approvedDefinition": "장에 뚜렷한 기질적 손상이 없어도 반복되는 복통과 배변과의 관계(배변 후 통증 호전 또는 악화), 배변 빈도 및 대변 형태 변화가 나타나는 장-뇌 상호작용 질환. 증상 패턴·병력·진찰과 위험 신호를 함께 평가하며 모든 환자에게 내시경이 필요한 것은 아님",
   "commonSymptoms": [
     "반복되는 복통과 함께 배변 후 나타나는 통증 변화",
     "배변 빈도 변화(잦은 배변 또는 배변 횟수 감소) 및 대변 형태 변화(묽은 변, 설사 또는 단단한 변)",
@@ -15,14 +15,17 @@
     "불규칙한 식사 습관과 수면 부족"
   ],
   "redFlags": [
-    "혈변, 설명되지 않는 체중 감소, 빈혈, 야간 복통"
+    "혈변·검고 끈적한 변, 설명되지 않는 체중 감소, 빈혈",
+    "밤에 깨는 설사·복통, 반복되는 발열 또는 뚜렷한 새로운 배변 변화",
+    "대장암·염증성 장질환·셀리악병 가족력"
   ],
-  "evaluationGuidance": "소화기 긴장 상태와 장내 민감도를 평가하기 위해 문진을 통해 복통과 배변의 연관성 및 변 형태 변화를 면밀히 확인하며, 복진(배를 만져보는 진찰), 설진, 맥진을 참고로 활용할 수 있습니다.",
+  "evaluationGuidance": "해아림한의원 분당점에서는 필요에 따라 뇌인지검사, 뇌기능검사, 정서심리검사, 문진·설진·복진·진맥을 참고로 활용합니다. 검사 하나로 질환이나 원인을 확정하지 않으며 모든 검사를 일률적으로 시행하지 않습니다. 복통과 배변의 관계, 변의 횟수·형태, 기존 소화기 검사와 복용 정보를 확인합니다. 참고 검사는 염증성 장질환·감염·암을 확인하는 소화기 검사를 대신하지 않으며, 위험 신호나 불분명한 진단은 소화기내과 평가를 우선합니다.",
   "treatmentGuidance": "개인의 증상과 전반적인 상태를 고려한 한약 처방, 침구 치료, 생활 습관 지도",
   "lifestyleTips": [
-    "식사 일지를 활용하여 개인별로 증상을 유발하는 음식을 스스로 파악하고 조절하기",
+    "식사·배변 일지로 음식의 종류·양·시간과 증상 발생 시점, 반복 여부를 관찰하기. 음식 섭취 뒤 증상이 생겼다는 사실만으로 원인을 확정하지 않기",
     "규칙적인 식사 시간과 천천히 씹어 먹는 식습관 유지",
-    "복부를 따뜻하게 유지하는 것은 긴장 완화와 편안함을 돕는 보조적인 생활 요령으로 활용"
+    "복부를 따뜻하게 유지하는 것은 긴장 완화와 편안함을 돕는 보조적인 생활 요령으로 활용",
+    "저포드맵 등 제한 식단은 전문가와 필요성을 상의하고, 반응 확인 후 재도입을 계획하기. 혼자 장기간 식품군을 제한하지 않기"
   ],
   "specificRules": [
     "단순히 긴장하거나 스트레스받을 때 설사나 복통이 반복된다는 이유만으로 과민성대장증후군으로 성급히 단정하지 마십시오.",
@@ -30,7 +33,13 @@
     "구체적인 Rome 진단 기간 수치는 검증된 출처가 있을 때만 사용하고, 임의 수치를 제시하지 마십시오.",
     "유제품, 밀가루, 카페인 등을 모든 환자에게 일괄 적용되는 대표 악화 음식처럼 묶어서 제시하지 마십시오. 특정 음식은 개인차가 크므로 식사 일지를 통해 개인별 음식-증상 관계를 파악하도록 서술하고, 특히 '밀가루' 자체를 포괄적인 IBS 악화 음식으로 단정하지 마십시오.",
     "'복부를 따뜻하게 유지'는 환자가 편안함을 느낄 수 있는 보조적인 생활 방법 정도로만 표현하고, 핵심 치료 원리처럼 제시하지 마십시오.",
-    "혈변, 원인 모를 체중 감소, 빈혈, 야간 복통 등 경고 증상(Red flags) 시 소화기내과 정밀 평가를 안내하십시오."
+    "혈변·검고 끈적한 변, 원인 모를 체중 감소, 빈혈, 밤에 깨는 설사·복통, 반복 발열이나 뚜렷한 새로운 배변 변화 및 소화기 위험 가족력은 소화기내과 평가를 안내하십시오. 기존 IBS 진단이 있어도 새로운 위험 신호는 재평가하며 기록을 채우기 위해 평가를 미루게 하지 마십시오.",
+    "내시경 정상만으로 IBS를 확정하거나 모든 환자에게 내시경이 필수라고 설명하지 마십시오. 증상 패턴·진료 및 가족력·진찰을 바탕으로 관련 의료기관이 필요한 검사를 정한다고 안내하십시오.",
+    "분당점의 첫 진료는 증상과 생활 영향 확인, 기존 소화기 평가와 복용 정보 검토, 필요한 참고 평가 선택, 개인별 진료 방향 상담 순서로 설명하십시오. 본원의 참고 검사는 염증성 장질환·감염·암을 확인하는 소화기 검사를 대신하지 않습니다.",
+    "진료 준비 기록에는 복통과 배변 전후 변화, 변의 횟수·형태, 식사·카페인의 양·시간, 수면·긴장·활동, 위험 신호, 기존 검사·가족력, 복용·치료 이력을 포함하십시오. 미확인은 모름으로 적고 음식과 증상의 시간 관계를 원인으로 단정하지 마십시오.",
+    "기존 처방약을 임의로 중단하지 않도록 안내하십시오. 한약과 기존 약의 병행 여부는 이름·용량·횟수, 건강기능식품과 건강 상태를 확인하고 필요시 처방 의료진과 상의해 정합니다. 모든 약의 병행이 안전하다고 보장하지 마십시오.",
+    "저포드맵 등 식품군 제한은 전문가와 상의해 필요한 경우에 시행하고 반응 확인 뒤 재도입을 설명하십시오. 유제품·밀가루 등 일괄 금지나 장기간 독자 제한을 지시하지 마십시오.",
+    "NIDDK의 일반 치료 안내를 분당점 한약·침구 치료 효과의 근거로 제시하거나 본원이 정식 장-뇌 행동치료를 제공한다고 만들지 마십시오."
   ],
   "bannedPhrases": [
     "완치",
@@ -82,12 +91,92 @@
         "url": "https://doi.org/10.14309/ajg.0000000000001036"
       },
       "rationale": "기질적 소화기 질환(염증성 장질환, 악성 종양 등)을 놓치는 임상적 위험을 차단함."
+    },
+    {
+      "claim": "IBS는 복통과 배변 변화가 나타나는 장-뇌 상호작용 질환이며 긴장이나 음식 반응 하나로 원인을 확정하지 않는다.",
+      "evidenceLevel": "public-health-guidance",
+      "sourceType": "public-health-guidance",
+      "claimStrength": "established",
+      "sourceVerified": true,
+      "verified": true,
+      "productionUsable": true,
+      "sourceTitle": "Symptoms & Causes of Irritable Bowel Syndrome",
+      "year": 2017,
+      "sourceUrl": "https://www.niddk.nih.gov/health-information/digestive-diseases/irritable-bowel-syndrome/symptoms-causes",
+      "source": {
+        "name": "National Institute of Diabetes and Digestive and Kidney Diseases (NIDDK)",
+        "url": "https://www.niddk.nih.gov/health-information/digestive-diseases/irritable-bowel-syndrome/symptoms-causes"
+      },
+      "rationale": "장-뇌 축과 여러 증상 요인의 설명을 뒷받침함. 2026-10-02 공식 페이지 확인."
+    },
+    {
+      "claim": "증상 패턴·병력·가족력과 진찰로 평가하며 출혈·검은변·빈혈·체중 감소 등은 다른 원인을 확인할 신호이다. 필요한 검사는 개인별로 정한다.",
+      "evidenceLevel": "public-health-guidance",
+      "sourceType": "public-health-guidance",
+      "claimStrength": "cautionary",
+      "sourceVerified": true,
+      "verified": true,
+      "productionUsable": true,
+      "sourceTitle": "Diagnosis of Irritable Bowel Syndrome",
+      "year": 2017,
+      "sourceUrl": "https://www.niddk.nih.gov/health-information/digestive-diseases/irritable-bowel-syndrome/diagnosis",
+      "source": {
+        "name": "National Institute of Diabetes and Digestive and Kidney Diseases (NIDDK)",
+        "url": "https://www.niddk.nih.gov/health-information/digestive-diseases/irritable-bowel-syndrome/diagnosis"
+      },
+      "rationale": "내시경 필수 또는 정상 내시경만으로 확정이라는 오해를 방지하고 진료 준비와 위험 신호 평가를 뒷받침함. 2026-10-02 공식 페이지 확인."
+    },
+    {
+      "claim": "IBS의 일반적인 치료는 증상에 따른 식사·생활 변화와 약물 및 행동치료 등을 개별적으로 선택하며 복용 상담이 필요하다.",
+      "evidenceLevel": "public-health-guidance",
+      "sourceType": "public-health-guidance",
+      "claimStrength": "established",
+      "sourceVerified": true,
+      "verified": true,
+      "productionUsable": true,
+      "sourceTitle": "Treatment for Irritable Bowel Syndrome",
+      "year": 2017,
+      "sourceUrl": "https://www.niddk.nih.gov/health-information/digestive-diseases/irritable-bowel-syndrome/treatment",
+      "source": {
+        "name": "National Institute of Diabetes and Digestive and Kidney Diseases (NIDDK)",
+        "url": "https://www.niddk.nih.gov/health-information/digestive-diseases/irritable-bowel-syndrome/treatment"
+      },
+      "rationale": "일반 의료정보와 분당점 진료를 구분하고 병행 시 약·건강 상태 검토를 안내함. 본원 한약·침구의 효과를 입증하는 자료는 아님. 2026-10-02 공식 페이지 확인."
+    },
+    {
+      "claim": "식사 조정의 반응은 개인마다 다르며 저포드맵 식단은 일정 기간 반응을 확인한 뒤 음식을 서서히 재도입한다.",
+      "evidenceLevel": "public-health-guidance",
+      "sourceType": "public-health-guidance",
+      "claimStrength": "established",
+      "sourceVerified": true,
+      "verified": true,
+      "productionUsable": true,
+      "sourceTitle": "Eating, Diet, & Nutrition for Irritable Bowel Syndrome",
+      "year": 2017,
+      "sourceUrl": "https://www.niddk.nih.gov/health-information/digestive-diseases/irritable-bowel-syndrome/eating-diet-nutrition",
+      "source": {
+        "name": "National Institute of Diabetes and Digestive and Kidney Diseases (NIDDK)",
+        "url": "https://www.niddk.nih.gov/health-information/digestive-diseases/irritable-bowel-syndrome/eating-diet-nutrition"
+      },
+      "rationale": "식사·증상 기록과 전문가 상담 및 제한 후 재도입을 뒷받침하며 일괄적 음식 금지를 방지함. 2026-10-02 공식 페이지 확인."
     }
   ],
   "faqCandidates": [
     {
       "q": "스트레스와 장 건강이 왜 연결되나요?",
-      "a": "장과 뇌는 '장-뇌 축'이라는 자율신경망으로 긴밀히 연결되어 있어 감정적 긴장이 장 운동에 직접 영향을 줍니다."
+      "a": "장과 뇌는 신경과 여러 생리적 신호를 통해 서로 영향을 주고받습니다. 긴장이 증상을 악화할 수 있지만 유일한 원인은 아니며 복통과 배변 변화, 음식과 수면 등도 함께 살핍니다."
+    },
+    {
+      "q": "내시경이 정상이면 IBS가 확실한가요?",
+      "a": "정상 내시경만으로 확정하지 않습니다. 반복되는 복통과 배변 횟수·형태 변화, 병력과 위험 신호를 함께 평가하며 검사 필요성은 개인에 따라 정합니다."
+    },
+    {
+      "q": "기록을 모두 채운 뒤에 방문해야 하나요?",
+      "a": "가능한 범위의 식사·배변 기록과 기존 검사 결과, 복용 약 목록을 준비합니다. 모르는 내용은 미확인으로 표시하며 위험 신호가 있으면 기록보다 평가가 우선입니다."
+    },
+    {
+      "q": "기존 약과 한약을 함께 복용해도 되나요?",
+      "a": "처방약을 임의로 중단하지 않습니다. 이름·용량·횟수와 건강기능식품 및 건강 상태를 확인하고 필요한 경우 처방 의료진과 상의해 병행 여부를 정합니다."
     }
   ],
   "internalLinkCandidates": [
@@ -97,7 +186,7 @@
     },
     {
       "title": "해아림한의원 주요 진료과목 안내",
-      "url": "/treatments/"
+      "url": "/guide/"
     },
     {
       "title": "온라인 상담 및 예약 안내",

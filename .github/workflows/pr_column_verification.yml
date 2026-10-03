@@ -114,6 +114,9 @@ jobs:
       - name: Verify Syncope Emergency Guidance and Record Tables
         run: node tests/test_syncope_column_guidance.js public
 
+      - name: Verify IBS Visit Guidance and Record Table
+        run: node tests/test_ibs_column_guidance.js public
+
       - name: Verify Public Review Guide and Protected Review Indexing
         run: node tests/test_public_review_guide.js public
 

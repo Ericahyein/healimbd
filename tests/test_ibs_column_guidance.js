@@ -1,0 +1,82 @@
+const assert = require('assert');
+const fs = require('fs');
+const path = require('path');
+const { CLINIC_EVALUATION, checkClinicFacts, prepareArticleKnowledge } = require('../scripts/auto_column/medical_policy');
+const { validateArticleContent } = require('../scripts/auto_column/content_validator');
+
+const root = path.join(__dirname, '..');
+const slug = 'seongnam-sujeong-ibs-morning-diarrhea';
+const markdown = fs.readFileSync(path.join(root, 'content/blog', `${slug}.md`), 'utf8');
+const body = markdown.replace(/^---[\s\S]*?---\s*/, '');
+const condition = fs.readFileSync(path.join(root, 'content/conditions/ibs.md'), 'utf8');
+const params = fs.readFileSync(path.join(root, 'config/_default/params.yaml'), 'utf8');
+const knowledge = require('../scripts/auto_column/medical_knowledge/ibs.json');
+const sourceBase = 'https://www.niddk.nih.gov/health-information/digestive-diseases/irritable-bowel-syndrome/';
+const section = heading => body.split(`## ${heading}\n`)[1]?.split('\n## ')[0];
+const records = section('진료 전 준비할 배변·식사 기록표');
+const clinic = section('해아림한의원 분당점의 상태 평가 및 1:1 맞춤 관리');
+const warnings = section('반드시 확인해야 할 경고 증상');
+const visit = section('분당점 위치와 예약 안내');
+
+assert(records && clinic && warnings && visit);
+assert(body.includes('모든 환자가 내시경을 받아야 하는 것은 아니며'));
+assert(body.includes('내시경이 정상이라는 사실만으로 과민성대장증후군을 진단하지도 않습니다'));
+assert(clinic.includes(CLINIC_EVALUATION));
+assert(clinic.includes('염증성 장질환, 감염이나 암을 확인하는 소화기 검사를 대신하지 않습니다'));
+assert(condition.includes('염증성 장질환, 감염이나 암을 확인하는 검사를 대신하지 않습니다'));
+assert(checkClinicFacts(body, 'ibs').valid);
+for (const step of ['증상과 생활 영향 확인', '기존 평가와 복용 정보 검토', '필요한 참고 평가 선택', '개인별 진료 방향 상담']) assert(clinic.includes(step));
+assert(clinic.includes('기존 처방약은 임의로 중단하지 않습니다'));
+assert(clinic.includes('처방 내용과 건강 상태') && clinic.includes('처방 의료진과 상의'));
+assert(clinic.includes('분당점 한약·침구 치료의 효과를 입증하는 자료로 제시하는 것은 아닙니다'));
+assert(records.includes('기록을 채우기 위해 진료를 미루지') && records.includes('‘모름’'));
+assert(records.includes('시간 관계를 원인으로 단정하지 않습니다'));
+const rows = records.split('\n').filter(line => /^\|/.test(line) && !/^\|[-\s|]+\|$/.test(line)).slice(1);
+assert.strictEqual(rows.length, 7);
+for (const item of ['복통과 배변 전후 변화', '변의 횟수와 형태', '식사와 카페인', '수면·긴장·활동', '위험 신호와 변화', '기존 검사와 가족력', '복용·치료 이력']) assert(rows.some(row => row.includes(item)));
+assert(body.includes('전문가와 상의') && body.includes('서서히 다시 도입') && body.includes('혼자 장기간'));
+for (const sign of ['혈변', '검고 끈적한 변', '체중 감소', '빈혈', '야간 복통', '밤에 깨는 설사', '가족력']) assert(warnings.includes(sign));
+assert(warnings.includes('새로운 경고 증상이 나타난다면 재평가'));
+const explanation = body.split('### 참고한 공식 의학 자료')[0];
+for (const source of ['symptoms-causes', 'diagnosis', 'treatment', 'eating-diet-nutrition']) assert(explanation.includes(sourceBase + source), 'each new source must support a body explanation');
+for (const field of ['address', 'phone', 'naver_booking_url']) {
+  const value = params.match(new RegExp(`^  ${field}: '([^']+)'`, 'm'))?.[1];
+  assert(value && visit.includes(value), field + ': clinic facts must match the configured public source');
+}
+assert(visit.includes('정자역 3번 출구') && visit.includes('무료 주차'));
+for (const link of ['/location/', '/philosophy/', '/inquiry/']) assert(visit.includes(`](${link})`));
+assert(condition.includes(`featured_column: "/blog/${slug}/"`));
+assert(markdown.includes('date: 2026-09-26T22:00:03.424+09:00'));
+assert(markdown.includes('lastmod: 2026-10-02T16:50:00+09:00'));
+assert(markdown.includes('article_review_status: "source_based"') && !markdown.includes('medical_information_reviewer:'));
+assert(knowledge.evaluationGuidance.startsWith(CLINIC_EVALUATION));
+for (const rule of ['내시경 정상만으로', '음식과 증상의 시간 관계', '기존 처방약을 임의로 중단', '재도입', '한약·침구 치료 효과의 근거']) assert(knowledge.specificRules.some(item => item.includes(rule)));
+const prepared = prepareArticleKnowledge(knowledge, { topicAngle: { id: 'morning-diarrhea' } });
+for (const source of ['symptoms-causes', 'diagnosis', 'treatment', 'eating-diet-nutrition']) assert(prepared.evidenceNotes.some(note => note.sourceUrl === sourceBase + source && note.sourceVerified && note.productionUsable));
+const validation = validateArticleContent({ title: markdown.match(/^title: "(.+)"/m)[1], summary: markdown.match(/^summary: "(.+)"/m)[1], category: 'ibs', body, diseaseId: 'ibs', geoId: 'seongnam-sujeong', titleDisease: '과민성대장증후군', topicAngle: { id: 'morning-diarrhea' }, knowledge: prepared, requireVerifiedSources: true });
+assert.deepStrictEqual(validation.errors.filter(error => /IBS|verified medical sources|Topic evidence|explanation|Clinic facts/.test(error)), []);
+
+if (process.argv[2]) {
+  const output = path.resolve(process.argv[2]);
+  const html = fs.readFileSync(path.join(output, 'blog', slug, 'index.html'), 'utf8');
+  const attributes = tag => Object.fromEntries([...tag.matchAll(/([^\s=]+)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))/g)].map(m => [m[1], m[2] ?? m[3] ?? m[4]]));
+  const tables = [...html.matchAll(/<table\b[^>]*>[\s\S]*?<\/table>/g)];
+  const wrappers = [...html.matchAll(/(<div\b[^>]*>)\s*(<table\b[^>]*>[\s\S]*?<\/table>)\s*<\/div>/g)].filter(m => attributes(m[1]).class === 'column-table-scroll');
+  assert.strictEqual(tables.length, 1);
+  assert.strictEqual(wrappers.length, 1);
+  assert.strictEqual((html.match(/class=(?:"|')?column-table-scroll(?:"|')?(?:\s|>)/g) || []).length, 1);
+  assert.strictEqual(attributes(wrappers[0][1]).tabindex, '0');
+  assert.strictEqual((tables[0][0].match(/<td\b/g) || []).length, 14);
+  assert(!html.includes('**'));
+  assert(html.includes('첫 진료에서는 무엇을 하나요?') && html.includes('진료 전 준비할 배변·식사 기록표'));
+  for (const source of ['symptoms-causes', 'diagnosis', 'treatment', 'eating-diet-nutrition']) assert(html.includes(sourceBase + source));
+  const scripts = [...html.matchAll(/(<script\b[^>]*>)([\s\S]*?)<\/script>/g)].filter(m => attributes(m[1]).type === 'application/ld+json');
+  const article = scripts.flatMap(m => JSON.parse(m[2])['@graph'] || []).find(n => n['@type'] === 'Article');
+  assert(article && article.author.name === '해아림한의원 의료 콘텐츠팀');
+  assert(article.datePublished.startsWith('2026-09-26') && article.dateModified.startsWith('2026-10-02'));
+  assert(!article.reviewedBy && !article.contributor);
+  assert(html.includes(`https://healimbd.com/blog/${slug}/`));
+  const pillar = fs.readFileSync(path.join(output, 'conditions/ibs/index.html'), 'utf8');
+  assert(pillar.includes(`/blog/${slug}/`) && pillar.includes('대표 칼럼'));
+}
+console.log('✅ IBS symptom evaluation, first visit, seven record fields, clinic facts, medication coordination, dietary limits, official sources and optional Hugo rendering passed.');
