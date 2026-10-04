@@ -191,6 +191,7 @@ async function runAutoColumnPipeline(options = {}) {
   const rejectedTitles = new Set();
   const rejectedPlanKeys = new Set();
   const rejectedTopicKeys = new Set();
+  const rejectedDiseaseIds = new Set();
   const retryReport = {
     attempts: [],
     rejectedTitles: [],
@@ -238,6 +239,7 @@ async function runAutoColumnPipeline(options = {}) {
           force: forcePublish,
           excludedPlanKeys: rejectedPlanKeys,
           excludedTopicKeys: rejectedTopicKeys,
+          excludedDiseaseIds: rejectedDiseaseIds,
           historyPath,
           now
         });
@@ -439,6 +441,8 @@ async function runAutoColumnPipeline(options = {}) {
         rejectedPlanKeys.add(planKey);
         rejectedPlanKeys.add(stablePlanKey);
         rejectedTopicKeys.add(`${currentPlan.disease.id}|${currentPlan.topicAngle.id}`);
+        // Try another disease after a similar draft; keep the similarity gate intact.
+        rejectedDiseaseIds.add(currentPlan.disease.id);
         retryReport.attempts.push({
           candidateIdx: candidateIdx + 1,
           planKey,
