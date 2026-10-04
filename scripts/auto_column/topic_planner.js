@@ -238,6 +238,7 @@ function planNextColumn(options = {}) {
   }
 
   const todayDiseases = new Set(todayPosts.map(p => p.disease));
+  const excludedDiseaseIds = options.excludedDiseaseIds || new Set();
   const todayParents = new Set(todayPosts.map(p => p.parentRegion));
   const coverageCounts = countPublishedConditionColumns(options.blogDir, now);
 
@@ -249,8 +250,8 @@ function planNextColumn(options = {}) {
       // Rule 0: Medical knowledge must exist and be approved
       if (!isMedicalKnowledgeApproved(disease.id)) continue;
 
-      // Rule 1: No same disease in same day
-      if (todayDiseases.has(disease.id)) continue;
+      // Rule 1: No same disease in same day or after a rejected similar draft in this run
+      if (todayDiseases.has(disease.id) || excludedDiseaseIds.has(disease.id)) continue;
 
       // Rule 2: HARD BLOCK 3-day cooldown for same disease (minimum 3 calendar days interval)
       if (isDiseaseIn3DayCooldown(history, disease.id, now)) continue;
@@ -353,7 +354,7 @@ function getRankedCandidatePlans(options = {}, excludedPlanKeys = new Set()) {
   for (const region of activeRegions) {
     for (const disease of diseaseTaxonomy.diseases) {
       if (!isMedicalKnowledgeApproved(disease.id)) continue;
-      if (todayDiseases.has(disease.id)) continue;
+      if (todayDiseases.has(disease.id) || excludedDiseaseIds.has(disease.id)) continue;
       if (isDiseaseIn3DayCooldown(history, disease.id, now)) continue;
 
       let score = 100;
