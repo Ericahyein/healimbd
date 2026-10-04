@@ -217,6 +217,16 @@ async function testCandidateRotation() {
   }
   console.log('✅ TEST 7 PASS: Unapproved medical knowledge candidates are excluded at planner level.');
 
+  // Similarity fallback must select a different disease within the same run.
+  const firstPlan = planNextColumn({ now: testNow1, historyPath: isolatedHistoryPath });
+  const fallbackPlan = planNextColumn({
+    now: testNow1,
+    historyPath: isolatedHistoryPath,
+    excludedDiseaseIds: new Set([firstPlan.disease.id])
+  });
+  assert.notStrictEqual(fallbackPlan.disease.id, firstPlan.disease.id,
+    'Similarity fallback must move to a different disease');
+
   // =========================================================================
   // TEST 8: Date is NOT Included in Candidate Title or Slug
   // =========================================================================
