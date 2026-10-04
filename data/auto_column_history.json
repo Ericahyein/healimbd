@@ -449,5 +449,16 @@
     "topicAngle": "bowel-red-flags",
     "title": "[분당 과민성대장증후군] 익숙한 장 증상에도 별도 검사가 필요한 신호는 무엇일까요",
     "slug": "seongnam-bundang-ibs-bowel-red-flags"
+  },
+  {
+    "publishDate": "2026-10-04T22:54:35.375+09:00",
+    "geoId": "gyeonggi-gwangju",
+    "displayRegion": "경기광주",
+    "parentRegion": "경기광주",
+    "regionType": "city",
+    "disease": "adhd",
+    "topicAngle": "poor-sleep-attention",
+    "title": "[경기광주 ADHD] 잠이 부족한 아이의 산만함과 ADHD는 어떻게 구분할까요",
+    "slug": "gyeonggi-gwangju-adhd-poor-sleep-attention"
   }
 ]
