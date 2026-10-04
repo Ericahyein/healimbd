@@ -1,5 +1,5 @@
 {
-  "requestId": "2026-09-30-evening-schedule-recovery",
+  "requestId": "2026-10-04-similarity-fallback-recovery",
   "requestedTarget": "auto",
-  "reason": "Recover the 17:07 KST scheduled publication absent from GitHub Actions run history."
+  "reason": "Recover one missed column after Oct 3 evening and Oct 4 morning runs exhausted same-disease similarity candidates; PR #64 verified and merged."
 }
