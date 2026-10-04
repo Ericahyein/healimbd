@@ -354,7 +354,7 @@ function getRankedCandidatePlans(options = {}, excludedPlanKeys = new Set()) {
   for (const region of activeRegions) {
     for (const disease of diseaseTaxonomy.diseases) {
       if (!isMedicalKnowledgeApproved(disease.id)) continue;
-      if (todayDiseases.has(disease.id) || excludedDiseaseIds.has(disease.id)) continue;
+      if (todayDiseases.has(disease.id)) continue;
       if (isDiseaseIn3DayCooldown(history, disease.id, now)) continue;
 
       let score = 100;
