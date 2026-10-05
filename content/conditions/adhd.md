@@ -1,10 +1,10 @@
 ---
 title: "ADHD, 산만함과 충동성이 일상을 어렵게 한다면"
-seo_title: "분당 ADHD 진료 · 소아·성인 증상과 치료"
+seo_title: "ADHD 증상·검사·치료 안내"
 condition_name: "ADHD"
 column_categories: ["adhd"]
 date: 2026-09-28
-lastmod: 2026-10-01
+lastmod: 2026-10-05
 author: "해아림한의원 분당점 의료 콘텐츠팀"
 medical_review_status: "source_based"
 description: "산만함·충동성·반복 실수로 일상이 어려울 때 살펴볼 소아·성인 ADHD 증상을 안내합니다. 해아림한의원 분당점의 평가·검사와 치료·훈련 선택, 방문 준비를 확인하세요."
@@ -13,7 +13,7 @@ keywords: ["ADHD", "ADHD 증상", "ADHD 치료", "소아 ADHD", "성인 ADHD", "
 image: "images/clinics/clinic-adhd.webp"
 image_alt: "ADHD 증상과 진료 과정을 설명하는 소아청소년 상담 이미지"
 hero_kicker: "ADHD · ATTENTION & IMPULSE CONTROL"
-hero_title_lines: ["ADHD,", "산만함과 충동성이", "일상을 어렵게 한다면"]
+hero_title_lines: ["ADHD", "증상·검사·치료 안내"]
 hero_summary: "집중하지 못한다는 한 장면만으로 판단하지 않고, 증상이 여러 환경에서 지속되는지와 학습·관계·업무에 미치는 영향을 함께 살펴야 합니다."
 answer_title: "ADHD는 의지나 훈육만의 문제가 아닙니다"
 answer_summary: "ADHD는 주의력, 충동 조절과 활동 수준의 어려움이 발달 단계에 비해 지속되고 기능에 영향을 주는 신경발달질환입니다. 연령과 환경에 따라 모습이 다를 수 있습니다."
@@ -87,11 +87,13 @@ featured_column: "/blog/yongin-giheung-adhd-adult-work-mistakes/"
 - 실수를 인격 문제로 비난하기보다 잘된 행동을 즉시 구체적으로 알려 줍니다.
 - 약속, 물건 위치와 해야 할 일을 눈에 보이는 도구로 정리합니다.
 
-## ADHD 진료 과정과 방문 준비
+## ADHD 진료 과정과 방문 준비 {#visit-process}
 
 1. **증상과 생활의 변화 확인**: 어릴 때부터의 발달·학습 이력과 가정·학교·직장에서 반복되는 어려움 등을 함께 살핍니다.
 2. **필요한 평가 선택**: 주의집중·억제 조절, 수면과 정서 상태 및 다른 원인의 가능성 등을 고려해 필요한 검사를 선택합니다. 모든 검사를 일률적으로 시행하거나 검사 하나로 진단하지 않습니다.
 3. **개인별 진료 방향 상담**: 맞춤 한약·침구 치료, 생활 관리와 보호자 상담을 논의합니다. 뉴로피드백·밸런싱·IM 훈련은 평가 결과와 연령·협조도를 고려해 선택적으로 병행합니다.
+
+### 방문 전 준비할 자료 {#visit-preparation}
 
 진료 전 다음 내용을 준비하면 증상 경과를 설명하는 데 도움이 됩니다.
 
@@ -112,7 +114,7 @@ featured_column: "/blog/yongin-giheung-adhd-adult-work-mistakes/"
 
 성인은 일정 누락이나 업무 마무리의 어려움을 같은 방식으로 기록할 수 있습니다. 이 예시의 항목이나 횟수만으로 ADHD를 판단하지 않습니다.
 
-## 성남·분당·판교·용인·경기광주에서 ADHD 진료를 찾고 있다면
+## 분당 정자역 위치·주차·예약 안내 {#visit-location}
 
 해아림한의원 분당점은 성남시 분당구 정자동에 있습니다. **성남·분당·판교를 비롯해 용인과 경기광주에서 ADHD 진료를 찾는 경우**, 여러 환경에서 나타나는 주의집중과 충동 조절의 어려움, 학습·업무·관계에 미치는 영향을 함께 살펴볼 수 있습니다.
 

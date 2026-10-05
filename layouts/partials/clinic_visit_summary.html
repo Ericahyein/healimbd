@@ -1,7 +1,7 @@
 {{/* Public clinic facts are rendered as text and share their source with location/schema. */}}
 {{ $info := site.Params.clinic_info }}
 {{ $isCondition := eq .Section "conditions" }}
-<section class="clinic-visit-summary{{ if $isCondition }} clinic-visit-summary-condition{{ end }}" aria-labelledby="clinic-visit-title">
+<section class="clinic-visit-summary{{ if $isCondition }} clinic-visit-summary-condition{{ end }}"{{ if $isCondition }} id="clinic-visit-summary"{{ end }} aria-labelledby="clinic-visit-title">
   <div class="container">
     <div class="clinic-visit-heading">
       <p class="clinic-visit-kicker">{{ if $isCondition }}분당점 진료 안내{{ else }}처음 방문하시는 분께{{ end }}</p>
@@ -35,6 +35,15 @@
         <dd>증상 시작 시점과 변화, 기존 검사 결과, 복용 약의 이름·용량을 준비해 주세요. 검사는 증상과 진료 이력에 따라 필요한 경우에 선택합니다.</dd>
       </div>
     </dl>
+    {{ if $isCondition }}
+    <nav class="clinic-visit-links clinic-visit-area-links" aria-label="지역별 방문 안내">
+      {{ range (slice "seongnam" "pangyo" "yongin" "gyeonggi-gwangju") }}
+        {{ with site.GetPage (printf "/areas/%s" .) }}
+      <a href="{{ .RelPermalink }}">{{ .Params.area_name }}에서 오시는 길</a>
+        {{ end }}
+      {{ end }}
+    </nav>
+    {{ end }}
     <div class="clinic-visit-links" aria-label="분당점 방문 및 예약 링크">
       <a href="{{ "/location/" | relURL }}">오시는 길·진료시간</a>
       <a href="{{ "/philosophy/" | relURL }}">의료진·진료철학</a>

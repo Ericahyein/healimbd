@@ -1,4 +1,5 @@
 {{ define "main" }}
+{{ $relatedPosts := partial "condition_related_posts.html" . }}
 <article class="condition-page condition-page-{{ .File.ContentBaseName }}">
   <nav class="condition-breadcrumb" aria-label="현재 위치">
     <div class="container">
@@ -19,7 +20,15 @@
             {{ $.Title }}
           {{ end }}
         </h1>
+        <p class="condition-subtitle">{{ .Title }}</p>
         <p class="condition-lead">{{ .Params.hero_summary }}</p>
+        <nav class="condition-quick-links" aria-label="진료 안내 바로가기">
+          <a href="#visit-process">진료 과정</a>
+          <a href="#visit-preparation">방문 준비</a>
+          <a href="#clinic-visit-summary">위치·예약</a>
+          {{ with .Params.faq }}<a href="#faq">자주 묻는 질문</a>{{ end }}
+          {{ with $relatedPosts }}<a href="#related-columns">관련 칼럼</a>{{ end }}
+        </nav>
         {{ $medicalReview := partial "condition_medical_review.html" . }}
         <div class="condition-meta" aria-label="작성 및 수정·검토 정보">
           <span><i class="ph-bold ph-pencil-simple"></i> 작성: {{ .Params.content_author | default .Params.author }}</span>
@@ -79,8 +88,8 @@
       </section>
       {{ end }}
 
-      {{ with partial "condition_related_posts.html" . }}
-      <section class="condition-related" aria-labelledby="related-title">
+      {{ with $relatedPosts }}
+      <section class="condition-related" id="related-columns" aria-labelledby="related-title">
         <p class="condition-section-kicker">DOCTOR'S COLUMN</p>
         <h2 id="related-title">함께 읽으면 좋은 원장 칼럼</h2>
         <div class="condition-related-grid" data-count="{{ len . }}">

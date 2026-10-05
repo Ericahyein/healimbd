@@ -37,7 +37,7 @@ for (const [name, content] of Object.entries(conditions)) {
     assert(content.includes(area), `${name}: missing nearby service area ${area}`);
   }
   assert(!content.includes('수지'), `${name}: Suji must not be targeted on condition pages`);
-  assert(content.includes('## 성남·분당·판교·용인·경기광주에서'), `${name}: visible local-intent section required`);
+  assert(content.includes('## 분당 정자역 위치·주차·예약 안내 {#visit-location}'), `${name}: visible local visit section required`);
 }
 
 for (const assessment of ['뇌인지검사', '뇌기능검사', '정서심리검사', '문진·설진·복진·진맥']) {

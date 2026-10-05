@@ -40,11 +40,26 @@
         </div>
       </section>
 
+      <section class="area-condition-section" aria-labelledby="area-condition-heading">
+        <div class="area-section-heading">
+          <span class="area-guide-eyebrow">CLINICAL GUIDE</span>
+          <h2 id="area-condition-heading">질환별 증상·검사·치료 안내</h2>
+          <p>궁금한 질환을 선택해 증상과 진료 과정, 방문 전 준비할 자료를 확인해 주세요.</p>
+        </div>
+        <nav class="clinic-visit-links" aria-label="질환별 진료 안내">
+          {{ range (slice "tic" "adhd" "panic" "anxiety" "insomnia" "autonomic" "hyperhidrosis" "ibs" "syncope") }}
+            {{ with site.GetPage (printf "/conditions/%s" .) }}
+          <a href="{{ .RelPermalink }}">{{ .Params.condition_name }}</a>
+            {{ end }}
+          {{ end }}
+        </nav>
+      </section>
+
       <section class="area-related-section" aria-labelledby="area-related-heading">
         <div class="area-section-heading">
           <span class="area-guide-eyebrow">CLINICAL COLUMNS</span>
           <h2 id="area-related-heading">{{ .Params.area_name }}에서 함께 살펴볼 진료 정보</h2>
-          <p>검색어만 반복하지 않고, 증상을 이해하는 데 도움이 되는 원장 칼럼으로 연결합니다.</p>
+          <p>증상과 생활 속 변화를 이해하는 데 도움이 되는 원장 칼럼을 확인해 주세요.</p>
         </div>
         <div class="area-related-list">
           {{ range .Params.related_articles }}

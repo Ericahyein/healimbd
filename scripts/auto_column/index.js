@@ -417,7 +417,7 @@ async function runAutoColumnPipeline(options = {}) {
     totalBodyGenCount++;
     retryReport.totalBodyGens = totalBodyGenCount;
 
-    const internalLinks = getRecommendedInternalLinks(currentPlan.disease.category, currentPlan.slug);
+    const internalLinks = getRecommendedInternalLinks(currentPlan.disease.category, currentPlan.slug, blogDir);
     const outline = await generateTopicOutline(currentPlan, knowledge, apiKey, telemetry);
     let articleBody;
     if (mockBodyGenerator) {
