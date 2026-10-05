@@ -142,6 +142,10 @@ async function testGwangju91Reproduction() {
   assert.strictEqual(mockRegenCalls, 1, 'mock generator should be called exactly once');
   assert.strictEqual(pipelineResult.plan.titleCandidate, regenCandidate2);
   assert.strictEqual(pipelineResult.retryReport.totalTitleRegens, 1);
+  assert.ok(
+    pipelineResult.validation.internalLinks.every(link => !link.url.startsWith('/blog/')),
+    'An empty blogDir fixture must not import related links from production blog posts'
+  );
   console.log(`   ✅ Pipeline successfully recovered on attempt 1 of Level A: "${pipelineResult.plan.titleCandidate}"`);
 
   // 6. Test Level A Exhaustion (3 attempts fail) -> Transitions to Level B Fallback Candidate
