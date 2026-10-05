@@ -460,5 +460,16 @@
     "topicAngle": "poor-sleep-attention",
     "title": "[경기광주 ADHD] 잠이 부족한 아이의 산만함과 ADHD는 어떻게 구분할까요",
     "slug": "gyeonggi-gwangju-adhd-poor-sleep-attention"
+  },
+  {
+    "publishDate": "2026-10-05T14:27:33.593+09:00",
+    "geoId": "seongnam-main",
+    "displayRegion": "성남",
+    "parentRegion": "성남",
+    "regionType": "city",
+    "disease": "hyperhidrosis",
+    "topicAngle": "sweat-diary",
+    "title": "[성남 다한증] 땀이 나는 부위와 생활 불편을 기록하는 방법",
+    "slug": "seongnam-main-hyperhidrosis-sweat-diary"
   }
 ]
