@@ -1,7 +1,7 @@
 {{/* Public clinic facts are rendered as text and share their source with location/schema. */}}
 {{ $info := site.Params.clinic_info }}
 {{ $isCondition := eq .Section "conditions" }}
-<section class="clinic-visit-summary{{ if $isCondition }} clinic-visit-summary-condition{{ end }}" aria-labelledby="clinic-visit-title">
+<section class="clinic-visit-summary{{ if $isCondition }} clinic-visit-summary-condition{{ end }}"{{ if $isCondition }} id="clinic-visit-summary"{{ end }} aria-labelledby="clinic-visit-title">
   <div class="container">
     <div class="clinic-visit-heading">
       <p class="clinic-visit-kicker">{{ if $isCondition }}분당점 진료 안내{{ else }}처음 방문하시는 분께{{ end }}</p>

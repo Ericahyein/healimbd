@@ -50,6 +50,22 @@ try {
   const html = slug => fs.readFileSync(path.join(fixture, 'public/conditions', slug, 'index.html'), 'utf8');
   for (const slug of slugs) {
     const text = html(slug);
+    const h1s = [...text.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/g)];
+    assert.strictEqual(h1s.length, 1, slug + ': exactly one page heading');
+    const heading = h1s[0][1].replace(/<\/span>/g, ' ').replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
+    const source = fs.readFileSync(path.join(root, 'content/conditions', slug + '.md'), 'utf8');
+    const conditionName = source.match(/^condition_name: "([^"]+)"$/m)[1];
+    assert.strictEqual(heading, `분당 ${conditionName} 진료 안내`, slug + ': consistent local clinic heading');
+    const ids = [...text.matchAll(/<[a-z][^>]*\bid=(?:"([^"]+)"|'([^']+)'|([^\s>]+))/g)]
+      .map(match => match[1] ?? match[2] ?? match[3]);
+    assert.strictEqual(new Set(ids).size, ids.length, slug + ': no duplicate section IDs');
+    const quickNav = text.match(/<nav\b[^>]*class=(?:"condition-quick-links"|condition-quick-links)[^>]*>([\s\S]*?)<\/nav>/)?.[1];
+    assert(quickNav, slug + ': quick navigation is rendered without JavaScript');
+    for (const id of ['visit-process', 'visit-preparation', 'clinic-visit-summary', 'faq']) {
+      assert(quickNav.includes(`href=#${id}`) || quickNav.includes(`href="#${id}"`), slug + ': missing quick link ' + id);
+      assert(ids.includes(id), slug + ': quick link target exists ' + id);
+    }
+    assert(!quickNav.includes('#related-columns'), slug + ': omit related link when no columns exist in fixture');
     const page = schemaPage(text);
     const clinic = schemas(text).find(node => node['@type'] === 'MedicalClinic');
     assert.strictEqual(clinic.telephone, '031-716-8575');
@@ -60,13 +76,13 @@ try {
     assert(clinic.sameAs.includes('https://map.naver.com/p/entry/place/1272285133'));
     assert(text.includes('clinic-visit-summary') && text.includes('clinic-visit-links'), slug + ': public visit summary and booking links required');
     const meta = metaBlock(text);
-    assert(meta && meta.includes('최종 수정:') && meta.includes('2026.10.01'), slug + ': modification date must be visible');
+    assert(meta && meta.includes('최종 수정:') && meta.includes('2026.10.05'), slug + ': modification date must be visible');
     assert(meta.includes('의료 콘텐츠팀'), slug + ': visible author must match actual editing scope');
     assert(!meta.includes('의학적 검토:') && !meta.includes('검토일:'), slug + ': no unconfirmed visible review');
     assert(!('reviewedBy' in page) && !('lastReviewed' in page), slug + ': no unconfirmed schema review');
     assert.strictEqual(page.author['@type'], 'Organization');
     assert.strictEqual(page.author.name, '해아림한의원 분당점 의료 콘텐츠팀');
-    assert.strictEqual(page.dateModified, '2026-10-01');
+    assert.strictEqual(page.dateModified, '2026-10-05');
     assert.strictEqual(page.datePublished, '2026-09-28');
     assert(text.includes('가상의 예시입니다') && text.includes('실제 환자 사례나 진단 결과가 아닙니다'), slug + ': hypothetical record label required');
     assert(!text.includes('**'), slug + ': raw markdown must not be visible');
@@ -79,16 +95,16 @@ try {
   const reviewed = html('reviewed');
   const reviewedPage = schemaPage(reviewed);
   assert(metaBlock(reviewed).includes('의학적 검토: 손지웅 대표원장'));
-  assert(metaBlock(reviewed).includes('2020.01.02') && metaBlock(reviewed).includes('2026.10.01'));
+  assert(metaBlock(reviewed).includes('2020.01.02') && metaBlock(reviewed).includes('2026.10.05'));
   assert.strictEqual(reviewedPage.lastReviewed, '2020-01-02', 'medical review date stays independent of lastmod');
-  assert.strictEqual(reviewedPage.dateModified, '2026-10-01');
+  assert.strictEqual(reviewedPage.dateModified, '2026-10-05');
   assert.strictEqual(reviewedPage.reviewedBy['@id'], 'https://healimbd.com/#doctor-jiwoong-son');
   for (const slug of Object.keys(variants).filter(name => name !== 'reviewed')) {
     const text = html(slug);
     assert(!metaBlock(text).includes('의학적 검토:'), slug + ': invalid or incomplete review must be hidden');
     assert(!('lastReviewed' in schemaPage(text)) && !('reviewedBy' in schemaPage(text)), slug + ': schema must fail closed');
   }
-  console.log('✅ Nine patient guides, visible/schema review consistency and independent review-date cases passed.');
+  console.log('✅ Nine local clinic headings, valid quick links, patient guides and review-date cases passed.');
 } finally {
   fs.rmSync(fixture, { recursive: true, force: true });
 }
