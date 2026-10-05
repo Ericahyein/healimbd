@@ -1,6 +1,6 @@
 ---
 title: "ADHD, 산만함과 충동성이 일상을 어렵게 한다면"
-seo_title: "분당 ADHD 진료 · 소아·성인 증상과 치료"
+seo_title: "ADHD 증상·검사·치료 안내"
 condition_name: "ADHD"
 column_categories: ["adhd"]
 date: 2026-09-28
@@ -13,7 +13,7 @@ keywords: ["ADHD", "ADHD 증상", "ADHD 치료", "소아 ADHD", "성인 ADHD", "
 image: "images/clinics/clinic-adhd.webp"
 image_alt: "ADHD 증상과 진료 과정을 설명하는 소아청소년 상담 이미지"
 hero_kicker: "ADHD · ATTENTION & IMPULSE CONTROL"
-hero_title_lines: ["분당 ADHD", "진료 안내"]
+hero_title_lines: ["ADHD", "증상·검사·치료 안내"]
 hero_summary: "집중하지 못한다는 한 장면만으로 판단하지 않고, 증상이 여러 환경에서 지속되는지와 학습·관계·업무에 미치는 영향을 함께 살펴야 합니다."
 answer_title: "ADHD는 의지나 훈육만의 문제가 아닙니다"
 answer_summary: "ADHD는 주의력, 충동 조절과 활동 수준의 어려움이 발달 단계에 비해 지속되고 기능에 영향을 주는 신경발달질환입니다. 연령과 환경에 따라 모습이 다를 수 있습니다."

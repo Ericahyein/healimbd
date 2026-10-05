@@ -1,6 +1,6 @@
 ---
 title: "자율신경실조증, 두근거림과 어지럼이 반복된다면"
-seo_title: "분당 자율신경실조증 진료 · 두근거림과 어지럼"
+seo_title: "자율신경실조증 증상·검사·치료 안내"
 condition_name: "자율신경실조증"
 column_categories: ["autonomic"]
 date: 2026-09-28
@@ -13,7 +13,7 @@ keywords: ["자율신경실조증", "자율신경실조증 증상", "자율신�
 image: "images/clinics/clinic-autonomic.webp"
 image_alt: "자율신경계 관련 증상과 진료 과정을 설명하는 상담 이미지"
 hero_kicker: "AUTONOMIC DYSFUNCTION"
-hero_title_lines: ["분당 자율신경실조증", "진료 안내"]
+hero_title_lines: ["자율신경실조증", "증상·검사·치료 안내"]
 hero_summary: "심장 박동·혈압·소화·체온·땀처럼 자동으로 조절되는 기능에 불편이 반복될 때는 증상을 한데 묶기 전에 장기별 질환과 약물 영향을 먼저 살펴야 합니다."
 answer_title: "자율신경실조증은 하나의 단일 질환명이 아닙니다"
 answer_summary: "자율신경계와 관련된 여러 증상을 설명할 때 쓰이는 폭넓은 표현입니다. 증상의 패턴을 확인하고 심장·신경·내분비 등 다른 원인을 감별하는 과정이 우선입니다."

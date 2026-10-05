@@ -1,6 +1,6 @@
 ---
 title: "미주신경성 실신, 어지럼과 식은땀 뒤 의식을 잃는다면"
-seo_title: "분당 미주신경성 실신 진료 · 전조증상과 관리"
+seo_title: "미주신경성 실신 증상·검사·치료 안내"
 condition_name: "미주신경성 실신"
 column_categories: ["syncope"]
 date: 2026-09-28
@@ -13,7 +13,7 @@ keywords: ["미주신경성 실신", "미주신경성 실신 증상", "미주신
 image: "images/clinics/clinic-syncope.webp"
 image_alt: "미주신경성 실신의 전조증상과 진료 과정을 설명하는 이미지"
 hero_kicker: "VASOVAGAL SYNCOPE · FAINTING"
-hero_title_lines: ["분당 미주신경성 실신", "진료 안내"]
+hero_title_lines: ["미주신경성 실신", "증상·검사·치료 안내"]
 hero_summary: "실신은 일시적으로 뇌 혈류가 줄어 의식을 잃는 현상입니다. 흔한 미주신경성 원인뿐 아니라 심장·신경계 질환을 먼저 배제해야 합니다."
 answer_title: "실신은 원인을 확인한 뒤 미주신경성 여부를 판단합니다"
 answer_summary: "통증·공포·더위·오래 서 있기 뒤 전조증상과 함께 생기는 실신은 미주신경성일 수 있지만, 운동 중이나 누운 상태의 실신과 심장 증상은 신속한 평가가 필요합니다."

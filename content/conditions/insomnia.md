@@ -1,6 +1,6 @@
 ---
 title: "불면증, 잠들기 어렵거나 자주 깨는 밤이 이어진다면"
-seo_title: "분당 불면증 치료 안내 · 잠들기 어렵거나 자주 깰 때"
+seo_title: "수면·불면증 증상·검사·치료 안내"
 condition_name: "수면·불면증"
 column_categories: ["sleep"]
 date: 2026-09-28
@@ -13,7 +13,7 @@ keywords: ["불면증", "불면증 치료", "수면장애", "입면장애", "수
 image: "images/clinics/clinic-sleep.webp"
 image_alt: "불면증과 수면장애 진료 과정을 설명하는 편안한 침실 이미지"
 hero_kicker: "INSOMNIA · SLEEP DISORDER"
-hero_title_lines: ["분당 수면·불면증", "진료 안내"]
+hero_title_lines: ["수면·불면증", "증상·검사·치료 안내"]
 hero_summary: "수면 시간만 세기보다 잠들기까지 걸리는 시간, 밤중 각성, 기상 후 회복감과 낮 기능을 함께 살펴야 합니다."
 answer_title: "불면증은 밤뿐 아니라 낮의 기능도 함께 봅니다"
 answer_summary: "잠들기 어렵거나 자주 깨고 너무 일찍 일어나는 문제가 충분한 수면 기회에도 반복되어 낮의 피로·집중력·기분에 영향을 주는지 확인합니다."

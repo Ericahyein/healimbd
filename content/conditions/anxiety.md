@@ -1,6 +1,6 @@
 ---
 title: "불안장애, 걱정과 긴장이 좀처럼 가라앉지 않는다면"
-seo_title: "분당 불안장애 진료 · 걱정·긴장·공포 증상"
+seo_title: "불안장애·공포증 증상·검사·치료 안내"
 condition_name: "불안장애·공포증"
 column_categories: ["anxiety","social_phobia"]
 date: 2026-09-28
@@ -13,7 +13,7 @@ keywords: ["불안장애", "불안장애 치료", "공포증", "사회불안", "
 image: "images/clinics/clinic-anxiety.webp"
 image_alt: "불안장애와 공포증의 증상 및 진료 과정을 설명하는 상담 이미지"
 hero_kicker: "ANXIETY DISORDER · PHOBIA"
-hero_title_lines: ["분당 불안장애·공포증", "진료 안내"]
+hero_title_lines: ["불안장애·공포증", "증상·검사·치료 안내"]
 hero_summary: "불안은 누구에게나 필요하지만, 걱정과 긴장이 과도하게 이어져 수면·학업·업무·관계를 방해한다면 유형과 원인을 구체적으로 살펴볼 필요가 있습니다."
 answer_title: "불안의 크기보다 일상에 미치는 영향을 봅니다"
 answer_summary: "불안장애는 단순히 예민한 성격을 뜻하지 않습니다. 걱정, 회피와 신체 긴장이 지속되는 기간과 상황, 기능 저하를 함께 평가합니다."

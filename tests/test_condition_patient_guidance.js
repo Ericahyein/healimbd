@@ -7,6 +7,7 @@ const { spawnSync } = require('child_process');
 const root = path.resolve(__dirname, '..');
 const fixture = fs.mkdtempSync(path.join(os.tmpdir(), 'condition-patient-guidance-'));
 const slugs = ['tic', 'adhd', 'panic', 'anxiety', 'insomnia', 'autonomic', 'hyperhidrosis', 'ibs', 'syncope'];
+const areas = ['seongnam', 'pangyo', 'yongin', 'gyeonggi-gwangju', 'suji', 'wirye'];
 const write = (name, text) => {
   const dest = path.join(fixture, name);
   fs.mkdirSync(path.dirname(dest), { recursive: true });
@@ -23,10 +24,14 @@ const metaBlock = text => text.match(/<div\b[^>]*class=(?:"condition-meta"|condi
 try {
   write('hugo.toml', 'baseURL = "https://healimbd.com/"\ntitle = "해아림한의원 분당점"\n[markup.goldmark.renderer]\nunsafe = true\n');
   write('config/_default/params.yaml', fs.readFileSync(path.join(root, 'config/_default/params.yaml'), 'utf8'));
-  for (const name of ['condition_medical_review.html', 'condition_related_posts.html', 'head_seo.html', 'clinic_visit_summary.html']) {
+  for (const name of ['condition_medical_review.html', 'condition_related_posts.html', 'head_seo.html', 'clinic_visit_summary.html', 'page_hero.html']) {
     write('layouts/partials/' + name, fs.readFileSync(path.join(root, 'layouts/partials', name), 'utf8'));
   }
   write('layouts/conditions/single.html', fs.readFileSync(path.join(root, 'layouts/conditions/single.html'), 'utf8'));
+  write('layouts/areas/single.html', fs.readFileSync(path.join(root, 'layouts/areas/single.html'), 'utf8'));
+  for (const area of areas) {
+    write('content/areas/' + area + '.md', fs.readFileSync(path.join(root, 'content/areas', area + '.md'), 'utf8'));
+  }
   write('layouts/_default/baseof.html', '<!doctype html><html><head>{{ partial "head_seo.html" . }}</head><body>{{ block "main" . }}{{ end }}</body></html>');
   for (const slug of slugs) {
     write('content/conditions/' + slug + '.md', fs.readFileSync(path.join(root, 'content/conditions', slug + '.md'), 'utf8'));
@@ -55,7 +60,14 @@ try {
     const heading = h1s[0][1].replace(/<\/span>/g, ' ').replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
     const source = fs.readFileSync(path.join(root, 'content/conditions', slug + '.md'), 'utf8');
     const conditionName = source.match(/^condition_name: "([^"]+)"$/m)[1];
-    assert.strictEqual(heading, `분당 ${conditionName} 진료 안내`, slug + ': consistent local clinic heading');
+    assert.strictEqual(heading, `${conditionName} 증상·검사·치료 안내`, slug + ': disease-first heading');
+    const title = `${conditionName} 증상·검사·치료 안내 | 해아림한의원 분당점`;
+    assert.strictEqual(text.match(/<title>([^<]+)<\/title>/)[1], title, slug + ': disease-first search title retains clinic identity');
+    assert(text.includes(`content="${title}"`), slug + ': social metadata uses the same title');
+    for (const area of areas.slice(0, 4)) {
+      assert(text.includes(`/areas/${area}/`), slug + ': regional visit guide is linked ' + area);
+      assert(fs.existsSync(path.join(fixture, 'public/areas', area, 'index.html')), slug + ': regional link target exists ' + area);
+    }
     const ids = [...text.matchAll(/<[a-z][^>]*\bid=(?:"([^"]+)"|'([^']+)'|([^\s>]+))/g)]
       .map(match => match[1] ?? match[2] ?? match[3]);
     assert.strictEqual(new Set(ids).size, ids.length, slug + ': no duplicate section IDs');
@@ -104,7 +116,17 @@ try {
     assert(!metaBlock(text).includes('의학적 검토:'), slug + ': invalid or incomplete review must be hidden');
     assert(!('lastReviewed' in schemaPage(text)) && !('reviewedBy' in schemaPage(text)), slug + ': schema must fail closed');
   }
-  console.log('✅ Nine local clinic headings, valid quick links, patient guides and review-date cases passed.');
+  for (const area of areas) {
+    const text = fs.readFileSync(path.join(fixture, 'public/areas', area, 'index.html'), 'utf8');
+    const nav = text.match(/<nav\b[^>]*aria-label=(?:"질환별 진료 안내"|'질환별 진료 안내')[^>]*>([\s\S]*?)<\/nav>/)?.[1];
+    assert(nav, area + ': visible condition navigation is rendered');
+    assert.strictEqual((nav.match(/<a\b/g) || []).length, 9, area + ': nine distinct condition links');
+    for (const slug of slugs) {
+      assert(nav.includes(`/conditions/${slug}/`), area + ': condition target is linked ' + slug);
+      assert(fs.existsSync(path.join(fixture, 'public/conditions', slug, 'index.html')), area + ': condition target exists ' + slug);
+    }
+  }
+  console.log('✅ Nine disease-first headings, regional guide links, patient guides and review-date cases passed.');
 } finally {
   fs.rmSync(fixture, { recursive: true, force: true });
 }

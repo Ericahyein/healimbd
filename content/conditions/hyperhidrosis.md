@@ -1,6 +1,6 @@
 ---
 title: "다한증, 손발과 얼굴의 땀이 일상을 방해한다면"
-seo_title: "분당 다한증 치료 안내 · 손발·안면 발한"
+seo_title: "다한증 증상·검사·치료 안내"
 condition_name: "다한증"
 column_categories: ["hyperhidrosis"]
 date: 2026-09-28
@@ -13,7 +13,7 @@ keywords: ["다한증", "다한증 치료", "손발 다한증", "안면 다한�
 image: "images/clinics/clinic-hyperhidrosis.webp"
 image_alt: "손발과 얼굴의 과도한 땀 및 다한증 진료 과정을 설명하는 이미지"
 hero_kicker: "HYPERHIDROSIS · EXCESSIVE SWEATING"
-hero_title_lines: ["분당 다한증", "진료 안내"]
+hero_title_lines: ["다한증", "증상·검사·치료 안내"]
 hero_summary: "더위나 운동에 필요한 정도를 넘어 땀이 반복되면 발생 부위와 시간, 수면 중 발한, 복용 약과 다른 전신 증상을 함께 확인해야 합니다."
 answer_title: "땀이 나는 부위와 시점이 원인 구분의 단서입니다"
 answer_summary: "어릴 때부터 양쪽 손발·겨드랑이에 국소적으로 나타나는 원발성 다한증과 질환·약물로 생기는 이차성 다한증은 평가와 치료 방향이 다릅니다."

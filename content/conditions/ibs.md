@@ -1,6 +1,6 @@
 ---
 title: "과민성대장증후군, 복통과 설사·변비가 반복된다면"
-seo_title: "분당 과민성대장증후군 진료 · 복통·설사·변비"
+seo_title: "과민성대장증후군 증상·검사·치료 안내"
 condition_name: "과민성대장증후군"
 column_categories: ["ibs"]
 date: 2026-09-28
@@ -13,7 +13,7 @@ keywords: ["과민성대장증후군", "과민성대장증후군 치료", "신�
 image: "images/clinics/clinic-ibs.webp"
 image_alt: "과민성대장증후군의 복통과 배변 변화 및 진료 과정을 설명하는 이미지"
 hero_kicker: "IRRITABLE BOWEL SYNDROME · GUT-BRAIN AXIS"
-hero_title_lines: ["분당 과민성대장증후군", "진료 안내"]
+hero_title_lines: ["과민성대장증후군", "증상·검사·치료 안내"]
 hero_summary: "복통과 배변 변화가 반복될 때는 증상 패턴을 살피는 동시에 혈변·체중 감소·빈혈 같은 위험 신호가 없는지 먼저 확인해야 합니다."
 answer_title: "과민성대장증후군은 증상 패턴과 위험 신호를 함께 봅니다"
 answer_summary: "반복되는 복통이 배변과 연관되고 변의 횟수나 형태가 달라지는지를 확인합니다. 모든 환자에게 같은 검사가 필요한 것은 아니지만 다른 질환의 신호가 있으면 검사를 우선합니다."
