@@ -17,7 +17,7 @@ const ROOT = path.join(__dirname, '..');
     false
   );
   assert.strictEqual(
-    checkMedicationDiscontinuation('약을 끊고 싶어질 수 있습니다. 의료진과 상의 없이 끊으세요.').violated,
+    checkMedicationDiscontinuation('약을 끊고 싶어질 수 있습니다. 의료진과 상의 없이 약을 끊으세요.').violated,
     true
   );
   assert.strictEqual(checkMedicationDiscontinuation('약을 끊어도 됩니다.').violated, true);
