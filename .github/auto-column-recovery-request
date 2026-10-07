@@ -1,5 +1,5 @@
 {
-  "requestId": "2026-10-07-medication-warning-recovery-2",
+  "requestId": "2026-10-07-medication-safe-alternative-recovery-3",
   "requestedTarget": "auto",
-  "reason": "Recover one Oct 7 KST column after run #94 failed on another explicit medication caution false positive; PR #69 verified and merged."
+  "reason": "Recover one Oct 7 KST column after run #95 false-positive on safer-alternative medication language; PR #70 verified and merged."
 }
