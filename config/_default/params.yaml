@@ -58,3 +58,9 @@ theme:
 # Feature Flags (Public Client Configuration)
 features:
   social_auth_deployed: true
+
+# Public GA4 web stream. Collection is restricted to the production hostname.
+analytics:
+  enabled: true
+  measurement_id: 'G-VT6QHEM9MR'
+  hostname: 'healimbd.com'

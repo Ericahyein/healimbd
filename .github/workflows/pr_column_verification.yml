@@ -62,6 +62,9 @@ jobs:
       - name: Run Home SEO and Lazy Map Regression Test
         run: node tests/test_home_seo_performance_guards.js
 
+      - name: Run Clinic Analytics Privacy and Click Regression Test
+        run: node tests/test_clinic_analytics.js
+
       - name: Run Inquiry SSR Discovery and Structured Data Regression Test
         run: node tests/test_inquiry_ssr.js
 
@@ -107,6 +110,9 @@ jobs:
 
       - name: Verify Refreshed Column Authorship and References
         run: node tests/test_column_refresh_render.js public
+
+      - name: Verify Clinic Analytics Production Markup
+        run: node tests/test_clinic_analytics.js public
 
       - name: Verify Hyperhidrosis Article and Condition Card Rendering
         run: node tests/test_condition_column_coverage.js public
