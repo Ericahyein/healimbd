@@ -130,7 +130,11 @@ const ROOT = path.join(__dirname, '..');
     const simulationDate = (day, hour) => new Date(latestDay + day * 86400000 + (hour - 9) * 3600000 + 7 * 60000);
     const candidates = getRankedCandidatePlans({ historyPath, now: simulationDate(1, 9) });
     assert(candidates.length > 0);
-    for (const candidate of candidates) assert(!published.has(`${candidate.disease.id}|${candidate.topicAngle.id}`), 'region changes cannot recycle a published topic');
+    assert.strictEqual(taxonomy.diseases.find(d => d.id === 'autonomic').topicAngles.find(a => a.id === 'medication-onset').productionEligible, false);
+    for (const candidate of candidates) {
+      assert(!published.has(`${candidate.disease.id}|${candidate.topicAngle.id}`), 'region changes cannot recycle a published topic');
+      assert(candidate.topicAngle.productionEligible !== false, 'quarantined medical topic cannot publish automatically');
+    }
     for (let day = 1; day <= 14; day++) {
       const dayDiseases = new Set();
       for (const hour of ['09', '17']) {
