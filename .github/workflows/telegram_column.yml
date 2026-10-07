@@ -31,6 +31,21 @@ jobs:
           node-version: '20'
       - name: Validate Telegram Delivery Code
         run: node --test tests/test_telegram_delivery.js
+      - name: Resolve Existing Column Slug
+        id: target
+        env:
+          DISPATCH_SLUG: ${{ inputs.column_slug }}
+        run: |
+          if [ "${{ github.event_name }}" = "push" ]; then
+            SLUG=$(tr -d '\r\n' < .github/telegram-column-test-request)
+          else
+            SLUG="$DISPATCH_SLUG"
+          fi
+          if [ -n "$SLUG" ] && ! [[ "$SLUG" =~ ^[a-z0-9]+(-[a-z0-9]+)*$ ]]; then
+            echo "::error::Invalid column slug"
+            exit 1
+          fi
+          echo "slug=$SLUG" >> "$GITHUB_OUTPUT"
       - name: Adapt and Send Existing Column
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -38,5 +53,5 @@ jobs:
           OPENAI_TELEGRAM_MODEL: ${{ vars.OPENAI_TELEGRAM_MODEL }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-          COLUMN_SLUG: ${{ inputs.column_slug }}
+          COLUMN_SLUG: ${{ steps.target.outputs.slug }}
         run: node scripts/auto_column/telegram_delivery.js

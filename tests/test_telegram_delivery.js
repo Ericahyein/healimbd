@@ -31,7 +31,7 @@ test('HTML escapes all model text and is self-contained and responsive', () => {
 test('medical comparison failure blocks adaptation', async () => {
   let calls=0;
   await assert.rejects(adapt(source,env,async()=>completion(calls++ % 2 ? {approved:false,issues:['복약 주의사항을 보존하세요']}:draft)), /검수 미통과/);
-  assert.equal(calls,6);
+  assert.equal(calls,10);
 });
 test('medical comparison success returns draft', async () => {
   let calls=0;
