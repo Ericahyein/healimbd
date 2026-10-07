@@ -1,5 +1,5 @@
 {
-  "requestId": "2026-10-07-medication-validation-recovery",
+  "requestId": "2026-10-07-medication-warning-recovery-2",
   "requestedTarget": "auto",
-  "reason": "Recover one missed Oct 7 KST publication after scheduled run #93 failed on false-positive medication-stop validator; PR #68 passed and merged."
+  "reason": "Recover one Oct 7 KST column after run #94 failed on another explicit medication caution false positive; PR #69 verified and merged."
 }
