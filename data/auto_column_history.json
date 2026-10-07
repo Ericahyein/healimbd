@@ -493,5 +493,16 @@
     "topicAngle": "companion-support",
     "title": "[용인 공황장애] 가족에게 공황 증상이 나타날 때 곁에서 어떻게 도울까요",
     "slug": "yongin-main-panic-companion-support"
+  },
+  {
+    "publishDate": "2026-10-07T16:03:36.001+09:00",
+    "geoId": "seongnam-bundang",
+    "displayRegion": "분당",
+    "parentRegion": "성남",
+    "regionType": "district",
+    "disease": "tic",
+    "topicAngle": "sleep-fatigue-tics",
+    "title": "[분당 틱장애] 피곤한 날 틱이 두드러질 때 수면과 일상을 살피는 방법",
+    "slug": "seongnam-bundang-tic-sleep-fatigue-tics"
   }
 ]
