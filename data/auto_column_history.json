@@ -504,5 +504,16 @@
     "topicAngle": "sleep-fatigue-tics",
     "title": "[분당 틱장애] 피곤한 날 틱이 두드러질 때 수면과 일상을 살피는 방법",
     "slug": "seongnam-bundang-tic-sleep-fatigue-tics"
+  },
+  {
+    "publishDate": "2026-10-08T00:29:58.584+09:00",
+    "geoId": "gyeonggi-gwangju",
+    "displayRegion": "경기광주",
+    "parentRegion": "경기광주",
+    "regionType": "city",
+    "disease": "autonomic",
+    "topicAngle": "dizziness-driving",
+    "title": "[경기광주 자율신경실조증] 어지럼이 반복될 때 운전과 일상 활동에서 주의할 점",
+    "slug": "gyeonggi-gwangju-autonomic-dizziness-driving"
   }
 ]
