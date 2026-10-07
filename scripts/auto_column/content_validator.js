@@ -649,7 +649,8 @@ function checkMedicationDiscontinuation(text) {
         }
 
         // Safe warning / negative / consultation context -> ALLOW
-        const hasNegativeWarning = /(중단|끊|단약|감량).{0,15}(하[지않]|않|말|금지|금물|삼가|반동|안\s*됩|위험|주의|권하지|피해|어렵|조심|우려)/i.test(sentence);
+        const hasNegativeWarning = /(중단|끊|단약|감량).{0,15}(하[지않]|않|말|금지|금물|삼가|반동|안\s*됩|위험|주의|권하지|피해|어렵|조심|우려)/i.test(sentence) ||
+          /(중단|끊|단약|감량|줄이).{0,40}(하는\s*것은|하는\s*데는|할\s*때는).{0,15}(주의가\s*필요|주의해야|피해야)/i.test(sentence);
         const hasArbitraryWarning = /(임의(로)?|자의(로)?|상의\s*없이|지시\s*없이).{0,15}(중단|끊|단약|감량)/i.test(sentence);
         const hasDoctorConsult = /(처방|의료진|담당의|주치의|의사|전문가).{0,15}(상의|상담|조절|조정|상의하|상의한\s*후)/i.test(sentence);
 

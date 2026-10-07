@@ -22,6 +22,11 @@ const ROOT = path.join(__dirname, '..');
   );
   assert.strictEqual(checkMedicationDiscontinuation('약을 끊어도 됩니다.').violated, true);
   assert.strictEqual(checkMedicationDiscontinuation('약을 임의로 중단하지 마십시오.').violated, false);
+  assert.strictEqual(
+    checkMedicationDiscontinuation('새 약 복용 후 불편이 생겼다고 해서 처방약을 스스로 중단하거나 용량을 조절하는 것은 주의가 필요합니다.').violated,
+    false
+  );
+  assert.strictEqual(checkMedicationDiscontinuation('처방약을 즉시 중단하세요.').violated, true);
   const autonomic = loadMedicalKnowledge('autonomic');
   const headache = loadMedicalKnowledge('headache');
   const tic = loadMedicalKnowledge('tic');
