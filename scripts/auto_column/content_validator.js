@@ -657,8 +657,11 @@ function checkMedicationDiscontinuation(text) {
 
         // Check if there is imperative recommendation to stop: e.g. '약을 끊으세요', '정신과 약을 중단하세요'
         const isImperativeStop = /(중단|끊|단약).{0,8}(하세요|하십시오|합시다)/i.test(sentence) && !hasNegativeWarning;
+        // A patient's wish to stop a medicine is descriptive, not advice to stop it.
+        // Keep explicit permission and imperative instructions blocked above and below.
+        const isPatientImpulse = /(중단|끊|단약|감량|줄이).{0,12}고\s*싶어(?:질\s*수\s*있|집|질|하|할)/i.test(sentence);
 
-        if (isSafeContext && !isImperativeStop) {
+        if ((isSafeContext || isPatientImpulse) && !isImperativeStop) {
           // Legitimate safety warning - ALLOWED
           continue;
         }

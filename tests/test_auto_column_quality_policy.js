@@ -5,12 +5,23 @@ const path = require('path');
 const { CLINIC_EVALUATION, selectEvidenceNotes, prepareArticleKnowledge, checkClinicFacts } = require('../scripts/auto_column/medical_policy');
 const { planNextColumn, getRankedCandidatePlans, wasTopicPublished, selectTopicAngleForDisease, getKstCalendarDate } = require('../scripts/auto_column/topic_planner');
 const { generateArticleBody, loadMedicalKnowledge } = require('../scripts/auto_column/ai_generator');
-const { validateArticleContent } = require('../scripts/auto_column/content_validator');
+const { validateArticleContent, checkMedicationDiscontinuation } = require('../scripts/auto_column/content_validator');
 const taxonomy = require('../scripts/auto_column/disease_taxonomy.json');
 const history = require('../data/auto_column_history.json');
 const ROOT = path.join(__dirname, '..');
 
 (async () => {
+  // Describing a patient's concern must not become medication-stop advice.
+  assert.strictEqual(
+    checkMedicationDiscontinuation('새 약을 먹은 뒤 불편함이 생기면 약을 즉시 끊고 싶어질 수 있습니다.').violated,
+    false
+  );
+  assert.strictEqual(
+    checkMedicationDiscontinuation('약을 끊고 싶어질 수 있습니다. 의료진과 상의 없이 약을 끊으세요.').violated,
+    true
+  );
+  assert.strictEqual(checkMedicationDiscontinuation('약을 끊어도 됩니다.').violated, true);
+  assert.strictEqual(checkMedicationDiscontinuation('약을 임의로 중단하지 마십시오.').violated, false);
   const autonomic = loadMedicalKnowledge('autonomic');
   const headache = loadMedicalKnowledge('headache');
   const tic = loadMedicalKnowledge('tic');
