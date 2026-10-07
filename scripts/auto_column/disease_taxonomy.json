@@ -315,6 +315,7 @@
         },
         {
           "id": "medication-onset",
+          "productionEligible": false,
           "titleSuffix": "새 약을 시작한 뒤 어지럽다면 무엇을 의료진에게 알려야 할까요",
           "focus": "약물 시작과 증상 시간 관계, 임의 중단 금지·감별"
         }

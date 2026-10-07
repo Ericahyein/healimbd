@@ -268,6 +268,7 @@ function planNextColumn(options = {}) {
       score += comboDays === null ? 45 : Math.min(comboDays, 45);
 
       for (const angle of (disease.topicAngles || [])) {
+        if (angle.productionEligible === false) continue;
         if (wasTopicPublished(history, disease.id, angle.id)) continue;
         const angleDays = daysSinceLastUse(
           history,
@@ -368,6 +369,7 @@ function getRankedCandidatePlans(options = {}, excludedPlanKeys = new Set()) {
       score += comboDays === null ? 45 : Math.min(comboDays, 45);
 
       for (const angle of (disease.topicAngles || [])) {
+        if (angle.productionEligible === false) continue;
         if (wasTopicPublished(history, disease.id, angle.id)) continue;
         const angleDays = daysSinceLastUse(
           history,
