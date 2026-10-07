@@ -27,6 +27,11 @@ const ROOT = path.join(__dirname, '..');
     false
   );
   assert.strictEqual(checkMedicationDiscontinuation('처방약을 즉시 중단하세요.').violated, true);
+  assert.strictEqual(
+    checkMedicationDiscontinuation('약물 때문이라고 단정하거나 스스로 중단하기보다, 복용 정보와 증상 양상을 의료진에게 알리는 것이 필요합니다.').violated,
+    false
+  );
+  assert.strictEqual(checkMedicationDiscontinuation('약을 끊기보다 의료진에게 알린 뒤 약을 중단하세요.').violated, true);
   const autonomic = loadMedicalKnowledge('autonomic');
   const headache = loadMedicalKnowledge('headache');
   const tic = loadMedicalKnowledge('tic');
