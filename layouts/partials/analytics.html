@@ -1,0 +1,10 @@
+{{- $analytics := site.Params.analytics -}}
+{{- if and hugo.IsProduction $analytics.enabled (findRE `^G-[A-Z0-9]+$` $analytics.measurement_id) -}}
+  {{- $script := resources.Get "js/analytics.js" | resources.Minify | resources.Fingerprint -}}
+  <script id="clinic-analytics" defer src="{{ $script.RelPermalink }}"
+    data-measurement-id="{{ $analytics.measurement_id }}"
+    data-hostname="{{ $analytics.hostname }}"
+    data-phone="{{ site.Params.clinic_info.phone }}"
+    data-naver-url="{{ site.Params.clinic_info.naver_booking_url }}"
+    data-kakao-url="{{ site.Params.clinic_info.kakao_chat_url }}"></script>
+{{- end -}}
