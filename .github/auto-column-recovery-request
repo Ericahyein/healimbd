@@ -1,5 +1,5 @@
 {
-  "requestId": "2026-10-04-similarity-fallback-recovery",
+  "requestId": "2026-10-07-medication-validation-recovery",
   "requestedTarget": "auto",
-  "reason": "Recover one missed column after Oct 3 evening and Oct 4 morning runs exhausted same-disease similarity candidates; PR #64 verified and merged."
+  "reason": "Recover one missed Oct 7 KST publication after scheduled run #93 failed on false-positive medication-stop validator; PR #68 passed and merged."
 }
