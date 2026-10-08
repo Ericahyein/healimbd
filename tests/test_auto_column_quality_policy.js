@@ -32,6 +32,12 @@ const ROOT = path.join(__dirname, '..');
     false
   );
   assert.strictEqual(checkMedicationDiscontinuation('약을 끊기보다 의료진에게 알린 뒤 약을 중단하세요.').violated, true);
+  assert.strictEqual(
+    checkMedicationDiscontinuation('약물 치료의 변경과 중단은 의료진의 검토 아래 이루어져야 한다는 점은 [NICE ADHD 진료지침](https://www.nice.org.uk/)에서도 강조합니다.').violated,
+    false
+  );
+  assert.strictEqual(checkMedicationDiscontinuation('약물 치료를 중단하세요. 의료진의 검토를 받아보세요.').violated, true);
+  assert.strictEqual(checkMedicationDiscontinuation('약물 치료의 중단은 의료진 검토 아래 이루어져야 하지만 지금은 중단해도 됩니다.').violated, true);
   const autonomic = loadMedicalKnowledge('autonomic');
   const headache = loadMedicalKnowledge('headache');
   const tic = loadMedicalKnowledge('tic');
