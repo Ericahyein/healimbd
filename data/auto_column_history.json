@@ -515,5 +515,16 @@
     "topicAngle": "dizziness-driving",
     "title": "[경기광주 자율신경실조증] 어지럼이 반복될 때 운전과 일상 활동에서 주의할 점",
     "slug": "gyeonggi-gwangju-autonomic-dizziness-driving"
+  },
+  {
+    "publishDate": "2026-10-08T14:54:03.506+09:00",
+    "geoId": "seongnam-main",
+    "displayRegion": "성남",
+    "parentRegion": "성남",
+    "regionType": "city",
+    "disease": "sleep",
+    "topicAngle": "snoring-awakenings",
+    "title": "[성남 불면증] 코골이와 밤중 각성이 함께 있으면 불면증만 봐도 될까요",
+    "slug": "seongnam-main-sleep-snoring-awakenings"
   }
 ]
