@@ -656,7 +656,8 @@ function checkMedicationDiscontinuation(text) {
           /(의료진|담당의|주치의|의사|처방의).{0,20}(알리|상의|상담|확인)/i.test(sentence);
         const hasDoctorConsult = /(처방|의료진|담당의|주치의|의사|전문가).{0,15}(상의|상담|조절|조정|상의하|상의한\s*후)/i.test(sentence);
 
-        const isSafeContext = hasNegativeWarning || hasArbitraryWarning || hasDoctorConsult || hasSaferAlternative;
+        const hasClinicalOversight = /(중단|끊|단약|감량|줄이).{0,40}(의료진|담당의|주치의|의사|처방의)(의)?\s*(검토|판단|지시|관리)\s*(아래|하에|후|를\s*거쳐).{0,20}(이루어져야|진행되어야|해야)/i.test(sentence);
+        const isSafeContext = hasNegativeWarning || hasArbitraryWarning || hasDoctorConsult || hasSaferAlternative || hasClinicalOversight;
 
         // Check if there is imperative recommendation to stop: e.g. '약을 끊으세요', '정신과 약을 중단하세요'
         const isImperativeStop = /(중단|끊|단약).{0,8}(하세요|하십시오|합시다)/i.test(sentence) && !hasNegativeWarning;
