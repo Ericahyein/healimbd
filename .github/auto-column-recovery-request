@@ -1,5 +1,5 @@
 {
-  "requestId": "2026-10-07-quarantined-angle-recovery-4",
+  "requestId": "2026-10-09-evening-failure-recovery-1",
   "requestedTarget": "auto",
-  "reason": "Recover one Oct 7 KST column using another approved topic after quarantining medication-onset; PR #71 verified and merged."
+  "reason": "Recover one missed 2026-10-08 evening column after PR #75 medical oversight validation fix; user requested immediate publication."
 }
