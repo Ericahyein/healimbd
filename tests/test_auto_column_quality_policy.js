@@ -38,6 +38,11 @@ const ROOT = path.join(__dirname, '..');
   );
   assert.strictEqual(checkMedicationDiscontinuation('약물 치료를 중단하세요. 의료진의 검토를 받아보세요.').violated, true);
   assert.strictEqual(checkMedicationDiscontinuation('약물 치료의 중단은 의료진 검토 아래 이루어져야 하지만 지금은 중단해도 됩니다.').violated, true);
+  assert.strictEqual(
+    checkMedicationDiscontinuation('[NICE ADHD 진단 및 관리 지침](https://www.nice.org.uk/guidance/ng87)도 약물 치료의 변경이나 중단은 의료진의 판단과 검토를 거쳐야 한다고 안내합니다.').violated,
+    false
+  );
+  assert.strictEqual(checkMedicationDiscontinuation('약물 치료를 중단하고 의료진과 상담하세요.').violated, true);
   const autonomic = loadMedicalKnowledge('autonomic');
   const headache = loadMedicalKnowledge('headache');
   const tic = loadMedicalKnowledge('tic');
