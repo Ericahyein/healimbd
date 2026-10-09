@@ -548,5 +548,16 @@
     "topicAngle": "night-sweats",
     "title": "[용인 다한증] 밤에 땀이 많이 날 때 낮의 다한증과 함께 살펴볼 점",
     "slug": "yongin-main-hyperhidrosis-night-sweats"
+  },
+  {
+    "publishDate": "2026-10-10T00:14:10.003+09:00",
+    "geoId": "seongnam-bundang",
+    "displayRegion": "분당",
+    "parentRegion": "성남",
+    "regionType": "district",
+    "disease": "headache",
+    "topicAngle": "painkiller-frequency",
+    "title": "[분당 두통] 진통제를 먹는 날이 늘어날 때 두통과 약을 함께 살피는 방법",
+    "slug": "seongnam-bundang-headache-painkiller-frequency"
   }
 ]
