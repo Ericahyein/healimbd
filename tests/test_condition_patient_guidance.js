@@ -59,6 +59,8 @@ try {
     assert.strictEqual(h1s.length, 1, slug + ': exactly one page heading');
     const heading = h1s[0][1].replace(/<\/span>/g, ' ').replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
     const source = fs.readFileSync(path.join(root, 'content/conditions', slug + '.md'), 'utf8');
+    const lastmod = source.match(/^lastmod: (\d{4}-\d{2}-\d{2})$/m)[1];
+    const faqCount = (source.match(/question:/g) || []).length;
     const conditionName = source.match(/^condition_name: "([^"]+)"$/m)[1];
     assert.strictEqual(heading, `${conditionName} 증상·검사·치료 안내`, slug + ': disease-first heading');
     const title = `${conditionName} 증상·검사·치료 안내 | 해아림한의원 분당점`;
@@ -88,21 +90,34 @@ try {
     assert(clinic.sameAs.includes('https://map.naver.com/p/entry/place/1272285133'));
     assert(text.includes('clinic-visit-summary') && text.includes('clinic-visit-links'), slug + ': public visit summary and booking links required');
     const meta = metaBlock(text);
-    assert(meta && meta.includes('최종 수정:') && meta.includes('2026.10.05'), slug + ': modification date must be visible');
+    assert(meta && meta.includes('최종 수정:') && meta.includes(lastmod.replaceAll('-', '.')), slug + ': modification date must be visible');
     assert(meta.includes('의료 콘텐츠팀'), slug + ': visible author must match actual editing scope');
     assert(!meta.includes('의학적 검토:') && !meta.includes('검토일:'), slug + ': no unconfirmed visible review');
     assert(!('reviewedBy' in page) && !('lastReviewed' in page), slug + ': no unconfirmed schema review');
     assert.strictEqual(page.author['@type'], 'Organization');
     assert.strictEqual(page.author.name, '해아림한의원 분당점 의료 콘텐츠팀');
-    assert.strictEqual(page.dateModified, '2026-10-05');
+    assert.strictEqual(page.dateModified, lastmod);
     assert.strictEqual(page.datePublished, '2026-09-28');
     assert(text.includes('가상의 예시입니다') && text.includes('실제 환자 사례나 진단 결과가 아닙니다'), slug + ': hypothetical record label required');
     assert(!text.includes('**'), slug + ': raw markdown must not be visible');
     assert(!text.includes('HRV'), slug + ': no unperformed test');
     const faq = schemas(text).find(node => node['@type'] === 'FAQPage');
-    assert.strictEqual(faq.mainEntity.length, 8, slug + ': one distinct question added');
-    assert.strictEqual(new Set(faq.mainEntity.map(item => item.name)).size, 8, slug + ': FAQs must be unique');
+    assert(faqCount >= 8, slug + ': retain patient guidance FAQs');
+    assert.strictEqual(faq.mainEntity.length, faqCount, slug + ': schema contains every source FAQ');
+    assert.strictEqual(new Set(faq.mainEntity.map(item => item.name)).size, faqCount, slug + ': FAQs must be unique');
     for (const question of faq.mainEntity) assert(text.includes(question.name), slug + ': schema FAQ must also be visible');
+    if (slug === 'autonomic') {
+      const question = '머리나 얼굴로 열이 오르는 느낌도 자율신경 문제인가요?';
+      const detail = [...text.matchAll(/<details\b[^>]*>([\s\S]*?)<\/details>/g)]
+        .map(match => match[1]).find(item => item.includes(question));
+      const item = faq.mainEntity.find(item => item.name === question);
+      assert(detail && item, 'autonomic: heat sensation FAQ is visible and structured');
+      assert(detail.includes(item.acceptedAnswer.text), 'autonomic: visible answer matches structured data');
+      const link = [...detail.matchAll(/<a\b[^>]*>/g)]
+        .map(match => attrs(match[0])).find(item => item.href === '/inquiry/inq_1788749317588/');
+      assert(link, 'autonomic: related consultation is linked inside the matching FAQ');
+      assert(detail.includes('관련 상담: 자율신경실조증 때문에 머리로 열이 오를 수 있나요?'));
+    }
   }
   const reviewed = html('reviewed');
   const reviewedPage = schemaPage(reviewed);

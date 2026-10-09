@@ -82,6 +82,9 @@
           <details>
             <summary>{{ .question }}</summary>
             <p>{{ .answer }}</p>
+            {{ if and .related_url .related_title }}
+            <p><a href="{{ .related_url | relURL }}">{{ .related_title }}</a></p>
+            {{ end }}
           </details>
           {{ end }}
         </div>
