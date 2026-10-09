@@ -4,7 +4,8 @@
 {{- range .Data.Pages -}}
   {{- $rel := .RelPermalink -}}
   {{- $isPublicReviewGuide := and .Params.public_review_guide (eq $rel "/reviews/guide/") (eq .Type "review-guide") (eq .Kind "page") -}}
-  {{- $exclude := or (in $rel "/admin/") (in $rel "/reservation/") (in $rel "/treatments/") (in $rel "/categories/") (in $rel "/tags/") (and (in $rel "/reviews/") (not $isPublicReviewGuide)) (eq $rel "/404.html") (eq .Kind "404") (eq .Kind "taxonomy") (eq .Kind "term") -}}
+  {{- $isNoindex := and (not $isPublicReviewGuide) (or .Params.review_detail_page (in (lower (.Params.robots | default "")) "noindex")) -}}
+  {{- $exclude := or $isNoindex (in $rel "/admin/") (in $rel "/reservation/") (in $rel "/treatments/") (in $rel "/categories/") (in $rel "/tags/") (and (in $rel "/reviews/") (not $isPublicReviewGuide)) (eq $rel "/404.html") (eq .Kind "404") (eq .Kind "taxonomy") (eq .Kind "term") -}}
   {{- if not $exclude -}}
   <url>
     <loc>{{ .Permalink }}</loc>
