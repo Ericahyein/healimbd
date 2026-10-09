@@ -33,6 +33,15 @@ try {
     write('content/areas/' + area + '.md', fs.readFileSync(path.join(root, 'content/areas', area + '.md'), 'utf8'));
   }
   write('layouts/_default/baseof.html', '<!doctype html><html><head>{{ partial "head_seo.html" . }}</head><body>{{ block "main" . }}{{ end }}</body></html>');
+  const genericLayout = '{{ define "main" }}{{ .Content }}{{ end }}';
+  write('layouts/_default/list.html', genericLayout);
+  write('layouts/_default/single.html', genericLayout);
+  write('layouts/sitemap.xml', fs.readFileSync(path.join(root, 'layouts/sitemap.xml'), 'utf8'));
+  for (const name of ['conditions/_index.md', 'reviews/guide.md', 'review-view/_index.md']) {
+    write('content/' + name, fs.readFileSync(path.join(root, 'content', name), 'utf8'));
+  }
+  write('content/excluded.md', '---\ntitle: "Excluded fixture"\nrobots: "NOINDEX, follow"\n---\n');
+  write('content/public.md', '---\ntitle: "Public fixture"\nrobots: "index, follow"\n---\n');
   for (const slug of slugs) {
     write('content/conditions/' + slug + '.md', fs.readFileSync(path.join(root, 'content/conditions', slug + '.md'), 'utf8'));
   }
@@ -52,6 +61,19 @@ try {
   const build = spawnSync(process.env.HUGO_BIN || 'hugo', ['--source', fixture, '--minify'], { encoding: 'utf8' });
   if (build.error) throw build.error;
   assert.strictEqual(build.status, 0, build.stdout + build.stderr);
+  const sitemap = fs.readFileSync(path.join(fixture, 'public/sitemap.xml'), 'utf8');
+  const sitemapUrls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match => match[1]);
+  assert(!sitemapUrls.includes('https://healimbd.com/conditions/'), 'noindex condition overview must be absent from sitemap');
+  assert(!sitemapUrls.includes('https://healimbd.com/excluded/'), 'explicit noindex is case insensitive');
+  assert(!sitemapUrls.includes('https://healimbd.com/reviews/view/'), 'protected review detail remains absent from sitemap');
+  assert(sitemapUrls.includes('https://healimbd.com/reviews/guide/'), 'public review guide remains discoverable');
+  assert(sitemapUrls.includes('https://healimbd.com/public/'), 'explicit index remains in sitemap');
+  const overview = fs.readFileSync(path.join(fixture, 'public/conditions/index.html'), 'utf8');
+  const overviewRobots = [...overview.matchAll(/<meta\b[^>]*>/g)].map(match => attrs(match[0])).find(item => item.name === 'robots');
+  assert.strictEqual(overviewRobots.content, 'noindex, follow', 'overview remains accessible with its existing robots policy');
+  for (const slug of slugs) {
+    assert(sitemapUrls.includes(`https://healimbd.com/conditions/${slug}/`), slug + ': indexable disease detail remains in sitemap');
+  }
   const html = slug => fs.readFileSync(path.join(fixture, 'public/conditions', slug, 'index.html'), 'utf8');
   for (const slug of slugs) {
     const text = html(slug);
