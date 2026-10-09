@@ -537,5 +537,16 @@
     "topicAngle": "lost-belongings",
     "title": "[판교 ADHD] 준비물과 물건을 자주 잃어버릴 때 함께 살펴볼 점",
     "slug": "bundang-pangyo-adhd-lost-belongings"
+  },
+  {
+    "publishDate": "2026-10-09T14:59:42.618+09:00",
+    "geoId": "yongin-main",
+    "displayRegion": "용인",
+    "parentRegion": "용인",
+    "regionType": "city",
+    "disease": "hyperhidrosis",
+    "topicAngle": "night-sweats",
+    "title": "[용인 다한증] 밤에 땀이 많이 날 때 낮의 다한증과 함께 살펴볼 점",
+    "slug": "yongin-main-hyperhidrosis-night-sweats"
   }
 ]
