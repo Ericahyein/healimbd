@@ -559,5 +559,16 @@
     "topicAngle": "painkiller-frequency",
     "title": "[분당 두통] 진통제를 먹는 날이 늘어날 때 두통과 약을 함께 살피는 방법",
     "slug": "seongnam-bundang-headache-painkiller-frequency"
+  },
+  {
+    "publishDate": "2026-10-10T14:42:41.340+09:00",
+    "geoId": "gyeonggi-gwangju",
+    "displayRegion": "경기광주",
+    "parentRegion": "경기광주",
+    "regionType": "city",
+    "disease": "panic",
+    "topicAngle": "panic-versus-disorder",
+    "title": "[경기광주 공황장애] 한 번의 공황발작으로 공황장애라고 할 수 있을까요",
+    "slug": "gyeonggi-gwangju-panic-panic-versus-disorder"
   }
 ]
