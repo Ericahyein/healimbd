@@ -570,5 +570,16 @@
     "topicAngle": "panic-versus-disorder",
     "title": "[경기광주 공황장애] 한 번의 공황발작으로 공황장애라고 할 수 있을까요",
     "slug": "gyeonggi-gwangju-panic-panic-versus-disorder"
+  },
+  {
+    "publishDate": "2026-10-11T14:37:37.563+09:00",
+    "geoId": "seongnam-main",
+    "displayRegion": "성남",
+    "parentRegion": "성남",
+    "regionType": "city",
+    "disease": "anxiety",
+    "topicAngle": "reassurance-loop",
+    "title": "[성남 불안장애] 반복해서 괜찮은지 확인해도 안심이 오래가지 않을 때",
+    "slug": "seongnam-main-anxiety-reassurance-loop"
   }
 ]
