@@ -603,5 +603,16 @@
     "topicAngle": "onset-history",
     "title": "[판교 다한증] 어릴 때부터 땀이 많았다면 가족력과 경과를 어떻게 설명할까요",
     "slug": "bundang-pangyo-hyperhidrosis-onset-history"
+  },
+  {
+    "publishDate": "2026-10-13T02:46:09.178+09:00",
+    "geoId": "seongnam-bundang",
+    "displayRegion": "분당",
+    "parentRegion": "성남",
+    "regionType": "district",
+    "disease": "sleep",
+    "topicAngle": "daytime-naps",
+    "title": "[분당 불면증] 밤잠이 부족해서 낮잠이 길어질 때 함께 살펴볼 점",
+    "slug": "seongnam-bundang-sleep-daytime-naps"
   }
 ]
