@@ -1,0 +1,145 @@
+/* Nationwide network: the entire strip is one accessible external link. */
+.network-footer-bar {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  background: #FFFFFF;
+  color: #33383B;
+  border-top: 1px solid #1B8FD1;
+  border-bottom: 1px solid #1B8FD1;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.network-footer-bar--after-image {
+  border-top: 0;
+  border-bottom-color: #4D4747;
+}
+
+.network-footer-bar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  min-height: 74px;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 10px 20px;
+  box-sizing: border-box;
+}
+
+.network-footer-bar__brand {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.network-footer-bar__symbol {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+}
+
+.network-footer-bar__wordmark {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  white-space: nowrap;
+}
+
+.network-footer-bar__slogan {
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.network-footer-bar__name {
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -1.2px;
+}
+
+.network-footer-bar__separator {
+  font-size: 24px;
+  line-height: 1;
+  opacity: 0.85;
+}
+
+.network-footer-bar__destination {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.network-footer-bar__label {
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: -0.6px;
+  white-space: nowrap;
+}
+
+.network-footer-bar__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  padding: 5px 11px;
+  box-sizing: border-box;
+  border-radius: 12px;
+  background: #1B8FD1;
+  color: #FFFFFF;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+  transition: background-color 0.15s ease;
+}
+
+.network-footer-bar:hover {
+  color: #33383B;
+  text-decoration: none;
+}
+
+.network-footer-bar:hover .network-footer-bar__cta {
+  background: #1579B2;
+}
+
+.network-footer-bar:focus-visible {
+  outline: 3px solid #1B8FD1;
+  outline-offset: -4px;
+}
+
+.site-footer.site-footer--with-network {
+  border-top: 0;
+}
+
+@media (max-width: 767px) {
+  .network-footer-bar__inner {
+    min-height: 68px;
+    padding: 12px 16px;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .network-footer-bar__symbol { width: 34px; height: 34px; }
+  .network-footer-bar__slogan { font-size: 9px; }
+  .network-footer-bar__name { font-size: 21px; }
+  .network-footer-bar__separator { font-size: 19px; }
+  .network-footer-bar__destination { gap: 8px; }
+  .network-footer-bar__label { font-size: 17px; }
+  .network-footer-bar__cta {
+    min-height: 44px;
+    padding: 6px 10px;
+    border-radius: 9px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 520px) {
+  .network-footer-bar__inner { flex-direction: column; gap: 7px; }
+  .network-footer-bar__separator { display: none; }
+  .network-footer-bar__label { font-size: 16px; letter-spacing: -0.4px; }
+  .network-footer-bar__cta { font-size: 17px; }
+}
+

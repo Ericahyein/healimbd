@@ -146,6 +146,12 @@ const ROOT = path.join(__dirname, '..');
       assert(!published.has(`${candidate.disease.id}|${candidate.topicAngle.id}`), 'region changes cannot recycle a published topic');
       assert(candidate.topicAngle.productionEligible !== false, 'quarantined medical topic cannot publish automatically');
     }
+    // Real history above verifies production deduplication. Use an isolated
+    // history for the 28-post simulation so routine publishing cannot exhaust
+    // this fixture; exhausted-history rejection remains covered below.
+    simulated.length = 0;
+    published.clear();
+    fs.writeFileSync(historyPath, '[]');
     for (let day = 1; day <= 14; day++) {
       const dayDiseases = new Set();
       for (const hour of ['09', '17']) {
