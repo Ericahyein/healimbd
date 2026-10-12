@@ -1,4 +1,26 @@
-<footer class="site-footer">
+{{/* Home and philosophy pages end with the photographic closing section. */}}
+{{ $networkStyle := resources.Get "css/network-footer.css" | resources.Minify | resources.Fingerprint }}
+<link rel="stylesheet" href="{{ $networkStyle.RelPermalink }}">
+{{ $hasClosingImage := or .IsHome (eq .Section "philosophy") }}
+<a class="network-footer-bar{{ if $hasClosingImage }} network-footer-bar--after-image{{ end }}"
+   href="http://healim.com" target="_blank" rel="noopener noreferrer"
+   aria-label="해아림한의원 전국 네트워크 홈페이지 바로가기 (새 창)">
+  <span class="network-footer-bar__inner">
+    <span class="network-footer-bar__brand">
+      <img src="{{ "images/logo.png" | relURL }}" alt="" width="44" height="44" loading="lazy" decoding="async" class="network-footer-bar__symbol">
+      <span class="network-footer-bar__wordmark">
+        <span class="network-footer-bar__slogan">마음까지 헤아리는</span>
+        <span class="network-footer-bar__name">해아림한의원</span>
+      </span>
+    </span>
+    <span class="network-footer-bar__separator" aria-hidden="true">|</span>
+    <span class="network-footer-bar__destination">
+      <span class="network-footer-bar__label">전국 네트워크 홈페이지</span>
+      <span class="network-footer-bar__cta" aria-hidden="true">바로가기</span>
+    </span>
+  </span>
+</a>
+<footer class="site-footer site-footer--with-network">
   <div class="container footer-legal-bar">
     <a href="{{ "privacy/" | relURL }}" class="footer-link">개인정보처리방침</a>
     <span class="footer-sep">·</span>
