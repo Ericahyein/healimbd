@@ -592,5 +592,16 @@
     "topicAngle": "symptom-time-log",
     "title": "[용인 자율신경실조증] 심장이 뛰는 순간 무엇을 했는지, 자세와 복용약까지 적어야 하는 이유",
     "slug": "yongin-main-autonomic-symptom-time-log"
+  },
+  {
+    "publishDate": "2026-10-12T14:47:54.814+09:00",
+    "geoId": "bundang-pangyo",
+    "displayRegion": "판교",
+    "parentRegion": "성남",
+    "regionType": "selected_local_area",
+    "disease": "hyperhidrosis",
+    "topicAngle": "onset-history",
+    "title": "[판교 다한증] 어릴 때부터 땀이 많았다면 가족력과 경과를 어떻게 설명할까요",
+    "slug": "bundang-pangyo-hyperhidrosis-onset-history"
   }
 ]
