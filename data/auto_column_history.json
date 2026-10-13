@@ -625,5 +625,16 @@
     "topicAngle": "abdominal-pain-defecation",
     "title": "[경기광주 과민성대장증후군] 배변 후 복통이 달라질 때 진료에서 설명할 점",
     "slug": "gyeonggi-gwangju-ibs-abdominal-pain-defecation"
+  },
+  {
+    "publishDate": "2026-10-14T00:53:04.292+09:00",
+    "geoId": "seongnam-main",
+    "displayRegion": "성남",
+    "parentRegion": "성남",
+    "regionType": "city",
+    "disease": "headache",
+    "topicAngle": "pressing-throbbing",
+    "title": "[성남 두통] 조이는 두통과 욱신거리는 두통은 어떻게 설명할까요",
+    "slug": "seongnam-main-headache-pressing-throbbing"
   }
 ]
