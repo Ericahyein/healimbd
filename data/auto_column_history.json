@@ -614,5 +614,16 @@
     "topicAngle": "daytime-naps",
     "title": "[분당 불면증] 밤잠이 부족해서 낮잠이 길어질 때 함께 살펴볼 점",
     "slug": "seongnam-bundang-sleep-daytime-naps"
+  },
+  {
+    "publishDate": "2026-10-13T15:42:03.421+09:00",
+    "geoId": "gyeonggi-gwangju",
+    "displayRegion": "경기광주",
+    "parentRegion": "경기광주",
+    "regionType": "city",
+    "disease": "ibs",
+    "topicAngle": "abdominal-pain-defecation",
+    "title": "[경기광주 과민성대장증후군] 배변 후 복통이 달라질 때 진료에서 설명할 점",
+    "slug": "gyeonggi-gwangju-ibs-abdominal-pain-defecation"
   }
 ]
