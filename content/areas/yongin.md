@@ -5,6 +5,7 @@ summary: "용인 수지·죽전·보정·구성·기흥에서 정자역 3번 출
 type: "areas"
 layout: "single"
 area_name: "용인"
+related_areas: ["suji", "giheung", "cheoin"]
 seo_title: "용인 자율신경실조증·불안·수면 진료 안내"
 local_landing: true
 landing_heading: "용인 자율신경실조증·불안·수면 진료 안내"

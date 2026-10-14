@@ -5,6 +5,7 @@ summary: "성남 수정구·중원구·모란·태평에서 정자역 3번 출�
 type: "areas"
 layout: "single"
 area_name: "성남"
+related_areas: ["sujeong", "jungwon", "bundang"]
 seo_title: "성남 틱장애·ADHD·공황장애 진료 안내"
 local_landing: true
 landing_heading: "성남 틱장애·ADHD·공황장애 진료 안내"

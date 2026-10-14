@@ -30,6 +30,15 @@
 .area-landing-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
 .area-landing-actions .btn { min-height: 48px; }
 .area-featured-section { margin-top: 56px; }
+.area-subregion-section { margin: 48px 0 56px; }
+.area-subregion-section .area-section-heading { margin-bottom: 24px; }
+.area-route-sources { margin-top: 20px; font-size: 14px; color: #526173; line-height: 1.8; }
+.area-route-sources a { color: #0c78bb; text-decoration: underline; }
+.area-district-guide-section { margin-top: 72px; }
+.area-district-guide-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.area-district-guide-grid .area-guide-card { padding: 28px; }
+.area-district-guide-grid .area-guide-card h3 { font-size: 23px; }
+.area-district-guide-grid .area-guide-card p { font-size: 15px; }
 .area-condition-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
 .area-condition-card {
   display: flex;
@@ -52,12 +61,12 @@
 .area-faq-item summary { color: #10233f; font-size: 18px; font-weight: 650; line-height: 1.6; cursor: pointer; }
 .area-faq-item p { margin: 18px 0 0; color: #445468; font-size: 16px; line-height: 1.9; }
 .area-route-section { scroll-margin-top: 120px; }
-@media (max-width: 900px) { .area-condition-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 900px) { .area-condition-grid, .area-district-guide-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 680px) {
   .area-landing-hero { padding: 120px 0 48px; }
   .area-landing-actions { flex-direction: column; }
   .area-landing-actions .btn { justify-content: center; }
-  .area-condition-grid { grid-template-columns: 1fr; }
+  .area-condition-grid, .area-district-guide-grid { grid-template-columns: 1fr; }
   .area-condition-card { padding: 26px 22px; }
   .area-landing-subtitle { font-size: 16px; }
 }

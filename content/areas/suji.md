@@ -4,7 +4,24 @@ description: "수지구청·성복·상현·죽전·동천에서 정자역 해�
 summary: "용인 수지구청·성복·상현·죽전·동천에서 정자역 3번 출구 인근 해아림한의원 분당점으로 이동하는 방법과 관련 진료 정보를 안내합니다."
 type: "areas"
 layout: "single"
-area_name: "수지"
+area_name: "수지구"
+parent_area: "yongin"
+related_areas: ["yongin", "giheung", "cheoin"]
+seo_title: "수지구 공황장애·불안·틱장애 진료 안내"
+local_landing: true
+landing_heading: "수지구 공황장애·불안·틱장애 진료 안내"
+landing_intro: "풍덕천·성복·상현·동천·죽전에서 진료 정보를 찾는 분께, 증상별 안내와 신분당선·수인분당선으로 분당 정자역에 오는 방법을 소개합니다."
+featured_conditions: ["panic", "anxiety", "tic", "adhd", "insomnia", "autonomic"]
+visit_faq:
+  - question: "성복·상현과 동천에서 같은 노선으로 갈 수 있나요?"
+    answer: "성복역·상현역·동천역에서는 신분당선을 이용해 정자역으로 이동할 수 있습니다. 정자역 3번 출구 인근이 분당점 진료 장소이며, 출발지에서 역까지의 이동과 열차 대기시간은 별도로 확인해 주세요."
+  - question: "죽전에서는 신분당선을 이용해야 하나요?"
+    answer: "죽전역을 이용하기 편한 위치라면 수인분당선으로 정자역까지 이동할 수 있습니다. 신분당선 역과 죽전역 중 어느 쪽이 가까운지는 출발지에 따라 달라지므로 지도 앱에서 전체 경로를 비교해 주세요."
+  - question: "신봉·풍덕천에서 차로 방문할 때는 무엇을 확인해야 하나요?"
+    answer: "목적지는 성남시 분당구 성남대로331번길 3-3, 젤존타워 3차 405호입니다. 출발 위치와 시간대별 교통 상황을 확인하고, 건물 지하주차장 이용과 무료 주차 지원은 예약 시 함께 안내받으실 수 있습니다."
+route_sources:
+  - title: "신분당선 노선 안내"
+    url: "https://www.shinbundang.co.kr/dxline/dxline1.jsp"
 hero_title: "<span class=\"hero-title-chunk\">수지에서</span> <span class=\"hero-title-chunk\">해아림한의원 분당점</span> <span class=\"hero-title-chunk\">오시는 길과 진료 안내</span>"
 hero_subtitle: "수지구청·성복·상현·죽전·동천에서 정자역까지 이어지는 이동 경로와<br class=\"pc-br\">관련 진료 정보를 한눈에 확인하실 수 있습니다."
 intro: "해아림한의원 분당점은 수지에 별도 지점을 두고 있지 않으며, 정자역 3번 출구 인근에 위치합니다. 이 페이지는 용인시 수지구에서 분당점 방문을 고려하는 분들이 신분당선과 수인분당선 이동 방법, 수지 관련 칼럼을 확인할 수 있도록 마련했습니다."

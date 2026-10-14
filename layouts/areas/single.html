@@ -5,6 +5,7 @@
       <nav class="area-breadcrumb" aria-label="현재 위치">
         <a href="{{ "/" | relURL }}">홈</a><span aria-hidden="true">/</span>
         <a href="{{ "areas/" | relURL }}">주요 진료권</a><span aria-hidden="true">/</span>
+        {{ with .Params.parent_area }}{{ with site.GetPage (printf "/areas/%s" .) }}<a href="{{ .RelPermalink }}">{{ .Params.area_name }}</a><span aria-hidden="true">/</span>{{ end }}{{ end }}
         <span aria-current="page">{{ .Params.area_name }}</span>
       </nav>
       <span class="area-guide-eyebrow">해아림한의원 분당점 · 지역별 진료 안내</span>
@@ -46,6 +47,21 @@
         </div>
       </section>
 
+      {{ with .Params.related_areas }}
+      <section class="area-subregion-section" aria-labelledby="area-subregion-heading">
+        <div class="area-section-heading">
+          <span class="area-guide-eyebrow">LOCAL VISIT GUIDES</span>
+          <h2 id="area-subregion-heading">지역별 방문 안내</h2>
+          <p>출발 지역에 맞는 교통편과 방문 준비를 확인해 주세요.</p>
+        </div>
+        <nav class="clinic-visit-links" aria-label="연결된 지역 안내">
+          {{ range . }}{{ with site.GetPage (printf "/areas/%s" .) }}
+          <a href="{{ .RelPermalink }}">{{ .Params.area_name }} 안내</a>
+          {{ end }}{{ end }}
+        </nav>
+      </section>
+      {{ end }}
+
       {{ with .Params.featured_conditions }}
       <section class="area-featured-section" aria-labelledby="area-featured-heading">
         <div class="area-section-heading">
@@ -82,6 +98,12 @@
           {{ end }}
         </div>
       </section>
+
+      {{ with .Params.route_sources }}
+      <aside class="area-route-sources" aria-label="교통 안내 참고 자료">
+        <p>노선 안내 참고: {{ range $index, $source := . }}{{ if $index }} · {{ end }}<a href="{{ $source.url }}" target="_blank" rel="noopener noreferrer">{{ $source.title }}</a>{{ end }}. 열차 운행과 전체 이동시간은 방문 당일 확인해 주세요.</p>
+      </aside>
+      {{ end }}
 
       <section class="area-condition-section" aria-labelledby="area-condition-heading">
         <div class="area-section-heading">
