@@ -1,94 +1,156 @@
 {{ define "main" }}
-  {{ partial "page_hero.html" (dict
-    "Tag" (printf "%s SERVICE AREA" (.Params.area_name | upper))
-    "Title" (.Params.hero_title | default .Title)
-    "Subtitle" .Params.hero_subtitle
-    "BgImage" "images/hero-location.png"
-    "HeroClass" "location-hero"
-  ) }}
-
-  <article class="area-detail-section">
-    <div class="container area-detail-container">
-      <nav class="area-breadcrumb" aria-label="현재 위치">
-        <a href="{{ "/" | relURL }}">홈</a><span aria-hidden="true">/</span>
-        <a href="{{ "areas/" | relURL }}">주요 진료권</a><span aria-hidden="true">/</span>
-        <span aria-current="page">{{ .Params.area_name }}</span>
-      </nav>
-
-      <section class="area-detail-lead" aria-labelledby="area-detail-overview">
-        <span class="area-guide-eyebrow">LOCATION OVERVIEW</span>
-        <h2 id="area-detail-overview">{{ .Params.area_name }}에서 분당점 방문을 고려하신다면</h2>
-        <p>{{ .Params.intro }}</p>
-        <div class="area-district-list" aria-label="안내 지역">
-          {{ range .Params.districts }}<span>{{ . }}</span>{{ end }}
-        </div>
-      </section>
-
-      <section class="area-route-section" aria-labelledby="area-route-heading">
-        <div class="area-section-heading">
-          <span class="area-guide-eyebrow">ROUTE GUIDE</span>
-          <h2 id="area-route-heading">정자역 분당점으로 오시는 방법</h2>
-        </div>
-        <div class="area-route-grid">
-          {{ range $index, $route := .Params.routes }}
-          <article class="area-route-card">
-            <span class="area-route-number">0{{ add $index 1 }}</span>
-            <h3>{{ $route.title }}</h3>
-            <p>{{ $route.text }}</p>
-          </article>
-          {{ end }}
-        </div>
-      </section>
-
-      <section class="area-condition-section" aria-labelledby="area-condition-heading">
-        <div class="area-section-heading">
-          <span class="area-guide-eyebrow">CLINICAL GUIDE</span>
-          <h2 id="area-condition-heading">질환별 증상·검사·치료 안내</h2>
-          <p>궁금한 질환을 선택해 증상과 진료 과정, 방문 전 준비할 자료를 확인해 주세요.</p>
-        </div>
-        <nav class="clinic-visit-links" aria-label="질환별 진료 안내">
-          {{ range (slice "tic" "adhd" "panic" "anxiety" "insomnia" "autonomic" "hyperhidrosis" "ibs" "syncope") }}
-            {{ with site.GetPage (printf "/conditions/%s" .) }}
-          <a href="{{ .RelPermalink }}">{{ .Params.condition_name }}</a>
-            {{ end }}
-          {{ end }}
+  {{ $info := site.Params.clinic_info }}
+  {{ $review := partial "condition_medical_review.html" . }}
+  {{ $conditions := slice "tic" "adhd" "panic" "anxiety" "insomnia" "autonomic" "hyperhidrosis" "ibs" "syncope" }}
+  {{ $icons := dict "tic" "🧠" "adhd" "🎯" "panic" "💭" "anxiety" "💙" "insomnia" "🌙" "autonomic" "⚖️" "hyperhidrosis" "💧" "ibs" "🌿" "syncope" "🍃" }}
+  <article class="area-article">
+    <header class="area-article-hero" aria-labelledby="area-landing-title">
+      <div class="container area-detail-container">
+        <nav class="area-breadcrumb" aria-label="현재 위치">
+          <a href="{{ "/" | relURL }}">홈</a><span aria-hidden="true">/</span>
+          <a href="{{ "areas/" | relURL }}">지역별 진료 안내</a><span aria-hidden="true">/</span>
+          {{ with .Params.parent_area }}{{ with site.GetPage (printf "/areas/%s" .) }}<a href="{{ .RelPermalink }}">{{ .Params.area_name }}</a><span aria-hidden="true">/</span>{{ end }}{{ end }}
+          <span aria-current="page">{{ .Params.area_name }}</span>
         </nav>
-      </section>
-
-      <section class="area-related-section" aria-labelledby="area-related-heading">
-        <div class="area-section-heading">
-          <span class="area-guide-eyebrow">CLINICAL COLUMNS</span>
-          <h2 id="area-related-heading">{{ .Params.area_name }}에서 함께 살펴볼 진료 정보</h2>
-          <p>증상과 생활 속 변화를 이해하는 데 도움이 되는 원장 칼럼을 확인해 주세요.</p>
-        </div>
-        <div class="area-related-list">
-          {{ range .Params.related_articles }}
-          <a href="{{ .url | relURL }}" class="area-related-item">
-            <span>
-              <strong>{{ .title }}</strong>
-              <small>{{ .description }}</small>
+        <h1 id="area-landing-title">{{ .Params.landing_heading }} <span class="area-hero-clinic">— 해아림한의원 분당점</span></h1>
+        <p class="area-hero-route">{{ .Params.route_intro }}</p>
+        <p class="area-hero-care">틱장애·ADHD·공황장애·불안장애·불면증·자율신경실조증·다한증·과민성대장증후군·미주신경성 실신 상담</p>
+        <div class="area-doctor-strip">
+          <div class="area-doctor-profile">
+            <img src="{{ "images/doctor-son-profile.webp" | relURL }}" alt="손지웅 대표원장" width="48" height="48">
+            <span class="area-doctor-review">
+              {{ if $review.confirmed }}
+              <small>의학적 검토</small><strong>{{ $review.reviewer }}</strong>
+              <span class="area-review-date">검토일: {{ $review.display_date }}</span>
+              {{ else }}
+              <small>의학적 검토 예정</small><strong>{{ $info.doctor }}</strong>
+              <span class="area-review-date">검토 완료·일자 확인 전</span>
+              {{ end }}
             </span>
-            <span class="area-related-arrow" aria-hidden="true">→</span>
+          </div>
+          <a href="#area-route-heading" class="area-doctor-location">정자역 3번 출구 도보 2분</a>
+          <a href="{{ $info.naver_booking_url }}" class="area-guide-link" target="_blank" rel="noopener noreferrer">예약 <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </header>
+
+    <section class="area-article-section area-featured-section" aria-labelledby="area-featured-heading">
+      <div class="container area-detail-container">
+        <div class="area-section-heading">
+          <h2 id="area-featured-heading">{{ .Params.area_name }}에서 어떤 증상을 상담할 수 있나요?</h2>
+          <p>{{ .Params.symptom_intro }}</p>
+        </div>
+        <div class="area-condition-grid">
+          {{ range $conditions }}{{ $slug := . }}{{ with site.GetPage (printf "/conditions/%s" .) }}
+          <a href="{{ .RelPermalink }}" class="area-condition-card">
+            <span class="area-condition-icon" aria-hidden="true">{{ index $icons $slug }}</span>
+            <h3>{{ .Params.condition_name }}</h3>
+            <p>{{ .Params.hero_summary | default .Params.summary }}</p>
+            <span class="area-condition-card-link">{{ .Params.condition_name }} 자세히 보기 <span aria-hidden="true">→</span></span>
           </a>
-          {{ end }}
+          {{ end }}{{ end }}
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section class="area-editorial-content">
-        {{ .Content }}
-      </section>
+    <section class="area-article-section area-condition-section" aria-labelledby="area-condition-heading">
+      <div class="container area-detail-container">
+        <div class="area-section-heading">
+          <h2 id="area-condition-heading">해아림 분당점은 어떤 질환을 진료할까요?</h2>
+          <p>소아청소년과 성인의 증상을 상담하며, 질환별 안내에서 증상·검사·진료 과정과 방문 준비를 확인할 수 있습니다.</p>
+        </div>
+        <nav class="area-all-conditions" aria-label="질환별 진료 안내">
+          {{ range $conditions }}{{ $slug := . }}{{ with site.GetPage (printf "/conditions/%s" .) }}
+          <a href="{{ .RelPermalink }}"><span aria-hidden="true">{{ index $icons $slug }}</span>{{ .Params.condition_name }}</a>
+          {{ end }}{{ end }}
+        </nav>
+      </div>
+    </section>
 
-      <aside class="area-final-cta" aria-label="예약 및 위치 안내">
-        <div>
-          <span class="area-guide-eyebrow">BEFORE YOUR VISIT</span>
-          <h2>방문 전 위치와 진료시간을 확인해 주세요</h2>
-          <p>정자역 3번 출구 도보 2분, 젤존타워 3차 405호입니다. 예약 상황과 이동 시간을 미리 확인하시면 보다 편리합니다.</p>
+    <section class="area-article-section area-story-section" aria-labelledby="area-story-heading">
+      <div class="container area-story-container">
+        <h2 id="area-story-heading">{{ .Params.area_name }}에서는 어떤 생활 상황을 함께 살펴볼까요?</h2>
+        <div class="area-editorial-content">{{ .Content }}</div>
+        <p class="area-story-location">{{ .Params.intro }}</p>
+      </div>
+    </section>
+
+    <section class="area-article-section area-route-section" aria-labelledby="area-route-heading">
+      <div class="container area-detail-container">
+        <div class="area-section-heading">
+          <h2 id="area-route-heading">{{ .Params.area_name }}에서 어떻게 찾아가나요?</h2>
+          <p>{{ .Params.route_intro }} 진료 장소는 분당 정자역 인근입니다.</p>
         </div>
-        <div class="area-final-actions">
-          <a href="{{ "location/" | relURL }}" class="btn btn-primary">오시는 길 확인</a>
-          <a href="{{ "inquiry/" | relURL }}" class="btn btn-outline">온라인 문의</a>
+        <div class="area-visit-grid">
+          <div class="area-visit-card area-transit-card">
+            <h3><span aria-hidden="true">🚇</span> 대중교통 이용 시</h3>
+            {{ range .Params.routes }}
+            <div class="area-transit-route">
+              <h4>{{ .title }}</h4>
+              <p>{{ .summary | default .text }}</p>
+              {{ with .steps }}
+              <details class="area-transit-details">
+                <summary>경유역·환승 순서 자세히 보기</summary>
+                <ol class="area-route-steps">{{ range . }}<li>{{ . }}</li>{{ end }}</ol>
+              </details>
+              {{ end }}
+              {{ with .note }}<p class="area-route-note">{{ . }}</p>{{ end }}
+            </div>
+            {{ end }}
+            {{ with .Params.route_note }}<p class="area-route-local-note">{{ . }}</p>{{ end }}
+          </div>
+          <div class="area-visit-card area-clinic-card">
+            <h3><span aria-hidden="true">🏥</span> 해아림한의원 분당점</h3>
+            <p><strong>{{ $info.subway }}</strong></p>
+            <p>{{ $info.address }}</p>
+            <p>Tel. <a href="tel:{{ $info.phone }}">{{ $info.phone }}</a></p>
+            <dl class="area-clinic-hours">
+              {{ range $info.hours }}<div><dt>{{ .label }}</dt><dd>{{ .opens }}–{{ .closes }}{{ with .note }} <span>{{ . }}</span>{{ end }}</dd></div>{{ end }}
+            </dl>
+            <p class="area-clinic-hours-note">평일 점심시간 {{ $info.lunch_opens }}–{{ $info.lunch_closes }}<br>{{ $info.closed_days }}</p>
+            <div class="area-clinic-arrival" aria-labelledby="area-arrival-heading">
+              <h4 id="area-arrival-heading">정자역 도착 후 · 건물 및 주차 안내</h4>
+              <p>정자역 3번 출구로 나와 약 150m 직진합니다. 도보 약 2분 거리의 젤존타워 3차에서 엘리베이터로 <strong>4층 405호</strong>에 올라오시면 됩니다.</p>
+              <p>자가용은 내비게이션에 젤존타워 3차 또는 위 도로명 주소를 입력해 주세요. {{ $info.parking }}.</p>
+              <p>주차 후 4층에 오시고 접수할 때 차량 이용 여부를 말씀해 주세요.</p>
+            </div>
+            <div class="area-clinic-map-links">
+              <a href="{{ $info.naver_place_url }}" target="_blank" rel="noopener noreferrer">네이버 지도</a>
+              <a href="https://map.kakao.com/link/to/해아림한의원분당점,37.36533,127.10770" target="_blank" rel="noopener noreferrer">카카오맵 길찾기</a>
+            </div>
+          </div>
         </div>
-      </aside>
-    </div>
+        {{ with .Params.route_sources }}
+        <aside class="area-route-sources" aria-label="교통 안내 참고 자료"><p>노선 안내 참고: {{ range $i, $source := . }}{{ if $i }} · {{ end }}<a href="{{ $source.url }}" target="_blank" rel="noopener noreferrer">{{ $source.title }}</a>{{ end }}. 열차 운행과 전체 이동시간은 방문 당일 확인해 주세요.</p></aside>
+        {{ end }}
+        <div class="area-location-action"><a href="{{ "location/" | relURL }}" class="btn btn-outline">지도 및 상세 오시는 길 <span aria-hidden="true">→</span></a></div>
+      </div>
+    </section>
+
+    {{ with .Params.visit_faq }}
+    <section class="area-article-section area-faq-section" aria-labelledby="area-faq-heading">
+      <div class="container area-detail-container">
+        <div class="area-section-heading"><h2 id="area-faq-heading">자주 묻는 질문</h2></div>
+        <div class="area-faq-list">
+          {{ range . }}<div class="area-faq-item"><h3>Q. {{ .question }}</h3><p>{{ .answer }}</p></div>{{ end }}
+        </div>
+      </div>
+    </section>
+    {{ end }}
+
+    <footer class="area-article-footer">
+      <div class="container area-detail-container">
+        <div class="area-final-cta">
+          <div><h2>{{ .Params.area_name }}에서 방문을 준비하신다면</h2><p>정자역 3번 출구 도보 2분. 진료 장소와 예약 가능 시간을 확인해 주세요.</p></div>
+          <div class="area-final-actions"><a href="{{ $info.naver_booking_url }}" class="btn btn-primary" target="_blank" rel="noopener noreferrer">네이버 진료 예약</a><a href="tel:{{ $info.phone }}" class="btn btn-outline">전화 문의</a></div>
+        </div>
+        <details class="area-reading-links">
+          <summary>{{ .Params.area_name }} 관련 칼럼과 다른 지역 안내</summary>
+          <nav aria-label="관련 칼럼">{{ range .Params.related_articles }}{{ with site.GetPage .url }}<a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ end }}{{ end }}</nav>
+          {{ with .Params.related_areas }}<nav aria-label="연결된 지역 안내">{{ range . }}{{ with site.GetPage (printf "/areas/%s" .) }}<a href="{{ .RelPermalink }}">{{ .Params.area_name }} 안내</a>{{ end }}{{ end }}</nav>{{ end }}
+          <a href="{{ "areas/" | relURL }}" class="area-guide-link">전체 지역 안내 보기 <span aria-hidden="true">→</span></a>
+        </details>
+      </div>
+    </footer>
   </article>
 {{ end }}
