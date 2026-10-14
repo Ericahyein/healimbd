@@ -636,5 +636,16 @@
     "topicAngle": "pressing-throbbing",
     "title": "[성남 두통] 조이는 두통과 욱신거리는 두통은 어떻게 설명할까요",
     "slug": "seongnam-main-headache-pressing-throbbing"
+  },
+  {
+    "publishDate": "2026-10-14T13:45:01.699+09:00",
+    "geoId": "yongin-main",
+    "displayRegion": "용인",
+    "parentRegion": "용인",
+    "regionType": "city",
+    "disease": "anxiety",
+    "topicAngle": "worry-sleep",
+    "title": "[용인 불안장애] 걱정 때문에 잠들기 어려울 때 불안과 수면을 함께 살피는 방법",
+    "slug": "yongin-main-anxiety-worry-sleep"
   }
 ]
