@@ -1,4 +1,23 @@
 {{ define "main" }}
+  {{ if .Params.local_landing }}
+  <section class="area-landing-hero" aria-labelledby="area-landing-title">
+    <div class="container area-detail-container">
+      <nav class="area-breadcrumb" aria-label="현재 위치">
+        <a href="{{ "/" | relURL }}">홈</a><span aria-hidden="true">/</span>
+        <a href="{{ "areas/" | relURL }}">주요 진료권</a><span aria-hidden="true">/</span>
+        <span aria-current="page">{{ .Params.area_name }}</span>
+      </nav>
+      <span class="area-guide-eyebrow">해아림한의원 분당점 · 지역별 진료 안내</span>
+      <h1 id="area-landing-title">{{ .Params.landing_heading }}</h1>
+      <p class="area-landing-subtitle">{{ .Params.landing_intro }}</p>
+      <p class="area-landing-location">진료 장소는 분당 정자역 인근의 해아림한의원 분당점입니다.</p>
+      <div class="area-landing-actions">
+        <a href="{{ site.Params.clinic_info.naver_booking_url }}" class="btn btn-primary" target="_blank" rel="noopener noreferrer">네이버 진료 예약</a>
+        <a href="#area-route-heading" class="btn btn-outline">{{ .Params.area_name }}에서 오시는 길</a>
+      </div>
+    </div>
+  </section>
+  {{ else }}
   {{ partial "page_hero.html" (dict
     "Tag" (printf "%s SERVICE AREA" (.Params.area_name | upper))
     "Title" (.Params.hero_title | default .Title)
@@ -6,14 +25,17 @@
     "BgImage" "images/hero-location.png"
     "HeroClass" "location-hero"
   ) }}
+  {{ end }}
 
   <article class="area-detail-section">
     <div class="container area-detail-container">
+      {{ if not .Params.local_landing }}
       <nav class="area-breadcrumb" aria-label="현재 위치">
         <a href="{{ "/" | relURL }}">홈</a><span aria-hidden="true">/</span>
         <a href="{{ "areas/" | relURL }}">주요 진료권</a><span aria-hidden="true">/</span>
         <span aria-current="page">{{ .Params.area_name }}</span>
       </nav>
+      {{ end }}
 
       <section class="area-detail-lead" aria-labelledby="area-detail-overview">
         <span class="area-guide-eyebrow">LOCATION OVERVIEW</span>
@@ -23,6 +45,27 @@
           {{ range .Params.districts }}<span>{{ . }}</span>{{ end }}
         </div>
       </section>
+
+      {{ with .Params.featured_conditions }}
+      <section class="area-featured-section" aria-labelledby="area-featured-heading">
+        <div class="area-section-heading">
+          <span class="area-guide-eyebrow">SYMPTOMS &amp; CARE</span>
+          <h2 id="area-featured-heading">증상에 맞는 진료 정보를 확인해 주세요</h2>
+          <p>관심 있는 질환을 선택하면 증상 구분, 검사·진료 과정과 첫 방문 준비를 확인할 수 있습니다.</p>
+        </div>
+        <div class="area-condition-grid">
+          {{ range . }}
+            {{ with site.GetPage (printf "/conditions/%s" .) }}
+          <a href="{{ .RelPermalink }}" class="area-condition-card">
+            <h3>{{ .Params.condition_name }}</h3>
+            <p>{{ .Params.summary }}</p>
+            <span class="area-condition-card-link">{{ .Params.condition_name }} 안내 보기 <span aria-hidden="true">→</span></span>
+          </a>
+            {{ end }}
+          {{ end }}
+        </div>
+      </section>
+      {{ end }}
 
       <section class="area-route-section" aria-labelledby="area-route-heading">
         <div class="area-section-heading">
@@ -63,13 +106,15 @@
         </div>
         <div class="area-related-list">
           {{ range .Params.related_articles }}
-          <a href="{{ .url | relURL }}" class="area-related-item">
+          {{ with site.GetPage .url }}
+          <a href="{{ .RelPermalink }}" class="area-related-item">
             <span>
-              <strong>{{ .title }}</strong>
-              <small>{{ .description }}</small>
+              <strong>{{ .Title }}</strong>
+              <small>{{ .Params.summary | default .Params.description }}</small>
             </span>
             <span class="area-related-arrow" aria-hidden="true">→</span>
           </a>
+          {{ end }}
           {{ end }}
         </div>
       </section>
@@ -77,6 +122,23 @@
       <section class="area-editorial-content">
         {{ .Content }}
       </section>
+
+      {{ with .Params.visit_faq }}
+      <section class="area-faq-section" aria-labelledby="area-faq-heading">
+        <div class="area-section-heading">
+          <span class="area-guide-eyebrow">BEFORE YOUR VISIT</span>
+          <h2 id="area-faq-heading">{{ $.Params.area_name }}에서 방문 전 자주 묻는 질문</h2>
+        </div>
+        <div class="area-faq-list">
+          {{ range . }}
+          <details class="area-faq-item">
+            <summary>{{ .question }}</summary>
+            <p>{{ .answer }}</p>
+          </details>
+          {{ end }}
+        </div>
+      </section>
+      {{ end }}
 
       <aside class="area-final-cta" aria-label="예약 및 위치 안내">
         <div>

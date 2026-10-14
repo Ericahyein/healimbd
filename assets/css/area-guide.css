@@ -1,6 +1,66 @@
 /* =========================================
    Service Area Guide
    ========================================= */
+.area-landing-hero {
+  padding: 160px 0 64px;
+  background: #f2f8fc;
+  border-bottom: 1px solid #e1e9f0;
+}
+
+.area-landing-hero .area-breadcrumb { margin-bottom: 32px; }
+.area-landing-hero h1 {
+  max-width: 920px;
+  margin: 0 0 22px;
+  color: #10233f;
+  font-size: clamp(30px, 4vw, 46px);
+  font-weight: 800;
+  line-height: 1.4;
+  word-break: keep-all;
+}
+.area-landing-subtitle {
+  max-width: 840px;
+  margin: 0 0 18px;
+  color: #445468;
+  font-size: 18px;
+  line-height: 1.85;
+  word-break: keep-all;
+}
+.area-landing-location { color: #526173; line-height: 1.7; }
+.area-landing-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+.area-landing-actions .btn { min-height: 48px; }
+.area-featured-section { margin-top: 56px; }
+.area-condition-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.area-condition-card {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 30px;
+  border: 1px solid #e1e9f0;
+  border-radius: 16px;
+  background: #fff;
+  color: #10233f;
+  text-decoration: none;
+}
+.area-condition-card h3 { margin: 0; font-size: 23px; line-height: 1.4; }
+.area-condition-card p { margin: 0; color: #526173; font-size: 16px; line-height: 1.85; }
+.area-condition-card-link { margin-top: auto; color: #0c78bb; font-size: 14px; font-weight: 700; }
+.area-condition-card:hover { color: #10233f; border-color: #1b8fd1; }
+.area-faq-section { margin-top: 88px; }
+.area-faq-list { border-top: 1px solid #dfe7ee; }
+.area-faq-item { padding: 24px 4px; border-bottom: 1px solid #dfe7ee; }
+.area-faq-item summary { color: #10233f; font-size: 18px; font-weight: 650; line-height: 1.6; cursor: pointer; }
+.area-faq-item p { margin: 18px 0 0; color: #445468; font-size: 16px; line-height: 1.9; }
+.area-route-section { scroll-margin-top: 120px; }
+@media (max-width: 900px) { .area-condition-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 680px) {
+  .area-landing-hero { padding: 120px 0 48px; }
+  .area-landing-actions { flex-direction: column; }
+  .area-landing-actions .btn { justify-content: center; }
+  .area-condition-grid { grid-template-columns: 1fr; }
+  .area-condition-card { padding: 26px 22px; }
+  .area-landing-subtitle { font-size: 16px; }
+}
+
 .area-guide-section,
 .area-detail-section {
   padding: 96px 0;
