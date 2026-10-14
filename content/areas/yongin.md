@@ -10,7 +10,6 @@ seo_title: "용인 자율신경실조증·불안·수면 진료 안내"
 local_landing: true
 landing_heading: "용인 자율신경실조증·불안·수면 진료 안내"
 landing_intro: "수지·죽전·보정·구성·기흥에서 반복되는 불편함으로 상담을 고려하는 분께, 관련 진료 정보와 분당 정자역 방문 경로를 안내합니다."
-featured_conditions: ["autonomic", "anxiety", "insomnia", "tic", "adhd", "syncope"]
 visit_faq:
   - question: "용인에 있는 지점으로 방문하면 되나요?"
     answer: "이 페이지는 용인에서 성남시 분당구 정자역 인근의 해아림한의원 분당점으로 방문하는 분을 위한 안내입니다. 진료 장소는 젤존타워 3차 405호이므로 예약한 지점과 주소를 먼저 확인해 주세요."

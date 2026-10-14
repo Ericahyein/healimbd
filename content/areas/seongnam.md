@@ -10,7 +10,6 @@ seo_title: "성남 틱장애·ADHD·공황장애 진료 안내"
 local_landing: true
 landing_heading: "성남 틱장애·ADHD·공황장애 진료 안내"
 landing_intro: "수정구·중원구·모란·태평·야탑에서 진료 정보를 찾는 분께, 증상별 안내와 분당 정자역으로 오시는 방법을 함께 소개합니다."
-featured_conditions: ["tic", "adhd", "panic", "anxiety", "insomnia", "autonomic"]
 visit_faq:
   - question: "성남 지역 안내인데, 진료는 어디에서 받나요?"
     answer: "이 페이지가 안내하는 진료 장소는 성남시 분당구 성남대로331번길 3-3, 젤존타워 3차 405호의 해아림한의원 분당점입니다. 정자역 3번 출구 인근이며, 방문 전 예약과 진료시간을 확인해 주세요."

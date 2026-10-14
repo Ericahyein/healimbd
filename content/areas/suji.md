@@ -11,7 +11,6 @@ seo_title: "수지구 공황장애·불안·틱장애 진료 안내"
 local_landing: true
 landing_heading: "수지구 공황장애·불안·틱장애 진료 안내"
 landing_intro: "풍덕천·성복·상현·동천·죽전에서 진료 정보를 찾는 분께, 증상별 안내와 신분당선·수인분당선으로 분당 정자역에 오는 방법을 소개합니다."
-featured_conditions: ["panic", "anxiety", "tic", "adhd", "insomnia", "autonomic"]
 visit_faq:
   - question: "성복·상현과 동천에서 같은 노선으로 갈 수 있나요?"
     answer: "성복역·상현역·동천역에서는 신분당선을 이용해 정자역으로 이동할 수 있습니다. 정자역 3번 출구 인근이 분당점 진료 장소이며, 출발지에서 역까지의 이동과 열차 대기시간은 별도로 확인해 주세요."

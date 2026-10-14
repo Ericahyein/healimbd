@@ -9,7 +9,6 @@ seo_title: "경기광주 틱장애·불안·수면 진료 안내"
 local_landing: true
 landing_heading: "경기광주 틱장애·불안·수면 진료 안내"
 landing_intro: "태전·오포·경안동·경기광주역 방면에서 방문을 준비하는 분께, 증상별 진료 정보와 분당 정자역까지의 이동 방법을 안내합니다."
-featured_conditions: ["tic", "anxiety", "insomnia", "adhd", "panic", "ibs"]
 visit_faq:
   - question: "경기광주에서 진료를 찾고 있는데 분당점 위치는 어디인가요?"
     answer: "이 페이지가 안내하는 한의원은 경기광주 소재 지점이 아니라, 성남시 분당구 정자역 3번 출구 인근의 해아림한의원 분당점입니다. 주소는 성남대로331번길 3-3, 젤존타워 3차 405호입니다. 방문 전 위치와 예약 시간을 확인해 주세요."
