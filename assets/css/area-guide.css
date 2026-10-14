@@ -1,370 +1,122 @@
-/* =========================================
-   Service Area Guide
-   ========================================= */
-.area-landing-hero {
-  padding: 160px 0 64px;
-  background: #f2f8fc;
-  border-bottom: 1px solid #e1e9f0;
-}
-
-.area-landing-hero .area-breadcrumb { margin-bottom: 32px; }
-.area-landing-title-chunk { display: inline-block; }
-.area-landing-hero h1 {
-  max-width: 920px;
-  margin: 0 0 22px;
-  color: #10233f;
-  font-size: clamp(30px, 4vw, 46px);
-  font-weight: 800;
-  line-height: 1.4;
-  word-break: keep-all;
-}
-.area-landing-subtitle {
-  max-width: 840px;
-  margin: 0 0 18px;
-  color: #445468;
-  font-size: 18px;
-  line-height: 1.85;
-  word-break: keep-all;
-}
-.area-landing-location { color: #526173; line-height: 1.7; }
-.area-landing-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
-.area-landing-actions .btn { min-height: 48px; }
-.area-featured-section { margin-top: 56px; }
-.area-subregion-section { margin: 48px 0 56px; }
-.area-subregion-section .area-section-heading { margin-bottom: 24px; }
-.area-route-sources { margin-top: 20px; font-size: 14px; color: #526173; line-height: 1.8; }
-.area-route-sources a { color: #0c78bb; text-decoration: underline; }
+/* Shared regional hub and reference-style clinic articles. */
+.area-guide-section { padding: 96px 0; background: #fff; }
+.area-guide-container, .area-detail-container { max-width: 1120px; }
+.area-guide-intro, .area-section-heading { margin-bottom: 28px; }
+.area-guide-eyebrow { display: block; margin-bottom: 12px; color: #1b8fd1; font-size: 13px; font-weight: 700; letter-spacing: .12em; }
+.area-guide-intro h2, .area-section-heading h2, .area-story-section h2, .area-final-cta h2 { margin: 0 0 12px; color: #10233f; font-size: 26px; font-weight: 750; line-height: 1.5; word-break: keep-all; }
+.area-guide-intro p, .area-section-heading p, .area-final-cta p { margin: 0; color: #445468; font-size: 16px; line-height: 1.85; }
+.area-guide-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.area-guide-card { padding: 34px; border: 1px solid #e1e9f0; border-radius: 16px; background: #fff; }
+.area-guide-card-index { display: block; margin-bottom: 24px; color: #1b8fd1; font-size: 14px; font-weight: 700; }
+.area-guide-card h3 { margin: 0 0 14px; color: #10233f; font-size: 24px; line-height: 1.5; }
+.area-guide-card p { margin: 0 0 22px; color: #526173; line-height: 1.85; }
+.area-guide-link, .area-guide-notice a { color: #0c78bb; font-weight: 700; text-decoration: none; }
+.area-guide-notice { margin-top: 28px; padding: 28px 32px; border-left: 4px solid #24b598; background: #f3faf8; }
+.area-guide-notice strong { color: #10233f; font-size: 19px; }
+.area-guide-notice p { color: #526173; line-height: 1.85; }
 .area-district-guide-section { margin-top: 72px; }
 .area-district-guide-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
 .area-district-guide-grid .area-guide-card { padding: 28px; }
 .area-district-guide-grid .area-guide-card h3 { font-size: 23px; }
 .area-district-guide-grid .area-guide-card p { font-size: 15px; }
-.area-condition-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
-.area-condition-card {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  padding: 30px;
-  border: 1px solid #e1e9f0;
-  border-radius: 16px;
-  background: #fff;
-  color: #10233f;
-  text-decoration: none;
-}
-.area-condition-card h3 { margin: 0; font-size: 23px; line-height: 1.4; }
-.area-condition-card p { margin: 0; color: #526173; font-size: 16px; line-height: 1.85; }
-.area-condition-card-link { margin-top: auto; color: #0c78bb; font-size: 14px; font-weight: 700; }
-.area-condition-card:hover { color: #10233f; border-color: #1b8fd1; }
-.area-faq-section { margin-top: 88px; }
-.area-faq-list { border-top: 1px solid #dfe7ee; }
-.area-faq-item { padding: 24px 4px; border-bottom: 1px solid #dfe7ee; }
-.area-faq-item summary { color: #10233f; font-size: 18px; font-weight: 650; line-height: 1.6; cursor: pointer; }
-.area-faq-item p { margin: 18px 0 0; color: #445468; font-size: 16px; line-height: 1.9; }
-.area-route-section { scroll-margin-top: 120px; }
-@media (max-width: 900px) { .area-condition-grid, .area-district-guide-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 680px) {
-  .area-landing-hero { padding: 120px 0 48px; }
-  .area-landing-actions { flex-direction: column; }
-  .area-landing-actions .btn { justify-content: center; }
-  .area-condition-grid, .area-district-guide-grid { grid-template-columns: 1fr; }
-  .area-condition-card { padding: 26px 22px; }
-  .area-landing-subtitle { font-size: 16px; }
-}
 
-.area-guide-section,
-.area-detail-section {
-  padding: 96px 0;
-  background: #fff;
-}
-
-.area-guide-container,
-.area-detail-container {
-  max-width: 1120px;
-}
-
-.area-guide-intro,
-.area-section-heading {
-  max-width: 760px;
-  margin-bottom: 42px;
-}
-
-.area-guide-eyebrow {
-  display: block;
-  margin-bottom: 12px;
-  color: var(--primary-color, #1b8fd1);
-  font-family: "Outfit", sans-serif;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-}
-
-.area-guide-intro h2,
-.area-section-heading h2,
-.area-detail-lead h2,
-.area-final-cta h2 {
-  margin: 0 0 16px;
-  color: #10233f;
-  font-size: clamp(28px, 3vw, 42px);
-  line-height: 1.25;
-}
-
-.area-guide-intro p,
-.area-section-heading p,
-.area-detail-lead > p,
-.area-final-cta p {
-  margin: 0;
-  color: #526173;
-  font-size: 17px;
-  line-height: 1.85;
-}
-
-.area-guide-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 24px;
-}
-
-.area-guide-card,
-.area-route-card {
-  padding: 38px;
-  border: 1px solid #e1e9f0;
-  border-radius: 20px;
-  background: #fff;
-}
-
-.area-guide-card-index,
-.area-route-number {
-  display: block;
-  margin-bottom: 28px;
-  color: #1b8fd1;
-  font-family: "Outfit", sans-serif;
-  font-size: 14px;
-  font-weight: 700;
-}
-
-.area-guide-card h3,
-.area-route-card h3 {
-  margin: 0 0 14px;
-  color: #10233f;
-  font-size: 24px;
-}
-
-.area-guide-card p,
-.area-route-card p {
-  margin: 0 0 26px;
-  color: #5a6878;
-  line-height: 1.75;
-}
-
-.area-guide-link,
-.area-guide-notice a {
-  color: #0c78bb;
-  font-weight: 700;
-  text-decoration: none;
-}
-
-.area-guide-notice {
-  margin-top: 28px;
-  padding: 28px 32px;
-  border-left: 4px solid #24b598;
-  background: #f3faf8;
-}
-
-.area-guide-notice strong,
-.area-guide-notice p {
-  display: block;
-  margin: 0 0 8px;
-}
-
-.area-guide-notice p {
-  color: #526173;
-  line-height: 1.7;
-}
-
-.area-breadcrumb {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 56px;
-  color: #718096;
-  font-size: 14px;
-}
-
-.area-breadcrumb a {
-  color: #526173;
-  text-decoration: none;
-}
-
-.area-detail-lead {
-  max-width: 880px;
-  margin-bottom: 72px;
-}
-
-.area-district-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 28px;
-}
-
-.area-district-list span {
-  padding: 9px 15px;
-  border-radius: 999px;
-  background: #edf7fc;
-  color: #176b9c;
-  font-size: 14px;
-  font-weight: 650;
-}
-
-.area-route-section,
-.area-condition-section,
-.area-related-section,
-.area-editorial-content {
-  margin-top: 88px;
-}
-
-.area-route-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
-}
-
-.area-route-card { display: flex; flex-direction: column; }
-.area-route-steps { margin: 22px 0 0; padding-left: 24px; color: #445468; line-height: 1.85; }
-.area-route-steps li { padding-left: 5px; }
-.area-route-steps li + li { margin-top: 14px; }
+.area-article { background: #fff; color: #10233f; }
+.area-article-hero { padding: 150px 0 58px; background: #fff1e7; text-align: center; }
+.area-breadcrumb { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; color: #526173; font-size: 14px; line-height: 1.7; }
+.area-breadcrumb a { color: #0c78bb; text-decoration: none; }
+.area-article-hero h1 { margin: 0 auto 22px; max-width: 1040px; color: #10233f; font-size: clamp(29px, 3.5vw, 39px); font-weight: 800; line-height: 1.5; word-break: keep-all; }
+.area-hero-clinic { display: inline-block; }
+.area-hero-route, .area-hero-care { margin: 0 auto; max-width: 990px; color: #445468; font-size: 16px; line-height: 1.9; word-break: keep-all; }
+.area-hero-care { margin-top: 6px; }
+.area-doctor-strip { display: inline-flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 18px; margin-top: 24px; padding: 14px 20px; border: 1px solid #dce4e9; border-radius: 24px; background: rgba(255,255,255,.7); text-align: left; }
+.area-doctor-profile { display: flex; align-items: center; gap: 12px; }
+.area-doctor-profile img { width: 48px; height: 48px; border-radius: 50%; background: #eaf3f6; object-fit: cover; object-position: center 15%; }
+.area-doctor-profile small, .area-doctor-profile strong { display: block; }
+.area-doctor-profile small { color: #526173; font-size: 11px; line-height: 1.6; }
+.area-doctor-profile strong { color: #10233f; font-size: 14px; line-height: 1.7; }
+.area-doctor-strip .area-guide-link { font-size: 14px; }
+.area-doctor-location { padding-left: 18px; border-left: 1px solid #d8e1e8; color: #445468; font-size: 14px; text-decoration: none; }
+.area-article-section { padding: 88px 0; }
+.area-featured-section { padding-top: 96px; }
+.area-condition-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.area-condition-card { display: flex; flex-direction: column; padding: 28px 24px; border: 1px solid #e1e7ed; border-radius: 12px; background: #fff; box-shadow: 0 6px 20px rgba(16,35,63,.08); color: #10233f; text-decoration: none; transition: border-color .15s ease, box-shadow .15s ease; }
+.area-condition-icon { display: block; margin-bottom: 14px; font-size: 28px; line-height: 1; }
+.area-condition-card h3 { margin: 0 0 14px; color: #10233f; font-size: 19px; line-height: 1.5; word-break: keep-all; }
+.area-condition-card p { margin: 0 0 22px; color: #526173; font-size: 15px; line-height: 1.85; }
+.area-condition-card-link { margin-top: auto; color: #0c78bb; font-size: 14px; font-weight: 700; line-height: 1.7; }
+.area-condition-card:hover { color: #10233f; border-color: #1b8fd1; box-shadow: 0 8px 24px rgba(16,35,63,.12); }
+.area-condition-section { background: #f6f9fb; }
+.area-all-conditions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.area-all-conditions a { display: flex; align-items: center; gap: 14px; padding: 18px 22px; border: 1px solid #edf1f4; border-radius: 10px; background: #fff; box-shadow: 0 3px 10px rgba(16,35,63,.04); color: #10233f; font-size: 16px; text-decoration: none; }
+.area-all-conditions a:hover { border-color: #1b8fd1; }
+.area-story-container { max-width: 840px; }
+.area-editorial-content p, .area-story-location { margin: 0 0 24px; color: #445468; font-size: 16px; line-height: 2; }
+.area-story-location { margin-bottom: 0; }
+.area-route-section { padding-top: 24px; }
+#area-route-heading, #area-arrival-heading, #area-featured-heading { scroll-margin-top: 120px; }
+.area-visit-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 24px; }
+.area-visit-card { padding: 32px; border: 1px solid #edf1f4; border-radius: 14px; background: #fff; box-shadow: 0 5px 20px rgba(16,35,63,.05); }
+.area-visit-card h3 { display: flex; align-items: baseline; gap: 10px; margin: 0 0 24px; color: #0c78bb; font-size: 20px; line-height: 1.5; }
+.area-visit-card h4 { margin: 0 0 8px; color: #10233f; font-size: 16px; line-height: 1.65; }
+.area-visit-card p { margin: 0 0 12px; color: #445468; font-size: 15px; line-height: 1.9; }
+.area-transit-route + .area-transit-route { margin-top: 24px; }
+.area-transit-details { margin: 10px 0; }
+.area-transit-details summary { color: #0c78bb; font-size: 14px; font-weight: 650; line-height: 1.7; cursor: pointer; }
+.area-route-steps { margin: 16px 0 0; padding-left: 23px; color: #445468; font-size: 14px; line-height: 1.85; }
+.area-route-steps li { padding-left: 4px; }
+.area-route-steps li + li { margin-top: 12px; }
 .area-route-steps li::marker { color: #0c78bb; font-weight: 700; }
-.area-route-card .area-route-note { margin-top: 20px; font-size: 14px; }
-.area-route-arrival-link { display: block; padding-top: 24px; margin-top: auto; color: #0c78bb; font-size: 14px; font-weight: 700; text-decoration: none; }
-.area-route-local-note { margin: 24px 0 0; color: #526173; font-size: 15px; line-height: 1.85; }
-.area-arrival-guide { margin-top: 32px; padding: 32px; border: 1px solid #dcebf4; border-radius: 20px; background: #f2f8fc; }
-.area-arrival-guide .area-section-heading { margin-bottom: 24px; }
-.area-arrival-guide h3 { margin: 0 0 12px; color: #10233f; font-size: 25px; line-height: 1.5; scroll-margin-top: 120px; }
-.area-arrival-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; }
-.area-arrival-grid h4 { margin: 0 0 16px; color: #10233f; font-size: 18px; line-height: 1.6; }
-.area-arrival-grid p { color: #445468; line-height: 1.85; }
-.area-arrival-grid .area-route-steps { margin-top: 0; }
-.area-arrival-address { font-weight: 650; word-break: keep-all; }
-.area-arrival-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin-top: 28px; }
-.area-arrival-actions .btn { min-height: 48px; white-space: normal; }
-@media (max-width: 680px) {
-  .area-arrival-guide { padding: 26px 22px; }
-  .area-arrival-grid { grid-template-columns: 1fr; gap: 28px; }
-  .area-arrival-actions { align-items: stretch; flex-direction: column; }
-  .area-arrival-actions .btn { justify-content: center; }
-}
-
-.area-route-card p {
-  margin-bottom: 0;
-}
-
-.area-related-list {
-  border-top: 1px solid #dfe7ee;
-}
-
-.area-related-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  padding: 25px 4px;
-  border-bottom: 1px solid #dfe7ee;
-  color: #10233f;
-  text-decoration: none;
-}
-
-.area-related-item strong,
-.area-related-item small {
-  display: block;
-}
-
-.area-related-item strong {
-  margin-bottom: 7px;
-  font-size: 18px;
-}
-
-.area-related-item small {
-  color: #687789;
-  font-size: 14px;
-  line-height: 1.6;
-}
-
-.area-related-arrow {
-  color: #1b8fd1;
-  font-size: 24px;
-}
-
-.area-editorial-content {
-  max-width: 840px;
-}
-
-.area-editorial-content h2 {
-  margin: 48px 0 16px;
-  color: #10233f;
-  font-size: 28px;
-}
-
-.area-editorial-content p {
-  color: #445468;
-  font-size: 17px;
-  line-height: 1.9;
-}
-
-.area-final-cta {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 40px;
-  margin-top: 88px;
-  padding: 42px;
-  border-radius: 20px;
-  background: #f2f8fc;
-}
-
-.area-final-cta > div:first-child {
-  max-width: 690px;
-}
-
-.area-final-actions {
-  display: flex;
-  flex-shrink: 0;
-  gap: 10px;
-}
+.area-visit-card .area-route-note { color: #687789; font-size: 13px; }
+.area-visit-card .area-route-local-note { margin-top: 24px; color: #526173; font-size: 14px; }
+.area-clinic-card a { color: #0c78bb; font-weight: 700; }
+.area-clinic-hours { margin: 20px 0 12px; }
+.area-clinic-hours > div { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 9px; font-size: 15px; line-height: 1.8; }
+.area-clinic-hours dt { min-width: 82px; font-weight: 650; }
+.area-clinic-hours dd { margin: 0; }
+.area-clinic-hours dd span { color: #0c78bb; font-size: 13px; }
+.area-clinic-card .area-clinic-hours-note { color: #687789; font-size: 14px; }
+.area-clinic-arrival { margin-top: 24px; padding-top: 22px; border-top: 1px solid #e1e9f0; }
+.area-clinic-map-links { display: flex; flex-wrap: wrap; gap: 12px 20px; margin-top: 22px; font-size: 14px; }
+.area-route-sources { margin-top: 22px; color: #687789; font-size: 13px; line-height: 1.85; }
+.area-route-sources a { color: #0c78bb; text-decoration: underline; }
+.area-location-action { margin-top: 28px; text-align: center; }
+.area-location-action .btn { gap: 12px; border-radius: 999px; }
+.area-faq-section { padding-top: 12px; }
+.area-faq-list { max-width: 960px; margin: 0 auto; display: grid; gap: 18px; }
+.area-faq-item { padding: 26px 28px; border-left: 4px solid #1b8fd1; border-radius: 8px; background: #fff; box-shadow: 0 3px 18px rgba(16,35,63,.05); }
+.area-faq-item h3 { margin: 0 0 12px; color: #10233f; font-size: 17px; line-height: 1.7; }
+.area-faq-item p { margin: 0; color: #526173; font-size: 15px; line-height: 1.9; }
+.area-article-footer { padding: 0 0 80px; }
+.area-final-cta { display: flex; align-items: center; justify-content: space-between; gap: 32px; padding: 36px; border-radius: 16px; background: #f2f8fc; }
+.area-final-cta h2 { font-size: 23px; }
+.area-final-actions { display: flex; flex-shrink: 0; flex-wrap: wrap; gap: 12px; }
+.area-reading-links { margin-top: 28px; font-size: 14px; line-height: 1.8; }
+.area-reading-links summary { color: #526173; cursor: pointer; }
+.area-reading-links nav { display: flex; flex-wrap: wrap; gap: 10px 20px; margin: 18px 0; }
+.area-reading-links nav a { color: #0c78bb; }
+.area-article a:focus-visible, .area-article summary:focus-visible { outline: 3px solid #0c78bb; outline-offset: 4px; }
 
 @media (max-width: 900px) {
-  .area-route-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .area-final-cta {
-    align-items: flex-start;
-    flex-direction: column;
-  }
+  .area-condition-grid, .area-district-guide-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .area-visit-grid { grid-template-columns: 1fr; }
+  .area-final-cta { align-items: flex-start; flex-direction: column; }
 }
-
 @media (max-width: 680px) {
-  .area-guide-section,
-  .area-detail-section {
-    padding: 64px 0;
-  }
-
-  .area-guide-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .area-guide-card,
-  .area-route-card,
-  .area-final-cta {
-    padding: 26px 22px;
-  }
-
-  .area-final-actions {
-    width: 100%;
-    flex-direction: column;
-  }
-
-  .area-final-actions .btn {
-    justify-content: center;
-    width: 100%;
-  }
+  .area-guide-section, .area-article-section { padding: 56px 0; }
+  .area-article-hero { padding: 120px 0 44px; }
+  .area-article-hero h1 { font-size: 29px; }
+  .area-hero-clinic { display: block; margin-top: 6px; font-size: 24px; }
+  .area-hero-route, .area-hero-care { font-size: 14px; }
+  .area-doctor-strip { gap: 14px; padding: 14px 16px; border-radius: 16px; }
+  .area-doctor-location { padding-left: 0; border-left: 0; }
+  .area-guide-grid, .area-condition-grid, .area-district-guide-grid { grid-template-columns: 1fr; }
+  .area-all-conditions { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .area-all-conditions a { gap: 9px; padding: 14px 12px; font-size: 14px; }
+  .area-guide-card, .area-condition-card, .area-visit-card { padding: 26px 22px; }
+  .area-story-section h2, .area-section-heading h2 { font-size: 23px; }
+  .area-faq-item { padding: 22px 20px; }
+  .area-final-cta { padding: 28px 22px; }
+  .area-final-actions { width: 100%; flex-direction: column; }
+  .area-final-actions .btn { width: 100%; justify-content: center; }
 }
+@media (max-width: 380px) { .area-all-conditions { grid-template-columns: 1fr; } }
