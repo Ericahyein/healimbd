@@ -8,7 +8,7 @@
         <span aria-current="page">{{ .Params.area_name }}</span>
       </nav>
       <span class="area-guide-eyebrow">해아림한의원 분당점 · 지역별 진료 안내</span>
-      <h1 id="area-landing-title">{{ .Params.landing_heading }}</h1>
+      <h1 id="area-landing-title">{{ range split (.Params.landing_heading | replaceRE "·" " · ") " " }}<span class="area-landing-title-chunk">{{ . }}</span> {{ end }}</h1>
       <p class="area-landing-subtitle">{{ .Params.landing_intro }}</p>
       <p class="area-landing-location">진료 장소는 분당 정자역 인근의 해아림한의원 분당점입니다.</p>
       <div class="area-landing-actions">

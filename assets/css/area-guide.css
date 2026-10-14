@@ -8,6 +8,7 @@
 }
 
 .area-landing-hero .area-breadcrumb { margin-bottom: 32px; }
+.area-landing-title-chunk { display: inline-block; }
 .area-landing-hero h1 {
   max-width: 920px;
   margin: 0 0 22px;
