@@ -87,6 +87,7 @@
         <div class="area-section-heading">
           <span class="area-guide-eyebrow">ROUTE GUIDE</span>
           <h2 id="area-route-heading">정자역 분당점으로 오시는 방법</h2>
+          <p>출발역에 맞는 경로를 선택해 탑승 방향과 환승 순서를 확인해 주세요.</p>
         </div>
         <div class="area-route-grid">
           {{ range $index, $route := .Params.routes }}
@@ -94,9 +95,45 @@
             <span class="area-route-number">0{{ add $index 1 }}</span>
             <h3>{{ $route.title }}</h3>
             <p>{{ $route.text }}</p>
+            {{ with $route.steps }}
+            <ol class="area-route-steps">
+              {{ range . }}<li>{{ . }}</li>{{ end }}
+            </ol>
+            {{ end }}
+            {{ with $route.note }}<p class="area-route-note">{{ . }}</p>{{ end }}
+            <a href="#area-arrival-heading" class="area-route-arrival-link">정자역에서 한의원까지 <span aria-hidden="true">↓</span></a>
           </article>
           {{ end }}
         </div>
+        {{ with .Params.route_note }}<p class="area-route-local-note">{{ . }}</p>{{ end }}
+        <section class="area-arrival-guide" aria-labelledby="area-arrival-heading">
+          <div class="area-section-heading">
+            <span class="area-guide-eyebrow">LAST STEPS</span>
+            <h3 id="area-arrival-heading">정자역 도착 후 · 건물 및 주차 안내</h3>
+            <p>해아림한의원 분당점은 젤존타워 3차 4층 405호에 있습니다.</p>
+          </div>
+          <div class="area-arrival-grid">
+            <div>
+              <h4>전철에서 내려 걸어오실 때</h4>
+              <ol class="area-route-steps">
+                <li>수인분당선·신분당선 정자역에서 하차한 뒤, 역 안의 3번 출구 표지판을 따라 이동합니다.</li>
+                <li>3번 출구로 나와 약 150m 직진합니다. 출구에서 건물까지 도보 약 2분입니다.</li>
+                <li>젤존타워 3차에 들어와 엘리베이터로 4층에 올라오신 뒤 405호로 방문해 주세요.</li>
+              </ol>
+            </div>
+            <div>
+              <h4>자가용으로 방문하실 때</h4>
+              <p>내비게이션에 <strong>젤존타워 3차</strong> 또는 아래 도로명 주소를 입력해 주세요.</p>
+              <p class="area-arrival-address">{{ site.Params.clinic_info.address }}</p>
+              <p>{{ site.Params.clinic_info.parking }}. 주차 후 엘리베이터로 4층 405호에 오시고, 접수할 때 차량 이용 여부를 말씀해 주세요.</p>
+            </div>
+          </div>
+          <div class="area-arrival-actions">
+            <a href="{{ site.Params.clinic_info.naver_place_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline">네이버 지도에서 경로 확인</a>
+            <a href="https://map.kakao.com/link/to/해아림한의원분당점,37.36533,127.10770" target="_blank" rel="noopener noreferrer" class="btn btn-outline">카카오맵 길찾기</a>
+            <a href="tel:{{ site.Params.clinic_info.phone }}" class="area-guide-link">길 안내 문의 {{ site.Params.clinic_info.phone }}</a>
+          </div>
+        </section>
       </section>
 
       {{ with .Params.route_sources }}
