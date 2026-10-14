@@ -1,5 +1,6 @@
 {{ define "main" }}
   {{ $info := site.Params.clinic_info }}
+  {{ $review := partial "condition_medical_review.html" . }}
   {{ $conditions := slice "tic" "adhd" "panic" "anxiety" "insomnia" "autonomic" "hyperhidrosis" "ibs" "syncope" }}
   {{ $icons := dict "tic" "🧠" "adhd" "🎯" "panic" "💭" "anxiety" "💙" "insomnia" "🌙" "autonomic" "⚖️" "hyperhidrosis" "💧" "ibs" "🌿" "syncope" "🍃" }}
   <article class="area-article">
@@ -17,7 +18,15 @@
         <div class="area-doctor-strip">
           <div class="area-doctor-profile">
             <img src="{{ "images/doctor-son-profile.webp" | relURL }}" alt="손지웅 대표원장" width="48" height="48">
-            <span><small>해아림한의원 분당점 진료</small><strong>{{ $info.doctor }}</strong></span>
+            <span class="area-doctor-review">
+              {{ if $review.confirmed }}
+              <small>의학적 검토</small><strong>{{ $review.reviewer }}</strong>
+              <span class="area-review-date">검토일: {{ $review.display_date }}</span>
+              {{ else }}
+              <small>의학적 검토 예정</small><strong>{{ $info.doctor }}</strong>
+              <span class="area-review-date">검토 완료·일자 확인 전</span>
+              {{ end }}
+            </span>
           </div>
           <a href="#area-route-heading" class="area-doctor-location">정자역 3번 출구 도보 2분</a>
           <a href="{{ $info.naver_booking_url }}" class="area-guide-link" target="_blank" rel="noopener noreferrer">예약 <span aria-hidden="true">→</span></a>

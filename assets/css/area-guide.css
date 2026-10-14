@@ -34,6 +34,8 @@
 .area-doctor-profile small, .area-doctor-profile strong { display: block; }
 .area-doctor-profile small { color: #526173; font-size: 11px; line-height: 1.6; }
 .area-doctor-profile strong { color: #10233f; font-size: 14px; line-height: 1.7; }
+.area-doctor-review small { color: #0c78bb; font-weight: 700; }
+.area-review-date { display: block; color: #687789; font-size: 11px; line-height: 1.7; }
 .area-doctor-strip .area-guide-link { font-size: 14px; }
 .area-doctor-location { padding-left: 18px; border-left: 1px solid #d8e1e8; color: #445468; font-size: 14px; text-decoration: none; }
 .area-article-section { padding: 88px 0; }
