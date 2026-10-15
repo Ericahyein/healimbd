@@ -647,5 +647,16 @@
     "topicAngle": "worry-sleep",
     "title": "[용인 불안장애] 걱정 때문에 잠들기 어려울 때 불안과 수면을 함께 살피는 방법",
     "slug": "yongin-main-anxiety-worry-sleep"
+  },
+  {
+    "publishDate": "2026-10-15T22:20:48.623+09:00",
+    "geoId": "bundang-pangyo",
+    "displayRegion": "판교",
+    "parentRegion": "성남",
+    "regionType": "selected_local_area",
+    "disease": "child",
+    "topicAngle": "child-enuresis",
+    "title": "[판교 소아 야뇨증] 만 5세 이후에도 밤에 소변 실수를 반복할 때",
+    "slug": "bundang-pangyo-child-enuresis"
   }
 ]
