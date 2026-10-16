@@ -44,7 +44,9 @@ for (const [slug, pillar] of [
   assert.strictEqual(article.author.name, team);
   assert(!article.contributor && !article.reviewedBy, `${slug}: schema may not invent medical review`);
   assert(article.datePublished.startsWith('2026-08-31'), `${slug}: original publication date must remain`);
-  assert(article.dateModified.startsWith('2026-10-01'), `${slug}: substantial revision date required`);
+  const modified = fs.readFileSync(path.join('content/blog', `${slug}.md`), 'utf8').match(/^lastmod: (.+)$/m)[1];
+  assert.strictEqual(new Date(article.dateModified).getTime(), new Date(modified).getTime(), `${slug}: schema must reflect the current revision date`);
+  assert(new Date(article.dateModified) >= new Date('2026-10-01'), `${slug}: substantial revision date required`);
   assert(tags(text, 'link').some(tag => tag.rel === 'canonical' && tag.href === `https://healimbd.com/blog/${slug}/`), `${slug}: indexed address must remain canonical`);
   assert(tags(text, 'a').some(tag => tag.href === `/conditions/${pillar}/`), `${slug}: direct condition link required`);
   assert(!tags(text, 'meta').some(tag => tag.name === 'robots' && /noindex/.test(tag.content)), `${slug}: refreshed article must remain indexable`);
@@ -74,7 +76,8 @@ for (const [slug, published, pillar] of [
   assert(article && article.author.name === team);
   assert(!article.contributor && !article.reviewedBy, `${slug}: rewritten article must not claim unverified physician review`);
   assert(article.datePublished.startsWith(published));
-  assert(article.dateModified.startsWith('2026-10-01'));
+  const sourceModified = fs.readFileSync(path.join('content/blog', `${slug}.md`), 'utf8').match(/^lastmod: (.+)$/m)[1];
+  assert.strictEqual(new Date(article.dateModified).getTime(), new Date(sourceModified).getTime());
   assert(tags(text, 'link').some(tag => tag.rel === 'canonical' && tag.href === `https://healimbd.com/blog/${slug}/`));
   assert(tags(text, 'a').some(tag => tag.href === pillar));
   const tables = [...text.matchAll(/<table\b[^>]*>[\s\S]*?<\/table>/g)];

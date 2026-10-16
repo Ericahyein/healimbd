@@ -1,7 +1,7 @@
 ---
 title: "[분당 자율신경실조증] 검사에서 이상이 없는데 어지럼·두근거림이 반복될 때"
 date: 2026-08-31
-lastmod: 2026-10-01
+lastmod: 2026-10-16T15:20:38+09:00
 search_intent: "long_tail_column"
 condition_pillar: "/conditions/autonomic/"
 article_review_status: "source_based"
@@ -96,4 +96,4 @@ keywords:
 - [NHS — 두근거림: 원인과 진료가 필요한 상황](https://www.nhs.uk/symptoms/heart-palpitations/)
 - [NHS — 어지럼: 양상과 가능한 원인](https://www.nhs.uk/symptoms/dizziness/)
 
-위 자료는 일반적인 증상과 평가에 관한 참고 출처입니다. 분당점 한의 치료의 효과를 입증하는 자료로 제시한 것은 아닙니다.
+위 자료는 자율신경 관련 증상을 이해하고, 어지럼·두근거림의 다른 원인과 필요한 평가를 살펴보기 위한 참고 출처입니다. 본문에서 각 자료가 다루는 증상과 평가 내용을 연결했습니다.

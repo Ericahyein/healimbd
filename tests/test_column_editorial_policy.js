@@ -76,5 +76,16 @@ const regressions = require('./fixtures/column_editorial_regressions.json');
     return { ok: true, json: async () => ({ choices: [{ finish_reason: 'stop', message: { content: JSON.stringify(calls++ ? { approved: true } : draft) } }] }) };
   });
   assert(adaptationPrompt.includes(EDITORIAL_GUIDANCE));
+  // Previously published content is checked too, so a manual edit cannot
+  // reintroduce the framing that the generator now rejects.
+  const blog = path.join(__dirname, '../content/blog');
+  for (const file of fs.readdirSync(blog).filter(f => f.endsWith('.md') && f !== '_index.md')) {
+    const markdown = fs.readFileSync(path.join(blog, file), 'utf8');
+    const front = markdown.match(/^---\r?\n([\s\S]*?)\r?\n---/)?.[1] || '';
+    const narrative = markdown.replace(/^---\r?\n[\s\S]*?\r?\n---\s*/, '');
+    const metadata = front.split('\n').filter(line => /^(title|summary):/.test(line)).join('\n');
+    const checked = checkEditorialFraming(`${metadata}\n${narrative}`);
+    assert.equal(checked.valid, true, `${file}: ${checked.errors.join('; ')}`);
+  }
   console.log('✅ Published framing regressions blocked; writer, validator and Telegram policy wired; specific safety cooperation and medication safeguards preserved.');
 })().catch(error => { console.error(error); process.exitCode = 1; });

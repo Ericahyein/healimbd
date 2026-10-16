@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const { CLINIC_EVALUATION, checkClinicFacts, prepareArticleKnowledge } = require('../scripts/auto_column/medical_policy');
 const { validateArticleContent } = require('../scripts/auto_column/content_validator');
+const { checkEditorialFraming } = require('../scripts/auto_column/editorial_policy');
 
 const root = path.join(__dirname, '..');
 const slug = 'seongnam-sujeong-ibs-morning-diarrhea';
@@ -26,9 +27,9 @@ assert(clinic.includes('염증성 장질환, 감염이나 암을 확인하는 �
 assert(condition.includes('염증성 장질환, 감염이나 암을 확인하는 검사를 대신하지 않습니다'));
 assert(checkClinicFacts(body, 'ibs').valid);
 for (const step of ['증상과 생활 영향 확인', '기존 평가와 복용 정보 검토', '필요한 참고 평가 선택', '개인별 진료 방향 상담']) assert(clinic.includes(step));
-assert(clinic.includes('기존 처방약은 임의로 중단하지 않습니다'));
-assert(clinic.includes('처방 내용과 건강 상태') && clinic.includes('처방 의료진과 상의'));
-assert(clinic.includes('분당점 한약·침구 치료의 효과를 입증하는 자료로 제시하는 것은 아닙니다'));
+assert(clinic.includes('복용 중인 약의 이름·용량·복용 횟수'));
+assert(clinic.includes('상호작용 확인이나 기존 약 조정이 필요하면') && clinic.includes('관련 의료진과 협의'));
+assert(checkEditorialFraming(clinic).valid, 'clinic guidance must separate medication safety cooperation from permission to receive Korean medicine');
 assert(records.includes('기록을 채우기 위해 진료를 미루지') && records.includes('‘모름’'));
 assert(records.includes('시간 관계를 원인으로 단정하지 않습니다'));
 const rows = records.split('\n').filter(line => /^\|/.test(line) && !/^\|[-\s|]+\|$/.test(line)).slice(1);
@@ -47,7 +48,7 @@ assert(visit.includes('정자역 3번 출구') && visit.includes('무료 주차'
 for (const link of ['/location/', '/philosophy/', '/inquiry/']) assert(visit.includes(`](${link})`));
 assert(condition.includes(`featured_column: "/blog/${slug}/"`));
 assert(markdown.includes('date: 2026-09-26T22:00:03.424+09:00'));
-assert(markdown.includes('lastmod: 2026-10-02T16:50:00+09:00'));
+assert(new Date(markdown.match(/^lastmod: (.+)$/m)[1]) > new Date('2026-10-02T16:50:00+09:00'), 'content refresh must update modification time while preserving original publication date');
 assert(markdown.includes('article_review_status: "source_based"') && !markdown.includes('medical_information_reviewer:'));
 assert(knowledge.evaluationGuidance.startsWith(CLINIC_EVALUATION));
 for (const rule of ['내시경 정상만으로', '음식과 증상의 시간 관계', '기존 처방약을 임의로 중단', '재도입', '한약·침구 치료 효과의 근거']) assert(knowledge.specificRules.some(item => item.includes(rule)));
@@ -73,7 +74,8 @@ if (process.argv[2]) {
   const scripts = [...html.matchAll(/(<script\b[^>]*>)([\s\S]*?)<\/script>/g)].filter(m => attributes(m[1]).type === 'application/ld+json');
   const article = scripts.flatMap(m => JSON.parse(m[2])['@graph'] || []).find(n => n['@type'] === 'Article');
   assert(article && article.author.name === '해아림한의원 의료 콘텐츠팀');
-  assert(article.datePublished.startsWith('2026-09-26') && article.dateModified.startsWith('2026-10-02'));
+  assert(article.datePublished.startsWith('2026-09-26'));
+  assert.strictEqual(new Date(article.dateModified).getTime(), new Date(markdown.match(/^lastmod: (.+)$/m)[1]).getTime(), 'rendered revision date must follow the source');
   assert(!article.reviewedBy && !article.contributor);
   assert(html.includes(`https://healimbd.com/blog/${slug}/`));
   const pillar = fs.readFileSync(path.join(output, 'conditions/ibs/index.html'), 'utf8');

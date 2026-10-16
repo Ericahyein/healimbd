@@ -5,7 +5,7 @@ category: "adhd"
 category_name: "ADHD·집중력"
 author: "해아림한의원 의료 콘텐츠팀"
 content_author: "해아림한의원 의료 콘텐츠팀"
-lastmod: 2026-10-09T01:04:35.797+09:00
+lastmod: 2026-10-16T15:20:38+09:00
 search_intent: "long_tail_column"
 condition_pillar: "/conditions/adhd/"
 article_review_status: "source_based"
@@ -114,7 +114,7 @@ ADHD의 증상과 검사, 치료에 대한 일반적인 내용은 [ADHD 증상·
 
 한의학적 상태 평가는 아이의 전반적인 생활 리듬과 증상 양상을 참고하는 과정입니다. 치료는 개인의 증상과 전반적인 상태를 고려한 한약 처방, 침구 치료, 생활 관리 지도를 바탕으로 계획될 수 있습니다.
 
-이미 ADHD 관련 신경정신과 약물을 처방받아 복용하고 있다면 보호자 판단으로 임의 중단하지 않는 것이 원칙입니다. 약물 조정이나 병행 치료 여부는 처방한 의료진과 상의해야 하며, [NICE ADHD 진단 및 관리 지침](https://www.nice.org.uk/guidance/ng87)도 치료 계획의 변경은 의료진과 함께 검토하도록 안내합니다.
+복용 중인 약이 있다면 이름·용량·복용 기간과 최근의 변화를 진료 시 알려주세요. 준비물 분실과 정리의 어려움, 수면·식사 상태를 함께 살펴 진료 계획을 정합니다. 기존 약의 조정이 필요한 경우 처방 의료진과 협의합니다. [NICE ADHD 진단 및 관리 지침](https://www.nice.org.uk/guidance/ng87)은 약물의 효과와 불편감, 일상 기능을 정기적으로 검토하는 과정을 안내합니다.
 
 ## 자주 묻는 질문
 

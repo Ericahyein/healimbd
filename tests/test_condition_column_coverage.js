@@ -6,6 +6,7 @@ const { CONDITION_PAGES } = require('../scripts/auto_column/internal_linker');
 const { countPublishedConditionColumns, getCoveragePriority } = require('../scripts/auto_column/column_coverage');
 const { planNextColumn, getRankedCandidatePlans, getKstCalendarDayDiff } = require('../scripts/auto_column/topic_planner');
 const { checkClinicFacts, selectEvidenceNotes } = require('../scripts/auto_column/medical_policy');
+const { checkEditorialFraming } = require('../scripts/auto_column/editorial_policy');
 const taxonomy = require('../scripts/auto_column/disease_taxonomy.json');
 
 const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'healim-coverage-'));
@@ -103,7 +104,8 @@ try {
   assert(markdown.includes('date: 2026-09-22T16:18:37.221+09:00'));
   assert(markdown.includes('| 확인 항목 | 기록할 내용 |'));
   assert(checkClinicFacts(markdown, 'hyperhidrosis').valid);
-  assert(markdown.includes('본원의 한약·침구 치료가 수술 후 보상성 발한을 예방하거나 제거한다는 근거로 제시하는 것은 아닙니다'));
+  assert(checkEditorialFraming(markdown.replace(/^---[\s\S]*?---\s*/, '')).valid);
+  assert(knowledge.specificRules.some(rule => rule.includes('수술 후 보상성 발한을 한방 치료로 예방하거나 제거한다고 단정하지')), 'unverified postsurgical treatment claims must remain prohibited');
   for (const host of ['www.aad.org', 'www.bad.org.uk']) assert(markdown.split('### 참고한 공식 의학 자료')[0].includes(host), 'sources must explain claims in the body');
   const surgicalSources = selectEvidenceNotes(knowledge, 'compensatory-concern');
   assert(surgicalSources.some(n => n.sourceUrl === 'https://www.aad.org/public/diseases/a-z/hyperhidrosis-treatment'));
@@ -127,7 +129,7 @@ try {
     assert(article && article.author.name === '해아림한의원 의료 콘텐츠팀');
     assert(!article.reviewedBy && !article.contributor);
     assert(article.datePublished.startsWith('2026-09-22'));
-    assert(article.dateModified.startsWith('2026-10-02'));
+    assert.strictEqual(new Date(article.dateModified).getTime(), new Date(markdown.match(/^lastmod: (.+)$/m)[1]).getTime(), 'schema must reflect the latest substantive edit');
     assert(html.includes(`https://healimbd.com/blog/${slug}/`));
     for (const host of ['www.aad.org', 'www.bad.org.uk']) assert(html.includes(host));
   }
