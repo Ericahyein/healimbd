@@ -5,7 +5,7 @@ category: "general"
 category_name: "두통·어지럼"
 author: "해아림한의원 의료 콘텐츠팀"
 content_author: "해아림한의원 의료 콘텐츠팀"
-lastmod: 2026-10-01T20:44:00+09:00
+lastmod: 2026-10-16T15:20:38+09:00
 search_intent: "long_tail_column"
 condition_pillar: ""
 article_review_status: "source_based"
@@ -91,4 +91,4 @@ keywords:
 - [NHS — 긴장성 두통과 진통제 사용](https://www.nhs.uk/conditions/tension-headaches/)
 - [Neurology — SNNOOP10 이차성 두통 경고 신호](https://doi.org/10.1212/WNL.0000000000006697)
 
-위 자료는 일반적인 증상 평가와 주의사항의 근거이며, 분당점 한의 치료 효과를 입증하는 자료로 제시한 것은 아닙니다.
+위 자료는 두통의 일반적인 증상 평가와 위험 신호를 설명하는 출처입니다. 통증과 약 사용 기록, 수면·업무 패턴을 정리해 진료에서 현재의 변화를 설명하는 데 활용할 수 있습니다.

@@ -5,7 +5,7 @@ category: "sleep"
 category_name: "수면·불면증"
 author: "해아림한의원 의료 콘텐츠팀"
 content_author: "해아림한의원 의료 콘텐츠팀"
-lastmod: 2026-10-13T02:46:09.178+09:00
+lastmod: 2026-10-16T15:20:38+09:00
 search_intent: "long_tail_column"
 condition_pillar: "/conditions/insomnia/"
 article_review_status: "source_based"
@@ -101,7 +101,7 @@ keywords:
 
 필요에 따라 뇌인지검사, 뇌기능검사, 정서심리검사, 문진·설진·복진·진맥을 참고로 활용할 수 있습니다. 다만 **특정 검사 하나만으로 불면증의 원인이나 상태를 확정하지 않으며, 모든 검사를 일률적으로 시행하지 않습니다.**
 
-치료는 개인의 증상과 전반적인 상태를 고려한 한약 처방, 침구 치료, 수면 위생 및 생활 습관 지도를 중심으로 검토할 수 있습니다. 이미 수면 관련 약물을 복용하고 있다면 임의로 변경하거나 중단하지 말고 처방 의료진과 상의해야 합니다. 특히 불면증 치료에 사용되는 벤조디아제핀 수용체 작용제 계열 약물은 급격히 감량·중단하기보다 의료진과 점진적인 조절을 논의하는 원칙이 제시되어 있습니다.  
+개인의 밤잠과 낮잠 양상, 피로와 전반적인 상태를 고려해 한약 처방, 침구 치료, 수면 위생 및 생활 습관 지도의 계획을 세웁니다. 복용약의 이름·용량·복용 시각도 함께 확인합니다. 불면증 치료에 쓰이는 벤조디아제핀 수용체 작용제 계열 약물의 조정이 필요한 경우에는 처방 의료진과 점진적인 조절 방법을 논의합니다.
 [Deprescribing benzodiazepine receptor agonists: Evidence-based clinical practice guideline](https://pubmed.ncbi.nlm.nih.gov/29760253/)
 
 ## 자주 묻는 질문

@@ -1,7 +1,7 @@
 ---
 title: "[수정구 과민성대장증후군] 회의실 문 앞에서 급해지는 복통, 장과 뇌의 신호가 예민해진 까닭"
 date: 2026-09-26T22:00:03.424+09:00
-lastmod: 2026-10-02T16:50:00+09:00
+lastmod: 2026-10-16T15:20:38+09:00
 search_intent: "long_tail_column"
 condition_pillar: "/conditions/ibs/"
 article_review_status: "source_based"
@@ -95,9 +95,9 @@ keywords:
 
 ### 소화기내과 약을 복용 중이어도 상담할 수 있나요?
 
-복용 중인 약의 이름·용량·복용 횟수, 최근 변경과 건강기능식품 목록을 준비해 주세요. 기존 처방약은 임의로 중단하지 않습니다. 한약과 기존 약의 병행 여부는 처방 내용과 건강 상태를 확인하고, 필요한 경우 처방 의료진과 상의해 정합니다. 모든 약을 누구나 함께 복용할 수 있다고 단정하지 않습니다.
+복용 중인 약의 이름·용량·복용 횟수, 최근 변경과 건강기능식품 목록을 준비해 주세요. 진료에서 복통·배변 양상과 전체 복용 정보를 함께 살펴 개인별 계획을 정합니다. 상호작용 확인이나 기존 약 조정이 필요하면 관련 의료진과 협의하며, 누구나 모든 약을 함께 복용할 수 있다고 단정하지 않습니다.
 
-[NIDDK의 치료 안내](https://www.niddk.nih.gov/health-information/digestive-diseases/irritable-bowel-syndrome/treatment)는 증상에 따라 식사·생활 변화, 약물과 장-뇌 행동치료 등을 개별적으로 선택하도록 설명합니다. 이는 일반적인 치료 선택지에 관한 자료이며, 분당점 한약·침구 치료의 효과를 입증하는 자료로 제시하는 것은 아닙니다.
+[NIDDK의 치료 안내](https://www.niddk.nih.gov/health-information/digestive-diseases/irritable-bowel-syndrome/treatment)는 식사·생활 변화, 약물과 장-뇌 행동치료 등을 증상에 맞게 선택하는 원칙을 설명합니다. 진료에서는 현재의 복통·배변 양상과 기존 치료 경과를 함께 살펴 개인별 계획을 정합니다.
 
 ## 진료 전 준비할 배변·식사 기록표
 
