@@ -54,6 +54,11 @@ const ROOT = path.join(__dirname, '..');
 
   for (const item of history) {
     const filePath = path.join(ROOT, 'content/blog', `${item.slug}.md`);
+    if (item.publicationStatus === 'removed') {
+      assert(!fs.existsSync(filePath), `${item.slug}: removed article must stay absent`);
+      assert(item.removedAt && item.removalReason, `${item.slug}: explicit removal metadata required`);
+      continue;
+    }
     const markdown = fs.readFileSync(filePath, 'utf8');
     assert(markdown.includes('author: "해아림한의원 의료 콘텐츠팀"'), `${item.slug}: content-team author required`);
     if (markdown.includes('article_review_status: "source_based"')) {

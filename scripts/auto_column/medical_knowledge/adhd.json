@@ -97,7 +97,7 @@
       ]
     },
     {
-      "claim": "기존에 처방받아 복용 중인 ADHD 신경정신과 약물은 전문의 지도 없이 환자가 임의로 중단해서는 안 된다.",
+      "claim": "ADHD 약물 치료는 효과와 불편감, 환자·보호자의 선호와 일상 기능을 정기적으로 검토합니다. 약물 치료의 변경과 중단은 의료진과 상의하여 결정합니다.",
       "evidenceLevel": "clinical-guideline",
       "sourceType": "practice-guideline",
       "claimStrength": "cautionary",
@@ -112,7 +112,8 @@
         "identifier": "https://www.nice.org.uk/guidance/ng87",
         "url": "https://www.nice.org.uk/guidance/ng87"
       },
-      "rationale": "약물 임의 중단 시 반동 증상과 일상 기능 저하 위험이 따르므로 한방 치료와의 안전한 병행 및 주치의 상담을 원칙으로 함."
+      "rationale": "NICE NG87 1.10.1–1.10.3의 약물 검토·공동 의사결정 범위에 한정한다. 이 권고를 한의 진료 병행의 사전 허락이나 승인 요건으로 확대하지 않는다.",
+      "sourceCheckedAt": "2026-10-16"
     }
   ]
 }

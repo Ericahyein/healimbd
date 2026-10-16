@@ -4,6 +4,7 @@ const geoHierarchy = require('./geo_hierarchy.json');
 const diseaseTaxonomy = require('./disease_taxonomy.json');
 const { isInternalUrlValid, getConditionPageForCategory } = require('./internal_linker');
 const { selectEvidenceNotes, checkClinicFacts } = require('./medical_policy');
+const { checkEditorialFraming } = require('./editorial_policy');
 
 let qaTargets = [];
 try {
@@ -1056,7 +1057,7 @@ function checkChildEnuresisClinicalAndStandardCare(fullText) {
   if (claimsToReplace) {
     return {
       valid: false,
-      reason: 'Child enuresis treatment replacement violation: 한의학적 치료가 야뇨 알람이나 데스모프레신 등 표준 치료를 대체한다고 서술할 수 없습니다. 보완적 접근으로 서술해야 합니다.'
+      reason: 'Child enuresis treatment replacement violation: 다른 치료를 대체한다는 미확인 주장을 하지 마십시오. 한의 진료를 보조·보완으로 규정하는 대신 개인별 진찰·치료 계획과 필요한 협력 내용을 직접 설명하십시오.'
     };
   }
 
@@ -1294,6 +1295,7 @@ function validateArticleContent(articleData, options = {}) {
 
   // 4. Global Banned Medical Patterns
   const fullText = `${title}\n${summary}\n${body}\n${hashtags.join(' ')}\n${keywords.join(' ')}`;
+  errors.push(...checkEditorialFraming(`${title}\n${summary}\n${body}`).errors);
   errors.push(...checkClinicFacts(fullText, diseaseId).errors);
   for (const { pattern, reason } of GLOBAL_BANNED_MEDICAL_PATTERNS) {
     if (pattern.test(fullText)) {
