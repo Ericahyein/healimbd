@@ -657,7 +657,10 @@
     "disease": "child",
     "topicAngle": "child-enuresis",
     "title": "[판교 소아 야뇨증] 만 5세 이후에도 밤에 소변 실수를 반복할 때",
-    "slug": "bundang-pangyo-child-enuresis"
+    "slug": "bundang-pangyo-child-enuresis",
+    "publicationStatus": "removed",
+    "removedAt": "2026-10-16",
+    "removalReason": "Owner requested removal; retain history to exclude automatic topic reuse."
   },
   {
     "publishDate": "2026-10-16T13:22:40.057+09:00",

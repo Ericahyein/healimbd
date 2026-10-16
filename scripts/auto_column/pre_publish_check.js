@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const sharp = require('sharp');
 const { THUMBNAIL_WIDTH, THUMBNAIL_HEIGHT } = require('./thumbnail_engine');
+const { checkEditorialFraming } = require('./editorial_policy');
 
 async function runPrePublishCheck() {
   console.log('🔍 Starting Doctor Column Pre-Publish Validation...');
@@ -33,6 +34,10 @@ async function runPrePublishCheck() {
     throw new Error('❌ Markdown does not contain valid YAML front matter.');
   }
   const frontMatter = frontMatterMatch[1];
+  const narrative = mdContent.slice(frontMatterMatch[0].length);
+  const titleAndSummary = frontMatter.split('\n').filter(line => /^(title|summary):/.test(line)).join('\n');
+  const editorial = checkEditorialFraming(`${titleAndSummary}\n${narrative}`);
+  if (!editorial.valid) throw new Error(editorial.errors.join('\n'));
   const imageMatch = frontMatter.match(/^image:\s*["']?([^"'\r\n]+)["']?/m);
   if (!imageMatch || !imageMatch[1].trim()) {
     throw new Error('❌ Front matter "image" field is missing or empty.');
