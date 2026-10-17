@@ -21,9 +21,14 @@ function loadSource(slug = '') {
   if (!entry || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(entry.slug)) throw new Error('발행 이력에 있는 올바른 slug가 필요합니다.');
   const raw = fs.readFileSync(path.join(ROOT, 'content/blog', `${entry.slug}.md`), 'utf8');
   if (!raw.startsWith('---')) throw new Error('칼럼 메타데이터 형식을 확인해주세요.');
+  const frontMatter = raw.match(/^---\r?\n([\s\S]*?)\r?\n---/)[1];
+  const reviewStatus = /^editorial_review_status: "completed"$/m.test(frontMatter);
+  const reviewDate = frontMatter.match(/^editorial_reviewed_at: "(\d{4}-\d{2}-\d{2})"$/m)?.[1];
+  const reviewScope = frontMatter.match(/^editorial_review_scope: "([^"\r\n]+)"$/m)?.[1];
+  const editorialReview = reviewStatus && reviewDate && reviewScope ? { date: reviewDate, scope: reviewScope } : null;
   const body = raw.replace(/^---\r?\n[\s\S]*?\r?\n---\s*/, '').trim();
   if (body.length < 300 || body.length > 50000) throw new Error('원문 분량을 확인해주세요.');
-  return { ...entry, body, url: `https://healimbd.com/blog/${entry.slug}/` };
+  return { ...entry, body, editorialReview, url: `https://healimbd.com/blog/${entry.slug}/` };
 }
 function validateDraft(draft, source) {
   const isText = value => typeof value === 'string' && value.trim().length > 0;
@@ -89,6 +94,8 @@ function renderHtml(draft, source, { sourcePreserved = false } = {}) {
   const thumbnail = imagePath && fs.existsSync(imagePath)
     ? `<div class="blog-featured-media-box"><img class="blog-featured-img" src="data:image/webp;base64,${fs.readFileSync(imagePath).toString('base64')}" alt="${e(source.title)}"></div>` : '';
   const label = sourcePreserved ? '원문 보존 HTML' : '칼럼 각색본';
+  const review = sourcePreserved && source.editorialReview;
+  const reviewNotice = review ? `<p class="label">내용 검수 완료 · ${e(review.date)} · 검수 범위: ${e(review.scope)}</p>` : '';
   const notice = sourcePreserved ? '홈페이지에 발행된 칼럼 원문을 HTML로 옮긴 문서입니다. 외부 게시 전 내용을 확인해주세요.' : '홈페이지 칼럼을 바탕으로 AI가 각색한 글입니다. 외부 게시 전 내용을 확인해주세요.';
   return `<!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
@@ -101,7 +108,7 @@ ${siteCss}
 .blog-content-body table{width:100%;border-collapse:collapse;margin:24px 0;font-size:15px;line-height:1.75}.blog-content-body th,.blog-content-body td{padding:14px 16px;border:1px solid #e2e8f0;text-align:left;min-width:140px}.column-toc li{margin:8px 0}.blog-content-body .column-topic > h2::before{font-family:Pretendard,sans-serif}
 @media(max-width:600px){h1{font-size:26px}.homepage-banner-wrap{padding:28px 20px 36px}}
 </style></head><body><main id="main-content"><article class="blog-single-article"><div class="blog-single-container"><div class="label">해아림한의원 분당점 · ${label}</div>
-<h1>${e(draft.title)}</h1>${thumbnail}<p class="column-intro">${e(draft.intro)}</p>
+<h1>${e(draft.title)}</h1>${reviewNotice}${thumbnail}<p class="column-intro">${e(draft.intro)}</p>
 <nav class="column-toc" aria-label="칼럼 목차"><span class="column-toc-title">이 글에서 다루는 내용</span><ol>${draft.sections.map((s,i) => `<li><a href="#topic-${i+1}">${e(s.heading)}</a></li>`).join('')}</ol></nav><div class="blog-content-body"><div class="column-reading">
 ${draft.sections.map((s,i) => `<section class="column-topic"><h2 id="topic-${i+1}">${e(s.heading)}</h2>${s.paragraphs.map(p => renderBlocks(p, { sourceLinks: sourcePreserved })).join('\n')}</section>`).join('\n')}
 ${draft.closing ? `<p>${e(draft.closing)}</p>` : ''}</div></div><footer><p>${notice}</p><p>일반적인 건강정보이며 개인의 진단·치료를 대신하지 않습니다.</p><a href="${e(source.url)}">홈페이지 원문: ${e(source.title)}</a></footer></div></article>
@@ -159,7 +166,8 @@ async function sendDocument(html, source, title, env, fetcher, { sourcePreserved
   const form = new FormData();
   form.set('chat_id', env.TELEGRAM_CHAT_ID);
   form.set('document', new Blob([html], { type: 'text/html;charset=utf-8' }), `${source.slug}-${sourcePreserved ? 'source' : 'adapted'}.html`);
-  form.set('caption', `해아림 칼럼 ${sourcePreserved ? '원문 보존 HTML (각색 검수 미통과)' : '각색본'}\n${title}\n\n원문: ${source.url}\n외부 게시 전 내용을 확인해주세요.`);
+  const review = sourcePreserved && source.editorialReview;
+  form.set('caption', `해아림 칼럼 ${sourcePreserved ? '원문 보존 HTML' : '각색본'}${review ? ` · 내용 검수 완료 (${review.date})` : ''}\n${title}\n\n원문: ${source.url}\n외부 게시 전 내용을 확인해주세요.`);
   const result = await requestJson(`https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/sendDocument`, { method: 'POST', body: form }, 'Telegram', fetcher);
   if (result.ok !== true || !result.result?.message_id) throw new Error('Telegram 전송 확인 실패');
   return result.result.message_id;
