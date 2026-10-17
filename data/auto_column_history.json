@@ -694,5 +694,16 @@
     "topicAngle": "medication-discussion",
     "title": "[성남 공황장애] 공황 치료 중 복용 약과 불편감을 어떻게 설명할까요",
     "slug": "seongnam-main-panic-medication-discussion"
+  },
+  {
+    "publishDate": "2026-10-17T21:08:27.312+09:00",
+    "geoId": "yongin-main",
+    "displayRegion": "용인",
+    "parentRegion": "용인",
+    "regionType": "city",
+    "disease": "sleep",
+    "topicAngle": "weekend-sleep-rhythm",
+    "title": "[용인 불면증] 주말에 늦게 자고 늦게 일어나면 평일 잠이 더 어려워질까요",
+    "slug": "yongin-main-sleep-weekend-sleep-rhythm"
   }
 ]
