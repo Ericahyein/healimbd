@@ -96,7 +96,7 @@ function renderHtml(draft, source, { sourcePreserved = false } = {}) {
   const label = sourcePreserved ? '원문 보존 HTML' : '칼럼 각색본';
   const review = sourcePreserved && source.editorialReview;
   const reviewNotice = review ? `<p class="label">내용 검수 완료 · ${e(review.date)} · 검수 범위: ${e(review.scope)}</p>` : '';
-  const notice = sourcePreserved ? '홈페이지에 발행된 칼럼 원문을 HTML로 옮긴 문서입니다. 외부 게시 전 내용을 확인해주세요.' : '홈페이지 칼럼을 바탕으로 AI가 각색한 글입니다. 외부 게시 전 내용을 확인해주세요.';
+  const notice = sourcePreserved ? `홈페이지에 발행된 칼럼 원문을 HTML로 옮긴 문서입니다.${review ? '' : ' 외부 게시 전 내용을 확인해주세요.'}` : '홈페이지 칼럼을 바탕으로 AI가 각색한 글입니다. 외부 게시 전 내용을 확인해주세요.';
   return `<!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data:; font-src data:; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
@@ -167,7 +167,7 @@ async function sendDocument(html, source, title, env, fetcher, { sourcePreserved
   form.set('chat_id', env.TELEGRAM_CHAT_ID);
   form.set('document', new Blob([html], { type: 'text/html;charset=utf-8' }), `${source.slug}-${sourcePreserved ? 'source' : 'adapted'}.html`);
   const review = sourcePreserved && source.editorialReview;
-  form.set('caption', `해아림 칼럼 ${sourcePreserved ? '원문 보존 HTML' : '각색본'}${review ? ` · 내용 검수 완료 (${review.date})` : ''}\n${title}\n\n원문: ${source.url}\n외부 게시 전 내용을 확인해주세요.`);
+  form.set('caption', `해아림 칼럼 ${sourcePreserved ? '원문 보존 HTML' : '각색본'}${review ? ` · 내용 검수 완료 (${review.date})` : ''}\n${title}\n\n원문: ${source.url}${review ? '' : '\n외부 게시 전 내용을 확인해주세요.'}`);
   const result = await requestJson(`https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/sendDocument`, { method: 'POST', body: form }, 'Telegram', fetcher);
   if (result.ok !== true || !result.result?.message_id) throw new Error('Telegram 전송 확인 실패');
   return result.result.message_id;
