@@ -9,6 +9,9 @@ lastmod: 2026-10-17T13:51:06+09:00
 search_intent: "long_tail_column"
 condition_pillar: "/conditions/panic/"
 article_review_status: "source_based"
+editorial_review_status: "completed"
+editorial_reviewed_at: "2026-10-17"
+editorial_review_scope: "본문·공개 출처·응급 및 복약 안내 편집 검수"
 image: "images/blog/seongnam-main-panic-medication-discussion.jpg"
 summary: "공황장애 치료 중에는 복용 약의 이름·용량·복용 시점과 불편감의 경과를 기록해 처방 의료진과 조정 방향을 상의하는 것이 중요합니다."
 hashtags:

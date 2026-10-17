@@ -47,6 +47,9 @@
               <span>(해아림한의원 분당점)</span>
             </div>
             <div class="meta-item-right">
+              {{ if eq .Params.editorial_review_status "completed" }}
+              <span class="meta-date"><i class="ph-bold ph-check-circle"></i> 내용 검수 완료 · {{ .Params.editorial_reviewed_at }}</span>
+              {{ end }}
               <time class="meta-date" datetime="{{ .Date.Format "2006-01-02" }}"><i class="ph-bold ph-calendar-blank"></i> 게시 {{ .Date.Format "2006.01.02" }}</time>
               {{ if and .Params.content_author (not .Lastmod.IsZero) }}
               <time class="meta-date" datetime="{{ .Lastmod.Format "2006-01-02" }}"><i class="ph-bold ph-check-circle"></i> 최종 수정 {{ .Lastmod.Format "2006.01.02" }}</time>
@@ -96,6 +99,9 @@
             {{ if .Params.content_author }}
             <p class="blog-author-trust-label">콘텐츠 작성</p>
             <h2>{{ .Params.content_author }}</h2>
+            {{ if eq .Params.editorial_review_status "completed" }}
+            <p class="blog-author-trust-desc">검수 범위: {{ .Params.editorial_review_scope }}</p>
+            {{ end }}
             {{ if .Params.medical_information_reviewer }}
             <p class="blog-author-trust-role">의료정보 기준 감수 · {{ .Params.medical_information_reviewer }}</p>
             <p class="blog-author-trust-desc">이 글은 {{ .Params.review_scope | default "사전 승인된 질환별 의료정보 기준" }}과 검증된 출처 범위에 따라 작성되었습니다. 개별 환자의 진단이나 진료 기록을 의미하지 않습니다.</p>
