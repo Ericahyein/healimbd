@@ -47,7 +47,7 @@ function escapeHtml(value) {
 function renderBlocks(text, { sourceLinks = false } = {}) {
   const inline = value => {
     let escaped = escapeHtml(value).replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-    if (sourceLinks) escaped = escaped.replace(/\[([^\]]+)\]\((https:\/\/[^\s)]+|\/[^\s)]+)\)/g, (_, label, url) => `<a href="${url}">${label}</a>`);
+    if (sourceLinks) escaped = escaped.replace(/\[([^\]]+)\]\((https:\/\/[^\s)]+|\/[^\s)]+)\)/g, (_, label, url) => `<a href="${url.startsWith('/') ? 'https://healimbd.com' + url : url}">${label}</a>`);
     return escaped;
   };
   return text.split(/\n\s*\n/).map(block => {
@@ -172,12 +172,18 @@ async function main(env = process.env) {
   env = { ...env, TELEGRAM_BOT_TOKEN: env.TELEGRAM_BOT_TOKEN.trim(), TELEGRAM_CHAT_ID: env.TELEGRAM_CHAT_ID.trim() };
   const source = loadSource((env.COLUMN_SLUG || '').trim());
   let draft, sourcePreserved = false;
-  try { draft = await adapt(source, env); }
-  catch (error) {
-    if (!error.message.startsWith('원문·각색본 대조 검수 미통과:')) throw error;
+  if (env.SOURCE_PRESERVED_ONLY === 'true') {
     sourcePreserved = true;
     draft = sourceToDraft(source);
-    console.log('각색 검수 미통과: 발행 원문을 보존한 HTML로 전송합니다.');
+    console.log('원문 보존 HTML 재전송을 선택했습니다.');
+  } else {
+    try { draft = await adapt(source, env); }
+    catch (error) {
+      if (!error.message.startsWith('원문·각색본 대조 검수 미통과:')) throw error;
+      sourcePreserved = true;
+      draft = sourceToDraft(source);
+      console.log('각색 검수 미통과: 발행 원문을 보존한 HTML로 전송합니다.');
+    }
   }
   const html = renderHtml(draft, source, { sourcePreserved });
   fs.mkdirSync(OUT, { recursive: true });

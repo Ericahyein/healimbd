@@ -41,11 +41,17 @@ jobs:
           else
             SLUG="$DISPATCH_SLUG"
           fi
+          SOURCE_ONLY=false
+          if [[ "$SLUG" == source:* ]]; then
+            SOURCE_ONLY=true
+            SLUG="${SLUG#source:}"
+          fi
           if [ -n "$SLUG" ] && ! [[ "$SLUG" =~ ^[a-z0-9]+(-[a-z0-9]+)*$ ]]; then
             echo "::error::Invalid column slug"
             exit 1
           fi
           echo "slug=$SLUG" >> "$GITHUB_OUTPUT"
+          echo "source_only=$SOURCE_ONLY" >> "$GITHUB_OUTPUT"
       - name: Adapt and Send Existing Column
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -54,4 +60,5 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           COLUMN_SLUG: ${{ steps.target.outputs.slug }}
+          SOURCE_PRESERVED_ONLY: ${{ steps.target.outputs.source_only }}
         run: node scripts/auto_column/telegram_delivery.js
