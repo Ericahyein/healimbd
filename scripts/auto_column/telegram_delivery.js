@@ -44,8 +44,12 @@ function escapeHtml(value) {
   return String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 }
 // Escape first; support only text formatting, never model-provided HTML or URLs.
-function renderBlocks(text) {
-  const inline = value => escapeHtml(value).replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+function renderBlocks(text, { sourceLinks = false } = {}) {
+  const inline = value => {
+    let escaped = escapeHtml(value).replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    if (sourceLinks) escaped = escaped.replace(/\[([^\]]+)\]\((https:\/\/[^\s)]+|\/[^\s)]+)\)/g, (_, label, url) => `<a href="${url}">${label}</a>`);
+    return escaped;
+  };
   return text.split(/\n\s*\n/).map(block => {
     const lines = block.trim().split(/\r?\n/);
     if (lines.every(line => /^\s*[-•]\s+/.test(line))) return '<ul>' + lines.map(line => '<li>' + inline(line.replace(/^\s*[-•]\s+/, '')) + '</li>').join('') + '</ul>';
@@ -57,7 +61,18 @@ function renderBlocks(text) {
     return '<p>' + inline(block) + '</p>';
   }).join('\n');
 }
-function renderHtml(draft, source) {
+function sourceToDraft(source) {
+  // The fallback contains the published article's exact wording, with only the
+  // site's known decorative summary wrapper removed. No new medical copy.
+  const body = source.body.replace(/<\/?div\b[^>]*>/g, '').trim();
+  const parts = body.split(/^##\s+(.+)\s*$/m);
+  const sections = [{ heading: '핵심 요약', paragraphs: [parts[0].trim()] }];
+  for (let i = 1; i < parts.length; i += 2) {
+    sections.push({ heading: parts[i].trim(), paragraphs: [parts[i + 1].trim()] });
+  }
+  return { title: source.title, intro: '홈페이지에 발행된 칼럼의 원문 보존 HTML입니다.', sections, closing: '' };
+}
+function renderHtml(draft, source, { sourcePreserved = false } = {}) {
   const e = escapeHtml;
   const fontCss = ['Regular', 'Bold'].map((weight, i) => `@font-face{font-family:Pretendard;src:url(data:font/woff2;base64,${fs.readFileSync(path.join(ROOT, 'assets/fonts', `Pretendard-${weight}.woff2.b64`), 'utf8').trim()}) format('woff2');font-weight:${i ? '600 900' : '100 500'};font-style:normal;font-display:swap}`).join('');
   const fontLicense = fs.readFileSync(path.join(ROOT, 'assets/fonts/OFL.txt'), 'utf8');
@@ -73,6 +88,8 @@ function renderHtml(draft, source) {
     ? path.join(ROOT, 'static/images/blog', `${source.slug}.webp`) : '';
   const thumbnail = imagePath && fs.existsSync(imagePath)
     ? `<div class="blog-featured-media-box"><img class="blog-featured-img" src="data:image/webp;base64,${fs.readFileSync(imagePath).toString('base64')}" alt="${e(source.title)}"></div>` : '';
+  const label = sourcePreserved ? '원문 보존 HTML' : '칼럼 각색본';
+  const notice = sourcePreserved ? '홈페이지에 발행된 칼럼 원문을 HTML로 옮긴 문서입니다. 외부 게시 전 내용을 확인해주세요.' : '홈페이지 칼럼을 바탕으로 AI가 각색한 글입니다. 외부 게시 전 내용을 확인해주세요.';
   return `<!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data:; font-src data:; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
@@ -83,11 +100,11 @@ ${fontCss}
 ${siteCss}
 .blog-content-body table{width:100%;border-collapse:collapse;margin:24px 0;font-size:15px;line-height:1.75}.blog-content-body th,.blog-content-body td{padding:14px 16px;border:1px solid #e2e8f0;text-align:left;min-width:140px}.column-toc li{margin:8px 0}.blog-content-body .column-topic > h2::before{font-family:Pretendard,sans-serif}
 @media(max-width:600px){h1{font-size:26px}.homepage-banner-wrap{padding:28px 20px 36px}}
-</style></head><body><main id="main-content"><article class="blog-single-article"><div class="blog-single-container"><div class="label">해아림한의원 분당점 · 칼럼 각색본</div>
+</style></head><body><main id="main-content"><article class="blog-single-article"><div class="blog-single-container"><div class="label">해아림한의원 분당점 · ${label}</div>
 <h1>${e(draft.title)}</h1>${thumbnail}<p class="column-intro">${e(draft.intro)}</p>
 <nav class="column-toc" aria-label="칼럼 목차"><span class="column-toc-title">이 글에서 다루는 내용</span><ol>${draft.sections.map((s,i) => `<li><a href="#topic-${i+1}">${e(s.heading)}</a></li>`).join('')}</ol></nav><div class="blog-content-body"><div class="column-reading">
-${draft.sections.map((s,i) => `<section class="column-topic"><h2 id="topic-${i+1}">${e(s.heading)}</h2>${s.paragraphs.map(renderBlocks).join('\n')}</section>`).join('\n')}
-<p>${e(draft.closing)}</p></div></div><footer><p>홈페이지 칼럼을 바탕으로 AI가 각색한 글입니다. 외부 게시 전 내용을 확인해주세요.</p><p>일반적인 건강정보이며 개인의 진단·치료를 대신하지 않습니다.</p><a href="${e(source.url)}">홈페이지 원문: ${e(source.title)}</a></footer></div></article>
+${draft.sections.map((s,i) => `<section class="column-topic"><h2 id="topic-${i+1}">${e(s.heading)}</h2>${s.paragraphs.map(p => renderBlocks(p, { sourceLinks: sourcePreserved })).join('\n')}</section>`).join('\n')}
+${draft.closing ? `<p>${e(draft.closing)}</p>` : ''}</div></div><footer><p>${notice}</p><p>일반적인 건강정보이며 개인의 진단·치료를 대신하지 않습니다.</p><a href="${e(source.url)}">홈페이지 원문: ${e(source.title)}</a></footer></div></article>
 <div class="homepage-banner-wrap"><a class="homepage-banner" href="https://healimbd.com/" target="_blank" rel="noopener noreferrer" aria-label="해아림한의원 분당점 공식 홈페이지 바로가기"><img src="data:image/png;base64,${banner}" width="1040" height="720" alt="해아림한의원 분당점 공식 홈페이지 바로가기"></a></div>
 ${contactHtml}</main></body></html>`;
 }
@@ -138,11 +155,11 @@ async function adapt(source, env, fetcher) {
   }
   throw new Error('원문·각색본 대조 검수 미통과: 최대 5회 작성 후에도 통과하지 못해 전송하지 않았습니다.');
 }
-async function sendDocument(html, source, title, env, fetcher) {
+async function sendDocument(html, source, title, env, fetcher, { sourcePreserved = false } = {}) {
   const form = new FormData();
   form.set('chat_id', env.TELEGRAM_CHAT_ID);
-  form.set('document', new Blob([html], { type: 'text/html;charset=utf-8' }), `${source.slug}-adapted.html`);
-  form.set('caption', `해아림 칼럼 각색본\n${title}\n\n원문: ${source.url}\n외부 게시 전 내용을 확인해주세요.`);
+  form.set('document', new Blob([html], { type: 'text/html;charset=utf-8' }), `${source.slug}-${sourcePreserved ? 'source' : 'adapted'}.html`);
+  form.set('caption', `해아림 칼럼 ${sourcePreserved ? '원문 보존 HTML (각색 검수 미통과)' : '각색본'}\n${title}\n\n원문: ${source.url}\n외부 게시 전 내용을 확인해주세요.`);
   const result = await requestJson(`https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/sendDocument`, { method: 'POST', body: form }, 'Telegram', fetcher);
   if (result.ok !== true || !result.result?.message_id) throw new Error('Telegram 전송 확인 실패');
   return result.result.message_id;
@@ -154,13 +171,20 @@ async function main(env = process.env) {
   if (!/^[1-9]\d*$/.test(env.TELEGRAM_CHAT_ID.trim())) throw new Error('TELEGRAM_CHAT_ID에는 본인의 개인 숫자 ID를 입력해주세요.');
   env = { ...env, TELEGRAM_BOT_TOKEN: env.TELEGRAM_BOT_TOKEN.trim(), TELEGRAM_CHAT_ID: env.TELEGRAM_CHAT_ID.trim() };
   const source = loadSource((env.COLUMN_SLUG || '').trim());
-  const draft = await adapt(source, env);
-  const html = renderHtml(draft, source);
+  let draft, sourcePreserved = false;
+  try { draft = await adapt(source, env); }
+  catch (error) {
+    if (!error.message.startsWith('원문·각색본 대조 검수 미통과:')) throw error;
+    sourcePreserved = true;
+    draft = sourceToDraft(source);
+    console.log('각색 검수 미통과: 발행 원문을 보존한 HTML로 전송합니다.');
+  }
+  const html = renderHtml(draft, source, { sourcePreserved });
   fs.mkdirSync(OUT, { recursive: true });
-  fs.writeFileSync(path.join(OUT, `${source.slug}-adapted.html`), html);
-  await sendDocument(html, source, draft.title, env);
-  console.log('각색 HTML 문서 전송 완료');
-  if (env.GITHUB_STEP_SUMMARY) fs.appendFileSync(env.GITHUB_STEP_SUMMARY, '\n### Telegram\n각색 HTML 문서 전송 완료.\n');
+  fs.writeFileSync(path.join(OUT, `${source.slug}-${sourcePreserved ? 'source' : 'adapted'}.html`), html);
+  await sendDocument(html, source, draft.title, env, undefined, { sourcePreserved });
+  console.log(`${sourcePreserved ? '원문 보존' : '각색'} HTML 문서 전송 완료`);
+  if (env.GITHUB_STEP_SUMMARY) fs.appendFileSync(env.GITHUB_STEP_SUMMARY, `\n### Telegram\n${sourcePreserved ? '원문 보존' : '각색'} HTML 문서 전송 완료.\n`);
 }
 if (require.main === module) main().catch(error => { console.error(error.message); process.exitCode = 1; });
-module.exports = { loadSource, validateDraft, escapeHtml, renderBlocks, renderHtml, requestJson, adapt, sendDocument, main };
+module.exports = { loadSource, validateDraft, escapeHtml, renderBlocks, sourceToDraft, renderHtml, requestJson, adapt, sendDocument, main };

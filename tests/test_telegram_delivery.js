@@ -1,6 +1,6 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
-const { loadSource, validateDraft, renderHtml, requestJson, adapt, sendDocument, main } = require('../scripts/auto_column/telegram_delivery');
+const { loadSource, validateDraft, sourceToDraft, renderHtml, requestJson, adapt, sendDocument, main } = require('../scripts/auto_column/telegram_delivery');
 const source = { slug: 'test-column', title: '원문 제목', body: '의학정보와 주의사항. '.repeat(60), url: 'https://healimbd.com/blog/test-column/' };
 const draft = { title: '다르게 쓴 제목', intro: '차분한 도입', sections: Array.from({length:3}, (_, i) => ({heading:`소제목 ${i}`, paragraphs:['의학정보를 유지하면서 표현을 바꾼 내용입니다. '.repeat(6)]})), closing: '평가가 필요한 경우 진료를 받으세요.' };
 const env = {OPENAI_API_KEY:'fake-key', TELEGRAM_BOT_TOKEN:'fake-token', TELEGRAM_CHAT_ID:'123'};
@@ -119,4 +119,29 @@ test('rich paragraph formatting preserves lists and emphasis without allowing HT
  assert.equal(renderBlocks('- 하나\n- **둘**'), '<ul><li>하나</li><li><strong>둘</strong></li></ul>');
  assert.equal(renderBlocks('<script>alert(1)</script>'), '<p>&lt;script&gt;alert(1)&lt;/script&gt;</p>');
  assert.ok(renderBlocks('| 항목 | 설명 |\n| --- | --- |\n| 가 | 나 |').includes('<th scope="col">항목</th>'));
+});
+
+test('source-preserved fallback keeps published emergency and medication instructions', () => {
+  for (const slug of ['gyeonggi-gwangju-syncope-exercise-syncope', 'seongnam-main-panic-medication-discussion']) {
+    const published = loadSource(slug);
+    const original = published.body.replace(/<\/?div\b[^>]*>/g, '').trim();
+    const fallback = sourceToDraft(published);
+    const recovered = fallback.sections.map(s => s.paragraphs.join('\n')).join('\n');
+    for (const line of original.split('\n').map(s => s.trim()).filter(s => s && !s.startsWith('## '))) {
+      assert.ok(recovered.includes(line), `missing published line in ${slug}: ${line.slice(0, 50)}`);
+    }
+    const html = renderHtml(fallback, published, { sourcePreserved: true });
+    assert.match(html, /원문 보존 HTML/);
+    assert.ok(!html.includes('AI가 각색한 글'));
+    assert.ok(html.includes(published.url));
+    assert.ok(html.includes('href="https://'));
+  }
+});
+
+test('source-preserved Telegram attachment is named and labeled honestly', async () => {
+  await sendDocument('<html>원문</html>', source, source.title, env, async(url, options) => {
+    assert.equal(options.body.get('document').name, 'test-column-source.html');
+    assert.match(options.body.get('caption'), /원문 보존 HTML \(각색 검수 미통과\)/);
+    return { ok:true, json:async()=>({ok:true,result:{message_id:10}}) };
+  }, { sourcePreserved:true });
 });
