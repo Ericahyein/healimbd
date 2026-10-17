@@ -88,6 +88,18 @@ test('malformed draft is revised before review or delivery',async()=>{
  assert.equal(calls,3);
 });
 
+test('editorial framing feedback causes a fresh draft before medical review',async()=>{
+  const repeated='약을 임의로 중단하지 말고 처방 의료진과 상의하세요.';
+  const invalid={...draft,sections:draft.sections.map(s=>({...s,paragraphs:[...s.paragraphs,repeated,repeated]}))};
+  const responses=[invalid,draft,{approved:true,issues:[]}];let calls=0;
+  const result=await adapt(source,env,async(url,options)=>{
+    if(calls===1) assert.match(options.body,/Editorial framing violation/);
+    return completion(responses[calls++]);
+  });
+  assert.deepEqual(result,draft);
+  assert.equal(calls,3);
+});
+
 test('final HTML shares website styling and places the centered half-width homepage link above contact', () => {
   const html=renderHtml(draft,source);
   assert.ok(html.includes('counter(article-topic,decimal-leading-zero)'));
