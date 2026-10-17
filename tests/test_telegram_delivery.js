@@ -148,6 +148,18 @@ test('source-preserved Telegram attachment is named and labeled honestly', async
   }, { sourcePreserved:true });
 });
 
+test('reviewed source attachment states editorial completion and scope stays in HTML', async () => {
+  const published = loadSource('seongnam-main-panic-medication-discussion');
+  const html = renderHtml(sourceToDraft(published), published, { sourcePreserved: true });
+  await sendDocument(html, published, published.title, env, async(url, options) => {
+    assert.match(options.body.get('caption'), /내용 검수 완료 \(2026-10-17\)/);
+    assert.ok(!options.body.get('caption').includes('외부 게시 전 내용을 확인해주세요'));
+    const attachment = await options.body.get('document').text();
+    assert.match(attachment, /검수 범위: 본문·공개 출처·응급 및 복약 안내 편집 검수/);
+    return { ok: true, json: async()=>({ok:true,result:{message_id:11}}) };
+  }, { sourcePreserved: true });
+});
+
 test('published internal links resolve to the clinic site in source HTML', () => {
   const { renderBlocks } = require('../scripts/auto_column/telegram_delivery');
   const html = renderBlocks('[공황장애 안내](/conditions/panic/)와 [공식 자료](https://example.org/guide)', { sourceLinks:true });
