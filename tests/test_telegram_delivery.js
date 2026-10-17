@@ -145,3 +145,10 @@ test('source-preserved Telegram attachment is named and labeled honestly', async
     return { ok:true, json:async()=>({ok:true,result:{message_id:10}}) };
   }, { sourcePreserved:true });
 });
+
+test('published internal links resolve to the clinic site in source HTML', () => {
+  const { renderBlocks } = require('../scripts/auto_column/telegram_delivery');
+  const html = renderBlocks('[공황장애 안내](/conditions/panic/)와 [공식 자료](https://example.org/guide)', { sourceLinks:true });
+  assert.match(html, /href="https:\/\/healimbd.com\/conditions\/panic\/"/);
+  assert.match(html, /href="https:\/\/example.org\/guide"/);
+});
