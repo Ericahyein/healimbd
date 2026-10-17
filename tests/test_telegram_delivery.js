@@ -132,6 +132,8 @@ test('source-preserved fallback keeps published emergency and medication instruc
     }
     const html = renderHtml(fallback, published, { sourcePreserved: true });
     assert.match(html, /원문 보존 HTML/);
+    assert.match(html, /내용 검수 완료 · 2026-10-17/);
+    assert.match(html, /검수 범위: 본문·공개 출처/);
     assert.ok(!html.includes('AI가 각색한 글'));
     assert.ok(html.includes(published.url));
     assert.ok(html.includes('href="https://'));
@@ -141,7 +143,7 @@ test('source-preserved fallback keeps published emergency and medication instruc
 test('source-preserved Telegram attachment is named and labeled honestly', async () => {
   await sendDocument('<html>원문</html>', source, source.title, env, async(url, options) => {
     assert.equal(options.body.get('document').name, 'test-column-source.html');
-    assert.match(options.body.get('caption'), /원문 보존 HTML \(각색 검수 미통과\)/);
+    assert.match(options.body.get('caption'), /원문 보존 HTML/);
     return { ok:true, json:async()=>({ok:true,result:{message_id:10}}) };
   }, { sourcePreserved:true });
 });
