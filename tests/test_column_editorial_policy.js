@@ -35,6 +35,8 @@ const regressions = require('./fixtures/column_editorial_regressions.json');
   const warning = '처방약을 임의로 중단하지 말고 약물 변경이 필요하면 처방 의료진과 상의합니다.';
   assert.equal(checkEditorialFraming(warning).valid, true);
   assert.equal(checkEditorialFraming(`${warning}\n## FAQ\n${warning}`).valid, false);
+  assert.equal(checkEditorialFraming(`${warning}\n## FAQ\n${warning}`, { medicationTopic: true }).valid, true, 'a medication article can retain the safety instruction in a direct FAQ');
+  assert.equal(checkEditorialFraming(`${warning}\n## FAQ\n${warning}\n## 결론\n${warning}`, { medicationTopic: true }).valid, false, 'repetition remains bounded');
   assert.equal(checkEditorialFraming('약물 부작용이 의심돼도 처방약을 임의로 중단하지 말고 의료진과 협의합니다.\n한약과 기존 약의 상호작용이 우려되면 약을 스스로 줄이지 않고 관련 의료진과 확인합니다.').valid, true, 'distinct concrete safety concerns must not be treated as repeated generic warnings');
   // Editorial changes must not weaken the independent medication safety guard.
   assert.equal(checkMedicationDiscontinuation('약을 즉시 중단하세요.').violated, true);

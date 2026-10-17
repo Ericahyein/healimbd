@@ -12,7 +12,7 @@ const EDITORIAL_GUIDANCE = `
 - 한의원도 의료기관입니다. 다른 진료과 안내에 일반 의료기관이라는 표현을 쓰지 말고, 필요한 내과·신경과·소아청소년과 등 해당 진료과와 평가 목적을 구체적으로 적으십시오.
 `;
 
-function checkEditorialFraming(text) {
+function checkEditorialFraming(text, { medicationTopic = false } = {}) {
   const errors = new Set();
   // Remove Markdown URL destinations before sentence splitting (e.g. nice.org).
   const plain = String(text || '').replace(/\[([^\]]+)\]\([^)]*\)/g, '$1');
@@ -48,7 +48,9 @@ function checkEditorialFraming(text) {
     if (!specificSafetyReason && /(약물|처방약|수면제|양약|약을)/.test(sentence) && /(임의|스스로|보호자\s*판단)/.test(sentence) &&
         /(중단|감량|줄이)/.test(sentence) && /(않|말|안\s*됩|금지|해서는\s*안)/.test(sentence)) medicationWarnings++;
   }
-  if (medicationWarnings > 1) errors.add('Editorial framing violation: 약물 임의 중단 경고를 요약·본문·FAQ에 반복하지 말고 필요한 복용약·진료 준비 안내에 한 번만 간결하게 설명하십시오.');
+  // A medication-focused article may need the warning in the main guidance and
+  // again in an answer to a direct FAQ. Other topics still get a single mention.
+  if (medicationWarnings > (medicationTopic ? 2 : 1)) errors.add('Editorial framing violation: 약물 임의 중단 경고를 요약·본문·FAQ에 반복하지 말고 필요한 복용약·진료 준비 안내에 간결하게 설명하십시오.');
   return { valid: errors.size === 0, errors: [...errors] };
 }
 
