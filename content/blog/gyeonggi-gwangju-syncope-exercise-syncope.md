@@ -9,6 +9,9 @@ lastmod: 2026-10-17T13:51:06+09:00
 search_intent: "long_tail_column"
 condition_pillar: "/conditions/syncope/"
 article_review_status: "source_based"
+editorial_review_status: "completed"
+editorial_reviewed_at: "2026-10-17"
+editorial_review_scope: "본문·공개 출처·응급 안내 편집 검수"
 image: "images/blog/gyeonggi-gwangju-syncope-exercise-syncope.jpg"
 summary: "운동 중 의식소실은 미주신경성 실신으로 단정하지 말고, 흉통·두근거림과 회복 양상 등 심장성 위험 신호를 먼저 살펴야 합니다."
 hashtags:
