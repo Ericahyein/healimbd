@@ -683,5 +683,16 @@
     "topicAngle": "exercise-syncope",
     "title": "[경기광주 미주신경성 실신] 운동하다 쓰러졌다면 미주신경성 실신으로 봐도 될까요",
     "slug": "gyeonggi-gwangju-syncope-exercise-syncope"
+  },
+  {
+    "publishDate": "2026-10-17T13:15:30.767+09:00",
+    "geoId": "seongnam-main",
+    "displayRegion": "성남",
+    "parentRegion": "성남",
+    "regionType": "city",
+    "disease": "panic",
+    "topicAngle": "medication-discussion",
+    "title": "[성남 공황장애] 공황 치료 중 복용 약과 불편감을 어떻게 설명할까요",
+    "slug": "seongnam-main-panic-medication-discussion"
   }
 ]
