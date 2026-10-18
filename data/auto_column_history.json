@@ -716,5 +716,16 @@
     "topicAngle": "food-diary",
     "title": "[판교 과민성대장증후군] 음식 때문에 배가 아픈지 식사 일지로 살피는 방법",
     "slug": "bundang-pangyo-ibs-food-diary"
+  },
+  {
+    "publishDate": "2026-10-18T21:35:15.580+09:00",
+    "geoId": "gyeonggi-gwangju",
+    "displayRegion": "경기광주",
+    "parentRegion": "경기광주",
+    "regionType": "city",
+    "disease": "headache",
+    "topicAngle": "headache-diary",
+    "title": "[경기광주 두통] 두통 일지에는 통증 외에 무엇을 적어야 할까요",
+    "slug": "gyeonggi-gwangju-headache-headache-diary"
   }
 ]
