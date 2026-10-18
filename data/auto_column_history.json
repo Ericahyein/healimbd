@@ -705,5 +705,16 @@
     "topicAngle": "weekend-sleep-rhythm",
     "title": "[용인 불면증] 주말에 늦게 자고 늦게 일어나면 평일 잠이 더 어려워질까요",
     "slug": "yongin-main-sleep-weekend-sleep-rhythm"
+  },
+  {
+    "publishDate": "2026-10-18T13:20:43.316+09:00",
+    "geoId": "bundang-pangyo",
+    "displayRegion": "판교",
+    "parentRegion": "성남",
+    "regionType": "selected_local_area",
+    "disease": "ibs",
+    "topicAngle": "food-diary",
+    "title": "[판교 과민성대장증후군] 음식 때문에 배가 아픈지 식사 일지로 살피는 방법",
+    "slug": "bundang-pangyo-ibs-food-diary"
   }
 ]
