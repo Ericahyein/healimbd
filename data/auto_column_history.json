@@ -738,5 +738,16 @@
     "topicAngle": "hands-feet-sweat",
     "title": "[분당 다한증] 긴장할 때마다 손발이 축축해지고 일상이 불편할 때",
     "slug": "seongnam-bundang-hyperhidrosis-hands-feet-sweat"
+  },
+  {
+    "publishDate": "2026-10-20T00:32:06.125+09:00",
+    "geoId": "seongnam-main",
+    "displayRegion": "성남",
+    "parentRegion": "성남",
+    "regionType": "city",
+    "disease": "autonomic",
+    "topicAngle": "posture-change",
+    "title": "[성남 자율신경실조증] 자리에서 일어날 때 아찔하면 무엇을 확인해야 할까요",
+    "slug": "seongnam-main-autonomic-posture-change"
   }
 ]
