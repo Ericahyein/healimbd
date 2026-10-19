@@ -727,5 +727,16 @@
     "topicAngle": "headache-diary",
     "title": "[경기광주 두통] 두통 일지에는 통증 외에 무엇을 적어야 할까요",
     "slug": "gyeonggi-gwangju-headache-headache-diary"
+  },
+  {
+    "publishDate": "2026-10-19T13:31:14.936+09:00",
+    "geoId": "seongnam-bundang",
+    "displayRegion": "분당",
+    "parentRegion": "성남",
+    "regionType": "district",
+    "disease": "hyperhidrosis",
+    "topicAngle": "hands-feet-sweat",
+    "title": "[분당 다한증] 긴장할 때마다 손발이 축축해지고 일상이 불편할 때",
+    "slug": "seongnam-bundang-hyperhidrosis-hands-feet-sweat"
   }
 ]
