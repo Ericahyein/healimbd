@@ -20,9 +20,10 @@ function prepareArticleKnowledge(knowledge, plan) {
     evaluationGuidance: CLINIC_EVALUATION,
     evidenceNotes: selectEvidenceNotes(knowledge, id),
     // Topic overrides may narrow clinical guidance but never add unverified sources.
-    specificRules: [...new Set([...(override.specificRules || knowledge.specificRules || []),
+    specificRules: [...new Set([...(override.specificRules || knowledge.specificRules || [])
+      .filter(rule => !/(PMID|DOI|Journal|논문|인용)/i.test(rule)),
       EDITORIAL_GUIDANCE,
-      '출처를 채우기 위해 현재 주제와 관계없는 질환이나 번아웃·어지럼증 설명을 추가하지 마십시오.',
+      '현재 주제와 관계없는 질환이나 번아웃·어지럼증 설명을 분량을 위해 추가하지 마십시오. 공개 본문에 논문·기관 출처를 표시하지 마십시오.',
       '일반 의료정보의 검사·치료와 분당점에서 실제 제공하는 진료를 구분하십시오. HRV나 심박변이도 검사를 본원 검사로 안내하지 마십시오.',
       '뉴로피드백·밸런싱·IM은 틱장애와 ADHD에서 평가 후 선택적으로 활용하며, 다른 질환의 본원 치료로 안내하지 마십시오. 정식 CBT·CBIT 제공 여부를 임의로 만들지 마십시오.',
       '실제 검수자가 확인되지 않은 글에 원장 직접 작성, 개별 의학적 검수 완료, 검토 완료 또는 환자 상담 경험·내원 빈도를 만들어 쓰지 마십시오.'

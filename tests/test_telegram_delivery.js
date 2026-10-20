@@ -15,6 +15,16 @@ test('reject unchanged title, missing structure and extreme shortening', () => {
   assert.throws(() => validateDraft({...draft,sections:[]}, source));
   assert.throws(() => validateDraft({...draft,sections:draft.sections.map(s=>({...s,paragraphs:['짧음']}))}, source));
 });
+
+test('Telegram adaptation rejects external citations but keeps clinic links', () => {
+  assert.deepEqual(validateDraft({ ...draft, sections: draft.sections.map((section, index) => index === 0
+    ? { ...section, paragraphs: [...section.paragraphs, '관련 진료 안내는 [틱장애](/conditions/tic/)에서 확인할 수 있습니다.'] }
+    : section) }, source).sections.length, 3);
+  for (const citation of ['[논문](https://example.org/study)', '연구에 따르면 증상이 호전됩니다.', '### 참고 자료', 'NICE 지침에 따르면']) {
+    const cited = { ...draft, sections: [{ ...draft.sections[0], paragraphs: [...draft.sections[0].paragraphs, citation] }, ...draft.sections.slice(1)] };
+    assert.throws(() => validateDraft(cited, source), /출처 표기 검증 실패/, citation);
+  }
+});
 test('HTML escapes all model text and is self-contained and responsive', () => {
   const html = renderHtml({...draft,title:'<script>alert(1)</script>',intro:'<img src=x onerror=alert(1)>'}, source);
   assert.ok(!html.includes('<script>'));
@@ -121,23 +131,16 @@ test('rich paragraph formatting preserves lists and emphasis without allowing HT
  assert.ok(renderBlocks('| 항목 | 설명 |\n| --- | --- |\n| 가 | 나 |').includes('<th scope="col">항목</th>'));
 });
 
-test('source-preserved fallback keeps published emergency and medication instructions', () => {
-  for (const slug of ['gyeonggi-gwangju-syncope-exercise-syncope', 'seongnam-main-panic-medication-discussion']) {
-    const published = loadSource(slug);
-    const original = published.body.replace(/<\/?div\b[^>]*>/g, '').trim();
-    const fallback = sourceToDraft(published);
-    const recovered = fallback.sections.map(s => s.paragraphs.join('\n')).join('\n');
-    for (const line of original.split('\n').map(s => s.trim()).filter(s => s && !s.startsWith('## '))) {
-      assert.ok(recovered.includes(line), `missing published line in ${slug}: ${line.slice(0, 50)}`);
-    }
-    const html = renderHtml(fallback, published, { sourcePreserved: true });
-    assert.match(html, /원문 보존 HTML/);
-    assert.match(html, /내용 검수 완료 · 2026-10-17/);
-    assert.match(html, /검수 범위: 본문·공개 출처/);
-    assert.ok(!html.includes('AI가 각색한 글'));
-    assert.ok(html.includes(published.url));
-    assert.ok(html.includes('href="https://'));
-  }
+test('source-preserved fallback keeps safety instructions without outside sources', () => {
+  const published = { ...source, body: '## 실신 안내\n운동 중 의식을 잃었다면 즉시 119에 도움을 요청하세요.\n\n## 복용약 안내\n처방약을 임의로 중단하지 마세요.'.repeat(6), editorialReview: { date: '2026-10-17', scope: '본문·응급 및 복약 안내 편집 검수' } };
+  const fallback = sourceToDraft(published);
+  const html = renderHtml(fallback, published, { sourcePreserved: true });
+  assert.match(html, /즉시 119/);
+  assert.match(html, /임의로 중단하지/);
+  assert.match(html, /내용 검수 완료 · 2026-10-17/);
+  assert.ok(!html.includes('AI가 각색한 글'));
+  assert.ok(html.includes(published.url));
+  assert.throws(() => sourceToDraft({ ...published, body: `${published.body}\n[연구](https://example.org)` }), /기존 원문에 외부 출처/);
 });
 
 test('source-preserved Telegram attachment is named and labeled honestly', async () => {
@@ -149,13 +152,13 @@ test('source-preserved Telegram attachment is named and labeled honestly', async
 });
 
 test('reviewed source attachment states editorial completion and scope stays in HTML', async () => {
-  const published = loadSource('seongnam-main-panic-medication-discussion');
+  const published = { ...source, body: '## 안전 안내\n복용약은 의료진과 상의하세요.\n'.repeat(15), editorialReview: { date: '2026-10-17', scope: '본문·응급 및 복약 안내 편집 검수' } };
   const html = renderHtml(sourceToDraft(published), published, { sourcePreserved: true });
   await sendDocument(html, published, published.title, env, async(url, options) => {
     assert.match(options.body.get('caption'), /내용 검수 완료 \(2026-10-17\)/);
     assert.ok(!options.body.get('caption').includes('외부 게시 전 내용을 확인해주세요'));
     const attachment = await options.body.get('document').text();
-    assert.match(attachment, /검수 범위: 본문·공개 출처·응급 및 복약 안내 편집 검수/);
+    assert.match(attachment, /검수 범위: 본문·응급 및 복약 안내 편집 검수/);
     return { ok: true, json: async()=>({ok:true,result:{message_id:11}}) };
   }, { sourcePreserved: true });
 });

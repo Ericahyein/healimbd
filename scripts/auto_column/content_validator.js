@@ -5,6 +5,7 @@ const diseaseTaxonomy = require('./disease_taxonomy.json');
 const { isInternalUrlValid, getConditionPageForCategory } = require('./internal_linker');
 const { selectEvidenceNotes, checkClinicFacts } = require('./medical_policy');
 const { checkEditorialFraming } = require('./editorial_policy');
+const { checkPublicCitations } = require('./citation_policy');
 
 let qaTargets = [];
 try {
@@ -1238,6 +1239,7 @@ function validateArticleContent(articleData, options = {}) {
     knowledge,
     requireConditionPillar = false,
     requireVerifiedSources = false,
+    requireCitationFree = false,
     history = [],
     blogDir
   } = articleData;
@@ -1449,6 +1451,12 @@ function validateArticleContent(articleData, options = {}) {
     }
   }
 
+  if (requireCitationFree) {
+    errors.push(...checkPublicCitations(`${title}\n${summary}\n${body}`));
+  }
+
+  // Retained for historical audit callers. New production articles use
+  // requireCitationFree instead of requiring public citations.
   if (requireVerifiedSources) {
     const allowedSourceUrls = new Set(
       selectEvidenceNotes(knowledge, topicAngle)
