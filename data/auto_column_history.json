@@ -749,5 +749,16 @@
     "topicAngle": "posture-change",
     "title": "[성남 자율신경실조증] 자리에서 일어날 때 아찔하면 무엇을 확인해야 할까요",
     "slug": "seongnam-main-autonomic-posture-change"
+  },
+  {
+    "publishDate": "2026-10-20T13:40:11.286+09:00",
+    "geoId": "gyeonggi-gwangju",
+    "displayRegion": "경기광주",
+    "parentRegion": "경기광주",
+    "regionType": "city",
+    "disease": "sleep",
+    "topicAngle": "clock-watching",
+    "title": "[경기광주 불면증] 잠이 안 올 때 시계를 자꾸 확인하면 어떤 점을 살펴야 할까요",
+    "slug": "gyeonggi-gwangju-sleep-clock-watching"
   }
 ]
