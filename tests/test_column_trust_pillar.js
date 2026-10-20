@@ -27,11 +27,7 @@ const ROOT = path.join(__dirname, '..');
   const body = await generateArticleBody(plan, { summary: '테스트 요약' }, knowledge, links, '');
   assert(body.includes('](/conditions/tic/)'), 'offline and fallback generation must contain the condition pillar');
 
-  const verifiedUrls = knowledge.evidenceNotes
-    .filter(note => note.sourceVerified === true && note.productionUsable === true)
-    .map(note => note.sourceUrl || note.source?.url)
-    .filter(Boolean);
-  assert(verifiedUrls.filter(url => body.includes(url)).length >= 2, 'generated body must contain at least two verified sources');
+  assert(!/https?:\/\/|참고한 공식 의학 자료|연구에 따르면/.test(body), 'new body must not display outside sources');
 
   const strictValidation = validateArticleContent({
     title: '[성남 틱장애] 헛기침이 반복될 때 관찰할 점',
@@ -48,7 +44,7 @@ const ROOT = path.join(__dirname, '..');
     topicAngle: plan.topicAngle,
     knowledge,
     requireConditionPillar: true,
-    requireVerifiedSources: true
+    requireCitationFree: true
   });
   assert.deepStrictEqual(strictValidation.errors, [], `strict production validation failed: ${strictValidation.errors.join('; ')}`);
 
@@ -79,12 +75,8 @@ const ROOT = path.join(__dirname, '..');
       assert(bodyOnly.includes(conditionPage.url), `${item.slug}: mapped condition pillar required in article body`);
     }
 
-    const itemKnowledge = loadMedicalKnowledge(item.disease);
-    const itemVerifiedUrls = itemKnowledge.evidenceNotes
-      .filter(note => note.sourceVerified === true && note.productionUsable === true)
-      .map(note => note.sourceUrl || note.source?.url)
-      .filter(Boolean);
-    assert(itemVerifiedUrls.filter(url => markdown.includes(url)).length >= 2, `${item.slug}: two verified sources required`);
+    // Published history predates the citation-free rule. Do not require old
+    // sources or reinterpret prior articles as newly reviewed content.
   }
 
   const generatorSource = fs.readFileSync(path.join(ROOT, 'scripts/auto_column/index.js'), 'utf8');
@@ -96,7 +88,7 @@ const ROOT = path.join(__dirname, '..');
   assert(template.includes('.Params.content_author'), 'template must distinguish content-team articles');
   assert(template.includes('의료정보 기준 감수'), 'template must disclose medical-standard review scope');
 
-  console.log('✅ Column pillar links, honest authorship, verified sources, and long-tail metadata verified.');
+  console.log('✅ Column pillar links, honest authorship, citation-free new copy, and long-tail metadata verified.');
 })().catch(error => {
   console.error(error);
   process.exit(1);
