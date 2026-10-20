@@ -396,23 +396,7 @@ function normalizeLinkUrl(url) {
   return String(url || '').split('#')[0].split('?')[0].replace(/\/$/, '');
 }
 
-function getVerifiedEvidenceSources(knowledge) {
-  const seen = new Set();
-  return (knowledge?.evidenceNotes || [])
-    .filter(note => note.sourceVerified === true && note.productionUsable === true)
-    .map(note => ({
-      title: note.sourceTitle || note.source?.name || '공식 의학 자료',
-      url: note.sourceUrl || note.source?.url || ''
-    }))
-    .filter(source => {
-      const normalized = normalizeLinkUrl(source.url);
-      if (!normalized || seen.has(normalized)) return false;
-      seen.add(normalized);
-      return true;
-    });
-}
-
-function finalizeArticleTrustSignals(content, internalLinks, knowledge, appendSources = false) {
+function finalizeArticleTrustSignals(content, internalLinks) {
   let finalized = String(content || '').trim();
   const existingInternalLinks = extractInternalLinks(finalized);
   const existingInternalUrls = new Set(existingInternalLinks.map(link => normalizeLinkUrl(link.url)));
@@ -423,28 +407,6 @@ function finalizeArticleTrustSignals(content, internalLinks, knowledge, appendSo
     const cleanAnchor = sanitizeAnchorTitle(rawAnchor);
     finalized += `\n\n---\n\n### 🔗 관련 질환 자세히 보기\n- [${cleanAnchor}](${conditionPage.url})\n`;
     console.log(`ℹ️ [AI Writer Guard] Appended mandatory condition pillar: [${cleanAnchor}](${conditionPage.url})`);
-  }
-
-  const sources = getVerifiedEvidenceSources(knowledge);
-  const linkedUrls = new Set(
-    Array.from(finalized.matchAll(/\[[^\]]+\]\((https?:\/\/[^)]+)\)/g))
-      .map(match => normalizeLinkUrl(match[1]))
-  );
-  const minimumSources = Math.min(2, sources.length);
-  const usedVerifiedCount = sources.filter(source => linkedUrls.has(normalizeLinkUrl(source.url))).length;
-
-  if (appendSources && usedVerifiedCount < minimumSources) {
-    const missingSources = sources
-      .filter(source => !linkedUrls.has(normalizeLinkUrl(source.url)))
-      .slice(0, minimumSources - usedVerifiedCount);
-    if (missingSources.length > 0) {
-      const sourceLines = missingSources.map(source => {
-        const safeTitle = String(source.title).replace(/[\[\]]/g, '').trim();
-        return `- [${safeTitle}](${source.url})`;
-      });
-      finalized += `\n\n### 참고한 공식 의학 자료\n${sourceLines.join('\n')}\n`;
-      console.log(`ℹ️ [AI Writer Guard] Appended ${missingSources.length} verified medical source link(s).`);
-    }
   }
 
   return finalized;
@@ -461,7 +423,9 @@ async function generateArticleBody(plan, outline, knowledge, internalLinks, apiK
     : '';
   const sanitizedLinksListMd = linksListMd;
   const usableNotes = (knowledge.evidenceNotes || []).filter(n => n.productionUsable !== false && n.sourceVerified !== false);
-  const evidenceSnippet = usableNotes.length > 0 ? JSON.stringify(usableNotes, null, 2) : 'None';
+  const evidenceSnippet = usableNotes.length > 0
+    ? usableNotes.map(note => note.claim).filter(claim => claim && !/(연구|논문|PMID|DOI|학술지)/i.test(claim)).join(' / ') || '확인된 일반 설명만 사용'
+    : '확인된 설명 없음';
 
   if (!apiKey) {
     const isAdult = plan.ageGroup === 'adult';
@@ -504,13 +468,11 @@ ${plan.geo.displayName}에서 ${targetDiseaseName} 증상(${topicAngleText})에 
 ${knowledge.approvedDefinition}
 ${targetDiseaseName} 관련 정보를 읽을 때에는 질환 설명과 개인의 상태 평가를 구분해야 합니다:
 
-- **질환의 발생 및 신경학적 배경**: 신경전달 체계와 조절 회로의 특성이 주요 신경생물학적 배경으로 연구되고 있습니다.
+- **질환의 발생 및 신경학적 배경**: 신경생물학적 특성과 생활 속 변동 요인을 구분하여 살펴야 합니다.
 - **증상의 악화 및 변동 요인**: 질환의 기저 특성과 별개로, 이미 나타나는 증상의 정도는 피로, 수면 상태, 정서적 긴장 및 ${knowledge.possibleAggravatingFactors.join(', ')} 등에 따라 변동될 수 있습니다.
 - **일상 긴장과 신체 반응**: 지속적인 긴장과 피로는 신체 조절 시스템의 부담을 높여 증상이 더 자주 감지되게 만들 수 있습니다.
 
 자세한 진료 과목 안내는 의료진과의 1:1 상담을 통해 확인하실 수 있습니다.
-
-${(knowledge.evidenceNotes || []).slice(0, 2).map(note => `${note.claim} [${String(note.sourceTitle || "공식 의학 자료").replace(/[\[\]]/g, "")}](${note.sourceUrl || note.source?.url})`).join('\n\n')}
 
 ## 3. 비슷한 다른 상태와 감별하여 살펴볼 점
 
@@ -547,7 +509,7 @@ A. ${filteredFaqs[2]?.a || '증상의 경과와 전반적인 건강 상태를 �
 ### 🔗 함께 읽어보면 좋은 연관 안내
 ${sanitizedLinksListMd}
 `;
-    return finalizeArticleTrustSignals(offlineContent, internalLinks, knowledge, true);
+    return finalizeArticleTrustSignals(offlineContent, internalLinks);
   }
 
   const isTic = plan.disease.id === 'tic' || (plan.disease.name && plan.disease.name.includes('틱'));
@@ -570,7 +532,7 @@ ${sanitizedLinksListMd}
    - 뚜렛증후군이 틱장애 범주 안에서 갖는 임상적 특징을 설명하되, 여러 운동틱과 하나 이상의 음성틱이 함께 나타나는 양상을 다룹니다.
    - [필수 구분 설명] 반드시 다음 취지를 명시하십시오: "운동틱과 음성틱이 함께 보인다는 사실만으로 뚜렛증후군을 확정하는 것은 아니며, 증상이 이어진 경과, 시작 시기, 종류와 변화 양상 등을 함께 평가해야 한다."
    - 일과성 틱이나 지속성(만성) 틱과 구분하여 종합적으로 살핀다는 취지를 승인된 의학 지식 범위에서 설명하십시오.
-   - 구체적인 진단 기간(예: 1년 이상 등)이나 발병 연령 숫자는 검증된 출처(verified source)가 있을 때만 사용하고, 임의 수치를 만들지 마십시오.
+   - 구체적인 진단 기간이나 발병 연령 숫자는 승인된 내부 지식에 명시된 경우에만 사용하고, 임의 수치를 만들지 마십시오.
    - 현재 parent-guidance 중심 구조를 엄격히 유지하십시오. 미디어 비중을 더 늘리지 마십시오. (미디어는 필요한 경우 일상 관리 요인 중 하나로만 아주 짧게 언급하거나 배제)
    - 글의 중심은 부모가 불안해하며 아이를 지적하거나 억지로 참게 하지 않는 수용적 태도, 가정 내 심리적 안정감 제공, 아이의 자존감 보호와 장기적 기능 관찰 등 부모 대처 원칙이어야 합니다.
 `;
@@ -585,7 +547,7 @@ ${sanitizedLinksListMd}
 7-1. [성인 ADHD 평가 및 임상 설명 지침 (Adult ADHD Assessment Rule)]
    - 성인 직장인의 반복되는 업무 실수, 잦은 마감 지연, 정리 정돈의 어려움 등 성인기 직장/업무 맥락을 중심으로 서술하십시오.
    - [필수 평가 항목 보강] 성인 ADHD 평가 시 현재 직장에서의 업무 실수나 어려움만 보지 말고, "이전부터 주의집중, 정리, 과제 마무리, 충동성/실행기능과 관련된 유사한 어려움이 여러 생활 영역에서 이어져 왔는지"를 함께 확인해야 한다는 내용을 승인된 의학 지식 범위에서 자연스럽게 추가하십시오.
-   - 구체적 발병 연령이나 기간 수치(예: 만 12세 이전, 6개월 이상 등)는 검증된 출처(verified source)가 있을 때만 사용하고, 임의 수치를 만들지 마십시오.
+   - 구체적 발병 연령이나 기간 수치는 승인된 내부 지식에 명시된 경우에만 사용하고, 임의 수치를 만들지 마십시오.
    - 소아기 양육/교실 사례를 주 내용으로 혼입하지 마십시오.
 `;
   }
@@ -597,7 +559,7 @@ ${sanitizedLinksListMd}
 7-2. [과민성대장증후군(IBS) 진단 개념 및 악화음식/생활관리 지침 (IBS Clinical Rule)]
    - 단순히 '긴장하거나 스트레스받을 때 설사/복통이 반복된다'는 이유만으로 IBS처럼 성급히 단정하지 마십시오.
    - IBS를 설명할 때 핵심적으로 '반복되는 복통'과 함께 '배변과의 관계(배변 후 통증 호전/악화)' 또는 '배변 빈도나 변 형태 변화(설사/변비)와의 연관성'을 함께 평가해야 한다는 점을 승인된 의학 지식에 근거해 명확히 밝히십시오.
-   - 구체적인 Rome 진단 기간 수치는 검증된 출처가 있을 때만 사용하고, 임의 수치를 제시하지 마십시오.
+   - 구체적인 진단 기간 수치는 승인된 내부 지식에 명시된 경우에만 사용하고, 임의 수치를 제시하지 마십시오.
    - '유제품, 밀가루, 카페인'을 모든 IBS 환자의 공통적인 대표 악화 음식처럼 묶어서 제시하지 마십시오. 특정 음식 반응은 개인차가 매우 크므로, 식사 일지 등을 통해 개인별 음식-증상 관계를 파악하도록 작성하십시오. 특히 '밀가루' 자체를 포괄적인 IBS 악화 음식으로 단정하지 마십시오.
    - [자동발행 안전 규칙] '복부를 따뜻하게 유지', '복부 보온', '온열 관리'는 이번 칼럼 본문에서 아예 언급하지 마십시오. 이 항목은 IBS의 핵심 치료 원리가 아니며, 생활관리 목록·핵심 요약·치료 섹션에도 포함하지 마십시오.
    - 혈변, 설명되지 않는 체중 감소, 빈혈, 야간 복통 등 경고 증상(Red flags) 시 소화기내과 정밀 평가를 안내하십시오.
@@ -689,7 +651,7 @@ ${sanitizedLinksListMd}
      1) 아이의 연령 및 발달 수준에 비해 불안과 공포가 과도하고
      2) 반복적으로 지속되며
      3) 등원·등교 거부, 수면 문제, 복통·두통 등 신체 증상, 또래 관계 및 일상 기능을 뚜렷하게 방해하는 경우
-   - 구체적인 진단 기간 숫자(예: 4주 이상 등)는 검증된 출처(DSM-5)가 있을 때만 신중히 언급하고, 임의 숫자를 만들지 마십시오.
+   - 구체적인 진단 기간 숫자는 승인된 내부 지식에 명시된 경우에만 신중히 언급하고, 임의 숫자를 만들지 마십시오.
    - '신경발달학적·신경생물학적 특성'을 근거 없이 핵심 발생 원인처럼 과도하게 단정하여 강조하지 마십시오.
    - [야뇨 관리법 혼입 엄격 금지] "저녁 수분 제한", "취침 전 배뇨 습관" 등 야뇨증(child-enuresis) 관리법을 분리불안 글의 생활관리 항목에 넣지 마십시오. (야뇨는 수면 중 동반 여부를 확인하고 필요한 경우 별도로 평가할 수 있다는 1문장 언급 수준만 허용)
    - 틱장애 관련 내부링크를 관련성이 충분하지 않은데 억지로 넣지 마십시오.
@@ -736,7 +698,7 @@ ${sanitizedLinksListMd}
      3) 변비 (직장 팽만이 방광 압박 및 배뇨 반사에 미치는 영향)
      4) 과도한 갈증(다갈) 및 다뇨 (내분비/대사 질환 감별)
      5) 코골이, 구강 호흡 등 수면호흡장애
-     6) 이전에 최소 6개월 이상 소변을 가린 기간이 있다가 다시 시작된 경우(이차성 야뇨)의 경과 및 환경 변화 (구체적 기간 기준은 검증된 출처 기준에만 근거)
+     6) 이전에 소변을 가린 기간이 있다가 다시 시작된 경우(이차성 야뇨)의 경과 및 환경 변화 (구체적 기간 기준은 승인된 내부 지식에 명시된 경우에만 사용)
    - [근거 기반 표준 관리 선택지 중립적 언급 - 필수]:
      "아이의 증상 형태와 연령에 따라 야뇨 알람(enuresis alarm)이나 desmopressin 등의 치료가 활용될 수 있으며, 낮 배뇨 증상이나 변비 등 동반 문제가 있다면 이를 함께 평가하고 관리하는 것이 중요합니다."라는 취지를 균형 있게 소개하십시오.
    - [한의 진료 설명]: 배뇨·배변·수면·정서 상태와 기존 진료를 함께 살펴 한약·침구·생활 관리·부모 상담의 개인별 계획을 정하는 과정을 직접 설명하십시오. 한의 진료를 일괄적으로 보조·보완으로 규정하거나 다른 치료를 대체한다고 단정하지 마십시오. 필요한 검사의 목적과 협력할 진료과를 구체적으로 안내하십시오.
@@ -789,7 +751,7 @@ ${sanitizedLinksListMd}
 - 정의: ${knowledge.approvedDefinition}
 - 주요 증상: ${knowledge.commonSymptoms.join(', ')}
 - 악화 요인: ${knowledge.possibleAggravatingFactors.join(', ')}
-- 근거 수준 참고: ${evidenceSnippet}
+- 내부 작성 참고 정보(공개 글에 출처·기관·연구명을 표기하지 않음): ${evidenceSnippet}
 - 검사 안내: ${knowledge.evaluationGuidance}
 - 치료 관점: ${knowledge.treatmentGuidance}
 - 생활 관리: ${knowledge.lifestyleTips.join(', ')}
@@ -867,11 +829,10 @@ ${EDITORIAL_GUIDANCE}
 8-1. [진료 지역과 실제 소재지 구분]
    - 본원은 해아림한의원 분당점입니다. 타깃 지역 안에 본원이 있거나 그 지역에서 진료하는 것처럼 쓰지 마십시오. 소재지 정보는 공통 병원 안내에서 제공하므로 본문에 타깃 외 지역명을 추가하지 마십시오.
    - "경기광주에서 상담하다 보면", "경기광주 환자들이 자주 내원합니다" 등 확인되지 않은 진료 위치·내원 실적을 만들지 마십시오.
-8-2. [독자가 확인할 수 있는 근거 링크]
-   - 연구 결과나 신경생물학적 기전을 인용할 때에는 그 주장과 직접 관련된 검증된 출처 링크를 해당 문단에 표시하십시오.
-   - 위 근거 수준 참고에서 sourceVerified=true이고 productionUsable=true인 항목의 sourceUrl 또는 source.url만 사용하십시오. 제목·연도·URL·DOI를 추측하거나 생성하지 마십시오.
-   - 해당 주장에 사용 가능한 검증 URL이 없으면 "연구에서 입증", "연구에 따르면" 같은 출처를 암시하는 서술을 생략하고 승인된 설명 범위로 한정하십시오.
-   - 분량을 채우기 위한 출처 나열을 피하고, 해당 글에서 실제 사용한 근거만 연결하십시오. 관찰 연구의 연관성을 인과관계나 치료 효과로 확대하지 마십시오.
+8-2. [정보성 글과 출처 표기]
+   - 공개 본문에는 논문·연구·외부 기관의 출처, URL, 참고문헌 목록, DOI·PMID를 넣지 마십시오. 내부 작성 참고 정보는 의료적 사실 확인에만 사용하십시오.
+   - "연구에 따르면", "논문에서 입증", "지침에서 권고"처럼 출처를 암시하지만 확인할 수 없는 문장을 쓰지 마십시오. 확인된 범위에서 일반 건강정보를 직접 설명하고, 불확실성·감별·응급 안내는 유지하십시오.
+   - 연구 수치, 특정 기전, 치료 효과를 출처 없이 단정하지 마십시오. 안전하게 설명할 수 없으면 해당 주장을 빼십시오.
 9. [임의 수치/기간/빈도 생성 금지 - 필수 (GLOBAL RULE)]
    - "일주일 정도 기록", "3일간", "2주간", "한 달 동안", "하루 N회", "주 수회 이상", "주 N회", "N분 동안" 등 승인된 지식에 근거 없는 구체적인 기간/횟수/빈도 수치를 임의 생성하지 마십시오.
    - "매우 잦게 반복되거나", "일정 기간 동안", "규칙적으로", "꾸준히", "차분하게" 등으로 표현하십시오.
@@ -885,11 +846,9 @@ ${EDITORIAL_GUIDANCE}
     - 2~4개 개수를 채우기 위해 다른 질환을 갑자기 언급하거나, 별도 소제목/문단을 만들거나, 억지 연결 문장을 생성하는 행위를 엄격히 금지합니다.
     - [동일 URL 중복 절대 금지] 하나의 URL은 아티클 전체에서 최대 1회만 사용할 수 있습니다. 동일한 URL을 서로 다른 앵커 텍스트로 중복 삽입하는 것을 엄격히 금지합니다.
     - [정직한 앵커 텍스트 원칙] 실제 연결되는 글의 제목과 내용을 정직하게 반영해야 하며, 별도의 아티클이 존재하는 것처럼 앵커 텍스트를 허위로 날조하지 마십시오.
-12. [현재 주제와 직접 관련된 검증된 출처 2개 이상 표시]
-    - 위 [근거 수준 참고] 중 sourceVerified=true이고 productionUsable=true인 자료를 최소 2개 사용하십시오.
-    - 주요 의학 설명과 가까운 문단에 마크다운 링크를 연결하고, 글 하단에는 실제 사용한 자료만 '참고한 공식 의학 자료'로 정리하십시오.
-    - 제공되지 않은 제목, 기관, 연도, DOI, URL은 절대 만들지 마십시오.
-    - 출처 2개가 부족하거나 주제와 맞지 않으면 임의로 다른 질환 설명을 넣지 마십시오. 출처 누락은 발행 검사에서 차단됩니다. 본문 작성 단계에서 주제에 맞는 설명과 출처를 함께 작성하십시오. 링크만 자동으로 덧붙여 검증을 통과시키지 않습니다.
+12. [주제 범위]
+    - 현재 주제와 직접 관련된 승인된 의료 정보만 사용하고, 분량을 위해 다른 질환의 설명을 섞지 마십시오.
+    - 출처를 확인할 수 없는 개별 연구 주장과 구체적 수치는 싣지 마십시오.
 ${mediaGuideline}
 ${adhdAdultGuideline}
 ${ibsGuideline}
@@ -921,7 +880,7 @@ ${fatigueBurnoutGuideline}
   // Strip duplicate leading H1 if generated
   cleanedContent = cleanedContent.replace(/^#\s+[^\r\n]+(\r?\n)+/, '');
 
-  return finalizeArticleTrustSignals(cleanedContent, internalLinks, knowledge);
+  return finalizeArticleTrustSignals(cleanedContent, internalLinks);
 }
 
 /**

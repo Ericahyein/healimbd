@@ -112,21 +112,19 @@ const ROOT = path.join(__dirname, '..');
     summary: '반복되는 헛기침의 양상을 기록하고 필요한 평가를 준비하는 내용을 설명합니다.',
     category: 'tic', body, geoId: 'seongnam-main', diseaseId: 'tic', titleDisease: '틱장애',
     ageGroup: 'child', topicAngle: plan.topicAngle, hashtags: ['성남', '틱장애정보'],
-    keywords: ['헛기침이 반복될 때 관찰할 점'], knowledge: tic, requireVerifiedSources: true
+    keywords: ['헛기침이 반복될 때 관찰할 점'], knowledge: tic, requireCitationFree: true
   };
-  const sourceErrors = input => validateArticleContent(input).errors.filter(error => /verified medical sources|Topic evidence|explanation/.test(error));
-  assert.deepStrictEqual(sourceErrors(article), []);
-  assert(sourceErrors({ ...article, knowledge: { ...tic, evidenceNotes: [] } }).length >= 2, 'zero evidence must fail closed');
-  const withoutReferences = body.replace(/\[[^\]]+\]\(https?:\/\/[^)]+\)/g, '출처 설명');
-  const referencesOnly = withoutReferences + '\n## 참고 자료\n' + selectEvidenceNotes(tic, plan.topicAngle).slice(0, 2).map(note => `[자료](${note.sourceUrl || note.source?.url})`).join('\n');
-  assert(sourceErrors({ ...article, body: referencesOnly }).some(error => /explanation/.test(error)), 'bibliography-only links must fail');
-  // The production writer must not disguise missing citations by appending a footer.
+  const citationErrors = input => validateArticleContent(input).errors.filter(error => /출처|참고문헌|외부 링크|연구·논문/.test(error));
+  assert.deepStrictEqual(citationErrors(article), []);
+  assert(!/https?:\/\//.test(body), 'offline writer must not append external references');
+  assert(citationErrors({ ...article, body: body + '\n\n### 참고한 공식 의학 자료\n- [자료](https://example.org/study)' }).length > 0);
+  assert(citationErrors({ ...article, body: body + '\n\n연구에 따르면 회복을 보장합니다.' }).length > 0);
+  // The model path must likewise be checked before publication.
   const originalFetch = global.fetch;
   try {
-    global.fetch = async () => ({ ok: true, json: async () => ({ choices: [{ message: { content: withoutReferences } }], usage: {} }) });
-    const uncited = await generateArticleBody(plan, {}, tic, [], 'unit-test-only-key');
-    assert(sourceErrors({ ...article, body: uncited }).length > 0);
-    assert(!uncited.includes('https://'), 'real-API path may not silently append references');
+    global.fetch = async () => ({ ok: true, json: async () => ({ choices: [{ message: { content: body + '\n[연구](https://example.org/study)' } }], usage: {} }) });
+    const withCitation = await generateArticleBody(plan, {}, tic, [], 'unit-test-only-key');
+    assert(citationErrors({ ...article, body: withCitation }).length > 0, 'model citations must block publishing');
   } finally { global.fetch = originalFetch; }
 
   const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'healim-quality-policy-'));
@@ -189,5 +187,5 @@ const ROOT = path.join(__dirname, '..');
     assert(!markdown.includes('PPPD'));
     assert(history.find(item => item.slug === slug).title === markdown.match(/^title: "(.+)"/m)[1]);
   }
-  console.log('✅ Topic-specific evidence, clinic facts, honest credits, strict citations, 14-day two-post scheduling, cross-region deduplication and exhaustion safety passed.');
+  console.log('✅ Topic-specific internal evidence, clinic facts, citation-free public copy, 14-day scheduling, cross-region deduplication and exhaustion safety passed.');
 })().catch(error => { console.error(error); process.exit(1); });

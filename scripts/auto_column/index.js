@@ -483,7 +483,7 @@ async function runAutoColumnPipeline(options = {}) {
       thumbnailCopy,
       knowledge,
       requireConditionPillar: true,
-      requireVerifiedSources: true,
+      requireCitationFree: true,
       history
     });
 
