@@ -760,5 +760,16 @@
     "topicAngle": "clock-watching",
     "title": "[경기광주 불면증] 잠이 안 올 때 시계를 자꾸 확인하면 어떤 점을 살펴야 할까요",
     "slug": "gyeonggi-gwangju-sleep-clock-watching"
+  },
+  {
+    "publishDate": "2026-10-21T13:34:40.459+09:00",
+    "geoId": "bundang-pangyo",
+    "displayRegion": "판교",
+    "parentRegion": "성남",
+    "regionType": "selected_local_area",
+    "disease": "headache",
+    "topicAngle": "new-headache-pattern",
+    "title": "[판교 두통] 평소와 다른 두통이 생겼을 때 먼저 확인할 신호",
+    "slug": "bundang-pangyo-headache-new-headache-pattern"
   }
 ]
