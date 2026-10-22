@@ -793,5 +793,16 @@
     "topicAngle": "syncope-injury-prevention",
     "title": "[분당 미주신경성 실신] 실신이 반복될 때 넘어짐과 다침을 줄이기 위한 준비",
     "slug": "seongnam-bundang-syncope-syncope-injury-prevention"
+  },
+  {
+    "publishDate": "2026-10-22T22:45:05.829+09:00",
+    "geoId": "gyeonggi-gwangju",
+    "displayRegion": "경기광주",
+    "parentRegion": "경기광주",
+    "regionType": "city",
+    "disease": "anxiety",
+    "topicAngle": "avoidance-daily-life",
+    "title": "[경기광주 불안장애] 불안 때문에 약속과 일상이 줄어들 때 살펴볼 기준",
+    "slug": "gyeonggi-gwangju-anxiety-avoidance-daily-life"
   }
 ]
