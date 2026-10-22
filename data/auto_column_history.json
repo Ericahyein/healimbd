@@ -782,5 +782,16 @@
     "topicAngle": "home-school-difference",
     "title": "[용인 ADHD] 집과 학교의 집중력 평가가 다를 때 어떻게 설명할까요",
     "slug": "yongin-main-adhd-home-school-difference"
+  },
+  {
+    "publishDate": "2026-10-22T13:32:47.221+09:00",
+    "geoId": "seongnam-bundang",
+    "displayRegion": "분당",
+    "parentRegion": "성남",
+    "regionType": "district",
+    "disease": "syncope",
+    "topicAngle": "syncope-injury-prevention",
+    "title": "[분당 미주신경성 실신] 실신이 반복될 때 넘어짐과 다침을 줄이기 위한 준비",
+    "slug": "seongnam-bundang-syncope-syncope-injury-prevention"
   }
 ]
