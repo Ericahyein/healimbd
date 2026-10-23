@@ -815,5 +815,16 @@
     "topicAngle": "tic-attention-priorities",
     "title": "[성남 틱장애] 틱과 집중력 문제가 함께 있을 때 무엇부터 살펴볼까요",
     "slug": "seongnam-main-tic-tic-attention-priorities"
+  },
+  {
+    "publishDate": "2026-10-23T22:20:58.558+09:00",
+    "geoId": "yongin-main",
+    "displayRegion": "용인",
+    "parentRegion": "용인",
+    "regionType": "city",
+    "disease": "panic",
+    "topicAngle": "exercise-palpitations",
+    "title": "[용인 공황장애] 운동 중 두근거림과 공황 증상을 구분할 때 주의할 점",
+    "slug": "yongin-main-panic-exercise-palpitations"
   }
 ]
