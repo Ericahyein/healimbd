@@ -804,5 +804,16 @@
     "topicAngle": "avoidance-daily-life",
     "title": "[경기광주 불안장애] 불안 때문에 약속과 일상이 줄어들 때 살펴볼 기준",
     "slug": "gyeonggi-gwangju-anxiety-avoidance-daily-life"
+  },
+  {
+    "publishDate": "2026-10-23T13:37:51.388+09:00",
+    "geoId": "seongnam-main",
+    "displayRegion": "성남",
+    "parentRegion": "성남",
+    "regionType": "city",
+    "disease": "tic",
+    "topicAngle": "tic-attention-priorities",
+    "title": "[성남 틱장애] 틱과 집중력 문제가 함께 있을 때 무엇부터 살펴볼까요",
+    "slug": "seongnam-main-tic-tic-attention-priorities"
   }
 ]
