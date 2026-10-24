@@ -1,4 +1,33 @@
 /* Shared regional hub and reference-style clinic articles. */
+.area-local-lead { max-width: 900px; margin: 0 auto 18px; color: #334155; font-size: 17px; line-height: 1.9; word-break: keep-all; }
+.area-local-location { margin: 16px 0 0; color: #526173; font-size: 14px; line-height: 1.8; }
+.area-local-jump { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px 20px; margin-top: 26px; }
+.area-local-jump a { color: #0c78bb; font-size: 14px; font-weight: 650; }
+.area-local-layout { display: grid; grid-template-columns: minmax(0, 1fr) 340px; align-items: start; gap: 44px; padding-top: 72px; padding-bottom: 72px; }
+.area-local-main { min-width: 0; }
+.area-local-main section + section { margin-top: 56px; }
+.area-local-copy h2, .area-local-preparation h2, .area-local-faq h2, .area-local-columns h2, .area-local-related h2 { margin: 0 0 20px; color: #10233f; font-size: 25px; line-height: 1.6; word-break: keep-all; }
+.area-local-copy h3 { margin: 32px 0 14px; color: #10233f; font-size: 21px; line-height: 1.6; }
+.area-local-copy p, .area-local-preparation p, .area-local-main li { color: #445468; font-size: 16px; line-height: 1.95; }
+.area-local-main ul { padding-left: 22px; }
+.area-local-main li + li { margin-top: 12px; }
+.area-local-columns li p { margin: 8px 0 0; color: #687789; font-size: 14px; line-height: 1.8; }
+.area-local-columns a, .area-local-related a { color: #0c78bb; }
+.area-local-sidebar { padding: 28px; border: 1px solid #dcebf4; border-radius: 16px; background: #f2f8fc; }
+.area-local-sidebar h2 { margin: 0 0 18px; color: #10233f; font-size: 22px; line-height: 1.5; }
+.area-local-sidebar p, .area-local-routes { color: #445468; font-size: 14px; line-height: 1.9; }
+.area-local-sidebar h3 { color: #10233f; font-size: 18px; }
+.area-local-sidebar hr { margin: 26px 0; border: 0; border-top: 1px solid #dce4e9; }
+.area-local-sidebar .btn { width: 100%; justify-content: center; margin-top: 16px; }
+.area-local-routes { padding-left: 18px; }
+.area-local-routes li + li { margin-top: 18px; }
+.area-local-routes strong, .area-local-routes span { display: block; }
+.area-local-districts { display: flex; flex-wrap: wrap; gap: 10px 16px; margin-top: 20px; font-size: 14px; }
+.area-local-related { padding-bottom: 72px; }
+.area-local-main section, .area-local-sidebar { scroll-margin-top: 110px; }
+@media (max-width: 1000px) { .area-local-layout { grid-template-columns: minmax(0, 1fr) 300px; gap: 28px; } }
+@media (max-width: 800px) { .area-local-layout { grid-template-columns: 1fr; padding-top: 48px; } }
+@media (max-width: 680px) { .area-local-lead { font-size: 15px; } .area-local-copy h2, .area-local-preparation h2, .area-local-faq h2, .area-local-columns h2 { font-size: 23px; } .area-local-sidebar { padding: 26px 22px; } }
 .area-guide-section { padding: 96px 0; background: #fff; }
 .area-guide-container, .area-detail-container { max-width: 1120px; }
 .area-guide-intro, .area-section-heading { margin-bottom: 28px; }

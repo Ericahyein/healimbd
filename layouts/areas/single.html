@@ -1,5 +1,6 @@
 {{ define "main" }}
   {{ $info := site.Params.clinic_info }}
+  {{ $area := . }}
   {{ $review := partial "condition_medical_review.html" . }}
   {{ $conditions := slice "tic" "adhd" "panic" "anxiety" "insomnia" "autonomic" "hyperhidrosis" "ibs" "syncope" }}
   {{ $icons := dict "tic" "🧠" "adhd" "🎯" "panic" "💭" "anxiety" "💙" "insomnia" "🌙" "autonomic" "⚖️" "hyperhidrosis" "💧" "ibs" "🌿" "syncope" "🍃" }}
@@ -13,6 +14,7 @@
           <span aria-current="page">{{ .Params.area_name }}</span>
         </nav>
         <h1 id="area-landing-title">{{ .Params.landing_heading }} <span class="area-hero-clinic">— 해아림한의원 분당점</span></h1>
+        {{ with .Params.clinical_intro }}<p class="area-local-lead">{{ . }}</p>{{ end }}
         <p class="area-hero-route">{{ .Params.route_intro }}</p>
         <p class="area-hero-care">틱장애·ADHD·공황장애·불안장애·불면증·자율신경실조증·다한증·과민성대장증후군·미주신경성 실신 상담</p>
         <div class="area-doctor-strip">
@@ -42,11 +44,13 @@
         </div>
         <div class="area-condition-grid">
           {{ range $conditions }}{{ $slug := . }}{{ with site.GetPage (printf "/conditions/%s" .) }}
-          <a href="{{ .RelPermalink }}" class="area-condition-card">
+          {{ $target := .RelPermalink }}{{ $label := .Params.condition_name }}
+          {{ with $area.Params.local_condition_hub }}{{ with $area.Site.GetPage (printf "/areas/%s-%s" . $slug) }}{{ $target = .RelPermalink }}{{ $label = printf "%s %s" .Params.area_name .Params.condition_name }}{{ end }}{{ end }}
+          <a href="{{ $target }}" class="area-condition-card">
             <span class="area-condition-icon" aria-hidden="true">{{ index $icons $slug }}</span>
-            <h3>{{ .Params.condition_name }}</h3>
+            <h3>{{ $label }}</h3>
             <p>{{ .Params.hero_summary | default .Params.summary }}</p>
-            <span class="area-condition-card-link">{{ .Params.condition_name }} 자세히 보기 <span aria-hidden="true">→</span></span>
+            <span class="area-condition-card-link">{{ $label }} 진료 안내 <span aria-hidden="true">→</span></span>
           </a>
           {{ end }}{{ end }}
         </div>
@@ -69,7 +73,7 @@
 
     <section class="area-article-section area-story-section" aria-labelledby="area-story-heading">
       <div class="container area-story-container">
-        <h2 id="area-story-heading">{{ .Params.area_name }}에서는 어떤 생활 상황을 함께 살펴볼까요?</h2>
+        <h2 id="area-story-heading">{{ .Params.story_heading | default (printf "%s에서는 어떤 생활 상황을 함께 살펴볼까요?" .Params.area_name) }}</h2>
         <div class="area-editorial-content">{{ .Content }}</div>
         <p class="area-story-location">{{ .Params.intro }}</p>
       </div>

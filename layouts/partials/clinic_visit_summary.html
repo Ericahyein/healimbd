@@ -43,7 +43,13 @@
         {{ end }}
       {{ end }}
     </nav>
+    {{ with site.GetPage (printf "/areas/yongin-%s" .File.ContentBaseName) }}
+    <p class="clinic-visit-local-guide"><a href="{{ .RelPermalink }}">용인 {{ .Params.condition_name }} 진료 안내</a>에서 질환별 상담 내용과 첫 방문 준비, 수지·기흥·처인구의 방문 경로를 확인해 주세요.</p>
     {{ end }}
+    {{ end }}
+    {{ if .IsHome }}{{ with site.GetPage "/areas/yongin" }}
+    <nav class="clinic-visit-links" aria-label="용인에서 방문하는 분을 위한 진료 안내"><a href="{{ .RelPermalink }}">용인 틱장애·ADHD·공황장애 등 질환별 진료 안내</a>{{ range (slice "suji" "giheung" "cheoin") }}{{ with site.GetPage (printf "/areas/%s" .) }}<a href="{{ .RelPermalink }}">{{ .Params.area_name }}에서 방문하기</a>{{ end }}{{ end }}</nav>
+    {{ end }}{{ end }}
     <div class="clinic-visit-links" aria-label="분당점 방문 및 예약 링크">
       <a href="{{ "/location/" | relURL }}">오시는 길·진료시간</a>
       <a href="{{ "/philosophy/" | relURL }}">의료진·진료철학</a>
