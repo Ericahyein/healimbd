@@ -826,5 +826,16 @@
     "topicAngle": "exercise-palpitations",
     "title": "[용인 공황장애] 운동 중 두근거림과 공황 증상을 구분할 때 주의할 점",
     "slug": "yongin-main-panic-exercise-palpitations"
+  },
+  {
+    "publishDate": "2026-10-24T15:33:02.421+09:00",
+    "geoId": "yongin-main",
+    "displayRegion": "용인",
+    "parentRegion": "용인",
+    "regionType": "city",
+    "disease": "ibs",
+    "topicAngle": "bloating-gas",
+    "title": "[용인 과민성대장증후군] 오후가 되면 배가 부풀어 옷이 조일 때 무엇을 기록할까요",
+    "slug": "yongin-main-ibs-bloating-gas"
   }
 ]
