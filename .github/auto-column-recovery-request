@@ -1,7 +1,7 @@
 {
-  "requestId": "recover-run-40062333818-2026-10-24T06-31-55-795Z",
+  "requestId": "recover-run-40196238897-2026-10-25T13-16-55-184Z",
   "requestedTarget": "auto",
-  "reason": "Retry failed scheduled IBS bloating column after PR #99 made the topic distinct without relaxing duplicate checks.",
-  "sourceRunId": 40062333818,
-  "requestedAt": "2026-10-24T06:31:55.795Z"
+  "reason": "Retry failed syncope column with a medically distinct bathroom presyncope recording and safety angle while keeping duplicate checks enabled.",
+  "sourceRunId": 40196238897,
+  "requestedAt": "2026-10-25T13:16:55.184Z"
 }
