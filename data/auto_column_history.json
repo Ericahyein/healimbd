@@ -837,5 +837,16 @@
     "topicAngle": "bloating-gas",
     "title": "[용인 과민성대장증후군] 오후가 되면 배가 부풀어 옷이 조일 때 무엇을 기록할까요",
     "slug": "yongin-main-ibs-bloating-gas"
+  },
+  {
+    "publishDate": "2026-10-25T22:24:18.053+09:00",
+    "geoId": "seongnam-main",
+    "displayRegion": "성남",
+    "parentRegion": "성남",
+    "regionType": "city",
+    "disease": "syncope",
+    "topicAngle": "warning-response",
+    "title": "[성남 미주신경성 실신] 화장실에서 아찔하거나 쓰러질 것 같았을 때 무엇을 기록할까요",
+    "slug": "seongnam-main-syncope-warning-response"
   }
 ]
