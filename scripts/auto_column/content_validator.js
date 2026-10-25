@@ -1652,7 +1652,11 @@ function validateArticleContent(articleData, options = {}) {
     // 2. Check body for foreign or sibling local areas
     // Note: The official clinic name "해아림한의원 분당점" is used across all articles regardless of SEO GEO.
     // We strip the official clinic branch name when checking body foreign keywords so "분당" inside the official name does not false-positive.
-    const bodyWithoutOfficialClinic = body.replace(/해아림\s*한의원\s*분당점/g, '');
+    const bodyWithoutOfficialClinic = body
+      // Allow the official branch name even when Markdown emphasis is inserted
+      // between its tokens, and allow a later exact branch shorthand.
+      .replace(/해아림(?:[\s*_`~]*)한의원(?:[\s*_`~]*)분당점/g, '')
+      .replace(/분당점/g, '');
     for (const forbidden of forbiddenKeywords) {
       if (bodyWithoutOfficialClinic.includes(forbidden)) {
         errors.push(`Geo consistency violation: Targeted for '${validGeo.displayName}', but found unrelated region keyword '${forbidden}' in article body.`);
