@@ -848,5 +848,16 @@
     "topicAngle": "warning-response",
     "title": "[성남 미주신경성 실신] 화장실에서 아찔하거나 쓰러질 것 같았을 때 무엇을 기록할까요",
     "slug": "seongnam-main-syncope-warning-response"
+  },
+  {
+    "publishDate": "2026-10-26T13:36:02.245+09:00",
+    "geoId": "bundang-pangyo",
+    "displayRegion": "판교",
+    "parentRegion": "성남",
+    "regionType": "selected_local_area",
+    "disease": "panic",
+    "topicAngle": "caffeine-alcohol",
+    "title": "[판교 공황장애] 커피와 음주가 공황 유사 증상을 유발하는 기전",
+    "slug": "bundang-pangyo-panic-caffeine-alcohol"
   }
 ]
