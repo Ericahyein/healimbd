@@ -111,6 +111,9 @@ jobs:
       - name: Validate Hugo Static Site Build
         run: hugo --minify -d public
 
+      - name: Verify Yongin Clinical Search Pages and Links
+        run: node tests/test_yongin_condition_guides.js public
+
       - name: Verify Refreshed Column Authorship and References
         run: node tests/test_column_refresh_render.js public
 
