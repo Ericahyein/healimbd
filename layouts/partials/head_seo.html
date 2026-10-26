@@ -214,7 +214,10 @@
   {{ $breadcrumbElements = $breadcrumbElements | append (dict "@type" "ListItem" "position" 2 "name" "지역별 진료 안내" "item" ("areas/" | absURL)) }}
   {{ $position := 3 }}
   {{ if eq .Type "area-condition" }}
-    {{ $breadcrumbElements = $breadcrumbElements | append (dict "@type" "ListItem" "position" 3 "name" "용인 진료 안내" "item" ("areas/yongin/" | absURL)) }}
+    {{ $hubSlug := .Params.local_condition_hub | default "yongin" }}
+    {{ with site.GetPage (printf "/areas/%s" $hubSlug) }}
+      {{ $breadcrumbElements = $breadcrumbElements | append (dict "@type" "ListItem" "position" 3 "name" (printf "%s 진료 안내" .Params.area_name) "item" .Permalink) }}
+    {{ end }}
     {{ $position = 4 }}
   {{ else }}
     {{ with .Params.parent_area }}{{ with site.GetPage (printf "/areas/%s" .) }}{{ $breadcrumbElements = $breadcrumbElements | append (dict "@type" "ListItem" "position" 3 "name" .Params.area_name "item" .Permalink) }}{{ $position = 4 }}{{ end }}{{ end }}

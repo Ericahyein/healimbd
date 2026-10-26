@@ -1,0 +1,24 @@
+- slug: yongin
+  name: 용인
+  column_prefix: yongin-
+  column_tags: [용인]
+  districts: 수지·기흥·처인구
+  related_areas: [suji, giheung, cheoin]
+  routes:
+    - title: 수지·동천·성복·상현
+      text: 신분당선 신사 방면 → 정자역
+    - title: 죽전·보정·구성·기흥
+      text: 수인분당선 왕십리·청량리 방면 → 정자역
+    - title: 동백·김량장 등 에버라인 역 주변
+      text: 에버라인 기흥 방면 → 기흥역 환승 → 수인분당선 왕십리·청량리 방면 → 정자역
+- slug: gyeonggi-gwangju
+  name: 경기광주
+  column_prefix: gyeonggi-gwangju-
+  column_tags: [경기광주, 경기 광주]
+  districts: 경안·태전·고산·신현·능평·초월·곤지암
+  routes:
+    - title: 경기광주역 → 이매역 환승
+      text: 경강선 판교 방면 → 이매역 → 수인분당선 죽전·수원 방면 → 정자역
+    - title: 경기광주역 → 판교역 환승
+      text: 경강선 판교 방면 → 판교역 → 신분당선 광교 방면 → 정자역
+  route_note: 초월역·곤지암역에서도 경강선 판교 방면으로 연결할 수 있습니다. 태전·고산·신현·능평에서는 출발지에서 역까지의 이동과 분당 방면 버스·차량 경로를 함께 비교해 주세요.
