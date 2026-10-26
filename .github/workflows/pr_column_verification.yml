@@ -114,6 +114,9 @@ jobs:
       - name: Verify Yongin Clinical Search Pages and Links
         run: node tests/test_yongin_condition_guides.js public
 
+      - name: Verify Gyeonggi-Gwangju Clinical Search Pages and Regional Boundaries
+        run: node tests/test_gwangju_condition_guides.js public
+
       - name: Verify Refreshed Column Authorship and References
         run: node tests/test_column_refresh_render.js public
 

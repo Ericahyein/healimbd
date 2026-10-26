@@ -2,12 +2,14 @@
 {{ $page := . }}
 {{ $info := site.Params.clinic_info }}
 {{ $condition := site.GetPage (printf "/conditions/%s" .Params.condition_slug) }}
-{{ $hub := site.GetPage "/areas/yongin" }}
+{{ $hubSlug := .Params.local_condition_hub | default "yongin" }}
+{{ $hub := site.GetPage (printf "/areas/%s" $hubSlug) }}
+{{ $region := index (where site.Data.local_condition_hubs "slug" $hubSlug) 0 }}
 {{ $review := partial "condition_medical_review.html" . }}
 <article class="area-article area-local-condition">
   <header class="area-article-hero" aria-labelledby="local-condition-title">
     <div class="container area-detail-container">
-      <nav class="area-breadcrumb" aria-label="현재 위치"><a href="{{ "/" | relURL }}">홈</a><span aria-hidden="true">/</span><a href="{{ "areas/" | relURL }}">지역별 진료 안내</a><span aria-hidden="true">/</span><a href="{{ $hub.RelPermalink }}">용인 진료 안내</a><span aria-hidden="true">/</span><span aria-current="page">{{ .Params.condition_name }}</span></nav>
+      <nav class="area-breadcrumb" aria-label="현재 위치"><a href="{{ "/" | relURL }}">홈</a><span aria-hidden="true">/</span><a href="{{ "areas/" | relURL }}">지역별 진료 안내</a><span aria-hidden="true">/</span><a href="{{ $hub.RelPermalink }}">{{ $region.name }} 진료 안내</a><span aria-hidden="true">/</span><span aria-current="page">{{ .Params.condition_name }}</span></nav>
       <h1 id="local-condition-title">{{ .Title }}</h1>
       <p class="area-local-lead">{{ .Params.hero_summary }}</p>
       <p class="area-local-location">진료 장소: {{ $info.address }} · {{ $info.subway }}</p>
@@ -15,14 +17,14 @@
         <div class="area-doctor-profile"><img src="{{ "images/doctor-son-profile.webp" | relURL }}" alt="손지웅 대표원장" width="48" height="48"><span class="area-doctor-review">{{ if $review.confirmed }}<small>의학적 검토</small><strong>{{ $review.reviewer }}</strong><span class="area-review-date">검토일: {{ $review.display_date }}</span>{{ else }}<small>의학적 검토 예정</small><strong>{{ $info.doctor }}</strong><span class="area-review-date">검토 완료·일자 확인 전</span>{{ end }}</span></div>
         <a href="{{ $info.naver_booking_url }}" class="area-guide-link" target="_blank" rel="noopener noreferrer">네이버 진료 예약 <span aria-hidden="true">→</span></a>
       </div>
-      <nav class="area-local-jump" aria-label="이 페이지 바로가기"><a href="#local-consultation">상담·진료 안내</a><a href="#local-preparation">첫 방문 준비</a><a href="#local-faq">자주 묻는 질문</a><a href="#local-location">용인에서 오시는 길</a></nav>
+      <nav class="area-local-jump" aria-label="이 페이지 바로가기"><a href="#local-consultation">상담·진료 안내</a><a href="#local-preparation">첫 방문 준비</a><a href="#local-faq">자주 묻는 질문</a><a href="#local-location">{{ $region.name }}에서 오시는 길</a></nav>
     </div>
   </header>
 
   <div class="container area-detail-container area-local-layout">
     <div class="area-local-main">
       <section class="area-local-copy" id="local-consultation" aria-labelledby="local-consultation-title">
-        <h2 id="local-consultation-title">용인에서 {{ .Params.condition_name }} 진료를 찾는 분께</h2>
+        <h2 id="local-consultation-title">{{ $region.name }}에서 {{ .Params.condition_name }} 진료를 찾는 분께</h2>
         <p>{{ .Params.consultation_intro }}</p>
         {{ .Content }}
       </section>
@@ -33,7 +35,7 @@
         <a href="{{ $condition.RelPermalink }}#visit-process" class="area-guide-link">{{ .Params.condition_name }}의 전체 검사·진료 과정 확인 <span aria-hidden="true">→</span></a>
       </section>
       {{ with .Params.faq }}
-      <section class="area-local-faq" id="local-faq" aria-labelledby="local-faq-title"><h2 id="local-faq-title">용인 {{ $page.Params.condition_name }} 진료에 관한 질문</h2><div class="area-faq-list">{{ range . }}<div class="area-faq-item"><h3>{{ .question }}</h3><p>{{ .answer }}</p></div>{{ end }}</div></section>
+      <section class="area-local-faq" id="local-faq" aria-labelledby="local-faq-title"><h2 id="local-faq-title">{{ $region.name }} {{ $page.Params.condition_name }} 진료에 관한 질문</h2><div class="area-faq-list">{{ range . }}<div class="area-faq-item"><h3>{{ .question }}</h3><p>{{ .answer }}</p></div>{{ end }}</div></section>
       {{ end }}
       {{ $posts := slice }}
       {{ range .Params.related_articles }}{{ with site.GetPage . }}{{ if and (not .Draft) (le .Date now) }}{{ $posts = $posts | append . }}{{ end }}{{ end }}{{ end }}
@@ -42,17 +44,16 @@
       {{ end }}
     </div>
     <aside class="area-local-sidebar" id="local-location" aria-labelledby="local-location-title">
-      <h2 id="local-location-title">용인에서 분당점으로 오시는 길</h2>
-      <p>해아림한의원 분당점은 분당 정자역 인근에 있습니다. 수지·기흥·처인구의 출발지에 맞춰 경로를 확인해 주세요.</p>
-      <ul class="area-local-routes">
-        <li><strong>수지·동천·성복·상현</strong><span>신분당선 신사 방면 → 정자역</span></li>
-        <li><strong>죽전·보정·구성·기흥</strong><span>수인분당선 왕십리·청량리 방면 → 정자역</span></li>
-        <li><strong>동백·김량장 등 에버라인 역 주변</strong><span>에버라인 기흥 방면 → 기흥역 환승 → 수인분당선 왕십리·청량리 방면 → 정자역</span></li>
-      </ul>
+      <h2 id="local-location-title">{{ $region.name }}에서 분당점으로 오시는 길</h2>
+      <p>해아림한의원 분당점은 분당 정자역 인근에 있습니다. {{ $region.districts }}의 출발지에 맞춰 경로를 확인해 주세요.</p>
+      <ul class="area-local-routes">{{ range $region.routes }}
+        <li><strong>{{ .title }}</strong><span>{{ .text }}</span></li>
+      {{ end }}</ul>
+      {{ with $region.route_note }}<p>{{ . }}</p>{{ end }}
       <p><strong>정자역 3번 출구에서 약 150m 직진</strong>해 젤존타워 3차 4층 405호로 오시면 됩니다.</p>
       <p>{{ $info.parking }}.</p>
       <a href="{{ $hub.RelPermalink }}#area-route-heading" class="area-guide-link">출발역별 상세 환승·도보 안내 <span aria-hidden="true">→</span></a>
-      <nav class="area-local-districts" aria-label="용인 구별 방문 안내">{{ range (slice "suji" "giheung" "cheoin") }}{{ with site.GetPage (printf "/areas/%s" .) }}<a href="{{ .RelPermalink }}">{{ .Params.area_name }} 안내</a>{{ end }}{{ end }}</nav>
+      {{ with $region.related_areas }}<nav class="area-local-districts" aria-label="{{ $region.name }} 구별 방문 안내">{{ range . }}{{ with site.GetPage (printf "/areas/%s" .) }}<a href="{{ .RelPermalink }}">{{ .Params.area_name }} 안내</a>{{ end }}{{ end }}</nav>{{ end }}
       <hr><h3>예약과 진료시간</h3><p><a href="tel:{{ $info.phone }}">{{ $info.phone }}</a></p>
       <dl class="area-clinic-hours">{{ range $info.hours }}<div><dt>{{ .label }}</dt><dd>{{ .opens }}–{{ .closes }}{{ with .note }} <span>{{ . }}</span>{{ end }}</dd></div>{{ end }}</dl>
       <p>평일 점심 {{ $info.lunch_opens }}–{{ $info.lunch_closes }}<br>{{ $info.closed_days }}</p>
@@ -60,6 +61,6 @@
     </aside>
   </div>
 
-  <section class="container area-detail-container area-local-related" aria-labelledby="local-related-title"><h2 id="local-related-title">다른 용인 진료 안내</h2><nav class="area-all-conditions" aria-label="용인 질환별 진료 안내">{{ range (slice "tic" "adhd" "panic" "anxiety" "insomnia" "autonomic" "hyperhidrosis" "ibs" "syncope") }}{{ with site.GetPage (printf "/areas/yongin-%s" .) }}{{ if ne .RelPermalink $page.RelPermalink }}<a href="{{ .RelPermalink }}">용인 {{ .Params.condition_name }}</a>{{ end }}{{ end }}{{ end }}</nav><p><a href="{{ $hub.RelPermalink }}">용인 전체 진료·방문 안내로 돌아가기</a></p></section>
+  <section class="container area-detail-container area-local-related" aria-labelledby="local-related-title"><h2 id="local-related-title">다른 {{ $region.name }} 진료 안내</h2><nav class="area-all-conditions" aria-label="{{ $region.name }} 질환별 진료 안내">{{ range (slice "tic" "adhd" "panic" "anxiety" "insomnia" "autonomic" "hyperhidrosis" "ibs" "syncope") }}{{ with site.GetPage (printf "/areas/%s-%s" $hubSlug .) }}{{ if ne .RelPermalink $page.RelPermalink }}<a href="{{ .RelPermalink }}">{{ $region.name }} {{ .Params.condition_name }}</a>{{ end }}{{ end }}{{ end }}</nav><p><a href="{{ $hub.RelPermalink }}">{{ $region.name }} 전체 진료·방문 안내로 돌아가기</a></p></section>
 </article>
 {{ end }}
