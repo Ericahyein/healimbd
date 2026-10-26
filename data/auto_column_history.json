@@ -859,5 +859,16 @@
     "topicAngle": "caffeine-alcohol",
     "title": "[판교 공황장애] 커피와 음주가 공황 유사 증상을 유발하는 기전",
     "slug": "bundang-pangyo-panic-caffeine-alcohol"
+  },
+  {
+    "publishDate": "2026-10-27T00:07:44.226+09:00",
+    "geoId": "yongin-main",
+    "displayRegion": "용인",
+    "parentRegion": "용인",
+    "regionType": "city",
+    "disease": "tic",
+    "topicAngle": "waxing-waning",
+    "title": "[용인 틱장애] 틱의 종류와 강도가 달라질 때 악화로 판단해야 할까요",
+    "slug": "yongin-main-tic-waxing-waning"
   }
 ]
