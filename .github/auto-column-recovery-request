@@ -1,7 +1,7 @@
 {
-  "requestId": "recover-run-40197026745-2026-10-25T13-23-06-259Z",
+  "requestId": "recover-run-40452162354-2026-10-27T06-18-22-858Z",
   "requestedTarget": "auto",
-  "reason": "Retry corrected syncope recovery after hardening non-target clinic geo wording and recognizing the exact official branch name.",
-  "sourceRunId": 40197026745,
-  "requestedAt": "2026-10-25T13:23:06.259Z"
+  "reason": "Recover failed scheduled run #143 by adding a reviewed, non-duplicate IBS incomplete-evacuation topic after the eligible topic pool was exhausted.",
+  "sourceRunId": 40452162354,
+  "requestedAt": "2026-10-27T06:18:22.858Z"
 }
