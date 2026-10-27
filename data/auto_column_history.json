@@ -870,5 +870,16 @@
     "topicAngle": "waxing-waning",
     "title": "[용인 틱장애] 틱의 종류와 강도가 달라질 때 악화로 판단해야 할까요",
     "slug": "yongin-main-tic-waxing-waning"
+  },
+  {
+    "publishDate": "2026-10-27T15:20:47.170+09:00",
+    "geoId": "seongnam-main",
+    "displayRegion": "성남",
+    "parentRegion": "성남",
+    "regionType": "city",
+    "disease": "ibs",
+    "topicAngle": "incomplete-evacuation",
+    "title": "[성남 과민성대장증후군] 화장실을 다녀와도 잔변감이 남을 때 무엇을 기록할까요",
+    "slug": "seongnam-main-ibs-incomplete-evacuation"
   }
 ]
