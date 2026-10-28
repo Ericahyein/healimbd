@@ -134,7 +134,7 @@
 
 /* Patient-first tic guide: keep the existing clinic palette and protected reviews. */
 .condition-doctor-card { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; padding: 22px 24px; border: 1px solid #d8e8ee; border-radius: 18px; background: #f6fbfc; }
-.condition-doctor-card img { flex: 0 0 64px; width: 64px; height: 64px; object-fit: cover; border-radius: 50%; background: #fff; }
+.condition-doctor-card img { flex: 0 0 64px; width: 64px; height: 64px; object-fit: cover; object-position: center top; border-radius: 50%; background: #fff; }
 .condition-doctor-label { display: block; color: #0780a8; font-size: 12px; font-weight: 750; }
 .condition-doctor-card strong { display: block; margin-top: 4px; color: #18344a; font-size: 18px; }
 .condition-doctor-card p { margin: 4px 0 0; color: #64758a; font-size: 13px; }
