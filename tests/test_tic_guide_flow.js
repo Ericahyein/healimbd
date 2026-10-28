@@ -8,7 +8,7 @@ const attrs = tag => Object.fromEntries([...tag.matchAll(/([^\s=<>]+)\s*=\s*(?:"
   .map(m => [m[1], m[2] ?? m[3] ?? m[4]]));
 const ids = page => [...page.matchAll(/<[a-z][^>]*\bid=(?:"([^"]*)"|'([^']*)'|([^\s>]+))/g)].map(m => m[1] ?? m[2] ?? m[3]);
 const anchors = [...text.matchAll(/<a\b[^>]*>/g)].map(m => attrs(m[0]));
-const order = ['condition-doctor-card', 'id=tic-observation', 'id=tic-assessment', 'id=visit-process', 'id=tic-treatment', 'id=adult-tics', 'id=visit-preparation', 'id=faq', 'id=related-columns', 'id=guide-resources', 'id=visit-location', 'id=clinic-visit-summary', 'class=condition-cta'];
+const order = ['id=tic-observation', 'id=tic-assessment', 'id=visit-process', 'id=tic-treatment', 'id=adult-tics', 'id=tic-doctor', 'id=faq', 'id=guide-resources', 'id=network-books', 'id=network-faq', 'id=patient-stories', 'id=related-columns', 'id=visit-location', 'id=clinic-visit-summary', 'id=visit-preparation'];
 let last = -1;
 for (const marker of order) {
   const pattern = marker.includes('=') ? marker.replace('=', '=(?:"|\')?') : marker;
@@ -41,10 +41,10 @@ const faq = graph.find(n => n['@type'] === 'FAQPage');
 assert.strictEqual(faq.mainEntity.length, 16, 'retain existing FAQs and include questions about home/school differences, tests, recurrence and Tourette symptoms');
 for (const item of faq.mainEntity) assert(text.includes(item.name) && text.includes(item.acceptedAnswer.text));
 for (const region of ['yongin', 'gyeonggi-gwangju']) assert(anchors.some(a => a.href === `/areas/${region}/tic/`));
-// The eight other guides now share the reference layout; tic retains its approved reading flow.
-for (const slug of ['panic','autonomic','insomnia','adhd','anxiety','hyperhidrosis','ibs','syncope']) {
+// Every condition now uses the same reference layout, including the full tic body.
+for (const slug of ['tic','panic','autonomic','insomnia','adhd','anxiety','hyperhidrosis','ibs','syncope']) {
   const guide = html('/conditions/' + slug + '/');
   assert(guide.includes('reference-condition-page'), slug + ': shared reference layout');
-  assert(!guide.includes('condition-patient-flow'), slug + ': distinct from tic template');
+  assert(!guide.includes('condition-patient-flow'), slug + ': retired body template is not rendered');
 }
-console.log('✅ Tic guide reading order, exact channel, protected reviews, live anchors, honest review state and eight reference layouts verified.');
+console.log('✅ Tic guide reading order, exact channel, protected reviews, live anchors, honest review state and all nine reference layouts verified.');

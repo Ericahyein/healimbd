@@ -330,5 +330,49 @@
       "columns",
       "visit"
     ]
+  },
+  "tic": {
+    "layout_basis": "shared-daegu-reference",
+    "section_keys": [
+      "intro",
+      "definition",
+      "symptoms",
+      "causes",
+      "types",
+      "assessment",
+      "process",
+      "treatment",
+      "adult",
+      "home",
+      "doctor",
+      "candidates",
+      "faq",
+      "closing"
+    ],
+    "section_titles": [
+      "반복되는 움직임·소리, 무엇을 확인할까요?",
+      "틱장애란 무엇인가요?",
+      "운동틱·음성틱은 이렇게 나타날 수 있습니다",
+      "틱은 왜 생기고 언제 더 두드러질까요?",
+      "일과성 틱·지속성 틱·뚜렛증후군의 차이",
+      "해아림한의원 분당점에서는 무엇을 확인하나요?",
+      "틱장애 진료 과정과 방문 준비",
+      "틱장애 치료와 관리 방향",
+      "성인 틱장애는 어떤 내용을 상담하나요?",
+      "가정과 학교에서 도울 수 있는 방법",
+      "손지웅 대표원장의 분당점 1:1 진료",
+      "어떤 때 진료를 받아보는 것이 좋을까요?",
+      "틱장애 자주 묻는 질문",
+      "현재 상태에 맞는 진료 방향을 상담해 보세요."
+    ],
+    "module_order": [
+      "insights",
+      "tv",
+      "books",
+      "network-faq",
+      "reviews",
+      "columns",
+      "visit"
+    ]
   }
 }
