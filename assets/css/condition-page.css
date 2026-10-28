@@ -162,4 +162,7 @@
   .condition-resource-card { padding: 24px; }
   .condition-resources { margin-top: 52px; padding-top: 38px; }
   .condition-location-intro { padding-top: 42px; }
+  .condition-page-tic .condition-content table { display: table; table-layout: fixed; white-space: normal; }
+  .condition-page-tic .condition-content th,.condition-page-tic .condition-content td { padding: 12px 10px; font-size: 14px; }
+  .condition-page-tic .condition-content th:first-child { width: 22%; }
 }
