@@ -46,6 +46,7 @@ try {
     write('content/conditions/' + slug + '.md', fs.readFileSync(path.join(root, 'content/conditions', slug + '.md'), 'utf8'));
   }
   const sample = fs.readFileSync(path.join(root, 'content/conditions/tic.md'), 'utf8');
+  const sampleLastmod = sample.match(/^lastmod: (\d{4}-\d{2}-\d{2})$/m)[1];
   const variants = {
     reviewed: 'medical_review_status: "reviewed"\nmedical_reviewer: "손지웅 대표원장"\nmedical_reviewed_at: "2020-01-02"',
     'missing-reviewer': 'medical_review_status: "reviewed"\nmedical_reviewed_at: "2020-01-02"',
@@ -144,9 +145,9 @@ try {
   const reviewed = html('reviewed');
   const reviewedPage = schemaPage(reviewed);
   assert(metaBlock(reviewed).includes('의학적 검토: 손지웅 대표원장'));
-  assert(metaBlock(reviewed).includes('2020.01.02') && metaBlock(reviewed).includes('2026.10.05'));
+  assert(metaBlock(reviewed).includes('2020.01.02') && metaBlock(reviewed).includes(sampleLastmod.replaceAll('-', '.')));
   assert.strictEqual(reviewedPage.lastReviewed, '2020-01-02', 'medical review date stays independent of lastmod');
-  assert.strictEqual(reviewedPage.dateModified, '2026-10-05');
+  assert.strictEqual(reviewedPage.dateModified, sampleLastmod);
   assert.strictEqual(reviewedPage.reviewedBy['@id'], 'https://healimbd.com/#doctor-jiwoong-son');
   for (const slug of Object.keys(variants).filter(name => name !== 'reviewed')) {
     const text = html(slug);

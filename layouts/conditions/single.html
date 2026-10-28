@@ -1,6 +1,9 @@
 {{ define "main" }}
 {{ $relatedPosts := partial "condition_related_posts.html" . }}
-<article class="condition-page condition-page-{{ .File.ContentBaseName }}">
+{{ $patientFlow := eq .Params.guide_flow "patient-first" }}
+{{ $info := site.Params.clinic_info }}
+{{ $medicalReview := partial "condition_medical_review.html" . }}
+<article class="condition-page condition-page-{{ .File.ContentBaseName }}{{ if $patientFlow }} condition-patient-flow{{ end }}">
   <nav class="condition-breadcrumb" aria-label="현재 위치">
     <div class="container">
       <a href="{{ "/" | relURL }}">홈</a><span aria-hidden="true">›</span>
@@ -23,13 +26,14 @@
         <p class="condition-subtitle">{{ .Title }}</p>
         <p class="condition-lead">{{ .Params.hero_summary }}</p>
         <nav class="condition-quick-links" aria-label="진료 안내 바로가기">
+          {{ if $patientFlow }}<a href="#tic-observation">증상·구별</a>{{ end }}
           <a href="#visit-process">진료 과정</a>
+          {{ if $patientFlow }}<a href="#tic-treatment">치료·관리</a>{{ end }}
           <a href="#visit-preparation">방문 준비</a>
           <a href="#clinic-visit-summary">위치·예약</a>
           {{ with .Params.faq }}<a href="#faq">자주 묻는 질문</a>{{ end }}
           {{ with $relatedPosts }}<a href="#related-columns">관련 칼럼</a>{{ end }}
         </nav>
-        {{ $medicalReview := partial "condition_medical_review.html" . }}
         <div class="condition-meta" aria-label="작성 및 수정·검토 정보">
           <span><i class="ph-bold ph-pencil-simple"></i> 작성: {{ .Params.content_author | default .Params.author }}</span>
           {{ if not .Lastmod.IsZero }}<span><i class="ph-bold ph-calendar-check"></i> 최종 수정: <time datetime="{{ .Lastmod.Format "2006-01-02" }}">{{ .Lastmod.Format "2006.01.02" }}</time></span>{{ end }}
@@ -49,17 +53,41 @@
     </div>
   </header>
 
-  {{ partial "clinic_visit_summary.html" . }}
+  {{ if not $patientFlow }}{{ partial "clinic_visit_summary.html" . }}{{ end }}
 
   <div class="container condition-layout">
     <aside class="condition-toc" aria-label="페이지 목차">
       <span class="condition-toc-kicker">CONTENTS</span>
       <p>이 페이지에서</p>
+      {{ if $patientFlow }}
+      <nav aria-label="틱장애 진료 안내 목차"><ul>
+        <li><a href="#tic-observation">증상과 구별</a></li>
+        <li><a href="#tic-assessment">필요한 평가·검사</a></li>
+        <li><a href="#visit-process">분당점 진료 과정</a></li>
+        <li><a href="#tic-treatment">치료와 생활 관리</a></li>
+        <li><a href="#adult-tics">성인 틱장애 상담</a></li>
+        <li><a href="#visit-preparation">첫 방문 준비</a></li>
+        <li><a href="#faq">자주 묻는 질문</a></li>
+        {{ with $relatedPosts }}<li><a href="#related-columns">함께 읽을 칼럼</a></li>{{ end }}
+        <li><a href="#guide-resources">해아림TV·치료후기</a></li>
+        <li><a href="#visit-location">위치·주차·예약</a></li>
+      </ul></nav>
+      {{ else }}
       {{ .TableOfContents }}
       <a href="#faq">자주 묻는 질문</a>
+      {{ end }}
     </aside>
 
     <div class="condition-main-column">
+      {{ if $patientFlow }}
+      <div class="condition-doctor-card" aria-label="진료 및 의학적 검토 안내">
+        <img src="{{ "images/doctor-son-profile.webp" | relURL }}" alt="손지웅 대표원장" width="64" height="64" loading="lazy">
+        <div><span class="condition-doctor-label">해아림한의원 분당점</span><strong>{{ $info.doctor }}</strong>
+          {{ if $medicalReview.confirmed }}<p>의학적 검토 · {{ $medicalReview.display_date }}</p>{{ else }}<p>의학적 검토 예정</p>{{ end }}
+        </div>
+        <a href="{{ "/philosophy/" | relURL }}">의료진·진료철학 <span aria-hidden="true">→</span></a>
+      </div>
+      {{ end }}
       <div class="condition-answer-box">
         <div class="condition-answer-icon" aria-hidden="true"><i class="ph-fill ph-lightbulb-filament"></i></div>
         <div>
@@ -106,8 +134,38 @@
         </div>
       </section>
       {{ end }}
+
+      {{ if $patientFlow }}
+      <section class="condition-resources" id="guide-resources" aria-labelledby="guide-resources-title">
+        <p class="condition-section-kicker">HEALIM RESOURCES</p>
+        <h2 id="guide-resources-title">영상과 치료후기를 더 살펴보세요</h2>
+        <div class="condition-resource-grid">
+          <a href="{{ .Params.healim_tv_url }}" class="condition-resource-card condition-resource-video" target="_blank" rel="noopener noreferrer">
+            <span class="condition-resource-icon" aria-hidden="true"><i class="ph-fill ph-youtube-logo"></i></span>
+            <span class="condition-resource-label">HEALIM TV</span>
+            <strong>해아림TV</strong>
+            <p>해아림TV 채널에서 영상으로 제공하는 정보를 살펴보세요.</p>
+            <span class="condition-resource-link">유튜브 채널 방문하기 <span aria-hidden="true">↗</span></span>
+          </a>
+          <a href="{{ "/reviews/guide/" | relURL }}" class="condition-resource-card">
+            <span class="condition-resource-icon" aria-hidden="true"><i class="ph-bold ph-notebook"></i></span>
+            <span class="condition-resource-label">PATIENT STORIES</span>
+            <strong>분당점 치료후기</strong>
+            <p>자필 치료후기와 네이버 환자 후기를 확인하는 방법을 안내합니다.</p>
+            <span class="condition-resource-link">치료후기 열람 안내 <span aria-hidden="true">→</span></span>
+          </a>
+        </div>
+      </section>
+      {{ end }}
     </div>
   </div>
+
+  {{ if $patientFlow }}
+  <section class="condition-location-intro" id="visit-location" aria-labelledby="visit-location-title">
+    <div class="container"><p class="condition-section-kicker">VISIT & RESERVATION</p><h2 id="visit-location-title">분당 정자역 위치·주차·예약 안내</h2><p>{{ .Params.visit_location_intro }}</p></div>
+  </section>
+  {{ partial "clinic_visit_summary.html" . }}
+  {{ end }}
 
   <section class="condition-cta" aria-label="예약 및 문의">
     <div class="container condition-cta-inner">
@@ -116,6 +174,7 @@
         <h2>현재 상태에 맞는 진료 방향을 상담해 보세요.</h2>
       </div>
       <div class="condition-cta-actions">
+        {{ if $patientFlow }}<a href="{{ $info.naver_booking_url }}" target="_blank" rel="noopener noreferrer">네이버 예약</a>{{ end }}
         <a href="tel:031-716-8575"><i class="ph-bold ph-phone"></i> 031-716-8575</a>
         <a href="{{ "/inquiry/" | relURL }}"><i class="ph-bold ph-chat-circle-dots"></i> 온라인 문의</a>
       </div>
