@@ -39,7 +39,7 @@ faq:
 
 reference_layout: true
 reference_source: "https://healim-daegu.com/dizziness/"
-reference_hero_lines: ["어지럼증의 증상과 일상 불편을", "함께 살피는", "해아림한의원 분당점"]
+reference_hero_lines: ["어지럼증", "증상과 일상의 변화를 함께 살피는", "해아림한의원 분당점"]
 reference_faq_title: "어지럼증 자주 묻는 질문 FAQ BEST"
 reference_videos: [{"id": "DlY645SlQqU", "title": "검사는 정상인데 핑 돌고, 두근거림, 울렁거림 반복될 때 - 자율신경실조증 증상과 한방치료"}, {"id": "ki8qgjnfHIs", "title": "검사는 정상인데 계속 어지럽다? 3분만 해도 머리가 맑아지는 어지럼증 예방훈련 5가지"}, {"id": "i6csSsXdsPg", "title": "어지럼증 집에서 바로 하는 전정 재활·자율신경 안정 루틴!"}]
 reference_insights: [{"tag": "자주 묻는 질문", "icon": "ph-chat-circle-dots", "title": "갑자기 심해진 어지럼증, 무엇을 확인할까요?", "answer": "이전과 다른 증상이나 위험 신호가 있는지 먼저 확인합니다. 수면·피로·복용 변화와 경과를 함께 살피되 새로운 증상을 기존 진단 하나로 설명하지 않습니다."}, {"tag": "진행 및 경과", "icon": "ph-chart-line", "title": "어지럼증의 변화와 경과는 어떻게 볼까요?", "answer": "하루의 증감만으로 진행이나 치료 실패를 판단하지 않습니다. 증상과 함께 수면·학교·직장·외출 등 실제 생활의 변화를 비교합니다."}, {"tag": "상담 시점", "icon": "ph-calendar-check", "title": "어지럼증 상담은 언제 받아야 할까요?", "answer": "불편이 반복되거나 생활을 제한한다면 상담해 필요한 평가와 도움을 정할 수 있습니다. 심한 흉통·실신·신경학적 변화 등은 즉시 평가가 필요합니다."}]

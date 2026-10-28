@@ -248,5 +248,131 @@
       "columns",
       "visit"
     ]
+  },
+  "hyperhidrosis": {
+    "layout_basis": "shared-daegu-reference",
+    "section_keys": [
+      "intro",
+      "definition",
+      "symptoms",
+      "causes",
+      "cycle",
+      "referral",
+      "assessment",
+      "treatment",
+      "lifestyle",
+      "doctor",
+      "candidates",
+      "faq",
+      "closing"
+    ],
+    "section_titles": [
+      "다한증, 이런 불편이 반복되나요?",
+      "다한증이란 무엇인가요?",
+      "다한증의 주요 증상과 양상",
+      "원발성과 이차성은 어떻게 다른가요?",
+      "긴장과 땀의 악순환, 의지의 문제는 아닙니다",
+      "다른 질환의 확인이 먼저 필요한 경우",
+      "분당점 다한증 검사와 진료 과정",
+      "개인 상태에 맞춘 분당점 진료와 치료",
+      "기록은 땀의 양보다 생활의 변화부터",
+      "손지웅 대표원장의 분당점 1:1 진료",
+      "이런 경우에는 상담을 고려해 보세요",
+      "다한증 자주 묻는 질문",
+      "땀의 양만큼, 달라진 일상도 함께 살펴보세요"
+    ],
+    "module_order": [
+      "insights",
+      "tv",
+      "books",
+      "network-faq",
+      "reviews",
+      "columns",
+      "visit"
+    ]
+  },
+  "ibs": {
+    "layout_basis": "shared-daegu-reference",
+    "section_keys": [
+      "intro",
+      "definition",
+      "symptoms",
+      "causes",
+      "cycle",
+      "referral",
+      "assessment",
+      "treatment",
+      "lifestyle",
+      "doctor",
+      "candidates",
+      "faq",
+      "closing"
+    ],
+    "section_titles": [
+      "과민성대장증후군, 이런 불편이 반복되나요?",
+      "과민성대장증후군이란 무엇인가요?",
+      "과민성대장증후군의 주요 증상과 양상",
+      "장이 예민한 이유, 장과 뇌의 상호작용",
+      "내시경이 정상인데도 불편할 수 있나요?",
+      "다른 소화기 질환의 평가가 먼저 필요한 신호",
+      "분당점 과민성대장증후군 검사와 진료 과정",
+      "개인 상태에 맞춘 분당점 진료와 치료",
+      "음식을 무조건 제한하기 전에",
+      "손지웅 대표원장의 분당점 1:1 진료",
+      "이런 경우에는 상담을 고려해 보세요",
+      "과민성대장증후군 자주 묻는 질문",
+      "편안한 식사와 외출을 위한 진료 방향을 함께 찾습니다"
+    ],
+    "module_order": [
+      "insights",
+      "tv",
+      "books",
+      "network-faq",
+      "reviews",
+      "columns",
+      "visit"
+    ]
+  },
+  "syncope": {
+    "layout_basis": "shared-daegu-reference",
+    "section_keys": [
+      "intro",
+      "definition",
+      "symptoms",
+      "causes",
+      "cycle",
+      "referral",
+      "assessment",
+      "treatment",
+      "lifestyle",
+      "doctor",
+      "candidates",
+      "faq",
+      "closing"
+    ],
+    "section_titles": [
+      "미주신경성 실신, 이런 불편이 반복되나요?",
+      "미주신경성 실신이란 무엇인가요?",
+      "미주신경성 실신의 주요 증상과 양상",
+      "미주신경성 실신과 다른 원인은 구분해야 합니다",
+      "어떤 상황에서 나타났는지가 중요한 단서입니다",
+      "예약을 기다리지 말고 평가받아야 하는 신호",
+      "분당점 미주신경성 실신 검사와 진료 과정",
+      "개인 상태에 맞춘 분당점 진료와 치료",
+      "전조증상이 오면 안전한 자세가 먼저입니다",
+      "손지웅 대표원장의 분당점 1:1 진료",
+      "이런 경우에는 상담을 고려해 보세요",
+      "미주신경성 실신 자주 묻는 질문",
+      "실신의 원인을 확인하고, 안전한 일상을 함께 준비합니다"
+    ],
+    "module_order": [
+      "insights",
+      "tv",
+      "books",
+      "network-faq",
+      "reviews",
+      "columns",
+      "visit"
+    ]
   }
 }

@@ -1,0 +1,45 @@
+{{ $slug := .File.ContentBaseName }}
+<svg class="reference-illustration" viewBox="0 0 360 320" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+  <circle cx="182" cy="155" r="118" fill="#D7EAE2"/>
+  <circle cx="182" cy="155" r="144" stroke="#B8D2C9" stroke-dasharray="2 9"/>
+  <circle cx="287" cy="77" r="25" fill="#E9D4A7"/>
+  <path d="M52 233C101 211 119 270 174 257C229 244 264 270 317 242" stroke="#A8CABF" stroke-width="2"/>
+  <g stroke="#185B5B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+  {{ if eq $slug "hyperhidrosis" }}
+    <path d="M181 65C181 65 115 139 115 178A66 66 0 0 0 247 178C247 139 181 65 181 65Z" fill="#FAFCF5"/>
+    <path d="M145 177C145 198 158 211 178 213" stroke="#4C9E93"/>
+    <path d="M88 109C88 109 70 131 70 142A18 18 0 0 0 106 142C106 131 88 109 88 109Z" fill="#8DBDB1" stroke="none"/>
+    <path d="M274 161C274 161 257 183 257 195A17 17 0 0 0 291 195C291 183 274 161 274 161Z" fill="#8DBDB1" stroke="none"/>
+  {{ else if eq $slug "ibs" }}
+    <path d="M128 91C128 70 231 70 231 91V110H253V226H108V110H128V91Z" fill="#FAFCF5"/>
+    <path d="M149 110H213V139H148V168H213V196H148V223" stroke="#4C9E93" stroke-width="13"/>
+    <path d="M151 110H213V139H148V168H213V196H148V223" stroke="#FAFCF5" stroke-width="3" stroke-dasharray="1 9"/>
+    <path d="M84 152L72 164L84 176M278 152L290 164L278 176" stroke="#93B9AD"/>
+  {{ else if or (eq $slug "syncope") (eq $slug "panic") }}
+    <path d="M181 236S103 188 103 133C103 88 155 75 181 110C207 75 259 88 259 133C259 188 181 236 181 236Z" fill="#FAFCF5"/>
+    <path d="M75 161H139L156 137L176 188L198 127L219 161H285" stroke="#4C9E93"/>
+    <circle cx="181" cy="161" r="102" stroke="#8DBDB1" stroke-width="1"/>
+  {{ else if eq $slug "insomnia" }}
+    <path d="M217 77C169 71 129 105 129 151C129 200 173 237 219 224C173 254 107 228 99 174C89 115 146 63 199 71Z" fill="#FAFCF5"/>
+    <path d="M237 113V137M225 125H249M270 167V183M262 175H278" stroke="#4C9E93"/>
+    <path d="M161 264H251M179 279H233" stroke="#8DBDB1" stroke-width="2"/>
+  {{ else if eq $slug "dizziness" }}
+    <circle cx="180" cy="158" r="79" fill="#FAFCF5"/>
+    <circle cx="180" cy="158" r="58" stroke="#8DBDB1" stroke-width="2"/>
+    <path d="M180 65V88M180 228V251M87 158H110M250 158H273"/>
+    <path d="M202 118L194 169L159 196L166 146Z" fill="#4C9E93"/>
+    <circle cx="180" cy="158" r="8" fill="#E9D4A7" stroke="none"/>
+  {{ else if eq $slug "autonomic" }}
+    <path d="M180 78V231M118 231H242M101 118H259"/>
+    <circle cx="180" cy="107" r="15" fill="#E9D4A7"/>
+    <path d="M116 119L91 178H141L116 119ZM244 119L219 178H269L244 119Z" fill="#FAFCF5"/>
+    <path d="M91 179C91 207 141 207 141 179M219 179C219 207 269 207 269 179" fill="#8DBDB1"/>
+  {{ else }}
+    <path d="M140 221V209C100 197 96 151 119 132C111 102 137 82 159 93C176 67 210 80 216 103C246 99 263 132 246 154C266 180 243 212 217 209V230" fill="#FAFCF5"/>
+    <path d="M182 96V209M147 119C164 119 164 145 151 149M216 121C200 121 201 148 217 150M133 177C159 169 164 197 153 205M230 180C207 169 199 195 214 207" stroke="#4C9E93"/>
+    {{ if eq $slug "adhd" }}<circle cx="183" cy="157" r="11" fill="#E9D4A7"/><path d="M183 132V121M183 192V181M158 157H147M219 157H208" stroke="#93B9AD"/>{{ else }}<path d="M157 241C171 253 194 253 209 241" stroke="#93B9AD"/>{{ end }}
+  {{ end }}
+  </g>
+  <circle cx="73" cy="85" r="5" fill="#A5C7BB"/>
+  <circle cx="298" cy="229" r="7" fill="#E9D4A7"/>
+</svg>

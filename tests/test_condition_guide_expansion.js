@@ -4,7 +4,7 @@ const path = require('path');
 const output = path.resolve(process.argv[2] || path.join(__dirname, '..', 'public'));
 const root = path.resolve(__dirname, '..');
 const structure = JSON.parse(fs.readFileSync(path.join(root, 'data/condition_reference_structure.json'), 'utf8'));
-const expectedCounts = {panic:14, dizziness:14, autonomic:14, insomnia:12, adhd:12, anxiety:11};
+const expectedCounts = {panic:14, dizziness:14, autonomic:14, insomnia:12, adhd:12, anxiety:11, hyperhidrosis:13, ibs:13, syncope:13};
 const read = url => fs.readFileSync(path.join(output, url.replace(/^\//, ''), 'index.html'), 'utf8');
 const attrs = tag => Object.fromEntries([...tag.matchAll(/([^\s=<>]+)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))/g)].map(m => [m[1], m[2] ?? m[3] ?? m[4]]));
 const ids = text => [...text.matchAll(/<[a-z][^>]*\bid=(?:"([^"]*)"|'([^']*)'|([^\s>]+))/g)].map(m => m[1] ?? m[2] ?? m[3]);
@@ -54,4 +54,4 @@ for (const [slug, expected] of Object.entries(structure)) {
 }
 for (const url of ['/','/guide/']) assert(read(url).includes('/conditions/dizziness/'));
 assert(read('/blog/gyeonggi-icheon-dizziness-chronic-dizziness/').includes('/conditions/dizziness/'));
-console.log('✅ Six reference-matched guides: section counts/headings/order, resource modules, split FAQ/schema, clinical identity and links verified.');
+console.log('✅ Nine reference-layout guides: section counts/headings/order, resource modules, split FAQ/schema, clinical identity and links verified.');
