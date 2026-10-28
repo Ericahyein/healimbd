@@ -881,5 +881,16 @@
     "topicAngle": "incomplete-evacuation",
     "title": "[성남 과민성대장증후군] 화장실을 다녀와도 잔변감이 남을 때 무엇을 기록할까요",
     "slug": "seongnam-main-ibs-incomplete-evacuation"
+  },
+  {
+    "publishDate": "2026-10-28T23:25:59.264+09:00",
+    "geoId": "bundang-pangyo",
+    "displayRegion": "판교",
+    "parentRegion": "성남",
+    "regionType": "selected_local_area",
+    "disease": "sleep",
+    "topicAngle": "bed-awake-time",
+    "title": "[판교 불면증] 잠들지 못한 채 침대에 오래 누워 있을 때 무엇을 살펴볼까요",
+    "slug": "bundang-pangyo-sleep-bed-awake-time"
   }
 ]
