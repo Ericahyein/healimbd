@@ -38,7 +38,7 @@ const page = graph.find(n => Array.isArray(n['@type']) && n['@type'].includes('M
 assert(!page.reviewedBy && !page.lastReviewed, 'review completion remains unconfirmed');
 assert.strictEqual(page.dateModified, '2026-10-28');
 const faq = graph.find(n => n['@type'] === 'FAQPage');
-assert.strictEqual(faq.mainEntity.length, 12, 'retain existing FAQs and include four caregiver questions');
+assert.strictEqual(faq.mainEntity.length, 16, 'retain existing FAQs and include questions about home/school differences, tests, recurrence and Tourette symptoms');
 for (const item of faq.mainEntity) assert(text.includes(item.name) && text.includes(item.acceptedAnswer.text));
 for (const region of ['yongin', 'gyeonggi-gwangju']) assert(anchors.some(a => a.href === `/areas/${region}/tic/`));
 // The common template must preserve the established flow for other conditions.
