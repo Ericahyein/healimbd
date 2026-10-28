@@ -1,6 +1,8 @@
 {{ define "main" }}
 {{ $relatedPosts := partial "condition_related_posts.html" . }}
 {{ $patientFlow := eq .Params.guide_flow "patient-first" }}
+{{ $observationAnchor := .Params.guide_observation_anchor | default "tic-observation" }}
+{{ $treatmentAnchor := .Params.guide_treatment_anchor | default "tic-treatment" }}
 {{ $info := site.Params.clinic_info }}
 {{ $medicalReview := partial "condition_medical_review.html" . }}
 <article class="condition-page condition-page-{{ .File.ContentBaseName }}{{ if $patientFlow }} condition-patient-flow{{ end }}">
@@ -26,9 +28,9 @@
         <p class="condition-subtitle">{{ .Title }}</p>
         <p class="condition-lead">{{ .Params.hero_summary }}</p>
         <nav class="condition-quick-links" aria-label="진료 안내 바로가기">
-          {{ if $patientFlow }}<a href="#tic-observation">증상·구별</a>{{ end }}
+          {{ if $patientFlow }}<a href="#{{ $observationAnchor }}">증상·구별</a>{{ end }}
           <a href="#visit-process">진료 과정</a>
-          {{ if $patientFlow }}<a href="#tic-treatment">치료·관리</a>{{ end }}
+          {{ if $patientFlow }}<a href="#{{ $treatmentAnchor }}">치료·관리</a>{{ end }}
           <a href="#visit-preparation">방문 준비</a>
           <a href="#clinic-visit-summary">위치·예약</a>
           {{ with .Params.faq }}<a href="#faq">자주 묻는 질문</a>{{ end }}
@@ -60,12 +62,16 @@
       <span class="condition-toc-kicker">CONTENTS</span>
       <p>이 페이지에서</p>
       {{ if $patientFlow }}
-      <nav aria-label="틱장애 진료 안내 목차"><ul>
+      <nav aria-label="{{ .Params.condition_name }} 진료 안내 목차"><ul>
+        {{ with .Params.guide_toc }}
+          {{ range . }}<li><a href="#{{ .anchor }}">{{ .label }}</a></li>{{ end }}
+        {{ else }}
         <li><a href="#tic-observation">증상과 구별</a></li>
         <li><a href="#tic-assessment">필요한 평가·검사</a></li>
         <li><a href="#visit-process">분당점 진료 과정</a></li>
         <li><a href="#tic-treatment">치료와 생활 관리</a></li>
         <li><a href="#adult-tics">성인 틱장애 상담</a></li>
+        {{ end }}
         <li><a href="#visit-preparation">첫 방문 준비</a></li>
         <li><a href="#faq">자주 묻는 질문</a></li>
         {{ with $relatedPosts }}<li><a href="#related-columns">함께 읽을 칼럼</a></li>{{ end }}

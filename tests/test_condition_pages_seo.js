@@ -15,6 +15,7 @@ const conditions = {
   '다한증': read('content/conditions/hyperhidrosis.md'),
   '과민성대장증후군': read('content/conditions/ibs.md'),
   '미주신경성 실신': read('content/conditions/syncope.md'),
+  '어지럼증': read('content/conditions/dizziness.md'),
 };
 const tic = conditions['틱장애'];
 const panic = conditions['공황장애'];
@@ -54,7 +55,7 @@ for (const training of ['뉴로피드백', '밸런싱', 'IM']) {
   assert(tic.includes(training), `tic: missing conditional training ${training}`);
 }
 assert(panic.includes('훈련치료를 적용하지 않습니다'), 'panic: training exclusion must be explicit');
-for (const name of ['불안장애', '불면증', '자율신경실조증', '다한증', '과민성대장증후군', '미주신경성 실신']) {
+for (const name of ['불안장애', '불면증', '자율신경실조증', '다한증', '과민성대장증후군', '미주신경성 실신', '어지럼증']) {
   assert(!conditions[name].includes('뉴로피드백'), `${name}: neurofeedback is limited to tic and ADHD`);
   assert(!conditions[name].includes('밸런싱'), `${name}: balancing is limited to tic and ADHD`);
   assert(!/(^|[^A-Za-z])IM([^A-Za-z]|$)/m.test(conditions[name]), `${name}: IM is limited to tic and ADHD`);
@@ -74,7 +75,7 @@ for (const area of ['성남시 분당구', '판교', '용인시', '경기도 광
   assert(seo.includes(area), `schema: missing nearby service area ${area}`);
 }
 assert(seo.includes('.Params.description | default .Params.summary'), 'explicit meta description must take priority');
-for (const slug of ['tic', 'adhd', 'panic', 'anxiety', 'insomnia', 'autonomic', 'hyperhidrosis', 'ibs', 'syncope']) {
+for (const slug of ['tic', 'adhd', 'panic', 'anxiety', 'insomnia', 'autonomic', 'hyperhidrosis', 'ibs', 'syncope', 'dizziness']) {
   assert(guide.includes(`/conditions/${slug}/`), `guide must link to ${slug} page`);
 }
 

@@ -6,7 +6,7 @@ const { spawnSync } = require('child_process');
 
 const root = path.resolve(__dirname, '..');
 const fixture = fs.mkdtempSync(path.join(os.tmpdir(), 'condition-patient-guidance-'));
-const slugs = ['tic', 'adhd', 'panic', 'anxiety', 'insomnia', 'autonomic', 'hyperhidrosis', 'ibs', 'syncope'];
+const slugs = ['tic', 'adhd', 'panic', 'anxiety', 'insomnia', 'autonomic', 'hyperhidrosis', 'ibs', 'syncope', 'dizziness'];
 const areas = ['seongnam', 'pangyo', 'yongin', 'gyeonggi-gwangju', 'suji', 'wirye'];
 const write = (name, text) => {
   const dest = path.join(fixture, name);
@@ -120,7 +120,7 @@ try {
     assert.strictEqual(page.author['@type'], 'Organization');
     assert.strictEqual(page.author.name, '해아림한의원 분당점 의료 콘텐츠팀');
     assert.strictEqual(page.dateModified, lastmod);
-    assert.strictEqual(page.datePublished, '2026-09-28');
+    assert.strictEqual(page.datePublished, source.match(/^date: (\d{4}-\d{2}-\d{2})$/m)[1]);
     assert(text.includes('가상의 예시입니다') && text.includes('실제 환자 사례나 진단 결과가 아닙니다'), slug + ': hypothetical record label required');
     assert(!text.includes('**'), slug + ': raw markdown must not be visible');
     assert(!text.includes('HRV'), slug + ': no unperformed test');
@@ -159,12 +159,12 @@ try {
     const nav = text.match(/<nav\b[^>]*aria-label=(?:"질환별 진료 안내"|'질환별 진료 안내')[^>]*>([\s\S]*?)<\/nav>/)?.[1];
     assert(nav, area + ': visible condition navigation is rendered');
     assert.strictEqual((nav.match(/<a\b/g) || []).length, 9, area + ': nine distinct condition links');
-    for (const slug of slugs) {
+    for (const slug of slugs.filter(slug => slug !== 'dizziness')) {
       assert(nav.includes(`/conditions/${slug}/`), area + ': condition target is linked ' + slug);
       assert(fs.existsSync(path.join(fixture, 'public/conditions', slug, 'index.html')), area + ': condition target exists ' + slug);
     }
   }
-  console.log('✅ Nine disease-first headings, regional guide links, patient guides and review-date cases passed.');
+  console.log('✅ Ten disease-first headings, regional guide links, patient guides and review-date cases passed.');
 } finally {
   fs.rmSync(fixture, { recursive: true, force: true });
 }

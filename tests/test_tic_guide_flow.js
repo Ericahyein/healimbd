@@ -42,7 +42,7 @@ assert.strictEqual(faq.mainEntity.length, 16, 'retain existing FAQs and include 
 for (const item of faq.mainEntity) assert(text.includes(item.name) && text.includes(item.acceptedAnswer.text));
 for (const region of ['yongin', 'gyeonggi-gwangju']) assert(anchors.some(a => a.href === `/areas/${region}/tic/`));
 // The common template must preserve the established flow for other conditions.
-const adhd = html('/conditions/adhd/');
-assert(!adhd.includes('condition-patient-flow'));
-assert(adhd.indexOf('id=clinic-visit-summary') < adhd.indexOf('class=condition-content'));
+const legacy = html('/conditions/hyperhidrosis/');
+assert(!legacy.includes('condition-patient-flow'));
+assert(legacy.indexOf('id=clinic-visit-summary') < legacy.indexOf('class=condition-content'));
 console.log('✅ Tic guide reading order, exact channel, protected reviews, live anchors, honest review state and legacy flow verified.');
