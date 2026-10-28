@@ -1,7 +1,7 @@
 {
-  "requestId": "recover-run-40638151956-2026-10-28T14-23-01-349Z",
+  "requestId": "recover-run-40705378886-2026-10-28T14-24-48-233Z",
   "requestedTarget": "auto",
-  "reason": "Recover failed scheduled run #146 by adding a reviewed, non-duplicate insomnia topic about prolonged awake time in bed after the unpublished topic pool was exhausted.",
-  "sourceRunId": 40638151956,
-  "requestedAt": "2026-10-28T14:23:01.349Z"
+  "reason": "Retry run #147 after removing a medication-negation phrase that caused a false-positive safety validation failure; the reviewed insomnia topic remains unpublished.",
+  "sourceRunId": 40705378886,
+  "requestedAt": "2026-10-28T14:24:48.233Z"
 }
