@@ -15899,10 +15899,10 @@ body.inquiry-page-body .inquiry-table tbody tr:hover {
   position: relative;
   border-radius: 12px;
   overflow: hidden;
-  min-height: 260px;
-  aspect-ratio: 16 / 9;
+  min-height: 208px;
+  aspect-ratio: 20 / 9;
   background-size: cover;
-  background-position: center top;
+  background-position: center center;
   display: flex;
   align-items: flex-end;
   padding: 24px 22px;
@@ -15954,7 +15954,7 @@ body.inquiry-page-body .inquiry-table tbody tr:hover {
 }
 
 .treatment-photo-name {
-  font-size: 1.25rem;
+  font-size: 1.4rem;
   font-weight: 800;
   color: #FFFFFF !important;
   margin: 0 0 6px;
@@ -15962,7 +15962,7 @@ body.inquiry-page-body .inquiry-table tbody tr:hover {
 }
 
 .treatment-photo-tags {
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   color: rgba(255, 255, 255, 0.85) !important;
   margin: 0;
   line-height: 1.4;
@@ -16269,8 +16269,8 @@ body.inquiry-page-body .inquiry-table tbody tr:hover {
     grid-template-columns: 1fr;
   }
   .treatment-photo-card {
-    min-height: 180px;
-    padding: 20px 16px;
+    min-height: 144px;
+    padding: 16px;
   }
   .academic-thesis-item {
     flex: 0 0 85vw;
