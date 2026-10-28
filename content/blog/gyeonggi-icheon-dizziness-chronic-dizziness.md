@@ -3,7 +3,7 @@ title: "[이천 어지럼증] 이비인후과 검사 후에도 지속되는 붕 
 date: 2026-09-22T09:27:42.952+09:00
 lastmod: 2026-10-16T15:20:38+09:00
 search_intent: "long_tail_column"
-condition_pillar: "/conditions/dizziness/"
+condition_pillar: ""
 article_review_status: "medical_standard_based"
 category: "general"
 category_name: "두통·어지럼"

@@ -43,50 +43,6 @@
       "visit"
     ]
   },
-  "dizziness": {
-    "source_url": "https://healim-daegu.com/dizziness/",
-    "section_keys": [
-      "intro",
-      "definition",
-      "symptoms",
-      "associated",
-      "causes",
-      "normal",
-      "autonomic",
-      "assessment",
-      "treatment",
-      "doctor",
-      "candidates",
-      "referral",
-      "faq",
-      "closing"
-    ],
-    "section_titles": [
-      "빙빙 도는 어지럼부터 멍하고 붕 뜨는 느낌까지, 원인을 먼저 확인해보세요",
-      "어지럼증, 왜 이렇게 다양한 느낌으로 나타날까요?",
-      "어지럼증 증상, 나는 어떤 유형에 가까울까요?",
-      "어지럼증과 함께 이런 증상이 나타나나요?",
-      "어지럼증 원인은 무엇인가요?",
-      "\"검사에서는 아무 이상이 없다는데 저는 왜 계속 어지러울까요?\"",
-      "어지럼증과 자율신경은 어떤 관계가 있나요?",
-      "해아림한의원 분당점 어지럼증 정밀 검사 시스템",
-      "해아림한의원 분당점 1:1 맞춤 진료와 치료",
-      "손지웅 대표원장의 분당점 1:1 진료",
-      "이런 어지럼증이라면 상담을 미루지 마세요",
-      "어지럼증, 어느 병원에 가야 할까요?",
-      "어지럼증 자주 묻는 질문 FAQ BEST",
-      "어지럼증 극복, 가장 먼저 해야 할 일은 내 어지럼의 형태를 바로 아는 것입니다"
-    ],
-    "module_order": [
-      "insights",
-      "tv",
-      "books",
-      "network-faq",
-      "reviews",
-      "columns",
-      "visit"
-    ]
-  },
   "autonomic": {
     "source_url": "https://healim-daegu.com/dysautonomia/",
     "section_keys": [

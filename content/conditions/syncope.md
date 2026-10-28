@@ -2,6 +2,7 @@
 title: "미주신경성 실신, 어지럼과 식은땀 뒤 의식을 잃는다면"
 seo_title: "미주신경성 실신 증상·검사·치료 안내"
 condition_name: "미주신경성 실신"
+condition_display_name: "미주신경성실신(어지럼증)"
 column_categories: ["syncope"]
 date: 2026-09-28
 lastmod: 2026-10-28
@@ -14,10 +15,11 @@ image: "images/clinics/clinic-syncope.webp"
 image_alt: "미주신경성 실신의 전조증상과 진료 과정을 설명하는 이미지"
 hero_kicker: "VASOVAGAL SYNCOPE · FAINTING"
 hero_title_lines: ["미주신경성 실신", "증상·검사·치료 안내"]
-hero_summary: "실신은 일시적으로 뇌 혈류가 줄어 의식을 잃는 현상입니다. 흔한 미주신경성 원인뿐 아니라 심장·신경계 질환을 먼저 배제해야 합니다."
+hero_summary: "어지럼·식은땀·시야 흐림과 실신 전후의 상황을 함께 살핍니다. 어지럼증에는 여러 원인이 있으므로 모두 미주신경성 실신으로 판단하지 않으며, 의식을 잃었다면 먼저 원인 평가가 필요합니다."
 answer_title: "실신은 원인을 확인한 뒤 미주신경성 여부를 판단합니다"
 answer_summary: "통증·공포·더위·오래 서 있기 뒤 전조증상과 함께 생기는 실신은 미주신경성일 수 있지만, 운동 중이나 누운 상태의 실신과 심장 증상은 신속한 평가가 필요합니다."
 faq:
+  - {question: "어지럼증이 있으면 미주신경성 실신인가요?", answer: "아닙니다. 어지럼은 미주신경성 실신의 전조로 나타날 수 있지만, 귀의 전정기관 문제·편두통·혈압 변화·약물 등 여러 원인에서도 생길 수 있습니다. 빙빙 도는지, 눈앞이 아찔한지, 귀 증상이나 실제 의식 소실이 있었는지 구분해 원인을 평가합니다."}
   - {question: "한 번 실신했어도 검사를 받아야 하나요?", answer: "처음 발생한 실신은 원인을 확인하는 것이 안전합니다. 발생 상황, 심전도, 병력과 진찰을 바탕으로 필요한 검사를 정합니다."}
   - {question: "미주신경성 실신의 전조증상은 무엇인가요?", answer: "메스꺼움, 식은땀, 창백함, 열감, 어지럼, 귀 먹먹함과 시야가 좁아지거나 어두워지는 느낌이 나타날 수 있습니다. 전조 없이 갑자기 쓰러지는 경우는 더 주의해야 합니다."}
   - {question: "전조증상이 오면 어떻게 해야 하나요?", answer: "넘어져 다치지 않도록 즉시 눕거나 안전하게 앉으세요. 외상이 없고 상태가 허락하면 다리를 올릴 수 있습니다. 증상이 지속되거나 의식 회복이 늦으면 119에 도움을 요청하세요."}
@@ -31,13 +33,13 @@ featured_column: "/blog/seongnam-main-syncope-subway-dizziness/"
 
 guide_flow: "daegu-reference"
 reference_layout: true
-reference_hero_lines: ["미주신경성 실신", "전조증상부터 실신 전후의 상황까지", "해아림한의원 분당점"]
+reference_hero_lines: ["미주신경성실신(어지럼증)", "전조증상부터 실신 전후의 상황까지", "해아림한의원 분당점"]
 reference_faq_title: "미주신경성 실신 자주 묻는 질문"
 reference_videos: [{"id": "51rIQ1T5dIU", "title": "자율신경실조증이 있는 사람이 가급적 하면 안 되는 행동 3가지"}, {"id": "9X4PapgvBWE", "title": "자율신경실조증의 종류 ; 교감신경 항진, 교감신경 저하, 기립불내성"}, {"id": "1Bb6dIYtgvs", "title": "자율신경실조증 뇌과학적인 해석 A Neuroscience Perspective on Dysautonomia"}]
 reference_video_context: "자율신경·긴장과 몸의 반응에 관한 네트워크 영상입니다. 해당 질환의 원인이나 치료를 확정하는 자료는 아니며 분당점의 진료 범위와 다를 수 있습니다."
 reference_insights: [{"tag": "원인 확인", "title": "한 번 쓰러졌어도 검사해야 하나요?", "answer": "처음 발생한 실신은 원인 평가가 필요합니다. 자세·활동·전조와 심전도 등 초기 평가를 바탕으로 검사 범위를 정합니다.", "icon": "ph-heartbeat"}, {"tag": "안전한 대응", "title": "전조가 오면 무엇부터 해야 할까요?", "answer": "버티며 걷지 말고 즉시 눕거나 안전하게 앉아 낙상을 줄입니다. 의식·호흡에 문제가 있으면 119의 안내를 따릅니다.", "icon": "ph-shield-check"}, {"tag": "기록 방법", "title": "쓰러진 순간이 기억나지 않는다면요?", "answer": "기억하지 못하는 구간은 모른다고 표시하고 본인 기억과 목격 내용을 구분합니다. 의식 소실 시간을 추측하지 않습니다.", "icon": "ph-notepad"}]
 reference_preparation_html: "<h3>방문 전 준비할 자료</h3><p>진료 전 다음 내용을 준비하면 증상 경과를 설명하는 데 도움이 됩니다.</p><ul><li>발생 당시 자세·활동과 어지럼·식은땀 등 전조증상</li><li>의식 소실 시간과 회복 과정, 목격자 설명 및 다친 부위</li><li>심전도·혈액검사 등 기존 결과와 복용 약 목록</li></ul><p>기록은 안전을 확보하고 회복한 뒤에 정리합니다. 본인이 기억하는 전후 상황과 목격자가 본 내용을 구분하고, 의식 소실이나 회복 시간을 모르면 확인하지 못했다고 적어 주세요.</p><p><strong>아래는 기록 형식을 보여주기 위한 가상의 예시입니다. 실제 환자 사례나 진단 결과가 아닙니다.</strong></p><ul><li><strong>직전의 자세와 활동</strong>: 지하철에서 서 있었고 속이 메스껍고 시야가 어두워진 기억이 있습니다.</li><li><strong>기억하지 못하는 구간</strong>: 쓰러진 순간과 의식이 없었던 시간은 직접 기억하지 못합니다.</li><li><strong>목격자가 전한 내용</strong>: 동행인은 바닥에 주저앉았다고 말했습니다. 정확한 시간은 재지 않았다고 합니다.</li><li><strong>회복 후와 기존 진료</strong>: 정신이 든 뒤의 불편과 다친 부위를 적었고, 이후 진료받은 심전도·혈액검사 결과를 준비했습니다.</li></ul><p>이 예시는 실신의 원인을 미주신경성 실신으로 확정한 사례가 아닙니다. 페이지의 즉시 평가가 필요한 신호가 있다면 기록을 위해 진료를 늦추지 마세요.</p>"
-reference_sources_html: "<ul><li><a href=\"https://www.heart.org/en/health-topics/arrhythmia/symptoms-diagnosis--monitoring-of-arrhythmia/syncope-fainting\" target=\"_blank\" rel=\"noopener\">미국심장협회(AHA), 실신 안내</a></li><li><a href=\"https://cpr.heart.org/en/resuscitation-science/2024-first-aid-guidelines\" target=\"_blank\" rel=\"noopener\">미국심장협회·적십자, 2024 응급처치 지침</a></li></ul><p>이 페이지는 일반적인 의료 정보입니다. 실신은 원인 감별이 중요하므로 개인의 판단은 대면 진료와 필요한 검사가 필요합니다.</p><p><a href=\"https://www.nhs.uk/symptoms/fainting/\">영국 NHS, 실신 시 대응과 진료가 필요한 상황</a></p>"
+reference_sources_html: "<ul><li><a href=\"https://www.heart.org/en/health-topics/arrhythmia/symptoms-diagnosis--monitoring-of-arrhythmia/syncope-fainting\" target=\"_blank\" rel=\"noopener\">미국심장협회(AHA), 실신 안내</a></li><li><a href=\"https://cpr.heart.org/en/resuscitation-science/2024-first-aid-guidelines\" target=\"_blank\" rel=\"noopener\">미국심장협회·적십자, 2024 응급처치 지침</a></li></ul><p>이 페이지는 일반적인 의료 정보입니다. 실신은 원인 감별이 중요하므로 개인의 판단은 대면 진료와 필요한 검사가 필요합니다.</p><p><a href=\"https://www.nhs.uk/symptoms/fainting/\">영국 NHS, 실신 시 대응과 진료가 필요한 상황</a></p><p><a href=\"https://www.nhs.uk/symptoms/dizziness/\">영국 NHS, 어지럼의 다양한 양상과 원인</a></p>"
 visit_location_intro: "해아림한의원 분당점은 성남시 분당구 정자동에 있습니다.  성남·분당·판교를 비롯해 용인과 경기광주에서 미주신경성 실신 진료를 찾는 경우 , 반복되는 의식 소실이나 전조증상은 미주신경성으로 단정하지 않고 원인 평가를 확인하는 것이 먼저입니다. 기존 검사 결과를 바탕으로 병행 진료와 생활 관리 방향을 상담할 수 있습니다. 손지웅 대표원장의 진료철학과 의료진 안내 ,  주요 진료과목 ,  분당점 위치·교통·주차 안내 를 확인하고  온라인 문의 로 궁금한 점을 남겨 주세요."
 ---
 
@@ -104,7 +106,7 @@ visit_location_intro: "해아림한의원 분당점은 성남시 분당구 정�
 <div class="reference-copy">
 <p>모든 실신이 미주신경성인 것은 아닙니다. 부정맥·구조적 심장질환, 기립성 저혈압, 약물, 저혈당이나 출혈 등 다른 원인을 확인해야 하며 의식 소실은 뇌전증과도 구별할 필요가 있습니다.</p>
 <p>실신 당시 자세와 활동, 전조, 회복 과정, 심장질환과 가족력, 심전도 등 초기 평가를 토대로 필요한 검사를 정합니다. 전조가 익숙해도 이전과 다른 실신은 다시 평가합니다.</p>
-</div></section>
+<h3>어지럼과 실신의 전조는 구분해서 살핍니다</h3><p>미주신경성 실신이 오기 전 눈앞이 어두워지거나 아찔할 수 있지만, 모든 어지럼증이 미주신경성 실신을 뜻하지는 않습니다. 빙빙 도는 느낌, 귀 먹먹함·이명·청력 변화, 자세와의 관계, 두통과 의식 소실 여부를 구분해 필요한 이비인후과·신경과·내과 평가를 안내합니다.</p></div></section>
 
 <section class="reference-section" id="syncope-cycle" data-reference-section="cycle"><h2>어떤 상황에서 나타났는지가 중요한 단서입니다</h2>
 <div class="reference-copy"><div class="reference-grid-2">

@@ -7,12 +7,12 @@
 {{ $body := split (string .Content) "<!-- reference-faq -->" }}
 <article class="condition-page condition-page-{{ .File.ContentBaseName }} reference-condition-page">
   <div class="reference-shell">
-    <nav class="reference-breadcrumb" aria-label="현재 위치"><a href="{{ "/" | relURL }}">홈</a><span>›</span><a href="{{ "/guide/" | relURL }}">진료과목</a><span>›</span><span aria-current="page">{{ .Params.condition_name }}</span></nav>
+    <nav class="reference-breadcrumb" aria-label="현재 위치"><a href="{{ "/" | relURL }}">홈</a><span>›</span><a href="{{ "/guide/" | relURL }}">진료과목</a><span>›</span><span aria-current="page">{{ .Params.condition_display_name | default .Params.condition_name }}</span></nav>
     <header class="reference-hero">
       <div class="reference-hero-grid"><div class="reference-hero-copy">
       <div class="reference-hero-badge">해아림한의원 분당점 · 손지웅 대표원장</div>
       <p class="reference-hero-sub">HEALIM BUNDANG <span>·</span> {{ .Params.hero_kicker }}</p>
-      <h1>{{ range .Params.reference_hero_lines }}<span>{{ . }}</span>{{ end }}</h1>
+      <h1>{{ range .Params.reference_hero_lines }}<span>{{ $parts := split . "(" }}{{ index $parts 0 }}{{ range after 1 $parts }}<wbr>({{ . }}{{ end }}</span>{{ end }}</h1>
       <p class="reference-hero-description">{{ .Params.hero_summary }}</p>
       <nav class="reference-hero-actions" aria-label="진료 안내 바로가기"><a href="{{ "/location/" | relURL }}">분당점 오시는 길 <span aria-hidden="true">›</span></a><a href="#{{ .File.ContentBaseName }}-assessment">정밀 검사 시스템 <span aria-hidden="true">›</span></a></nav>
       </div><div class="reference-hero-art" aria-hidden="true">{{ partial "condition_illustration.html" . }}<p>몸과 마음을 함께 살피는 진료</p></div></div>

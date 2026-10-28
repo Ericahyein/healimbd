@@ -4,7 +4,7 @@ const path = require('path');
 const output = path.resolve(process.argv[2] || path.join(__dirname, '..', 'public'));
 const root = path.resolve(__dirname, '..');
 const structure = JSON.parse(fs.readFileSync(path.join(root, 'data/condition_reference_structure.json'), 'utf8'));
-const expectedCounts = {panic:14, dizziness:14, autonomic:14, insomnia:12, adhd:12, anxiety:11, hyperhidrosis:13, ibs:13, syncope:13};
+const expectedCounts = {panic:14, autonomic:14, insomnia:12, adhd:12, anxiety:11, hyperhidrosis:13, ibs:13, syncope:13};
 const read = url => fs.readFileSync(path.join(output, url.replace(/^\//, ''), 'index.html'), 'utf8');
 const attrs = tag => Object.fromEntries([...tag.matchAll(/([^\s=<>]+)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))/g)].map(m => [m[1], m[2] ?? m[3] ?? m[4]]));
 const ids = text => [...text.matchAll(/<[a-z][^>]*\bid=(?:"([^"]*)"|'([^']*)'|([^\s>]+))/g)].map(m => m[1] ?? m[2] ?? m[3]);
@@ -55,12 +55,14 @@ for (const [slug, expected] of Object.entries(structure)) {
 for (const url of ['/','/guide/']) {
   const overview = read(url);
   const cards = [...overview.matchAll(/<a\b[^>]*>/g)].map(m=>attrs(m[0])).filter(a=>a.class?.split(' ').includes('treatment-photo-card'));
-  assert.strictEqual(cards.length,10,`${url}: all ten condition photo cards are discoverable`);
-  assert.strictEqual(new Set(cards.map(c=>c.href)).size,10,`${url}: no repeated condition replaces a missing card`);
+  assert.strictEqual(cards.length,9,`${url}: all nine condition photo cards are discoverable`);
+  assert.strictEqual(new Set(cards.map(c=>c.href)).size,9,`${url}: no repeated condition replaces a missing card`);
   for (const slug of ['tic',...Object.keys(structure)]) assert(cards.some(c=>c.href===`/conditions/${slug}/`),`${url}: ${slug} is in the photo grid`);
-  const dizziness = cards.find(c=>c.href==='/conditions/dizziness/');
-  assert(dizziness.style.includes('/images/clinics/clinic-dizziness.webp'),`${url}: dedicated dizziness photo is used`);
+  assert(!cards.some(c=>c.href==='/conditions/dizziness/'),`${url}: separate dizziness card is removed`);
+  assert(overview.includes('미주신경성실신(어지럼증)'),`${url}: approved combined menu label`);
   assert(!overview.includes('9대 주요 진료과목'),`${url}: outdated nine-condition heading is removed`);
 }
-assert(read('/blog/gyeonggi-icheon-dizziness-chronic-dizziness/').includes('/conditions/dizziness/'));
-console.log('✅ Nine reference-layout guides: section counts/headings/order, resource modules, split FAQ/schema, clinical identity and links verified.');
+assert(!fs.existsSync(path.join(output,'conditions/dizziness/index.html')), 'standalone dizziness page is removed');
+assert(!read('/blog/gyeonggi-icheon-dizziness-chronic-dizziness/').includes('/conditions/dizziness/'));
+assert(read('/conditions/syncope/').includes('모든 어지럼증이 미주신경성 실신을 뜻하지는 않습니다'), 'combined menu must distinguish other causes of dizziness');
+console.log('✅ Eight reference-layout guides and nine menu cards: section counts/headings/order, resource modules, split FAQ/schema, clinical identity and links verified.');

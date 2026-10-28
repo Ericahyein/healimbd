@@ -6,7 +6,7 @@ const { spawnSync } = require('child_process');
 
 const root = path.resolve(__dirname, '..');
 const fixture = fs.mkdtempSync(path.join(os.tmpdir(), 'condition-patient-guidance-'));
-const slugs = ['tic', 'adhd', 'panic', 'anxiety', 'insomnia', 'autonomic', 'hyperhidrosis', 'ibs', 'syncope', 'dizziness'];
+const slugs = ['tic', 'adhd', 'panic', 'anxiety', 'insomnia', 'autonomic', 'hyperhidrosis', 'ibs', 'syncope'];
 const areas = ['seongnam', 'pangyo', 'yongin', 'gyeonggi-gwangju', 'suji', 'wirye'];
 const write = (name, text) => {
   const dest = path.join(fixture, name);
@@ -85,8 +85,9 @@ try {
     const lastmod = source.match(/^lastmod: (\d{4}-\d{2}-\d{2})$/m)[1];
     const faqCount = (source.match(/question:/g) || []).length;
     const conditionName = source.match(/^condition_name: "([^"]+)"$/m)[1];
+    const displayName = source.match(/^condition_display_name: "([^"]+)"$/m)?.[1] || conditionName;
     if (source.includes('reference_layout: true')) {
-      assert(heading.startsWith(conditionName) && heading.includes('해아림한의원 분당점'), slug + ': reference-layout heading identifies condition and branch');
+      assert(heading.startsWith(displayName) && heading.includes('해아림한의원 분당점'), slug + ': reference-layout heading identifies condition and branch');
     } else {
       assert.strictEqual(heading, `${conditionName} 증상·검사·치료 안내`, slug + ': disease-first heading');
     }
@@ -163,12 +164,12 @@ try {
     const nav = text.match(/<nav\b[^>]*aria-label=(?:"질환별 진료 안내"|'질환별 진료 안내')[^>]*>([\s\S]*?)<\/nav>/)?.[1];
     assert(nav, area + ': visible condition navigation is rendered');
     assert.strictEqual((nav.match(/<a\b/g) || []).length, 9, area + ': nine distinct condition links');
-    for (const slug of slugs.filter(slug => slug !== 'dizziness')) {
+    for (const slug of slugs) {
       assert(nav.includes(`/conditions/${slug}/`), area + ': condition target is linked ' + slug);
       assert(fs.existsSync(path.join(fixture, 'public/conditions', slug, 'index.html')), area + ': condition target exists ' + slug);
     }
   }
-  console.log('✅ Ten disease-first headings, regional guide links, patient guides and review-date cases passed.');
+  console.log('✅ Nine disease-first headings, regional guide links, patient guides and review-date cases passed.');
 } finally {
   fs.rmSync(fixture, { recursive: true, force: true });
 }

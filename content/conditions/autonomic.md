@@ -126,7 +126,7 @@ reference_sources_html: "<ul><li><a href=\"https://www.ninds.nih.gov/health-info
 <section class="reference-section" id="autonomic-associated" data-reference-section="associated"><h2>이런 증상이 여러 개 함께 나타난다면?</h2>
 <div class="reference-copy">
 <p>오래 서 있거나 일어설 때 불편하고 앉거나 누우면 줄어드는지, 자세와 무관하게 생기는지 확인합니다. 식사를 거른 날, 더운 곳에 있던 날, 약을 바꾼 뒤의 변화도 함께 적습니다. 맥박이 빨라졌다는 사실만으로 특정 자율신경 질환을 진단하지 않습니다.</p>
-<p>두근거림과 공포가 갑자기 몰려오는 경우에는 공황발작의 양상을, 밤중 각성과 피로가 중심이면 수면 문제를 함께 살핍니다. 자율신경 증상과 <a href="/conditions/panic/">공황장애</a>, <a href="/conditions/insomnia/">불면증</a>, <a href="/conditions/dizziness/">어지럼증</a>은 겹칠 수 있지만 서로 같은 진단은 아닙니다.</p>
+<p>두근거림과 공포가 갑자기 몰려오는 경우에는 공황발작의 양상을, 밤중 각성과 피로가 중심이면 수면 문제를 함께 살핍니다. 자율신경 증상과 <a href="/conditions/panic/">공황장애</a>·<a href="/conditions/insomnia/">불면증</a>의 신체 반응은 겹칠 수 있습니다. <a href="/conditions/syncope/#syncope-causes">어지럼이나 실신 전조</a>가 있다면 하나의 원인으로 단정하지 않고 양상과 원인 평가를 함께 살핍니다.</p>
 <div class="reference-callout"><p>여러 증상이 같은 시점에 나타났는지, 서로 다른 조건에서 번갈아 나타났는지 나누어 기록하면 평가에 도움이 됩니다. 증상의 개수만으로 자율신경 장애를 진단하지 않습니다.</p></div>
 </div></section>
 
