@@ -44,14 +44,16 @@
         </div>
         <div class="area-condition-grid">
           {{ range $conditions }}{{ $slug := . }}{{ with site.GetPage (printf "/conditions/%s" .) }}
-          {{ $target := .RelPermalink }}{{ $label := .Params.condition_name }}
-          {{ with $area.Params.local_condition_hub }}{{ with $area.Site.GetPage (printf "/areas/%s-%s" . $slug) }}{{ $target = .RelPermalink }}{{ $label = printf "%s %s" .Params.area_name .Params.condition_name }}{{ end }}{{ end }}
+          {{ $target := .RelPermalink }}{{ $label := .Params.condition_name }}{{ $hidden := false }}
+          {{ with $area.Params.local_condition_hub }}{{ with $area.Site.GetPage (printf "/areas/%s-%s" . $slug) }}{{ $target = .RelPermalink }}{{ $label = printf "%s %s" .Params.area_name .Params.condition_name }}{{ $hidden = .Params.hide_from_lists | default false }}{{ end }}{{ end }}
+          {{ if not $hidden }}
           <a href="{{ $target }}" class="area-condition-card">
             <span class="area-condition-icon" aria-hidden="true">{{ index $icons $slug }}</span>
             <h3>{{ $label }}</h3>
             <p>{{ .Params.hero_summary | default .Params.summary }}</p>
             <span class="area-condition-card-link">{{ $label }} 진료 안내 <span aria-hidden="true">→</span></span>
           </a>
+          {{ end }}
           {{ end }}{{ end }}
         </div>
       </div>

@@ -1,0 +1,24 @@
+{{ $page := . }}
+{{ $clinical := site.GetPage .Params.reference_source }}
+{{ $info := site.Params.clinic_info }}
+{{ $region := index (where site.Data.local_condition_hubs "slug" .Params.local_condition_hub) 0 }}
+<article class="condition-page condition-page-tic reference-condition-page condition-regional-page">
+  <div class="reference-shell">
+    <nav class="reference-breadcrumb" aria-label="현재 위치"><a href="{{ "/" | relURL }}">홈</a><span>›</span><a href="{{ "/areas/" | relURL }}">지역별 진료 안내</a><span>›</span><a href="{{ "/areas/yongin/" | relURL }}">용인 진료 안내</a><span>›</span><span aria-current="page">틱장애</span></nav>
+    {{ partial "condition_photo_hero.html" . }}
+    <div class="reference-article">
+      <div class="reference-supervision"><img src="{{ "images/doctor-son-profile.webp" | relURL }}" width="52" height="52" alt="손지웅 대표원장"><span class="reference-supervision-badge">진료 안내</span><span>해아림한의원 분당점 <strong>{{ $info.doctor }}</strong> · 의학적 검토 예정</span></div>
+      <div class="reference-main-copy">
+        <section class="reference-section regional-intro" id="local-consultation" aria-labelledby="local-consultation-title"><h2 id="local-consultation-title">용인에서 틱장애 치료를 고민하는 보호자와 성인 환자분께</h2><p>{{ .Params.consultation_intro }}</p><div class="regional-location-note"><i class="ph-bold ph-map-pin" aria-hidden="true"></i><p><strong>실제 진료 장소는 해아림한의원 분당점입니다.</strong><br>{{ $info.address }} · {{ $info.subway }}</p></div></section>
+        {{ .Content }}
+        <section class="reference-section" id="local-preparation" aria-labelledby="local-preparation-title"><h2 id="local-preparation-title">용인에서 첫 방문 전 준비할 내용</h2><ul>{{ range .Params.visit_preparation }}<li>{{ . }}</li>{{ end }}</ul><p>수지·기흥·처인구에서 방문한다면 보호자의 이동 시간과 학교·직장 일정을 함께 고려해 예약해 주세요. 검사 결과나 약 목록이 아직 모두 준비되지 않았다면 확인한 내용부터 전달하셔도 됩니다.</p><a class="regional-clinical-link" href="{{ $clinical.RelPermalink }}#visit-process">틱장애 전체 검사·진료 과정 확인 →</a></section>
+        <section class="reference-section" id="local-faq" aria-labelledby="local-faq-title"><h2 id="local-faq-title">용인에서 방문할 때 자주 묻는 질문 BEST 3</h2><div class="reference-faq-list">{{ range .Params.faq }}<details data-local-faq><summary>{{ .question }}</summary><p>{{ .answer }}</p></details>{{ end }}</div></section>
+        {{ partial "condition_reference_faq.html" $clinical }}
+      </div>
+    </div>
+    <section class="reference-support-section regional-routes" id="local-location" aria-labelledby="local-location-title"><div class="reference-section-header"><p>FROM YONGIN TO BUNDANG</p><h2 id="local-location-title">수지·기흥·처인구에서 분당 정자역으로</h2></div><div class="reference-grid-3">{{ range $region.routes }}<article class="reference-card"><h3>{{ .title }}</h3><p>{{ .text }}</p></article>{{ end }}</div>{{ with $region.route_note }}<p class="reference-resource-note">{{ . }}</p>{{ end }}<p>정자역 3번 출구에서 분당점까지 도보 약 2분입니다. {{ $info.parking }}.</p><nav class="regional-route-links" aria-label="용인 구별 방문 안내"><a href="{{ "/areas/suji/" | relURL }}">수지에서 오시는 길</a><a href="{{ "/areas/giheung/" | relURL }}">기흥에서 오시는 길</a><a href="{{ "/areas/cheoin/" | relURL }}">처인구에서 오시는 길</a><a href="{{ "/areas/yongin/" | relURL }}#area-route-heading">용인 전체 교통·방문 안내</a></nav></section>
+    {{ partial "condition_reference_resources.html" $clinical }}
+  </div>
+  {{ partial "condition_bottom_cta.html" . }}
+  <nav class="condition-region-links" aria-label="틱장애 전체 안내"><a href="{{ $clinical.RelPermalink }}">틱장애 증상·검사·치료 전체 안내로 돌아가기 →</a></nav>
+</article>

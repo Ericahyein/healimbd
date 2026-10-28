@@ -27,10 +27,10 @@
     <link rel="stylesheet" href="{{ $areaStyle.RelPermalink }}">
   {{ end }}
 
-  {{ if eq .Section "conditions" }}
+  {{ if or (eq .Section "conditions") .Params.reference_source }}
     {{ $conditionStyle := resources.Get "css/condition-page.css" | resources.Minify | resources.Fingerprint }}
     <link rel="stylesheet" href="{{ $conditionStyle.RelPermalink }}">
-    {{ if .Params.reference_layout }}
+    {{ if or .Params.reference_layout .Params.reference_source }}
       {{ $referenceStyle := resources.Get "css/condition-reference.css" | resources.Minify | resources.Fingerprint }}
       <link rel="stylesheet" href="{{ $referenceStyle.RelPermalink }}">
     {{ end }}

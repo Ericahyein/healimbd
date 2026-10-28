@@ -5,6 +5,8 @@
 {{ $is404 := or (eq .Kind "404") (eq .RelPermalink "/404.html") }}
 {{ $isTaxonomy := or (eq .Kind "taxonomy") (eq .Kind "term") (in .RelPermalink "/categories/") (in .RelPermalink "/tags/") }}
 {{ $pageTitle := .Params.seo_title | default .Title }}
+{{ $conditionFaq := .Params.faq | default slice }}
+{{ with .Params.reference_source }}{{ with site.GetPage . }}{{ $conditionFaq = $conditionFaq | append .Params.faq }}{{ end }}{{ end }}
 {{ $title := "" }}
 {{ if $is404 }}
   {{ $title = printf "404 Page not found | %s" $siteTitle }}
@@ -16,6 +18,8 @@
   {{ $title = printf "치료후기 안내 | %s" $siteTitle }}
 {{ else if $isTaxonomy }}
   {{ $title = printf "%s | %s" .Title $siteTitle }}
+{{ else if .Params.seo_title_exact }}
+  {{ $title = $pageTitle }}
 {{ else if $pageTitle }}
   {{ $title = printf "%s | %s" $pageTitle $siteTitle }}
 {{ else }}
@@ -306,7 +310,7 @@
   {{ if $ogImage }}
     {{ $webpage = merge $webpage (dict "primaryImageOfPage" (dict "@type" "ImageObject" "url" $ogImage)) }}
   {{ end }}
-  {{ with .Params.faq }}
+  {{ with $conditionFaq }}
     {{ $faqItems := slice }}
     {{ range . }}
       {{ $faqItems = $faqItems | append (dict
@@ -325,7 +329,7 @@
 {{ if and (not $isHome) (eq .Section "blog") (not .IsSection) }}
   {{ $graph = $graph | append $articleDict }}
 {{ end }}
-{{ if and (not $isHome) (or (eq .Section "conditions") (eq .Type "area-condition")) (not .IsSection) .Params.faq }}
+{{ if and (not $isHome) (or (eq .Section "conditions") (eq .Type "area-condition")) (not .IsSection) $conditionFaq }}
   {{ $graph = $graph | append $faqDict }}
 {{ end }}
 

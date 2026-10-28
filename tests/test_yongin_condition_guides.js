@@ -43,15 +43,15 @@ for (const [slug, name] of Object.entries(conditions)) {
   assert(!meta.some(a => a.name === 'robots' && /noindex/i.test(a.content)), `${slug}: indexable`);
   assert(sitemap.includes(`https://healimbd.com${url}`), `${slug}: sitemap entry`);
   for (const parent of ['/areas/yongin/', '/areas/suji/', '/areas/giheung/', '/areas/cheoin/']) {
-    assert(links(html(parent)).includes(url), `${slug}: discoverable from ${parent}`);
+    assert.strictEqual(links(html(parent)).includes(url), slug !== 'tic', `${slug}: regional lists respect the unlisted tic page`);
   }
   assert(links(html(`/conditions/${slug}/`)).includes(url), `${slug}: linked from the clinical guide`);
   for (const target of ['/areas/yongin/', `/conditions/${slug}/#visit-process`, '/areas/suji/', '/areas/giheung/', '/areas/cheoin/']) {
     assert(pageLinks.includes(target), `${slug}: useful visit and clinical connections ${target}`);
   }
-  assert.strictEqual((text.match(/class=(?:"area-faq-item"|area-faq-item)/g) || []).length, 3, `${slug}: visible local FAQs`);
+  assert.strictEqual((text.match(slug === 'tic' ? /<details\b[^>]*data-local-faq/g : /class=(?:"area-faq-item"|area-faq-item)/g) || []).length, 3, `${slug}: visible local FAQs`);
   const source = fs.readFileSync(path.join(root, 'content/areas', `yongin-${slug}.md`), 'utf8');
-  const headings = [...source.matchAll(/^### (.+)$/gm)].map(m => m[1]);
+  const headings = [...source.matchAll(slug === 'tic' ? /<h2>([^<]+)<\/h2>/g : /^### (.+)$/gm)].map(m => m[1]);
   assert.strictEqual(headings.length, 3, `${slug}: substantive clinical topics`);
   for (const heading of headings) {
     assert(!topicHeadings.has(heading), `${slug}: clinical topics are not just a regional-name substitution`);
@@ -61,7 +61,7 @@ for (const [slug, name] of Object.entries(conditions)) {
   const page = graph.find(n => Array.isArray(n['@type']) && n['@type'].includes('MedicalWebPage'));
   assert.strictEqual(page?.about?.name, name, `${slug}: medical topic agrees with visible content`);
   const faq = graph.find(n => n['@type'] === 'FAQPage');
-  assert.strictEqual(faq?.mainEntity?.length, 3, `${slug}: FAQ schema matches visible entries`);
+  assert.strictEqual(faq?.mainEntity?.length, slug === 'tic' ? 19 : 3, `${slug}: local and shared FAQ schema matches visible entries`);
   for (const item of faq.mainEntity) {
     assert(text.includes(item.name) && text.includes(item.acceptedAnswer.text), `${slug}: no hidden FAQ answers`);
   }
@@ -81,6 +81,22 @@ for (const [slug, name] of Object.entries(conditions)) {
     if (fragment) assert(ids(target).includes(fragment), `${slug}: live target anchor ${link}`);
   }
 }
+const tic = html('/conditions/tic/');
+const regionalTic = html('/areas/yongin/tic/');
+for (const [page, title] of [[tic, '분당 틱장애 치료 병원 ㅣ 해아림한의원 분당점ㅣ 어린이틱장애, 성인틱장애, 음성틱장애, 뚜렛장애'], [regionalTic, '용인 틱장애 치료 병원 ㅣ 해아림한의원']]) {
+  assert.strictEqual(page.match(/<title>([^<]+)<\/title>/)[1], title, 'exact requested search title');
+  assert.strictEqual(page.match(/<h1\b[^>]*>([^<]+)<\/h1>/)[1], title, 'exact requested visible H1');
+  const metadata = [...page.matchAll(/<meta\b[^>]*>/g)].map(m=>attrs(m[0]));
+  assert.strictEqual(metadata.find(m=>m.property==='og:title').content, title);
+  assert.strictEqual(metadata.find(m=>m.property==='twitter:title').content, title);
+}
+for (const id of ['faq', 'network-faq', 'patient-stories', 'related-columns']) {
+  const section = page => [...page.matchAll(/<section\b[^>]*>([\s\S]*?)<\/section>/g)].find(m=>attrs(m[0].slice(0,m[0].indexOf('>')+1)).id===id)?.[0];
+  assert(section(tic), `${id}: source section exists`);
+  assert.strictEqual(section(regionalTic), section(tic), `${id}: identical shared clinical content and design`);
+}
+assert(tic.includes('condition-region-number') && links(tic).includes('/areas/yongin/tic/'), 'visible number 1 opens the real regional page');
+for (const index of ['/', '/guide/']) assert(!links(html(index)).includes('/areas/yongin/tic/'), 'unlisted page is absent from primary menus and treatment cards');
 assert(links(html('/')).includes('/areas/yongin/'), 'home page exposes the regional hub');
 let linkedColumns = 0;
 for (const file of fs.readdirSync(path.join(root, 'content/blog')).filter(f => f.startsWith('yongin-') && f.endsWith('.md'))) {

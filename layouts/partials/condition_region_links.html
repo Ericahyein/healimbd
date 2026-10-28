@@ -1,0 +1,8 @@
+{{ with .Params.regional_guides }}
+<nav class="condition-region-links" aria-label="지역별 진료·방문 안내">
+  <span>지역별 안내</span>
+  {{ range . }}{{ $entry := . }}{{ with site.GetPage .page }}
+  <a href="{{ .RelPermalink }}"><span class="condition-region-number">{{ $entry.number }}</span>{{ $entry.label }}</a>
+  {{ end }}{{ end }}
+</nav>
+{{ end }}
