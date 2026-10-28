@@ -52,6 +52,15 @@ for (const [slug, expected] of Object.entries(structure)) {
   assert(!page.reviewedBy&&!page.lastReviewed);
   assert.strictEqual((text.match(/<h1\b/g)||[]).length,1);
 }
-for (const url of ['/','/guide/']) assert(read(url).includes('/conditions/dizziness/'));
+for (const url of ['/','/guide/']) {
+  const overview = read(url);
+  const cards = [...overview.matchAll(/<a\b[^>]*>/g)].map(m=>attrs(m[0])).filter(a=>a.class?.split(' ').includes('treatment-photo-card'));
+  assert.strictEqual(cards.length,10,`${url}: all ten condition photo cards are discoverable`);
+  assert.strictEqual(new Set(cards.map(c=>c.href)).size,10,`${url}: no repeated condition replaces a missing card`);
+  for (const slug of ['tic',...Object.keys(structure)]) assert(cards.some(c=>c.href===`/conditions/${slug}/`),`${url}: ${slug} is in the photo grid`);
+  const dizziness = cards.find(c=>c.href==='/conditions/dizziness/');
+  assert(dizziness.style.includes('/images/clinics/clinic-dizziness.webp'),`${url}: dedicated dizziness photo is used`);
+  assert(!overview.includes('9대 주요 진료과목'),`${url}: outdated nine-condition heading is removed`);
+}
 assert(read('/blog/gyeonggi-icheon-dizziness-chronic-dizziness/').includes('/conditions/dizziness/'));
 console.log('✅ Nine reference-layout guides: section counts/headings/order, resource modules, split FAQ/schema, clinical identity and links verified.');
