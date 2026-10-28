@@ -24,7 +24,7 @@ const metaBlock = text => text.match(/<div\b[^>]*class=(?:"condition-meta[^"]*"|
 try {
   write('hugo.toml', 'baseURL = "https://healimbd.com/"\ntitle = "해아림한의원 분당점"\n[markup.goldmark.renderer]\nunsafe = true\n');
   write('config/_default/params.yaml', fs.readFileSync(path.join(root, 'config/_default/params.yaml'), 'utf8'));
-  for (const name of ['condition_medical_review.html', 'condition_related_posts.html', 'condition_reference.html', 'condition_reference_faq.html', 'condition_reference_resources.html', 'condition_region_links.html', 'condition_photo_hero.html', 'condition_bottom_cta.html', 'head_seo.html', 'clinic_visit_summary.html', 'page_hero.html']) {
+  for (const name of ['condition_medical_review.html', 'condition_related_posts.html', 'condition_reference.html', 'condition_region_links.html', 'condition_photo_hero.html', 'condition_bottom_cta.html', 'head_seo.html', 'clinic_visit_summary.html', 'page_hero.html']) {
     write('layouts/partials/' + name, fs.readFileSync(path.join(root, 'layouts/partials', name), 'utf8'));
   }
   write('layouts/conditions/single.html', fs.readFileSync(path.join(root, 'layouts/conditions/single.html'), 'utf8'));

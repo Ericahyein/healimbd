@@ -171,7 +171,6 @@
 .condition-photo-hero .condition-hero-grid{grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr)}
 .condition-photo-hero .condition-hero-copy{min-width:0;padding:54px 48px}
 .condition-photo-hero h1{color:#17233c;max-width:none;font-size:clamp(34px,3.7vw,52px);overflow-wrap:anywhere}
-.condition-photo-hero h1.condition-search-heading{font-size:clamp(27px,3vw,38px);line-height:1.45;word-break:keep-all}
 .condition-photo-hero .condition-lead{overflow-wrap:anywhere}
 .condition-photo-hero .condition-meta{font-size:12px;line-height:1.7;gap:8px 15px}
 .condition-photo-hero .condition-meta i{font-size:16px}
@@ -191,18 +190,6 @@
   .condition-photo-hero .condition-quick-links{gap:7px}
   .condition-photo-hero .condition-quick-links a{font-size:12px;padding:8px 10px;min-height:40px}
 }
-
-/* Quiet, readable navigation for regional information below the clinical guide. */
-.condition-region-links{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:10px 18px;padding:22px 24px;background:#f6f9fb;color:#526876;font-size:13px;line-height:1.8}
-.condition-region-links a{display:inline-flex;align-items:center;gap:8px;color:#285c76;text-decoration:underline;text-underline-offset:3px}
-.condition-region-number{display:inline-grid;place-items:center;width:22px;height:22px;border:1px solid #bed3de;border-radius:50%;font-size:12px;text-decoration:none}
-.regional-location-note{display:flex;align-items:flex-start;gap:12px;background:#edf7fc;border:1px solid #cce4ed;border-radius:14px;padding:20px 22px;margin-top:24px;color:#294f63}
-.regional-location-note i{font-size:25px;color:#0096be;flex-shrink:0}
-.regional-location-note p{margin:0}
-.regional-clinical-link{color:#00779f;text-decoration:underline;text-underline-offset:4px;font-weight:700}
-.regional-route-links{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
-.regional-route-links a{border:1px solid #c7dce6;border-radius:12px;padding:12px 16px;color:#126580;background:#f5fbfe;font-size:14px;text-decoration:none}
-@media(max-width:600px){.condition-photo-hero h1.condition-search-heading{font-size:27px}.regional-location-note{padding:16px}.regional-route-links a{font-size:13px;padding:10px 12px}}
 @media(max-width:800px){
   .condition-photo-hero .condition-hero-grid{grid-template-columns:1fr}
   .condition-photo-hero .condition-hero-media{min-height:0;aspect-ratio:4/3}
@@ -243,3 +230,9 @@
   .condition-cta .condition-cta-actions{max-width:340px;width:100%;gap:10px}
   .condition-cta-actions a{font-size:16px}
 }
+
+.condition-photo-hero h1.condition-search-heading{font-size:clamp(27px,3vw,38px);line-height:1.45;word-break:keep-all}
+.condition-region-links{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:10px 18px;padding:22px 24px;background:#f6f9fb;color:#526876;font-size:13px;line-height:1.8}
+.condition-region-links a{display:inline-flex;align-items:center;gap:8px;color:#285c76;text-decoration:underline;text-underline-offset:3px}
+.condition-region-number{display:inline-grid;place-items:center;width:22px;height:22px;border:1px solid #bed3de;border-radius:50%;font-size:12px;text-decoration:none}
+@media(max-width:600px){.condition-photo-hero h1.condition-search-heading{font-size:27px}}

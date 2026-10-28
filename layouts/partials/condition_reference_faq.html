@@ -1,3 +1,0 @@
-{{ $faq := .Params.faq | default slice }}
-{{ $mainFaqCount := sub (len $faq) 4 }}
-        <section class="reference-section reference-main-faq" id="faq" data-reference-section="faq" aria-labelledby="faq-title"><h2 id="faq-title">{{ .Params.reference_faq_title }}</h2><div class="reference-faq-list">{{ range first $mainFaqCount $faq }}<details><summary>{{ .question }}</summary><p>{{ .answer }}</p>{{ if and .related_url .related_title }}<p><a href="{{ .related_url | relURL }}">{{ .related_title }}</a></p>{{ end }}</details>{{ end }}</div></section>

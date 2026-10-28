@@ -1,7 +1,5 @@
 {{ $displayName := .Params.condition_display_name | default .Params.condition_name | default .Title }}
-{{ $clinical := . }}
-{{ with .Params.reference_source }}{{ with site.GetPage . }}{{ $clinical = . }}{{ end }}{{ end }}
-{{ $related := partial "condition_related_posts.html" $clinical }}
+{{ $related := partial "condition_related_posts.html" . }}
 {{ $review := partial "condition_medical_review.html" . }}
 {{ $observation := .Params.guide_observation_anchor | default (printf "%s-observation" .File.ContentBaseName) }}
 {{ $treatment := .Params.guide_treatment_anchor | default (printf "%s-treatment" .File.ContentBaseName) }}
@@ -9,9 +7,7 @@
   <div class="container condition-hero-grid">
     <div class="condition-hero-copy">
       <p class="condition-eyebrow">{{ .Params.hero_kicker | default "CLINICAL GUIDE" }}</p>
-      {{ with .Params.hero_heading }}
-      <h1 class="condition-search-heading">{{ . }}</h1>
-      {{ else }}
+      {{ with .Params.hero_heading }}<h1 class="condition-search-heading">{{ . }}</h1>{{ else }}
       <h1><span>{{ $parts := split $displayName "(" }}{{ index $parts 0 }}{{ range after 1 $parts }}<wbr>({{ . }}{{ end }}</span><span>증상·검사·치료 안내</span></h1>
       {{ end }}
       <p class="condition-subtitle">{{ .Title }}</p>

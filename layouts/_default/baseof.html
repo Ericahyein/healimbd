@@ -27,17 +27,21 @@
     <link rel="stylesheet" href="{{ $areaStyle.RelPermalink }}">
   {{ end }}
 
-  {{ if or (eq .Section "conditions") .Params.reference_source }}
+  {{ if eq .Section "conditions" }}
     {{ $conditionStyle := resources.Get "css/condition-page.css" | resources.Minify | resources.Fingerprint }}
     <link rel="stylesheet" href="{{ $conditionStyle.RelPermalink }}">
-    {{ if or .Params.reference_layout .Params.reference_source }}
+    {{ if .Params.reference_layout }}
       {{ $referenceStyle := resources.Get "css/condition-reference.css" | resources.Minify | resources.Fingerprint }}
       <link rel="stylesheet" href="{{ $referenceStyle.RelPermalink }}">
     {{ end }}
   {{ end }}
 
+  {{ if eq .Type "condition-local" }}
+    {{ $localStyle := resources.Get "css/condition-local.css" | resources.Minify | resources.Fingerprint }}
+    <link rel="stylesheet" href="{{ $localStyle.RelPermalink }}">
+  {{ end }}
 </head>
-<body>
+<body{{ if eq .Type "condition-local" }} class="condition-local-body"{{ end }}>
   {{ partial "header.html" . }}
 
   <main id="main-content">

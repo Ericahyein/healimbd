@@ -1,7 +1,4 @@
 {{ define "main" }}
-{{ if .Params.reference_source }}
-{{ partial "condition_regional_reference.html" . }}
-{{ else }}
 {{ $page := . }}
 {{ $info := site.Params.clinic_info }}
 {{ $condition := site.GetPage (printf "/conditions/%s" .Params.condition_slug) }}
@@ -64,7 +61,6 @@
     </aside>
   </div>
 
-  <section class="container area-detail-container area-local-related" aria-labelledby="local-related-title"><h2 id="local-related-title">다른 {{ $region.name }} 진료 안내</h2><nav class="area-all-conditions" aria-label="{{ $region.name }} 질환별 진료 안내">{{ range (slice "tic" "adhd" "panic" "anxiety" "insomnia" "autonomic" "hyperhidrosis" "ibs" "syncope") }}{{ with site.GetPage (printf "/areas/%s-%s" $hubSlug .) }}{{ if and (ne .RelPermalink $page.RelPermalink) (not .Params.hide_from_lists) }}<a href="{{ .RelPermalink }}">{{ $region.name }} {{ .Params.condition_name }}</a>{{ end }}{{ end }}{{ end }}</nav><p><a href="{{ $hub.RelPermalink }}">{{ $region.name }} 전체 진료·방문 안내로 돌아가기</a></p></section>
+  <section class="container area-detail-container area-local-related" aria-labelledby="local-related-title"><h2 id="local-related-title">다른 {{ $region.name }} 진료 안내</h2><nav class="area-all-conditions" aria-label="{{ $region.name }} 질환별 진료 안내">{{ range (slice "tic" "adhd" "panic" "anxiety" "insomnia" "autonomic" "hyperhidrosis" "ibs" "syncope") }}{{ with site.GetPage (printf "/areas/%s-%s" $hubSlug .) }}{{ if ne .RelPermalink $page.RelPermalink }}<a href="{{ .RelPermalink }}">{{ $region.name }} {{ .Params.condition_name }}</a>{{ end }}{{ end }}{{ end }}</nav><p><a href="{{ $hub.RelPermalink }}">{{ $region.name }} 전체 진료·방문 안내로 돌아가기</a></p></section>
 </article>
-{{ end }}
 {{ end }}

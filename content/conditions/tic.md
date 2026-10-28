@@ -5,7 +5,7 @@ seo_title_exact: true
 hero_heading: "분당 틱장애 치료 병원 ㅣ 해아림한의원 분당점ㅣ 어린이틱장애, 성인틱장애, 음성틱장애, 뚜렛장애"
 regional_guides:
   - number: 1
-    page: "/areas/yongin-tic"
+    page: "/condition-local/tic-yongin"
     label: "용인 틱장애 진료·방문 안내"
 condition_name: "틱장애"
 column_categories: ["tic","tourette"]
