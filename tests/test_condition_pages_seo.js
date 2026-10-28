@@ -27,7 +27,7 @@ for (const [name, content] of Object.entries(conditions)) {
   assert(content.includes('seo_title:'), `${name}: unique SEO title required`);
   assert(content.includes('description:'), `${name}: meta description required`);
   assert(content.includes('lastmod:'), `${name}: content modification date required`);
-  assert(content.includes('## 참고한 의료 정보'), `${name}: source section required`);
+  assert(content.includes('## 참고한 의료 정보') || content.includes('reference_sources_html:'), `${name}: source section required`);
   assert((content.match(/question:/g) || []).length >= 6, `${name}: at least 6 visible FAQs required`);
   const chosen = content.match(/^featured_column: "\/blog\/([^/]+)\/"$/m)?.[1];
   assert(chosen, `${name}: one explicitly chosen column required`);
@@ -38,7 +38,7 @@ for (const [name, content] of Object.entries(conditions)) {
     assert(content.includes(area), `${name}: missing nearby service area ${area}`);
   }
   assert(!content.includes('수지'), `${name}: Suji must not be targeted on condition pages`);
-  if (content.includes('guide_flow: "patient-first"')) {
+  if (content.includes('guide_flow: "patient-first"') || content.includes('reference_layout: true')) {
     assert(content.includes('visit_location_intro:') && layout.includes('id="visit-location"'), `${name}: reordered local visit section required`);
   } else {
   assert(content.includes('## 분당 정자역 위치·주차·예약 안내 {#visit-location}'), `${name}: visible local visit section required`);

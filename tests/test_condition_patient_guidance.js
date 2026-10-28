@@ -19,12 +19,12 @@ const schemas = text => [...text.matchAll(/(<script\b[^>]*>)([\s\S]*?)<\/script>
   .filter(match => attrs(match[1]).type === 'application/ld+json')
   .flatMap(match => JSON.parse(match[2])['@graph'] || []);
 const schemaPage = text => schemas(text).find(node => Array.isArray(node['@type']) && node['@type'].includes('MedicalWebPage'));
-const metaBlock = text => text.match(/<div\b[^>]*class=(?:"condition-meta"|condition-meta)[^>]*>([\s\S]*?)<\/div>/)?.[1];
+const metaBlock = text => text.match(/<div\b[^>]*class=(?:"condition-meta[^"]*"|condition-meta)[^>]*>([\s\S]*?)<\/div>/)?.[1];
 
 try {
   write('hugo.toml', 'baseURL = "https://healimbd.com/"\ntitle = "해아림한의원 분당점"\n[markup.goldmark.renderer]\nunsafe = true\n');
   write('config/_default/params.yaml', fs.readFileSync(path.join(root, 'config/_default/params.yaml'), 'utf8'));
-  for (const name of ['condition_medical_review.html', 'condition_related_posts.html', 'head_seo.html', 'clinic_visit_summary.html', 'page_hero.html']) {
+  for (const name of ['condition_medical_review.html', 'condition_related_posts.html', 'condition_reference.html', 'head_seo.html', 'clinic_visit_summary.html', 'page_hero.html']) {
     write('layouts/partials/' + name, fs.readFileSync(path.join(root, 'layouts/partials', name), 'utf8'));
   }
   write('layouts/conditions/single.html', fs.readFileSync(path.join(root, 'layouts/conditions/single.html'), 'utf8'));
@@ -85,7 +85,11 @@ try {
     const lastmod = source.match(/^lastmod: (\d{4}-\d{2}-\d{2})$/m)[1];
     const faqCount = (source.match(/question:/g) || []).length;
     const conditionName = source.match(/^condition_name: "([^"]+)"$/m)[1];
-    assert.strictEqual(heading, `${conditionName} 증상·검사·치료 안내`, slug + ': disease-first heading');
+    if (source.includes('reference_layout: true')) {
+      assert(heading.startsWith(conditionName) && heading.includes('해아림한의원 분당점'), slug + ': reference-layout heading identifies condition and branch');
+    } else {
+      assert.strictEqual(heading, `${conditionName} 증상·검사·치료 안내`, slug + ': disease-first heading');
+    }
     const title = `${conditionName} 증상·검사·치료 안내 | 해아림한의원 분당점`;
     assert.strictEqual(text.match(/<title>([^<]+)<\/title>/)[1], title, slug + ': disease-first search title retains clinic identity');
     assert(text.includes(`content="${title}"`), slug + ': social metadata uses the same title');
@@ -96,10 +100,10 @@ try {
     const ids = [...text.matchAll(/<[a-z][^>]*\bid=(?:"([^"]+)"|'([^']+)'|([^\s>]+))/g)]
       .map(match => match[1] ?? match[2] ?? match[3]);
     assert.strictEqual(new Set(ids).size, ids.length, slug + ': no duplicate section IDs');
-    const quickNav = text.match(/<nav\b[^>]*class=(?:"condition-quick-links"|condition-quick-links)[^>]*>([\s\S]*?)<\/nav>/)?.[1];
+    const quickNav = text.match(/<nav\b[^>]*class=(?:"(?:condition-quick-links|reference-hero-actions)"|condition-quick-links|reference-hero-actions)[^>]*>([\s\S]*?)<\/nav>/)?.[1];
     assert(quickNav, slug + ': quick navigation is rendered without JavaScript');
     for (const id of ['visit-process', 'visit-preparation', 'clinic-visit-summary', 'faq']) {
-      assert(quickNav.includes(`href=#${id}`) || quickNav.includes(`href="#${id}"`), slug + ': missing quick link ' + id);
+      if (!source.includes('reference_layout: true')) assert(quickNav.includes(`href=#${id}`) || quickNav.includes(`href="#${id}"`), slug + ': missing quick link ' + id);
       assert(ids.includes(id), slug + ': quick link target exists ' + id);
     }
     assert(!quickNav.includes('#related-columns'), slug + ': omit related link when no columns exist in fixture');

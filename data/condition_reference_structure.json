@@ -1,0 +1,252 @@
+{
+  "panic": {
+    "source_url": "https://healim-daegu.com/panic-disorder/",
+    "section_keys": [
+      "intro",
+      "definition",
+      "symptoms",
+      "cycle",
+      "causes",
+      "autonomic",
+      "sleep",
+      "assessment",
+      "treatment",
+      "doctor",
+      "candidates",
+      "consult",
+      "faq",
+      "closing"
+    ],
+    "section_titles": [
+      "갑자기 숨이 막히고 가슴이 두근거린다면, 공황발작인지 먼저 확인해보세요",
+      "공황장애란 무엇인가요?",
+      "공황장애 증상, 이런 느낌이 반복되나요?",
+      "그런데 왜 공황발작은 자꾸만 반복될까요?",
+      "공황장애 원인은 무엇인가요?",
+      "공황장애와 자율신경 증상, 어떤 관계가 있나요?",
+      "공황장애와 불면증이 함께 있다면?",
+      "해아림 공황장애 검사와 진단 시스템",
+      "해아림한의원 분당점 1:1 맞춤 진료와 치료",
+      "손지웅 대표원장의 분당점 1:1 진료",
+      "공황장애 치료, 이런 분이라면 상담을 고려해보세요",
+      "공황장애, 참으면서 버티기보다 지금 상태부터 확인해보세요",
+      "공황장애 자주 묻는 질문 FAQ BEST",
+      "공황장애 극복, 가장 먼저 해야 할 일은 내 증상을 정확히 아는 것입니다"
+    ],
+    "module_order": [
+      "insights",
+      "tv",
+      "books",
+      "network-faq",
+      "reviews",
+      "columns",
+      "visit"
+    ]
+  },
+  "dizziness": {
+    "source_url": "https://healim-daegu.com/dizziness/",
+    "section_keys": [
+      "intro",
+      "definition",
+      "symptoms",
+      "associated",
+      "causes",
+      "normal",
+      "autonomic",
+      "assessment",
+      "treatment",
+      "doctor",
+      "candidates",
+      "referral",
+      "faq",
+      "closing"
+    ],
+    "section_titles": [
+      "빙빙 도는 어지럼부터 멍하고 붕 뜨는 느낌까지, 원인을 먼저 확인해보세요",
+      "어지럼증, 왜 이렇게 다양한 느낌으로 나타날까요?",
+      "어지럼증 증상, 나는 어떤 유형에 가까울까요?",
+      "어지럼증과 함께 이런 증상이 나타나나요?",
+      "어지럼증 원인은 무엇인가요?",
+      "\"검사에서는 아무 이상이 없다는데 저는 왜 계속 어지러울까요?\"",
+      "어지럼증과 자율신경은 어떤 관계가 있나요?",
+      "해아림한의원 분당점 어지럼증 정밀 검사 시스템",
+      "해아림한의원 분당점 1:1 맞춤 진료와 치료",
+      "손지웅 대표원장의 분당점 1:1 진료",
+      "이런 어지럼증이라면 상담을 미루지 마세요",
+      "어지럼증, 어느 병원에 가야 할까요?",
+      "어지럼증 자주 묻는 질문 FAQ BEST",
+      "어지럼증 극복, 가장 먼저 해야 할 일은 내 어지럼의 형태를 바로 아는 것입니다"
+    ],
+    "module_order": [
+      "insights",
+      "tv",
+      "books",
+      "network-faq",
+      "reviews",
+      "columns",
+      "visit"
+    ]
+  },
+  "autonomic": {
+    "source_url": "https://healim-daegu.com/dysautonomia/",
+    "section_keys": [
+      "intro",
+      "definition",
+      "symptoms",
+      "associated",
+      "causes",
+      "normal",
+      "assessment",
+      "treatment",
+      "doctor",
+      "candidates",
+      "referral",
+      "overlap",
+      "faq",
+      "closing"
+    ],
+    "section_titles": [
+      "두근거림·어지럼증·불면·소화불량이 한꺼번에 나타난다면 자율신경 상태를 확인해보세요",
+      "자율신경실조증이란 무엇인가요?",
+      "자율신경실조증 증상은 어떻게 나타날까요?",
+      "이런 증상이 여러 개 함께 나타난다면?",
+      "자율신경실조증은 왜 생기며 왜 악화될까요?",
+      "\"검사는 정상인데 저는 왜 계속 아프고 괴로울까요?\"",
+      "해아림한의원 분당점 자율신경 정밀 검사 시스템",
+      "해아림한의원 분당점 1:1 맞춤 진료와 치료",
+      "손지웅 대표원장의 분당점 1:1 진료",
+      "이런 분이라면 자율신경 상담을 받아보세요",
+      "자율신경실조증, 어느 병원에 가야 하나요?",
+      "자율신경실조증과 공황장애·불면증의 관계",
+      "자율신경실조증 자주 묻는 질문 FAQ BEST",
+      "자율신경실조증 치료, 증상 하나보다 전체적인 흐름을 보아야 합니다"
+    ],
+    "module_order": [
+      "insights",
+      "tv",
+      "books",
+      "network-faq",
+      "reviews",
+      "columns",
+      "visit"
+    ]
+  },
+  "insomnia": {
+    "source_url": "https://healim-daegu.com/insomnia/",
+    "section_keys": [
+      "intro",
+      "definition",
+      "cycle",
+      "alertness",
+      "overlap",
+      "medicine",
+      "assessment",
+      "treatment",
+      "doctor",
+      "candidates",
+      "faq",
+      "closing"
+    ],
+    "section_titles": [
+      "잠들기 어렵고, 자다가 자꾸 깨고, 새벽에 너무 일찍 눈이 떠지시나요?",
+      "불면증이란 무엇인가요? (4대 대표 유형)",
+      "불면증은 왜 생기며 왜 악순환될까요?",
+      "\"몸은 너무 피곤한데 머리는 왜 더 또렷해질까요?\"",
+      "불면증과 불안·자율신경실조증·공황장애가 함께 나타나는 이유",
+      "수면제 없이 불면증을 치료할 수 있나요? (수면제 부작용 및 감량)",
+      "해아림한의원 분당점 불면증 정밀 검사 시스템",
+      "해아림한의원 분당점 1:1 맞춤 진료와 치료",
+      "손지웅 대표원장의 분당점 1:1 진료",
+      "어떤 경우에 치료가 필요할까요?",
+      "불면증 자주 묻는 질문 FAQ BEST",
+      "불면증 극복, 편안한 잠과 일상 회복을 함께 살펴보세요"
+    ],
+    "module_order": [
+      "insights",
+      "tv",
+      "books",
+      "network-faq",
+      "reviews",
+      "columns",
+      "visit"
+    ]
+  },
+  "adhd": {
+    "source_url": "https://healim-daegu.com/adhd/",
+    "section_keys": [
+      "intro",
+      "definition",
+      "symptoms",
+      "games",
+      "overlap",
+      "homework",
+      "assessment",
+      "treatment",
+      "doctor",
+      "candidates",
+      "faq",
+      "closing"
+    ],
+    "section_titles": [
+      "아이에게 이런 모습이 반복되고 있나요?",
+      "ADHD란 무엇인가요?",
+      "ADHD 대표 양상: 모두가 산만한 것은 아닙니다",
+      "\"좋아하는 게임은 몇 시간씩 하는데, 왜 공부는 5분도 못 할까요?\"",
+      "ADHD와 틱장애·불면증·불안이 함께 나타나는 이유",
+      "ADHD 아이에게 공부를 시키면 왜 자꾸 싸우게 될까요?",
+      "해아림한의원 분당점 ADHD 정밀 검사 시스템",
+      "해아림한의원 분당점 1:1 맞춤 진료와 치료",
+      "손지웅 대표원장의 분당점 1:1 진료",
+      "이런 경우라면 ADHD 상담을 받아보세요",
+      "ADHD 자주 묻는 질문 FAQ BEST",
+      "우리 아이 ADHD 극복, 아이 탓도 부모 탓도 아닙니다"
+    ],
+    "module_order": [
+      "insights",
+      "tv",
+      "books",
+      "network-faq",
+      "reviews",
+      "columns",
+      "visit"
+    ]
+  },
+  "anxiety": {
+    "source_url": "https://healim-daegu.com/anxiety-disorder/",
+    "section_keys": [
+      "intro",
+      "definition",
+      "symptoms",
+      "cycle",
+      "panic",
+      "assessment",
+      "treatment",
+      "doctor",
+      "candidates",
+      "faq",
+      "closing"
+    ],
+    "section_titles": [
+      "별일이 없는데도 계속 불안하고 걱정되시나요?",
+      "불안장애란 무엇인가요? (정상 불안 vs 병적 불안)",
+      "불안장애 증상은 어떻게 나타날까요?",
+      "불안장애와 자율신경실조증·건강염려증의 악순환 루프",
+      "불안장애와 공황장애는 어떻게 다른가요?",
+      "해아림한의원 분당점 불안장애 정밀 검사 시스템",
+      "해아림한의원 분당점 1:1 맞춤 진료와 치료",
+      "손지웅 대표원장의 분당점 1:1 진료",
+      "어떤 경우에 치료가 필요할까요?",
+      "불안장애 자주 묻는 질문 FAQ BEST",
+      "불안장애 극복, 혼자서 참고 견디는 것만이 정답은 아닙니다"
+    ],
+    "module_order": [
+      "insights",
+      "tv",
+      "books",
+      "network-faq",
+      "reviews",
+      "columns",
+      "visit"
+    ]
+  }
+}

@@ -1,4 +1,7 @@
 {{ define "main" }}
+{{ if .Params.reference_layout }}
+{{ partial "condition_reference.html" . }}
+{{ else }}
 {{ $relatedPosts := partial "condition_related_posts.html" . }}
 {{ $patientFlow := eq .Params.guide_flow "patient-first" }}
 {{ $observationAnchor := .Params.guide_observation_anchor | default "tic-observation" }}
@@ -187,4 +190,5 @@
     </div>
   </section>
 </article>
+{{ end }}
 {{ end }}
