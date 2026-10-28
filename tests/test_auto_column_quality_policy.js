@@ -3,7 +3,7 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 const { CLINIC_EVALUATION, selectEvidenceNotes, prepareArticleKnowledge, checkClinicFacts } = require('../scripts/auto_column/medical_policy');
-const { planNextColumn, getRankedCandidatePlans, wasTopicPublished, selectTopicAngleForDisease, getKstCalendarDate } = require('../scripts/auto_column/topic_planner');
+const { planNextColumn, getRankedCandidatePlans, wasTopicPublished, selectTopicAngleForDisease, getKstCalendarDate, isMedicalKnowledgeApproved } = require('../scripts/auto_column/topic_planner');
 const { generateArticleBody, loadMedicalKnowledge } = require('../scripts/auto_column/ai_generator');
 const { validateArticleContent, checkMedicationDiscontinuation } = require('../scripts/auto_column/content_validator');
 const taxonomy = require('../scripts/auto_column/disease_taxonomy.json');
@@ -137,8 +137,16 @@ const ROOT = path.join(__dirname, '..');
     // one of the two simulated slots on a hard-coded calendar day.
     const latestDay = Math.max(...simulated.map(item => getKstCalendarDate(item.publishDate).getTime()));
     const simulationDate = (day, hour) => new Date(latestDay + day * 86400000 + (hour - 9) * 3600000 + 7 * 60000);
-    const candidates = getRankedCandidatePlans({ historyPath, now: simulationDate(1, 9) });
-    assert(candidates.length > 0);
+    // Allow the real history's disease cooldowns to expire before checking
+    // deduplication. Routine publishing can also legitimately exhaust all
+    // approved topics; it must not make this policy test depend on stock size.
+    const candidates = getRankedCandidatePlans({ historyPath, now: simulationDate(4, 9) });
+    const hasFreshApprovedTopic = taxonomy.diseases.some(disease =>
+      isMedicalKnowledgeApproved(disease.id) && disease.topicAngles.some(angle =>
+        angle.productionEligible !== false && !wasTopicPublished(simulated, disease.id, angle.id)
+      )
+    );
+    assert.strictEqual(candidates.length > 0, hasFreshApprovedTopic, 'fresh approved stock produces candidates after cooldown; exhausted stock stays blocked');
     assert.strictEqual(taxonomy.diseases.find(d => d.id === 'autonomic').topicAngles.find(a => a.id === 'medication-onset').productionEligible, false);
     for (const candidate of candidates) {
       assert(!published.has(`${candidate.disease.id}|${candidate.topicAngle.id}`), 'region changes cannot recycle a published topic');
