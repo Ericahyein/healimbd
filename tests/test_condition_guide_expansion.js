@@ -56,7 +56,8 @@ for (const [slug, expected] of Object.entries(structure)) {
   assert(bottom[0].includes('증상과 경과는 사람마다 다릅니다.') && bottom[0].includes('현재 상태에 맞는 진료 방향을 상담해 보세요.'));
   const bottomLinks = [...bottom[0].matchAll(/<a\b[^>]*>/g)].map(m=>attrs(m[0]));
   assert(bottomLinks.some(a=>a.href==='tel:031-716-8575'));
-  assert(bottomLinks.some(a=>a.href==='/inquiry/'));
+  assert(bottomLinks.some(a=>a.href==='https://naver.me/xbARooIc'));
+  assert(bottomLinks.some(a=>a.href==='https://pf.kakao.com/_NEUHT'));
   assert(text.indexOf(bottom[0]) > text.indexOf('id=visit-preparation'),`${slug}: banner follows all visit guidance`);
 
 }

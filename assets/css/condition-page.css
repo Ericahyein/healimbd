@@ -208,21 +208,25 @@
 .condition-page.reference-condition-page{padding-bottom:0}
 .reference-condition-page > .condition-cta{margin-top:56px}
 .condition-page .condition-cta{padding:72px 0;background:#12314a;color:#fff}
-.condition-page .condition-cta-inner{width:min(1380px,calc(100% - 64px));gap:36px}
-.condition-cta-inner>div:first-child{flex:1;min-width:0}
+.condition-page .condition-cta-inner{width:min(1100px,calc(100% - 64px));flex-direction:column;align-items:center;gap:30px;text-align:center}
+.condition-cta-inner>div:first-child{min-width:0}
 .condition-cta p{font-size:18px;line-height:1.6}
 .condition-cta h2{line-height:1.4;word-break:keep-all;overflow-wrap:anywhere;font-weight:800}
-.condition-cta-actions a{min-height:54px;gap:10px;font-size:17px;padding:0 23px}
-.condition-cta-actions a:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.65)}
+.condition-cta .condition-cta-actions{justify-content:center;flex-wrap:wrap;gap:14px}
+.condition-cta-actions a{min-height:58px;min-width:190px;justify-content:center;gap:10px;font-size:18px;padding:0 26px;transition:background .2s,box-shadow .2s,transform .2s}
+.condition-cta-brand{width:24px;height:24px;flex-shrink:0}
+.condition-cta-actions .condition-cta-naver{background:#03c75a;border-color:#03c75a;color:#fff;box-shadow:0 5px 16px #031f2830}
+.condition-cta-actions .condition-cta-kakao{background:#fee500;border-color:#fee500;color:#191919;box-shadow:0 5px 16px #031f2830}
+.condition-cta-actions .condition-cta-phone:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.65)}
+.condition-cta-actions .condition-cta-naver:hover{background:#02b451;border-color:#02b451;transform:translateY(-2px)}
+.condition-cta-actions .condition-cta-kakao:hover{background:#f5dc00;border-color:#f5dc00;transform:translateY(-2px)}
 .condition-cta-actions a:focus-visible{outline:3px solid #9bd8ef;outline-offset:4px}
-/* Keep the consultation links clear of the fixed reservation rail on narrower screens. */
-@media(max-width:1750px){.condition-page .condition-cta-inner{align-items:flex-start;flex-direction:column;gap:25px}}
 @media(max-width:600px){
   .reference-condition-page > .condition-cta{margin-top:36px}
   .condition-page .condition-cta{padding:42px 0}
   .condition-page .condition-cta-inner{width:calc(100% - 40px)}
   .condition-cta p{font-size:15px}
   .condition-cta h2{font-size:25px}
-  .condition-cta-actions{gap:10px}
+  .condition-cta .condition-cta-actions{max-width:340px;width:100%;gap:10px}
   .condition-cta-actions a{font-size:16px}
 }
