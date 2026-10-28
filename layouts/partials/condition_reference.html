@@ -8,19 +8,9 @@
 <article class="condition-page condition-page-{{ .File.ContentBaseName }} reference-condition-page">
   <div class="reference-shell">
     <nav class="reference-breadcrumb" aria-label="현재 위치"><a href="{{ "/" | relURL }}">홈</a><span>›</span><a href="{{ "/guide/" | relURL }}">진료과목</a><span>›</span><span aria-current="page">{{ .Params.condition_display_name | default .Params.condition_name }}</span></nav>
-    <header class="reference-hero">
-      <div class="reference-hero-grid"><div class="reference-hero-copy">
-      <div class="reference-hero-badge">해아림한의원 분당점 · 손지웅 대표원장</div>
-      <p class="reference-hero-sub">HEALIM BUNDANG <span>·</span> {{ .Params.hero_kicker }}</p>
-      <h1>{{ range .Params.reference_hero_lines }}<span>{{ $parts := split . "(" }}{{ index $parts 0 }}{{ range after 1 $parts }}<wbr>({{ . }}{{ end }}</span>{{ end }}</h1>
-      <p class="reference-hero-description">{{ .Params.hero_summary }}</p>
-      <nav class="reference-hero-actions" aria-label="진료 안내 바로가기"><a href="{{ "/location/" | relURL }}">분당점 오시는 길 <span aria-hidden="true">›</span></a><a href="#{{ .File.ContentBaseName }}-assessment">정밀 검사 시스템 <span aria-hidden="true">›</span></a></nav>
-      </div><div class="reference-hero-art" aria-hidden="true">{{ partial "condition_illustration.html" . }}<p>몸과 마음을 함께 살피는 진료</p></div></div>
-      <div class="reference-hero-footer"><span>증상의 이해</span><i aria-hidden="true">→</i><span>개인별 상태 확인</span><i aria-hidden="true">→</i><span>일상 속 변화 관찰</span></div>
-    </header>
+    {{ partial "condition_photo_hero.html" . }}
     <div class="reference-article">
       <div class="reference-supervision" aria-label="진료 및 의학적 검토 안내"><img src="{{ "images/doctor-son-profile.webp" | relURL }}" width="52" height="52" alt="손지웅 대표원장"><span class="reference-supervision-badge">{{ if $review.confirmed }}의학적 검토{{ else }}진료 안내{{ end }}</span><span>해아림한의원 분당점 <strong>{{ $info.doctor }}</strong>{{ if $review.confirmed }} · {{ $review.display_date }}{{ else }} · 의학적 검토 예정{{ end }}</span></div>
-      <div class="condition-meta reference-meta"><span>작성: {{ .Params.author }}</span><span>최종 수정: <time datetime="{{ .Lastmod.Format "2006-01-02" }}">{{ .Lastmod.Format "2006.01.02" }}</time></span>{{ if $review.confirmed }}<span>의학적 검토: {{ $review.reviewer }}</span><span>검토일: {{ $review.display_date }}</span>{{ end }}</div>
       <div class="reference-main-copy">
         {{ index $body 0 | safeHTML }}
         <section class="reference-section reference-main-faq" id="faq" data-reference-section="faq" aria-labelledby="faq-title"><h2 id="faq-title">{{ .Params.reference_faq_title }}</h2><div class="reference-faq-list">{{ range first $mainFaqCount $faq }}<details><summary>{{ .question }}</summary><p>{{ .answer }}</p>{{ if and .related_url .related_title }}<p><a href="{{ .related_url | relURL }}">{{ .related_title }}</a></p>{{ end }}</details>{{ end }}</div></section>

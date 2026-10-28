@@ -18,7 +18,7 @@ const conditions = {
 };
 const tic = conditions['틱장애'];
 const panic = conditions['공황장애'];
-const layout = read('layouts/conditions/single.html');
+const layout = read('layouts/conditions/single.html') + read('layouts/partials/condition_photo_hero.html');
 const seo = read('layouts/partials/head_seo.html');
 const guide = read('layouts/guide/list.html') + read('layouts/partials/condition_photo_cards.html');
 

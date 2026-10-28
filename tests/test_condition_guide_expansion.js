@@ -61,6 +61,20 @@ for (const url of ['/','/guide/']) {
   assert(!cards.some(c=>c.href==='/conditions/dizziness/'),`${url}: separate dizziness card is removed`);
   assert(overview.includes('미주신경성실신(어지럼증)'),`${url}: approved combined menu label`);
   assert(!overview.includes('9대 주요 진료과목'),`${url}: outdated nine-condition heading is removed`);
+  for (const card of cards) {
+    const detail = read(card.href);
+    const hero = detail.match(/<header\b[^>]*class=(?:"condition-hero condition-photo-hero"|'condition-hero condition-photo-hero')[^>]*>([\s\S]*?)<\/header>/)?.[1];
+    assert(hero, `${card.href}: photographic split hero is rendered`);
+    const photo = [...hero.matchAll(/<img\b[^>]*>/g)].map(m=>attrs(m[0]));
+    assert.strictEqual(photo.length,1,`${card.href}: one hero photograph`);
+    assert(card.style.includes(photo[0].src),`${card.href}: menu and detail reuse the same photograph`);
+    assert.strictEqual(photo[0].fetchpriority,'high');
+    assert(!hero.includes('reference-illustration'),`${card.href}: old decorative illustration is replaced`);
+    for (const a of [...hero.matchAll(/<a\b[^>]*>/g)].map(m=>attrs(m[0]))) {
+      if (a.href?.startsWith('#')) assert(ids(detail).includes(a.href.slice(1)),`${card.href}: hero anchor ${a.href} exists`);
+    }
+  }
+
 }
 assert(!fs.existsSync(path.join(output,'conditions/dizziness/index.html')), 'standalone dizziness page is removed');
 assert(!read('/blog/gyeonggi-icheon-dizziness-chronic-dizziness/').includes('/conditions/dizziness/'));

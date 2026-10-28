@@ -1,0 +1,39 @@
+{{ $displayName := .Params.condition_display_name | default .Params.condition_name | default .Title }}
+{{ $related := partial "condition_related_posts.html" . }}
+{{ $review := partial "condition_medical_review.html" . }}
+{{ $observation := .Params.guide_observation_anchor | default (printf "%s-observation" .File.ContentBaseName) }}
+{{ $treatment := .Params.guide_treatment_anchor | default (printf "%s-treatment" .File.ContentBaseName) }}
+<header class="condition-hero condition-photo-hero">
+  <div class="container condition-hero-grid">
+    <div class="condition-hero-copy">
+      <p class="condition-eyebrow">{{ .Params.hero_kicker | default "CLINICAL GUIDE" }}</p>
+      <h1><span>{{ $parts := split $displayName "(" }}{{ index $parts 0 }}{{ range after 1 $parts }}<wbr>({{ . }}{{ end }}</span><span>증상·검사·치료 안내</span></h1>
+      <p class="condition-subtitle">{{ .Title }}</p>
+      <p class="condition-lead">{{ .Params.hero_summary }}</p>
+      <nav class="condition-quick-links" aria-label="진료 안내 바로가기">
+        <a href="#{{ $observation }}">증상·구별</a>
+        <a href="#visit-process">진료 과정</a>
+        <a href="#{{ $treatment }}">치료·관리</a>
+        <a href="#visit-preparation">방문 준비</a>
+        <a href="#clinic-visit-summary">위치·예약</a>
+        {{ with .Params.faq }}<a href="#faq">자주 묻는 질문</a>{{ end }}
+        {{ with $related }}<a href="#related-columns">관련 칼럼</a>{{ end }}
+      </nav>
+      <div class="condition-meta" aria-label="작성 및 수정·검토 정보">
+        <span><i class="ph-bold ph-pencil-simple" aria-hidden="true"></i> 작성: {{ .Params.content_author | default .Params.author }}</span>
+        {{ if not .Lastmod.IsZero }}<span><i class="ph-bold ph-calendar-check" aria-hidden="true"></i> 최종 수정: <time datetime="{{ .Lastmod.Format "2006-01-02" }}">{{ .Lastmod.Format "2006.01.02" }}</time></span>{{ end }}
+        {{ if $review.confirmed }}
+        <span><i class="ph-bold ph-stethoscope" aria-hidden="true"></i> 의학적 검토: {{ $review.reviewer }}</span>
+        <span><i class="ph-bold ph-calendar-check" aria-hidden="true"></i> 검토일: <time datetime="{{ $review.date }}">{{ $review.display_date }}</time></span>
+        {{ end }}
+      </div>
+      <div class="condition-hero-actions">
+        <a class="condition-btn primary" href="{{ "/inquiry/" | relURL }}">온라인 문의</a>
+        <a class="condition-btn secondary" href="https://naver.me/xbARooIc" target="_blank" rel="noopener noreferrer">네이버 예약</a>
+      </div>
+    </div>
+    <figure class="condition-hero-media">
+      <img src="{{ .Params.image | relURL }}" alt="{{ .Params.image_alt }}" width="1024" height="768" fetchpriority="high" decoding="async">
+    </figure>
+  </div>
+</header>

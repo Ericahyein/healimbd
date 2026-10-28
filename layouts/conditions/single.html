@@ -17,46 +17,7 @@
     </div>
   </nav>
 
-  <header class="condition-hero">
-    <div class="container condition-hero-grid">
-      <div class="condition-hero-copy">
-        <p class="condition-eyebrow">{{ .Params.hero_kicker | default "CLINICAL GUIDE" }}</p>
-        <h1>
-          {{ with .Params.hero_title_lines }}
-            {{ range . }}<span>{{ . }}</span>{{ end }}
-          {{ else }}
-            {{ $.Title }}
-          {{ end }}
-        </h1>
-        <p class="condition-subtitle">{{ .Title }}</p>
-        <p class="condition-lead">{{ .Params.hero_summary }}</p>
-        <nav class="condition-quick-links" aria-label="진료 안내 바로가기">
-          {{ if $patientFlow }}<a href="#{{ $observationAnchor }}">증상·구별</a>{{ end }}
-          <a href="#visit-process">진료 과정</a>
-          {{ if $patientFlow }}<a href="#{{ $treatmentAnchor }}">치료·관리</a>{{ end }}
-          <a href="#visit-preparation">방문 준비</a>
-          <a href="#clinic-visit-summary">위치·예약</a>
-          {{ with .Params.faq }}<a href="#faq">자주 묻는 질문</a>{{ end }}
-          {{ with $relatedPosts }}<a href="#related-columns">관련 칼럼</a>{{ end }}
-        </nav>
-        <div class="condition-meta" aria-label="작성 및 수정·검토 정보">
-          <span><i class="ph-bold ph-pencil-simple"></i> 작성: {{ .Params.content_author | default .Params.author }}</span>
-          {{ if not .Lastmod.IsZero }}<span><i class="ph-bold ph-calendar-check"></i> 최종 수정: <time datetime="{{ .Lastmod.Format "2006-01-02" }}">{{ .Lastmod.Format "2006.01.02" }}</time></span>{{ end }}
-          {{ if $medicalReview.confirmed }}
-          <span><i class="ph-bold ph-stethoscope"></i> 의학적 검토: {{ $medicalReview.reviewer }}</span>
-          <span><i class="ph-bold ph-calendar-check"></i> 검토일: <time datetime="{{ $medicalReview.date }}">{{ $medicalReview.display_date }}</time></span>
-          {{ end }}
-        </div>
-        <div class="condition-hero-actions">
-          <a class="condition-btn primary" href="{{ "/inquiry/" | relURL }}">온라인 문의</a>
-          <a class="condition-btn secondary" href="https://naver.me/xbARooIc" target="_blank" rel="noopener noreferrer">네이버 예약</a>
-        </div>
-      </div>
-      <figure class="condition-hero-media">
-        <img src="{{ .Params.image | relURL }}" alt="{{ .Params.image_alt }}" width="1024" height="768" fetchpriority="high">
-      </figure>
-    </div>
-  </header>
+  {{ partial "condition_photo_hero.html" . }}
 
   {{ if not $patientFlow }}{{ partial "clinic_visit_summary.html" . }}{{ end }}
 
