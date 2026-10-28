@@ -1,0 +1,13 @@
+{{ $phone := site.Params.clinic_info.phone | default "031-716-8575" }}
+<section class="condition-cta" id="condition-bottom-cta" aria-labelledby="condition-bottom-cta-title">
+  <div class="container condition-cta-inner">
+    <div>
+      <p>증상과 경과는 사람마다 다릅니다.</p>
+      <h2 id="condition-bottom-cta-title">현재 상태에 맞는 진료 방향을 상담해 보세요.</h2>
+    </div>
+    <div class="condition-cta-actions">
+      <a href="tel:{{ $phone }}" aria-label="전화 상담 {{ $phone }}"><i class="ph-bold ph-phone" aria-hidden="true"></i><span>{{ $phone }}</span></a>
+      <a href="{{ "/inquiry/" | relURL }}"><i class="ph-bold ph-chat-circle-dots" aria-hidden="true"></i><span>온라인 문의</span></a>
+    </div>
+  </div>
+</section>

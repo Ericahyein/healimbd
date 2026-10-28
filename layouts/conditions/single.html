@@ -137,19 +137,7 @@
   {{ partial "clinic_visit_summary.html" . }}
   {{ end }}
 
-  <section class="condition-cta" aria-label="예약 및 문의">
-    <div class="container condition-cta-inner">
-      <div>
-        <p>증상과 경과는 사람마다 다릅니다.</p>
-        <h2>현재 상태에 맞는 진료 방향을 상담해 보세요.</h2>
-      </div>
-      <div class="condition-cta-actions">
-        {{ if $patientFlow }}<a href="{{ $info.naver_booking_url }}" target="_blank" rel="noopener noreferrer">네이버 예약</a>{{ end }}
-        <a href="tel:031-716-8575"><i class="ph-bold ph-phone"></i> 031-716-8575</a>
-        <a href="{{ "/inquiry/" | relURL }}"><i class="ph-bold ph-chat-circle-dots"></i> 온라인 문의</a>
-      </div>
-    </div>
-  </section>
+  {{ partial "condition_bottom_cta.html" . }}
 </article>
 {{ end }}
 {{ end }}

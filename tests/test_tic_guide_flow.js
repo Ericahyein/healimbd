@@ -8,7 +8,7 @@ const attrs = tag => Object.fromEntries([...tag.matchAll(/([^\s=<>]+)\s*=\s*(?:"
   .map(m => [m[1], m[2] ?? m[3] ?? m[4]]));
 const ids = page => [...page.matchAll(/<[a-z][^>]*\bid=(?:"([^"]*)"|'([^']*)'|([^\s>]+))/g)].map(m => m[1] ?? m[2] ?? m[3]);
 const anchors = [...text.matchAll(/<a\b[^>]*>/g)].map(m => attrs(m[0]));
-const order = ['id=tic-observation', 'id=tic-assessment', 'id=visit-process', 'id=tic-treatment', 'id=adult-tics', 'id=tic-doctor', 'id=faq', 'id=guide-resources', 'id=network-books', 'id=network-faq', 'id=patient-stories', 'id=related-columns', 'id=visit-location', 'id=clinic-visit-summary', 'id=visit-preparation'];
+const order = ['id=tic-observation', 'id=tic-assessment', 'id=visit-process', 'id=tic-treatment', 'id=adult-tics', 'id=tic-doctor', 'id=faq', 'id=guide-resources', 'id=network-books', 'id=network-faq', 'id=patient-stories', 'id=related-columns', 'id=visit-location', 'id=clinic-visit-summary', 'id=visit-preparation', 'id=condition-bottom-cta'];
 let last = -1;
 for (const marker of order) {
   const pattern = marker.includes('=') ? marker.replace('=', '=(?:"|\')?') : marker;
