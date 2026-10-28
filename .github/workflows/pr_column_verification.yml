@@ -114,6 +114,9 @@ jobs:
       - name: Verify Tic Patient Guide Reading Order and Resources
         run: node tests/test_tic_guide_flow.js public
 
+      - name: Verify Expanded Condition Guides and Dizziness Discovery
+        run: node tests/test_condition_guide_expansion.js public
+
       - name: Verify Yongin Clinical Search Pages and Links
         run: node tests/test_yongin_condition_guides.js public
 

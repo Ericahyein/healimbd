@@ -30,6 +30,10 @@
   {{ if eq .Section "conditions" }}
     {{ $conditionStyle := resources.Get "css/condition-page.css" | resources.Minify | resources.Fingerprint }}
     <link rel="stylesheet" href="{{ $conditionStyle.RelPermalink }}">
+    {{ if .Params.reference_layout }}
+      {{ $referenceStyle := resources.Get "css/condition-reference.css" | resources.Minify | resources.Fingerprint }}
+      <link rel="stylesheet" href="{{ $referenceStyle.RelPermalink }}">
+    {{ end }}
   {{ end }}
 
 </head>

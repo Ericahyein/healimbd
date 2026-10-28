@@ -162,7 +162,71 @@
   .condition-resource-card { padding: 24px; }
   .condition-resources { margin-top: 52px; padding-top: 38px; }
   .condition-location-intro { padding-top: 42px; }
-  .condition-page-tic .condition-content table { display: table; table-layout: fixed; white-space: normal; }
-  .condition-page-tic .condition-content th,.condition-page-tic .condition-content td { padding: 12px 10px; font-size: 14px; }
-  .condition-page-tic .condition-content th:first-child { width: 22%; }
+  .condition-patient-flow .condition-content table { display: table; table-layout: fixed; white-space: normal; }
+  .condition-patient-flow .condition-content th,.condition-patient-flow .condition-content td { padding: 12px 10px; font-size: 14px; }
+  .condition-patient-flow .condition-content th:first-child { width: 26%; }
+}
+
+/* Shared photo-led hero: reuse the exact photograph from the condition menu. */
+.condition-photo-hero .condition-hero-grid{grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr)}
+.condition-photo-hero .condition-hero-copy{min-width:0;padding:54px 48px}
+.condition-photo-hero h1{color:#17233c;max-width:none;font-size:clamp(34px,3.7vw,52px);overflow-wrap:anywhere}
+.condition-photo-hero .condition-lead{overflow-wrap:anywhere}
+.condition-photo-hero .condition-meta{font-size:12px;line-height:1.7;gap:8px 15px}
+.condition-photo-hero .condition-meta i{font-size:16px}
+.condition-photo-hero .condition-hero-media{min-width:0;overflow:hidden}
+.condition-photo-hero .condition-hero-media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:var(--condition-photo-x,50%) top}
+.condition-photo-hero .condition-hero-media:after{display:none}
+.condition-page-tic{--condition-photo-x:42%}
+.condition-page-insomnia{--condition-photo-x:35%}
+.condition-page-syncope{--condition-photo-x:40%}
+.reference-condition-page .condition-photo-hero{padding:0;margin-bottom:28px;background:transparent}
+.reference-condition-page .condition-photo-hero .condition-hero-grid{width:100%;max-width:none}
+@media(max-width:1050px){
+  .condition-photo-hero .condition-hero-copy{padding:38px 30px}
+  .condition-photo-hero h1{font-size:clamp(32px,3.7vw,42px)}
+  .condition-photo-hero .condition-subtitle{font-size:19px}
+  .condition-photo-hero .condition-lead{font-size:16px}
+  .condition-photo-hero .condition-quick-links{gap:7px}
+  .condition-photo-hero .condition-quick-links a{font-size:12px;padding:8px 10px;min-height:40px}
+}
+@media(max-width:800px){
+  .condition-photo-hero .condition-hero-grid{grid-template-columns:1fr}
+  .condition-photo-hero .condition-hero-media{min-height:0;aspect-ratio:4/3}
+}
+@media(max-width:600px){
+  .condition-photo-hero .condition-hero-copy{padding:32px 23px}
+  .condition-photo-hero h1{font-size:clamp(28px,8.4vw,34px)}
+  .condition-photo-hero .condition-subtitle{font-size:18px}
+  .condition-photo-hero .condition-lead{font-size:16px;line-height:1.85}
+  .condition-photo-hero .condition-meta{font-size:11px;gap:7px;margin-top:24px}
+  .condition-photo-hero .condition-hero-actions{flex-direction:row;flex-wrap:wrap;margin-top:25px}
+  .condition-photo-hero .condition-btn{width:auto;padding:0 19px;font-size:13px}
+}
+
+/* Full-width consultation band after every condition's final visit information. */
+.condition-page.reference-condition-page{padding-bottom:0}
+.reference-condition-page > .condition-cta{margin-top:56px}
+.condition-page .condition-cta{padding:72px 0;background:#12314a;color:#fff}
+.condition-page .condition-cta-inner{width:min(1100px,calc(100% - 64px));flex-direction:column;align-items:center;gap:30px;text-align:center}
+.condition-cta-inner>div:first-child{min-width:0}
+.condition-cta p{font-size:18px;line-height:1.6}
+.condition-cta h2{line-height:1.4;word-break:keep-all;overflow-wrap:anywhere;font-weight:800}
+.condition-cta .condition-cta-actions{justify-content:center;flex-wrap:wrap;gap:14px}
+.condition-cta-actions a{min-height:58px;min-width:190px;justify-content:center;gap:10px;font-size:18px;padding:0 26px;transition:background .2s,box-shadow .2s,transform .2s}
+.condition-cta-brand{width:24px;height:24px;flex-shrink:0}
+.condition-cta-actions .condition-cta-naver{background:#03c75a;border-color:#03c75a;color:#fff;box-shadow:0 5px 16px #031f2830}
+.condition-cta-actions .condition-cta-kakao{background:#fee500;border-color:#fee500;color:#191919;box-shadow:0 5px 16px #031f2830}
+.condition-cta-actions .condition-cta-phone:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.65)}
+.condition-cta-actions .condition-cta-naver:hover{background:#02b451;border-color:#02b451;transform:translateY(-2px)}
+.condition-cta-actions .condition-cta-kakao:hover{background:#f5dc00;border-color:#f5dc00;transform:translateY(-2px)}
+.condition-cta-actions a:focus-visible{outline:3px solid #9bd8ef;outline-offset:4px}
+@media(max-width:600px){
+  .reference-condition-page > .condition-cta{margin-top:36px}
+  .condition-page .condition-cta{padding:42px 0}
+  .condition-page .condition-cta-inner{width:calc(100% - 40px)}
+  .condition-cta p{font-size:15px}
+  .condition-cta h2{font-size:25px}
+  .condition-cta .condition-cta-actions{max-width:340px;width:100%;gap:10px}
+  .condition-cta-actions a{font-size:16px}
 }

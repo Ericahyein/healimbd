@@ -1,6 +1,11 @@
 {{ define "main" }}
+{{ if .Params.reference_layout }}
+{{ partial "condition_reference.html" . }}
+{{ else }}
 {{ $relatedPosts := partial "condition_related_posts.html" . }}
 {{ $patientFlow := eq .Params.guide_flow "patient-first" }}
+{{ $observationAnchor := .Params.guide_observation_anchor | default "tic-observation" }}
+{{ $treatmentAnchor := .Params.guide_treatment_anchor | default "tic-treatment" }}
 {{ $info := site.Params.clinic_info }}
 {{ $medicalReview := partial "condition_medical_review.html" . }}
 <article class="condition-page condition-page-{{ .File.ContentBaseName }}{{ if $patientFlow }} condition-patient-flow{{ end }}">
@@ -12,46 +17,7 @@
     </div>
   </nav>
 
-  <header class="condition-hero">
-    <div class="container condition-hero-grid">
-      <div class="condition-hero-copy">
-        <p class="condition-eyebrow">{{ .Params.hero_kicker | default "CLINICAL GUIDE" }}</p>
-        <h1>
-          {{ with .Params.hero_title_lines }}
-            {{ range . }}<span>{{ . }}</span>{{ end }}
-          {{ else }}
-            {{ $.Title }}
-          {{ end }}
-        </h1>
-        <p class="condition-subtitle">{{ .Title }}</p>
-        <p class="condition-lead">{{ .Params.hero_summary }}</p>
-        <nav class="condition-quick-links" aria-label="진료 안내 바로가기">
-          {{ if $patientFlow }}<a href="#tic-observation">증상·구별</a>{{ end }}
-          <a href="#visit-process">진료 과정</a>
-          {{ if $patientFlow }}<a href="#tic-treatment">치료·관리</a>{{ end }}
-          <a href="#visit-preparation">방문 준비</a>
-          <a href="#clinic-visit-summary">위치·예약</a>
-          {{ with .Params.faq }}<a href="#faq">자주 묻는 질문</a>{{ end }}
-          {{ with $relatedPosts }}<a href="#related-columns">관련 칼럼</a>{{ end }}
-        </nav>
-        <div class="condition-meta" aria-label="작성 및 수정·검토 정보">
-          <span><i class="ph-bold ph-pencil-simple"></i> 작성: {{ .Params.content_author | default .Params.author }}</span>
-          {{ if not .Lastmod.IsZero }}<span><i class="ph-bold ph-calendar-check"></i> 최종 수정: <time datetime="{{ .Lastmod.Format "2006-01-02" }}">{{ .Lastmod.Format "2006.01.02" }}</time></span>{{ end }}
-          {{ if $medicalReview.confirmed }}
-          <span><i class="ph-bold ph-stethoscope"></i> 의학적 검토: {{ $medicalReview.reviewer }}</span>
-          <span><i class="ph-bold ph-calendar-check"></i> 검토일: <time datetime="{{ $medicalReview.date }}">{{ $medicalReview.display_date }}</time></span>
-          {{ end }}
-        </div>
-        <div class="condition-hero-actions">
-          <a class="condition-btn primary" href="{{ "/inquiry/" | relURL }}">온라인 문의</a>
-          <a class="condition-btn secondary" href="https://naver.me/xbARooIc" target="_blank" rel="noopener noreferrer">네이버 예약</a>
-        </div>
-      </div>
-      <figure class="condition-hero-media">
-        <img src="{{ .Params.image | relURL }}" alt="{{ .Params.image_alt }}" width="1024" height="768" fetchpriority="high">
-      </figure>
-    </div>
-  </header>
+  {{ partial "condition_photo_hero.html" . }}
 
   {{ if not $patientFlow }}{{ partial "clinic_visit_summary.html" . }}{{ end }}
 
@@ -60,12 +26,16 @@
       <span class="condition-toc-kicker">CONTENTS</span>
       <p>이 페이지에서</p>
       {{ if $patientFlow }}
-      <nav aria-label="틱장애 진료 안내 목차"><ul>
+      <nav aria-label="{{ .Params.condition_name }} 진료 안내 목차"><ul>
+        {{ with .Params.guide_toc }}
+          {{ range . }}<li><a href="#{{ .anchor }}">{{ .label }}</a></li>{{ end }}
+        {{ else }}
         <li><a href="#tic-observation">증상과 구별</a></li>
         <li><a href="#tic-assessment">필요한 평가·검사</a></li>
         <li><a href="#visit-process">분당점 진료 과정</a></li>
         <li><a href="#tic-treatment">치료와 생활 관리</a></li>
         <li><a href="#adult-tics">성인 틱장애 상담</a></li>
+        {{ end }}
         <li><a href="#visit-preparation">첫 방문 준비</a></li>
         <li><a href="#faq">자주 묻는 질문</a></li>
         {{ with $relatedPosts }}<li><a href="#related-columns">함께 읽을 칼럼</a></li>{{ end }}
@@ -167,18 +137,7 @@
   {{ partial "clinic_visit_summary.html" . }}
   {{ end }}
 
-  <section class="condition-cta" aria-label="예약 및 문의">
-    <div class="container condition-cta-inner">
-      <div>
-        <p>증상과 경과는 사람마다 다릅니다.</p>
-        <h2>현재 상태에 맞는 진료 방향을 상담해 보세요.</h2>
-      </div>
-      <div class="condition-cta-actions">
-        {{ if $patientFlow }}<a href="{{ $info.naver_booking_url }}" target="_blank" rel="noopener noreferrer">네이버 예약</a>{{ end }}
-        <a href="tel:031-716-8575"><i class="ph-bold ph-phone"></i> 031-716-8575</a>
-        <a href="{{ "/inquiry/" | relURL }}"><i class="ph-bold ph-chat-circle-dots"></i> 온라인 문의</a>
-      </div>
-    </div>
-  </section>
+  {{ partial "condition_bottom_cta.html" . }}
 </article>
+{{ end }}
 {{ end }}
