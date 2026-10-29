@@ -892,5 +892,16 @@
     "topicAngle": "bed-awake-time",
     "title": "[판교 불면증] 잠들지 못한 채 침대에 오래 누워 있을 때 무엇을 살펴볼까요",
     "slug": "bundang-pangyo-sleep-bed-awake-time"
+  },
+  {
+    "publishDate": "2026-10-29T14:05:34.632+09:00",
+    "geoId": "seongnam-main",
+    "displayRegion": "성남",
+    "parentRegion": "성남",
+    "regionType": "city",
+    "disease": "adhd",
+    "topicAngle": "morning-routine-delay",
+    "title": "[성남 ADHD] 등교 준비가 매일 늦어지는 아이, 시간 관리만의 문제일까요",
+    "slug": "seongnam-main-adhd-morning-routine-delay"
   }
 ]
