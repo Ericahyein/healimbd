@@ -7,10 +7,31 @@ regional_guides:
   - number: 1
     page: "/condition-local/tic-yongin"
     label: "용인 틱장애 진료·방문 안내"
+  - number: 2
+    page: "/condition-local/tic-gyeonggi-gwangju"
+    label: "경기광주 틱장애 진료·방문 안내"
+  - number: 3
+    page: "/condition-local/tic-seongnam"
+    label: "성남 틱장애 진료·방문 안내"
+  - number: 4
+    page: "/condition-local/tic-icheon"
+    label: "이천 틱장애 진료·방문 안내"
+  - number: 5
+    page: "/condition-local/tic-anseong"
+    label: "안성 틱장애 진료·방문 안내"
+  - number: 6
+    page: "/condition-local/tic-yeoju"
+    label: "여주 틱장애 진료·방문 안내"
+  - number: 7
+    page: "/condition-local/tic-pangyo"
+    label: "판교 틱장애 진료·방문 안내"
+  - number: 8
+    page: "/condition-local/tic-suji"
+    label: "수지 틱장애 진료·방문 안내"
 condition_name: "틱장애"
 column_categories: ["tic","tourette"]
 date: 2026-09-28
-lastmod: 2026-10-28
+lastmod: 2026-10-29
 author: "해아림한의원 분당점 의료 콘텐츠팀"
 medical_review_status: "source_based"
 description: "눈 깜빡임·킁킁거림·헛기침이 반복될 때 확인할 틱장애 증상과 진료 시점을 안내합니다. 해아림한의원 분당점의 평가·검사, 치료와 훈련 선택 과정을 확인하세요."

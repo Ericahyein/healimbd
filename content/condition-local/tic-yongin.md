@@ -3,6 +3,7 @@ title: "용인 틱장애 치료 병원 ㅣ 해아림한의원"
 seo_title: "용인 틱장애 치료 병원 ㅣ 해아림한의원"
 seo_title_exact: true
 type: condition-local
+area_name: 용인
 url: /conditions/tic/1/
 clinical_source: /conditions/tic/
 condition_name: 틱장애

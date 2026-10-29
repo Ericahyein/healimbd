@@ -212,7 +212,7 @@
   {{ $breadcrumbElements = $breadcrumbElements | append (dict "@type" "ListItem" "position" 3 "name" .Title "item" $canonical) }}
 {{ else if eq .Type "condition-local" }}
   {{ $breadcrumbElements = $breadcrumbElements | append (dict "@type" "ListItem" "position" 2 "name" "틱장애 진료 안내" "item" ("conditions/tic/" | absURL)) }}
-  {{ $breadcrumbElements = $breadcrumbElements | append (dict "@type" "ListItem" "position" 3 "name" "용인" "item" $canonical) }}
+  {{ $breadcrumbElements = $breadcrumbElements | append (dict "@type" "ListItem" "position" 3 "name" (.Params.area_name | default "용인") "item" $canonical) }}
 {{ else if and (not $isHome) (eq .Section "conditions") (not .IsSection) }}
   {{/* 3-tier: Home -> Clinical Guide -> Condition */}}
   {{ $breadcrumbElements = $breadcrumbElements | append (dict "@type" "ListItem" "position" 2 "name" "진료과목" "item" ("guide/" | absURL)) }}
