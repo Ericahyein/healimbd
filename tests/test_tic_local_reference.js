@@ -47,6 +47,7 @@ const regionNames = ['용인','경기광주','성남','이천','안성','여주'
 const expectedUrls = regionNames.map((_,i)=>'/conditions/tic/'+(i+1)+'/');
 const regionNav = pillar.match(/<nav\b[^>]*class=(?:"condition-region-links"|condition-region-links)[^>]*>([\s\S]*?)<\/nav>/)?.[1];
 assert(regionNav, 'regional navigation is visible on the tic pillar');
+assert.strictEqual(regionNav.replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').trim(),'1 2 3 4 5 6 7 8','only the eight numbers are visible in regional navigation');
 assert.deepStrictEqual(links(regionNav).map(a=>a.href), expectedUrls, 'numbers 1–8 link to the requested regions in order');
 const descriptions = new Set();
 const localIntroductions = new Set();
