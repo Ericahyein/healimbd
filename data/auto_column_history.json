@@ -903,5 +903,16 @@
     "topicAngle": "morning-routine-delay",
     "title": "[성남 ADHD] 등교 준비가 매일 늦어지는 아이, 시간 관리만의 문제일까요",
     "slug": "seongnam-main-adhd-morning-routine-delay"
+  },
+  {
+    "publishDate": "2026-10-30T00:12:24.733+09:00",
+    "geoId": "bundang-pangyo",
+    "displayRegion": "판교",
+    "parentRegion": "성남",
+    "regionType": "selected_local_area",
+    "disease": "tic",
+    "topicAngle": "pain-interference",
+    "title": "[판교 틱장애] 고개를 움직이는 틱 때문에 목이 아프다고 할 때",
+    "slug": "bundang-pangyo-tic-pain-interference"
   }
 ]
