@@ -4,7 +4,7 @@
 {{ $clinical := site.GetPage .Params.clinical_source }}
 {{ $condition := $clinical.Params.condition_name }}
 {{ $slug := $clinical.File.ContentBaseName }}
-{{ $profile := index site.Data.condition_local_profiles $slug }}
+{{ $profile := index hugo.Data.condition_local_profiles $slug }}
 {{ $related := partial "condition_related_posts.html" $clinical }}
 <div class="daegu-local-page">
   <div class="daegu-local-container">
