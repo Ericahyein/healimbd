@@ -1,7 +1,7 @@
 {
-  "requestId": "recover-run-40705378886-2026-10-28T14-24-48-233Z",
+  "requestId": "recover-run-40711768868-2026-10-29T05-04-27-889Z",
   "requestedTarget": "auto",
-  "reason": "Retry run #147 after removing a medication-negation phrase that caused a false-positive safety validation failure; the reviewed insomnia topic remains unpublished.",
-  "sourceRunId": 40705378886,
-  "requestedAt": "2026-10-28T14:24:48.233Z"
+  "reason": "Recover run #149 with a newly reviewed, non-duplicate ADHD morning-routine topic after the eligible unpublished topic pool was exhausted.",
+  "sourceRunId": 40711768868,
+  "requestedAt": "2026-10-29T05:04:27.889Z"
 }
