@@ -1,11 +1,13 @@
-name: Verify Tic Regional Pages
+name: Verify Condition Regional Pages
 
 on:
   pull_request:
     branches: [main]
     paths:
       - 'content/condition-local/**'
-      - 'content/conditions/tic.md'
+      - 'content/conditions/**'
+      - 'data/condition_local_profiles.json'
+      - 'tests/test_condition_local_regions.js'
       - 'layouts/condition-local/**'
       - 'layouts/partials/head_seo.html'
       - 'layouts/partials/condition_region_links.html'
@@ -18,7 +20,7 @@ permissions:
 
 jobs:
   verify-regional-pages:
-    name: Build and Verify Eight Regional Tic Pages
+    name: Build and Verify All Regional Condition Pages
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -43,3 +45,5 @@ jobs:
         run: node tests/test_condition_guide_expansion.js public
       - name: Verify original Yongin visit guides
         run: node tests/test_yongin_condition_guides.js public
+      - name: Verify all 72 regional condition pages
+        run: node tests/test_condition_local_regions.js public

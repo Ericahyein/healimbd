@@ -211,7 +211,7 @@
   {{ $breadcrumbElements = $breadcrumbElements | append (dict "@type" "ListItem" "position" 2 "name" "원장 칼럼" "item" ("blog/" | absURL)) }}
   {{ $breadcrumbElements = $breadcrumbElements | append (dict "@type" "ListItem" "position" 3 "name" .Title "item" $canonical) }}
 {{ else if eq .Type "condition-local" }}
-  {{ $breadcrumbElements = $breadcrumbElements | append (dict "@type" "ListItem" "position" 2 "name" "틱장애 진료 안내" "item" ("conditions/tic/" | absURL)) }}
+  {{ with site.GetPage .Params.clinical_source }}{{ $breadcrumbElements = $breadcrumbElements | append (dict "@type" "ListItem" "position" 2 "name" (printf "%s 진료 안내" .Params.condition_name) "item" .Permalink) }}{{ end }}
   {{ $breadcrumbElements = $breadcrumbElements | append (dict "@type" "ListItem" "position" 3 "name" (.Params.area_name | default "용인") "item" $canonical) }}
 {{ else if and (not $isHome) (eq .Section "conditions") (not .IsSection) }}
   {{/* 3-tier: Home -> Clinical Guide -> Condition */}}
