@@ -230,3 +230,9 @@
   .condition-cta .condition-cta-actions{max-width:340px;width:100%;gap:10px}
   .condition-cta-actions a{font-size:16px}
 }
+
+.condition-photo-hero h1.condition-search-heading{font-size:clamp(27px,3vw,38px);line-height:1.45;word-break:keep-all}
+.condition-region-links{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:10px 18px;padding:22px 24px;background:#f6f9fb;color:#526876;font-size:13px;line-height:1.8}
+.condition-region-links a{display:inline-flex;align-items:center;gap:8px;color:#285c76;text-decoration:underline;text-underline-offset:3px}
+.condition-region-number{display:inline-grid;place-items:center;width:22px;height:22px;border:1px solid #bed3de;border-radius:50%;font-size:12px;text-decoration:none}
+@media(max-width:600px){.condition-photo-hero h1.condition-search-heading{font-size:27px}}

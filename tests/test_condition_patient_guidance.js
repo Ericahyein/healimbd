@@ -24,7 +24,7 @@ const metaBlock = text => text.match(/<div\b[^>]*class=(?:"condition-meta[^"]*"|
 try {
   write('hugo.toml', 'baseURL = "https://healimbd.com/"\ntitle = "해아림한의원 분당점"\n[markup.goldmark.renderer]\nunsafe = true\n');
   write('config/_default/params.yaml', fs.readFileSync(path.join(root, 'config/_default/params.yaml'), 'utf8'));
-  for (const name of ['condition_medical_review.html', 'condition_related_posts.html', 'condition_reference.html', 'condition_photo_hero.html', 'condition_bottom_cta.html', 'head_seo.html', 'clinic_visit_summary.html', 'page_hero.html']) {
+  for (const name of ['condition_medical_review.html', 'condition_related_posts.html', 'condition_reference.html', 'condition_region_links.html', 'condition_photo_hero.html', 'condition_bottom_cta.html', 'head_seo.html', 'clinic_visit_summary.html', 'page_hero.html']) {
     write('layouts/partials/' + name, fs.readFileSync(path.join(root, 'layouts/partials', name), 'utf8'));
   }
   write('layouts/conditions/single.html', fs.readFileSync(path.join(root, 'layouts/conditions/single.html'), 'utf8'));
@@ -86,8 +86,9 @@ try {
     const faqCount = (source.match(/question:/g) || []).length;
     const conditionName = source.match(/^condition_name: "([^"]+)"$/m)[1];
     const displayName = source.match(/^condition_display_name: "([^"]+)"$/m)?.[1] || conditionName;
-    assert.strictEqual(heading, `${displayName} 증상·검사·치료 안내`, slug + ': consistent disease-first photographic heading');
-    const title = `${conditionName} 증상·검사·치료 안내 | 해아림한의원 분당점`;
+    const customHeading = source.match(/^hero_heading: "([^"]+)"$/m)?.[1];
+    assert.strictEqual(heading, customHeading || `${displayName} 증상·검사·치료 안내`, slug + ': requested or standard photographic heading');
+    const title = /^seo_title_exact: true$/m.test(source) ? source.match(/^seo_title: "([^"]+)"$/m)[1] : `${conditionName} 증상·검사·치료 안내 | 해아림한의원 분당점`;
     assert.strictEqual(text.match(/<title>([^<]+)<\/title>/)[1], title, slug + ': disease-first search title retains clinic identity');
     assert(text.includes(`content="${title}"`), slug + ': social metadata uses the same title');
     for (const area of areas.slice(0, 4)) {

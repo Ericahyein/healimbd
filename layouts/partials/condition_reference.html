@@ -33,4 +33,5 @@
     <section class="reference-support-section reference-visit" id="visit-location" data-reference-module="visit"><div class="reference-section-header"><p>VISIT &amp; RESERVATION</p><h2>해아림한의원 분당점 진료 예약 및 내원 안내</h2></div>{{ partial "clinic_visit_summary.html" . }}<details class="reference-preparation" id="visit-preparation"><summary>첫 방문 준비와 증상 기록 방법</summary>{{ .Params.reference_preparation_html | safeHTML }}</details><details class="reference-sources"><summary>참고한 의료 정보</summary>{{ .Params.reference_sources_html | safeHTML }}</details></section>
   </div>
   {{ partial "condition_bottom_cta.html" . }}
+  {{ partial "condition_region_links.html" . }}
 </article>

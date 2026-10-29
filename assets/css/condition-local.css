@@ -1,0 +1,113 @@
+/* Standalone regional design based on the Daegu Gimcheon reference. */
+body.condition-local-body{background:#fff;padding-bottom:58px}
+.condition-local-body .floating-quick-bar{display:none}
+.daegu-local-page{--local-teal:#146369;--local-dark:#0c4349;color:#1f2937;background:#fff;font-size:16px;line-height:1.7;padding-top:12px}
+.daegu-local-page *{box-sizing:border-box}
+.daegu-local-page h1,.daegu-local-page h2,.daegu-local-page h3,.daegu-local-page h4{font-family:inherit;font-weight:800;letter-spacing:-.035em;line-height:1.35;color:var(--local-dark)}
+.daegu-local-page a{text-decoration:none}
+.daegu-local-page a:focus-visible,.daegu-local-page summary:focus-visible{outline:3px solid #1d8992;outline-offset:4px}
+.daegu-local-container{max-width:1180px;margin:0 auto;padding:10px 24px 7px}
+.daegu-local-hero{margin:8px 0 24px;padding:34px 32px 28px;border:1px solid #e2e8f0;border-radius:24px;background:radial-gradient(ellipse at center,#f7fcfc 0,#fff 80%);text-align:center;box-shadow:0 2px 16px #0c434903}
+.daegu-local-badge{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:750;color:#087c88;background:#e8f7f9;border:1px solid #c5ebef;border-radius:999px;padding:7px 16px;margin:0 0 13px}
+.daegu-local-badge span{color:#d5aa36;font-size:17px}
+.daegu-local-clinic{margin:0 0 12px;font-weight:800;color:#13808a;font-size:16px}
+.daegu-local-hero h1{font-size:32px;line-height:1.32;margin:0 0 14px;word-break:keep-all}
+.daegu-local-summary{max-width:800px;margin:0 auto 24px;color:#617077;font-size:15px;line-height:1.9;word-break:keep-all}
+.daegu-local-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.daegu-local-actions a{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:10px 23px;border:1px solid var(--local-teal);border-radius:9px;color:var(--local-teal);background:#fff;font-size:14px;font-weight:800;transition:transform .2s,box-shadow .2s}
+.daegu-local-actions a.daegu-local-primary{color:#fff;background:var(--local-teal);box-shadow:0 6px 14px #1463691a}
+.daegu-local-actions a.daegu-local-kakao{color:#191919;background:#fee500;border-color:#fee500}
+.daegu-local-actions a:hover{transform:translateY(-2px);box-shadow:0 7px 16px #14636922}
+.daegu-local-article{max-width:900px;margin:0 auto;padding:8px 0 18px}
+.daegu-local-intro{padding:22px;border:1px solid #dfe8ec;border-radius:15px;background:#f7fafb}
+.daegu-local-intro h2{font-size:19.5px;margin:0 0 12px}
+.daegu-local-intro p{margin:0 0 10px;line-height:1.9}
+.daegu-local-intro .daegu-local-travel{margin:14px 0 0;padding:12px 14px;border-radius:7px;background:#eef6f5;color:var(--local-dark);font-size:14px;font-weight:700;line-height:1.9}
+.daegu-local-section>h2{font-size:21.6px;margin:36px 0 18px;border-left:4px solid var(--local-teal);padding-left:12px}
+.daegu-local-reasons{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.daegu-local-card{padding:20px;border:1px solid #e5e7eb;border-radius:14px;box-shadow:0 2px 6px #0c434905;background:#fff}
+.daegu-local-card h3{font-size:17.3px;color:var(--local-teal);margin:0 0 8px}
+.daegu-local-card p{font-size:15px;color:#4b5563;line-height:1.9;margin:0}
+.daegu-local-panel{border:1px solid #e5e7eb;border-radius:14px;padding:22px 24px}
+.daegu-local-panel h3{font-size:18px;margin:0 0 12px}
+.daegu-local-symptoms{list-style:disc;padding-left:20px;margin:0 0 14px;color:#4b5563;font-size:15px;line-height:2}
+.daegu-local-panel .daegu-local-small{margin:0 0 22px}
+.daegu-local-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.daegu-local-steps>div{background:#f7fafb;border:1px solid #e1e7eb;border-radius:9px;padding:15px}
+.daegu-local-steps h4{margin:0 0 7px;font-size:16px;color:var(--local-teal)}
+.daegu-local-steps p{margin:0;font-size:14px;color:#68777d;line-height:1.9}
+.daegu-local-question{margin:0 0 22px;padding:20px 22px;border:1px solid #e4e9ed;border-radius:13px;background:#fff}
+.daegu-local-question h3{font-size:18px;color:var(--local-teal);margin:0 0 10px}
+.daegu-local-question p{font-size:15px;margin:0;color:#4b5563;line-height:1.9}
+.daegu-local-return{display:inline-flex;gap:9px;align-items:center;color:var(--local-teal);font-weight:800;font-size:15px;border:1px solid #b7d6d9;border-radius:10px;padding:13px 18px;margin:12px 0 0}
+.daegu-local-editorial{font-size:12px;color:#718086;margin:19px 0 0}
+.daegu-local-support{padding:68px 24px;border-top:1px solid #edf1f3}
+.daegu-local-support-inner{max-width:1100px;margin:0 auto}
+.daegu-local-kicker{text-align:center;color:#43828a;font-size:13px;font-weight:800;letter-spacing:.06em;margin:0 0 9px}
+.daegu-local-support h2{text-align:center;font-size:29px;margin:0 0 15px}
+.daegu-local-support-intro{max-width:800px;text-align:center;margin:0 auto 32px;color:#69777e;font-size:15px}
+.daegu-local-books{background:#f7fafb}
+.daegu-local-book-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:48px;max-width:760px;margin:0 auto;text-align:center}
+.daegu-local-book-cover{height:300px;position:relative;display:flex;justify-content:center;align-items:center;padding:20px;background:linear-gradient(135deg,#eaf1f2,#f9fbfc);border:1px solid #dfe8eb;border-radius:15px}
+.daegu-local-book-cover img{width:auto;height:100%;object-fit:contain;max-width:100%;filter:drop-shadow(6px 8px 7px #11313a26)}
+.daegu-local-book-cover span{position:absolute;bottom:14px;right:14px;color:#fff;background:var(--local-teal);font-size:11px;font-weight:800;padding:5px 10px;border-radius:999px}
+.daegu-local-book-grid h3{font-size:21px;margin:20px 0 9px}
+.daegu-local-book-grid p{font-size:14px;color:#64717a;line-height:1.9;margin:0 0 18px}
+.daegu-local-book-button{display:inline-block;padding:10px 17px;border:1px solid #b6d4d8;border-radius:8px;color:var(--local-teal);font-size:14px;font-weight:750}
+.daegu-local-faq-list{max-width:960px;margin:0 auto}
+.daegu-local-faq-list details{border:1px solid #e0e8eb;border-radius:12px;margin:0 0 12px;background:#fff;overflow:hidden}
+.daegu-local-faq-list summary{display:flex;align-items:center;gap:12px;list-style:none;cursor:pointer;padding:20px;color:#203c41;font-size:16px;font-weight:750}
+.daegu-local-faq-list summary::-webkit-details-marker{display:none}
+.daegu-local-q{font-size:19px;color:var(--local-teal);font-weight:900}
+.daegu-local-faq-tag{display:inline-block;font-size:12px;color:#126b74;background:#eaf5f5;border-radius:999px;padding:4px 9px;font-weight:750;flex-shrink:0}
+.daegu-local-plus{margin-left:auto;color:var(--local-teal);font-size:23px;font-weight:400}
+.daegu-local-faq-list details[open] .daegu-local-plus{transform:rotate(45deg)}
+.daegu-local-faq-answer{border-top:1px solid #e6eef0;padding:0 22px;background:#f8fbfc;color:#4b5e65;font-size:15px;line-height:1.9}
+.daegu-local-more{display:table;margin:26px auto 0;padding:11px 21px;border:1px solid #bad5da;border-radius:8px;color:var(--local-teal);font-size:14px;font-weight:800}
+.daegu-local-stories{background:#f7fafb}
+.daegu-local-resource-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.daegu-local-review-card,.daegu-local-column-card{display:flex;flex-direction:column;border:1px solid #dfe7ea;border-radius:15px;overflow:hidden;background:#fff;color:#344950;transition:transform .2s,box-shadow .2s}
+.daegu-local-review-card:hover,.daegu-local-column-card:hover{transform:translateY(-3px);box-shadow:0 8px 22px #0c434911}
+.daegu-local-review-visual{height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:linear-gradient(140deg,#e2efee,#f4f8f5);color:#3c7a79}
+.daegu-local-review-visual i{font-size:43px}.daegu-local-review-visual span{font-size:12px;letter-spacing:.02em}
+.daegu-local-resource-copy{padding:23px;display:flex;flex-direction:column;align-items:flex-start;flex:1}
+.daegu-local-resource-copy h3{font-size:19px;color:#234e55;margin:13px 0 10px;line-height:1.55}
+.daegu-local-resource-copy p{font-size:14px;line-height:1.8;color:#6a7b81;margin:0 0 20px}
+.daegu-local-resource-copy strong{font-size:13px;color:var(--local-teal);margin-top:auto;padding-top:14px}
+.daegu-local-column-card>img{width:100%;height:170px;object-fit:cover}
+.daegu-local-visit{background:#12314a;color:#fff;text-align:center}
+.daegu-local-visit p{font-size:15px;line-height:1.9}
+.daegu-local-visit h2,.daegu-local-visit .daegu-local-kicker,.daegu-local-visit p{color:#fff}
+.daegu-local-visit .daegu-local-actions{margin:24px 0}
+.daegu-local-small{font-size:13px;color:#687b83;line-height:1.8}
+.daegu-local-fixed{position:fixed;bottom:0;left:0;right:0;z-index:900;display:grid;grid-template-columns:1fr 1fr;box-shadow:0 -2px 12px #10323c13}
+.daegu-local-fixed a{display:flex;align-items:center;justify-content:center;gap:10px;min-height:58px;background:#d85450;color:#fff;font-weight:800;font-size:15px;padding:12px 18px;text-decoration:none}
+.daegu-local-fixed a+a{background:#146369}
+.daegu-local-fixed a strong{font-weight:inherit;white-space:nowrap}
+@media(max-width:760px){
+ .daegu-local-container{padding:8px 18px}
+ .daegu-local-hero{padding:28px 20px;border-radius:18px}
+ .daegu-local-hero h1{font-size:27px}
+ .daegu-local-badge{font-size:11px;padding:6px 10px}
+ .daegu-local-summary{font-size:14px}
+ .daegu-local-article{padding:0 2px 20px}
+ .daegu-local-reasons,.daegu-local-steps{grid-template-columns:1fr}
+ .daegu-local-section>h2{font-size:20px;line-height:1.5}
+ .daegu-local-card{padding:20px}
+ .daegu-local-intro,.daegu-local-panel{padding:20px}
+ .daegu-local-question{padding:19px}
+ .daegu-local-support{padding:46px 20px}
+ .daegu-local-support h2{font-size:25px;word-break:keep-all}
+ .daegu-local-support-intro{font-size:14px}
+ .daegu-local-book-grid{gap:26px;grid-template-columns:1fr;max-width:340px}
+ .daegu-local-book-cover{height:300px}
+ .daegu-local-resource-grid{grid-template-columns:1fr;max-width:480px;margin:0 auto}
+ .daegu-local-faq-list summary{padding:17px 14px;gap:8px;font-size:15px;align-items:flex-start;flex-wrap:wrap}
+ .daegu-local-faq-list summary>span:nth-child(3){flex-basis:calc(100% - 32px);order:2}
+ .daegu-local-plus{line-height:1}
+ body.condition-local-body{padding-bottom:64px}
+ .daegu-local-fixed a strong{display:block}
+ .daegu-local-fixed a{font-size:12px;gap:6px;padding:12px 8px;min-height:56px}
+ .daegu-local-actions a{font-size:13px;padding:10px 16px}
+}
+@media(prefers-reduced-motion:reduce){.daegu-local-page a{transition:none}}

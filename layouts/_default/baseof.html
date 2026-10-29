@@ -36,8 +36,12 @@
     {{ end }}
   {{ end }}
 
+  {{ if eq .Type "condition-local" }}
+    {{ $localStyle := resources.Get "css/condition-local.css" | resources.Minify | resources.Fingerprint }}
+    <link rel="stylesheet" href="{{ $localStyle.RelPermalink }}">
+  {{ end }}
 </head>
-<body>
+<body{{ if eq .Type "condition-local" }} class="condition-local-body"{{ end }}>
   {{ partial "header.html" . }}
 
   <main id="main-content">

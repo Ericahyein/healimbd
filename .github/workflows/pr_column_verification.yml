@@ -120,6 +120,9 @@ jobs:
       - name: Verify Yongin Clinical Search Pages and Links
         run: node tests/test_yongin_condition_guides.js public
 
+      - name: Verify Separate Tic Regional Reference Page
+        run: node tests/test_tic_local_reference.js public
+
       - name: Verify Gyeonggi-Gwangju Clinical Search Pages and Regional Boundaries
         run: node tests/test_gwangju_condition_guides.js public
 
