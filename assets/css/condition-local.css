@@ -16,6 +16,9 @@ body.condition-local-body{background:#fff;padding-bottom:58px}
 .daegu-local-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
 .daegu-local-actions a{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:10px 23px;border:1px solid var(--local-teal);border-radius:9px;color:var(--local-teal);background:#fff;font-size:14px;font-weight:800;transition:transform .2s,box-shadow .2s}
 .daegu-local-actions a.daegu-local-primary{color:#fff;background:var(--local-teal);box-shadow:0 6px 14px #1463691a}
+.daegu-local-actions a.daegu-local-naver{background:#03c75a;border-color:#03c75a;color:#fff}
+.daegu-local-actions a.daegu-local-naver:hover{background:#02b451;border-color:#02b451}
+.daegu-local-naver svg{width:20px;height:20px;flex-shrink:0}
 .daegu-local-actions a.daegu-local-kakao{color:#191919;background:#fee500;border-color:#fee500}
 .daegu-local-actions a:hover{transform:translateY(-2px);box-shadow:0 7px 16px #14636922}
 .daegu-local-article{max-width:900px;margin:0 auto;padding:8px 0 18px}
