@@ -1,11 +1,13 @@
 {{ define "main" }}
 {{ $info := site.Params.clinic_info }}
+{{ $region := .Params.area_name | default "용인" }}
+{{ $common := site.GetPage "/condition-local/tic-yongin" }}
 {{ $clinical := site.GetPage .Params.clinical_source }}
 {{ $related := partial "condition_related_posts.html" $clinical }}
 <div class="daegu-local-page">
   <div class="daegu-local-container">
     <header class="daegu-local-hero">
-      <p class="daegu-local-badge"><span aria-hidden="true">✦</span> {{ .Params.hero_badge }}</p>
+      <p class="daegu-local-badge"><span aria-hidden="true">✦</span> {{ .Params.hero_badge | default $common.Params.hero_badge }}</p>
       <p class="daegu-local-clinic">해아림한의원 분당점</p>
       <h1>{{ .Title }}</h1>
       <p class="daegu-local-summary">{{ .Params.hero_summary }}</p>
@@ -13,13 +15,13 @@
     </header>
 
     <article class="daegu-local-article">
-      <section class="daegu-local-intro" aria-labelledby="local-intro-title"><h2 id="local-intro-title"><span aria-hidden="true">📍</span> 용인에서 틱장애 치료를 고민하는 보호자와 환자분께</h2><p>{{ .Params.intro }}</p><p class="daegu-local-travel"><span aria-hidden="true">💡</span> {{ .Params.location_note }}</p></section>
+      <section class="daegu-local-intro" aria-labelledby="local-intro-title"><h2 id="local-intro-title"><span aria-hidden="true">📍</span> {{ $region }}에서 틱장애 치료를 고민하는 보호자와 환자분께</h2><p>{{ .Params.intro }}</p><p class="daegu-local-travel"><span aria-hidden="true">💡</span> {{ .Params.location_note }}</p></section>
 
-      <section class="daegu-local-section" id="local-reasons"><h2>1. 용인에서 해아림한의원 분당점을 찾을 때 확인할 3가지</h2><div class="daegu-local-reasons">{{ range .Params.reasons }}<div class="daegu-local-card"><h3>{{ .title }}</h3><p>{{ .text }}</p></div>{{ end }}</div></section>
+      <section class="daegu-local-section" id="local-reasons"><h2>1. {{ $region }}에서 해아림한의원 분당점을 찾을 때 확인할 3가지</h2><div class="daegu-local-reasons">{{ range .Params.reasons }}<div class="daegu-local-card"><h3>{{ .title }}</h3><p>{{ .text }}</p></div>{{ end }}</div></section>
 
-      <section class="daegu-local-section" id="local-process"><h2>2. 틱장애 주요 증상과 4단계 진료 과정</h2><div class="daegu-local-panel"><h3><span aria-hidden="true">🔍</span> 틱장애의 주요 증상과 구분</h3><ul class="daegu-local-symptoms">{{ range .Params.symptom_types }}<li><strong>{{ .title }}:</strong> {{ .text }}</li>{{ end }}</ul><p class="daegu-local-small">운동틱과 음성틱이 함께 보이거나 욕설을 하지 않는다는 사실만으로 진단을 판단하지 않습니다. 시작 연령·지속 기간과 다른 원인 등을 의료진이 함께 평가합니다.</p><h3><span aria-hidden="true">🌿</span> 해아림한의원 분당점의 4단계 진료 안내</h3><div class="daegu-local-steps">{{ range .Params.steps }}<div><h4>{{ .title }}</h4><p>{{ .text }}</p></div>{{ end }}</div></div></section>
+      <section class="daegu-local-section" id="local-process"><h2>2. 틱장애 주요 증상과 4단계 진료 과정</h2><div class="daegu-local-panel"><h3><span aria-hidden="true">🔍</span> 틱장애의 주요 증상과 구분</h3><ul class="daegu-local-symptoms">{{ range (.Params.symptom_types | default $common.Params.symptom_types) }}<li><strong>{{ .title }}:</strong> {{ .text }}</li>{{ end }}</ul><p class="daegu-local-small">운동틱과 음성틱이 함께 보이거나 욕설을 하지 않는다는 사실만으로 진단을 판단하지 않습니다. 시작 연령·지속 기간과 다른 원인 등을 의료진이 함께 평가합니다.</p><h3><span aria-hidden="true">🌿</span> 해아림한의원 분당점의 4단계 진료 안내</h3><div class="daegu-local-steps">{{ range (.Params.steps | default $common.Params.steps) }}<div><h4>{{ .title }}</h4><p>{{ .text }}</p></div>{{ end }}</div></div></section>
 
-      <section class="daegu-local-section" id="local-faq"><h2>3. 용인 틱장애 진료에서 자주 묻는 질문 BEST 3</h2>{{ range $index, $item := .Params.faq }}<div class="daegu-local-question"><h3>Q{{ add $index 1 }}. {{ $item.question }}</h3><p>A. {{ $item.answer }}</p></div>{{ end }}</section>
+      <section class="daegu-local-section" id="local-faq"><h2>3. {{ $region }} 틱장애 진료에서 자주 묻는 질문 BEST 3</h2>{{ range $index, $item := .Params.faq }}<div class="daegu-local-question"><h3>Q{{ add $index 1 }}. {{ $item.question }}</h3><p>A. {{ $item.answer }}</p></div>{{ end }}</section>
       <a class="daegu-local-return" href="{{ $clinical.RelPermalink }}"><span aria-hidden="true">←</span> 해아림한의원 틱장애 진료 본페이지 전체보기</a>
       <p class="daegu-local-editorial">작성: {{ .Params.content_author }} · 최종 수정: <time datetime="{{ .Lastmod.Format "2006-01-02" }}">{{ .Lastmod.Format "2006.01.02" }}</time> · 의학적 검토 예정</p>
     </article>

@@ -1,0 +1,45 @@
+name: Verify Tic Regional Pages
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'content/condition-local/**'
+      - 'content/conditions/tic.md'
+      - 'layouts/condition-local/**'
+      - 'layouts/partials/head_seo.html'
+      - 'layouts/partials/condition_region_links.html'
+      - 'tests/test_tic_local_reference.js'
+      - '.github/workflows/tic_regional_pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-regional-pages:
+    name: Build and Verify Eight Regional Tic Pages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: '0.165.0'
+          extended: true
+      - name: Build production HTML
+        run: hugo --minify -d public
+      - name: Verify regional pages, metadata and navigation
+        run: node tests/test_tic_local_reference.js public
+      - name: Verify nine original clinical guides
+        run: node tests/test_condition_guide_expansion.js public
+      - name: Verify original Yongin visit guides
+        run: node tests/test_yongin_condition_guides.js public
