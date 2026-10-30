@@ -75,7 +75,7 @@ async function testGwangju91Reproduction() {
   fs.mkdirSync(testBlogDir, { recursive: true });
 
   // Verified reproduction date where Gyeonggi-Gwangju ADHD (adult-work-mistakes) is selected as candidate 1
-  const reproductionDate = new Date('2026-08-08T09:00:00+09:00');
+  const reproductionDate = new Date('2026-10-07T09:00:00+09:00');
 
   // Keep the pipeline fixture independent from newly published production history.
   // Every non-Gwangju region was used five days earlier, while Gwangju was used
@@ -107,7 +107,7 @@ async function testGwangju91Reproduction() {
         parentRegion: region.parentRegion,
         disease: 'anxiety',
         title: `[테스트 ${region.displayName} 불안장애] 후보 점수 고정용 이력`,
-        publishDate: '2026-08-02T09:00:00+09:00'
+        publishDate: '2026-10-01T09:00:00+09:00'
       })),
     ...diseaseTaxonomy.diseases
       .filter(disease => disease.id !== 'adhd')
@@ -117,7 +117,7 @@ async function testGwangju91Reproduction() {
         parentRegion: 'fixture',
         disease: disease.id,
         title: `[테스트 ${disease.displayName}] 질환 쿨다운 고정용 이력`,
-        publishDate: '2026-08-06T09:00:00+09:00'
+        publishDate: '2026-10-05T09:00:00+09:00'
       }))
   ];
   fs.writeFileSync(testHistoryPath, JSON.stringify(deterministicHistory, null, 2), 'utf-8');
