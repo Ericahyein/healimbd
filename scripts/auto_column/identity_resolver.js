@@ -108,6 +108,82 @@ const SPECIAL_ANGLE_IDENTITIES = {
     slugDiseaseLabel: 'fatigue',
     ageGroup: 'adult',
     category: 'autonomic'
+  },
+  // Patient-facing functional dyspepsia topics remain in the autonomic category.
+  // The medical policy explicitly prevents equating every dyspepsia symptom with autonomic dysfunction.
+  'dyspepsia-postmeal-fullness': {
+    contentDiseaseLabel: '신경성 소화불량',
+    seoDiseaseLabel: '신경성 소화불량',
+    thumbnailDiseaseLabel: '신경성 소화불량',
+    slugDiseaseLabel: 'functional-dyspepsia',
+    ageGroup: 'adult',
+    category: 'autonomic'
+  },
+  'dyspepsia-early-satiety': {
+    contentDiseaseLabel: '신경성 소화불량',
+    seoDiseaseLabel: '신경성 소화불량',
+    thumbnailDiseaseLabel: '신경성 소화불량',
+    slugDiseaseLabel: 'functional-dyspepsia',
+    ageGroup: 'adult',
+    category: 'autonomic'
+  },
+  'dyspepsia-nausea-stress': {
+    contentDiseaseLabel: '신경성 소화불량',
+    seoDiseaseLabel: '신경성 소화불량',
+    thumbnailDiseaseLabel: '신경성 소화불량',
+    slugDiseaseLabel: 'functional-dyspepsia',
+    ageGroup: 'adult',
+    category: 'autonomic'
+  },
+  'dyspepsia-normal-endoscopy': {
+    contentDiseaseLabel: '신경성 소화불량',
+    seoDiseaseLabel: '신경성 소화불량',
+    thumbnailDiseaseLabel: '신경성 소화불량',
+    slugDiseaseLabel: 'functional-dyspepsia',
+    ageGroup: 'adult',
+    category: 'autonomic'
+  },
+
+  // Syncope-category topics that should be presented to patients under the broader dizziness label.
+  'dizziness-before-fainting': {
+    contentDiseaseLabel: '어지럼증',
+    seoDiseaseLabel: '어지럼증',
+    thumbnailDiseaseLabel: '어지럼증',
+    slugDiseaseLabel: 'dizziness',
+    ageGroup: 'mixed',
+    category: 'syncope'
+  },
+  'visual-blackout-dizziness': {
+    contentDiseaseLabel: '어지럼증',
+    seoDiseaseLabel: '어지럼증',
+    thumbnailDiseaseLabel: '어지럼증',
+    slugDiseaseLabel: 'dizziness',
+    ageGroup: 'mixed',
+    category: 'syncope'
+  },
+  'ringing-nausea-dizziness': {
+    contentDiseaseLabel: '어지럼증',
+    seoDiseaseLabel: '어지럼증',
+    thumbnailDiseaseLabel: '어지럼증',
+    slugDiseaseLabel: 'dizziness',
+    ageGroup: 'mixed',
+    category: 'syncope'
+  },
+  'sitting-recovery-dizziness': {
+    contentDiseaseLabel: '어지럼증',
+    seoDiseaseLabel: '어지럼증',
+    thumbnailDiseaseLabel: '어지럼증',
+    slugDiseaseLabel: 'dizziness',
+    ageGroup: 'mixed',
+    category: 'syncope'
+  },
+  'dizziness-vs-vertigo': {
+    contentDiseaseLabel: '어지럼증',
+    seoDiseaseLabel: '어지럼증',
+    thumbnailDiseaseLabel: '어지럼증',
+    slugDiseaseLabel: 'dizziness',
+    ageGroup: 'mixed',
+    category: 'syncope'
   }
 };
 
