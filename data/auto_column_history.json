@@ -914,5 +914,16 @@
     "topicAngle": "pain-interference",
     "title": "[판교 틱장애] 고개를 움직이는 틱 때문에 목이 아프다고 할 때",
     "slug": "bundang-pangyo-tic-pain-interference"
+  },
+  {
+    "publishDate": "2026-10-30T15:18:41.675+09:00",
+    "geoId": "yongin-main",
+    "displayRegion": "용인",
+    "parentRegion": "용인",
+    "regionType": "city",
+    "disease": "syncope",
+    "topicAngle": "post-faint-recovery",
+    "title": "[용인 미주신경성 실신] 실신 후 금방 깨어났더라도 어떤 상황을 기록해야 할까요",
+    "slug": "yongin-main-syncope-post-faint-recovery"
   }
 ]
