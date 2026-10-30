@@ -57,6 +57,56 @@
           "id": "sleep-fatigue-tics",
           "titleSuffix": "피곤한 날 틱이 두드러질 때 수면과 일상을 살피는 방법",
           "focus": "피로·수면과 증상 변동, 혼내거나 결과를 단정하지 않는 관찰"
+        },
+        {
+          "id": "premonitory-urge",
+          "titleSuffix": "틱이 나오기 전 몸이 불편하다고 할 때 어떻게 이해할까요",
+          "focus": "전조감각의 표현, 증상 억제 부담, 진료 시 확인할 내용"
+        },
+        {
+          "id": "classroom-support",
+          "titleSuffix": "수업 중 틱이 반복될 때 학교에 어떤 도움을 요청할 수 있을까요",
+          "focus": "교실 환경 조정, 지적을 줄이는 대응, 교사와의 정보 공유"
+        },
+        {
+          "id": "visit-video-record",
+          "titleSuffix": "진료 전에 틱 증상을 영상으로 남길 때 무엇을 기록할까요",
+          "focus": "증상 형태와 상황 기록, 촬영 시 사생활 보호, 진료 자료 정리"
+        },
+        {
+          "id": "sibling-family-response",
+          "titleSuffix": "형제자매가 틱을 따라 하거나 지적할 때 가족은 어떻게 대응할까요",
+          "focus": "가족의 반응 원칙, 갈등 완화, 아이의 부담 줄이기"
+        },
+        {
+          "id": "homework-interference",
+          "titleSuffix": "손이나 팔의 틱 때문에 글쓰기와 숙제가 어려울 때",
+          "focus": "과제 수행 방해 정도, 휴식과 환경 조정, 학교 상담 기준"
+        },
+        {
+          "id": "vocal-tic-social-response",
+          "titleSuffix": "음성틱 때문에 주변의 시선이 신경 쓰일 때 설명하는 방법",
+          "focus": "음성틱의 비자발성, 또래와 교사에게 알리는 범위, 낙인 예방"
+        },
+        {
+          "id": "sudden-tic-surge",
+          "titleSuffix": "틱이 갑자기 크게 늘었을 때 먼저 확인할 변화",
+          "focus": "최근 수면·스트레스·생활 변화, 통증과 기능 저하, 진료가 필요한 상황"
+        },
+        {
+          "id": "tic-medication-log",
+          "titleSuffix": "틱 치료 중 약을 복용할 때 효과와 불편감을 어떻게 기록할까요",
+          "focus": "복용 시각, 증상 변화, 졸림 등 불편감 기록과 의료진 상담"
+        },
+        {
+          "id": "exercise-participation",
+          "titleSuffix": "운동할 때 틱이 보여도 체육 활동을 계속해도 될까요",
+          "focus": "활동 중 안전, 통증과 방해 정도, 개별 조정이 필요한 상황"
+        },
+        {
+          "id": "self-esteem-peer-stress",
+          "titleSuffix": "틱으로 놀림을 받거나 자신감이 떨어질 때 살펴볼 점",
+          "focus": "또래 관계와 정서 부담, 학교 대응, 추가 지원이 필요한 신호"
         }
       ]
     },
@@ -117,6 +167,56 @@
           "id": "morning-routine-delay",
           "titleSuffix": "등교 준비가 매일 늦어지는 아이, 시간 관리만의 문제일까요",
           "focus": "등교 준비에서 과제 시작·활동 전환·순서 유지에 걸리는 시간과 보호자 도움 정도를 구체적으로 관찰. 수면 부족, 불안, 감각 민감성 등 다른 요인도 함께 살피고, 게으름으로 단정하거나 ADHD를 자가진단하지 않기"
+        },
+        {
+          "id": "homework-start-delay",
+          "titleSuffix": "숙제를 시작하기까지 오래 걸리는 아이, 의지가 부족한 걸까요",
+          "focus": "과제 시작의 어려움, 실행기능 관찰, 환경을 작게 나누는 방법"
+        },
+        {
+          "id": "activity-transition",
+          "titleSuffix": "하던 일을 멈추고 다음 활동으로 넘어가기 어려울 때",
+          "focus": "전환 상황의 어려움, 예고와 시각적 단서, 반복 양상 기록"
+        },
+        {
+          "id": "time-estimation",
+          "titleSuffix": "해야 할 시간과 실제 걸린 시간이 자주 다를 때 무엇을 기록할까요",
+          "focus": "시간 예측과 완료 시간 비교, 과제 특성, 생활 영향"
+        },
+        {
+          "id": "emotional-outbursts",
+          "titleSuffix": "계획이 바뀌면 화를 크게 내는 아이, ADHD와 함께 살펴볼 점",
+          "focus": "감정 반응의 맥락, 동반 문제 감별, 가정과 학교 관찰"
+        },
+        {
+          "id": "screen-hyperfocus",
+          "titleSuffix": "게임이나 영상에는 오래 집중하는데 ADHD일 수 있나요",
+          "focus": "흥미에 따른 집중 차이, 여러 환경의 기능 저하, 단일 행동으로 진단하지 않기"
+        },
+        {
+          "id": "adolescent-planning",
+          "titleSuffix": "중학생이 과제와 시험 일정을 스스로 관리하기 어려울 때",
+          "focus": "청소년 일정 관리, 우선순위와 마감, 보호자 지원 범위"
+        },
+        {
+          "id": "adult-deadline-delay",
+          "titleSuffix": "성인이 마감 직전까지 일을 미루는 패턴을 어떻게 설명할까요",
+          "focus": "성인 실행기능과 미루기, 직장 기능 영향, 다른 원인과의 구분"
+        },
+        {
+          "id": "driving-distraction",
+          "titleSuffix": "운전 중 주의가 자주 흐트러질 때 안전하게 확인할 점",
+          "focus": "주의 분산 상황 기록, 즉시 안전 조치, 전문 평가 필요성"
+        },
+        {
+          "id": "adhd-medication-effect-log",
+          "titleSuffix": "ADHD 약 복용 후 집중력과 불편감을 어떻게 기록할까요",
+          "focus": "효과 시간대, 식욕·수면 등 변화, 처방 의료진과의 상담"
+        },
+        {
+          "id": "parent-teacher-observation",
+          "titleSuffix": "보호자와 교사가 ADHD 관찰 내용을 공유할 때 필요한 항목",
+          "focus": "환경별 행동 차이, 구체적 사례, 비교 가능한 관찰 기록"
         }
       ]
     },
@@ -172,6 +272,56 @@
           "id": "medication-discussion",
           "titleSuffix": "공황 치료 중 복용 약과 불편감을 어떻게 설명할까요",
           "focus": "약 이름·용량·경과 기록, 부작용 및 처방 의료진과 조정"
+        },
+        {
+          "id": "nocturnal-panic",
+          "titleSuffix": "자다가 갑자기 숨이 막히고 심장이 빨라져 깰 때",
+          "focus": "야간 발작 양상, 수면·호흡 문제 등 감별, 응급 신호"
+        },
+        {
+          "id": "driving-panic",
+          "titleSuffix": "운전 중 공황 증상이 시작될까 두려워 운전을 피하게 될 때",
+          "focus": "운전 안전, 예기불안과 회피, 단계적 평가"
+        },
+        {
+          "id": "tingling-dizziness",
+          "titleSuffix": "손발 저림과 어지럼이 공황발작과 함께 나타날 때",
+          "focus": "과호흡과 신체 증상, 다른 의학적 원인 감별, 안전한 대처"
+        },
+        {
+          "id": "repeated-er-visits",
+          "titleSuffix": "응급실 검사는 정상이지만 비슷한 발작이 반복될 때",
+          "focus": "반복 발작 기록, 공황 평가, 새 증상은 다시 확인하기"
+        },
+        {
+          "id": "attack-safety-steps",
+          "titleSuffix": "공황 증상이 시작됐을 때 먼저 해야 할 안전한 대처",
+          "focus": "위험한 장소에서 벗어나기, 호흡과 주변 도움, 응급 진료 기준"
+        },
+        {
+          "id": "flight-travel",
+          "titleSuffix": "비행기나 장거리 이동을 앞두고 공황이 걱정될 때",
+          "focus": "여행 전 계획, 회피와 안전행동, 진료 상담 시점"
+        },
+        {
+          "id": "crowd-heat",
+          "titleSuffix": "사람 많은 곳이나 더운 공간에서 갑자기 답답해질 때",
+          "focus": "공황과 열·탈수 등 감별, 장소별 패턴, 대피와 안전"
+        },
+        {
+          "id": "derealization",
+          "titleSuffix": "주변이 낯설거나 내가 아닌 것처럼 느껴질 때 공황과 관련이 있나요",
+          "focus": "비현실감 경험, 동반 증상과 경과, 다른 원인 평가"
+        },
+        {
+          "id": "expanding-avoidance",
+          "titleSuffix": "공황 이후 피하는 장소가 점점 늘어날 때",
+          "focus": "회피 범위와 일상 기능, 광장공포 가능성 평가, 치료 상담"
+        },
+        {
+          "id": "panic-episode-diary",
+          "titleSuffix": "공황발작 전후 상황을 진료 전에 어떻게 기록할까요",
+          "focus": "시작 시점, 신체 증상, 지속 시간, 회복과 회피 기록"
         }
       ]
     },
@@ -222,6 +372,56 @@
           "id": "physical-tension",
           "titleSuffix": "걱정이 이어지면서 몸에 힘이 들어갈 때 기록할 점",
           "focus": "긴장·수면·통증의 경과, 신체 원인 감별"
+        },
+        {
+          "id": "morning-worry",
+          "titleSuffix": "아침에 눈을 뜨자마자 걱정이 시작될 때",
+          "focus": "걱정의 내용과 지속, 아침 기능, 수면·기분과의 관계"
+        },
+        {
+          "id": "decision-freeze",
+          "titleSuffix": "사소한 결정을 내리는 데도 불안해서 오래 망설일 때",
+          "focus": "불확실성에 대한 불안, 결정 지연, 일상 기능 영향"
+        },
+        {
+          "id": "perfectionism-delay",
+          "titleSuffix": "완벽하게 해야 한다는 생각 때문에 일을 시작하지 못할 때",
+          "focus": "완벽주의와 불안, 시작 지연, 다른 원인과의 구분"
+        },
+        {
+          "id": "irritability-worry",
+          "titleSuffix": "걱정이 많아지면서 예민하고 짜증이 늘 때",
+          "focus": "불안과 과민성, 가족·직장 영향, 기분 문제 감별"
+        },
+        {
+          "id": "concentration-worry",
+          "titleSuffix": "걱정 때문에 책이나 업무 내용이 눈에 들어오지 않을 때",
+          "focus": "불안에 따른 집중 저하, 수면·우울·주의 문제와의 구분"
+        },
+        {
+          "id": "work-message-anxiety",
+          "titleSuffix": "업무 연락이나 메시지를 확인할 때마다 긴장될 때",
+          "focus": "업무 상황의 예기불안, 확인 행동, 경계 설정과 기능 평가"
+        },
+        {
+          "id": "family-safety-worry",
+          "titleSuffix": "가족에게 나쁜 일이 생길까 하는 걱정이 멈추지 않을 때",
+          "focus": "걱정의 통제 어려움, 반복 확인, 일상에 미치는 영향"
+        },
+        {
+          "id": "uncertainty-intolerance",
+          "titleSuffix": "결과를 기다리는 동안 불안을 견디기 어려울 때",
+          "focus": "불확실성 반응, 신체 긴장, 반복 확인과 회피"
+        },
+        {
+          "id": "schedule-overload",
+          "titleSuffix": "일정이 많아지면 가슴이 답답하고 잠까지 흔들릴 때",
+          "focus": "부담과 불안 증상, 수면 변화, 신체 원인 감별"
+        },
+        {
+          "id": "first-visit-anxiety-notes",
+          "titleSuffix": "불안 증상으로 처음 진료받을 때 무엇을 정리해 가면 좋을까요",
+          "focus": "증상 시작과 빈도, 유발 상황, 기능 저하와 복용 정보"
         }
       ]
     },
@@ -277,6 +477,56 @@
           "id": "bed-awake-time",
           "titleSuffix": "잠들지 못한 채 침대에 오래 누워 있을 때 무엇을 살펴볼까요",
           "focus": "잠자리에 든 시각·실제 입면까지 걸린 시간·중간 각성·기상 시각과 낮 기능을 기록하고, 침대에서 깨어 있는 시간이 길어지는 패턴을 살핌. 다음 날 졸림과 일상 기능 변화도 함께 확인하며, 심한 낮 졸림·코골이·무호흡 의심·뚜렷한 기분 변화가 있으면 전문 평가를 우선"
+        },
+        {
+          "id": "variable-bedtime",
+          "titleSuffix": "잠드는 시간이 날마다 달라질 때 수면 리듬을 어떻게 기록할까요",
+          "focus": "취침·기상 시각 변동, 빛과 활동, 수면 일지"
+        },
+        {
+          "id": "waking-before-alarm",
+          "titleSuffix": "알람보다 너무 일찍 깨는 날이 반복될 때",
+          "focus": "이른 기상 시각, 다시 잠드는지 여부, 기분·신체 증상 동반"
+        },
+        {
+          "id": "screen-before-bed",
+          "titleSuffix": "잠들기 전 화면을 본 날과 수면 변화를 어떻게 살펴볼까요",
+          "focus": "화면 사용 시각과 내용, 취침 지연, 일률적 금지 대신 패턴 관찰"
+        },
+        {
+          "id": "evening-exercise",
+          "titleSuffix": "늦은 시간 운동 후 잠이 잘 오지 않을 때",
+          "focus": "운동 강도와 종료 시각, 체온·각성, 개인별 수면 반응"
+        },
+        {
+          "id": "alcohol-night-awakening",
+          "titleSuffix": "술을 마신 날 자주 깨는 수면을 어떻게 이해할까요",
+          "focus": "음주와 수면 분절, 코골이·호흡 문제, 절주 상담"
+        },
+        {
+          "id": "caffeine-sleep-log",
+          "titleSuffix": "카페인 섭취와 잠드는 시간을 함께 기록하는 방법",
+          "focus": "종류·양·시각, 잠들기까지 시간, 개인별 민감도"
+        },
+        {
+          "id": "shift-work-sleep",
+          "titleSuffix": "교대근무로 수면 시간이 계속 바뀔 때",
+          "focus": "근무표와 수면 창, 빛 노출, 졸림 안전 문제"
+        },
+        {
+          "id": "restless-legs-night",
+          "titleSuffix": "밤에 다리가 불편해서 잠들기 어려울 때 불면증만 봐도 될까요",
+          "focus": "다리 불편감과 움직임 욕구, 철분 등 감별, 진료 기준"
+        },
+        {
+          "id": "sleep-next-day-anxiety",
+          "titleSuffix": "오늘도 못 잘까 걱정되어 저녁부터 긴장될 때",
+          "focus": "수면에 대한 예기불안, 침대에서의 각성, 악순환 관찰"
+        },
+        {
+          "id": "sleep-visit-diary",
+          "titleSuffix": "불면증 진료 전에 수면 일지에 꼭 적어야 할 항목",
+          "focus": "취침·기상·각성·낮잠·카페인·약물 기록"
         }
       ]
     },
@@ -290,7 +540,11 @@
         "교감신경항진",
         "어지럼증",
         "가슴답답함",
-        "브레인포그"
+        "브레인포그",
+        "신경성 소화불량",
+        "기능성 소화불량",
+        "식후 더부룩함",
+        "조기 포만감"
       ],
       "topicAngles": [
         {
@@ -328,6 +582,56 @@
           "productionEligible": false,
           "titleSuffix": "새 약을 시작한 뒤 어지럽다면 무엇을 의료진에게 알려야 할까요",
           "focus": "약물 시작과 증상 시간 관계, 임의 중단 금지·감별"
+        },
+        {
+          "id": "dyspepsia-postmeal-fullness",
+          "titleSuffix": "식사 후 오래 더부룩한 신경성 소화불량, 무엇을 기록할까요",
+          "focus": "식후 포만감의 지속, 음식과 복용약, 경고 증상과 소화기 평가"
+        },
+        {
+          "id": "dyspepsia-early-satiety",
+          "titleSuffix": "조금만 먹어도 금방 배부른 증상이 반복될 때",
+          "focus": "조기 포만감, 섭취량과 체중 변화, 기능성 소화불량 평가"
+        },
+        {
+          "id": "dyspepsia-nausea-stress",
+          "titleSuffix": "긴장하면 메스껍고 소화가 안 될 때 자율신경 문제일까요",
+          "focus": "스트레스와 증상 시점, 장-뇌 상호작용, 단일 원인으로 단정하지 않기"
+        },
+        {
+          "id": "dyspepsia-normal-endoscopy",
+          "titleSuffix": "위내시경은 정상이지만 소화불량이 계속될 때",
+          "focus": "기능성 소화불량 가능성, 헬리코박터·약물 등 평가, 경고 증상"
+        },
+        {
+          "id": "heat-dizziness",
+          "titleSuffix": "더운 곳에서 어지럽고 기운이 빠질 때",
+          "focus": "열 노출과 탈수, 혈압 변화, 응급 신호와 예방"
+        },
+        {
+          "id": "prolonged-standing",
+          "titleSuffix": "오래 서 있으면 두근거리고 다리에 힘이 빠질 때",
+          "focus": "기립 불내성 양상, 자세·맥박 기록, 빈혈·심장 등 감별"
+        },
+        {
+          "id": "morning-palpitations",
+          "titleSuffix": "아침에 일어날 때 두근거림이 두드러질 때",
+          "focus": "기상과 자세 변화, 수면·카페인·약물, 심장 증상 감별"
+        },
+        {
+          "id": "postexercise-recovery",
+          "titleSuffix": "운동 후 한참 동안 어지럽고 회복이 더딜 때",
+          "focus": "운동 강도와 회복 시간, 수분·열 환경, 운동 관련 경고 신호"
+        },
+        {
+          "id": "meal-palpitations",
+          "titleSuffix": "식사 후 두근거림과 졸림이 함께 나타날 때",
+          "focus": "식사량과 증상 시점, 혈압·대사·심장 원인 감별, 기록 방법"
+        },
+        {
+          "id": "autonomic-visit-checklist",
+          "titleSuffix": "여러 자율신경 증상을 진료 전에 어떻게 정리할까요",
+          "focus": "자세·식사·시간대별 증상, 복용약과 병력, 진료용 체크리스트"
         }
       ]
     },
@@ -373,6 +677,56 @@
           "id": "sudden-sweat-change",
           "titleSuffix": "갑자기 땀이 늘었다면 스트레스 외에 무엇을 확인할까요",
           "focus": "약물·갑상선·대사 및 감염 등 이차 원인 평가"
+        },
+        {
+          "id": "underarm-clothing",
+          "titleSuffix": "겨드랑이 땀 때문에 옷 자국이 신경 쓰일 때",
+          "focus": "겨드랑이 다한증의 생활 영향, 피부 관리, 진료 시 기록"
+        },
+        {
+          "id": "face-scalp-sweat",
+          "titleSuffix": "얼굴과 두피에 땀이 많이 날 때 다한증으로 볼 수 있을까요",
+          "focus": "발한 부위와 상황, 전신 질환·약물 감별, 일상 영향"
+        },
+        {
+          "id": "interview-sweat",
+          "titleSuffix": "시험이나 면접 때 땀이 갑자기 많아질 때",
+          "focus": "상황성 발한과 불안, 평소 발한과 비교, 기능 저하"
+        },
+        {
+          "id": "asymmetric-sweat",
+          "titleSuffix": "몸 한쪽에서만 땀이 두드러질 때 확인할 점",
+          "focus": "비대칭 발한의 시작과 범위, 신경학적 동반 증상, 진료 기준"
+        },
+        {
+          "id": "medication-sweat",
+          "titleSuffix": "약을 복용한 뒤 땀이 늘었다면 무엇을 알려야 할까요",
+          "focus": "약 이름과 시작 시점, 임의 중단 금지, 처방 의료진 상담"
+        },
+        {
+          "id": "temperature-independent-sweat",
+          "titleSuffix": "덥지 않은데도 땀이 많이 날 때",
+          "focus": "환경 온도와 무관한 발한, 일차성과 이차성 원인 감별"
+        },
+        {
+          "id": "sweat-odor",
+          "titleSuffix": "땀의 양과 냄새 고민은 같은 문제일까요",
+          "focus": "발한량과 체취의 차이, 피부 상태와 위생, 진료가 필요한 변화"
+        },
+        {
+          "id": "skin-irritation",
+          "titleSuffix": "땀이 많은 부위가 자주 짓무를 때 관리와 진료 기준",
+          "focus": "피부 자극과 감염 징후, 건조 유지, 피부과 평가"
+        },
+        {
+          "id": "teen-sweating",
+          "titleSuffix": "청소년의 손발 땀이 학교생활을 방해할 때",
+          "focus": "필기·기기 사용·또래 관계 영향, 발병 시기, 치료 상담"
+        },
+        {
+          "id": "treatment-response-log",
+          "titleSuffix": "다한증 치료 전후 생활 불편을 어떻게 비교해 기록할까요",
+          "focus": "발한 부위와 빈도, 활동 제한, 부작용과 만족도 기록"
         }
       ]
     },
@@ -423,6 +777,56 @@
           "id": "incomplete-evacuation",
           "titleSuffix": "화장실을 다녀와도 잔변감이 남을 때 무엇을 기록할까요",
           "focus": "배변 후 잔변감의 빈도·지속 시간, 변의 형태·힘주기, 복통의 전후 변화와 배변 횟수를 기록. 음식이나 스트레스를 원인으로 단정하지 않고, 혈변·검은변·체중 감소·빈혈·야간 증상·발열·새로운 배변 변화가 있으면 소화기내과 평가를 우선"
+        },
+        {
+          "id": "bristol-stool-log",
+          "titleSuffix": "대변 모양을 기록하면 과민성대장 증상 파악에 도움이 될까요",
+          "focus": "브리스톨 변 형태, 통증·식사와의 관계, 진료용 기록"
+        },
+        {
+          "id": "urgency-without-diarrhea",
+          "titleSuffix": "설사는 아닌데 갑자기 화장실이 급해질 때",
+          "focus": "배변 절박감, 변 형태와 빈도, 다른 원인 감별"
+        },
+        {
+          "id": "mucus-stool",
+          "titleSuffix": "변에 점액이 보여 걱정될 때 확인할 신호",
+          "focus": "점액의 양상, 혈변·체중 감소 등 경고 신호, 염증성 질환 감별"
+        },
+        {
+          "id": "travel-bowel-change",
+          "titleSuffix": "여행이나 외출만 하면 배변 습관이 달라질 때",
+          "focus": "식사·수면·이동과 장 증상, 준비 방법, 경고 신호"
+        },
+        {
+          "id": "bowel-frequency-meaning",
+          "titleSuffix": "배변 횟수가 많거나 적으면 모두 과민성대장증후군인가요",
+          "focus": "횟수만으로 진단하지 않기, 복통과 변 변화, 기간과 기능 영향"
+        },
+        {
+          "id": "sleep-bowel-pattern",
+          "titleSuffix": "잠을 설친 다음 날 장 증상이 심해질 때",
+          "focus": "수면과 장 증상 기록, 단정적 인과 피하기, 생활 리듬"
+        },
+        {
+          "id": "constipation-straining",
+          "titleSuffix": "변비형 과민성대장증후군에서 힘주기가 늘 때",
+          "focus": "배변 곤란과 통증, 수분·활동, 골반저 등 다른 원인 평가"
+        },
+        {
+          "id": "probiotics-question",
+          "titleSuffix": "유산균을 먹어도 증상이 계속될 때 무엇을 점검할까요",
+          "focus": "제품과 복용 기간, 개인별 반응, 다른 치료와 진료 상담"
+        },
+        {
+          "id": "low-fodmap-reintroduction",
+          "titleSuffix": "저포드맵 식단 후 음식을 다시 늘릴 때 주의할 점",
+          "focus": "제한 식단의 단계적 재도입, 영양 불균형 예방, 전문가 상담"
+        },
+        {
+          "id": "stress-not-only-cause",
+          "titleSuffix": "긴장할 때 배가 아파도 스트레스만 원인이라고 볼 수 있을까요",
+          "focus": "장-뇌 상호작용과 다양한 원인, 경고 신호, 증상 일지"
         }
       ]
     },
@@ -436,7 +840,9 @@
         "기립성 어지럼",
         "혈관미주신경반사",
         "어지럼증",
-        "전조증상"
+        "전조증상",
+        "회전성 어지럼",
+        "실신 전 어지럼"
       ],
       "topicAngles": [
         {
@@ -473,6 +879,56 @@
           "id": "post-faint-recovery",
           "titleSuffix": "실신 후 금방 깨어났더라도 어떤 상황을 기록해야 할까요",
           "focus": "회복까지 걸린 시간과 당시 자세·동반 증상·복용약을 기록하고, 응급 평가가 필요한 신호를 구분하는 방법"
+        },
+        {
+          "id": "first-syncope-evaluation",
+          "titleSuffix": "처음 쓰러진 뒤 금방 회복했어도 진료가 필요한가요",
+          "focus": "첫 실신의 상황과 회복, 심장·신경 경고 신호, 진료 시점"
+        },
+        {
+          "id": "repeated-presyncope",
+          "titleSuffix": "의식을 잃지는 않지만 자주 아찔할 때도 기록해야 할까요",
+          "focus": "실신 전 단계 증상, 자세와 유발 상황, 반복 시 평가"
+        },
+        {
+          "id": "medication-blood-pressure",
+          "titleSuffix": "혈압약이나 다른 약을 복용 중 실신이 있었다면",
+          "focus": "복용약과 용량 변경, 혈압·맥박, 임의 중단 없이 의료진 상담"
+        },
+        {
+          "id": "heat-long-standing",
+          "titleSuffix": "더운 곳에서 오래 서 있다가 쓰러질 것 같을 때",
+          "focus": "열·탈수·장시간 기립, 전조 대응, 반복 시 감별"
+        },
+        {
+          "id": "school-assembly-fainting",
+          "titleSuffix": "학생이 조회나 행사 중 쓰러졌을 때 무엇을 확인할까요",
+          "focus": "목격 기록과 회복, 외상·심장 경고 신호, 학교 대응"
+        },
+        {
+          "id": "dizziness-before-fainting",
+          "titleSuffix": "어지럼과 식은땀이 함께 올 때 실신 전조인지 어떻게 살필까요",
+          "focus": "실신 전조와 다른 어지럼 원인, 자세·유발 상황, 안전한 대응"
+        },
+        {
+          "id": "visual-blackout-dizziness",
+          "titleSuffix": "일어설 때 시야가 어두워지는 어지럼을 어떻게 기록할까요",
+          "focus": "자세 변화와 시야 흐림, 혈압·약물·탈수 감별, 반복 시 평가"
+        },
+        {
+          "id": "ringing-nausea-dizziness",
+          "titleSuffix": "귀 울림과 메스꺼움이 동반된 어지럼은 실신과 같은가요",
+          "focus": "전정성 어지럼과 실신감 구분, 청각·신경 증상, 진료 기준"
+        },
+        {
+          "id": "sitting-recovery-dizziness",
+          "titleSuffix": "앉거나 누우면 좋아지는 어지럼이 반복될 때",
+          "focus": "기립 관련 증상과 회복, 발생 빈도, 심장·빈혈 등 감별"
+        },
+        {
+          "id": "dizziness-vs-vertigo",
+          "titleSuffix": "빙글도는 어지럼과 쓰러질 듯한 어지럼은 어떻게 다를까요",
+          "focus": "회전감과 실신감의 표현, 동반 증상, 원인별 진료 방향"
         }
       ]
     },

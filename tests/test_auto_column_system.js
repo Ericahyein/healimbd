@@ -44,6 +44,158 @@ diseaseTaxonomy.diseases.forEach(d => {
   assert(expectedCategories.includes(d.id), `Unexpected disease id: ${d.id}`);
   assert(d.topicAngles && d.topicAngles.length >= 2, `Disease ${d.id} must have at least 2 topic angles`);
 });
+
+const expectedNewPatientTopics = {
+  "tic": [
+    "premonitory-urge",
+    "classroom-support",
+    "visit-video-record",
+    "sibling-family-response",
+    "homework-interference",
+    "vocal-tic-social-response",
+    "sudden-tic-surge",
+    "tic-medication-log",
+    "exercise-participation",
+    "self-esteem-peer-stress"
+  ],
+  "adhd": [
+    "homework-start-delay",
+    "activity-transition",
+    "time-estimation",
+    "emotional-outbursts",
+    "screen-hyperfocus",
+    "adolescent-planning",
+    "adult-deadline-delay",
+    "driving-distraction",
+    "adhd-medication-effect-log",
+    "parent-teacher-observation"
+  ],
+  "panic": [
+    "nocturnal-panic",
+    "driving-panic",
+    "tingling-dizziness",
+    "repeated-er-visits",
+    "attack-safety-steps",
+    "flight-travel",
+    "crowd-heat",
+    "derealization",
+    "expanding-avoidance",
+    "panic-episode-diary"
+  ],
+  "anxiety": [
+    "morning-worry",
+    "decision-freeze",
+    "perfectionism-delay",
+    "irritability-worry",
+    "concentration-worry",
+    "work-message-anxiety",
+    "family-safety-worry",
+    "uncertainty-intolerance",
+    "schedule-overload",
+    "first-visit-anxiety-notes"
+  ],
+  "sleep": [
+    "variable-bedtime",
+    "waking-before-alarm",
+    "screen-before-bed",
+    "evening-exercise",
+    "alcohol-night-awakening",
+    "caffeine-sleep-log",
+    "shift-work-sleep",
+    "restless-legs-night",
+    "sleep-next-day-anxiety",
+    "sleep-visit-diary"
+  ],
+  "autonomic": [
+    "dyspepsia-postmeal-fullness",
+    "dyspepsia-early-satiety",
+    "dyspepsia-nausea-stress",
+    "dyspepsia-normal-endoscopy",
+    "heat-dizziness",
+    "prolonged-standing",
+    "morning-palpitations",
+    "postexercise-recovery",
+    "meal-palpitations",
+    "autonomic-visit-checklist"
+  ],
+  "hyperhidrosis": [
+    "underarm-clothing",
+    "face-scalp-sweat",
+    "interview-sweat",
+    "asymmetric-sweat",
+    "medication-sweat",
+    "temperature-independent-sweat",
+    "sweat-odor",
+    "skin-irritation",
+    "teen-sweating",
+    "treatment-response-log"
+  ],
+  "ibs": [
+    "bristol-stool-log",
+    "urgency-without-diarrhea",
+    "mucus-stool",
+    "travel-bowel-change",
+    "bowel-frequency-meaning",
+    "sleep-bowel-pattern",
+    "constipation-straining",
+    "probiotics-question",
+    "low-fodmap-reintroduction",
+    "stress-not-only-cause"
+  ],
+  "syncope": [
+    "first-syncope-evaluation",
+    "repeated-presyncope",
+    "medication-blood-pressure",
+    "heat-long-standing",
+    "school-assembly-fainting",
+    "dizziness-before-fainting",
+    "visual-blackout-dizziness",
+    "ringing-nausea-dizziness",
+    "sitting-recovery-dizziness",
+    "dizziness-vs-vertigo"
+  ]
+};
+const expectedNewTopicIds = Object.values(expectedNewPatientTopics).flat();
+assert.strictEqual(expectedNewTopicIds.length, 90, 'Exactly 90 patient-question topics must be registered');
+assert.strictEqual(new Set(expectedNewTopicIds).size, 90, 'All 90 new topic ids must be unique');
+
+for (const [diseaseId, expectedIds] of Object.entries(expectedNewPatientTopics)) {
+  assert.strictEqual(expectedIds.length, 10, `${diseaseId} must receive exactly 10 new topics`);
+  const disease = diseaseTaxonomy.diseases.find(d => d.id === diseaseId);
+  const actualIds = new Set(disease.topicAngles.map(angle => angle.id));
+  for (const id of expectedIds) {
+    assert(actualIds.has(id), `Missing new topic ${diseaseId}/${id}`);
+  }
+}
+
+const allTopicIds = diseaseTaxonomy.diseases.flatMap(d => d.topicAngles.map(angle => angle.id));
+assert.strictEqual(new Set(allTopicIds).size, allTopicIds.length, 'Topic angle ids must be globally unique');
+
+const { resolveContentIdentity } = require('../scripts/auto_column/identity_resolver');
+for (const id of [
+  'dyspepsia-postmeal-fullness',
+  'dyspepsia-early-satiety',
+  'dyspepsia-nausea-stress',
+  'dyspepsia-normal-endoscopy'
+]) {
+  const resolved = resolveContentIdentity('autonomic', id);
+  assert.strictEqual(resolved.contentDiseaseLabel, '신경성 소화불량');
+  assert.strictEqual(resolved.slugDiseaseLabel, 'functional-dyspepsia');
+  assert.strictEqual(resolved.category, 'autonomic');
+}
+
+for (const id of [
+  'dizziness-before-fainting',
+  'visual-blackout-dizziness',
+  'ringing-nausea-dizziness',
+  'sitting-recovery-dizziness',
+  'dizziness-vs-vertigo'
+]) {
+  const resolved = resolveContentIdentity('syncope', id);
+  assert.strictEqual(resolved.contentDiseaseLabel, '어지럼증');
+  assert.strictEqual(resolved.slugDiseaseLabel, 'dizziness');
+  assert.strictEqual(resolved.category, 'syncope');
+}
 console.log('✅ PASS: Exactly 12 disease taxonomy categories verified.');
 
 // 3. Medical Knowledge Grounding Files
