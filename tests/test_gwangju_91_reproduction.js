@@ -75,7 +75,7 @@ async function testGwangju91Reproduction() {
   fs.mkdirSync(testBlogDir, { recursive: true });
 
   // Verified reproduction date where Gyeonggi-Gwangju ADHD (adult-work-mistakes) is selected as candidate 1
-  const reproductionDate = new Date('2026-08-07T09:00:00+09:00');
+  const reproductionDate = new Date('2026-08-08T09:00:00+09:00');
 
   // Keep the pipeline fixture independent from newly published production history.
   // Every non-Gwangju region was used five days earlier, while Gwangju was used
