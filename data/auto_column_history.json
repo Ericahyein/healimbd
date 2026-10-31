@@ -936,5 +936,16 @@
     "topicAngle": "panic-episode-diary",
     "title": "[분당 공황장애] 공황발작 전후 상황을 진료 전에 어떻게 기록할까요",
     "slug": "seongnam-bundang-panic-panic-episode-diary"
+  },
+  {
+    "publishDate": "2026-10-31T23:29:17.781+09:00",
+    "geoId": "gyeonggi-gwangju",
+    "displayRegion": "경기광주",
+    "parentRegion": "경기광주",
+    "regionType": "city",
+    "disease": "hyperhidrosis",
+    "topicAngle": "temperature-independent-sweat",
+    "title": "[경기광주 다한증] 덥지 않은데도 땀이 많이 날 때",
+    "slug": "gyeonggi-gwangju-hyperhidrosis-temperature-independent-sweat"
   }
 ]
