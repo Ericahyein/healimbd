@@ -925,5 +925,16 @@
     "topicAngle": "post-faint-recovery",
     "title": "[용인 미주신경성 실신] 실신 후 금방 깨어났더라도 어떤 상황을 기록해야 할까요",
     "slug": "yongin-main-syncope-post-faint-recovery"
+  },
+  {
+    "publishDate": "2026-10-31T14:26:10.788+09:00",
+    "geoId": "seongnam-bundang",
+    "displayRegion": "분당",
+    "parentRegion": "성남",
+    "regionType": "district",
+    "disease": "panic",
+    "topicAngle": "panic-episode-diary",
+    "title": "[분당 공황장애] 공황발작 전후 상황을 진료 전에 어떻게 기록할까요",
+    "slug": "seongnam-bundang-panic-panic-episode-diary"
   }
 ]
