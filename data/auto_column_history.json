@@ -947,5 +947,16 @@
     "topicAngle": "temperature-independent-sweat",
     "title": "[경기광주 다한증] 덥지 않은데도 땀이 많이 날 때",
     "slug": "gyeonggi-gwangju-hyperhidrosis-temperature-independent-sweat"
+  },
+  {
+    "publishDate": "2026-11-01T14:52:20.653+09:00",
+    "geoId": "bundang-pangyo",
+    "displayRegion": "판교",
+    "parentRegion": "성남",
+    "regionType": "selected_local_area",
+    "disease": "autonomic",
+    "topicAngle": "postexercise-recovery",
+    "title": "[판교 자율신경실조증] 운동 후 한참 동안 어지럽고 회복이 더딜 때",
+    "slug": "bundang-pangyo-autonomic-postexercise-recovery"
   }
 ]
