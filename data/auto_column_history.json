@@ -958,5 +958,16 @@
     "topicAngle": "postexercise-recovery",
     "title": "[판교 자율신경실조증] 운동 후 한참 동안 어지럽고 회복이 더딜 때",
     "slug": "bundang-pangyo-autonomic-postexercise-recovery"
+  },
+  {
+    "publishDate": "2026-11-01T23:59:20.906+09:00",
+    "geoId": "gyeonggi-gwangju",
+    "displayRegion": "경기광주",
+    "parentRegion": "경기광주",
+    "regionType": "city",
+    "disease": "adhd",
+    "topicAngle": "screen-hyperfocus",
+    "title": "[경기광주 ADHD] 게임이나 영상에는 오래 집중하는데 ADHD일 수 있나요",
+    "slug": "gyeonggi-gwangju-adhd-screen-hyperfocus"
   }
 ]
