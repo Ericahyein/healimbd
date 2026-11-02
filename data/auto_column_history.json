@@ -980,5 +980,16 @@
     "topicAngle": "work-message-anxiety",
     "title": "[분당 불안장애] 업무 연락이나 메시지를 확인할 때마다 긴장될 때",
     "slug": "seongnam-bundang-anxiety-work-message-anxiety"
+  },
+  {
+    "publishDate": "2026-11-03T03:12:48.871+09:00",
+    "geoId": "gyeonggi-gwangju",
+    "displayRegion": "경기광주",
+    "parentRegion": "경기광주",
+    "regionType": "city",
+    "disease": "tic",
+    "topicAngle": "classroom-support",
+    "title": "[경기광주 틱장애] 수업 중 틱이 반복될 때 학교에 어떤 도움을 요청할 수 있을까요",
+    "slug": "gyeonggi-gwangju-tic-classroom-support"
   }
 ]
