@@ -969,5 +969,16 @@
     "topicAngle": "screen-hyperfocus",
     "title": "[경기광주 ADHD] 게임이나 영상에는 오래 집중하는데 ADHD일 수 있나요",
     "slug": "gyeonggi-gwangju-adhd-screen-hyperfocus"
+  },
+  {
+    "publishDate": "2026-11-02T14:52:32.639+09:00",
+    "geoId": "seongnam-bundang",
+    "displayRegion": "분당",
+    "parentRegion": "성남",
+    "regionType": "district",
+    "disease": "anxiety",
+    "topicAngle": "work-message-anxiety",
+    "title": "[분당 불안장애] 업무 연락이나 메시지를 확인할 때마다 긴장될 때",
+    "slug": "seongnam-bundang-anxiety-work-message-anxiety"
   }
 ]
