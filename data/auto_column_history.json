@@ -1002,5 +1002,16 @@
     "topicAngle": "teen-sweating",
     "title": "[성남 다한증] 청소년의 손발 땀이 학교생활을 방해할 때",
     "slug": "seongnam-main-hyperhidrosis-teen-sweating"
+  },
+  {
+    "publishDate": "2026-11-04T01:06:32.949+09:00",
+    "geoId": "seongnam-bundang",
+    "displayRegion": "분당",
+    "parentRegion": "성남",
+    "regionType": "district",
+    "disease": "autonomic",
+    "topicAngle": "morning-palpitations",
+    "title": "[분당 자율신경실조증] 아침에 일어날 때 두근거림이 두드러질 때",
+    "slug": "seongnam-bundang-autonomic-morning-palpitations"
   }
 ]
