@@ -991,5 +991,16 @@
     "topicAngle": "classroom-support",
     "title": "[경기광주 틱장애] 수업 중 틱이 반복될 때 학교에 어떤 도움을 요청할 수 있을까요",
     "slug": "gyeonggi-gwangju-tic-classroom-support"
+  },
+  {
+    "publishDate": "2026-11-03T15:36:38.972+09:00",
+    "geoId": "seongnam-main",
+    "displayRegion": "성남",
+    "parentRegion": "성남",
+    "regionType": "city",
+    "disease": "hyperhidrosis",
+    "topicAngle": "teen-sweating",
+    "title": "[성남 다한증] 청소년의 손발 땀이 학교생활을 방해할 때",
+    "slug": "seongnam-main-hyperhidrosis-teen-sweating"
   }
 ]
