@@ -24,6 +24,7 @@ function formatAuthorInfo(item) {
 // Healim Bundang Clinic - Interactions & UI Script
 document.addEventListener('DOMContentLoaded', () => {
   initMobileMenu();
+  initTreatmentMenu();
   initInquiryModal();
   initSelfCheck();
   initFAQ();
@@ -38,6 +39,32 @@ document.addEventListener('DOMContentLoaded', () => {
   initOnlineInquiry();
   initReviewDetailPage();
 });
+
+// Hover disclosure on desktop; the separate button also supports touch and keyboard.
+function initTreatmentMenu() {
+  const root = document.getElementById('nav-treatment');
+  if (!root) return;
+  const button = root.querySelector('.treatment-menu-toggle');
+  const panel = document.getElementById('treatment-dropdown');
+  const setOpen = open => {
+    panel.hidden = !open;
+    button.setAttribute('aria-expanded', String(open));
+  };
+  root.addEventListener('pointerenter', event => { if (event.pointerType === 'mouse') setOpen(true); });
+  root.addEventListener('pointerleave', event => {
+    if (event.pointerType === 'mouse' && !root.contains(document.activeElement)) setOpen(false);
+  });
+  button.addEventListener('click', () => setOpen(button.getAttribute('aria-expanded') !== 'true'));
+  root.addEventListener('focusout', event => { if (!root.contains(event.relatedTarget)) setOpen(false); });
+  root.addEventListener('keydown', event => {
+    if (event.key === 'Escape') { setOpen(false); button.focus(); }
+    if (event.key === 'ArrowDown' && !panel.contains(event.target)) {
+      event.preventDefault(); setOpen(true); panel.querySelector('a').focus();
+    }
+  });
+  document.addEventListener('pointerdown', event => { if (!root.contains(event.target)) setOpen(false); });
+  window.matchMedia('(max-width: 1024px)').addEventListener('change', () => setOpen(false));
+}
 
 function initReviewDetailPage() {
   const pageRoot = document.getElementById('review-detail-page-root');

@@ -1,0 +1,18 @@
+- name: 틱장애 · 뚜렛증후군
+  url: /conditions/tic/
+- name: ADHD
+  url: /conditions/adhd/
+- name: 공황장애
+  url: /conditions/panic/
+- name: 불안장애 · 공포증
+  url: /conditions/anxiety/
+- name: 수면 · 불면증
+  url: /conditions/insomnia/
+- name: 자율신경실조증
+  url: /conditions/autonomic/
+- name: 다한증
+  url: /conditions/hyperhidrosis/
+- name: 과민성대장증후군
+  url: /conditions/ibs/
+- name: 미주신경성실신(어지럼증)
+  url: /conditions/syncope/

@@ -20,7 +20,20 @@
       <!-- Desktop Nav -->
       <nav class="desktop-nav" aria-label="주요 메뉴">
         <ul class="nav-list">
-          <li><a href="{{ "guide/" | relURL }}" class="nav-link">진료과목</a></li>
+          <li class="nav-treatment" id="nav-treatment">
+            <div class="nav-treatment-trigger">
+              <a href="{{ "guide/" | relURL }}" class="nav-link">진료과목</a>
+              <button class="treatment-menu-toggle" type="button" aria-label="진료과목 세부 메뉴" aria-expanded="false" aria-controls="treatment-dropdown"><span aria-hidden="true">⌄</span></button>
+            </div>
+            <div class="treatment-dropdown" id="treatment-dropdown" hidden>
+              <div class="treatment-dropdown-heading"><span>TREATMENTS</span><strong>주요 진료과목</strong><a href="{{ "guide/" | relURL }}">전체 진료안내 →</a></div>
+              <ul class="treatment-dropdown-list">
+                {{ range $index, $item := site.Data.treatment_navigation }}
+                <li><a href="{{ .url | relURL }}"{{ if eq $.RelPermalink .url }} aria-current="page"{{ end }}><span class="treatment-dropdown-number">{{ printf "%02d" (add $index 1) }}</span><span>{{ .name }}</span><span class="treatment-dropdown-arrow" aria-hidden="true">↗</span></a></li>
+                {{ end }}
+              </ul>
+            </div>
+          </li>
           <li><a href="{{ "philosophy/" | relURL }}" class="nav-link">진료철학</a></li>
           <li><a href="{{ "reviews/" | relURL }}" class="nav-link">치료후기</a></li>
           <li><a href="{{ "blog/" | relURL }}" class="nav-link">원장 칼럼</a></li>
@@ -93,7 +106,10 @@
 
   <!-- Mobile Nav Links -->
   <ul class="mobile-nav-list">
-    <li><a href="{{ "guide/" | relURL }}" class="mobile-nav-link"><i class="ph ph-calendar-check"></i> 진료과목</a></li>
+    <li><details class="mobile-treatment-menu"><summary><i class="ph ph-calendar-check" aria-hidden="true"></i> 진료과목 <span aria-hidden="true">+</span></summary><ul class="mobile-treatment-list">
+      <li><a href="{{ "guide/" | relURL }}" class="mobile-nav-link">전체 진료안내 <span aria-hidden="true">→</span></a></li>
+      {{ range site.Data.treatment_navigation }}<li><a href="{{ .url | relURL }}" class="mobile-nav-link"{{ if eq $.RelPermalink .url }} aria-current="page"{{ end }}>{{ .name }}</a></li>{{ end }}
+    </ul></details></li>
     <li><a href="{{ "philosophy/" | relURL }}" class="mobile-nav-link"><i class="ph ph-heart"></i> 진료철학</a></li>
     <li><a href="{{ "reviews/" | relURL }}" class="mobile-nav-link"><i class="ph ph-star"></i> 치료후기</a></li>
     <li><a href="{{ "blog/" | relURL }}" class="mobile-nav-link"><i class="ph ph-article"></i> 원장 칼럼</a></li>
