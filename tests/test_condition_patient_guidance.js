@@ -87,7 +87,7 @@ try {
     const conditionName = source.match(/^condition_name: "([^"]+)"$/m)[1];
     const displayName = source.match(/^condition_display_name: "([^"]+)"$/m)?.[1] || conditionName;
     const customHeading = source.match(/^hero_heading: "([^"]+)"$/m)?.[1];
-    assert.strictEqual(heading, customHeading || `${displayName} 증상·검사·치료 안내`, slug + ': requested or standard photographic heading');
+    assert.strictEqual(heading.replace(/\s*ㅣ\s*/g, 'ㅣ'), (customHeading || `${displayName} 증상·검사·치료 안내`).replace(/\s*ㅣ\s*/g, 'ㅣ'), slug + ': requested or standard photographic heading, allowing presentational line breaks');
     const title = /^seo_title_exact: true$/m.test(source) ? source.match(/^seo_title: "([^"]+)"$/m)[1] : `${conditionName} 증상·검사·치료 안내 | 해아림한의원 분당점`;
     assert.strictEqual(text.match(/<title>([^<]+)<\/title>/)[1], title, slug + ': disease-first search title retains clinic identity');
     assert(text.includes(`content="${title}"`), slug + ': social metadata uses the same title');

@@ -40,12 +40,12 @@
     {{ $localStyle := resources.Get "css/condition-local.css" | resources.Minify | resources.Fingerprint }}
     <link rel="stylesheet" href="{{ $localStyle.RelPermalink }}">
   {{ end }}
-  {{ if in (slice "/conditions/tic/" "/conditions/adhd/8/") .RelPermalink }}
+  {{ if or (and (eq .Section "conditions") (not .IsSection)) (in (slice "condition-local" "area-condition") .Type) }}
     {{ $editorialStyle := resources.Get "css/condition-editorial.css" | resources.Minify | resources.Fingerprint }}
     <link rel="stylesheet" href="{{ $editorialStyle.RelPermalink }}">
   {{ end }}
 </head>
-<body class="{{ if eq .Type "condition-local" }}condition-local-body {{ end }}{{ if in (slice "/conditions/tic/" "/conditions/adhd/8/") .RelPermalink }}condition-editorial-body{{ end }}">
+<body class="{{ if eq .Type "condition-local" }}condition-local-body {{ end }}{{ if or (and (eq .Section "conditions") (not .IsSection)) (in (slice "condition-local" "area-condition") .Type) }}condition-editorial-body{{ end }}">
   {{ partial "header.html" . }}
 
   <main id="main-content">

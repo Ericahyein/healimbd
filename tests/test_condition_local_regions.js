@@ -27,7 +27,7 @@ for(const [slug,name] of Object.entries(conditions)){
   const url=parentUrl+(i+1)+'/';
   const html=read(url), text=plain(html), expected=region+' '+name+' 치료 병원 ㅣ 해아림한의원';
   assert.strictEqual(html.match(/<title>([^<]+)<\/title>/)[1],expected);
-  assert.strictEqual(html.match(/<h1\b[^>]*>([^<]+)<\/h1>/)[1],expected);
+  assert.strictEqual(html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/)[1].replace(/<[^>]*>/g, '').trim(),expected);
   assert.strictEqual((html.match(/<h1\b/g)||[]).length,1);
   const meta=[...html.matchAll(/<meta\b[^>]*>/g)].map(m=>attrs(m[0]));
   assert.strictEqual(meta.find(m=>m.property==='og:title').content,expected);

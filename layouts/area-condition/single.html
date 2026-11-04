@@ -7,11 +7,10 @@
 {{ $region := index (where site.Data.local_condition_hubs "slug" $hubSlug) 0 }}
 {{ $review := partial "condition_medical_review.html" . }}
 <article class="area-article area-local-condition">
+  {{ partial "condition_editorial_hero.html" . }}
   <header class="area-article-hero" aria-labelledby="local-condition-title">
     <div class="container area-detail-container">
       <nav class="area-breadcrumb" aria-label="현재 위치"><a href="{{ "/" | relURL }}">홈</a><span aria-hidden="true">/</span><a href="{{ "areas/" | relURL }}">지역별 진료 안내</a><span aria-hidden="true">/</span><a href="{{ $hub.RelPermalink }}">{{ $region.name }} 진료 안내</a><span aria-hidden="true">/</span><span aria-current="page">{{ .Params.condition_name }}</span></nav>
-      <h1 id="local-condition-title">{{ .Title }}</h1>
-      <p class="area-local-lead">{{ .Params.hero_summary }}</p>
       <p class="area-local-location">진료 장소: {{ $info.address }} · {{ $info.subway }}</p>
       <div class="area-doctor-strip">
         <div class="area-doctor-profile"><img src="{{ "images/doctor-son-profile.webp" | relURL }}" alt="손지웅 대표원장" width="48" height="48"><span class="area-doctor-review">{{ if $review.confirmed }}<small>의학적 검토</small><strong>{{ $review.reviewer }}</strong><span class="area-review-date">검토일: {{ $review.display_date }}</span>{{ else }}<small>의학적 검토 예정</small><strong>{{ $info.doctor }}</strong><span class="area-review-date">검토 완료·일자 확인 전</span>{{ end }}</span></div>

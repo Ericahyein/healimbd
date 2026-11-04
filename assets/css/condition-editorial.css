@@ -1,128 +1,443 @@
-/* The two requested detail pages follow the guide/philosophy editorial language. */
-.condition-editorial-body{background:#fff}
-.condition-editorial-body .reference-condition-page{--ref-ink:#1e293b;--ref-teal:#087fa6;--ref-gold:#087fa6;--ref-paper:#fff;--ref-line:#e4eaf0;background:#fff;padding:0 0 80px;color:#475569}
-.condition-editorial-body .daegu-local-page{--local-teal:#087fa6;--local-dark:#1e293b;padding-top:0;color:#475569}
-.condition-editorial-body .condition-editorial-hero{margin:0;padding:110px 0 38px;border:0;border-radius:0;box-shadow:none;background:#0f172a}
-.condition-editorial-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 36%}
-.condition-editorial-body .condition-editorial-hero .page-hero-overlay{background:linear-gradient(90deg,#0f172ad9,#0f172a8c 60%,#0f172ab8)}
-.condition-editorial-body .condition-editorial-hero .page-hero-container{max-width:1040px;width:100%;padding:0 28px}
-.condition-editorial-body .condition-editorial-hero h1{color:#fff;font-size:clamp(27px,3.05vw,40px);line-height:1.5;word-break:keep-all;overflow-wrap:break-word;margin:0 auto 22px;max-width:980px}
-.condition-editorial-body .condition-editorial-hero .page-hero-desc{font-size:16px;max-width:720px;line-height:1.95;margin:0 auto}
-.condition-editorial-nav{border-bottom:1px solid #e5ebf0;background:#fff}
-.condition-editorial-nav-inner{max-width:1180px;margin:0 auto;padding:22px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px}
-.condition-editorial-breadcrumb{display:flex;align-items:center;flex-wrap:wrap;gap:12px;font-size:12px;color:#64748b;flex-shrink:0}
-.condition-editorial-breadcrumb a{color:inherit;text-decoration:none}
-.condition-editorial-breadcrumb [aria-current]{color:#1e293b;font-weight:700}
-.condition-editorial-jumps{display:flex;flex-wrap:wrap;gap:8px 25px}
-.condition-editorial-jumps a{font-size:13px;color:#475569;text-decoration:none;line-height:1.7;padding:8px 0}
-.condition-editorial-jumps a:hover{color:#087fa6}
-.condition-editorial-body .reference-shell{width:min(1100px,calc(100% - 64px));padding-top:58px}
-.condition-editorial-body .reference-article{padding:0 40px 24px;border:0;border-radius:0;box-shadow:none}
-.condition-editorial-body .reference-supervision{background:transparent;padding:0 0 26px;border:0;border-bottom:1px solid #e5ebf0;border-radius:0;color:#64748b}
-.condition-editorial-body .reference-supervision-badge{border:0;background:#eff8fa;color:#087fa6}
-.condition-editorial-body .reference-section{padding:60px 0;border-bottom:1px solid #e5ebf0;scroll-margin-top:105px}
-.condition-editorial-body .reference-section h2{color:#1e293b;font-size:clamp(24px,2.4vw,31px);line-height:1.5;letter-spacing:-.035em}
-.condition-editorial-body .reference-section>h2:before{color:#168bac;border-color:#d7e8ee}
-.condition-editorial-body .reference-copy{color:#526071;font-size:16px;line-height:2}
-.condition-editorial-body .reference-copy strong{color:#263747}
-.condition-editorial-body .reference-box{border:0;border-radius:0;background:#f7f9fb;padding:26px 28px}
-.condition-editorial-body .reference-checklist{border:0;border-radius:0;border-left:3px solid #1799b0;background:#f2f8fa;padding:29px}
-.condition-editorial-body .reference-checklist h3{color:#1e293b}
-.condition-editorial-body .reference-checklist li:before{background:#dfedf2;color:#087fa6}
-.condition-editorial-body .reference-callout{background:#f6f9fb;border-color:#86b7c8;color:#526071;border-radius:0}
-.condition-editorial-body .reference-callout.warning{background:#fcf8ef;border-color:#caa35b;color:#735c37}
-.condition-editorial-body .reference-card{background:#fff;border:0;border-top:1px solid #dce6ed;border-radius:0;box-shadow:none;padding:27px 9px}
-.condition-editorial-body .reference-card h3{color:#1e293b}
-.condition-editorial-body .reference-card-number{border:0;border-radius:0;background:transparent;color:#087fa6;justify-content:flex-start}
-.condition-editorial-body .reference-treatment .reference-card{border:0;border-bottom:1px solid #e5ebf0;grid-template-columns:42px minmax(0,1fr);padding:24px 0}
-.condition-editorial-body .reference-treatment .reference-card-number{background:transparent}
-.condition-editorial-body .reference-inline-cta{background:#f5f9fb;border:0;border-left:3px solid #1692ad;border-radius:0}
-.condition-editorial-body .reference-inline-cta>strong,.condition-editorial-body .reference-inline-cta p{color:#334155}
-.condition-editorial-body .reference-inline-actions a{border-radius:5px;border-color:#d5e4ec;color:#087fa6}
-.condition-editorial-body .reference-inline-actions a:first-child{background:#087fa6;border-color:#087fa6;color:#fff}
-.condition-editorial-body .reference-doctor{background:#f7f9fb;border:0;border-radius:0;padding:34px}
-.condition-editorial-body .reference-support-section{padding:64px 40px;margin:0;border:0;border-top:1px solid #e5ebf0;border-radius:0;background:#fff}
-.condition-editorial-body .reference-section-header>p{color:#087fa6;letter-spacing:.12em;font-size:12px}
-.condition-editorial-body .reference-section-header>p:before{display:none}
-.condition-editorial-body .reference-section-header h2{font-size:clamp(24px,2.4vw,31px);color:#1e293b;line-height:1.5}
-.condition-editorial-body .reference-insight,.condition-editorial-body .reference-video,.condition-editorial-body .reference-book,.condition-editorial-body .reference-review-link,.condition-editorial-body .reference-column{border:1px solid #e2e8f0;border-radius:8px;background:#fff;box-shadow:none}
-.condition-editorial-body .reference-insight-visual{background:#f1f6f9;color:#4586a0}
-.condition-editorial-body .reference-card-body h3,.condition-editorial-body .reference-book h3,.condition-editorial-body .reference-review-link h3,.condition-editorial-body .reference-column h3{color:#1e293b}
-.condition-editorial-body .reference-faq-list{gap:0}
-.condition-editorial-body .reference-faq-list details{border:0;border-bottom:1px solid #e2e8f0;border-radius:0;background:#fff}
-.condition-editorial-body .reference-faq-list summary{color:#334155;padding-top:23px;padding-bottom:23px}
-.condition-editorial-body .reference-faq-list summary:before,.condition-editorial-body .reference-faq-list summary:after{color:#087fa6}
-.condition-editorial-body .reference-faq-list details[open]{background:#f8fafc}
-.condition-editorial-body .reference-closing{border:0;background:#153447;border-radius:8px}
-.condition-editorial-body .reference-closing h2,.condition-editorial-body .reference-closing .reference-copy{color:#fff}
-.condition-editorial-body .reference-closing .reference-copy strong{color:#fff}
-.condition-editorial-body .reference-visit{border-top:1px solid #e5ebf0}
-/* Regional page: larger reading rhythm and quiet, open sections. */
-.condition-editorial-body .daegu-local-container{max-width:1100px;padding:0 32px}
-.condition-editorial-body .daegu-local-article{max-width:none;padding:64px 40px}
-.condition-editorial-body .daegu-local-intro{padding:0 0 40px;border:0;border-bottom:1px solid #e5ebf0;border-radius:0;background:#fff}
-.condition-editorial-body .daegu-local-intro h2{font-size:25px;margin-bottom:20px}
-.condition-editorial-body .daegu-local-intro p{font-size:16px;line-height:2}
-.condition-editorial-body .daegu-local-intro .daegu-local-travel{background:#f4f8fb;border-radius:0;padding:20px;font-size:14px;font-weight:500}
-.condition-editorial-body .daegu-local-section{padding-top:54px;scroll-margin-top:100px}
-.condition-editorial-body .daegu-local-section>h2{font-size:27px;border:0;padding:0;margin:0 0 28px;line-height:1.6}
-.condition-editorial-body .daegu-local-card{border:0;border-top:2px solid #dbe9ef;border-radius:0;box-shadow:none;padding:26px 10px 20px}
-.condition-editorial-body .daegu-local-card h3{font-size:18px;color:#1e293b;margin-bottom:16px}
-.condition-editorial-body .daegu-local-card p{line-height:2}
-.condition-editorial-body .daegu-local-panel{padding:32px;background:#f7f9fb;border:0;border-radius:0}
-.condition-editorial-body .daegu-local-steps{grid-template-columns:repeat(2,minmax(0,1fr));gap:26px}
-.condition-editorial-body .daegu-local-steps>div{border:0;border-top:1px solid #d6e3ea;border-radius:0;background:transparent;padding:20px 0 0}
-.condition-editorial-body .daegu-local-question{padding:26px 0;margin:0;border:0;border-bottom:1px solid #e5ebf0;border-radius:0}
-.condition-editorial-body .daegu-local-question h3{color:#1e293b;line-height:1.7}
-.condition-editorial-body .daegu-local-return{margin-top:34px;font-size:14px;border:0;border-bottom:1px solid #b6d1de;border-radius:0;padding:12px 0}
-.condition-editorial-body .daegu-local-support{padding:72px 32px;border-color:#e5ebf0;scroll-margin-top:100px}
-.condition-editorial-body .daegu-local-support-inner{max-width:1020px}
-.condition-editorial-body .daegu-local-support:not(.daegu-local-visit){background:#fff}
-.condition-editorial-body .daegu-local-support h2{text-align:left;font-size:29px;line-height:1.55}
-.condition-editorial-body .daegu-local-kicker,.condition-editorial-body .daegu-local-support-intro{text-align:left;max-width:none}
-.condition-editorial-body .daegu-local-kicker{color:#087fa6;text-transform:uppercase;font-size:12px;letter-spacing:.12em;margin-bottom:14px}
-.condition-editorial-body .daegu-local-book-cover{background:#f6f8fa;border:0;border-radius:6px}
-.condition-editorial-body .daegu-local-faq-list{max-width:none}
-.condition-editorial-body .daegu-local-faq-list details{border:0;border-bottom:1px solid #e2e8f0;border-radius:0;margin:0}
-.condition-editorial-body .daegu-local-faq-list summary{padding:24px 6px}
-.condition-editorial-body .daegu-local-faq-answer{background:#f8fafc;border:0}
-.condition-editorial-body .daegu-local-review-card,.condition-editorial-body .daegu-local-column-card{border-color:#e2e8f0;border-radius:8px}
-.condition-editorial-body .daegu-local-review-visual{background:#f1f6f9;color:#4586a0}
-.condition-editorial-body .daegu-local-visit{background:#153447}
-.condition-editorial-body .daegu-local-visit h2,.condition-editorial-body .daegu-local-visit .daegu-local-kicker{text-align:center;color:#fff}
-.condition-editorial-body .daegu-local-fixed a{background:#087fa6}
-.condition-editorial-body .daegu-local-fixed a+a{background:#153447}
-.condition-editorial-body a:focus-visible,.condition-editorial-body summary:focus-visible{outline:3px solid #168bac;outline-offset:4px}
-@media(max-width:760px){
- .condition-editorial-body .condition-editorial-hero{height:auto;min-height:440px;max-height:none;padding:112px 0 48px}
- .condition-editorial-body .condition-editorial-hero h1{font-size:27px;line-height:1.6;max-width:600px}
- .condition-editorial-body .condition-editorial-hero .page-hero-desc{font-size:14px;line-height:1.9}
- .condition-editorial-body .condition-editorial-photo{object-position:62% center}
- .condition-editorial-nav-inner{display:block;padding:20px 24px 12px}
- .condition-editorial-jumps{margin-top:10px;gap:4px 20px}
- .condition-editorial-body .reference-shell{width:calc(100% - 40px);padding-top:36px}
- .condition-editorial-body .reference-article{padding:0}
- .condition-editorial-body .reference-section{padding:42px 0}
- .condition-editorial-body .reference-section>h2{grid-template-columns:28px minmax(0,1fr);gap:12px}
- .condition-editorial-body .reference-support-section{padding:44px 0}
- .condition-editorial-body .reference-supervision{font-size:12px;padding-bottom:24px}
- .condition-editorial-body .reference-doctor{padding:24px}
- .condition-editorial-body .reference-copy{font-size:15px;line-height:1.95}
- .condition-editorial-body .reference-treatment .reference-card{grid-template-columns:32px minmax(0,1fr)}
- .condition-editorial-body .reference-card{padding:24px 0}
- .condition-editorial-body .reference-grid-2,.condition-editorial-body .reference-grid-3{grid-template-columns:1fr}
- .condition-editorial-body .daegu-local-container{padding:0 22px}
- .condition-editorial-body .daegu-local-article{padding:40px 0}
- .condition-editorial-body .daegu-local-intro h2{font-size:22px;line-height:1.6}
- .condition-editorial-body .daegu-local-section{padding-top:40px}
- .condition-editorial-body .daegu-local-section>h2{font-size:23px}
- .condition-editorial-body .daegu-local-panel{padding:24px 20px}
- .condition-editorial-body .daegu-local-steps{grid-template-columns:1fr;gap:22px}
- .condition-editorial-body .daegu-local-support{padding:48px 22px}
- .condition-editorial-body .daegu-local-support h2{font-size:25px}
- .condition-editorial-body .daegu-local-faq-tag{display:none}
+/* Approved reading-first design for clinical and regional condition pages. */
+.condition-editorial-body {
+  --reading-ink: #1b2b3a;
+  --reading-copy: #334155;
+  --reading-muted: #526274;
+  --reading-blue: #086a91;
+  --reading-line: #dce4eb;
+  background: #fff;
+}
+.condition-editorial-body .reference-condition-page {
+  --ref-ink: var(--reading-ink);
+  --ref-teal: var(--reading-blue);
+  --ref-gold: var(--reading-blue);
+  --ref-paper: #fff;
+  --ref-line: var(--reading-line);
+  padding: 0 0 80px;
+  background: #fff;
+  color: var(--reading-copy);
+}
+.condition-editorial-body .daegu-local-page {
+  --local-teal: var(--reading-blue);
+  --local-dark: var(--reading-ink);
+  padding-top: 0;
+  color: var(--reading-copy);
+}
+/* Titles and introductory copy sit on a solid surface, beside the photograph. */
+.condition-editorial-body .condition-editorial-hero {
+  display: block;
+  height: auto;
+  min-height: 0;
+  max-height: none;
+  margin: 0;
+  padding: 56px 0;
+  border: 0;
+  border-bottom: 1px solid var(--reading-line);
+  border-radius: 0;
+  background: #f6f9fb;
+  box-shadow: none;
+  text-align: left;
+}
+.condition-editorial-body .condition-readable-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  align-items: center;
+  gap: 56px;
+  width: min(1120px, calc(100% - 80px));
+  max-width: none;
+  margin: 0 auto;
+  padding: 0;
+  text-align: left;
+}
+.condition-editorial-body .condition-readable-intro { min-width: 0; }
+.condition-editorial-body .condition-editorial-hero .page-hero-tag {
+  margin-bottom: 20px;
+  color: var(--reading-blue);
+  font-size: 13px;
+  line-height: 1.7;
+  letter-spacing: .08em;
+}
+.condition-editorial-body .condition-editorial-hero h1 {
+  margin: 0 0 24px;
+  color: var(--reading-ink) !important;
+  font-size: 38px;
+  font-weight: 800;
+  line-height: 1.5;
+  letter-spacing: -.035em;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  text-shadow: none;
+}
+.condition-title-part { display: block; }
+.condition-title-divider { display: none; }
+.condition-title-part-0 { font-size: 42px; }
+.condition-title-part-1 { margin-top: 10px; font-size: 23px; font-weight: 650; }
+.condition-title-part-2 { margin-top: 15px; font-size: 17px; font-weight: 500; color: var(--reading-muted); }
+.condition-editorial-body .condition-editorial-hero .page-hero-desc {
+  max-width: 620px;
+  margin: 0;
+  color: var(--reading-copy) !important;
+  font-size: 18px;
+  line-height: 1.85;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  text-shadow: none;
+}
+.condition-editorial-body .condition-editorial-photo {
+  position: static;
+  display: block;
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  object-position: center 30%;
+  border-radius: 14px;
+}
+/* Location and jump links have distinct rows and comfortably sized targets. */
+.condition-editorial-nav { border-bottom: 1px solid var(--reading-line); background: #fff; }
+.condition-editorial-nav-inner { max-width: 900px; margin: auto; padding: 20px 40px; }
+.condition-editorial-breadcrumb { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; font-size: 14px; color: var(--reading-muted); }
+.condition-editorial-breadcrumb a { color: inherit; text-decoration: none; }
+.condition-editorial-breadcrumb [aria-current] { color: var(--reading-ink); font-weight: 700; }
+.condition-editorial-jumps { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+.condition-editorial-jumps a { display: inline-flex; align-items: center; min-height: 44px; padding: 9px 15px; border: 1px solid #d6e2ea; border-radius: 6px; background: #f8fafc; color: #274659; font-size: 15px; font-weight: 650; line-height: 1.5; text-decoration: none; }
+.condition-editorial-jumps a:hover { background: #eaf4f9; border-color: #8cb6ca; color: var(--reading-blue); }
+.condition-editorial-byline { display: block; width: min(820px, calc(100% - 80px)); margin: 28px auto 0; color: var(--reading-muted); font-size: 14px; line-height: 1.8; }
+/* A shorter line and an 18px body create a consistent reading measure. */
+.condition-editorial-body .reference-shell { width: min(900px, calc(100% - 48px)); padding-top: 28px; }
+.condition-editorial-body .reference-article { padding: 0 40px 20px; border: 0; border-radius: 0; box-shadow: none; }
+.condition-editorial-body .reference-supervision { padding: 0 0 28px; border: 0; border-bottom: 1px solid var(--reading-line); border-radius: 0; background: #fff; color: var(--reading-muted); font-size: 14px; }
+.condition-editorial-body .reference-supervision-badge { border: 0; background: #eaf4f9; color: var(--reading-blue); }
+.condition-editorial-body .reference-section { padding: 52px 0; border-bottom: 1px solid var(--reading-line); scroll-margin-top: 100px; }
+.condition-editorial-body .reference-section h2 { margin: 0 0 28px; color: var(--reading-ink); font-size: 30px; line-height: 1.5; letter-spacing: -.025em; }
+.condition-editorial-body .reference-section > h2 { grid-template-columns: 38px minmax(0, 1fr); gap: 16px; }
+.condition-editorial-body .reference-section > h2::before { display: grid; place-items: center; width: 36px; height: 36px; margin-top: 5px; padding: 0; border: 0; border-radius: 7px; background: #e8f2f8; color: var(--reading-blue); font-size: 14px; }
+.condition-editorial-body .reference-section h3 { margin: 34px 0 16px; color: var(--reading-ink); font-size: 23px; line-height: 1.6; }
+.condition-editorial-body .reference-copy { color: var(--reading-copy); font-size: 18px; line-height: 1.85; word-break: keep-all; overflow-wrap: break-word; }
+.condition-editorial-body .reference-copy p { margin: 0 0 24px; }
+.condition-editorial-body .reference-copy p:last-child { margin-bottom: 0; }
+.condition-editorial-body .reference-copy strong { color: #182d3d; font-weight: 750; }
+.condition-editorial-body .reference-copy ul,
+.condition-editorial-body .reference-copy ol { margin: 20px 0 28px; padding-left: 25px; }
+.condition-editorial-body .reference-copy li + li { margin-top: 14px; }
+.condition-editorial-body .reference-box { margin: 26px 0; padding: 28px; border: 1px solid var(--reading-line); border-radius: 10px; background: #f7f9fb; }
+.condition-editorial-body .reference-checklist { margin: 28px 0; padding: 30px; border: 1px solid #cbdfe9; border-left: 4px solid #187fa4; border-radius: 10px; background: #f0f7fb; }
+.condition-editorial-body .reference-checklist h3 { margin: 0 0 22px; font-size: 22px; }
+.condition-editorial-body .reference-checklist ul { grid-template-columns: 1fr; gap: 15px; margin: 0; padding: 0; }
+.condition-editorial-body .reference-checklist li { color: var(--reading-copy); font-size: 18px; line-height: 1.8; padding-left: 31px; }
+.condition-editorial-body .reference-checklist li::before { top: 6px; background: #d4e9f4; color: #086085; }
+.condition-editorial-body .reference-callout { margin: 26px 0; padding: 23px 26px; border-color: #8eb7ca; border-radius: 0 8px 8px 0; background: #f1f7fa; color: var(--reading-copy); font-size: 17px; line-height: 1.85; }
+.condition-editorial-body .reference-callout.warning { background: #fcf7eb; border-color: #b88b34; color: #614a24; }
+.condition-editorial-body .reference-callout.warning::before { font-size: 15px; color: #614a24; }
+/* Clinical categories keep their own boundary; dense three-column text becomes rows. */
+.condition-editorial-body .reference-grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.condition-editorial-body .reference-grid-3 { grid-template-columns: 1fr; gap: 20px; }
+.condition-editorial-body .reference-card { padding: 26px; border: 1px solid #d6e2ea; border-radius: 10px; background: #f8fafc; box-shadow: none; }
+.condition-editorial-body .reference-card h3 { max-width: none; margin: 0 0 16px; color: var(--reading-ink); font-size: 22px; line-height: 1.55; }
+.condition-editorial-body .reference-card-number { width: auto; height: auto; margin-bottom: 15px; padding: 0; border: 0; border-radius: 0; background: none; color: var(--reading-blue); font-size: 15px; }
+.condition-editorial-body .reference-card .reference-copy { color: var(--reading-copy); font-size: 17px; line-height: 1.85; }
+.condition-editorial-body .reference-main-copy .reference-grid-3 > .reference-card { display: grid; grid-template-columns: 32px minmax(0, 1fr); gap: 0 16px; }
+.condition-editorial-body .reference-main-copy .reference-grid-3 > .reference-card > .reference-card-number { grid-row: 1 / 3; margin-top: 5px; }
+.condition-editorial-body .reference-main-copy .reference-grid-3 > .reference-card > .reference-copy { grid-column: 2; }
+.condition-editorial-body .reference-treatment { gap: 18px; }
+.condition-editorial-body .reference-treatment .reference-card { grid-template-columns: 38px minmax(0, 1fr); gap: 0 16px; padding: 28px; border: 1px solid #d6e2ea; border-left: 4px solid #187fa4; background: #fff; }
+.condition-editorial-body .reference-treatment .reference-card-number { width: 32px; height: 32px; margin: 0; border-radius: 6px; background: #e8f2f8; color: var(--reading-blue); font-size: 14px; }
+.condition-editorial-body .reference-inline-cta { padding: 28px; border: 1px solid #d4e3ec; border-radius: 10px; background: #f2f7fb; }
+.condition-editorial-body .reference-inline-cta > strong { font-size: 22px; color: var(--reading-ink); }
+.condition-editorial-body .reference-inline-cta p { font-size: 17px; color: var(--reading-copy); }
+.condition-editorial-body .reference-inline-actions a { min-height: 46px; padding: 12px 18px; border-radius: 6px; color: var(--reading-blue); font-size: 16px; }
+.condition-editorial-body .reference-inline-actions a:first-child { background: var(--reading-blue); border-color: var(--reading-blue); color: #fff; }
+.condition-editorial-body .reference-doctor { padding: 30px; border: 1px solid var(--reading-line); border-radius: 10px; background: #f7f9fb; }
+.condition-editorial-body .reference-doctor .reference-copy { font-size: 17px; }
+/* Supporting information uses the same size and reading width as the main guide. */
+.condition-editorial-body .reference-support-section { margin: 0; padding: 52px 40px; border: 0; border-top: 1px solid var(--reading-line); border-radius: 0; background: #fff; scroll-margin-top: 100px; }
+.condition-editorial-body .reference-section-header { margin-bottom: 28px; }
+.condition-editorial-body .reference-section-header > p { color: var(--reading-blue); font-size: 13px; letter-spacing: .08em; }
+.condition-editorial-body .reference-section-header > p::before { display: none; }
+.condition-editorial-body .reference-section-header h2 { color: var(--reading-ink); font-size: 30px; line-height: 1.5; }
+.condition-editorial-body .reference-section-header > a { margin-left: 0; font-size: 16px; }
+.condition-editorial-body .reference-section-description { margin-bottom: 25px; font-size: 18px; color: var(--reading-copy); }
+.condition-editorial-body .reference-insight,
+.condition-editorial-body .reference-video { display: grid; grid-template-columns: 220px minmax(0, 1fr); align-items: stretch; border: 1px solid #d6e2ea; border-radius: 10px; background: #fff; overflow: hidden; }
+.condition-editorial-body .reference-insight-visual { height: auto; min-height: 160px; background: #edf4f8; color: #397f9c; }
+.condition-editorial-body .reference-card-body { padding: 26px; }
+.condition-editorial-body .reference-card-body h3 { margin-bottom: 14px; font-size: 22px; line-height: 1.6; color: var(--reading-ink); }
+.condition-editorial-body .reference-card-body p { font-size: 17px; line-height: 1.85; color: var(--reading-copy); }
+.condition-editorial-body .reference-card-body small { font-size: 14px; color: var(--reading-muted); }
+.condition-editorial-body .reference-link-text { display: block; margin-top: 14px; font-size: 16px; color: var(--reading-blue); }
+.condition-editorial-body .reference-video-thumb { height: 100%; min-height: 160px; aspect-ratio: auto; }
+.condition-editorial-body .reference-video-thumb > img { object-fit: cover; }
+.condition-editorial-body .reference-resource-note { font-size: 16px; line-height: 1.85; color: var(--reading-muted); }
+.condition-editorial-body .reference-books .reference-grid-2 { grid-template-columns: 1fr; }
+.condition-editorial-body .reference-book { grid-template-columns: 110px minmax(0, 1fr); padding: 26px; border: 1px solid #d6e2ea; border-radius: 10px; background: #f8fafc; }
+.condition-editorial-body .reference-book h3 { font-size: 24px; color: var(--reading-ink); }
+.condition-editorial-body .reference-book p { font-size: 17px; line-height: 1.85; color: var(--reading-copy); }
+.condition-editorial-body .reference-book span,
+.condition-editorial-body .reference-book strong { font-size: 15px; color: var(--reading-blue); }
+.condition-editorial-body .reference-review-link,
+.condition-editorial-body .reference-column { padding: 28px; border: 1px solid #d6e2ea; border-radius: 10px; background: #f8fafc; }
+.condition-editorial-body .reference-review-link h3,
+.condition-editorial-body .reference-column h3 { margin-top: 12px; font-size: 23px; line-height: 1.6; color: var(--reading-ink); }
+.condition-editorial-body .reference-review-link p { font-size: 17px; line-height: 1.85; color: var(--reading-copy); }
+.condition-editorial-body .reference-review-link strong,
+.condition-editorial-body .reference-column strong,
+.condition-editorial-body .reference-column span { font-size: 15px; color: var(--reading-blue); }
+/* FAQ answers and clinic facts remain large enough to read without zooming. */
+.condition-editorial-body .reference-faq-list { gap: 14px; }
+.condition-editorial-body .reference-faq-list details { border: 1px solid #d6e2ea; border-radius: 8px; background: #fff; }
+.condition-editorial-body .reference-faq-list summary { padding: 23px 53px 23px 23px; color: var(--reading-ink); font-size: 18px; line-height: 1.65; }
+.condition-editorial-body .reference-faq-list summary::before,
+.condition-editorial-body .reference-faq-list summary::after { color: var(--reading-blue); }
+.condition-editorial-body .reference-faq-list details[open] { background: #f7fafc; }
+.condition-editorial-body .reference-faq-list details p { padding: 0 24px 24px 49px; color: var(--reading-copy); font-size: 17px; line-height: 1.85; }
+.condition-editorial-body .reference-closing { margin-top: 32px; padding: 32px !important; border: 0; border-radius: 10px; background: #153447; }
+.condition-editorial-body .reference-closing h2,
+.condition-editorial-body .reference-closing .reference-copy,
+.condition-editorial-body .reference-closing .reference-copy strong { color: #fff; }
+.condition-editorial-body .reference-closing .reference-inline-actions a { color: #fff; border-color: #b9d2e0; }
+.condition-editorial-body .reference-visit .clinic-visit-facts { grid-template-columns: 1fr; gap: 18px; }
+.condition-editorial-body .clinic-visit-facts dt { font-size: 20px; color: var(--reading-ink); }
+.condition-editorial-body .clinic-visit-facts dd { margin-top: 10px; font-size: 17px; line-height: 1.85; color: var(--reading-copy); }
+.condition-editorial-body .reference-preparation,
+.condition-editorial-body .reference-sources { font-size: 17px; color: var(--reading-copy); }
+/* Regional page shares the same text sizes, section boundaries and line length. */
+.condition-editorial-body .daegu-local-container { max-width: 900px; padding: 0 40px; }
+.condition-editorial-body .daegu-local-article { max-width: none; padding: 42px 0 52px; }
+.condition-editorial-body .daegu-local-intro { padding: 0 0 38px; border: 0; border-bottom: 1px solid var(--reading-line); border-radius: 0; background: #fff; }
+.condition-editorial-body .daegu-local-intro h2 { margin: 0 0 24px; font-size: 28px; line-height: 1.6; word-break: keep-all; }
+.condition-editorial-body .daegu-local-intro p { color: var(--reading-copy); font-size: 18px; line-height: 1.85; }
+.condition-editorial-body .daegu-local-intro .daegu-local-travel { margin-top: 25px; padding: 24px; border: 1px solid #d4e3ec; border-radius: 8px; background: #f1f7fb; font-size: 17px; font-weight: 500; }
+.condition-editorial-body .daegu-local-section { padding-top: 48px; scroll-margin-top: 100px; }
+.condition-editorial-body .daegu-local-section > h2 { margin: 0 0 26px; padding: 0; border: 0; font-size: 29px; line-height: 1.6; word-break: keep-all; }
+.condition-editorial-body .daegu-local-reasons,
+.condition-editorial-body .daegu-local-steps { grid-template-columns: 1fr; gap: 18px; }
+.condition-editorial-body .daegu-local-card { padding: 26px 28px; border: 1px solid #d6e2ea; border-radius: 10px; background: #f8fafc; box-shadow: none; }
+.condition-editorial-body .daegu-local-card h3 { margin: 0 0 16px; font-size: 22px; line-height: 1.6; color: var(--reading-ink); }
+.condition-editorial-body .daegu-local-card p { font-size: 18px; line-height: 1.85; color: var(--reading-copy); }
+.condition-editorial-body .daegu-local-panel { padding: 30px; border: 1px solid #d6e2ea; border-radius: 10px; background: #f7f9fb; }
+.condition-editorial-body .daegu-local-panel h3 { margin-bottom: 20px; font-size: 23px; line-height: 1.6; }
+.condition-editorial-body .daegu-local-symptoms { margin-bottom: 24px; font-size: 18px; line-height: 1.85; }
+.condition-editorial-body .daegu-local-symptoms li + li { margin-top: 16px; }
+.condition-editorial-body .daegu-local-steps > div { padding: 24px; border: 1px solid #d6e2ea; border-radius: 8px; background: #fff; }
+.condition-editorial-body .daegu-local-steps h4 { margin-bottom: 12px; font-size: 21px; line-height: 1.6; }
+.condition-editorial-body .daegu-local-steps p { color: var(--reading-copy); font-size: 18px; line-height: 1.85; }
+.condition-editorial-body .daegu-local-question { padding: 28px; margin-bottom: 18px; border: 1px solid #d6e2ea; border-radius: 10px; background: #f8fafc; }
+.condition-editorial-body .daegu-local-question h3 { margin-bottom: 17px; font-size: 22px; line-height: 1.6; color: var(--reading-ink); word-break: keep-all; }
+.condition-editorial-body .daegu-local-question p { color: var(--reading-copy); font-size: 18px; line-height: 1.85; }
+.condition-editorial-body .daegu-local-return { min-height: 48px; padding: 12px 0; border: 0; border-radius: 0; color: var(--reading-blue); font-size: 17px; }
+.condition-editorial-body .daegu-local-editorial { font-size: 14px; color: var(--reading-muted); }
+.condition-editorial-body .daegu-local-support { padding: 52px 40px; border-color: var(--reading-line); scroll-margin-top: 100px; }
+.condition-editorial-body .daegu-local-support-inner { max-width: 820px; }
+.condition-editorial-body .daegu-local-support:not(.daegu-local-visit) { background: #fff; }
+.condition-editorial-body .daegu-local-support h2 { text-align: left; color: var(--reading-ink); font-size: 30px; line-height: 1.6; word-break: keep-all; }
+.condition-editorial-body .daegu-local-kicker { margin-bottom: 15px; text-align: left; text-transform: uppercase; font-size: 13px; letter-spacing: .08em; color: var(--reading-blue); }
+.condition-editorial-body .daegu-local-support-intro { max-width: none; margin-bottom: 28px; text-align: left; font-size: 18px; line-height: 1.85; color: var(--reading-copy); }
+.condition-editorial-body .daegu-local-book-cover { height: 260px; border-color: #d6e2ea; background: #f5f8fa; }
+.condition-editorial-body .daegu-local-book-grid h3 { font-size: 24px; }
+.condition-editorial-body .daegu-local-book-grid p { color: var(--reading-copy); font-size: 17px; line-height: 1.85; }
+.condition-editorial-body .daegu-local-faq-list { max-width: none; }
+.condition-editorial-body .daegu-local-faq-list details { margin-bottom: 14px; border-color: #d6e2ea; border-radius: 8px; }
+.condition-editorial-body .daegu-local-faq-list summary { padding: 24px; color: var(--reading-ink); font-size: 18px; line-height: 1.65; }
+.condition-editorial-body .daegu-local-faq-answer { padding: 0 24px; background: #f7fafc; color: var(--reading-copy); font-size: 17px; line-height: 1.85; }
+.condition-editorial-body .daegu-local-resource-grid { grid-template-columns: 1fr; gap: 20px; }
+.condition-editorial-body .daegu-local-review-card,
+.condition-editorial-body .daegu-local-column-card { display: grid; grid-template-columns: 220px minmax(0, 1fr); border-color: #d6e2ea; border-radius: 10px; }
+.condition-editorial-body .daegu-local-review-visual { height: 100%; min-height: 180px; background: #edf4f8; }
+.condition-editorial-body .daegu-local-column-card > img { height: 100%; min-height: 180px; }
+.condition-editorial-body .daegu-local-resource-copy { padding: 26px; }
+.condition-editorial-body .daegu-local-resource-copy h3 { margin: 12px 0 16px; font-size: 22px; line-height: 1.6; }
+.condition-editorial-body .daegu-local-resource-copy p { color: var(--reading-copy); font-size: 17px; line-height: 1.85; }
+.condition-editorial-body .daegu-local-resource-copy strong { font-size: 16px; }
+.condition-editorial-body .daegu-local-small { font-size: 16px; line-height: 1.85; color: var(--reading-muted); }
+.condition-editorial-body .daegu-local-visit { background: #153447; }
+.condition-editorial-body .daegu-local-visit h2,
+.condition-editorial-body .daegu-local-visit .daegu-local-kicker,
+.condition-editorial-body .daegu-local-visit p { text-align: center; color: #fff; }
+.condition-editorial-body .daegu-local-visit p { font-size: 18px; line-height: 1.85; }
+.condition-editorial-body .daegu-local-fixed a { background: #086a91; }
+.condition-editorial-body .daegu-local-fixed a + a { background: #153447; }
+.condition-editorial-body a:focus-visible,
+.condition-editorial-body summary:focus-visible { outline: 3px solid #168bac; outline-offset: 4px; }
+@media (max-width: 900px) {
+  .condition-editorial-body .condition-readable-hero-grid { grid-template-columns: minmax(0, 1fr) 240px; gap: 30px; width: calc(100% - 48px); }
+  .condition-editorial-body .condition-editorial-photo { height: 260px; }
+  .condition-title-part-0 { font-size: 35px; }
+}
+@media (max-width: 760px) {
+  .condition-editorial-body .condition-editorial-hero { padding: 34px 0; }
+  .condition-editorial-body .condition-readable-hero-grid { grid-template-columns: 1fr; gap: 28px; width: calc(100% - 40px); }
+  .condition-editorial-body .condition-editorial-hero h1,
+  .condition-title-part-0 { font-size: 31px; line-height: 1.5; }
+  .condition-title-part-1 { font-size: 21px; }
+  .condition-title-part-2 { margin-top: 13px; font-size: 16px; line-height: 1.8; }
+  .condition-editorial-body .condition-editorial-hero .page-hero-tag { margin-bottom: 15px; font-size: 12px; }
+  .condition-editorial-body .condition-editorial-hero .page-hero-desc { font-size: 17px; line-height: 1.85; }
+  .condition-editorial-body .condition-editorial-photo { height: 190px; object-position: center 32%; }
+  .condition-editorial-nav-inner { padding: 20px; }
+  .condition-editorial-breadcrumb { font-size: 13px; }
+  .condition-editorial-jumps { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .condition-editorial-jumps a { justify-content: center; padding: 11px; font-size: 14px; }
+  .condition-editorial-byline { width: calc(100% - 40px); margin-top: 22px; font-size: 13px; }
+  .condition-editorial-body .reference-shell { width: calc(100% - 40px); padding-top: 24px; }
+  .condition-editorial-body .reference-article { padding: 0; }
+  .condition-editorial-body .reference-supervision { gap: 8px 12px; font-size: 13px; }
+  .condition-editorial-body .reference-section,
+  .condition-editorial-body .reference-support-section { padding: 38px 0; }
+  .condition-editorial-body .reference-section h2,
+  .condition-editorial-body .reference-section-header h2 { font-size: 25px; line-height: 1.6; }
+  .condition-editorial-body .reference-section > h2 { grid-template-columns: 30px minmax(0, 1fr); gap: 12px; }
+  .condition-editorial-body .reference-section > h2::before { width: 28px; height: 32px; font-size: 12px; }
+  .condition-editorial-body .reference-section h3 { font-size: 21px; }
+  .condition-editorial-body .reference-copy,
+  .condition-editorial-body .reference-checklist li { font-size: 17px; line-height: 1.85; }
+  .condition-editorial-body .reference-grid-2 { grid-template-columns: 1fr; gap: 18px; }
+  .condition-editorial-body .reference-card,
+  .condition-editorial-body .reference-checklist,
+  .condition-editorial-body .reference-box,
+  .condition-editorial-body .reference-inline-cta,
+  .condition-editorial-body .reference-doctor { padding: 23px; }
+  .condition-editorial-body .reference-main-copy .reference-grid-3 > .reference-card { grid-template-columns: 1fr; }
+  .condition-editorial-body .reference-main-copy .reference-grid-3 > .reference-card > .reference-card-number { grid-row: auto; margin: 0 0 12px; }
+  .condition-editorial-body .reference-main-copy .reference-grid-3 > .reference-card > .reference-copy { grid-column: 1; }
+  .condition-editorial-body .reference-card h3 { font-size: 21px; }
+  .condition-editorial-body .reference-treatment .reference-card { padding: 23px; grid-template-columns: 32px minmax(0, 1fr); gap: 0 12px; }
+  .condition-editorial-body .reference-treatment .reference-copy { grid-column: 1 / -1; margin-top: 14px; }
+  .condition-editorial-body .reference-insight,
+  .condition-editorial-body .reference-video { grid-template-columns: 1fr; }
+  .condition-editorial-body .reference-insight-visual { min-height: 110px; }
+  .condition-editorial-body .reference-video-thumb { min-height: 0; aspect-ratio: 16 / 9; }
+  .condition-editorial-body .reference-card-body { padding: 23px; }
+  .condition-editorial-body .reference-card-body h3 { font-size: 21px; }
+  .condition-editorial-body .reference-book { grid-template-columns: 80px minmax(0, 1fr); gap: 18px; padding: 22px 18px; }
+  .condition-editorial-body .reference-book img { width: 80px; height: 125px; }
+  .condition-editorial-body .reference-book h3 { font-size: 21px; }
+  .condition-editorial-body .reference-faq-list summary { padding: 21px 42px 21px 18px; font-size: 17px; }
+  .condition-editorial-body .reference-faq-list details p { padding: 0 20px 22px; font-size: 17px; }
+  .condition-editorial-body .reference-closing { padding: 26px 22px !important; }
+  .condition-editorial-body .daegu-local-container { padding: 0 20px; }
+  .condition-editorial-body .daegu-local-article { padding: 34px 0; }
+  .condition-editorial-body .daegu-local-intro h2,
+  .condition-editorial-body .daegu-local-section > h2,
+  .condition-editorial-body .daegu-local-support h2 { font-size: 25px; line-height: 1.6; }
+  .condition-editorial-body .daegu-local-intro p,
+  .condition-editorial-body .daegu-local-card p,
+  .condition-editorial-body .daegu-local-symptoms,
+  .condition-editorial-body .daegu-local-steps p,
+  .condition-editorial-body .daegu-local-question p,
+  .condition-editorial-body .daegu-local-support-intro { font-size: 17px; line-height: 1.85; }
+  .condition-editorial-body .daegu-local-section { padding-top: 38px; }
+  .condition-editorial-body .daegu-local-panel,
+  .condition-editorial-body .daegu-local-card,
+  .condition-editorial-body .daegu-local-question { padding: 23px; }
+  .condition-editorial-body .daegu-local-steps > div { padding: 22px 18px; }
+  .condition-editorial-body .daegu-local-card h3,
+  .condition-editorial-body .daegu-local-question h3 { font-size: 21px; }
+  .condition-editorial-body .daegu-local-support { padding: 38px 20px; }
+  .condition-editorial-body .daegu-local-book-grid { grid-template-columns: 1fr; gap: 35px; }
+  .condition-editorial-body .daegu-local-faq-list summary { padding: 21px 18px; font-size: 17px; }
+  .condition-editorial-body .daegu-local-faq-tag { display: none; }
+  .condition-editorial-body .daegu-local-faq-answer { padding: 0 20px; font-size: 17px; }
+  .condition-editorial-body .daegu-local-review-card,
+  .condition-editorial-body .daegu-local-column-card { grid-template-columns: 1fr; }
+  .condition-editorial-body .daegu-local-review-visual { min-height: 130px; }
+  .condition-editorial-body .daegu-local-column-card > img { height: 190px; min-height: 0; }
+  .condition-editorial-body .daegu-local-resource-copy { padding: 23px; }
+}
+/* On phones the reservation controls sit below the reading area instead of over it. */
+@media (max-width: 760px) {
+  body.condition-editorial-body:not(.condition-local-body) { padding-bottom: 88px; }
+  .condition-editorial-body:not(.condition-local-body) .floating-quick-bar { left: 0; right: 0; bottom: 0; padding: 10px 12px calc(10px + env(safe-area-inset-bottom)); border-top: 1px solid #dce4eb; background: #fff; }
+  .condition-editorial-body:not(.condition-local-body) .floating-group { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .condition-editorial-body:not(.condition-local-body) .floating-item { width: auto !important; height: 56px !important; padding: 7px 4px !important; border-radius: 7px !important; box-shadow: none !important; flex-direction: column; gap: 3px; }
+  .condition-editorial-body:not(.condition-local-body) .floating-item .floating-text { display: block; font-size: 12px; line-height: 1.4; white-space: nowrap; }
+  .condition-editorial-body:not(.condition-local-body) .floating-item .floating-icon { font-size: 17px; line-height: 1; }
+  .condition-editorial-body:not(.condition-local-body) .floating-top { position: absolute; right: 12px; bottom: 92px; width: 40px !important; height: 40px !important; border: 1px solid #d6e2ea; border-radius: 50% !important; }
 }
 
-.condition-editorial-byline{display:block;width:min(1020px,calc(100% - 64px));margin:30px auto -24px;color:#64748b;font-size:12px;line-height:1.8}
-@media(max-width:760px){.condition-editorial-byline{display:block;width:calc(100% - 40px);margin:24px auto -12px;font-size:11px}}
-.condition-editorial-body .daegu-local-intro h2,.condition-editorial-body .daegu-local-section h2,.condition-editorial-body .daegu-local-section h3{word-break:keep-all;overflow-wrap:break-word}
+/* One tic-video list, with real thumbnails and direct video destinations. */
+.condition-editorial-body .reference-video-section .reference-grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.condition-editorial-body .reference-video-section .reference-video { display: flex; flex-direction: column; }
+.condition-editorial-body .reference-video-section .reference-video-thumb { height: auto; min-height: 0; aspect-ratio: 16 / 9; }
+.condition-editorial-body .reference-video-section .reference-video-thumb > span { top: 50%; transform: translateY(-50%); }
+.condition-editorial-body .reference-video-section .reference-video-thumb > img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.condition-editorial-body .reference-video-section .reference-card-body { display: flex; flex-direction: column; flex: 1; padding: 23px; }
+.condition-editorial-body .reference-video-section .reference-card-body h3 { font-size: 20px; line-height: 1.65; }
+.condition-editorial-body .reference-video-section .reference-link-text { margin-top: auto; padding-top: 16px; }
+.reference-video-duration { position: absolute; z-index: 3; right: 10px; bottom: 10px; padding: 3px 6px; border-radius: 4px; background: #101820e8; color: #fff; font: 650 13px/1.5 Outfit,system-ui,sans-serif; }
+.reference-videos-more { display: table; margin: 30px auto 0; padding: 13px 22px; border: 1px solid #b8d1df; border-radius: 6px; color: #086a91; background: #f3f8fb; font-size: 16px; font-weight: 700; text-decoration: none; }
+@media(max-width:760px) { .condition-editorial-body .reference-video-section .reference-grid-3 { grid-template-columns: 1fr; gap: 20px; } }
+
+.condition-editorial-body .reference-video-section .reference-video-thumb > img[hidden] { display: none !important; }
+/* Shared by all nine clinical guides and all regional condition entry points. */
+.condition-editorial-body .condition-editorial-subtitle { margin: 0 0 18px; color: #243c4e; font-size: 20px; font-weight: 650; line-height: 1.65; word-break: keep-all; }
+.condition-editorial-body .area-local-condition { background: #fff; color: var(--reading-copy); }
+.condition-editorial-body .area-detail-container { width: min(900px, calc(100% - 48px)); max-width: none; padding-left: 40px; padding-right: 40px; margin-left: auto; margin-right: auto; }
+.condition-editorial-body .area-article-hero { padding: 26px 0 30px; background: #fff; border-bottom: 1px solid var(--reading-line); }
+.condition-editorial-body .area-breadcrumb { margin-bottom: 22px; font-size: 14px; line-height: 1.8; color: var(--reading-muted); }
+.condition-editorial-body .area-local-location { padding: 20px 24px; border: 1px solid #d4e3ec; border-radius: 8px; background: #f1f7fb; color: var(--reading-copy); font-size: 17px; line-height: 1.85; }
+.condition-editorial-body .area-doctor-strip { margin-top: 22px; padding: 20px 0; border: 0; background: #fff; font-size: 15px; }
+.condition-editorial-body .area-doctor-review small,
+.condition-editorial-body .area-review-date { font-size: 14px; color: var(--reading-muted); }
+.condition-editorial-body .area-local-jump { gap: 10px; margin-top: 18px; }
+.condition-editorial-body .area-local-jump a { padding: 11px 15px; min-height: 44px; border: 1px solid #d6e2ea; border-radius: 6px; background: #f8fafc; color: #274659; font-size: 15px; font-weight: 650; }
+.condition-editorial-body .area-local-layout { display: block; padding-top: 0; padding-bottom: 44px; }
+.condition-editorial-body .area-local-main { min-width: 0; color: var(--reading-copy); font-size: 18px; line-height: 1.85; }
+.condition-editorial-body .area-local-copy,
+.condition-editorial-body .area-local-preparation,
+.condition-editorial-body .area-local-faq,
+.condition-editorial-body .area-local-columns { margin: 0; padding: 48px 0; border: 0; border-bottom: 1px solid var(--reading-line); border-radius: 0; background: #fff; scroll-margin-top: 100px; }
+.condition-editorial-body .area-local-main h2,
+.condition-editorial-body .area-local-sidebar h2,
+.condition-editorial-body .area-local-related h2 { margin: 0 0 26px; color: var(--reading-ink); font-size: 30px; line-height: 1.6; letter-spacing: -.025em; word-break: keep-all; }
+.condition-editorial-body .area-local-main h3,
+.condition-editorial-body .area-local-sidebar h3 { margin: 28px 0 16px; color: var(--reading-ink); font-size: 23px; line-height: 1.6; word-break: keep-all; }
+.condition-editorial-body .area-local-main p,
+.condition-editorial-body .area-local-main li { color: var(--reading-copy); font-size: 18px; line-height: 1.85; }
+.condition-editorial-body .area-local-main p { margin: 0 0 24px; }
+.condition-editorial-body .area-local-main li + li { margin-top: 15px; }
+.condition-editorial-body .area-local-main strong { color: #182d3d; }
+.condition-editorial-body .area-faq-list { display: grid; gap: 18px; }
+.condition-editorial-body .area-faq-item { padding: 27px; border: 1px solid #d6e2ea; border-radius: 10px; background: #f8fafc; }
+.condition-editorial-body .area-faq-item h3 { margin: 0 0 17px; font-size: 22px; }
+.condition-editorial-body .area-faq-item p:last-child { margin-bottom: 0; }
+.condition-editorial-body .area-local-columns li { padding: 20px 0; border-bottom: 1px solid var(--reading-line); }
+.condition-editorial-body .area-local-sidebar { position: static; top: auto; margin-top: 48px; padding: 30px; border: 1px solid #d6e2ea; border-radius: 10px; background: #f7f9fb; }
+.condition-editorial-body .area-local-sidebar p,
+.condition-editorial-body .area-local-sidebar li,
+.condition-editorial-body .area-local-routes span,
+.condition-editorial-body .area-clinic-hours { color: var(--reading-copy); font-size: 17px; line-height: 1.85; }
+.condition-editorial-body .area-local-routes li { margin: 20px 0; }
+.condition-editorial-body .area-local-routes strong { display: block; margin-bottom: 10px; color: var(--reading-ink); font-size: 20px; }
+.condition-editorial-body .area-guide-link { font-size: 17px; line-height: 1.7; }
+.condition-editorial-body .area-local-related { padding-top: 32px; padding-bottom: 64px; }
+.condition-editorial-body .area-all-conditions { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.condition-editorial-body .area-all-conditions a { padding: 15px 18px; font-size: 17px; line-height: 1.7; border-radius: 8px; }
+@media(max-width:760px) {
+  .condition-editorial-body .condition-editorial-subtitle { font-size: 19px; }
+  .condition-editorial-body .area-detail-container { width: calc(100% - 40px); padding-left: 0; padding-right: 0; }
+  .condition-editorial-body .area-article-hero { padding: 24px 0; }
+  .condition-editorial-body .area-breadcrumb { font-size: 13px; }
+  .condition-editorial-body .area-local-location { padding: 22px; font-size: 17px; }
+  .condition-editorial-body .area-local-jump { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .condition-editorial-body .area-local-jump a { text-align: center; padding: 11px; font-size: 14px; }
+  .condition-editorial-body .area-local-main h2,
+  .condition-editorial-body .area-local-sidebar h2,
+  .condition-editorial-body .area-local-related h2 { font-size: 25px; }
+  .condition-editorial-body .area-local-main h3,
+  .condition-editorial-body .area-local-sidebar h3 { font-size: 21px; }
+  .condition-editorial-body .area-local-main p,
+  .condition-editorial-body .area-local-main li { font-size: 17px; }
+  .condition-editorial-body .area-local-copy,
+  .condition-editorial-body .area-local-preparation,
+  .condition-editorial-body .area-local-faq,
+  .condition-editorial-body .area-local-columns { padding: 36px 0; }
+  .condition-editorial-body .area-faq-item { padding: 23px; }
+  .condition-editorial-body .area-local-sidebar { margin-top: 36px; padding: 23px; }
+  .condition-editorial-body .area-all-conditions { grid-template-columns: 1fr; }
+}
+.condition-editorial-body .area-article-hero,
+.condition-editorial-body .area-local-location { text-align: left; }
+.condition-editorial-body .area-breadcrumb,
+.condition-editorial-body .area-local-jump { justify-content: flex-start; }
+.condition-editorial-body .area-doctor-strip { justify-content: space-between; }
+.condition-editorial-body .condition-editorial-hero h1,
+.condition-editorial-body .condition-title-part { text-wrap: balance; }

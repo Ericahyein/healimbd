@@ -7,17 +7,8 @@
 {{ $profile := index hugo.Data.condition_local_profiles $slug }}
 {{ $related := partial "condition_related_posts.html" $clinical }}
 <div class="daegu-local-page">
-  {{ if eq .RelPermalink "/conditions/adhd/8/" }}{{ partial "condition_editorial_hero.html" . }}{{ end }}
+  {{ partial "condition_editorial_hero.html" . }}
   <div class="daegu-local-container">
-    {{ if ne .RelPermalink "/conditions/adhd/8/" }}
-    <header class="daegu-local-hero">
-      <p class="daegu-local-badge"><span aria-hidden="true">✦</span> {{ .Params.hero_badge | default $profile.hero_badge }}</p>
-      <p class="daegu-local-clinic">해아림한의원 분당점</p>
-      <h1>{{ .Title }}</h1>
-      <p class="daegu-local-summary">{{ .Params.hero_summary }}</p>
-      <div class="daegu-local-actions"><a class="daegu-local-primary" href="tel:{{ $info.phone }}">1:1 전화 상담 예약 ({{ $info.phone }}) <span aria-hidden="true">›</span></a><a href="{{ "/location/" | relURL }}">오시는 길 안내 <span aria-hidden="true">›</span></a></div>
-    </header>
-    {{ end }}
 
     <article class="daegu-local-article">
       {{ with $profile.alert }}<aside class="daegu-local-travel" aria-label="먼저 평가가 필요한 증상"><strong>먼저 확인해 주세요.</strong> {{ . }}</aside>{{ end }}
