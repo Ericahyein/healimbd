@@ -40,28 +40,30 @@ document.addEventListener('DOMContentLoaded', () => {
   initReviewDetailPage();
 });
 
-// Hover disclosure on desktop; the separate button also supports touch and keyboard.
+// Hover disclosure on desktop; ArrowDown opens the linked list for keyboard users.
 function initTreatmentMenu() {
   const root = document.getElementById('nav-treatment');
   if (!root) return;
-  const button = root.querySelector('.treatment-menu-toggle');
+  const trigger = root.querySelector('.treatment-menu-toggle');
   const panel = document.getElementById('treatment-dropdown');
   const setOpen = open => {
     panel.hidden = !open;
-    button.setAttribute('aria-expanded', String(open));
+    trigger.setAttribute('aria-expanded', String(open));
   };
   root.addEventListener('pointerenter', event => { if (event.pointerType === 'mouse') setOpen(true); });
   root.addEventListener('pointerleave', event => {
     if (event.pointerType === 'mouse' && !root.contains(document.activeElement)) setOpen(false);
   });
-  button.addEventListener('click', event => {
-    // Mouse entry already opens the list; a subsequent click should keep it open.
-    const mouseClick = event.pointerType === 'mouse';
-    setOpen(mouseClick || button.getAttribute('aria-expanded') !== 'true');
+  trigger.addEventListener('click', event => {
+    // First touch opens the list; a second touch follows the guide link.
+    if (event.pointerType === 'touch' && trigger.getAttribute('aria-expanded') !== 'true') {
+      event.preventDefault();
+      setOpen(true);
+    }
   });
   root.addEventListener('focusout', event => { if (!root.contains(event.relatedTarget)) setOpen(false); });
   root.addEventListener('keydown', event => {
-    if (event.key === 'Escape') { setOpen(false); button.focus(); }
+    if (event.key === 'Escape') { setOpen(false); trigger.focus(); }
     if (event.key === 'ArrowDown' && !panel.contains(event.target)) {
       event.preventDefault(); setOpen(true); panel.querySelector('a').focus();
     }

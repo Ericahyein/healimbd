@@ -17216,12 +17216,10 @@ body.philosophy-page .philosophy-page-section {
 .nav-treatment{position:static}
 .nav-treatment-trigger{position:relative;display:flex;align-items:center;gap:1px}
 .nav-treatment-trigger:has([aria-expanded="true"])::after{content:"";position:absolute;top:100%;left:0;right:0;height:30px}
-.treatment-menu-toggle{display:grid;place-items:center;width:22px;height:32px;padding:0;border:0;background:transparent;color:inherit;cursor:pointer;font-size:17px}
-.site-header.hero-transparent .treatment-menu-toggle{color:#fff}
-.treatment-menu-toggle[aria-expanded="true"] span{transform:rotate(180deg)}
+.treatment-menu-toggle{display:block}
 .treatment-dropdown[hidden]{display:none}
 .treatment-dropdown{position:absolute;top:100%;left:clamp(20px,3.5vw,40px);right:clamp(20px,3.5vw,40px);padding:14px 0 18px;background:transparent;border:0;border-radius:0;box-shadow:none;z-index:1010}
-.treatment-dropdown-list{display:flex;align-items:center;justify-content:space-between;gap:12px;list-style:none;padding:0;margin:0}
+.treatment-dropdown-list{display:flex;align-items:center;justify-content:center;gap:24px;list-style:none;padding:0;margin:0}
 .treatment-dropdown-list li{flex:0 0 auto}
 .treatment-dropdown-list a{display:block;padding:10px 0;font-size:14px;font-weight:650;line-height:1.5;color:#1e5362;text-decoration:none;text-underline-offset:7px;white-space:nowrap}
 .treatment-dropdown-list a:hover,.treatment-dropdown-list a[aria-current]{color:#087fa6;text-decoration:underline;text-decoration-thickness:2px}
@@ -17235,4 +17233,4 @@ body.philosophy-page .philosophy-page-section {
 .mobile-treatment-list{list-style:none;margin:6px 14px 16px;padding:10px 0 10px 16px;border-left:2px solid #dcecf1}
 .mobile-treatment-list .mobile-nav-link{font-size:14px;min-height:44px;padding:10px 12px;font-weight:600}
 .mobile-treatment-list li:first-child a{color:#087fa6}
-@media(min-width:1025px) and (max-width:1199px){.treatment-dropdown-list{gap:8px}.treatment-dropdown-list a{font-size:13px}}
+@media(min-width:1025px) and (max-width:1199px){.treatment-dropdown-list{gap:16px}.treatment-dropdown-list a{font-size:13px}}
