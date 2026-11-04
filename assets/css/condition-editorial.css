@@ -123,6 +123,6 @@
  .condition-editorial-body .daegu-local-faq-tag{display:none}
 }
 
-.condition-editorial-byline{width:min(1020px,calc(100% - 64px));margin:30px auto -24px;color:#64748b;font-size:12px;line-height:1.8}
-@media(max-width:760px){.condition-editorial-byline{width:calc(100% - 40px);margin:24px auto -12px;font-size:11px}}
+.condition-editorial-byline{display:block;width:min(1020px,calc(100% - 64px));margin:30px auto -24px;color:#64748b;font-size:12px;line-height:1.8}
+@media(max-width:760px){.condition-editorial-byline{display:block;width:calc(100% - 40px);margin:24px auto -12px;font-size:11px}}
 .condition-editorial-body .daegu-local-intro h2,.condition-editorial-body .daegu-local-section h2,.condition-editorial-body .daegu-local-section h3{word-break:keep-all;overflow-wrap:break-word}

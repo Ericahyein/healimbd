@@ -46,7 +46,8 @@ for (const [slug, expected] of Object.entries(structure)) {
   assert(!/김대억|16년 임상|박사 대표원장/.test(text),`${slug}: Daegu credentials are not reassigned to Bundang`);
   const graph = [...text.matchAll(/(<script\b[^>]*>)([\s\S]*?)<\/script>/g)].filter(m=>attrs(m[1]).type==='application/ld+json').flatMap(m=>JSON.parse(m[2])['@graph']||[]);
   const faq = graph.find(n=>n['@type']==='FAQPage');
-  assert.strictEqual(faq.mainEntity.length,(text.match(/<details\b/g)||[]).length-2,`${slug}: split FAQ groups match schema; preparation/sources are separate details`);
+  const mainContent = text.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)[1];
+  assert.strictEqual(faq.mainEntity.length,(mainContent.match(/<details\b/g)||[]).length-2,`${slug}: split FAQ groups match schema; preparation/sources are separate details, navigation disclosures are excluded`);
   for (const item of faq.mainEntity) assert(text.includes(item.name)&&text.includes(item.acceptedAnswer.text));
   const page = graph.find(n=>Array.isArray(n['@type'])&&n['@type'].includes('MedicalWebPage'));
   assert(!page.reviewedBy&&!page.lastReviewed);
@@ -72,8 +73,8 @@ for (const url of ['/','/guide/']) {
   assert(!overview.includes('9대 주요 진료과목'),`${url}: outdated nine-condition heading is removed`);
   for (const card of cards) {
     const detail = read(card.href);
-    const hero = detail.match(/<header\b[^>]*class=(?:"condition-hero condition-photo-hero"|'condition-hero condition-photo-hero')[^>]*>([\s\S]*?)<\/header>/)?.[1];
-    assert(hero, `${card.href}: photographic split hero is rendered`);
+    const hero = detail.match(/<header\b[^>]*class=(?:"(?:condition-hero condition-photo-hero|page-hero-banner condition-editorial-hero)"|'condition-hero condition-photo-hero')[^>]*>([\s\S]*?)<\/header>/)?.[1];
+    assert(hero, `${card.href}: photographic detail hero is rendered`);
     const photo = [...hero.matchAll(/<img\b[^>]*>/g)].map(m=>attrs(m[0]));
     assert.strictEqual(photo.length,1,`${card.href}: one hero photograph`);
     assert(card.style.includes(photo[0].src),`${card.href}: menu and detail reuse the same photograph`);
