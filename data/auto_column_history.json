@@ -1013,5 +1013,16 @@
     "topicAngle": "morning-palpitations",
     "title": "[분당 자율신경실조증] 아침에 일어날 때 두근거림이 두드러질 때",
     "slug": "seongnam-bundang-autonomic-morning-palpitations"
+  },
+  {
+    "publishDate": "2026-11-04T15:04:48.381+09:00",
+    "geoId": "gyeonggi-gwangju",
+    "displayRegion": "경기광주",
+    "parentRegion": "경기광주",
+    "regionType": "city",
+    "disease": "panic",
+    "topicAngle": "repeated-er-visits",
+    "title": "[경기광주 공황장애] 응급실 검사는 정상이지만 비슷한 발작이 반복될 때",
+    "slug": "gyeonggi-gwangju-panic-repeated-er-visits"
   }
 ]
