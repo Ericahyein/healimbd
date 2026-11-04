@@ -262,7 +262,7 @@ function initScrollEffects() {
   const siteHeader = document.getElementById('site-header');
   const isHomePage = document.body.classList.contains('home-page');
   const hasPageHero = !!document.querySelector('.page-hero-banner');
-  const hasTransparentHero = isHomePage || hasPageHero || document.body.classList.contains('guide-page') || document.body.classList.contains('philosophy-page') || document.body.classList.contains('reviews-page') || document.body.classList.contains('blog-page') || document.body.classList.contains('inquiry-page') || document.body.classList.contains('location-page');
+  const hasTransparentHero = !document.body.classList.contains('condition-editorial-body') && (isHomePage || hasPageHero || document.body.classList.contains('guide-page') || document.body.classList.contains('philosophy-page') || document.body.classList.contains('reviews-page') || document.body.classList.contains('blog-page') || document.body.classList.contains('inquiry-page') || document.body.classList.contains('location-page'));
 
   function updateHeaderTransparency() {
     if (!siteHeader || !hasTransparentHero) return;

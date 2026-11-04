@@ -24,7 +24,7 @@ for (const [slug, expected] of Object.entries(structure)) {
   assert(text.includes('reference-checklist') && text.includes('reference-treatment') && text.includes('reference-doctor'));
   assert.strictEqual(sections.filter(s=>s.attrs.id==='guide-resources').length,1);
   const anchors = [...text.matchAll(/<a\b[^>]*>/g)].map(m=>attrs(m[0]));
-  assert.strictEqual(anchors.filter(a=>a.class==='reference-video').length,3,`${slug}: three video cards`);
+  assert.strictEqual(anchors.filter(a=>a.class==='reference-video').length,slug === 'tic' ? 6 : 3,`${slug}: configured video cards`);
   assert.strictEqual(anchors.filter(a=>a.class==='reference-book').length,2,`${slug}: two book cards`);
   const sectionIds = ids(text);
   assert.strictEqual(sectionIds.length,new Set(sectionIds).size,`${slug}: unique anchors`);
@@ -43,7 +43,8 @@ for (const [slug, expected] of Object.entries(structure)) {
   assert(anchors.some(a=>a.href==='https://www.youtube.com/@healimtv'));
   assert(anchors.some(a=>a.href==='/reviews/guide/'));
   assert(!/<iframe\b/.test(text) && !text.includes('images/reviews/'),`${slug}: no autoplay embed or protected review originals`);
-  assert(!/김대억|16년 임상|박사 대표원장/.test(text),`${slug}: Daegu credentials are not reassigned to Bundang`);
+  const clinicalIdentityText = text.replace(/<section\b[^>]*data-reference-module=(?:\"tv\"|tv)[^>]*>[\s\S]*?<\/section>/g, '');
+  assert(!/김대억|16년 임상|박사 대표원장/.test(clinicalIdentityText),`${slug}: Daegu credentials are not reassigned to Bundang; official video titles retain their own authorship`);
   const graph = [...text.matchAll(/(<script\b[^>]*>)([\s\S]*?)<\/script>/g)].filter(m=>attrs(m[1]).type==='application/ld+json').flatMap(m=>JSON.parse(m[2])['@graph']||[]);
   const faq = graph.find(n=>n['@type']==='FAQPage');
   const mainContent = text.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)[1];

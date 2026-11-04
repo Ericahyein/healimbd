@@ -11,7 +11,7 @@ const local = read('/conditions/tic/1/');
 const pillar = read('/conditions/tic/');
 const title = '용인 틱장애 치료 병원 ㅣ 해아림한의원';
 assert.strictEqual(local.match(/<title>([^<]+)<\/title>/)[1],title);
-assert.strictEqual(local.match(/<h1\b[^>]*>([^<]+)<\/h1>/)[1],title);
+assert.strictEqual(local.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/)[1].replace(/<[^>]*>/g, '').trim(),title);
 assert.strictEqual((local.match(/<h1\b/g)||[]).length,1);
 const meta = [...local.matchAll(/<meta\b[^>]*>/g)].map(m=>attrs(m[0]));
 assert.strictEqual(meta.find(m=>m.property==='og:title').content,title);
@@ -57,7 +57,7 @@ for (const [index, name] of regionNames.entries()) {
   const html = read(url);
   const expectedTitle = name+' 틱장애 치료 병원 ㅣ 해아림한의원';
   assert.strictEqual(html.match(/<title>([^<]+)<\/title>/)[1], expectedTitle);
-  assert.strictEqual(html.match(/<h1\b[^>]*>([^<]+)<\/h1>/)[1], expectedTitle);
+  assert.strictEqual(html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/)[1].replace(/<[^>]*>/g, '').trim(), expectedTitle);
   assert.strictEqual((html.match(/<h1\b/g)||[]).length,1);
   const metadata = [...html.matchAll(/<meta\b[^>]*>/g)].map(m=>attrs(m[0]));
   assert.strictEqual(metadata.find(m=>m.property==='og:title').content,expectedTitle);
