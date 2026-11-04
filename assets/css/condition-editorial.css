@@ -242,7 +242,7 @@
 .condition-editorial-body .daegu-local-review-card,
 .condition-editorial-body .daegu-local-column-card { display: grid; grid-template-columns: 220px minmax(0, 1fr); border-color: #d6e2ea; border-radius: 10px; }
 .condition-editorial-body .daegu-local-review-visual { height: 100%; min-height: 180px; background: #edf4f8; }
-.condition-editorial-body .daegu-local-column-card > img { height: 100%; min-height: 180px; }
+.condition-editorial-body .daegu-local-column-card > img { display: block; width: 100%; height: auto; min-height: 0; object-fit: contain; align-self: center; }
 .condition-editorial-body .daegu-local-resource-copy { padding: 26px; }
 .condition-editorial-body .daegu-local-resource-copy h3 { margin: 12px 0 16px; font-size: 22px; line-height: 1.6; }
 .condition-editorial-body .daegu-local-resource-copy p { color: var(--reading-copy); font-size: 17px; line-height: 1.85; }
@@ -339,7 +339,7 @@
   .condition-editorial-body .daegu-local-review-card,
   .condition-editorial-body .daegu-local-column-card { grid-template-columns: 1fr; }
   .condition-editorial-body .daegu-local-review-visual { min-height: 130px; }
-  .condition-editorial-body .daegu-local-column-card > img { height: 190px; min-height: 0; }
+  .condition-editorial-body .daegu-local-column-card > img { height: auto; min-height: 0; }
   .condition-editorial-body .daegu-local-resource-copy { padding: 23px; }
 }
 /* On phones the reservation controls sit below the reading area instead of over it. */
