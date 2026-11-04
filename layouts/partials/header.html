@@ -26,10 +26,9 @@
               <button class="treatment-menu-toggle" type="button" aria-label="진료과목 세부 메뉴" aria-expanded="false" aria-controls="treatment-dropdown"><span aria-hidden="true">⌄</span></button>
             </div>
             <div class="treatment-dropdown" id="treatment-dropdown" hidden>
-              <div class="treatment-dropdown-heading"><span>TREATMENTS</span><strong>주요 진료과목</strong><a href="{{ "guide/" | relURL }}">전체 진료안내 →</a></div>
               <ul class="treatment-dropdown-list">
-                {{ range $index, $item := site.Data.treatment_navigation }}
-                <li><a href="{{ .url | relURL }}"{{ if eq $.RelPermalink .url }} aria-current="page"{{ end }}><span class="treatment-dropdown-number">{{ printf "%02d" (add $index 1) }}</span><span>{{ .name }}</span><span class="treatment-dropdown-arrow" aria-hidden="true">↗</span></a></li>
+                {{ range site.Data.treatment_navigation }}
+                <li><a href="{{ .url | relURL }}"{{ if eq $.RelPermalink .url }} aria-current="page"{{ end }}>{{ .name }}</a></li>
                 {{ end }}
               </ul>
             </div>

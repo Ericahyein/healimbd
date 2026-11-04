@@ -54,7 +54,11 @@ function initTreatmentMenu() {
   root.addEventListener('pointerleave', event => {
     if (event.pointerType === 'mouse' && !root.contains(document.activeElement)) setOpen(false);
   });
-  button.addEventListener('click', () => setOpen(button.getAttribute('aria-expanded') !== 'true'));
+  button.addEventListener('click', event => {
+    // Mouse entry already opens the list; a subsequent click should keep it open.
+    const mouseClick = event.pointerType === 'mouse';
+    setOpen(mouseClick || button.getAttribute('aria-expanded') !== 'true');
+  });
   root.addEventListener('focusout', event => { if (!root.contains(event.relatedTarget)) setOpen(false); });
   root.addEventListener('keydown', event => {
     if (event.key === 'Escape') { setOpen(false); button.focus(); }
