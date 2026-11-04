@@ -1024,5 +1024,16 @@
     "topicAngle": "repeated-er-visits",
     "title": "[경기광주 공황장애] 응급실 검사는 정상이지만 비슷한 발작이 반복될 때",
     "slug": "gyeonggi-gwangju-panic-repeated-er-visits"
+  },
+  {
+    "publishDate": "2026-11-05T01:10:58.075+09:00",
+    "geoId": "bundang-pangyo",
+    "displayRegion": "판교",
+    "parentRegion": "성남",
+    "regionType": "selected_local_area",
+    "disease": "anxiety",
+    "topicAngle": "uncertainty-intolerance",
+    "title": "[판교 불안장애] 결과를 기다리는 동안 불안을 견디기 어려울 때",
+    "slug": "bundang-pangyo-anxiety-uncertainty-intolerance"
   }
 ]
