@@ -17211,23 +17211,20 @@ body.philosophy-page .philosophy-page-section {
   display: inline-block;
 }
 
-/* Shared treatment navigation: a continuous pointer area from trigger to panel. */
-.nav-treatment{position:relative}
-.nav-treatment-trigger{display:flex;align-items:center;gap:1px}
-.treatment-menu-toggle{display:grid;place-items:center;width:22px;height:32px;padding:0;border:0;background:transparent;color:inherit;cursor:pointer;font-size:17px}
-.site-header.hero-transparent .treatment-menu-toggle{color:#fff}
-.treatment-menu-toggle[aria-expanded="true"] span{transform:rotate(180deg)}
+/* Shared treatment navigation: a transparent, single-row list below the header. */
+.header-main-inner{position:relative}
+.nav-treatment{position:static}
+.nav-treatment-trigger{position:relative;display:flex;align-items:center;gap:1px}
+.nav-treatment-trigger:has([aria-expanded="true"])::after{content:"";position:absolute;top:100%;left:0;right:0;height:30px}
+.treatment-menu-toggle{display:block}
 .treatment-dropdown[hidden]{display:none}
-.treatment-dropdown{position:absolute;top:100%;left:-24px;width:min(660px,calc(100vw - 48px));padding:29px 28px 24px;background:#fff;color:#1e293b;border:1px solid #e2e8f0;border-radius:12px;box-shadow:0 18px 45px #0f172a24;white-space:normal;z-index:1010}
-.treatment-dropdown-heading{display:flex;align-items:center;gap:12px;padding:0 0 21px;border-bottom:1px solid #e5eaf0}
-.treatment-dropdown-heading>span{font:700 11px/1.4 Outfit,sans-serif;letter-spacing:.1em;color:#087fa6}
-.treatment-dropdown-heading>strong{font-size:17px}
-.treatment-dropdown-heading>a{margin-left:auto;font-size:12px;color:#64748b;text-decoration:none}
-.treatment-dropdown-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px 9px;list-style:none;padding:17px 0 0;margin:0}
-.treatment-dropdown-list a{display:flex;align-items:center;gap:8px;min-height:54px;padding:10px 8px;border-radius:6px;font-size:14px;font-weight:650;line-height:1.5;color:#334155;text-decoration:none;word-break:keep-all}
-.treatment-dropdown-list a:hover,.treatment-dropdown-list a[aria-current]{background:#eff8fa;color:#087fa6}
-.treatment-dropdown-number{font:500 11px/1.4 Outfit,sans-serif;color:#7895a2;flex-shrink:0}
-.treatment-dropdown-arrow{margin-left:auto;color:#43839b}
+.treatment-dropdown{position:absolute;top:100%;left:clamp(20px,3.5vw,40px);right:clamp(20px,3.5vw,40px);padding:14px 0 18px;background:transparent;border:0;border-radius:0;box-shadow:none;z-index:1010}
+.treatment-dropdown-list{display:flex;align-items:center;justify-content:center;gap:24px;list-style:none;padding:0;margin:0}
+.treatment-dropdown-list li{flex:0 0 auto}
+.treatment-dropdown-list a{display:block;padding:10px 0;font-size:14px;font-weight:650;line-height:1.5;color:#1e5362;text-decoration:none;text-underline-offset:7px;white-space:nowrap}
+.treatment-dropdown-list a:hover,.treatment-dropdown-list a[aria-current]{color:#087fa6;text-decoration:underline;text-decoration-thickness:2px}
+.site-header.hero-transparent .treatment-dropdown-list a{color:#fff;text-shadow:0 1px 5px #0f172ab3}
+.site-header.hero-transparent .treatment-dropdown-list a:hover,.site-header.hero-transparent .treatment-dropdown-list a[aria-current]{color:#7dd3fc}
 .treatment-menu-toggle:focus-visible,.treatment-dropdown a:focus-visible,.mobile-treatment-menu summary:focus-visible{outline:3px solid #168bac;outline-offset:3px}
 .mobile-treatment-menu>summary{list-style:none;display:flex;align-items:center;gap:10px;padding:12px 14px;font-size:1.08rem;font-weight:700;color:var(--text-dark);cursor:pointer;border-radius:var(--radius-sm)}
 .mobile-treatment-menu>summary::-webkit-details-marker{display:none}
@@ -17236,4 +17233,4 @@ body.philosophy-page .philosophy-page-section {
 .mobile-treatment-list{list-style:none;margin:6px 14px 16px;padding:10px 0 10px 16px;border-left:2px solid #dcecf1}
 .mobile-treatment-list .mobile-nav-link{font-size:14px;min-height:44px;padding:10px 12px;font-weight:600}
 .mobile-treatment-list li:first-child a{color:#087fa6}
-@media(min-width:1025px) and (max-width:1199px){.treatment-dropdown{left:-80px;width:610px}}
+@media(min-width:1025px) and (max-width:1199px){.treatment-dropdown-list{gap:16px}.treatment-dropdown-list a{font-size:13px}}
