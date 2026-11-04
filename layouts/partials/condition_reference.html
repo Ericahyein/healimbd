@@ -6,9 +6,12 @@
 {{ $mainFaqCount := sub (len $faq) 4 }}
 {{ $body := split (string .Content) "<!-- reference-faq -->" }}
 <article class="condition-page condition-page-{{ .File.ContentBaseName }} reference-condition-page">
+  {{ if eq .RelPermalink "/conditions/tic/" }}{{ partial "condition_editorial_hero.html" . }}{{ end }}
   <div class="reference-shell">
+    {{ if ne .RelPermalink "/conditions/tic/" }}
     <nav class="reference-breadcrumb" aria-label="현재 위치"><a href="{{ "/" | relURL }}">홈</a><span>›</span><a href="{{ "/guide/" | relURL }}">진료과목</a><span>›</span><span aria-current="page">{{ .Params.condition_display_name | default .Params.condition_name }}</span></nav>
     {{ partial "condition_photo_hero.html" . }}
+    {{ end }}
     <div class="reference-article">
       <div class="reference-supervision" aria-label="진료 및 의학적 검토 안내"><img src="{{ "images/doctor-son-profile.webp" | relURL }}" width="52" height="52" alt="손지웅 대표원장"><span class="reference-supervision-badge">{{ if $review.confirmed }}의학적 검토{{ else }}진료 안내{{ end }}</span><span>해아림한의원 분당점 <strong>{{ $info.doctor }}</strong>{{ if $review.confirmed }} · {{ $review.display_date }}{{ else }} · 의학적 검토 예정{{ end }}</span></div>
       <div class="reference-main-copy">

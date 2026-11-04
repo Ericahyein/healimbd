@@ -1,0 +1,24 @@
+{{ $isLocal := eq .Type "condition-local" }}
+{{ $clinical := . }}
+{{ if $isLocal }}{{ $clinical = site.GetPage .Params.clinical_source }}{{ end }}
+{{ $title := .Params.hero_heading | default .Title }}
+{{ $image := $clinical.Params.image }}
+{{/* Keep the existing H1 and search metadata; only its visual hierarchy changes. */}}
+<header class="page-hero-banner condition-editorial-hero{{ if $isLocal }} daegu-local-hero{{ end }}" id="page-hero">
+  <img class="condition-editorial-photo" src="{{ $image | relURL }}" alt="" width="1024" height="768" fetchpriority="high" decoding="async">
+  <div class="page-hero-overlay"></div>
+  <div class="container page-hero-container text-center">
+    <span class="page-hero-tag">{{ $clinical.Params.hero_kicker | default "CLINICAL GUIDE" }}</span>
+    <h1 class="page-hero-title">{{ $title }}</h1>
+    <p class="page-hero-desc">{{ .Params.hero_summary }}</p>
+  </div>
+</header>
+<div class="condition-editorial-nav">
+  <div class="condition-editorial-nav-inner">
+    <nav class="condition-editorial-breadcrumb" aria-label="현재 위치"><a href="{{ "/" | relURL }}">홈</a><span aria-hidden="true">/</span><a href="{{ "/guide/" | relURL }}">진료과목</a><span aria-hidden="true">/</span><span aria-current="page">{{ if $isLocal }}{{ .Params.area_name }} {{ end }}{{ $clinical.Params.condition_name }}</span></nav>
+    <nav class="condition-editorial-jumps" aria-label="진료 안내 바로가기">
+      {{ if $isLocal }}<a href="#local-process">증상·진료 과정</a><a href="#local-faq">자주 묻는 질문</a><a href="#local-location">위치·예약</a>{{ else }}<a href="#tic-observation">증상·구별</a><a href="#visit-process">진료 과정</a><a href="#tic-treatment">치료·관리</a><a href="#faq">자주 묻는 질문</a><a href="#visit-location">위치·예약</a>{{ end }}
+    </nav>
+  </div>
+</div>
+{{ if not $isLocal }}<div class="condition-meta condition-editorial-byline">작성: {{ .Params.content_author | default .Params.author }}{{ if not .Lastmod.IsZero }} · 최종 수정: <time datetime="{{ .Lastmod.Format "2006-01-02" }}">{{ .Lastmod.Format "2006.01.02" }}</time>{{ end }}</div>{{ end }}

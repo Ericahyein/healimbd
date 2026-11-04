@@ -36,7 +36,8 @@ for (const [name, content] of Object.entries(conditions)) {
   for (const area of ['분당', '판교', '성남', '용인', '경기광주']) {
     assert(content.includes(area), `${name}: missing nearby service area ${area}`);
   }
-  assert(!content.includes('수지'), `${name}: Suji must not be targeted on condition pages`);
+  const clinicalContent = content.replace(/^regional_guides:.*\n(?:[ \t].*\n)*/m, '');
+  assert(!clinicalContent.includes('수지'), `${name}: Suji belongs only in the explicitly configured regional navigation`);
   if (content.includes('guide_flow: "patient-first"') || content.includes('reference_layout: true')) {
     assert(content.includes('visit_location_intro:') && layout.includes('id="visit-location"'), `${name}: reordered local visit section required`);
   } else {
