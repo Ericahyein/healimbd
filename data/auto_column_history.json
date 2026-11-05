@@ -1035,5 +1035,16 @@
     "topicAngle": "uncertainty-intolerance",
     "title": "[판교 불안장애] 결과를 기다리는 동안 불안을 견디기 어려울 때",
     "slug": "bundang-pangyo-anxiety-uncertainty-intolerance"
+  },
+  {
+    "publishDate": "2026-11-05T15:32:48.885+09:00",
+    "geoId": "yongin-main",
+    "displayRegion": "용인",
+    "parentRegion": "용인",
+    "regionType": "city",
+    "disease": "sleep",
+    "topicAngle": "evening-exercise",
+    "title": "[용인 불면증] 늦은 시간 운동 후 잠이 잘 오지 않을 때",
+    "slug": "yongin-main-sleep-evening-exercise"
   }
 ]
