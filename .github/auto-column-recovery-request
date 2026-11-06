@@ -1,7 +1,7 @@
 {
-  "requestId": "recover-run-41009281025-2026-10-30T06-17-32-451Z",
+  "requestId": "recover-run-42174549699-2026-11-06T06-38-00Z",
   "requestedTarget": "auto",
-  "reason": "Recover run #153 with a newly reviewed, non-duplicate syncope post-faint recovery topic after the eligible unpublished topic pool was exhausted.",
-  "sourceRunId": 41009281025,
-  "requestedAt": "2026-10-30T06:17:32.451Z"
+  "reason": "Recover run #168 after clarifying medication wording so the article explicitly prohibits self-directed dose changes and requires consultation with the prescribing clinician.",
+  "sourceRunId": 42174549699,
+  "requestedAt": "2026-11-06T06:38:00.000Z"
 }
