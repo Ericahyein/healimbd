@@ -659,6 +659,7 @@ function checkMedicationDiscontinuation(text) {
         const hasNegativeWarning = /(중단|끊|단약|감량).{0,15}(하[지않]|않|말|금지|금물|삼가|반동|안\s*됩|위험|주의|권하지|피해|어렵|조심|우려)/i.test(sentence) ||
           /(중단|끊|단약|감량|줄이).{0,40}(하는\s*것은|하는\s*데는|할\s*때는).{0,15}(주의가\s*필요|주의해야|피해야)/i.test(sentence);
         const hasArbitraryWarning = /(임의(로)?|자의(로)?|상의\s*없이|지시\s*없이).{0,15}(중단|끊|단약|감량)/i.test(sentence);
+        const hasSelfDirectedRiskWarning = /(스스로|자기\s*판단으로).{0,20}(중단|끊|단약|감량|줄이).{0,100}(위험|문제|우려|악화|변화|달라질)/i.test(sentence);
         const hasSaferAlternative = /(중단|끊|단약|감량|줄이).{0,10}(기보다|는\s*대신|보다는)/i.test(sentence) &&
           /(의료진|담당의|주치의|의사|처방의).{0,20}(알리|상의|상담|확인)/i.test(sentence);
         const hasDoctorConsult = /(처방|의료진|담당의|주치의|의사|전문가).{0,15}(상의|상담|조절|조정|상의하|상의한\s*후)/i.test(sentence);
@@ -666,7 +667,7 @@ function checkMedicationDiscontinuation(text) {
         const hasClinicalOversight = /(중단|끊|단약|감량|줄이).{0,40}(의료진|담당의|주치의|의사|처방의)(의)?\s*(검토|판단|지시|관리)\s*(아래|하에|후|를\s*거쳐).{0,20}(이루어져야|진행되어야|해야)/i.test(sentence);
         const hasClinicianReview = /(중단|감량|변경)(은|는|을|의|에).{0,100}(의료진|담당의|주치의|의사|처방의)(과|와|의|에게)?\s*.{0,35}(검토|판단|지시|관리|상의|상담|협의|조정)/i.test(sentence) &&
           !/(중단|감량|변경)하고\s*(의료진|담당의|주치의|의사|처방의)/i.test(sentence);
-        const isSafeContext = hasNegativeWarning || hasArbitraryWarning || hasDoctorConsult || hasSaferAlternative || hasClinicalOversight || hasClinicianReview;
+        const isSafeContext = hasNegativeWarning || hasArbitraryWarning || hasSelfDirectedRiskWarning || hasDoctorConsult || hasSaferAlternative || hasClinicalOversight || hasClinicianReview;
 
         // Check if there is imperative recommendation to stop: e.g. '약을 끊으세요', '정신과 약을 중단하세요'
         const isImperativeStop = /(중단|끊|단약).{0,8}(하세요|하십시오|합시다)/i.test(sentence) && !hasNegativeWarning;
