@@ -1,7 +1,8 @@
 {
-  "requestId": "recover-run-42174549699-2026-11-06T06-38-00Z",
+  "requestId": "recover-run-42174549699-second-2026-11-06T06-46-00Z",
   "requestedTarget": "auto",
-  "reason": "Recover run #168 after clarifying medication wording so the article explicitly prohibits self-directed dose changes and requires consultation with the prescribing clinician.",
+  "reason": "Recover run #168 after narrowly allowing explicit warnings that self-directed medication discontinuation or dose changes may cause risk, while keeping medication-stop permissions and instructions blocked.",
   "sourceRunId": 42174549699,
-  "requestedAt": "2026-11-06T06:38:00.000Z"
+  "priorRecoveryRunId": 42176077565,
+  "requestedAt": "2026-11-06T06:46:00.000Z"
 }
