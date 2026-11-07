@@ -1079,5 +1079,16 @@
     "topicAngle": "medication-blood-pressure",
     "title": "[판교 미주신경성 실신] 혈압약이나 다른 약을 복용 중 실신이 있었다면",
     "slug": "bundang-pangyo-syncope-medication-blood-pressure"
+  },
+  {
+    "publishDate": "2026-11-07T14:50:16.231+09:00",
+    "geoId": "gyeonggi-gwangju",
+    "displayRegion": "경기광주",
+    "parentRegion": "경기광주",
+    "regionType": "city",
+    "disease": "autonomic",
+    "topicAngle": "dyspepsia-postmeal-fullness",
+    "title": "[경기광주 신경성 소화불량] 식사 후 오래 더부룩한 신경성 소화불량, 무엇을 기록할까요",
+    "slug": "gyeonggi-gwangju-functional-dyspepsia-dyspepsia-postmeal-fullness"
   }
 ]
