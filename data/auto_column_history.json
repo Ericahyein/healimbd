@@ -1101,5 +1101,16 @@
     "topicAngle": "restless-legs-night",
     "title": "[성남 불면증] 밤에 다리가 불편해서 잠들기 어려울 때 불면증만 봐도 될까요",
     "slug": "seongnam-main-sleep-restless-legs-night"
+  },
+  {
+    "publishDate": "2026-11-09T00:00:27.709+09:00",
+    "geoId": "yongin-main",
+    "displayRegion": "용인",
+    "parentRegion": "용인",
+    "regionType": "city",
+    "disease": "anxiety",
+    "topicAngle": "morning-worry",
+    "title": "[용인 불안장애] 아침에 눈을 뜨자마자 걱정이 시작될 때",
+    "slug": "yongin-main-anxiety-morning-worry"
   }
 ]
