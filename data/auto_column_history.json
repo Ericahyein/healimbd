@@ -1090,5 +1090,16 @@
     "topicAngle": "dyspepsia-postmeal-fullness",
     "title": "[경기광주 신경성 소화불량] 식사 후 오래 더부룩한 신경성 소화불량, 무엇을 기록할까요",
     "slug": "gyeonggi-gwangju-functional-dyspepsia-dyspepsia-postmeal-fullness"
+  },
+  {
+    "publishDate": "2026-11-08T14:52:16.057+09:00",
+    "geoId": "seongnam-main",
+    "displayRegion": "성남",
+    "parentRegion": "성남",
+    "regionType": "city",
+    "disease": "sleep",
+    "topicAngle": "restless-legs-night",
+    "title": "[성남 불면증] 밤에 다리가 불편해서 잠들기 어려울 때 불면증만 봐도 될까요",
+    "slug": "seongnam-main-sleep-restless-legs-night"
   }
 ]
