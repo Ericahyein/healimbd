@@ -1112,5 +1112,16 @@
     "topicAngle": "morning-worry",
     "title": "[용인 불안장애] 아침에 눈을 뜨자마자 걱정이 시작될 때",
     "slug": "yongin-main-anxiety-morning-worry"
+  },
+  {
+    "publishDate": "2026-11-09T15:07:24.529+09:00",
+    "geoId": "seongnam-bundang",
+    "displayRegion": "분당",
+    "parentRegion": "성남",
+    "regionType": "district",
+    "disease": "tic",
+    "topicAngle": "self-esteem-peer-stress",
+    "title": "[분당 틱장애] 틱으로 놀림을 받거나 자신감이 떨어질 때 살펴볼 점",
+    "slug": "seongnam-bundang-tic-self-esteem-peer-stress"
   }
 ]
