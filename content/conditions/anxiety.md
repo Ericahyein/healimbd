@@ -1,6 +1,7 @@
 ---
 title: "불안장애, 걱정과 긴장이 좀처럼 가라앉지 않는다면"
-seo_title: "불안장애·공포증 증상·검사·치료 안내"
+seo_title: "분당 불안장애 공포증 증상, 치료병원 | 해아림한의원 분당점 | 사회불안·범불안"
+seo_title_exact: true
 condition_name: "불안장애·공포증"
 column_categories: ["anxiety","social_phobia"]
 date: 2026-09-28
