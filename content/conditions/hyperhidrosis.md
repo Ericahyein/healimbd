@@ -1,6 +1,7 @@
 ---
 title: "다한증, 손발과 얼굴의 땀이 일상을 방해한다면"
-seo_title: "다한증 증상·검사·치료 안내"
+seo_title: "분당 다한증 증상, 치료병원 | 해아림한의원 분당점 | 손·발·겨드랑이·얼굴 땀"
+seo_title_exact: true
 condition_name: "다한증"
 column_categories: ["hyperhidrosis"]
 date: 2026-09-28

@@ -1,6 +1,7 @@
 ---
 title: "공황장애, 갑작스러운 두근거림과 숨막힘이 반복된다면"
-seo_title: "공황장애 증상·검사·치료 안내"
+seo_title: "분당 공황장애 증상, 치료병원 | 해아림한의원 분당점 | 공황발작·예기불안·과호흡·숨막힘"
+seo_title_exact: true
 condition_name: "공황장애"
 column_categories: ["panic"]
 date: 2026-09-28

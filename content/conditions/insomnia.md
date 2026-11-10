@@ -1,6 +1,7 @@
 ---
 title: "불면증, 잠들기 어렵거나 자주 깨는 밤이 이어진다면"
-seo_title: "수면·불면증 증상·검사·치료 안내"
+seo_title: "분당 불면증 증상, 치료병원 | 해아림한의원 분당점 | 입면 곤란·새벽 각성"
+seo_title_exact: true
 condition_name: "수면·불면증"
 column_categories: ["sleep"]
 date: 2026-09-28

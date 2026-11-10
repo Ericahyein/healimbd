@@ -1,6 +1,7 @@
 ---
 title: "자율신경실조증, 두근거림과 어지럼이 반복된다면"
-seo_title: "분당 자율신경실조증 진료 안내"
+seo_title: "분당 자율신경실조증 검사, 치료병원 | 해아림한의원 분당점 | 두근거림·소화불량"
+seo_title_exact: true
 condition_name: "자율신경실조증"
 column_categories: ["autonomic"]
 date: 2026-09-28

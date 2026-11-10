@@ -1,6 +1,7 @@
 ---
 title: "ADHD, 산만함과 충동성이 일상을 어렵게 한다면"
-seo_title: "ADHD 증상·검사·치료 안내"
+seo_title: "분당 ADHD 검사, 치료병원 | 해아림한의원 분당점 | 주의력결핍·충동성·집중력"
+seo_title_exact: true
 condition_name: "ADHD"
 column_categories: ["adhd"]
 date: 2026-09-28
