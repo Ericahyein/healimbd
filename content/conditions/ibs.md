@@ -1,6 +1,7 @@
 ---
 title: "과민성대장증후군, 복통과 설사·변비가 반복된다면"
-seo_title: "과민성대장증후군 증상·검사·치료 안내"
+seo_title: "분당 과민성대장증후군 증상, 치료병원 | 해아림한의원 분당점 | 복통·설사·변비"
+seo_title_exact: true
 condition_name: "과민성대장증후군"
 column_categories: ["ibs"]
 date: 2026-09-28
