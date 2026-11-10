@@ -1134,5 +1134,16 @@
     "topicAngle": "driving-distraction",
     "title": "[판교 ADHD] 운전 중 주의가 자주 흐트러질 때 안전하게 확인할 점",
     "slug": "bundang-pangyo-adhd-driving-distraction"
+  },
+  {
+    "publishDate": "2026-11-10T16:07:38.126+09:00",
+    "geoId": "yongin-main",
+    "displayRegion": "용인",
+    "parentRegion": "용인",
+    "regionType": "city",
+    "disease": "autonomic",
+    "topicAngle": "meal-palpitations",
+    "title": "[용인 자율신경실조증] 식사 뒤 심장 두근거림과 졸음, 혈압·혈당·심장 문제를 구분하는 기록법",
+    "slug": "yongin-main-autonomic-meal-palpitations"
   }
 ]
