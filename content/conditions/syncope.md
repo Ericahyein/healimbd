@@ -1,6 +1,7 @@
 ---
 title: "미주신경성 실신, 어지럼과 식은땀 뒤 의식을 잃는다면"
-seo_title: "미주신경성 실신 증상·검사·치료 안내"
+seo_title: "분당 미주신경성 실신 증상, 치료병원 | 해아림한의원 분당점 | 어지럼증·식은땀"
+seo_title_exact: true
 condition_name: "미주신경성 실신"
 condition_display_name: "미주신경성실신(어지럼증)"
 column_categories: ["syncope"]
