@@ -1145,5 +1145,16 @@
     "topicAngle": "meal-palpitations",
     "title": "[용인 자율신경실조증] 식사 뒤 심장 두근거림과 졸음, 혈압·혈당·심장 문제를 구분하는 기록법",
     "slug": "yongin-main-autonomic-meal-palpitations"
+  },
+  {
+    "publishDate": "2026-11-11T01:22:44.271+09:00",
+    "geoId": "gyeonggi-gwangju",
+    "displayRegion": "경기광주",
+    "parentRegion": "경기광주",
+    "regionType": "city",
+    "disease": "ibs",
+    "topicAngle": "sleep-bowel-pattern",
+    "title": "[경기광주 과민성대장증후군] 잠이 부족한 날마다 설사하는데, 수면과 장 증상의 기록만으로 원인을 단정할 수 있을까",
+    "slug": "gyeonggi-gwangju-ibs-sleep-bowel-pattern"
   }
 ]
