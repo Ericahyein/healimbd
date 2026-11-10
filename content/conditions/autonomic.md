@@ -1,6 +1,6 @@
 ---
 title: "자율신경실조증, 두근거림과 어지럼이 반복된다면"
-seo_title: "자율신경실조증 증상·검사·치료 안내"
+seo_title: "분당 자율신경실조증 진료 안내"
 condition_name: "자율신경실조증"
 column_categories: ["autonomic"]
 date: 2026-09-28

@@ -88,8 +88,13 @@ try {
     const displayName = source.match(/^condition_display_name: "([^"]+)"$/m)?.[1] || conditionName;
     const customHeading = source.match(/^hero_heading: "([^"]+)"$/m)?.[1];
     assert.strictEqual(heading.replace(/\s*ㅣ\s*/g, 'ㅣ'), (customHeading || `${displayName} 증상·검사·치료 안내`).replace(/\s*ㅣ\s*/g, 'ㅣ'), slug + ': requested or standard photographic heading, allowing presentational line breaks');
-    const title = /^seo_title_exact: true$/m.test(source) ? source.match(/^seo_title: "([^"]+)"$/m)[1] : `${conditionName} 증상·검사·치료 안내 | 해아림한의원 분당점`;
-    assert.strictEqual(text.match(/<title>([^<]+)<\/title>/)[1], title, slug + ': disease-first search title retains clinic identity');
+    const standardTitle = slug === 'autonomic'
+      ? '분당 자율신경실조증 진료 안내 | 해아림한의원 분당점'
+      : `${conditionName} 증상·검사·치료 안내 | 해아림한의원 분당점`;
+    const title = /^seo_title_exact: true$/m.test(source)
+      ? source.match(/^seo_title: "([^"]+)"$/m)[1]
+      : standardTitle;
+    assert.strictEqual(text.match(/<title>([^<]+)<\/title>/)[1], title, slug + ': search title matches the condition page');
     assert(text.includes(`content="${title}"`), slug + ': social metadata uses the same title');
     for (const area of areas.slice(0, 4)) {
       assert(text.includes(`/areas/${area}/`), slug + ': regional visit guide is linked ' + area);
