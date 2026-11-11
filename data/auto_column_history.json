@@ -1156,5 +1156,16 @@
     "topicAngle": "sleep-bowel-pattern",
     "title": "[경기광주 과민성대장증후군] 잠이 부족한 날마다 설사하는데, 수면과 장 증상의 기록만으로 원인을 단정할 수 있을까",
     "slug": "gyeonggi-gwangju-ibs-sleep-bowel-pattern"
+  },
+  {
+    "publishDate": "2026-11-11T14:59:15.448+09:00",
+    "geoId": "seongnam-bundang",
+    "displayRegion": "분당",
+    "parentRegion": "성남",
+    "regionType": "district",
+    "disease": "sleep",
+    "topicAngle": "alcohol-night-awakening",
+    "title": "[분당 불면증] 술을 마신 날 자주 깨는 수면을 어떻게 이해할까요",
+    "slug": "seongnam-bundang-sleep-alcohol-night-awakening"
   }
 ]
