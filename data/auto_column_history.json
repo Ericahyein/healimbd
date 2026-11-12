@@ -1178,5 +1178,16 @@
     "topicAngle": "concentration-worry",
     "title": "[성남 불안장애] 걱정 때문에 책이나 업무 내용이 눈에 들어오지 않을 때",
     "slug": "seongnam-main-anxiety-concentration-worry"
+  },
+  {
+    "publishDate": "2026-11-13T01:46:07.004+09:00",
+    "geoId": "bundang-pangyo",
+    "displayRegion": "판교",
+    "parentRegion": "성남",
+    "regionType": "selected_local_area",
+    "disease": "hyperhidrosis",
+    "topicAngle": "face-scalp-sweat",
+    "title": "[판교 다한증] 얼굴과 두피에 땀이 많이 날 때 다한증으로 볼 수 있을까요",
+    "slug": "bundang-pangyo-hyperhidrosis-face-scalp-sweat"
   }
 ]
