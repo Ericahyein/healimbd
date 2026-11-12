@@ -1167,5 +1167,16 @@
     "topicAngle": "alcohol-night-awakening",
     "title": "[분당 불면증] 술을 마신 날 자주 깨는 수면을 어떻게 이해할까요",
     "slug": "seongnam-bundang-sleep-alcohol-night-awakening"
+  },
+  {
+    "publishDate": "2026-11-12T16:01:07.990+09:00",
+    "geoId": "seongnam-main",
+    "displayRegion": "성남",
+    "parentRegion": "성남",
+    "regionType": "city",
+    "disease": "anxiety",
+    "topicAngle": "concentration-worry",
+    "title": "[성남 불안장애] 걱정 때문에 책이나 업무 내용이 눈에 들어오지 않을 때",
+    "slug": "seongnam-main-anxiety-concentration-worry"
   }
 ]
