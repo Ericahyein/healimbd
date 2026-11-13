@@ -1189,5 +1189,16 @@
     "topicAngle": "face-scalp-sweat",
     "title": "[판교 다한증] 얼굴과 두피에 땀이 많이 날 때 다한증으로 볼 수 있을까요",
     "slug": "bundang-pangyo-hyperhidrosis-face-scalp-sweat"
+  },
+  {
+    "publishDate": "2026-11-13T15:29:25.594+09:00",
+    "geoId": "gyeonggi-gwangju",
+    "displayRegion": "경기광주",
+    "parentRegion": "경기광주",
+    "regionType": "city",
+    "disease": "syncope",
+    "topicAngle": "sitting-recovery-dizziness",
+    "title": "[경기광주 어지럼증] 앉거나 누우면 좋아지는 어지럼이 반복될 때",
+    "slug": "gyeonggi-gwangju-dizziness-sitting-recovery-dizziness"
   }
 ]
