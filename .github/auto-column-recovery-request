@@ -1,8 +1,8 @@
 {
-  "requestId": "recover-run-42174549699-second-2026-11-06T06-46-00Z",
+  "requestId": "recover-run-43459512286-2026-11-14T00-13-56-544Z",
   "requestedTarget": "auto",
-  "reason": "Recover run #168 after narrowly allowing explicit warnings that self-directed medication discontinuation or dose changes may cause risk, while keeping medication-stop permissions and instructions blocked.",
-  "sourceRunId": 42174549699,
-  "priorRecoveryRunId": 42176077565,
-  "requestedAt": "2026-11-06T06:46:00.000Z"
+  "reason": "Recover failed run #185 after classifying adult-deadline-delay as adult ADHD. The failed topic was not published and remains eligible for the same-day deterministic planner.",
+  "sourceRunId": 43459512286,
+  "fixCommit": "95effd7d113705c8401f841419ce5cc5ed3590ae",
+  "requestedAt": "2026-11-14T00:13:56.544Z"
 }
