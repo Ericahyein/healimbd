@@ -1200,5 +1200,16 @@
     "topicAngle": "sitting-recovery-dizziness",
     "title": "[경기광주 어지럼증] 앉거나 누우면 좋아지는 어지럼이 반복될 때",
     "slug": "gyeonggi-gwangju-dizziness-sitting-recovery-dizziness"
+  },
+  {
+    "publishDate": "2026-11-14T09:15:33.558+09:00",
+    "geoId": "seongnam-bundang",
+    "displayRegion": "분당",
+    "parentRegion": "성남",
+    "regionType": "district",
+    "disease": "adhd",
+    "topicAngle": "adult-deadline-delay",
+    "title": "[분당 ADHD] 성인이 마감 직전까지 일을 미루는 패턴을 어떻게 설명할까요",
+    "slug": "seongnam-bundang-adhd-adult-deadline-delay"
   }
 ]
