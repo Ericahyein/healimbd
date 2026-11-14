@@ -30,6 +30,15 @@ const SPECIAL_ANGLE_IDENTITIES = {
     ageGroup: 'adult',
     category: 'adhd'
   },
+  // Adult ADHD deadline-delay topic
+  'adult-deadline-delay': {
+    contentDiseaseLabel: 'ADHD',
+    seoDiseaseLabel: '성인 ADHD',
+    thumbnailDiseaseLabel: '성인 ADHD',
+    slugDiseaseLabel: 'adhd',
+    ageGroup: 'adult',
+    category: 'adhd'
+  },
   // 3. Social Phobia within anxiety (qa-07)
   'presentation-anxiety': {
     contentDiseaseLabel: '사회공포증',
