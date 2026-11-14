@@ -1211,5 +1211,16 @@
     "topicAngle": "adult-deadline-delay",
     "title": "[분당 ADHD] 성인이 마감 직전까지 일을 미루는 패턴을 어떻게 설명할까요",
     "slug": "seongnam-bundang-adhd-adult-deadline-delay"
+  },
+  {
+    "publishDate": "2026-11-14T15:08:36.229+09:00",
+    "geoId": "gyeonggi-gwangju",
+    "displayRegion": "경기광주",
+    "parentRegion": "경기광주",
+    "regionType": "city",
+    "disease": "sleep",
+    "topicAngle": "shift-work-sleep",
+    "title": "[경기광주 불면증] 교대근무로 수면 시간이 계속 바뀔 때",
+    "slug": "gyeonggi-gwangju-sleep-shift-work-sleep"
   }
 ]
