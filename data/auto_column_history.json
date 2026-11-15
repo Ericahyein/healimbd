@@ -1222,5 +1222,16 @@
     "topicAngle": "shift-work-sleep",
     "title": "[경기광주 불면증] 교대근무로 수면 시간이 계속 바뀔 때",
     "slug": "gyeonggi-gwangju-sleep-shift-work-sleep"
+  },
+  {
+    "publishDate": "2026-11-15T15:15:02.220+09:00",
+    "geoId": "seongnam-main",
+    "displayRegion": "성남",
+    "parentRegion": "성남",
+    "regionType": "city",
+    "disease": "panic",
+    "topicAngle": "expanding-avoidance",
+    "title": "[성남 공황장애] 공황 이후 피하는 장소가 점점 늘어날 때",
+    "slug": "seongnam-main-panic-expanding-avoidance"
   }
 ]
