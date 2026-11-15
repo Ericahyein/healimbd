@@ -1233,5 +1233,16 @@
     "topicAngle": "expanding-avoidance",
     "title": "[성남 공황장애] 공황 이후 피하는 장소가 점점 늘어날 때",
     "slug": "seongnam-main-panic-expanding-avoidance"
+  },
+  {
+    "publishDate": "2026-11-16T00:36:43.563+09:00",
+    "geoId": "seongnam-bundang",
+    "displayRegion": "분당",
+    "parentRegion": "성남",
+    "regionType": "district",
+    "disease": "hyperhidrosis",
+    "topicAngle": "interview-sweat",
+    "title": "[분당 다한증] 시험이나 면접 때 땀이 갑자기 많아질 때",
+    "slug": "seongnam-bundang-hyperhidrosis-interview-sweat"
   }
 ]
