@@ -1255,5 +1255,16 @@
     "topicAngle": "family-safety-worry",
     "title": "[경기광주 불안장애] 가족의 안부를 반복해서 확인해야만 마음이 놓인다면 불안장애일까요",
     "slug": "gyeonggi-gwangju-anxiety-family-safety-worry"
+  },
+  {
+    "publishDate": "2026-11-17T03:21:19.245+09:00",
+    "geoId": "bundang-pangyo",
+    "displayRegion": "판교",
+    "parentRegion": "성남",
+    "regionType": "selected_local_area",
+    "disease": "ibs",
+    "topicAngle": "travel-bowel-change",
+    "title": "[판교 과민성대장증후군] 여행이나 외출만 하면 배변 습관이 달라질 때",
+    "slug": "bundang-pangyo-ibs-travel-bowel-change"
   }
 ]
