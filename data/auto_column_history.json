@@ -1244,5 +1244,16 @@
     "topicAngle": "interview-sweat",
     "title": "[분당 다한증] 시험이나 면접 때 땀이 갑자기 많아질 때",
     "slug": "seongnam-bundang-hyperhidrosis-interview-sweat"
+  },
+  {
+    "publishDate": "2026-11-16T15:14:49.960+09:00",
+    "geoId": "gyeonggi-gwangju",
+    "displayRegion": "경기광주",
+    "parentRegion": "경기광주",
+    "regionType": "city",
+    "disease": "anxiety",
+    "topicAngle": "family-safety-worry",
+    "title": "[경기광주 불안장애] 가족의 안부를 반복해서 확인해야만 마음이 놓인다면 불안장애일까요",
+    "slug": "gyeonggi-gwangju-anxiety-family-safety-worry"
   }
 ]
