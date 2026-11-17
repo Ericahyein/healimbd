@@ -8,7 +8,7 @@ const links = html => [...html.matchAll(/<a\b[^>]*>/g)].map(m=>attrs(m[0]));
 const graph = html => [...html.matchAll(/(<script\b[^>]*>)([\s\S]*?)<\/script>/g)].filter(m=>attrs(m[1]).type==='application/ld+json').flatMap(m=>JSON.parse(m[2])['@graph']||[]);
 const plain = html => html.replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim();
 const profiles = require('../data/condition_local_profiles.json');
-const conditions = {"tic":"틱장애","adhd":"ADHD","panic":"공황장애","anxiety":"불안장애·공포증","insomnia":"수면·불면증","autonomic":"자율신경실조증","hyperhidrosis":"다한증","ibs":"과민성대장증후군","syncope":"미주신경성 실신"};
+const conditions = {"tic":"틱장애","adhd":"ADHD","panic":"공황장애","anxiety":"불안장애·공포증","insomnia":"불면증","autonomic":"자율신경실조증","hyperhidrosis":"다한증","ibs":"과민성대장증후군","syncope":"미주신경성 실신"};
 const regions = ["용인","경기광주","성남","이천","안성","여주","판교","수지"];
 const sitemap = fs.readFileSync(path.join(output,'sitemap.xml'),'utf8');
 for(const [slug,name] of Object.entries(conditions)){
