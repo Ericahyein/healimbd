@@ -1266,5 +1266,16 @@
     "topicAngle": "travel-bowel-change",
     "title": "[판교 과민성대장증후군] 여행이나 외출만 하면 배변 습관이 달라질 때",
     "slug": "bundang-pangyo-ibs-travel-bowel-change"
+  },
+  {
+    "publishDate": "2026-11-17T16:46:38.010+09:00",
+    "geoId": "yongin-main",
+    "displayRegion": "용인",
+    "parentRegion": "용인",
+    "regionType": "city",
+    "disease": "adhd",
+    "topicAngle": "parent-teacher-observation",
+    "title": "[용인 ADHD] 보호자와 교사가 ADHD 관찰 내용을 공유할 때 필요한 항목",
+    "slug": "yongin-main-adhd-parent-teacher-observation"
   }
 ]
