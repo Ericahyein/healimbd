@@ -1277,5 +1277,16 @@
     "topicAngle": "parent-teacher-observation",
     "title": "[용인 ADHD] 보호자와 교사가 ADHD 관찰 내용을 공유할 때 필요한 항목",
     "slug": "yongin-main-adhd-parent-teacher-observation"
+  },
+  {
+    "publishDate": "2026-11-18T02:34:55.488+09:00",
+    "geoId": "seongnam-main",
+    "displayRegion": "성남",
+    "parentRegion": "성남",
+    "regionType": "city",
+    "disease": "autonomic",
+    "topicAngle": "dyspepsia-normal-endoscopy",
+    "title": "[성남 신경성 소화불량] 위내시경은 정상이지만 소화불량이 계속될 때",
+    "slug": "seongnam-main-functional-dyspepsia-dyspepsia-normal-endoscopy"
   }
 ]
