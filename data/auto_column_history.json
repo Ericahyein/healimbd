@@ -1288,5 +1288,16 @@
     "topicAngle": "dyspepsia-normal-endoscopy",
     "title": "[성남 신경성 소화불량] 위내시경은 정상이지만 소화불량이 계속될 때",
     "slug": "seongnam-main-functional-dyspepsia-dyspepsia-normal-endoscopy"
+  },
+  {
+    "publishDate": "2026-11-18T16:13:32.842+09:00",
+    "geoId": "yongin-main",
+    "displayRegion": "용인",
+    "parentRegion": "용인",
+    "regionType": "city",
+    "disease": "panic",
+    "topicAngle": "tingling-dizziness",
+    "title": "[용인 공황장애] 손발 저림과 어지럼이 공황발작과 함께 나타날 때",
+    "slug": "yongin-main-panic-tingling-dizziness"
   }
 ]
