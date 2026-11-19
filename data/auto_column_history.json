@@ -1321,5 +1321,16 @@
     "topicAngle": "skin-irritation",
     "title": "[경기광주 다한증] 땀에 젖은 피부가 하얗게 불고 갈라진다면, 단순 습윤과 감염을 가르는 기준",
     "slug": "gyeonggi-gwangju-hyperhidrosis-skin-irritation"
+  },
+  {
+    "publishDate": "2026-11-20T02:17:34.319+09:00",
+    "geoId": "seongnam-bundang",
+    "displayRegion": "분당",
+    "parentRegion": "성남",
+    "regionType": "district",
+    "disease": "syncope",
+    "topicAngle": "dizziness-vs-vertigo",
+    "title": "[분당 어지럼증] 빙글도는 어지럼과 쓰러질 듯한 어지럼은 어떻게 다를까요",
+    "slug": "seongnam-bundang-dizziness-dizziness-vs-vertigo"
   }
 ]
