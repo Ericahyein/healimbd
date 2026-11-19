@@ -1310,5 +1310,16 @@
     "topicAngle": "exercise-participation",
     "title": "[성남 틱장애] 운동할 때 틱이 보여도 체육 활동을 계속해도 될까요",
     "slug": "seongnam-main-tic-exercise-participation"
+  },
+  {
+    "publishDate": "2026-11-19T16:14:51.364+09:00",
+    "geoId": "gyeonggi-gwangju",
+    "displayRegion": "경기광주",
+    "parentRegion": "경기광주",
+    "regionType": "city",
+    "disease": "hyperhidrosis",
+    "topicAngle": "skin-irritation",
+    "title": "[경기광주 다한증] 땀에 젖은 피부가 하얗게 불고 갈라진다면, 단순 습윤과 감염을 가르는 기준",
+    "slug": "gyeonggi-gwangju-hyperhidrosis-skin-irritation"
   }
 ]
