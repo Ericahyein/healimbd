@@ -1332,5 +1332,16 @@
     "topicAngle": "dizziness-vs-vertigo",
     "title": "[분당 어지럼증] 빙글도는 어지럼과 쓰러질 듯한 어지럼은 어떻게 다를까요",
     "slug": "seongnam-bundang-dizziness-dizziness-vs-vertigo"
+  },
+  {
+    "publishDate": "2026-11-20T16:02:34.596+09:00",
+    "geoId": "gyeonggi-gwangju",
+    "displayRegion": "경기광주",
+    "parentRegion": "경기광주",
+    "regionType": "city",
+    "disease": "adhd",
+    "topicAngle": "time-estimation",
+    "title": "[경기광주 ADHD] 해야 할 시간과 실제 걸린 시간이 자주 다를 때 무엇을 기록할까요",
+    "slug": "gyeonggi-gwangju-adhd-time-estimation"
   }
 ]
