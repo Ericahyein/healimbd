@@ -1343,5 +1343,16 @@
     "topicAngle": "time-estimation",
     "title": "[경기광주 ADHD] 해야 할 시간과 실제 걸린 시간이 자주 다를 때 무엇을 기록할까요",
     "slug": "gyeonggi-gwangju-adhd-time-estimation"
+  },
+  {
+    "publishDate": "2026-11-21T02:20:53.261+09:00",
+    "geoId": "yongin-main",
+    "displayRegion": "용인",
+    "parentRegion": "용인",
+    "regionType": "city",
+    "disease": "ibs",
+    "topicAngle": "constipation-straining",
+    "title": "[용인 과민성대장증후군] 변비형 과민성대장증후군에서 힘주기가 늘 때",
+    "slug": "yongin-main-ibs-constipation-straining"
   }
 ]
