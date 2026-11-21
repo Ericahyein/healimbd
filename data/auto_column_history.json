@@ -1365,5 +1365,16 @@
     "topicAngle": "attack-safety-steps",
     "title": "[판교 공황장애] 공황 증상이 시작됐을 때 먼저 해야 할 안전한 대처",
     "slug": "bundang-pangyo-panic-attack-safety-steps"
+  },
+  {
+    "publishDate": "2026-11-22T01:06:24.129+09:00",
+    "geoId": "yongin-main",
+    "displayRegion": "용인",
+    "parentRegion": "용인",
+    "regionType": "city",
+    "disease": "tic",
+    "topicAngle": "sudden-tic-surge",
+    "title": "[용인 틱장애] 틱이 갑자기 크게 늘었을 때 먼저 확인할 변화",
+    "slug": "yongin-main-tic-sudden-tic-surge"
   }
 ]
