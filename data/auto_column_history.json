@@ -1354,5 +1354,16 @@
     "topicAngle": "constipation-straining",
     "title": "[용인 과민성대장증후군] 변비형 과민성대장증후군에서 힘주기가 늘 때",
     "slug": "yongin-main-ibs-constipation-straining"
+  },
+  {
+    "publishDate": "2026-11-21T15:56:39.143+09:00",
+    "geoId": "bundang-pangyo",
+    "displayRegion": "판교",
+    "parentRegion": "성남",
+    "regionType": "selected_local_area",
+    "disease": "panic",
+    "topicAngle": "attack-safety-steps",
+    "title": "[판교 공황장애] 공황 증상이 시작됐을 때 먼저 해야 할 안전한 대처",
+    "slug": "bundang-pangyo-panic-attack-safety-steps"
   }
 ]
