@@ -1376,5 +1376,16 @@
     "topicAngle": "sudden-tic-surge",
     "title": "[용인 틱장애] 틱이 갑자기 크게 늘었을 때 먼저 확인할 변화",
     "slug": "yongin-main-tic-sudden-tic-surge"
+  },
+  {
+    "publishDate": "2026-11-22T15:34:12.139+09:00",
+    "geoId": "bundang-pangyo",
+    "displayRegion": "판교",
+    "parentRegion": "성남",
+    "regionType": "selected_local_area",
+    "disease": "sleep",
+    "topicAngle": "screen-before-bed",
+    "title": "[판교 불면증] 밤마다 달라지는 스마트폰 사용과 취침 지연, 수면 기록에서 확인할 기준",
+    "slug": "bundang-pangyo-sleep-screen-before-bed"
   }
 ]
