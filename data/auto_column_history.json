@@ -1387,5 +1387,16 @@
     "topicAngle": "screen-before-bed",
     "title": "[판교 불면증] 밤마다 달라지는 스마트폰 사용과 취침 지연, 수면 기록에서 확인할 기준",
     "slug": "bundang-pangyo-sleep-screen-before-bed"
+  },
+  {
+    "publishDate": "2026-11-23T01:11:37.967+09:00",
+    "geoId": "seongnam-main",
+    "displayRegion": "성남",
+    "parentRegion": "성남",
+    "regionType": "city",
+    "disease": "adhd",
+    "topicAngle": "activity-transition",
+    "title": "[성남 ADHD] 하던 일을 멈추고 다음 활동으로 넘어가기 어려울 때",
+    "slug": "seongnam-main-adhd-activity-transition"
   }
 ]
