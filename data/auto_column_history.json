@@ -1398,5 +1398,16 @@
     "topicAngle": "activity-transition",
     "title": "[성남 ADHD] 하던 일을 멈추고 다음 활동으로 넘어가기 어려울 때",
     "slug": "seongnam-main-adhd-activity-transition"
+  },
+  {
+    "publishDate": "2026-11-23T16:24:18.054+09:00",
+    "geoId": "yongin-main",
+    "displayRegion": "용인",
+    "parentRegion": "용인",
+    "regionType": "city",
+    "disease": "syncope",
+    "topicAngle": "ringing-nausea-dizziness",
+    "title": "[용인 어지럼증] 귀 울림과 메스꺼움이 동반된 어지럼은 실신과 같은가요",
+    "slug": "yongin-main-dizziness-ringing-nausea-dizziness"
   }
 ]
