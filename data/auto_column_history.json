@@ -1409,5 +1409,16 @@
     "topicAngle": "ringing-nausea-dizziness",
     "title": "[용인 어지럼증] 귀 울림과 메스꺼움이 동반된 어지럼은 실신과 같은가요",
     "slug": "yongin-main-dizziness-ringing-nausea-dizziness"
+  },
+  {
+    "publishDate": "2026-11-24T05:05:00.329+09:00",
+    "geoId": "seongnam-main",
+    "displayRegion": "성남",
+    "parentRegion": "성남",
+    "regionType": "city",
+    "disease": "ibs",
+    "topicAngle": "probiotics-question",
+    "title": "[성남 과민성대장증후군] 유산균 복용 후에도 반복되는 복부 불편, 제품보다 먼저 살펴볼 기준",
+    "slug": "seongnam-main-ibs-probiotics-question"
   }
 ]
