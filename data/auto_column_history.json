@@ -1420,5 +1420,16 @@
     "topicAngle": "probiotics-question",
     "title": "[성남 과민성대장증후군] 유산균 복용 후에도 반복되는 복부 불편, 제품보다 먼저 살펴볼 기준",
     "slug": "seongnam-main-ibs-probiotics-question"
+  },
+  {
+    "publishDate": "2026-11-24T18:44:16.896+09:00",
+    "geoId": "gyeonggi-gwangju",
+    "displayRegion": "경기광주",
+    "parentRegion": "경기광주",
+    "regionType": "city",
+    "disease": "panic",
+    "topicAngle": "derealization",
+    "title": "[경기광주 공황장애] 주변이 낯설거나 내가 아닌 것처럼 느껴질 때 공황과 관련이 있나요",
+    "slug": "gyeonggi-gwangju-panic-derealization"
   }
 ]
