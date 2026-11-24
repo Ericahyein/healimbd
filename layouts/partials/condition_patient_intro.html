@@ -1,0 +1,20 @@
+{{ $page := .page }}
+{{ $clinical := .clinical }}
+{{ $key := $clinical.Params.patient_guide_key | default $clinical.File.ContentBaseName }}
+{{ $guide := index site.Data.condition_patient_guides $key }}
+{{ $profile := index site.Data.condition_local_profiles $key }}
+{{ $info := site.Params.clinic_info }}
+{{ $local := eq $page.Type "condition-local" }}
+{{ $process := cond $local "local-process" "visit-process" }}
+{{ $preparation := cond $local "local-preparation" "visit-preparation-section" }}
+{{ with $profile.alert }}<aside class="patient-flow-alert" aria-label="먼저 평가가 필요한 증상"><strong>먼저 확인해 주세요.</strong> {{ . }}</aside>{{ end }}
+<section class="patient-clinic-intro" id="clinic-intro" aria-labelledby="patient-clinic-intro-title">
+  <div class="patient-intro-top"><span class="patient-eyebrow">FIRST VISIT · BUNDANG</span><span class="patient-location-pill">정자역 3번 출구 · 도보 2분</span></div>
+  <h2 id="patient-clinic-intro-title">{{ if $local }}{{ $page.Params.area_name }}에서{{ else }}분당·정자역에서{{ end }}<br>{{ $guide.name }} 진료를 찾고 계신가요?</h2>
+  <p class="patient-intro-lead">해아림한의원 분당점에서는 <strong>{{ $info.doctor }}</strong>이 {{ $guide.lead }}</p>
+  <p>{{ if $local }}{{ $page.Params.intro }}{{ else }}{{ $guide.summary }}{{ end }}</p>
+  {{ if $local }}<div class="patient-route-note"><strong>{{ $page.Params.area_name }}에서 분당점으로 오시는 길</strong><p>{{ $page.Params.location_note }}</p>{{ with site.GetPage (printf "/areas/%s" ($page.Params.area_slug | default (replaceRE "^[^-]+-" "" $page.File.ContentBaseName))) }}<a href="{{ .RelPermalink }}">지역별 방문 경로 자세히 보기 ↗</a>{{ end }}</div>{{ end }}
+  <div class="patient-facts"><div><span>LOCATION</span><strong>정자역 인근 · 젤존타워III 405호</strong><small>{{ $info.parking }}</small></div><div><span>EVENING CARE</span><strong>월·수 오후 8시까지 야간진료</strong><small>{{ $info.closed_days }}</small></div></div>
+  <p class="patient-preparation-link">첫 방문 준비는 한 곳에 모았습니다. <a href="#{{ $preparation }}">준비사항·증상 기록 방법 보기 ↗</a></p>
+  <div class="patient-intro-actions"><a class="patient-primary" href="#{{ $process }}">{{ $guide.name }} 진료 과정 보기 <span aria-hidden="true">↓</span></a><a href="{{ $info.naver_booking_url }}" target="_blank" rel="noopener noreferrer">네이버 예약 ↗</a><a href="{{ $info.kakao_chat_url }}" target="_blank" rel="noopener noreferrer">카카오 상담 ↗</a></div>
+</section>

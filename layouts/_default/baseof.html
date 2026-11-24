@@ -43,6 +43,8 @@
   {{ if or (and (eq .Section "conditions") (not .IsSection)) (in (slice "condition-local" "area-condition") .Type) }}
     {{ $editorialStyle := resources.Get "css/condition-editorial.css" | resources.Minify | resources.Fingerprint }}
     <link rel="stylesheet" href="{{ $editorialStyle.RelPermalink }}">
+    {{ $patientStyle := resources.Get "css/condition-patient-flow.css" | resources.Minify | resources.Fingerprint }}
+    <link rel="stylesheet" href="{{ $patientStyle.RelPermalink }}">
   {{ end }}
 </head>
 <body class="{{ if eq .Type "condition-local" }}condition-local-body {{ end }}{{ if or (and (eq .Section "conditions") (not .IsSection)) (in (slice "condition-local" "area-condition") .Type) }}condition-editorial-body{{ end }}">

@@ -7,7 +7,7 @@ const output = path.resolve(process.argv[2] || path.join(root, 'public'));
 const conditions = {
   tic: '틱장애', adhd: 'ADHD', panic: '공황장애', anxiety: '불안장애',
   insomnia: '불면증', autonomic: '자율신경실조증', hyperhidrosis: '다한증',
-  ibs: '과민성대장증후군', syncope: '미주신경성 실신',
+  ibs: '과민성대장증후군', syncope: '어지럼증',
 };
 const html = url => fs.readFileSync(path.join(output, url.replace(/^\//, ''), 'index.html'), 'utf8');
 const attrs = tag => Object.fromEntries([...tag.matchAll(/([^\s=<>]+)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))/g)]

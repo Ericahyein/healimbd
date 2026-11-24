@@ -121,7 +121,7 @@
 
     <!-- 2. Full Philosophy Narrative Stream (전체 스토리 처음부터 출력) -->
     <div class="philo-full-narrative-stream">
-      
+
       <!-- Greeting Introduction Lead -->
       <div class="philo-story-greeting-block">
         <p class="story-hello">안녕하세요.</p>
@@ -502,15 +502,15 @@
         </div>
       </article>
 
-      <!-- 09. 미주신경성 실신 (에메랄드) -->
+      <!-- 09. 어지럼증 -->
       <article class="treatment-card">
         <div class="treatment-card-top">
           <div class="treatment-circle-wrap">
-            <img src="{{ "images/clinics/clinic-syncope.jpg" | relURL }}" alt="미주신경성 실신 · 기립성 어지럼" class="treatment-circle-img" loading="lazy">
+            <img src="{{ "images/clinics/clinic-syncope.jpg" | relURL }}" alt="어지럼증 · 회전감과 아찔함" class="treatment-circle-img" loading="lazy">
             <span class="card-num-badge">09</span>
           </div>
           <div class="treatment-title-wrap">
-            <h4 class="treatment-name">미주신경성 실신</h4>
+            <h4 class="treatment-name">어지럼증</h4>
           </div>
         </div>
         <div class="treatment-tags-row">
@@ -895,7 +895,7 @@
         <button type="button" class="col-tab-btn" data-filter="autonomic" onclick="filterColumnCategory('autonomic')">자율신경</button>
         <button type="button" class="col-tab-btn" data-filter="hyperhidrosis" onclick="filterColumnCategory('hyperhidrosis')">다한증</button>
         <button type="button" class="col-tab-btn" data-filter="ibs" onclick="filterColumnCategory('ibs')">과민성대장</button>
-        <button type="button" class="col-tab-btn" data-filter="syncope" onclick="filterColumnCategory('syncope')">미주신경성 실신</button>
+        <button type="button" class="col-tab-btn" data-filter="syncope" onclick="filterColumnCategory('syncope')">어지럼증·실신</button>
         <button type="button" class="col-tab-btn" data-filter="general" onclick="filterColumnCategory('general')">두뇌·건강</button>
       </div>
 
@@ -909,7 +909,7 @@
     <!-- Doctor Column Horizontal List Wrap -->
     <div class="column-list-wrap" id="column-cards-grid">
       {{ range where .Site.RegularPages "Section" "blog" }}
-      <article class="doctor-column-row-item static-column-card" 
+      <article class="doctor-column-row-item static-column-card"
                data-category="{{ .Params.category }}"
                onclick="location.href='{{ .RelPermalink }}'">
         <a href="{{ .RelPermalink }}" class="col-row-thumb-wrap" aria-label="{{ .Title }}">
@@ -980,7 +980,7 @@
         <div class="faq-answer">
           <div class="faq-answer-inner">
             <p>
-              현재 복용 중인 약의 종류와 복용 기간, 증상 상태를 확인한 뒤 한방 치료의 병행 여부를 판단합니다. 
+              현재 복용 중인 약의 종류와 복용 기간, 증상 상태를 확인한 뒤 한방 치료의 병행 여부를 판단합니다.
               복용 중인 약은 임의로 중단하거나 감량하지 않으며, 변경이 필요한 경우에는 처방 의료진과 충분히 상의하도록 안내합니다.
             </p>
           </div>
@@ -997,7 +997,7 @@
         <div class="faq-answer">
           <div class="faq-answer-inner">
             <p>
-              증상이 시작된 시기와 정도, 동반 증상, 생활환경 등에 따라 치료 기간은 달라질 수 있습니다. 
+              증상이 시작된 시기와 정도, 동반 증상, 생활환경 등에 따라 치료 기간은 달라질 수 있습니다.
               초기 진료와 검사를 통해 현재 상태를 확인한 후 예상 치료 과정과 내원 계획을 세밀하게 안내드립니다.
             </p>
           </div>
@@ -1014,7 +1014,7 @@
         <div class="faq-answer">
           <div class="faq-answer-inner">
             <p>
-              아이의 연령과 체질, 평소 복용 습관 등을 고려해 순하고 부담 없는 처방을 진행하며, 
+              아이의 연령과 체질, 평소 복용 습관 등을 고려해 순하고 부담 없는 처방을 진행하며,
               복용이 어려운 경우에는 보호자와 상담하여 보다 편하게 복용할 수 있는 섭취 방법과 제형을 함께 안내합니다.
             </p>
           </div>
@@ -1031,7 +1031,7 @@
         <div class="faq-answer">
           <div class="faq-answer-inner">
             <p>
-              아이의 연령과 긴장 정도를 고려해 치료 강도와 방법을 조절합니다. 
+              아이의 연령과 긴장 정도를 고려해 치료 강도와 방법을 조절합니다.
               뉴로피드백과 같은 두뇌 훈련은 통증을 유발하는 방식이 아니며, 아이가 치료 환경에 편안하게 적응할 수 있도록 단계적으로 진행합니다.
             </p>
           </div>
@@ -1048,7 +1048,7 @@
         <div class="faq-answer">
           <div class="faq-answer-inner">
             <p>
-              현재 가장 불편한 증상과 발생 과정, 수면·스트레스·생활습관 등을 자세히 확인하고, 
+              현재 가장 불편한 증상과 발생 과정, 수면·스트레스·생활습관 등을 자세히 확인하고,
               필요한 경우 뇌기능검사, 뇌인지검사, 심리척도검사, 종합주의력검사를 함께 시행합니다. 검사 결과를 토대로 현재 상태와 치료 방향을 친절히 설명드립니다.
             </p>
           </div>
@@ -1065,7 +1065,7 @@
         <div class="faq-answer">
           <div class="faq-answer-inner">
             <p>
-              모든 치료를 동일하게 일률적으로 진행하지 않습니다. 
+              모든 치료를 동일하게 일률적으로 진행하지 않습니다.
               증상과 연령, 검사 결과에 따라 한약·침 치료·뉴로피드백·상담 등 꼭 필요한 치료를 개별적으로 최적화하여 구성합니다.
             </p>
           </div>

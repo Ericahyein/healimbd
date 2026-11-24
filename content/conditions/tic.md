@@ -31,7 +31,7 @@ regional_guides:
 condition_name: "틱장애"
 column_categories: ["tic","tourette"]
 date: 2026-09-28
-lastmod: 2026-10-29
+lastmod: 2026-11-24
 author: "해아림한의원 분당점 의료 콘텐츠팀"
 medical_review_status: "source_based"
 description: "눈 깜빡임·킁킁거림·헛기침이 반복될 때 확인할 틱장애 증상과 진료 시점을 안내합니다. 해아림한의원 분당점의 평가·검사, 치료와 훈련 선택 과정을 확인하세요."
@@ -55,38 +55,47 @@ hero_summary: "눈 깜빡임이나 얼굴 움직임, 킁킁거림과 헛기침�
 answer_title: "반복되는 행동, 무엇부터 확인하면 좋을까요?"
 answer_summary: "눈 깜빡임이나 헛기침이 이어진다면 처음 보인 시점과 일상에서의 변화를 차분히 살펴보세요. 틱은 일부러 하는 행동이 아니며, 한 가지 모습이나 체크리스트만으로 진단하지 않습니다."
 faq:
-  - question: "눈 깜빡임이 잦으면 모두 틱장애인가요?"
-    answer: "아닙니다. 안구건조증, 알레르기, 시력 문제 등에서도 눈 깜빡임이 늘 수 있습니다. 다른 얼굴 움직임이나 소리가 동반되는지, 특정 상황에서 반복되는지, 얼마나 지속됐는지를 함께 확인해야 합니다."
-  - question: "틱은 아이가 참을 수 있나요?"
-    answer: "일부 아이는 짧은 시간 억제할 수 있지만 그 과정에서 긴장이나 전조 충동을 느낄 수 있습니다. 잠시 멈출 수 있다는 이유로 버릇이라고 판단하지 않으며, 반복해서 지적하거나 참는 정도를 시험하지 않는 것이 좋습니다."
-  - question: "운동틱과 음성틱이 함께 있으면 뚜렛증후군인가요?"
-    answer: "두 증상이 보인다는 사실만으로 바로 판단하지 않습니다. 운동틱과 음성틱의 존재, 시작 연령, 지속 기간과 다른 원인의 가능성을 의료진이 종합해 구분합니다."
-  - question: "스트레스를 없애면 틱이 사라지나요?"
-    answer: "긴장, 흥분, 피로와 수면 부족이 틱을 두드러지게 만들 수 있지만 스트레스만이 유일한 원인은 아닙니다. 증상 경과와 동반 어려움을 함께 살펴야 합니다."
-  - question: "뉴로피드백·밸런싱·IM은 모든 아이가 받나요?"
-    answer: "아닙니다. 틱 증상, 주의집중과 감각·운동 조절 상태, 연령과 협조도 등을 평가한 뒤 필요한 경우에만 선택합니다. 한 가지 훈련을 모든 아이에게 동일하게 적용하지 않습니다."
-  - question: "학교에는 어떻게 이야기하는 것이 좋을까요?"
-    answer: "틱이 고의적인 행동이 아니라는 점을 담임교사와 공유하고, 발표나 조용한 수업에서 지나친 주목을 받지 않도록 협조를 구하는 것이 좋습니다. 놀림이나 수업 방해가 생기면 구체적인 지원 방법을 함께 정해야 합니다."
-  - question: "분당점 방문 전 무엇을 준비하면 좋나요?"
-    answer: "틱이 처음 나타난 시점과 학교·가정에서의 차이를 기록하고, 가능하다면 증상 영상과 기존 검사 결과, 복용 약 목록을 준비해 주세요."
-  - question: "진료실에서 틱이 보이지 않으면 어떻게 설명하나요?"
-    answer: "집이나 학교에서 관찰한 움직임·소리, 처음 나타난 시점과 생활에서의 불편을 설명해 주세요. 자연스럽게 촬영한 영상이 있다면 참고자료로 준비할 수 있습니다. 진료실에서 보이게 하려고 아이에게 증상을 재현하도록 요구할 필요는 없습니다."
-  - question: "틱은 자라면서 자연스럽게 좋아지기도 하나요?"
-    answer: "성장하면서 줄어드는 경우도 있지만 경과는 개인마다 다르고 성인기까지 이어지기도 합니다. 증상이 가볍고 생활에 지장이 적으면 경과를 관찰할 수 있으며, 통증·학습 방해·정서적 위축이 있다면 지속 기간이 짧아도 상담하는 것이 좋습니다."
-  - question: "틱장애 치료 기간은 얼마나 걸리나요?"
-    answer: "시작 시기, 증상의 변화, 동반 어려움과 일상에서의 불편이 달라 일정한 기간으로 약속하기 어렵습니다. 증상 빈도뿐 아니라 수면·학교생활·통증의 변화를 함께 확인하고, 진료 과정에서 치료 지속 여부와 계획을 조정합니다."
-  - question: "이미 약을 먹고 있는데 한의 진료를 함께 상담할 수 있나요?"
-    answer: "상담할 수 있습니다. 처방약·일반약·영양제의 이름과 용량, 복용 기간을 알려 주세요. 기존 약을 임의로 줄이거나 중단하지 않고, 병행 여부와 주의사항은 처방 의료진과 상의해 결정합니다."
-  - question: "ADHD나 불안·강박이 함께 보이면 어떻게 하나요?"
-    answer: "주의력 문제, 불안, 반복 확인, 수면 문제 등이 생활에 미치는 영향을 함께 평가합니다. 겉으로 보이는 틱보다 동반 어려움이 더 큰 경우도 있어 우선순위를 정하고, 필요한 경우 다른 진료과의 평가와 치료를 함께 안내합니다."
-  - question: "학교에서는 괜찮은데 집에서만 심하면 일부러 하는 건가요?"
-    answer: "그렇게 판단하지 않습니다. 상황에 따라 틱이 달라지거나 학교에서 잠시 억제한 증상이 집에서 더 잘 보일 수 있습니다. 집과 학교의 관찰 내용이 달라도 어느 한쪽이 틀렸다는 뜻은 아니며, 아이의 피로와 불편을 함께 확인합니다."
-  - question: "틱이 있으면 MRI나 뇌파검사를 꼭 받아야 하나요?"
-    answer: "모든 경우에 필요한 것은 아닙니다. 틱은 증상의 모습과 시작 시점, 경과를 중심으로 평가합니다. MRI나 뇌파검사는 다른 질환이 의심되는 경우 의료진이 필요성을 판단하며, 정상 결과만으로 틱을 배제하거나 검사 수치 하나로 틱을 확진하지 않습니다."
-  - question: "줄었던 틱이 다시 보이면 치료가 실패한 건가요?"
-    answer: "틱은 원래 줄었다가 늘어나는 경과를 보일 수 있습니다. 최근 수면·피로·생활 변화와 증상의 강도, 통증, 학교생활의 불편을 함께 확인합니다. 하루의 변화로 판단하지 않되, 불편이 커지거나 새로운 양상이 지속되면 진료에서 계획을 다시 조정합니다."
-  - question: "욕설을 하지 않아도 뚜렛증후군일 수 있나요?"
-    answer: "네. 욕설이나 외설적인 말은 진단의 필수 조건이 아니며, 대부분의 뚜렛증후군 환자에게 나타나는 증상도 아닙니다. 여러 운동틱과 하나 이상의 음성틱이 있었는지, 시작 연령과 지속 기간 등을 종합해 판단합니다."
+- question: 눈 깜빡임이 잦으면 모두 틱장애인가요?
+  answer: 아닙니다. 안구건조증, 알레르기, 시력 문제 등에서도 눈 깜빡임이 늘 수 있습니다. 다른 얼굴 움직임이나 소리가 동반되는지, 특정 상황에서 반복되는지, 얼마나 지속됐는지를 함께 확인해야 합니다.
+- question: 틱은 아이가 참을 수 있나요?
+  answer: 일부 아이는 짧은 시간 억제할 수 있지만 그 과정에서 긴장이나 전조 충동을 느낄 수 있습니다. 잠시 멈출 수 있다는 이유로 버릇이라고 판단하지 않으며, 반복해서 지적하거나 참는 정도를 시험하지 않는 것이
+    좋습니다.
+- question: 운동틱과 음성틱이 함께 있으면 뚜렛증후군인가요?
+  answer: 두 증상이 보인다는 사실만으로 바로 판단하지 않습니다. 운동틱과 음성틱의 존재, 시작 연령, 지속 기간과 다른 원인의 가능성을 의료진이 종합해 구분합니다.
+- question: 스트레스를 없애면 틱이 사라지나요?
+  answer: 긴장, 흥분, 피로와 수면 부족이 틱을 두드러지게 만들 수 있지만 스트레스만이 유일한 원인은 아닙니다. 증상 경과와 동반 어려움을 함께 살펴야 합니다.
+- question: 뉴로피드백·밸런싱·IM은 모든 아이가 받나요?
+  answer: 아닙니다. 틱 증상, 주의집중과 감각·운동 조절 상태, 연령과 협조도 등을 평가한 뒤 필요한 경우에만 선택합니다. 한 가지 훈련을 모든 아이에게 동일하게 적용하지 않습니다.
+- question: 학교에는 어떻게 이야기하는 것이 좋을까요?
+  answer: 틱이 고의적인 행동이 아니라는 점을 담임교사와 공유하고, 발표나 조용한 수업에서 지나친 주목을 받지 않도록 협조를 구하는 것이 좋습니다. 놀림이나 수업 방해가 생기면 구체적인 지원 방법을 함께 정해야
+    합니다.
+- question: 분당점 방문 전 무엇을 준비하면 좋나요?
+  answer: 틱이 처음 나타난 시점과 학교·가정에서의 차이를 기록하고, 가능하다면 증상 영상과 기존 검사 결과, 복용 약 목록을 준비해 주세요.
+- question: 진료실에서 틱이 보이지 않으면 어떻게 설명하나요?
+  answer: 집이나 학교에서 관찰한 움직임·소리, 처음 나타난 시점과 생활에서의 불편을 설명해 주세요. 자연스럽게 촬영한 영상이 있다면 참고자료로 준비할 수 있습니다. 진료실에서 보이게 하려고 아이에게 증상을 재현하도록
+    요구할 필요는 없습니다.
+- question: 틱은 자라면서 자연스럽게 좋아지기도 하나요?
+  answer: 성장하면서 줄어드는 경우도 있지만 경과는 개인마다 다르고 성인기까지 이어지기도 합니다. 증상이 가볍고 생활에 지장이 적으면 경과를 관찰할 수 있으며, 통증·학습 방해·정서적 위축이 있다면 지속 기간이
+    짧아도 상담하는 것이 좋습니다.
+- question: 틱장애 치료 기간은 얼마나 걸리나요?
+  answer: 시작 시기, 증상의 변화, 동반 어려움과 일상에서의 불편이 달라 일정한 기간으로 약속하기 어렵습니다. 증상 빈도뿐 아니라 수면·학교생활·통증의 변화를 함께 확인하고, 진료 과정에서 치료 지속 여부와 계획을
+    조정합니다.
+- question: 이미 약을 먹고 있는데 한의 진료를 함께 상담할 수 있나요?
+  answer: 상담할 수 있습니다. 처방약·일반약·영양제의 이름과 용량, 복용 기간을 알려 주세요. 기존 약을 임의로 줄이거나 중단하지 않고, 병행 여부와 주의사항은 처방 의료진과 상의해 결정합니다.
+- question: ADHD나 불안·강박이 함께 보이면 어떻게 하나요?
+  answer: 주의력 문제, 불안, 반복 확인, 수면 문제 등이 생활에 미치는 영향을 함께 평가합니다. 겉으로 보이는 틱보다 동반 어려움이 더 큰 경우도 있어 우선순위를 정하고, 필요한 경우 다른 진료과의 평가와 치료를
+    함께 안내합니다.
+- question: 학교에서는 괜찮은데 집에서만 심하면 일부러 하는 건가요?
+  answer: 그렇게 판단하지 않습니다. 상황에 따라 틱이 달라지거나 학교에서 잠시 억제한 증상이 집에서 더 잘 보일 수 있습니다. 집과 학교의 관찰 내용이 달라도 어느 한쪽이 틀렸다는 뜻은 아니며, 아이의 피로와
+    불편을 함께 확인합니다.
+- question: 틱이 있으면 MRI나 뇌파검사를 꼭 받아야 하나요?
+  answer: 모든 경우에 필요한 것은 아닙니다. 틱은 증상의 모습과 시작 시점, 경과를 중심으로 평가합니다. MRI나 뇌파검사는 다른 질환이 의심되는 경우 의료진이 필요성을 판단하며, 정상 결과만으로 틱을 배제하거나
+    검사 수치 하나로 틱을 확진하지 않습니다.
+- question: 줄었던 틱이 다시 보이면 치료가 실패한 건가요?
+  answer: 틱은 원래 줄었다가 늘어나는 경과를 보일 수 있습니다. 최근 수면·피로·생활 변화와 증상의 강도, 통증, 학교생활의 불편을 함께 확인합니다. 하루의 변화로 판단하지 않되, 불편이 커지거나 새로운 양상이
+    지속되면 진료에서 계획을 다시 조정합니다.
+- question: 욕설을 하지 않아도 뚜렛증후군일 수 있나요?
+  answer: 네. 욕설이나 외설적인 말은 진단의 필수 조건이 아니며, 대부분의 뚜렛증후군 환자에게 나타나는 증상도 아닙니다. 여러 운동틱과 하나 이상의 음성틱이 있었는지, 시작 연령과 지속 기간 등을 종합해 판단합니다.
 featured_column: "/blog/bundang-tic-disorder-brain-balance-treatment/"
 
 guide_flow: "daegu-reference"
@@ -104,9 +113,47 @@ reference_video_context: "해아림TV 공식 채널의 틱장애 관련 영상�
 reference_insights: [{"tag": "증상 구별", "title": "눈 깜빡임이 잦으면 모두 틱장애인가요?", "answer": "아닙니다. 안구건조증, 알레르기, 시력 문제 등에서도 눈 깜빡임이 늘 수 있습니다. 다른 얼굴 움직임이나 소리가 동반되는지, 특정 상황에서 반복되는지, 얼마나 지속됐는지를 함께 확인해야 합니다.", "icon": "ph-eye"}, {"tag": "관찰과 기록", "title": "진료실에서 틱이 보이지 않으면 어떻게 설명하나요?", "answer": "집이나 학교에서 관찰한 움직임·소리, 처음 나타난 시점과 생활에서의 불편을 설명해 주세요. 자연스럽게 촬영한 영상이 있다면 참고자료로 준비할 수 있습니다. 진료실에서 보이게 하려고 아이에게 증상을 재현하도록 요구할 필요는 없습니다.", "icon": "ph-notepad"}, {"tag": "뚜렛증후군", "title": "욕설을 하지 않아도 뚜렛증후군일 수 있나요?", "answer": "네. 욕설이나 외설적인 말은 진단의 필수 조건이 아니며, 대부분의 뚜렛증후군 환자에게 나타나는 증상도 아닙니다. 여러 운동틱과 하나 이상의 음성틱이 있었는지, 시작 연령과 지속 기간 등을 종합해 판단합니다.", "icon": "ph-chat-circle-text"}]
 reference_preparation_html: "<h3>첫 방문 전 준비해 주세요</h3><p>진료 전 다음 내용을 준비하면 증상 경과를 설명하는 데 도움이 됩니다.</p><ul><li>반복되는 움직임·소리의 종류와 처음 나타난 시점</li><li>학교와 가정에서의 차이, 수면·미디어 사용 기록과 가능한 증상 영상</li><li>기존 검사 결과와 복용 중인 약의 이름·용량</li></ul><h3 id=\"틱-증상은-이렇게-기록해-보세요\">틱 증상은 이렇게 기록해 보세요</h3><p>반복되는 움직임이나 소리를 설명할 때는 어떤 모습인지, 어느 상황에서 보였는지와 생활에서 겪은 불편을 함께 적어 주세요. 보호자가 본 모습과 아이가 직접 말한 느낌을 구분하면 전달하기 쉽습니다.</p><p><strong>아래는 기록 형식을 보여주기 위한 가상의 예시입니다. 실제 환자 사례나 진단 결과가 아닙니다.</strong></p><ul><li><strong>관찰한 모습</strong>: 눈을 여러 번 깜빡이고 킁킁거리는 소리가 났습니다.</li><li><strong>시간과 장소</strong>: 저녁에 집에서 숙제를 할 때 보였습니다. 학교에서의 모습은 아직 확인하지 못했습니다.</li><li><strong>아이의 설명</strong>: 아이는 목이 답답한 느낌이 있다고 말했습니다.</li><li><strong>생활에서의 불편</strong>: 숙제를 하다가 자주 멈췄습니다. 처음 나타난 날짜는 정확히 기억나지 않습니다.</li></ul><p>아이에게 증상을 일부러 재현하도록 요구하지 말고, 자연스럽게 관찰한 내용과 가능한 영상만 준비해 주세요.</p>"
 reference_sources_html: "<h3 id=\"참고한-의료-정보\">참고한 의료 정보</h3><ul><li><a href=\"https://www.cdc.gov/tourette-syndrome/diagnosis/index.html\" target=\"_blank\" rel=\"noopener\">미국 질병통제예방센터(CDC), 틱장애 진단 기준과 구분</a></li><li><a href=\"https://www.cdc.gov/tourette-syndrome/about/index.html\" target=\"_blank\" rel=\"noopener\">미국 질병통제예방센터(CDC), 뚜렛증후군 개요</a></li><li><a href=\"https://www.cdc.gov/tourette-syndrome/treatment/index.html\" target=\"_blank\" rel=\"noopener\">미국 질병통제예방센터(CDC), 틱·뚜렛증후군 치료와 행동중재</a></li><li><a href=\"https://health.nih.gov/health-topics-a-z/tourette-syndrome\" target=\"_blank\" rel=\"noopener\">미국 국립보건원(NIH), 뚜렛증후군의 증상·평가·관리</a></li><li><a href=\"https://www.cdc.gov/tourette-syndrome/other-concerns/index.html\" target=\"_blank\" rel=\"noopener\">미국 질병통제예방센터(CDC), ADHD·강박 등 동반 어려움</a></li><li><a href=\"https://www.cdc.gov/tourette-syndrome/articles/behavioral-treatment-for-tics-that-works.html\" target=\"_blank\" rel=\"noopener\">미국 질병통제예방센터(CDC), CBIT의 구성과 역할</a></li><li><a href=\"https://www.nhs.uk/conditions/tics/\" target=\"_blank\" rel=\"noopener\">영국 NHS, 틱의 경과와 진료가 필요한 상황</a></li><li><a href=\"https://www.gosh.nhs.uk/conditions-and-treatments/conditions-we-treat/tics-and-tourette-syndrome/\" target=\"_blank\" rel=\"noopener\">영국 GOSH 어린이병원, 보호자를 위한 틱·뚜렛증후군 평가 안내</a></li><li><a href=\"https://my.clevelandclinic.org/health/treatments/13354-biofeedback\" target=\"_blank\" rel=\"noopener\">클리블랜드클리닉, 바이오피드백·뉴로피드백의 일반적인 방식</a></li><li><a href=\"https://www.interactivemetronome.com/what-is-im/\" target=\"_blank\" rel=\"noopener\">Interactive Metronome, IM 훈련 방식 안내</a></li></ul><p>위 자료는 틱장애의 일반적인 진단·경과·치료 선택지를 설명하기 위해 참고했습니다. 분당점의 한의 치료나 뉴로피드백·밸런싱·IM 훈련의 효과를 입증하는 자료로 제시한 것은 아닙니다.</p><p>뉴로피드백과 IM 관련 자료는 훈련 방식의 일반적인 설명을 위한 참고자료입니다. 특히 제조사의 프로그램 안내를 틱장애에 대한 치료 효과의 근거로 해석하지 않습니다. 구체적인 적용 여부와 방법은 분당점의 대면 진료에서 상담합니다.</p><p>이 페이지는 일반적인 의료 정보 제공을 위한 자료입니다. 개인의 진단과 치료 효과는 증상, 건강 상태 및 치료 과정에 따라 달라질 수 있으며, 구체적인 판단은 의료진의 대면 진료가 필요합니다.</p>"
+patient_flow_version: 1
+patient_guide_key: tic
 ---
 
-<section class="reference-section" id="tic-observation" data-reference-section="intro"><h2>반복되는 움직임·소리, 무엇을 확인할까요?</h2>
+<section class="reference-section" data-reference-section="process" id="visit-process"><h2>틱장애 진료 과정</h2><div class="reference-grid-2"><article class="reference-card"><span class="reference-card-number">01</span><h3>증상·경과와 필요한 평가</h3><div class="reference-copy"><p>문진·설진·복진·진맥과 함께 상태에 따라 뇌인지검사·뇌기능검사·뇌 충동성 검사·정서심리검사의 필요성을 판단합니다.</p></div></article><article class="reference-card"><span class="reference-card-number">02</span><h3>개인별 치료 상담</h3><div class="reference-copy"><p>현재 증상, 생활의 불편과 기존 치료 내용을 바탕으로 한약·침구 치료 및 관리 방향을 상담합니다.</p></div></article><article class="reference-card"><span class="reference-card-number">03</span><h3>필요한 경우 훈련 선택</h3><div class="reference-copy"><p>뉴로피드백·밸런싱·IM은 연령과 협조도, 평가 결과에 따라 선택하며 모든 환자에게 일괄 적용하지 않습니다.</p></div></article><article class="reference-card"><span class="reference-card-number">04</span><h3>생활 관리와 경과 확인</h3><div class="reference-copy"><p>가정·학교에서의 대응, 수면·피로·생활 변화를 함께 확인하며 증상과 일상 불편의 경과에 맞춰 계획을 조정합니다.</p></div></article></div></section>
+<section class="reference-section" data-reference-section="assessment" id="tic-assessment"><h2>해아림한의원 분당점에서는 무엇을 확인하나요?</h2>
+<div class="reference-copy">
+<p>첫 진료에서는 틱의 빈도만 세지 않습니다. 증상이 시작된 과정, 운동틱과 음성틱의 변화, 학교와 가정에서의 차이, 수면·피로·미디어 사용, 정서적 긴장과 동반 증상을 함께 살핍니다.</p>
+<h3 id="검사에-앞서-확인하는-여섯-가지">검사에 앞서 확인하는 여섯 가지</h3>
+<ul>
+<li>
+<strong>시작과 전체 경과</strong>: 처음 보인 나이와 증상, 줄었던 기간, 최근 새로 나타난 움직임·소리를 확인합니다. 날짜가 정확하지 않으면 기억나는 범위부터 설명해 주세요.</li>
+<li>
+<strong>빈도·강도·신체 부담</strong>: 반복되는 정도뿐 아니라 목·턱 통증, 눈의 피로, 다칠 위험, 소리를 낼 때의 불편을 살핍니다.</li>
+<li>
+<strong>학습과 일상 기능</strong>: 읽기·쓰기·식사·외출에 지장이 있는지, 틱을 숨기느라 수업 내용을 놓치거나 활동을 피하는지 확인합니다.</li>
+<li>
+<strong>주의력과 정서</strong>: 과제 수행, 충동성, 불안, 반복 확인과 아이가 스스로 느끼는 부담을 함께 묻습니다.</li>
+<li>
+<strong>수면과 몸 상태</strong>: 잠드는 데 걸리는 시간, 밤중 각성, 피로, 소화·식사와 비염 등 함께 있는 불편을 확인합니다.</li>
+<li>
+<strong>기존 진료와 복용 정보</strong>: 다른 진료과의 평가, 검사 결과, 약·영양제의 이름과 용량, 복용 뒤의 변화를 확인합니다.</li>
+</ul>
+<h3 id="필요한-평가를-선택하고-결과를-함께-해석합니다">필요한 평가를 선택하고 결과를 함께 해석합니다</h3>
+<p>분당점에서는 필요에 따라 다음 평가를 진료의 참고 자료로 활용합니다.</p>
+<div class="reference-grid-2">
+<article class="reference-card"><span class="reference-card-number">01</span><h3>뇌인지검사</h3>
+<div class="reference-copy"><p>주의집중, 억제 조절 등 인지 기능의 현재 상태를 살핍니다. 틱과 함께 과제 수행이나 주의력의 어려움이 있는지 파악하는 데 참고합니다.</p></div></article><article class="reference-card"><span class="reference-card-number">02</span><h3>뇌기능검사</h3>
+<div class="reference-copy"><p>뇌 기능의 반응 특성을 확인해 전체 진료 계획을 세우는 데 참고합니다. 결과 수치만으로 틱의 원인이나 중증도를 확정하지 않습니다.</p></div></article><article class="reference-card"><span class="reference-card-number">03</span><h3>뇌 충동성 검사</h3><div class="reference-copy"><p>ADHD·틱장애 진료에서 필요한 경우 시행하는 검사입니다. 검사 결과는 문진·관찰 내용 및 다른 평가 결과와 함께 종합해 설명합니다.</p></div></article><article class="reference-card"><span class="reference-card-number">04</span><h3>정서심리검사</h3>
+<div class="reference-copy"><p>불안, 스트레스와 정서 상태 및 일상 적응을 확인합니다. 아이가 증상이나 주변 반응 때문에 겪는 부담도 함께 살핍니다.</p></div></article><article class="reference-card"><span class="reference-card-number">05</span><h3>문진·설진·복진·진맥</h3>
+<div class="reference-copy"><p>증상 경과와 수면·소화·피로를 묻고 한의학적 관점에서 전반적인 몸 상태를 살핍니다. 복용 중인 약과 기존 검사·진료 내용도 함께 확인합니다.</p></div></article>
+</div>
+<p>이러한 검사는 틱장애를 단독으로 확진하거나 다른 의료기관의 진단을 대신하는 수단이 아닙니다. 관찰된 증상과 생활 기능, 기존 진료 내용을 종합하기 위한 자료로 사용합니다.</p>
+<p>검사 결과를 볼 때는 어떤 어려움을 확인하려고 시행했는지, 문진과 일상 관찰에 부합하는지, 이후 진료에서 무엇을 우선할지 함께 설명합니다. 검사 점수가 달라진 것과 실제 생활이 편해진 것은 구분해 살핍니다. 아이의 연령과 이해도, 당일 수면·피로도 고려합니다.</p>
+<h3 id="mri뇌파검사를-모두-받아야-하나요">MRI·뇌파검사를 모두 받아야 하나요?</h3>
+<p>틱은 주로 증상의 모습과 경과를 바탕으로 평가하며, 모든 아이에게 영상검사나 뇌파검사가 필요한 것은 아닙니다. 다른 신경학적 증상이나 전형적이지 않은 경과가 있다면 관련 진료과에서 다른 원인을 확인하기 위한 검사를 판단할 수 있습니다. 정상 검사 결과가 틱이 없다는 뜻은 아니며, 뇌기능 평가 수치만으로 틱의 원인이나 치료 효과를 확정하지 않습니다.</p>
+<h3 id="adhd불안강박수면-문제도-함께-확인합니다">ADHD·불안·강박·수면 문제도 함께 확인합니다</h3>
+<p>틱과 함께 산만함이나 충동성, 반복 확인, 불안, 잠들기 어려움이 나타날 수 있습니다. 이런 모습만으로 동반 질환을 진단하지 않으며, <strong>아이에게 가장 큰 불편을 주는 문제가 무엇인지</strong>부터 확인합니다. 평가 결과에 따라 다른 진료과의 진료를 우선하거나 병행할 수 있습니다.</p>
+<p>예를 들어 숙제를 못 마치는 이유가 틱 때문에 손을 자주 멈춰서인지, 주의집중이 어렵거나 확인 행동을 반복해서인지에 따라 도움의 방향이 달라집니다. 같은 동작을 반복하더라도 몸의 불편한 감각을 덜기 위한 것인지, 걱정되는 일이 생길까 봐 정해진 규칙대로 하는 것인지 아이의 설명을 함께 듣습니다.</p>
+</div></section>
+<section class="reference-section" data-reference-section="preparation" id="visit-preparation-section"><h2>첫 방문 준비와 증상 기록</h2><div class="reference-section" id="tic-observation"><h3>반복되는 움직임·소리, 무엇을 확인할까요?</h3>
 <div class="reference-copy">
 <p>눈을 자주 깜빡이거나 얼굴을 찡그리고, 킁킁거림·헛기침이 반복되면 버릇인지 다른 불편인지 걱정될 수 있습니다. 증상을 멈추게 하려고 하기보다 다음 내용을 준비해 주세요.</p>
 <div class="reference-checklist">
@@ -119,9 +166,8 @@ reference_sources_html: "<h3 id=\"참고한-의료-정보\">참고한 의료 정
 </ul>
 </div>
 <p>이 항목은 상담 준비를 위한 관찰 안내입니다. 해당 사항이 있다는 이유만으로 틱장애를 진단하거나 치료가 반드시 필요하다고 판단하지 않습니다.</p>
-</div></section>
-
-<section class="reference-section" id="틱장애란-무엇인가요" data-reference-section="definition"><h2>틱장애란 무엇인가요?</h2>
+</div></div><details class="reference-preparation" id="visit-preparation" open=""><summary>방문 전 준비할 자료와 기록 방법</summary><h3>첫 방문 전 준비해 주세요</h3><p>진료 전 다음 내용을 준비하면 증상 경과를 설명하는 데 도움이 됩니다.</p><ul><li>반복되는 움직임·소리의 종류와 처음 나타난 시점</li><li>학교와 가정에서의 차이, 수면·미디어 사용 기록과 가능한 증상 영상</li><li>기존 검사 결과와 복용 중인 약의 이름·용량</li></ul><h3 id="틱-증상은-이렇게-기록해-보세요">틱 증상은 이렇게 기록해 보세요</h3><p>반복되는 움직임이나 소리를 설명할 때는 어떤 모습인지, 어느 상황에서 보였는지와 생활에서 겪은 불편을 함께 적어 주세요. 보호자가 본 모습과 아이가 직접 말한 느낌을 구분하면 전달하기 쉽습니다.</p><p><strong>아래는 기록 형식을 보여주기 위한 가상의 예시입니다. 실제 환자 사례나 진단 결과가 아닙니다.</strong></p><ul><li><strong>관찰한 모습</strong>: 눈을 여러 번 깜빡이고 킁킁거리는 소리가 났습니다.</li><li><strong>시간과 장소</strong>: 저녁에 집에서 숙제를 할 때 보였습니다. 학교에서의 모습은 아직 확인하지 못했습니다.</li><li><strong>아이의 설명</strong>: 아이는 목이 답답한 느낌이 있다고 말했습니다.</li><li><strong>생활에서의 불편</strong>: 숙제를 하다가 자주 멈췄습니다. 처음 나타난 날짜는 정확히 기억나지 않습니다.</li></ul><p>아이에게 증상을 일부러 재현하도록 요구하지 말고, 자연스럽게 관찰한 내용과 가능한 영상만 준비해 주세요.</p></details></section>
+<section class="reference-section" data-reference-section="definition" id="틱장애란-무엇인가요"><h2>틱장애란 무엇인가요?</h2>
 <div class="reference-copy">
 <p>틱은 <strong>갑작스럽고 빠르며 반복적으로 나타나는 움직임 또는 소리</strong>입니다. 눈을 깜빡이거나 얼굴을 찡그리고 어깨를 들썩이는 모습은 운동틱, 킁킁거리거나 헛기침하고 특정 소리를 내는 모습은 음성틱에 해당할 수 있습니다. 증상의 종류와 강도는 시간에 따라 달라질 수 있고, 한동안 줄었다가 다시 두드러지기도 합니다.</p>
 <p>틱은 아이가 관심을 끌려고 일부러 하는 행동이 아닙니다. 어떤 아이는 틱이 나오기 전 간질거리거나 답답한 느낌 같은 전조 충동을 느끼며, 잠깐 억제할 수 있더라도 계속 참는 일은 부담이 될 수 있습니다.</p>
@@ -129,8 +175,7 @@ reference_sources_html: "<h3 id=\"참고한-의료-정보\">참고한 의료 정
 <p>“목이 답답해서 소리를 내야 해요”, “어깨를 움직여야 찜찜함이 줄어요”처럼 틱 전에 느끼는 감각을 <strong>전조 충동</strong>이라고 합니다. 겉으로는 스스로 움직이는 것처럼 보여도, 그 느낌 때문에 반복되는 행동일 수 있습니다. 어린아이는 이런 감각을 알아차리거나 말로 설명하기 어려워할 수 있습니다.</p>
 <p>보호자가 “지금 참을 수 있어?”라고 반복해서 시험하기보다, 아이가 먼저 불편을 말할 때 어떤 느낌인지 들어 주세요. 전조 충동의 유무와 잠시 참는 능력만으로 틱을 구별하지는 않습니다.</p>
 </div></section>
-
-<section class="reference-section" id="운동틱음성틱은-이렇게-나타날-수-있습니다" data-reference-section="symptoms"><h2>운동틱·음성틱은 이렇게 나타날 수 있습니다</h2>
+<section class="reference-section" data-reference-section="symptoms" id="운동틱음성틱은-이렇게-나타날-수-있습니다"><h2>운동틱·음성틱은 이렇게 나타날 수 있습니다</h2>
 <div class="reference-copy">
 <div class="reference-grid-2">
 <article class="reference-card"><span class="reference-card-number">01</span><h3>단순 운동틱</h3>
@@ -159,8 +204,7 @@ reference_sources_html: "<h3 id=\"참고한-의료-정보\">참고한 의료 정
 <p>틱은 장소와 상황에 따라 다르게 보일 수 있습니다. 학교에서 잠시 억제했거나 활동에 집중하는 동안 줄었다가, 집에서 쉬는 시간에 더 눈에 띌 수도 있습니다. 집에서 많이 보인다는 이유로 부모를 힘들게 하려는 행동이라고 해석하지 않습니다.</p>
 <p>담임교사에게는 “틱이 있나요?”라는 질문과 함께 읽기·쓰기·발표·친구 관계에서 실제 불편이 있었는지도 물어보세요. 보호자와 교사의 관찰이 다르면 그 차이 자체가 진료에 도움이 됩니다. 진료실에서 틱이 적게 보이더라도 집에서의 경과와 영상, 아이의 설명을 함께 살핍니다.</p>
 </div></section>
-
-<section class="reference-section" id="tic-causes" data-reference-section="causes"><h2>틱은 왜 생기고 언제 더 두드러질까요?</h2>
+<section class="reference-section" data-reference-section="causes" id="tic-causes"><h2>틱은 왜 생기고 언제 더 두드러질까요?</h2>
 <div class="reference-copy">
 <p>틱장애의 원인을 하나로 단정하지 않습니다. 신경계의 특성과 유전적 요인 등이 관련될 수 있으며, 수면 부족·피로·긴장과 함께 증상이 달라지는지를 살핍니다. 스트레스만 없애면 해결된다고 보거나 보호자의 잘못으로 돌리지 않습니다.</p>
 <h3 id="움직임을-조절하는-뇌-회로와-여러-요인이-관련됩니다">움직임을 조절하는 뇌 회로와 여러 요인이 관련됩니다</h3>
@@ -182,8 +226,7 @@ reference_sources_html: "<h3 id=\"참고한-의료-정보\">참고한 의료 정
 <p>소아기에 시작한 틱은 수주·수개월에 걸쳐 줄었다가 늘고, 나타나는 부위나 소리가 달라지기도 합니다. 청소년기를 지나면서 완화되는 경우가 많지만 성인기까지 이어지는 경우도 있습니다. 현재의 나이와 한 번의 증상 모습만으로 이후 경과를 정확히 예측하기는 어렵습니다.</p>
 <p>눈 깜빡임이 줄고 헛기침이 생겼다면, 새 증상만 보지 말고 이전 증상이 얼마나 줄었는지, 전체적인 불편이 달라졌는지 함께 봅니다. 시험이나 여행 뒤 잠시 늘어난 변화와 통증·학교생활의 어려움이 계속 커지는 변화는 진료에서 다르게 살펴야 합니다.</p>
 </div></section>
-
-<section class="reference-section" id="일과성-틱지속성-틱뚜렛증후군의-차이" data-reference-section="types"><h2>일과성 틱·지속성 틱·뚜렛증후군의 차이</h2>
+<section class="reference-section" data-reference-section="types" id="일과성-틱지속성-틱뚜렛증후군의-차이"><h2>일과성 틱·지속성 틱·뚜렛증후군의 차이</h2>
 <div class="reference-copy">
 <p>틱장애는 나타나는 증상의 종류와 첫 틱이 시작된 뒤의 기간에 따라 구분합니다.</p>
 <div class="reference-grid-3">
@@ -204,56 +247,7 @@ reference_sources_html: "<h3 id=\"참고한-의료-정보\">참고한 의료 정
 <p>뚜렛증후군에서 운동틱과 음성틱이 반드시 같은 날 또는 같은 시기에 나타나야 하는 것은 아닙니다. 위 구분에는 <strong>18세 이전의 시작 여부와 약물·다른 의학적 원인의 가능성</strong> 등을 포함한 의료진의 평가가 필요합니다. ‘1년’은 분류에 사용하는 기준이며, 상담을 받기 위해 반드시 기다려야 하는 기간은 아닙니다.</p>
 <p>한 번 관찰된 증상이나 온라인 체크리스트만으로 진단하지 않으며, 잠정적 틱장애라는 이름이 자연 소실을 보장하는 것도 아닙니다.</p>
 </div></section>
-
-<section class="reference-section" id="tic-assessment" data-reference-section="assessment"><h2>해아림한의원 분당점에서는 무엇을 확인하나요?</h2>
-<div class="reference-copy">
-<p>첫 진료에서는 틱의 빈도만 세지 않습니다. 증상이 시작된 과정, 운동틱과 음성틱의 변화, 학교와 가정에서의 차이, 수면·피로·미디어 사용, 정서적 긴장과 동반 증상을 함께 살핍니다.</p>
-<h3 id="검사에-앞서-확인하는-여섯-가지">검사에 앞서 확인하는 여섯 가지</h3>
-<ul>
-<li>
-<strong>시작과 전체 경과</strong>: 처음 보인 나이와 증상, 줄었던 기간, 최근 새로 나타난 움직임·소리를 확인합니다. 날짜가 정확하지 않으면 기억나는 범위부터 설명해 주세요.</li>
-<li>
-<strong>빈도·강도·신체 부담</strong>: 반복되는 정도뿐 아니라 목·턱 통증, 눈의 피로, 다칠 위험, 소리를 낼 때의 불편을 살핍니다.</li>
-<li>
-<strong>학습과 일상 기능</strong>: 읽기·쓰기·식사·외출에 지장이 있는지, 틱을 숨기느라 수업 내용을 놓치거나 활동을 피하는지 확인합니다.</li>
-<li>
-<strong>주의력과 정서</strong>: 과제 수행, 충동성, 불안, 반복 확인과 아이가 스스로 느끼는 부담을 함께 묻습니다.</li>
-<li>
-<strong>수면과 몸 상태</strong>: 잠드는 데 걸리는 시간, 밤중 각성, 피로, 소화·식사와 비염 등 함께 있는 불편을 확인합니다.</li>
-<li>
-<strong>기존 진료와 복용 정보</strong>: 다른 진료과의 평가, 검사 결과, 약·영양제의 이름과 용량, 복용 뒤의 변화를 확인합니다.</li>
-</ul>
-<h3 id="필요한-평가를-선택하고-결과를-함께-해석합니다">필요한 평가를 선택하고 결과를 함께 해석합니다</h3>
-<p>분당점에서는 필요에 따라 다음 평가를 진료의 참고 자료로 활용합니다.</p>
-<div class="reference-grid-2">
-<article class="reference-card"><span class="reference-card-number">01</span><h3>뇌인지검사</h3>
-<div class="reference-copy"><p>주의집중, 억제 조절 등 인지 기능의 현재 상태를 살핍니다. 틱과 함께 과제 수행이나 주의력의 어려움이 있는지 파악하는 데 참고합니다.</p></div></article><article class="reference-card"><span class="reference-card-number">02</span><h3>뇌기능검사</h3>
-<div class="reference-copy"><p>뇌 기능의 반응 특성을 확인해 전체 진료 계획을 세우는 데 참고합니다. 결과 수치만으로 틱의 원인이나 중증도를 확정하지 않습니다.</p></div></article><article class="reference-card"><span class="reference-card-number">03</span><h3>정서심리검사</h3>
-<div class="reference-copy"><p>불안, 스트레스와 정서 상태 및 일상 적응을 확인합니다. 아이가 증상이나 주변 반응 때문에 겪는 부담도 함께 살핍니다.</p></div></article><article class="reference-card"><span class="reference-card-number">04</span><h3>문진·설진·복진·진맥</h3>
-<div class="reference-copy"><p>증상 경과와 수면·소화·피로를 묻고 한의학적 관점에서 전반적인 몸 상태를 살핍니다. 복용 중인 약과 기존 검사·진료 내용도 함께 확인합니다.</p></div></article>
-</div>
-<p>이러한 검사는 틱장애를 단독으로 확진하거나 다른 의료기관의 진단을 대신하는 수단이 아닙니다. 관찰된 증상과 생활 기능, 기존 진료 내용을 종합하기 위한 자료로 사용합니다.</p>
-<p>검사 결과를 볼 때는 어떤 어려움을 확인하려고 시행했는지, 문진과 일상 관찰에 부합하는지, 이후 진료에서 무엇을 우선할지 함께 설명합니다. 검사 점수가 달라진 것과 실제 생활이 편해진 것은 구분해 살핍니다. 아이의 연령과 이해도, 당일 수면·피로도 고려합니다.</p>
-<h3 id="mri뇌파검사를-모두-받아야-하나요">MRI·뇌파검사를 모두 받아야 하나요?</h3>
-<p>틱은 주로 증상의 모습과 경과를 바탕으로 평가하며, 모든 아이에게 영상검사나 뇌파검사가 필요한 것은 아닙니다. 다른 신경학적 증상이나 전형적이지 않은 경과가 있다면 관련 진료과에서 다른 원인을 확인하기 위한 검사를 판단할 수 있습니다. 정상 검사 결과가 틱이 없다는 뜻은 아니며, 뇌기능 평가 수치만으로 틱의 원인이나 치료 효과를 확정하지 않습니다.</p>
-<h3 id="adhd불안강박수면-문제도-함께-확인합니다">ADHD·불안·강박·수면 문제도 함께 확인합니다</h3>
-<p>틱과 함께 산만함이나 충동성, 반복 확인, 불안, 잠들기 어려움이 나타날 수 있습니다. 이런 모습만으로 동반 질환을 진단하지 않으며, <strong>아이에게 가장 큰 불편을 주는 문제가 무엇인지</strong>부터 확인합니다. 평가 결과에 따라 다른 진료과의 진료를 우선하거나 병행할 수 있습니다.</p>
-<p>예를 들어 숙제를 못 마치는 이유가 틱 때문에 손을 자주 멈춰서인지, 주의집중이 어렵거나 확인 행동을 반복해서인지에 따라 도움의 방향이 달라집니다. 같은 동작을 반복하더라도 몸의 불편한 감각을 덜기 위한 것인지, 걱정되는 일이 생길까 봐 정해진 규칙대로 하는 것인지 아이의 설명을 함께 듣습니다.</p>
-</div></section>
-
-<section class="reference-section" id="visit-process" data-reference-section="process"><h2>틱장애 진료 과정과 방문 준비</h2>
-<div class="reference-copy">
-<div class="reference-grid-2">
-<article class="reference-card"><span class="reference-card-number">01</span><h3>증상과 생활의 변화 확인</h3>
-<div class="reference-copy"><p>운동틱과 음성틱의 시작 시점, 학교·가정에서의 차이와 아이가 느끼는 불편 등을 함께 살핍니다.</p></div></article><article class="reference-card"><span class="reference-card-number">02</span><h3>필요한 평가 선택</h3>
-<div class="reference-copy"><p>주의집중과 정서 상태, 수면·피로 및 동반 증상 등을 고려해 필요한 검사를 선택합니다. 모든 검사를 일률적으로 시행하거나 검사 하나로 진단하지 않습니다.</p></div></article><article class="reference-card"><span class="reference-card-number">03</span><h3>개인별 진료 방향 상담</h3>
-<div class="reference-copy"><p>맞춤 한약·침구 치료와 생활 관리, 보호자 상담을 논의합니다. 뉴로피드백·밸런싱·IM 훈련은 연령·협조도와 평가 결과에 따라 필요한 경우에 선택합니다.</p></div></article><article class="reference-card"><span class="reference-card-number">04</span><h3>경과 확인과 계획 조정</h3>
-<div class="reference-copy"><p>움직임·소리의 변화와 함께 통증, 수면, 학교생활과 정서적 부담이 어떻게 달라지는지 확인합니다. 하루의 증감만으로 효과를 단정하지 않고 치료 지속·변경 여부를 상담합니다.</p></div></article>
-</div>
-<p>처음부터 모든 치료를 한꺼번에 정하기보다, 현재 가장 힘든 문제와 우선 목표를 함께 정합니다. ‘목 움직임 때문에 아프다’, ‘소리 때문에 발표를 피한다’, ‘잠드는 시간이 너무 늦다’처럼 구체적으로 설명하면 이후 변화를 비교하기 좋습니다.</p>
-</div></section>
-
-<section class="reference-section" id="tic-treatment" data-reference-section="treatment"><h2>틱장애 치료와 관리 방향</h2>
+<section class="reference-section" data-reference-section="treatment" id="tic-treatment"><h2>틱장애 치료와 관리 방향</h2>
 <div class="reference-copy">
 <p>치료 목표는 눈에 보이는 움직임을 무조건 억누르는 데만 있지 않습니다. 아이가 일상에서 겪는 불편을 줄이고 수면과 정서, 학습 및 또래 관계를 안정적으로 유지할 수 있도록 개인별 계획을 세웁니다.</p>
 <div class="reference-treatment">
@@ -303,8 +297,7 @@ reference_sources_html: "<h3 id=\"참고한-의료-정보\">참고한 의료 정
 </div></article>
 </div>
 </div></section>
-
-<section class="reference-section" id="adult-tics" data-reference-section="adult"><h2>성인 틱장애는 어떤 내용을 상담하나요?</h2>
+<section class="reference-section" data-reference-section="adult" id="adult-tics"><h2>성인 틱장애는 어떤 내용을 상담하나요?</h2>
 <div class="reference-copy">
 <p>어릴 때 시작된 틱이 성인기에도 이어지거나 다시 두드러져 상담을 고려하는 경우가 있습니다. 과거 증상의 시작과 변화, 현재 업무·대인관계·수면에서 겪는 불편과 기존 치료 이력을 함께 알려 주세요.</p>
 <p>성인기에 처음 나타난 이상 움직임이나 소리는 과거 틱과 같은 양상인지, 다른 원인이나 약물 영향이 있는지부터 확인해야 합니다. 분당점에서는 현재 상태와 진료 이력에 맞춰 평가와 한의 진료 방향을 상담합니다.</p>
@@ -321,8 +314,7 @@ reference_sources_html: "<h3 id=\"참고한-의료-정보\">참고한 의료 정
 </ul>
 <p>상담 목표도 생활에 맞춰 구체화합니다. 예를 들어 발표 때의 불편을 줄이고 싶은지, 목 통증이나 수면 문제가 우선인지에 따라 진료에서 집중할 내용이 달라집니다. 성인에게 갑자기 생긴 증상은 어린 시절 틱의 재발로 가정하지 않고 관련 진료과의 평가 필요성을 먼저 살핍니다.</p>
 </div></section>
-
-<section class="reference-section" id="가정과-학교에서-도울-수-있는-방법" data-reference-section="home"><h2>가정과 학교에서 도울 수 있는 방법</h2>
+<section class="reference-section" data-reference-section="home" id="가정과-학교에서-도울-수-있는-방법"><h2>가정과 학교에서 도울 수 있는 방법</h2>
 <div class="reference-copy">
 <ul>
 <li>틱을 볼 때마다 “하지 마”라고 지적하거나 벌을 주지 않습니다.</li>
@@ -364,10 +356,9 @@ reference_sources_html: "<h3 id=\"참고한-의료-정보\">참고한 의료 정
 <p>교사에게는 “일부러 내는 소리나 움직임이 아니어서 반복적인 주의가 부담이 될 수 있습니다. 수업에서 어떤 불편이 있는지 함께 살펴보고 싶습니다”라고 전달할 수 있습니다. 학급 전체에 알릴지는 아이와 보호자, 교사가 상의해 결정합니다.</p>
 <blockquote class="border-l-4 border-neutral-300 dark:border-neutral-600 pl-4 italic text-neutral-600 dark:text-neutral-400 my-6"><p>갑작스러운 이상 움직임과 함께 의식 변화, 한쪽 팔다리의 힘 빠짐, 심한 두통이나 발열이 나타난다면 틱으로 단정하지 말고 즉시 응급 평가를 받아야 합니다.</p></blockquote>
 </div></section>
-
-<section class="reference-section" id="tic-doctor" data-reference-section="doctor"><h2>손지웅 대표원장의 분당점 1:1 진료</h2>
+<section class="reference-section" data-reference-section="doctor" id="tic-doctor"><h2>손지웅 대표원장의 분당점 1:1 진료</h2>
 <div class="reference-copy"><div class="reference-copy"><div class="reference-doctor">
-<img src="/images/doctor-son-profile.webp" alt="손지웅 대표원장" width="170" height="190" loading="lazy"><div>
+<img alt="손지웅 대표원장" height="190" loading="lazy" src="/images/doctor-son-profile.webp" width="170"/><div>
 <h3>손지웅 대표원장</h3>
 <div class="reference-copy">
 <p>해아림한의원 분당점에서는 언제부터 어떤 상황에서 불편이 시작됐는지 충분히 듣고, 몸과 마음의 상태와 기존 진료 내용을 함께 살핍니다.</p>
@@ -380,8 +371,7 @@ reference_sources_html: "<h3 id=\"참고한-의료-정보\">참고한 의료 정
 </div>
 </div>
 </div></div></div></section>
-
-<section class="reference-section" id="어떤-때-진료를-받아보는-것이-좋을까요" data-reference-section="candidates"><h2>어떤 때 진료를 받아보는 것이 좋을까요?</h2>
+<section class="reference-section" data-reference-section="candidates" id="어떤-때-진료를-받아보는-것이-좋을까요"><h2>어떤 때 진료를 받아보는 것이 좋을까요?</h2>
 <div class="reference-copy">
 <ul>
 <li>증상이 수개월 이상 이어지거나 종류와 강도가 점차 늘어날 때</li>
@@ -393,16 +383,4 @@ reference_sources_html: "<h3 id=\"참고한-의료-정보\">참고한 의료 정
 <p>증상이 가볍고 일상에 지장이 없다면 경과 관찰이 적절한 경우도 있습니다. 반대로 짧은 기간이라도 아이의 기능과 정서에 미치는 영향이 크다면 조기에 상담하는 편이 좋습니다.</p>
 <p>새로운 틱이 보이거나 한동안 심해졌다는 사실만으로 뚜렛증후군으로 진행하거나 치료가 실패했다고 판단하지 않습니다. 증상의 전체 경과와 일상 기능을 함께 보고, 경과 관찰 중에도 불편이 커지면 다시 평가합니다.</p>
 <p><strong>진료 시점과 치료 시작은 구분해서 생각할 수 있습니다.</strong> 증상이 틱인지 잘 모르겠거나 보호자와 아이의 걱정이 크다면 먼저 상담해 관찰 방법과 다음 평가 시점을 정할 수 있습니다. 반대로 일정 기간이 지났다는 이유만으로 모든 검사와 치료가 자동으로 필요한 것은 아닙니다.</p>
-</div></section>
-
-<!-- reference-faq -->
-
-<section class="reference-section reference-closing" id="tic-closing" data-reference-section="closing"><h2>현재 상태에 맞는 진료 방향을 상담해 보세요.</h2>
-<div class="reference-copy">
-<p>증상과 경과는 사람마다 다릅니다.</p>
-<div class="reference-inline-actions">
-<a href="https://naver.me/xbARooIc" target="_blank" rel="noopener noreferrer">네이버 예약</a>
-<a href="tel:031-716-8575"><i class="ph-bold ph-phone"></i> 031-716-8575</a>
-<a href="/inquiry/"><i class="ph-bold ph-chat-circle-dots"></i> 온라인 문의</a>
-</div>
 </div></section>

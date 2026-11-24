@@ -4,7 +4,7 @@ const path = require('path');
 const output = path.resolve(process.argv[2] || path.join(__dirname, '..', 'public'));
 const root = path.resolve(__dirname, '..');
 const structure = JSON.parse(fs.readFileSync(path.join(root, 'data/condition_reference_structure.json'), 'utf8'));
-const expectedCounts = {panic:14, autonomic:14, insomnia:12, adhd:12, anxiety:11, hyperhidrosis:13, ibs:13, syncope:13, tic:14};
+const expectedCounts = {"panic": 14, "autonomic": 14, "insomnia": 12, "adhd": 12, "anxiety": 11, "hyperhidrosis": 13, "ibs": 13, "syncope": 14, "tic": 13};
 const read = url => fs.readFileSync(path.join(output, url.replace(/^\//, ''), 'index.html'), 'utf8');
 const attrs = tag => Object.fromEntries([...tag.matchAll(/([^\s=<>]+)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))/g)].map(m => [m[1], m[2] ?? m[3] ?? m[4]]));
 const ids = text => [...text.matchAll(/<[a-z][^>]*\bid=(?:"([^"]*)"|'([^']*)'|([^\s>]+))/g)].map(m => m[1] ?? m[2] ?? m[3]);
@@ -21,7 +21,9 @@ for (const [slug, expected] of Object.entries(structure)) {
   assert.deepStrictEqual(main.map(s=>plain(text.slice(s.at).match(/<h2\b[^>]*>([\s\S]*?)<\/h2>/)[1])),expected.section_titles,`${slug}: reference heading hierarchy`);
   const modules = sections.filter(s=>s.attrs['data-reference-module']);
   assert.deepStrictEqual(modules.map(s=>s.attrs['data-reference-module']),expected.module_order,`${slug}: insights, TV, books, FAQ, reviews, columns and visit follow reference order`);
-  assert(text.includes('reference-checklist') && text.includes('reference-treatment') && text.includes('reference-doctor'));
+  assert(text.includes('reference-doctor'));
+  if (slug !== 'syncope') assert(text.includes('reference-checklist') && text.includes('reference-treatment'));
+  else assert(text.includes('회전감') && text.includes('원인 평가'));
   assert.strictEqual(sections.filter(s=>s.attrs.id==='guide-resources').length,1);
   const anchors = [...text.matchAll(/<a\b[^>]*>/g)].map(m=>attrs(m[0]));
   assert.strictEqual(anchors.filter(a=>a.class==='reference-video').length,slug === 'tic' ? 6 : 3,`${slug}: configured video cards`);
@@ -48,7 +50,7 @@ for (const [slug, expected] of Object.entries(structure)) {
   const graph = [...text.matchAll(/(<script\b[^>]*>)([\s\S]*?)<\/script>/g)].filter(m=>attrs(m[1]).type==='application/ld+json').flatMap(m=>JSON.parse(m[2])['@graph']||[]);
   const faq = graph.find(n=>n['@type']==='FAQPage');
   const mainContent = text.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)[1];
-  assert.strictEqual(faq.mainEntity.length,(mainContent.match(/<details\b/g)||[]).length-2,`${slug}: split FAQ groups match schema; preparation/sources are separate details, navigation disclosures are excluded`);
+  assert.strictEqual(faq.mainEntity.length,(mainContent.match(/<details\b/g)||[]).length-2,`${slug}: consolidated FAQ matches schema; preparation/sources are separate details, navigation disclosures are excluded`);
   for (const item of faq.mainEntity) assert(text.includes(item.name)&&text.includes(item.acceptedAnswer.text));
   const page = graph.find(n=>Array.isArray(n['@type'])&&n['@type'].includes('MedicalWebPage'));
   assert(!page.reviewedBy&&!page.lastReviewed);
@@ -70,7 +72,7 @@ for (const url of ['/','/guide/']) {
   assert.strictEqual(new Set(cards.map(c=>c.href)).size,9,`${url}: no repeated condition replaces a missing card`);
   for (const slug of Object.keys(structure)) assert(cards.some(c=>c.href===`/conditions/${slug}/`),`${url}: ${slug} is in the photo grid`);
   assert(!cards.some(c=>c.href==='/conditions/dizziness/'),`${url}: separate dizziness card is removed`);
-  assert(overview.includes('미주신경성실신(어지럼증)'),`${url}: approved combined menu label`);
+  assert(overview.includes('>어지럼증</h3>'),`${url}: dizziness is the primary treatment label`);
   assert(!overview.includes('9대 주요 진료과목'),`${url}: outdated nine-condition heading is removed`);
   for (const card of cards) {
     const detail = read(card.href);
@@ -89,5 +91,5 @@ for (const url of ['/','/guide/']) {
 }
 assert(!fs.existsSync(path.join(output,'conditions/dizziness/index.html')), 'standalone dizziness page is removed');
 assert(!read('/blog/gyeonggi-icheon-dizziness-chronic-dizziness/').includes('/conditions/dizziness/'));
-assert(read('/conditions/syncope/').includes('모든 어지럼증이 미주신경성 실신을 뜻하지는 않습니다'), 'combined menu must distinguish other causes of dizziness');
+assert(read('/conditions/syncope/').includes('어지럼증과 같은 뜻으로 사용하지 않습니다'), 'combined menu must distinguish other causes of dizziness');
 console.log('✅ Nine reference-layout guides and nine menu cards: section counts/headings/order, resource modules, split FAQ/schema, clinical identity and links verified.');
