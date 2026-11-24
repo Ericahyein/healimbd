@@ -1,6 +1,6 @@
 ---
-title: "어지럼증, 빙빙 도는 느낌과 아찔함을 구분해 살펴보세요"
-seo_title: "분당 어지럼증 증상, 치료병원 | 해아림한의원 분당점 | 회전감·아찔함·균형 불안"
+title: "분당 어지럼증 검사, 치료 병원 ㅣ 해아림한의원 분당점"
+seo_title: "분당 어지럼증 검사, 치료 병원 ㅣ 해아림한의원 분당점"
 seo_title_exact: true
 condition_name: "어지럼증"
 condition_display_name: "어지럼증"
@@ -14,6 +14,7 @@ summary: "어지럼증의 양상과 동반 증상, 먼저 평가가 필요한 �
 keywords: ["어지럼증", "어지럼증 증상", "어지럼증 치료", "빙빙 도는 어지럼", "아찔함", "분당 어지럼증", "판교 어지럼증", "성남 어지럼증", "용인 어지럼증", "경기광주 어지럼증", "미주신경성 실신"]
 image: "images/clinics/clinic-syncope.webp"
 image_alt: "어지럼증의 양상과 진료 과정을 설명하는 이미지"
+hero_heading: "분당 어지럼증 검사, 치료 병원 ㅣ 해아림한의원 분당점"
 hero_kicker: "DIZZINESS · VERTIGO · LIGHTHEADEDNESS"
 hero_title_lines: ["어지럼증", "증상·원인 평가·진료 안내"]
 hero_summary: "빙빙 도는 느낌, 눈앞이 아찔함, 휘청거림과 붕 뜨는 느낌을 구분해 살핍니다. 귀 증상·두통·자세 변화·복용 약과 기존 검사 결과를 확인해 필요한 원인 평가와 한의 진료 방향을 상담합니다."
@@ -54,7 +55,6 @@ reference_sources_html: "<ul><li><a href=\"https://www.nhs.uk/symptoms/dizziness
 visit_location_intro: "성남·분당·판교를 비롯해 용인과 경기광주에서 어지럼증 진료를 찾는 분께 분당점의 위치·주차·진료시간을 안내합니다. 기존 검사 결과와 복용 정보를 준비해 주세요."
 regional_guides: [{"number": 1, "page": "/condition-local/syncope-yongin", "label": "용인 어지럼증 진료·방문 안내"}, {"number": 2, "page": "/condition-local/syncope-gyeonggi-gwangju", "label": "경기광주 어지럼증 진료·방문 안내"}, {"number": 3, "page": "/condition-local/syncope-seongnam", "label": "성남 어지럼증 진료·방문 안내"}, {"number": 4, "page": "/condition-local/syncope-icheon", "label": "이천 어지럼증 진료·방문 안내"}, {"number": 5, "page": "/condition-local/syncope-anseong", "label": "안성 어지럼증 진료·방문 안내"}, {"number": 6, "page": "/condition-local/syncope-yeoju", "label": "여주 어지럼증 진료·방문 안내"}, {"number": 7, "page": "/condition-local/syncope-pangyo", "label": "판교 어지럼증 진료·방문 안내"}, {"number": 8, "page": "/condition-local/syncope-suji", "label": "수지 어지럼증 진료·방문 안내"}]
 patient_flow_version: 1
-hero_heading: "분당 어지럼증 증상, 치료병원 ㅣ 해아림한의원 분당점"
 patient_guide_key: syncope
 ---
 
