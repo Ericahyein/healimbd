@@ -17,6 +17,8 @@
   <!-- Main Stylesheet (Cache-Busting Fingerprinted) -->
   {{ $style := resources.Get "css/style.css" | resources.Minify | resources.Fingerprint }}
   <link rel="stylesheet" href="{{ $style.RelPermalink }}">
+  {{ $menuContrast := resources.Get "css/treatment-menu-contrast.css" | resources.Minify | resources.Fingerprint }}
+  <link rel="stylesheet" href="{{ $menuContrast.RelPermalink }}">
 
   <!-- Modal detail polish overrides (loaded after main stylesheet) -->
   {{ $modalPolish := resources.Get "css/modal-polish.css" | resources.Minify | resources.Fingerprint }}
