@@ -504,7 +504,7 @@ async function runTests() {
       const prevFetch = globalThis.fetch;
       globalThis.fetch = async (url, options) => {
         const u = typeof url === 'string' ? url : (url && url.url) || '';
-        if (u.includes('online_inquiries?pageSize=300')) {
+        if (u.endsWith(':runQuery') || u.endsWith(':runAggregationQuery')) {
           const documents = Array.from({ length: 12 }, (_, index) => ({
             name: `projects/healimbd-b726f/databases/(default)/documents/online_inquiries/inq_ssr_${index + 1}`,
             fields: {
@@ -518,7 +518,10 @@ async function runTests() {
               createdAt: { timestampValue: `2026-09-${String(index + 1).padStart(2, '0')}T10:00:00Z` }
             }
           }));
-          return new Response(JSON.stringify({ documents }), { status: 200, headers: { 'Content-Type': 'application/json' } });
+          if (u.endsWith(':runAggregationQuery')) return Response.json([{ result: { aggregateFields: { total: { integerValue: '12' } } } }]);
+          const query = JSON.parse(options.body).structuredQuery;
+          const ordered = documents.reverse();
+          return Response.json(ordered.slice(query.offset, query.offset + query.limit).map(document => ({ document })));
         }
         return prevFetch(url, options);
       };

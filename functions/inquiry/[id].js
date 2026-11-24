@@ -1,4 +1,5 @@
 import { getGoogleAccessToken } from '../_googleAuth.js';
+import { listAllInquiryDocuments, inquiryUnavailableResponse } from '../_inquiryStore.js';
 
 const CATEGORY_MAP = {
   tic: '틱장애·뚜렛',
@@ -232,7 +233,7 @@ export async function onRequestGet(context) {
     if (!resp.ok) {
       const errText = await resp.text();
       console.error('[INQUIRY SSR FIRESTORE FETCH ERROR]', resp.status, errText);
-      return renderNotFoundResponse('상담글을 불러오는 중 오류가 발생했습니다.');
+      return inquiryUnavailableResponse();
     }
 
     const docData = await resp.json();
@@ -264,6 +265,7 @@ export async function onRequestGet(context) {
       answer: fields.answer?.stringValue || '',
       createdAt: fields.createdAt?.timestampValue || '',
       answeredAt: fields.answeredAt?.timestampValue || '',
+      updatedAt: [fields.updatedAt?.timestampValue, fields.answeredAt?.timestampValue, fields.createdAt?.timestampValue, docData.updateTime].filter(Boolean).sort().pop() || '',
       date: dateStr,
       answerDate: answerDateStr
     };
@@ -271,13 +273,8 @@ export async function onRequestGet(context) {
     if (inquiry.status === 'answered' && inquiry.answer) {
       const currentDisease = getRepresentativeDisease(inquiry.category, inquiry.disease, inquiry.title);
       try {
-        const listUrl = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/online_inquiries?pageSize=300`;
-        const listResponse = await fetch(listUrl, {
-          headers: { 'Authorization': `Bearer ${accessToken}` }
-        });
-        if (listResponse.ok) {
-          const listData = await listResponse.json();
-          relatedInquiries = (listData.documents || []).map(document => {
+        const documents = await listAllInquiryDocuments(projectId, accessToken);
+        relatedInquiries = documents.map(document => {
             const relatedFields = document.fields || {};
             return {
               id: String(document.name || '').split('/').pop(),
@@ -285,7 +282,7 @@ export async function onRequestGet(context) {
               disease: relatedFields.disease?.stringValue || '',
               title: relatedFields.title?.stringValue || '',
               status: relatedFields.status?.stringValue || 'pending',
-              hasAnswer: Boolean(relatedFields.answer?.stringValue),
+              hasAnswer: Boolean(relatedFields.answer?.stringValue?.trim()),
               createdAt: relatedFields.createdAt?.timestampValue || document.createTime || ''
             };
           }).filter(item =>
@@ -297,14 +294,13 @@ export async function onRequestGet(context) {
             item.hasAnswer &&
             item.title
           ).sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt))).slice(0, 3);
-        }
       } catch (relatedError) {
         console.warn('[RELATED INQUIRY FETCH NOTICE]', relatedError.message);
       }
     }
   } catch (err) {
     console.error('[INQUIRY SSR EXCEPTION]', err);
-    return renderNotFoundResponse('상담글 정보를 확인할 수 없습니다.');
+    return inquiryUnavailableResponse();
   }
 
   if (!inquiry || !inquiry.title) {
@@ -333,7 +329,7 @@ export async function onRequestGet(context) {
   const cleanCategory = escapeHtml(inquiry.category || 'etc');
   const representativeDisease = getRepresentativeDisease(inquiry.category, inquiry.disease, inquiry.title);
   const cleanDisease = escapeHtml(representativeDisease || inquiry.disease || CATEGORY_MAP[inquiry.category] || '기타 질환');
-  const isAnswered = inquiry.status === 'answered' && Boolean(inquiry.answer);
+  const isAnswered = inquiry.status === 'answered' && Boolean(inquiry.answer.trim());
   const cleanStatusText = isAnswered ? '답변완료' : '답변대기';
   const cleanStatusClass = isAnswered ? 'answered' : 'pending';
   const cleanAuthor = escapeHtml(formatAuthorInfo(inquiry));
@@ -372,7 +368,7 @@ export async function onRequestGet(context) {
         description: makeDescription(inquiry.content),
         inLanguage: 'ko-KR',
         datePublished: inquiry.createdAt || undefined,
-        dateModified: inquiry.answeredAt || inquiry.createdAt || undefined,
+        dateModified: inquiry.updatedAt || inquiry.answeredAt || inquiry.createdAt || undefined,
         isPartOf: {
           '@type': 'WebSite',
           '@id': 'https://healimbd.com/#website',
