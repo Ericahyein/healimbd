@@ -1431,5 +1431,16 @@
     "topicAngle": "derealization",
     "title": "[경기광주 공황장애] 주변이 낯설거나 내가 아닌 것처럼 느껴질 때 공황과 관련이 있나요",
     "slug": "gyeonggi-gwangju-panic-derealization"
+  },
+  {
+    "publishDate": "2026-11-25T04:28:57.145+09:00",
+    "geoId": "bundang-pangyo",
+    "displayRegion": "판교",
+    "parentRegion": "성남",
+    "regionType": "selected_local_area",
+    "disease": "tic",
+    "topicAngle": "visit-video-record",
+    "title": "[판교 틱장애] 진료 전에 틱 증상을 영상으로 남길 때 무엇을 기록할까요",
+    "slug": "bundang-pangyo-tic-visit-video-record"
   }
 ]
