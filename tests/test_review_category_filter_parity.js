@@ -14,7 +14,7 @@ const expectedCategories = [
   ['autonomic', '자율신경실조증'],
   ['hyperhidrosis', '다한증 (손발·전신·안면)'],
   ['ibs', '과민성대장증후군'],
-  ['syncope', '미주신경성 실신'],
+  ['syncope', '어지럼증·실신'],
   ['etc', '기타 신경정신 질환']
 ];
 

@@ -41,7 +41,7 @@ assert.strictEqual(page.dateModified, ticSource.match(/^lastmod: (\d{4}-\d{2}-\d
 const faq = graph.find(n => n['@type'] === 'FAQPage');
 assert(faq.mainEntity.length >= 16, 'retain existing FAQs and include questions about home/school differences, tests, recurrence and Tourette symptoms');
 for (const item of faq.mainEntity) assert(text.includes(item.name) && text.includes(item.acceptedAnswer.text));
-for (const region of ['yongin', 'gyeonggi-gwangju']) assert(anchors.some(a => a.href === `/areas/${region}/tic/`));
+for (const region of ['yongin', 'gyeonggi-gwangju']) assert(anchors.some(a => a.href === `/areas/${region}/`) && html(`/areas/${region}/`).includes(`/areas/${region}/tic/`));
 // Every condition now uses the same reference layout, including the full tic body.
 for (const slug of ['tic','panic','autonomic','insomnia','adhd','anxiety','hyperhidrosis','ibs','syncope']) {
   const guide = html('/conditions/' + slug + '/');

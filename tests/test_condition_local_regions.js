@@ -25,7 +25,7 @@ for(const [slug,name] of Object.entries(conditions)){
  const descriptions=new Set();
  for(const [i,region] of regions.entries()){
   const url=parentUrl+(i+1)+'/';
-  const html=read(url), text=plain(html), expected=region+' '+name+' 치료 병원 ㅣ 해아림한의원';
+  const html=read(url), text=plain(html), expected=region+' '+name+(slug==='syncope'?' 검사, 치료 병원':' 치료 병원')+' ㅣ 해아림한의원';
   assert.strictEqual(html.match(/<title>([^<]+)<\/title>/)[1],expected);
   assert.strictEqual(html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/)[1].replace(/<[^>]*>/g, '').trim(),expected);
   assert.strictEqual((html.match(/<h1\b/g)||[]).length,1);
@@ -37,7 +37,7 @@ for(const [slug,name] of Object.entries(conditions)){
   assert([...html.matchAll(/<link\b[^>]*>/g)].map(m=>attrs(m[0])).some(m=>m.rel==='canonical'&&m.href==='https://healimbd.com'+url));
   assert(sitemap.includes('https://healimbd.com'+url));
   assert(html.includes('daegu-local-hero')&&!html.includes('condition-photo-hero'));
-  assert(text.includes(region+'에서 '+name+' 진료를 찾고 계신가요?'));
+  assert(text.includes(region+'에서 '+name+(slug==='syncope'?' 병원을':' 진료를')+' 찾고 계신가요?'));
   assert(text.includes('1. 분당점의 '+name+' 진료는 이렇게 진행합니다'));
   assert(text.includes('4. '+name+' 주요 증상과 구분'));
   assert(text.includes(name+' 진료 본페이지 전체보기'));

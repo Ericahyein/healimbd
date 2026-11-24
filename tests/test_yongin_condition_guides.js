@@ -45,7 +45,7 @@ for (const [slug, name] of Object.entries(conditions)) {
   for (const parent of ['/areas/yongin/', '/areas/suji/', '/areas/giheung/', '/areas/cheoin/']) {
     assert(links(html(parent)).includes(url), `${slug}: discoverable from ${parent}`);
   }
-  assert(links(html(`/conditions/${slug}/`)).includes(url), `${slug}: linked from the clinical guide`);
+  assert(links(html(`/conditions/${slug}/`)).includes('/areas/yongin/') && links(html('/areas/yongin/')).includes(url), `${slug}: clinical guide reaches the local guide through its regional hub`);
   for (const target of ['/areas/yongin/', `/conditions/${slug}/#visit-process`, '/areas/suji/', '/areas/giheung/', '/areas/cheoin/']) {
     assert(pageLinks.includes(target), `${slug}: useful visit and clinical connections ${target}`);
   }

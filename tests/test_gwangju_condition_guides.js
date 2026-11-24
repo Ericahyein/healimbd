@@ -45,7 +45,7 @@ for (const [slug, name] of Object.entries(conditions)) {
   assert(!metadata.some(m => m.name === 'robots' && /noindex/i.test(m.content)));
   assert(sitemap.includes(`https://healimbd.com${url}`));
   assert(links(hub).includes(url), `${slug}: hub card uses the new local guide`);
-  assert(links(html(`/conditions/${slug}/`)).includes(url), `${slug}: canonical condition exposes local guide`);
+  assert(links(html(`/conditions/${slug}/`)).includes('/areas/gyeonggi-gwangju/') && links(html('/areas/gyeonggi-gwangju/')).includes(url), `${slug}: clinical guide reaches the local guide through its regional hub`);
   const pageLinks = links(text);
   assert(pageLinks.includes(hubUrl) && pageLinks.includes(`${hubUrl}#area-route-heading`));
   assert(pageLinks.includes(`/conditions/${slug}/#visit-process`));
