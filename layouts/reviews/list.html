@@ -42,7 +42,7 @@
     <!-- 1. DIRECT CLINICAL CASES SECTION (자필 치료 후기) -->
     <section class="section direct-cases-section" id="handwritten-reviews">
       <div class="container">
-        
+
         <!-- Section Header -->
         <div class="naver-section-header reviews-clean-header">
           <div class="naver-header-left">
@@ -74,7 +74,7 @@
             <button class="cases-tab-btn" data-filter="autonomic">자율신경실조증</button>
             <button class="cases-tab-btn" data-filter="hyperhidrosis">다한증 (손발·전신·안면)</button>
             <button class="cases-tab-btn" data-filter="ibs">과민성대장증후군</button>
-            <button class="cases-tab-btn" data-filter="syncope">미주신경성 실신</button>
+            <button class="cases-tab-btn" data-filter="syncope">어지럼증·실신</button>
             <button class="cases-tab-btn" data-filter="etc">기타 신경정신 질환</button>
           </div>
 
@@ -122,7 +122,7 @@
                 <i class="ph-bold ph-check check-icon"></i>
               </li>
               <li class="dropdown-option" role="option" data-value="syncope" aria-selected="false">
-                <span>미주신경성 실신</span>
+                <span>어지럼증·실신</span>
                 <i class="ph-bold ph-check check-icon"></i>
               </li>
               <li class="dropdown-option" role="option" data-value="etc" aria-selected="false">
@@ -136,9 +136,9 @@
         <!-- Direct Clinical Cases Grid (3-Column Editorial Grid on Desktop) -->
         <div class="cases-grid-container handwritten-cases-grid" id="direct-cases-grid">
           {{ range where .Pages "Params.review_type" "direct" }}
-          <article class="healim-case-card static-markdown-case" 
+          <article class="healim-case-card static-markdown-case"
                    data-id="{{ .File.BaseFileName }}"
-                   data-category="{{ .Params.category }}" 
+                   data-category="{{ .Params.category }}"
                    data-review-type="direct">
             <div class="case-card-anchor" onclick="openStaticCaseReader('{{ .File.BaseFileName }}', '{{ .RelPermalink }}')" style="cursor: pointer;">
               <div class="case-thumb-wrap">
@@ -187,7 +187,7 @@
     <!-- 2. NAVER REAL-TIME REVIEWS SECTION (네이버 환자 후기) -->
     <section class="section naver-reviews-section" id="naver-reviews">
       <div class="container">
-        
+
         <div class="naver-section-header reviews-clean-header">
           <div class="naver-header-left">
             <h2 class="section-main-title">네이버 환자 후기</h2>

@@ -577,7 +577,7 @@ function matchesHandwrittenCategory(item, filter) {
     autonomic: ['자율신경'],
     hyperhidrosis: ['다한'],
     ibs: ['과민성대장'],
-    syncope: ['미주신경', '실신'],
+    syncope: ['어지럼', '미주신경', '실신'],
     etc: ['기타', '우울', '기분', '화병']
   };
   return (legacyKeywords[filter] || []).some(keyword => searchableText.includes(keyword));
@@ -2197,7 +2197,7 @@ const CATEGORY_NAME_MAP = {
   autonomic: '자율신경실조증',
   hyperhidrosis: '다한증',
   ibs: '과민성대장증후군',
-  syncope: '미주신경성 실신',
+  syncope: '어지럼증·실신',
   etc: '기타 신경정신'
 };
 

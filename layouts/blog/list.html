@@ -28,7 +28,7 @@
       <div class="container">
         <!-- 2. Slim Magazine Category Tabs & Search Action -->
         <div class="column-board-controls">
-          {{ $blogCategories := slice 
+          {{ $blogCategories := slice
             (dict "key" "all" "name" "전체")
             (dict "key" "tic" "name" "틱장애·투렛")
             (dict "key" "adhd" "name" "ADHD·집중력")
@@ -38,7 +38,7 @@
             (dict "key" "autonomic" "name" "자율신경")
             (dict "key" "hyperhidrosis" "name" "다한증")
             (dict "key" "ibs" "name" "과민성대장")
-            (dict "key" "syncope" "name" "미주신경성 실신")
+            (dict "key" "syncope" "name" "어지럼증·실신")
             (dict "key" "general" "name" "두뇌·건강")
           }}
           <div class="column-category-tabs" id="column-category-tabs">
@@ -82,7 +82,7 @@
         {{ $featured := index $allPosts 0 }}
         {{ $featuredThumb := $featured.Params.thumbnail | default $featured.Params.image | default "images/philosophy/philosophy-consult.jpg" }}
         <div class="featured-article-container" id="featured-article-container">
-          <article class="featured-article-item" 
+          <article class="featured-article-item"
                    id="featured-article-element"
                    data-category="{{ $featured.Params.category }}"
                    onclick="location.href='{{ $featured.RelPermalink }}'">
@@ -156,7 +156,7 @@
         <div class="column-list-wrap blog-grid-layout brand-archive-grid" id="column-cards-grid">
           {{ range after 1 $allPosts }}
           {{ $archiveThumb := .Params.thumbnail | default .Params.image | default "images/philosophy/philosophy-consult.jpg" }}
-          <article class="brand-archive-item static-column-card" 
+          <article class="brand-archive-item static-column-card"
                    data-category="{{ .Params.category }}"
                    onclick="location.href='{{ .RelPermalink }}'">
             <!-- Top Thumbnail (100% width, 16:10 ratio, clean canvas placement) -->

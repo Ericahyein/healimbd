@@ -8,7 +8,7 @@ const links = html => [...html.matchAll(/<a\b[^>]*>/g)].map(m=>attrs(m[0]));
 const graph = html => [...html.matchAll(/(<script\b[^>]*>)([\s\S]*?)<\/script>/g)].filter(m=>attrs(m[1]).type==='application/ld+json').flatMap(m=>JSON.parse(m[2])['@graph']||[]);
 const plain = html => html.replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim();
 const profiles = require('../data/condition_local_profiles.json');
-const conditions = {"tic":"틱장애","adhd":"ADHD","panic":"공황장애","anxiety":"불안장애·공포증","insomnia":"불면증","autonomic":"자율신경실조증","hyperhidrosis":"다한증","ibs":"과민성대장증후군","syncope":"미주신경성 실신"};
+const conditions = {"tic":"틱장애","adhd":"ADHD","panic":"공황장애","anxiety":"불안장애·공포증","insomnia":"불면증","autonomic":"자율신경실조증","hyperhidrosis":"다한증","ibs":"과민성대장증후군","syncope":"어지럼증"};
 const regions = ["용인","경기광주","성남","이천","안성","여주","판교","수지"];
 const sitemap = fs.readFileSync(path.join(output,'sitemap.xml'),'utf8');
 for(const [slug,name] of Object.entries(conditions)){
@@ -25,7 +25,7 @@ for(const [slug,name] of Object.entries(conditions)){
  const descriptions=new Set();
  for(const [i,region] of regions.entries()){
   const url=parentUrl+(i+1)+'/';
-  const html=read(url), text=plain(html), expected=region+' '+name+' 치료 병원 ㅣ 해아림한의원';
+  const html=read(url), text=plain(html), expected=region+' '+name+(slug==='syncope'?' 검사, 치료 병원':' 치료 병원')+' ㅣ 해아림한의원';
   assert.strictEqual(html.match(/<title>([^<]+)<\/title>/)[1],expected);
   assert.strictEqual(html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/)[1].replace(/<[^>]*>/g, '').trim(),expected);
   assert.strictEqual((html.match(/<h1\b/g)||[]).length,1);
@@ -37,8 +37,9 @@ for(const [slug,name] of Object.entries(conditions)){
   assert([...html.matchAll(/<link\b[^>]*>/g)].map(m=>attrs(m[0])).some(m=>m.rel==='canonical'&&m.href==='https://healimbd.com'+url));
   assert(sitemap.includes('https://healimbd.com'+url));
   assert(html.includes('daegu-local-hero')&&!html.includes('condition-photo-hero'));
-  assert(text.includes(region+'에서 '+name+' 치료를 고민'));
-  assert(text.includes('2. '+name+' 주요 증상과 4단계 진료 과정'));
+  assert(text.includes(region+'에서 '+name+(slug==='syncope'?' 병원을':' 진료를')+' 찾고 계신가요?'));
+  assert(text.includes('1. 분당점의 '+name+' 진료는 이렇게 진행합니다'));
+  assert(text.includes('4. '+name+' 주요 증상과 구분'));
   assert(text.includes(name+' 진료 본페이지 전체보기'));
   for(const item of profiles[slug].symptom_types)assert(text.includes(item.title)&&text.includes(item.text),url+': correct symptoms');
   assert(text.includes(profiles[slug].symptom_note));

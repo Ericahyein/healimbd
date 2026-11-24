@@ -117,6 +117,9 @@ jobs:
       - name: Verify Expanded Condition Guides and Dizziness Discovery
         run: node tests/test_condition_guide_expansion.js public
 
+      - name: Verify Patient-First Guides and Dizziness Across All Regions
+        run: node tests/test_condition_patient_flow.js public
+
       - name: Verify Yongin Clinical Search Pages and Links
         run: node tests/test_yongin_condition_guides.js public
 

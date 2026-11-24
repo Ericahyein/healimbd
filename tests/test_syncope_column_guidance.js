@@ -27,7 +27,8 @@ assert(!emergency.includes('1분') && !emergency.includes('순환기내과'), 'a
 assert(followup.includes('처음 의식을 잃었거나') && followup.includes('가족력'));
 assert(body.includes(CLINIC_EVALUATION));
 assert(body.includes('이러한 참고 검사는 실신 원인을 확진하거나 심전도, 기립성 혈압, 심장·신경계 평가를 대신하지 않습니다'));
-assert(condition.includes('심전도, 기립성 혈압, 심장·신경계 평가를 대신하지 않습니다'));
+assert(condition.includes('어지럼 원인을 확진하거나 전정기능검사·영상검사·심장 평가를 대신하지 않습니다'));
+assert(condition.includes('심전도 등 필요한 원인 평가를 대신하지 않습니다'));
 assert(!body.includes('스트레스 척도와 체질 맥진'));
 assert(checkClinicFacts(body, 'syncope').valid);
 assert(body.includes('의료진에게 배운 경우') && !body.includes('서 있어야만 한다면'));
