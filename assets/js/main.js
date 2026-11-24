@@ -5295,8 +5295,21 @@ function initFirebaseAppCheck() {
 let cloudInquiriesCache = [];
 
 // Singleton Realtime Listener with Duplicate Prevention & Limit (Pure Firestore Source of Truth)
+function isServerInquiryList() {
+  return Boolean(document.querySelector('#inquiry-list-tbody[data-server-inquiry-list="true"]'));
+}
+
+function inquiryArchiveUrl(page, category, search) {
+  const params = new URLSearchParams({ page: String(page) });
+  if (category && category !== 'all') params.set('category', category);
+  if (search) params.set('q', search);
+  return '/inquiry/?' + params;
+}
+
 function listenToCloudInquiries() {
-  if (!db) return;
+  // The public archive is paginated on the server. A limited live snapshot
+  // must never replace its older pages or their crawlable links.
+  if (isServerInquiryList() || !db) return;
 
   // Purge any stale legacy local inquiries cache
   try {
@@ -5372,7 +5385,16 @@ function initOnlineInquiry() {
     filterInquiryCategory(val, label);
   });
 
-  // Initialize Firebase Cloud connection
+  if (isServerInquiryList()) {
+    currentInquiryFilter = document.getElementById('inquiry-search-category')?.value || 'all';
+    currentInquirySearchQuery = document.getElementById('inquiry-search-input')?.value || '';
+    syncDropdownSelected('inquiry-mobile-dropdown', currentInquiryFilter);
+    const option = document.querySelector('#inquiry-category-tabs .inquiry-tab-btn.active');
+    const label = document.querySelector('#inquiry-mobile-dropdown .dropdown-selected-label');
+    if (label && currentInquiryFilter !== 'all' && option) label.textContent = option.textContent;
+  }
+
+  // Initialize Firebase Cloud connection for writing and administrator controls.
   initFirebase();
 
   renderInquiryList();
@@ -5424,6 +5446,10 @@ let currentInquiryPage = 1;
 const INQUIRY_PAGE_SIZE = 10;
 
 function goToInquiryPage(page) {
+  if (isServerInquiryList()) {
+    window.location.assign(inquiryArchiveUrl(page, currentInquiryFilter, currentInquirySearchQuery));
+    return;
+  }
   currentInquiryPage = page;
   renderInquiryList();
 
@@ -5437,6 +5463,7 @@ function goToInquiryPage(page) {
 window.goToInquiryPage = goToInquiryPage;
 
 function renderInquiryList() {
+  if (isServerInquiryList()) return;
   const tbody = document.getElementById('inquiry-list-tbody');
   const table = document.getElementById('inquiry-table');
   const emptyState = document.getElementById('inquiry-empty-state');
@@ -5581,6 +5608,10 @@ function getCategoryTitle(cat) {
 }
 
 function filterInquiryCategory(cat, label) {
+  if (isServerInquiryList()) {
+    window.location.assign(inquiryArchiveUrl(1, cat, currentInquirySearchQuery));
+    return;
+  }
   currentInquiryFilter = cat;
   currentInquiryPage = 1;
 
@@ -5613,6 +5644,10 @@ function filterInquiryCategory(cat, label) {
 window.filterInquiryCategory = filterInquiryCategory;
 
 function handleInquirySearch(query) {
+  if (isServerInquiryList()) {
+    window.location.assign(inquiryArchiveUrl(1, currentInquiryFilter, query.trim()));
+    return;
+  }
   currentInquirySearchQuery = query.trim();
   currentInquiryPage = 1;
   renderInquiryList();
@@ -6039,6 +6074,9 @@ async function handleInquirySubmit(e) {
     document.getElementById('inquiry-submit-form')?.reset();
     closeInquiryWriteModal();
     showAuthToast('🎉 온라인 상담글이 성공적으로 등록되었습니다. 손지웅 원장님이 확인 후 성심성의껏 전문 답변을 등록해 드립니다.');
+    if (isServerInquiryList() && /^inq_[0-9A-Za-z_-]{1,64}$/.test(result.inquiryId || '')) {
+      window.location.assign('/inquiry/' + result.inquiryId + '/');
+    }
   } catch (err) {
     console.error('[INQUIRY SUBMIT] Error caught:', err);
     alert(err.message || '상담글 등록에 실패했습니다. 잠시 후 다시 시도해주세요.');
@@ -6568,7 +6606,6 @@ function listenToAdminInquiries() {
 
   adminInquiryUnsubscribe = db.collection('online_inquiries')
     .orderBy('createdAt', 'desc')
-    .limit(100)
     .onSnapshot((snapshot) => {
       adminInquiriesCache = [];
       snapshot.forEach(doc => {

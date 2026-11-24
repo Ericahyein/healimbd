@@ -17234,3 +17234,10 @@ body.philosophy-page .philosophy-page-section {
 .mobile-treatment-list .mobile-nav-link{font-size:14px;min-height:44px;padding:10px 12px;font-weight:600}
 .mobile-treatment-list li:first-child a{color:#087fa6}
 @media(min-width:1025px) and (max-width:1199px){.treatment-dropdown-list{gap:16px}.treatment-dropdown-list a{font-size:13px}}
+
+/* Inquiry archive uses native links and a GET form so it works without JS. */
+.inquiry-tab-btn { text-decoration: none; display: inline-flex; align-items: center; }
+.inquiry-archive-search { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin: 24px 0; }
+.inquiry-archive-search label { font-size: 1rem; font-weight: 600; }
+.inquiry-archive-search input[type="search"] { flex: 1; min-width: 180px; padding: 12px; border: 1px solid #CBD5E1; border-radius: 8px; font: inherit; }
+.inquiry-archive-search button { padding: 12px 20px; background: #0369A1; color: white; border: 0; border-radius: 8px; font: inherit; cursor: pointer; }

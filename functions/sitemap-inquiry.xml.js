@@ -1,4 +1,5 @@
 import { getGoogleAccessToken } from './_googleAuth.js';
+import { listAllInquiryDocuments } from './_inquiryStore.js';
 
 function formatLastMod(isoStr) {
   if (!isoStr) return new Date().toISOString().split('T')[0];
@@ -29,47 +30,32 @@ export async function onRequestGet(context) {
   // 1. Fetch live public answered inquiries from Firestore REST API
   try {
     const accessToken = await getGoogleAccessToken(env);
-    const listUrl = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/online_inquiries?pageSize=300`;
+    const documents = await listAllInquiryDocuments(projectId, accessToken);
 
-    const resp = await fetch(listUrl, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${accessToken}`
-      }
+    documents.forEach(doc => {
+      if (!doc.name) return;
+      const id = doc.name.split('/').pop();
+      if (!id || !/^inq_[0-9A-Za-z_-]{1,64}$/.test(id)) return;
+
+      const fields = doc.fields || {};
+      // Safety: only fully answered public documents belong in the indexable sitemap.
+      if (!fields.title || !fields.title.stringValue) return;
+      if (fields.status?.stringValue !== 'answered') return;
+      if (!fields.answer?.stringValue || !fields.answer.stringValue.trim()) return;
+
+      const dateIso = [fields.updatedAt?.timestampValue, fields.answeredAt?.timestampValue, fields.createdAt?.timestampValue, doc.updateTime, doc.createTime].filter(Boolean).sort().pop();
+
+      urlMap.set(id, {
+        loc: `https://healimbd.com/inquiry/${id}/`,
+        lastmod: formatLastMod(dateIso),
+        changefreq: 'monthly',
+        priority: '0.7'
+      });
     });
 
-    if (resp.ok) {
-      const data = await resp.json();
-      const documents = data.documents || [];
-
-      documents.forEach(doc => {
-        if (!doc.name) return;
-        const id = doc.name.split('/').pop();
-        if (!id || !/^inq_[0-9A-Za-z_-]{1,64}$/.test(id)) return;
-
-        const fields = doc.fields || {};
-        // Safety: only fully answered public documents belong in the indexable sitemap.
-        if (!fields.title || !fields.title.stringValue) return;
-        if (fields.status?.stringValue !== 'answered') return;
-        if (!fields.answer?.stringValue || !fields.answer.stringValue.trim()) return;
-
-        const dateIso = fields.answeredAt?.timestampValue || 
-                        fields.createdAt?.timestampValue || 
-                        doc.updateTime || 
-                        doc.createTime;
-
-        urlMap.set(id, {
-          loc: `https://healimbd.com/inquiry/${id}/`,
-          lastmod: formatLastMod(dateIso),
-          changefreq: 'monthly',
-          priority: '0.7'
-        });
-      });
-    } else {
-      console.warn('[SITEMAP INQUIRY FETCH NOTICE]', resp.status);
-    }
   } catch (err) {
     console.warn('[SITEMAP INQUIRY EXCEPTION]', err.message);
+    return new Response('Sitemap temporarily unavailable', { status: 503, headers: { 'Cache-Control': 'no-store', 'Retry-After': '60' } });
   }
 
   // 3. Assemble XML
