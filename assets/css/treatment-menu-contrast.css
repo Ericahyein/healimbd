@@ -1,0 +1,10 @@
+/* Keep treatment names readable over both the hero and scrolled page content. */
+#site-header .treatment-dropdown{background:#123a63;border-radius:0 0 6px 6px;box-shadow:0 8px 18px #102a431a}
+#site-header .treatment-dropdown-list a,
+#site-header .treatment-dropdown-list a:hover,
+#site-header .treatment-dropdown-list a:focus-visible,
+#site-header .treatment-dropdown-list a[aria-current]{color:#fff;text-shadow:none}
+#site-header .treatment-dropdown-list a:hover,
+#site-header .treatment-dropdown-list a:focus-visible,
+#site-header .treatment-dropdown-list a[aria-current]{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:7px}
+#site-header .treatment-dropdown a:focus-visible{outline-color:#fff}
