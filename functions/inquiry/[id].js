@@ -307,20 +307,27 @@ export async function onRequestGet(context) {
     return renderNotFoundResponse('존재하지 않거나 삭제된 상담글입니다.');
   }
 
-  // 3. Resolve Dynamic Assets Fingerprint from Cloudflare Pages static assets
-  let cssHref = '/css/style.css';
-  if (env && env.ASSETS) {
-    try {
-      const listResp = await env.ASSETS.fetch(new URL('/inquiry/', request.url));
-      if (listResp.ok) {
-        const listHtml = await listResp.text();
-        const cssMatch = listHtml.match(/href="?(\/css\/style\.min\.[a-f0-9]+\.css)"?/i);
-        if (cssMatch && cssMatch[1]) {
-          cssHref = cssMatch[1];
-        }
-      }
-    } catch (e) {}
+  // Reuse the built inquiry shell so authentication, dialogs and script hashes
+  // stay identical to the list page after every Hugo build.
+  let shellHtml;
+  let shellBody;
+  try {
+    const response = await env.ASSETS.fetch(new URL('/inquiry/', request.url));
+    if (!response.ok) throw new Error('Inquiry shell unavailable');
+    shellHtml = await response.text();
+    shellBody = shellHtml.match(/<body\b[^>]*>([\s\S]*?)<main\b[^>]*>[\s\S]*?<\/main>([\s\S]*?)<\/body>/i);
+    if (!shellBody || !/\bid=["']?auth-modal["'\s>]/.test(shellHtml) ||
+        !/\bid=["']?inquiry-reply-editor-modal["'\s>]/.test(shellHtml) ||
+        !/<script\b[^>]*src=["']?\/js\/main\.min\.[a-f0-9]+\.js["'\s>]/.test(shellHtml)) {
+      throw new Error('Incomplete inquiry shell');
+    }
+  } catch (error) {
+    console.error('[INQUIRY SHELL ERROR]', error.message);
+    return inquiryUnavailableResponse();
   }
+  const cssHref = shellHtml.match(/href=["']?(\/css\/style\.min\.[a-f0-9]+\.css)/i)?.[1] || '/css/style.css';
+  const clientConfig = shellHtml.match(/<script\b[^>]*>\s*window\.HEALIM_CONFIG[\s\S]*?<\/script>/i)?.[0] || '';
+  const detailData = JSON.stringify(inquiry).replace(/</g, '\\u003c');
 
   // 4. Build Sanitized Variables for HTML Injection
   const cleanTitle = escapeHtml(inquiry.title);
@@ -441,85 +448,10 @@ export async function onRequestGet(context) {
 
   <!-- Main Stylesheet -->
   <link rel="stylesheet" href="${cssHref}">
+  ${clientConfig}
 </head>
-<body class="inquiry-page-body">
-  <!-- Site Header -->
-  <header class="site-header" id="site-header">
-    <div class="header-main">
-      <div class="container header-main-inner">
-        <a href="/" class="brand-logo" aria-label="해아림한의원 분당점 홈으로">
-          <img src="/images/logo.png" alt="해아림 로고" class="brand-logo-img" width="44" height="44">
-          <div class="brand-text-group">
-            <span class="brand-slogan-top">마음까지 헤아리는</span>
-            <div class="brand-main-row">
-              <span class="brand-name-main">해아림한의원</span>
-              <span class="brand-branch-badge">분당점</span>
-            </div>
-          </div>
-        </a>
-
-        <nav class="desktop-nav" aria-label="주요 메뉴">
-          <ul class="nav-list">
-            <li><a href="/philosophy/" class="nav-link">진료철학</a></li>
-            <li><a href="/guide/" class="nav-link">진료과목</a></li>
-            <li><a href="/reviews/" class="nav-link">치료후기</a></li>
-            <li><a href="/blog/" class="nav-link">원장 칼럼</a></li>
-            <li><a href="/inquiry/" class="nav-link active">온라인문의</a></li>
-            <li><a href="/location/" class="nav-link">오시는 길</a></li>
-          </ul>
-        </nav>
-
-        <div class="header-cta-group">
-          <div class="header-auth-container" id="header-auth-container">
-            <button class="btn btn-header-login" id="btn-header-login" onclick="openAuthModal('login')" aria-label="로그인">
-              <i class="ph-bold ph-lock-key"></i>
-              <span>로그인</span>
-            </button>
-            <div class="header-user-badge" id="header-user-badge" style="display: none;">
-              <span class="user-greeting"><i class="ph-bold ph-user-circle-check"></i> <strong id="logged-user-name">회원</strong>님</span>
-              <button class="btn-logout-link" onclick="logoutUser()" title="로그아웃">로그아웃</button>
-            </div>
-          </div>
-          <button class="btn btn-inquiry-header" id="btn-open-inquiry" onclick="location.href='/inquiry/'" aria-label="상담 문의하기">
-            <i class="ph-bold ph-chat-teardrop-dots"></i>
-            <span>문의하기</span>
-          </button>
-          <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="메뉴 열기" aria-expanded="false">
-            <span class="bar"></span>
-            <span class="bar"></span>
-            <span class="bar"></span>
-          </button>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <!-- Mobile Drawer Menu -->
-  <div class="mobile-drawer" id="mobile-drawer">
-    <div class="drawer-header">
-      <div class="drawer-logo-wrap">
-        <img src="/images/logo.png" alt="해아림 로고" class="drawer-logo-img" width="38" height="38">
-        <div class="brand-text-group">
-          <span class="brand-slogan-top">마음까지 헤아리는</span>
-          <div class="brand-main-row">
-            <span class="brand-name-main">해아림한의원</span>
-            <span class="brand-branch-badge">분당점</span>
-          </div>
-        </div>
-      </div>
-      <button class="drawer-close" id="drawer-close" aria-label="메뉴 닫기"><i class="ph ph-x"></i></button>
-    </div>
-    <ul class="mobile-nav-list">
-      <li><a href="/philosophy/" class="mobile-nav-link"><i class="ph ph-heart"></i> 진료철학</a></li>
-      <li><a href="/guide/" class="mobile-nav-link"><i class="ph ph-first-aid"></i> 진료과목</a></li>
-      <li><a href="/reviews/" class="mobile-nav-link"><i class="ph ph-star"></i> 치료후기</a></li>
-      <li><a href="/blog/" class="mobile-nav-link"><i class="ph ph-article"></i> 원장 칼럼</a></li>
-      <li><a href="/inquiry/" class="mobile-nav-link"><i class="ph ph-chat-centered-text"></i> 온라인문의</a></li>
-      <li><a href="/location/" class="mobile-nav-link"><i class="ph ph-map-pin"></i> 오시는 길</a></li>
-    </ul>
-  </div>
-  <div class="mobile-drawer-overlay" id="drawer-overlay"></div>
-
+<body class="inquiry-page inquiry-page-body">
+  ${shellBody[1]}
   <main id="main-content">
     <!-- Breadcrumb -->
     <div class="container" style="padding-top: 24px; padding-bottom: 8px;">
@@ -533,13 +465,13 @@ export async function onRequestGet(context) {
     <!-- Inquiry Detail Section -->
     <section class="section" style="padding-top: 14px; padding-bottom: 60px;">
       <div class="container" style="max-width: 860px;">
-        <div class="inquiry-detail-card" style="box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); border: 1px solid #E2E8F0; border-radius: 16px; background: #FFFFFF; padding: 28px 32px;">
+        <div class="inquiry-detail-card" id="inquiry-detail-root" data-inquiry-id="${inquiryId}" style="box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); border: 1px solid #E2E8F0; border-radius: 16px; background: #FFFFFF; padding: 28px 32px;">
           <!-- Header -->
           <div class="inquiry-detail-header" style="border-bottom: 1px solid #F1F5F9; padding-bottom: 20px; margin-bottom: 24px;">
             <div class="detail-top-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
               <div class="detail-badge-row" style="display: flex; gap: 8px; align-items: center;">
                 <span class="cat-badge ${cleanCategory}" style="font-size: 0.82rem; font-weight: 700; padding: 4px 10px; border-radius: 6px;">${cleanDisease}</span>
-                <span class="detail-status-tag ${cleanStatusClass}" style="font-size: 0.82rem; font-weight: 700; padding: 4px 10px; border-radius: 6px;">${cleanStatusText}</span>
+                <span id="standalone-inquiry-status" class="detail-status-tag ${cleanStatusClass}" style="font-size: 0.82rem; font-weight: 700; padding: 4px 10px; border-radius: 6px;">${cleanStatusText}</span>
               </div>
               <a href="/inquiry/" class="btn btn-outline-cases" style="padding: 6px 14px; font-size: 0.85rem; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
                 <i class="ph-bold ph-list"></i> <span>목록 보기</span>
@@ -561,27 +493,29 @@ export async function onRequestGet(context) {
             </div>
 
             <!-- 2. Doctor Consultation Answer Box -->
-            ${isAnswered ? `
-            <div class="inq-doctor-answer-box" id="doctor-answer" style="margin-top: 24px;">
+            <div class="inq-doctor-answer-box" id="doctor-answer" style="margin-top: 24px;${isAnswered ? '' : 'display:none;'}">
               <div class="doctor-answer-header">
                 <div class="doc-badge-group">
                   <span class="doc-badge">해아림 대표원장</span>
                   <span class="doc-name">손지웅 원장의 <strong>전문 1:1 상담 답변</strong></span>
                 </div>
-                <span class="answer-date">답변일: ${cleanAnswerDate}</span>
+                <span class="answer-date" id="standalone-answer-date">답변일: ${cleanAnswerDate}</span>
               </div>
-              <div class="doctor-answer-content">${cleanAnswer}</div>
+              <div class="doctor-answer-content" id="standalone-answer-content">${cleanAnswer}</div>
               <div class="doctor-answer-footer">
                 <p class="answer-notice">※ 본 답변은 작성해 주신 내용을 바탕으로 한 일반적인 안내입니다. 내원 시 문진·설진·복진·진맥을 기본으로 하며, 필요에 따라 뇌인지검사·뇌기능검사·정서심리검사를 종합해 진료합니다.</p>
               </div>
             </div>
-            ` : `
-            <div class="inq-unanswered-box" style="margin-top: 24px;">
+            <div class="inq-unanswered-box" id="standalone-unanswered" style="margin-top: 24px;${isAnswered ? 'display:none;' : ''}">
               <div class="pending-icon"><i class="ph-bold ph-clock"></i></div>
               <h4>손지웅 대표원장이 상담 내용을 확인 중입니다.</h4>
               <p>빠른 시일 내에 성심성의껏 전문 답변을 등록해 드리겠습니다.</p>
             </div>
-            `}
+            <div class="inquiry-admin-controls admin-only-btn" id="standalone-inquiry-admin-controls" style="display:none;" data-nosnippet>
+              <button type="button" class="btn btn-admin-reply" onclick="openDoctorReplyEditorModal()">
+                <i class="ph-bold ph-chat-circle-dots"></i> <span id="standalone-reply-label">${isAnswered ? '원장님 답변 수정하기' : '원장님 답변 작성하기'}</span>
+              </button>
+            </div>
             ${conditionLinkHtml}
             ${relatedLinksHtml}
           </div>
@@ -617,35 +551,8 @@ export async function onRequestGet(context) {
     </section>
   </main>
 
-  <!-- Site Footer -->
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <div class="footer-top">
-        <div class="footer-clinic-info">
-          <div class="footer-logo">
-            <span class="brand-name">해아림한의원</span>
-            <span class="branch-name">분당점</span>
-          </div>
-          <p class="footer-slogan">마음까지 헤아리는 두뇌·신경정신 질환 특화 진료</p>
-          <div class="clinic-details">
-            <p><strong>대표원장:</strong> 손지웅 | <strong>사업자등록번호:</strong> 127-22-85133</p>
-            <p><strong>주소:</strong> 경기도 성남시 분당구 성남대로331번길 3-3, 젤존타워 3차 405호</p>
-            <p><strong>대표전화:</strong> 031-716-8575</p>
-          </div>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p class="copyright">&copy; 2026 해아림한의원 분당점. All rights reserved.</p>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Firebase & Scripts -->
-  <script src="https://www.gstatic.com/firebasejs/12.17.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/12.17.1/firebase-app-check-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/12.17.1/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore-compat.js"></script>
-  <script src="/js/main.js"></script>
+  <script type="application/json" id="inquiry-detail-data">${detailData}</script>
+  ${shellBody[2]}
 </body>
 </html>`;
 
@@ -702,3 +609,4 @@ function renderNotFoundResponse(message) {
     }
   });
 }
+

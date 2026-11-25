@@ -1167,11 +1167,19 @@ async function setupFirebaseAuthListener() {
           console.warn('[ADMIN CHECK NOTICE]', e);
         }
 
+        // The verified Firebase user owns the state on every page.
+        if (auth.currentUser?.uid !== user.uid) return;
+        isAdminVerified = isAdmin;
         if (isAdmin) {
-          isAdminVerified = true;
           sessionStorage.setItem('healim_admin_auth', 'true');
           sessionStorage.setItem('healim_admin_user', JSON.stringify({ name: '대표원장', email: user.email, isAdmin: true }));
           localStorage.setItem('healim_admin_logged', 'true');
+        }
+
+        if (!isAdmin) {
+          sessionStorage.removeItem('healim_admin_auth');
+          sessionStorage.removeItem('healim_admin_user');
+          localStorage.removeItem('healim_admin_logged');
         }
 
         const isKakao = user.uid.startsWith('kakao:');
@@ -2089,6 +2097,10 @@ async function logoutUser() {
 function updateAuthUI(user) {
   const isAdmin = !!(user && user.isAdmin && isAdminVerified);
   document.body.classList.toggle('is-admin', isAdmin);
+  for (const id of ['inquiry-admin-controls', 'standalone-inquiry-admin-controls']) {
+    const controls = document.getElementById(id);
+    if (controls) controls.style.display = isAdmin ? 'flex' : 'none';
+  }
   console.log('[ADMIN AUTH] UI update: isAdmin =', isAdmin);
 
   const headerLoginBtn = document.getElementById('btn-header-login');
@@ -5217,42 +5229,9 @@ function initFirebase() {
     db = firebase.firestore();
     isFirebaseConnected = true;
 
-    // 5. Setup Firebase Auth state listener
-    if (auth) {
-      auth.onAuthStateChanged(async (user) => {
-        if (user) {
-          try {
-            const isVerified = await checkAdminPrivileges(user);
-            if (isVerified) {
-              isAdminVerified = true;
-              sessionStorage.setItem('healim_admin_auth', 'true');
-              sessionStorage.setItem('healim_admin_user', JSON.stringify({ name: '대표원장', email: user.email, isAdmin: true }));
-              updateAuthUI({ name: '대표원장', email: user.email, isAdmin: true });
-            } else {
-              isAdminVerified = false;
-              sessionStorage.removeItem('healim_admin_auth');
-              sessionStorage.removeItem('healim_admin_user');
-              updateAuthUI(null);
-            }
-          } catch (e) {
-            console.warn('[ADMIN AUTH] Admin verification check notice:', e);
-            isAdminVerified = false;
-            document.body.classList.remove('is-admin');
-          }
-        } else {
-          isAdminVerified = false;
-          sessionStorage.removeItem('healim_admin_auth');
-          sessionStorage.removeItem('healim_admin_user');
-          updateAuthUI(null);
-        }
-
-        // Update inquiry detail modal controls if open
-        const adminControls = document.getElementById('inquiry-admin-controls');
-        if (adminControls) {
-          adminControls.style.display = isAdminVerified ? 'flex' : 'none';
-        }
-      });
-    }
+    // Share the member/admin listener instead of overwriting member UI with
+    // a second, administrator-only interpretation of the same account.
+    setupFirebaseAuthListener();
 
     // 6. Listen to real-time updates from Cloud Firestore
     listenToCloudInquiries();
@@ -5309,7 +5288,7 @@ function inquiryArchiveUrl(page, category, search) {
 function listenToCloudInquiries() {
   // The public archive is paginated on the server. A limited live snapshot
   // must never replace its older pages or their crawlable links.
-  if (isServerInquiryList() || !db) return;
+  if (isServerInquiryList() || document.getElementById('inquiry-detail-data') || !db) return;
 
   // Purge any stale legacy local inquiries cache
   try {
@@ -5376,6 +5355,11 @@ function listenToCloudInquiries() {
 }
 
 function initOnlineInquiry() {
+  const detailData = document.getElementById('inquiry-detail-data');
+  if (detailData) {
+    initStandaloneInquiry(detailData);
+    return;
+  }
   const tbody = document.getElementById('inquiry-list-tbody');
   if (!tbody) return;
 
@@ -5423,6 +5407,49 @@ function initOnlineInquiry() {
       openInquiryDetailModal(initialMatch[1]);
     }, 300);
   }
+}
+
+// A direct detail URL subscribes only to its own document, including old posts
+// outside the list cache. Public SSR remains readable before Firebase loads.
+function initStandaloneInquiry(dataElement) {
+  let inquiry;
+  try {
+    inquiry = JSON.parse(dataElement.textContent);
+    if (!/^inq_[0-9A-Za-z_-]{1,64}$/.test(inquiry.id)) return;
+  } catch (error) {
+    console.warn('[INQUIRY DETAIL DATA]', error.message);
+    return;
+  }
+  currentOpenedInquiryId = inquiry.id;
+  cloudInquiriesCache = [inquiry];
+  initFirebase();
+  if (!db) return;
+  inquiryUnsubscribe = db.collection('online_inquiries').doc(inquiry.id).onSnapshot(snapshot => {
+    if (!snapshot.exists) {
+      window.location.assign('/inquiry/');
+      return;
+    }
+    const data = snapshot.data();
+    const answeredAt = data.answeredAt?.toDate?.();
+    const answerDate = answeredAt ? answeredAt.toLocaleDateString('sv-SE').replace(/-/g, '.') : inquiry.answerDate;
+    const current = { ...inquiry, ...data, id: inquiry.id, answerDate };
+    cloudInquiriesCache = [current];
+    renderStandaloneInquiryAnswer(current);
+  }, error => {
+    console.warn('[INQUIRY DETAIL SYNC]', error.code || error.message);
+  });
+}
+
+function renderStandaloneInquiryAnswer(inquiry) {
+  const answered = inquiry.status === 'answered' && Boolean(inquiry.answer?.trim());
+  const status = document.getElementById('standalone-inquiry-status');
+  status.textContent = answered ? '답변완료' : '답변대기';
+  status.className = 'detail-status-tag ' + (answered ? 'answered' : 'pending');
+  document.getElementById('doctor-answer').style.display = answered ? 'block' : 'none';
+  document.getElementById('standalone-unanswered').style.display = answered ? 'none' : 'block';
+  document.getElementById('standalone-answer-content').textContent = inquiry.answer || '';
+  document.getElementById('standalone-answer-date').textContent = '답변일: ' + (inquiry.answerDate || inquiry.date);
+  document.getElementById('standalone-reply-label').textContent = answered ? '원장님 답변 수정하기' : '원장님 답변 작성하기';
 }
 
 function getStoredInquiries() {
@@ -6194,6 +6221,7 @@ function renderDoctorAnswer(rawAnswer) {
 }
 
 function openInquiryDetailModal(id) {
+  if (document.getElementById('inquiry-detail-data')) return;
   const items = getStoredInquiries();
   const found = items.find(item => item.id === id);
   if (!found) return;
@@ -6332,22 +6360,22 @@ async function handleDoctorReplySubmit(e) {
   }
 
   try {
-    const items = getStoredInquiries();
-    const existing = items.find(i => i.id === currentOpenedInquiryId);
-    const isFirstAnswer = !existing || existing.status !== 'answered';
-
-    const updateData = {
-      answer: answerText,
-      status: 'answered',
-      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-    };
-    if (isFirstAnswer) {
-      updateData.answeredAt = firebase.firestore.FieldValue.serverTimestamp();
-    }
-
-    // 2. Direct Cloud Firestore write and await acknowledgment
-    await db.collection('online_inquiries').doc(currentOpenedInquiryId).update(updateData);
-    console.log('[DOCTOR REPLY SUBMIT] Successfully saved to Cloud Firestore for doc:', currentOpenedInquiryId);
+    const targetId = currentOpenedInquiryId;
+    const reference = db.collection('online_inquiries').doc(targetId);
+    await db.runTransaction(async transaction => {
+      const snapshot = await transaction.get(reference);
+      if (!snapshot.exists) throw new Error('상담글이 삭제되었거나 존재하지 않습니다.');
+      const updateData = {
+        answer: answerText,
+        status: 'answered',
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      };
+      if (snapshot.data().status !== 'answered') {
+        updateData.answeredAt = firebase.firestore.FieldValue.serverTimestamp();
+      }
+      transaction.update(reference, updateData);
+    });
+    console.log('[DOCTOR REPLY SUBMIT] Successfully saved to Cloud Firestore for doc:', targetId);
 
     closeDoctorReplyEditorModal();
     showAuthToast('🩺 손지웅 대표원장의 전문 답변이 성공적으로 등록되었습니다.');
@@ -6845,3 +6873,4 @@ document.addEventListener('DOMContentLoaded', () => {
   initAdminDashboard();
   initBlogArchiveEngine();
 });
+
