@@ -5422,6 +5422,7 @@ function initStandaloneInquiry(dataElement) {
   }
   currentOpenedInquiryId = inquiry.id;
   cloudInquiriesCache = [inquiry];
+  renderStandaloneInquiryAnswer(inquiry);
   initFirebase();
   if (!db) return;
   inquiryUnsubscribe = db.collection('online_inquiries').doc(inquiry.id).onSnapshot(snapshot => {
@@ -5447,7 +5448,7 @@ function renderStandaloneInquiryAnswer(inquiry) {
   status.className = 'detail-status-tag ' + (answered ? 'answered' : 'pending');
   document.getElementById('doctor-answer').style.display = answered ? 'block' : 'none';
   document.getElementById('standalone-unanswered').style.display = answered ? 'none' : 'block';
-  document.getElementById('standalone-answer-content').textContent = inquiry.answer || '';
+  document.getElementById('standalone-answer-content').innerHTML = renderDoctorAnswer(inquiry.answer);
   document.getElementById('standalone-answer-date').textContent = '답변일: ' + (inquiry.answerDate || inquiry.date);
   document.getElementById('standalone-reply-label').textContent = answered ? '원장님 답변 수정하기' : '원장님 답변 작성하기';
 }
