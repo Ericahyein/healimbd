@@ -111,6 +111,12 @@ jobs:
       - name: Validate Hugo Static Site Build
         run: hugo --minify -d public
 
+      - name: Verify Inquiry Detail Authentication and Replies
+        run: |
+          node tests/test_inquiry_detail_auth.js
+          node tests/test_inquiry_archive.js
+          node tests/test_inquiry_reply_fix.js
+
       - name: Verify Tic Patient Guide Reading Order and Resources
         run: node tests/test_tic_guide_flow.js public
 
@@ -220,3 +226,4 @@ jobs:
           echo "Verifying git staging area remains empty..."
           git diff --cached --exit-code
           echo "✅ Artifact lifecycle and security audit passed 100%."
+

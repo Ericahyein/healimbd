@@ -2,6 +2,7 @@
 // Exercises the real edge handlers against paginated Firestore responses, and
 // executes the browser script to catch the original SSR-overwrite regression.
 import assert from 'node:assert/strict';
+import { inquiryShell } from './fixtures/inquiry-shell.js';
 import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
 import { generateKeyPairSync } from 'node:crypto';
@@ -12,9 +13,12 @@ import { onRequestGet as sitemap } from '../functions/sitemap-inquiry.xml.js';
 const originalFetch = globalThis.fetch;
 const { privateKey } = generateKeyPairSync('rsa', { modulusLength: 2048, privateKeyEncoding: { type: 'pkcs8', format: 'pem' }, publicKeyEncoding: { type: 'spki', format: 'pem' } });
 const assetHtml = '<!doctype html><html><head><link rel=canonical href=https://healimbd.com/inquiry/><meta property=og:url content=https://healimbd.com/inquiry/></head><body><a class="inquiry-tab-btn active" data-category="all" href="/inquiry/">전체</a><a class=inquiry-tab-btn data-category=sleep href="/inquiry/?category=sleep">불면증</a><form action=/inquiry/ method=get><input id=inquiry-search-input name=q><input id=inquiry-search-category name=category></form><table><tbody id=inquiry-list-tbody></tbody></table><nav id=inquiry-pagination-nav></nav></body></html>';
+const sharedAssetHtml = inquiryShell.replace(/<main[^>]*>[\s\S]*?<\/main>/, () =>
+  '<main>' + assetHtml.match(/<body>([\s\S]*?)<\/body>/)[1] + '</main>'
+).replace('</head>', assetHtml.match(/<head>([\s\S]*?)<\/head>/)[1] + '</head>');
 const env = {
   FIREBASE_SERVICE_ACCOUNT_EMAIL: 'fixture@example.com', FIREBASE_SERVICE_ACCOUNT_PRIVATE_KEY: privateKey,
-  ASSETS: { fetch: async () => new Response(assetHtml) }
+  ASSETS: { fetch: async () => new Response(sharedAssetHtml) }
 };
 const documents = Array.from({ length: 651 }, (_, i) => ({
   name: `projects/healimbd-b726f/databases/(default)/documents/online_inquiries/inq_archive_${String(i).padStart(4, '0')}`,
@@ -190,3 +194,4 @@ try {
   });
   console.log(`All ${passed} inquiry archive scenarios passed.`);
 } finally { globalThis.fetch = originalFetch; }
+

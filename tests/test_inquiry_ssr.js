@@ -1,5 +1,6 @@
 // Comprehensive Test Suite for Inquiry SSR Edge Function & Dynamic Sitemap Indexing
 import assert from 'assert';
+import { inquiryShell } from './fixtures/inquiry-shell.js';
 import crypto from 'crypto';
 import { onRequestGet as handleInquirySSR, onRequestHead as handleInquiryHead, buildSeoTitle, getRepresentativeDisease } from '../functions/inquiry/[id].js';
 import { onRequestGet as handleInquiryListSSR } from '../functions/inquiry/index.js';
@@ -17,7 +18,8 @@ const { privateKey } = crypto.generateKeyPairSync('rsa', {
 const mockEnv = {
   FIREBASE_PROJECT_ID: 'healimbd-b726f',
   FIREBASE_SERVICE_ACCOUNT_EMAIL: 'firebase-adminsdk-mock@healimbd-b726f.iam.gserviceaccount.com',
-  FIREBASE_SERVICE_ACCOUNT_PRIVATE_KEY: privateKey
+  FIREBASE_SERVICE_ACCOUNT_PRIVATE_KEY: privateKey,
+  ASSETS: { fetch: async () => new Response(inquiryShell) }
 };
 
 async function runTests() {
@@ -559,3 +561,4 @@ runTests().catch(err => {
   console.error('❌ Test failed:', err);
   process.exit(1);
 });
+
