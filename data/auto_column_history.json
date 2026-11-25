@@ -1453,5 +1453,16 @@
     "topicAngle": "sleep-visit-diary",
     "title": "[용인 불면증] 불면증 진료 전에 수면 일지에 꼭 적어야 할 항목",
     "slug": "yongin-main-sleep-sleep-visit-diary"
+  },
+  {
+    "publishDate": "2026-11-26T03:37:13.039+09:00",
+    "geoId": "seongnam-main",
+    "displayRegion": "성남",
+    "parentRegion": "성남",
+    "regionType": "city",
+    "disease": "syncope",
+    "topicAngle": "visual-blackout-dizziness",
+    "title": "[성남 어지럼증] 일어설 때 시야가 어두워지는 어지럼을 어떻게 기록할까요",
+    "slug": "seongnam-main-dizziness-visual-blackout-dizziness"
   }
 ]
