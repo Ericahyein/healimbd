@@ -1442,5 +1442,16 @@
     "topicAngle": "visit-video-record",
     "title": "[판교 틱장애] 진료 전에 틱 증상을 영상으로 남길 때 무엇을 기록할까요",
     "slug": "bundang-pangyo-tic-visit-video-record"
+  },
+  {
+    "publishDate": "2026-11-25T17:19:17.900+09:00",
+    "geoId": "yongin-main",
+    "displayRegion": "용인",
+    "parentRegion": "용인",
+    "regionType": "city",
+    "disease": "sleep",
+    "topicAngle": "sleep-visit-diary",
+    "title": "[용인 불면증] 불면증 진료 전에 수면 일지에 꼭 적어야 할 항목",
+    "slug": "yongin-main-sleep-sleep-visit-diary"
   }
 ]
