@@ -1464,5 +1464,16 @@
     "topicAngle": "visual-blackout-dizziness",
     "title": "[성남 어지럼증] 일어설 때 시야가 어두워지는 어지럼을 어떻게 기록할까요",
     "slug": "seongnam-main-dizziness-visual-blackout-dizziness"
+  },
+  {
+    "publishDate": "2026-11-26T17:05:50.548+09:00",
+    "geoId": "yongin-main",
+    "displayRegion": "용인",
+    "parentRegion": "용인",
+    "regionType": "city",
+    "disease": "hyperhidrosis",
+    "topicAngle": "underarm-clothing",
+    "title": "[용인 다한증] 겨드랑이 땀 때문에 옷 자국이 신경 쓰일 때",
+    "slug": "yongin-main-hyperhidrosis-underarm-clothing"
   }
 ]
