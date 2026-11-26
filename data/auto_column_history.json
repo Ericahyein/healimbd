@@ -1475,5 +1475,16 @@
     "topicAngle": "underarm-clothing",
     "title": "[용인 다한증] 겨드랑이 땀 때문에 옷 자국이 신경 쓰일 때",
     "slug": "yongin-main-hyperhidrosis-underarm-clothing"
+  },
+  {
+    "publishDate": "2026-11-27T03:21:52.633+09:00",
+    "geoId": "seongnam-bundang",
+    "displayRegion": "분당",
+    "parentRegion": "성남",
+    "regionType": "district",
+    "disease": "panic",
+    "topicAngle": "crowd-heat",
+    "title": "[분당 공황장애] 사람 많은 곳이나 더운 공간에서 갑자기 답답해질 때",
+    "slug": "seongnam-bundang-panic-crowd-heat"
   }
 ]
