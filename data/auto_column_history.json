@@ -1497,5 +1497,16 @@
     "topicAngle": "prolonged-standing",
     "title": "[경기광주 자율신경실조증] 일어선 뒤 맥박이 빨라지고 다리에 힘이 풀린다면, 빈혈·심장질환과 구분하는 평가 기준",
     "slug": "gyeonggi-gwangju-autonomic-prolonged-standing"
+  },
+  {
+    "publishDate": "2026-11-28T03:05:40.130+09:00",
+    "geoId": "seongnam-bundang",
+    "displayRegion": "분당",
+    "parentRegion": "성남",
+    "regionType": "district",
+    "disease": "anxiety",
+    "topicAngle": "decision-freeze",
+    "title": "[분당 불안장애] 사소한 결정을 내리는 데도 불안해서 오래 망설일 때",
+    "slug": "seongnam-bundang-anxiety-decision-freeze"
   }
 ]
