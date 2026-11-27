@@ -1486,5 +1486,16 @@
     "topicAngle": "crowd-heat",
     "title": "[분당 공황장애] 사람 많은 곳이나 더운 공간에서 갑자기 답답해질 때",
     "slug": "seongnam-bundang-panic-crowd-heat"
+  },
+  {
+    "publishDate": "2026-11-27T17:13:01.177+09:00",
+    "geoId": "gyeonggi-gwangju",
+    "displayRegion": "경기광주",
+    "parentRegion": "경기광주",
+    "regionType": "city",
+    "disease": "autonomic",
+    "topicAngle": "prolonged-standing",
+    "title": "[경기광주 자율신경실조증] 일어선 뒤 맥박이 빨라지고 다리에 힘이 풀린다면, 빈혈·심장질환과 구분하는 평가 기준",
+    "slug": "gyeonggi-gwangju-autonomic-prolonged-standing"
   }
 ]
