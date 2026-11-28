@@ -1508,5 +1508,16 @@
     "topicAngle": "decision-freeze",
     "title": "[분당 불안장애] 사소한 결정을 내리는 데도 불안해서 오래 망설일 때",
     "slug": "seongnam-bundang-anxiety-decision-freeze"
+  },
+  {
+    "publishDate": "2026-11-28T16:36:46.599+09:00",
+    "geoId": "gyeonggi-gwangju",
+    "displayRegion": "경기광주",
+    "parentRegion": "경기광주",
+    "regionType": "city",
+    "disease": "tic",
+    "topicAngle": "homework-interference",
+    "title": "[경기광주 틱장애] 손이나 팔의 틱 때문에 글쓰기와 숙제가 어려울 때",
+    "slug": "gyeonggi-gwangju-tic-homework-interference"
   }
 ]
