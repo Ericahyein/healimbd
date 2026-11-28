@@ -1519,5 +1519,16 @@
     "topicAngle": "homework-interference",
     "title": "[경기광주 틱장애] 손이나 팔의 틱 때문에 글쓰기와 숙제가 어려울 때",
     "slug": "gyeonggi-gwangju-tic-homework-interference"
+  },
+  {
+    "publishDate": "2026-11-29T01:48:04.882+09:00",
+    "geoId": "seongnam-main",
+    "displayRegion": "성남",
+    "parentRegion": "성남",
+    "regionType": "city",
+    "disease": "hyperhidrosis",
+    "topicAngle": "treatment-response-log",
+    "title": "[성남 다한증] 손수건을 찾는 횟수부터 활동 회피와 불편감까지, 치료 경과를 판단하는 기준",
+    "slug": "seongnam-main-hyperhidrosis-treatment-response-log"
   }
 ]
